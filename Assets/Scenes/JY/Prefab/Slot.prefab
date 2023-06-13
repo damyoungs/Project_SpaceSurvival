@@ -165,6 +165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item_Description: {fileID: 4267701265961550980, guid: 98806d58939274344973333bdfba044d, type: 3}
+  item_Discription_Txt: {fileID: 2477523674297871614}
 --- !u!1 &2477523674297871612
 GameObject:
   m_ObjectHideFlags: 0

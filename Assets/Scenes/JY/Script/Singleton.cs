@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class Singleton<T> : MonoBehaviour where T : Component
 {
-    private T instance;
-    bool isShutDown = false;
-    public T Inst
+    private static T instance;
+    static bool isShutDown = false;
+    public static T Inst
     {
         get
         {

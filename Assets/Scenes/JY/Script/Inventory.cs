@@ -16,34 +16,25 @@ public class Inventory : Singleton<Inventory>
     public GameObject Etc_Inven;
     public GameObject Etc2_Inven;
 
-    Current_Inventory_State state;
+    public static Current_Inventory_State state;
 
-    public Current_Inventory_State State
-    {
-        get => state;
-        set
-        {
-            state = value;
-            SetInvenState(state);
-        }
 
-    }
   
     public void SwitchTab_To_Equip()
     {
-        State = Current_Inventory_State.Equip;
+        state = Current_Inventory_State.Equip;
     }
     public void SwitchTab_To_Consume()
     {
-        State = Current_Inventory_State.Consume;
+        state = Current_Inventory_State.Consume;
     }
     public void SwitchTab_To_Etc()
     {
-        State = Current_Inventory_State.Etc;
+        state = Current_Inventory_State.Etc;
     }
     public void SwitchTab_To_Etc2()
     {
-        State = Current_Inventory_State.Etc2;
+        state = Current_Inventory_State.Etc2;
     }
     void SetInvenState(Current_Inventory_State state)
     {

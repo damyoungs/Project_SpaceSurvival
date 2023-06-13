@@ -11,7 +11,7 @@ public class UI_Object_Spawner : Singleton<UI_Object_Spawner>
     public Transform etc_Below;
     public Transform etc2_Below;
 
-    public Current_Inventory_State state;
+  
     private int slotMax;
   
     private int currentSlotCount = 0;
@@ -29,12 +29,12 @@ public class UI_Object_Spawner : Singleton<UI_Object_Spawner>
     }
     public void AddSlot()
     {
-        CurrentSlotCount += 5;
+        CurrentSlotCount = 5;
         for (int i = 0; i < currentSlotCount; i++)
         {
             slot = Instantiate(slot);
             slot.name = $"{slot.name}_{i}";
-            switch (state)
+            switch (Inventory.state)
             {
                 case Current_Inventory_State.Equip:
                     slot.transform.SetParent(equip_Below, false);
