@@ -9,6 +9,12 @@ public enum Current_Inventory_State
     Etc,
     Etc2
 }
+public enum ItemName
+{
+    Capsule,
+    Cube,
+    Plane
+}
 public class Inventory : Singleton<Inventory>
 {
     public GameObject Equip_Inven;
@@ -19,7 +25,10 @@ public class Inventory : Singleton<Inventory>
     public static Current_Inventory_State state;
 
 
-  
+    private void Awake()
+    {
+        
+    }
     public void SwitchTab_To_Equip()
     {
         state = Current_Inventory_State.Equip;
@@ -85,4 +94,8 @@ public class Inventory : Singleton<Inventory>
         }
     }
 
+    public void GetItem(ItemName name)
+    {
+
+    }
 }

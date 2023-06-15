@@ -49,6 +49,12 @@ public class Player : MonoBehaviour
             inven.SetActive(false);
             isOpen = false;
         }
-
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Item"))
+        {
+            Destroy(collision.gameObject);
+        }
     }
 }
