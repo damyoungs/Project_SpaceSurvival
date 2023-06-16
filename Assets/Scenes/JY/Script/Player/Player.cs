@@ -31,7 +31,8 @@ public class Player : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        transform.Translate(Time.fixedDeltaTime * moveSpeed * dir);
+        transform.position += (Time.fixedDeltaTime * moveSpeed * dir);
+        transform.rotation = Quaternion.LookRotation(dir);
     }
     private void OnDisable()
     {
