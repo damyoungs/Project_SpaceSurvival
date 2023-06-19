@@ -2,17 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HpPotion : MonoBehaviour
+public class HpPotion : ConsumeBase
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override void InitializeValue()
     {
-        
+        ItemType = ItemType.Consume;
+        hpValue = 50;
+        mpValue = 0;
+        darkForceValue = 0;
+        fatigueValue = 0;
     }
-
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        PrintValue();
+    }
+    void PrintValue()
+    {
+        Debug.Log($"{ ItemType} \n {hpValue}\n {mpValue}\n {darkForceValue}\n {fatigueValue}");
     }
 }

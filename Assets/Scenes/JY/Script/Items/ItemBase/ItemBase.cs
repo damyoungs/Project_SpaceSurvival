@@ -12,6 +12,14 @@ public enum ItemType
 }
 public class ItemBase : MonoBehaviour
 {
-    
+    public static ItemType ItemType;
 
+    protected virtual void OnEnable()
+    {
+        InitializeValue();
+    }
+    protected virtual void InitializeValue()
+    {
+
+    }
 }

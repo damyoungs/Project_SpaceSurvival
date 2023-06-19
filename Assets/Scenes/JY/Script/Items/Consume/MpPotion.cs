@@ -1,18 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
-public class MpPotion : MonoBehaviour
+public class MpPotion : ConsumeBase
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override void InitializeValue()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        ItemType = ItemType.Consume;
+        hpValue = 50;
+        mpValue = 0;
+        darkForceValue = 0;
+        fatigueValue = 0;
     }
 }
