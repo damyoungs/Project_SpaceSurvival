@@ -13,6 +13,8 @@ public class UIobjectSpawner : Singleton<UIobjectSpawner>
 
   
     private int slotMax;
+
+    public Dictionary<Current_Inventory_State, List<GameObject>> slots;
   
     private int currentSlotCount = 0;
     public int CurrentSlotCount
@@ -23,12 +25,16 @@ public class UIobjectSpawner : Singleton<UIobjectSpawner>
             currentSlotCount= value;
         }
     }
-    private void Start()
+    public void InitializeSlot()
     {
-        InitializeSlot();
-    }
-    void InitializeSlot()
-    {
+        slots = new Dictionary<Current_Inventory_State, List<GameObject>>
+        {
+            { Current_Inventory_State.Equip, new List<GameObject>() },
+            { Current_Inventory_State.Consume, new List<GameObject>() },
+            { Current_Inventory_State.Etc, new List<GameObject>() },
+            { Current_Inventory_State.Etc2, new List<GameObject>() }
+        };
+
         CreateSlot(Current_Inventory_State.Equip, equip_Below, 10);
         CreateSlot(Current_Inventory_State.Consume, consume_Below, 10);
         CreateSlot(Current_Inventory_State.Etc, etc_Below, 10);
@@ -41,6 +47,8 @@ public class UIobjectSpawner : Singleton<UIobjectSpawner>
             GameObject newSlot = Instantiate(slot);
             newSlot.name = $"Slot_{state}_{i}";
             newSlot.transform.SetParent(parentTransform, false);
+
+            slots[state].Add(newSlot);
         }
     }
     public void CreateSlot_OnBtn()

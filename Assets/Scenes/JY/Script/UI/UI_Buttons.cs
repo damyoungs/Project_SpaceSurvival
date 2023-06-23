@@ -40,10 +40,7 @@ public class UI_Buttons : MonoBehaviour
             objects[i] = Util.FindChild<T>(gameObject, names[i], true);
         }
     }
-    T Get<T>(int index) where T : UnityEngine.Object
-    {
 
-    }
     public void OnBtnClick()
     {
         score ++;

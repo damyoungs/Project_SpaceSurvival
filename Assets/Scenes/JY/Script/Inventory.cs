@@ -24,7 +24,10 @@ public class Inventory : Singleton<Inventory>
 
     public static Current_Inventory_State state;
 
-
+    private void Start()
+    {
+        UIobjectSpawner.Inst.InitializeSlot();
+    }
 
     public void SwitchTab_To_Equip()
     {
