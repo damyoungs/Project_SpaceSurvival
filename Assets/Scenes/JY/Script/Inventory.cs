@@ -9,13 +9,7 @@ public enum Current_Inventory_State
     Etc,
     Etc2
 }
-public enum ItemName
-{
-    Capsule,
-    Cube,
-    Plane
-}
-public class Inventory : Singleton<Inventory>
+public class Inventory : MonoBehaviour
 {
     public GameObject Equip_Inven;
     public GameObject Consume_Inven;
@@ -26,7 +20,7 @@ public class Inventory : Singleton<Inventory>
 
     private void Start()
     {
-        UIobjectSpawner.Inst.InitializeSlot();
+        GameManager.UI_Spawner.InitializeSlot();
     }
 
     public void SwitchTab_To_Equip()
@@ -94,8 +88,5 @@ public class Inventory : Singleton<Inventory>
         }
     }
 
-    public void GetItem(ItemName name)
-    {
 
-    }
 }
