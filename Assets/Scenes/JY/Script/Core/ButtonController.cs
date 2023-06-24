@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class ButtonController : MonoBehaviour 
+public class ButtonController : TestBase 
 {
     public void Open_Inventory_Button()
     {
@@ -10,7 +11,7 @@ public class ButtonController : MonoBehaviour
     }
     public void Add_Slot_Button()
     {
-        GameManager.UI_Spawner.Create_Slot();
+        GameManager.UI_Spawner.Add_Slot();
     }
     public void Equip_Button()
     {
@@ -27,5 +28,9 @@ public class ButtonController : MonoBehaviour
     public void Craft_Button()
     {
         GameManager.Inventory.SwitchTab_To_Craft();
+    }
+    protected override void Test1(InputAction.CallbackContext obj)
+    {
+        
     }
 }

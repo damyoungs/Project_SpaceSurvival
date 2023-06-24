@@ -15,16 +15,6 @@ public class UIobjectSpawner : MonoBehaviour
     private int slotMax;
 
     public Dictionary<Current_Inventory_State, List<GameObject>> slots;
-  
-    private int currentSlotCount = 0;
-    public int CurrentSlotCount
-    {
-        get => currentSlotCount;
-        set
-        {
-            currentSlotCount= value;
-        }
-    }
     public void InitializeSlot()
     {
         slots = new Dictionary<Current_Inventory_State, List<GameObject>>
@@ -35,26 +25,26 @@ public class UIobjectSpawner : MonoBehaviour
             { Current_Inventory_State.Craft, new List<GameObject>() }
         };
 
-        AddSlot(Current_Inventory_State.Equip, equip_Below, 10);
-        AddSlot(Current_Inventory_State.Consume, consume_Below, 10);
-        AddSlot(Current_Inventory_State.Etc, etc_Below, 10);
-        AddSlot(Current_Inventory_State.Craft, etc2_Below, 10);
+        Add_Slot(15);
+        Add_Slot(15);
+        Add_Slot(15);
+        Add_Slot(15);
     }
-    public void AddSlot(Current_Inventory_State state, Transform parentTransform, int count)
+    //public void Initialize_Slot(Current_Inventory_State state, Transform parentTransform, int count)
+    //{
+    //    for (int i = 0; i < count; i++)
+    //    {
+    //        GameObject newSlot = Instantiate(slot);
+    //        newSlot.name = $"Slot_{state}_{i}";
+    //        newSlot.transform.SetParent(parentTransform, false);
+
+    //        slots[state].Add(newSlot);
+    //    }
+    //}
+    public void Add_Slot(int? additional_Value = null)
     {
+        int? count = 5 + additional_Value;
         for (int i = 0; i < count; i++)
-        {
-            GameObject newSlot = Instantiate(slot);
-            newSlot.name = $"Slot_{state}_{i}";
-            newSlot.transform.SetParent(parentTransform, false);
-
-            slots[state].Add(newSlot);
-        }
-    }
-    public void Create_Slot()
-    {
-
-        for (int i = 0; i < 5; i++)
         {
             GameObject newSlot = Instantiate(slot);
             Transform parentTransform;
@@ -80,6 +70,7 @@ public class UIobjectSpawner : MonoBehaviour
             {
                 newSlot.name = $"{Inventory.state}_{i}";
                 newSlot.transform.SetParent (parentTransform, false);
+                slots[Inventory.state].Add(newSlot);
             }
         }
     }
