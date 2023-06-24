@@ -27,7 +27,6 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     GameObject inven;
-    bool isOpen = false;
 
     private void Awake()
     {
@@ -54,18 +53,9 @@ public class Player : MonoBehaviour
     {
         
     }
-    public void OpenInventory(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    public void OpenInventory(UnityEngine.InputSystem.InputAction.CallbackContext _)
     {
-        if (!isOpen)
-        {
-            inven.SetActive(true);
-            isOpen = true;
-        }
-        else
-        {
-            inven.SetActive(false);
-            isOpen = false;
-        }
+        GameManager.Inventory.Open_Inventory();
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -74,8 +64,5 @@ public class Player : MonoBehaviour
             Destroy(collision.gameObject);
         }
     }
-    void SetStatus()
-    {
 
-    }
 }

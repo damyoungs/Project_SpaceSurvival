@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7596035628093736802}
   - component: {fileID: 7596035628093736803}
   m_Layer: 5
-  m_Name: Etc2Content
+  m_Name: CraftContent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 7596035628105673970}
   - component: {fileID: 7596035628105673971}
   m_Layer: 5
-  m_Name: Etc2_Btn
+  m_Name: Craft_Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -113,7 +113,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 187.79883, y: 358.25}
+  m_AnchoredPosition: {x: 209.28, y: 356.53}
   m_SizeDelta: {x: 144.5683, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7596035628105673969
@@ -198,9 +198,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7596035628962944177}
-        m_TargetAssemblyTypeName: Inventory, Assembly-CSharp
-        m_MethodName: SwitchTab_To_Etc2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
+        m_MethodName: Craft_Button
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -604,7 +604,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7596035628641617165
 RectTransform:
   m_ObjectHideFlags: 0
@@ -772,7 +772,7 @@ GameObject:
   - component: {fileID: 7596035628818492603}
   - component: {fileID: 7596035628818492596}
   m_Layer: 5
-  m_Name: Etc2
+  m_Name: Craft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1174,8 +1174,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UI_Object_Spawner, Assembly-CSharp
-        m_MethodName: CreateSlot_OnBtn
+        m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
+        m_MethodName: Add_Slot_Button
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1221,7 +1221,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 10}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &7596035628838144065
 MonoBehaviour:
@@ -1383,9 +1383,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7596035628962944177}
-        m_TargetAssemblyTypeName: Inventory, Assembly-CSharp
-        m_MethodName: SwitchTab_To_Consume
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
+        m_MethodName: Consume_Button
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1414,7 +1414,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7596035628962944173
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1513,7 +1513,7 @@ MonoBehaviour:
   Equip_Inven: {fileID: 7596035628980601106}
   Consume_Inven: {fileID: 7596035628641617166}
   Etc_Inven: {fileID: 7596035630108632482}
-  Etc2_Inven: {fileID: 7596035628818492598}
+  Craft_Inven: {fileID: 7596035628818492598}
 --- !u!1 &7596035628980601106
 GameObject:
   m_ObjectHideFlags: 0
@@ -1842,7 +1842,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Etc2
+  m_Text: Craft
 --- !u!1 &7596035629528523217
 GameObject:
   m_ObjectHideFlags: 0
@@ -2411,9 +2411,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7596035628962944177}
-        m_TargetAssemblyTypeName: Inventory, Assembly-CSharp
-        m_MethodName: SwitchTab_To_Equip
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
+        m_MethodName: Equip_Button
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2546,9 +2546,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+        m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
+        m_MethodName: Open_Inventory_Button
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2770,9 +2770,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7596035628962944177}
-        m_TargetAssemblyTypeName: Inventory, Assembly-CSharp
-        m_MethodName: SwitchTab_To_Etc
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
+        m_MethodName: Etc_Button
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
