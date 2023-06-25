@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-enum ItemType
+public enum ItemType
 {
     Equip,
     Consume,
@@ -10,5 +10,7 @@ enum ItemType
 }
 public interface I_ItemData 
 {
-
+    ItemType Type { get; }
+    string Name { get; set; }
+    bool Is_Stackable { get; }
 }
