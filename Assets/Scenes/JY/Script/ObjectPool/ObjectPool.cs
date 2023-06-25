@@ -3,74 +3,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool<T> : MonoBehaviour where T : PooledObject
+public class ObjectPool : MonoBehaviour
 {
-    public GameObject originalPrefab;
-
-    public int poolSize = 32;
-
-    T[] pool;
-    Queue<T> readyQueue;
-
-
-    void Initialize()
+    private static ObjectPool instance;
+    public static ObjectPool Inst { get { Init(); return instance; } }
+    static void Init()
     {
-        if (pool == null)
+        if (instance == null)
         {
-            pool = new T[poolSize];
-            readyQueue = new Queue<T>(poolSize);
-
-            GenerateObject(0, poolSize, pool);
-        }
-        else
-        {
-            foreach(T obj in pool)
+            GameObject go = GameObject.Find("ObjectPool");
+            if (go == null)
             {
-                obj.gameObject.SetActive(false);
+                go = new GameObject { name = "ObjectPool" };
+                go.AddComponent<ObjectPool>();
             }
+            DontDestroyOnLoad(go);
+            instance = go.GetComponent<ObjectPool>();
         }
- 
     }
-    public T GetObject()
+    public class Pool
     {
-        if (readyQueue.Count > 0)
-        {
-            T comp = readyQueue.Dequeue();
-            comp.gameObject.SetActive(true);
-            return comp;
-        }
-        else
-        {
-            ExpandPool();
-            return GetObject();
-        }
+        public GameObject prefab;
+        public int poolSize;
     }
 
-    private void ExpandPool()
-    {
-        int newSize = poolSize * 2;
-        T[] newArray = new T[newSize];
-        for (int i = 0; i < poolSize; i++)
-        {
-            newArray[i] = pool[i]; 
-        }
-        GenerateObject(poolSize, newSize, newArray);
-        pool = newArray;
-        poolSize = newSize;
-    }
+    Pool[] pools;
+    Dictionary<int, Queue<GameObject>> pooledObject = new Dictionary<int, Queue<GameObject>>();
 
-    private void GenerateObject(int start, int end, T[] newArray)
-    {
-        for (int i = start; i < end; i++)
-        {
-            GameObject obj = Instantiate(originalPrefab, transform);
-            obj.name = $"{originalPrefab.name}_{i}";
-
-            T comp = obj.GetComponent<T>();
-            comp.onDie += () => readyQueue.Enqueue(comp);
-
-            newArray[i] = comp;
-            obj.SetActive(false);
-        }
-    }
 }

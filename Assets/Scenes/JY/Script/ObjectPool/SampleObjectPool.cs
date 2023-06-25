@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool : MonoBehaviour
+public class SampleObjectPool : MonoBehaviour
 {
     public static ObjectPool I;
 
@@ -13,17 +13,11 @@ public class ObjectPool : MonoBehaviour
         public int amountToPool;
     }
 
-    public List<Pool> pools;
+    public List<Pool> pools; //풀 안에 들어갈 오브젝트들을 담을 풀의 리스트
   //  public Pool[] pool_Index_obj;
-    private Dictionary<int, Queue<GameObject>> pooledObjects = new Dictionary<int, Queue<GameObject>>();
+    private Dictionary<int, Queue<GameObject>> pooledObjects = new Dictionary<int, Queue<GameObject>>(); //풀안에 들어갈 오브젝트들을 담을 큐 
 
-    private void Awake()
-    {
-        if (I == null)
-        {
-            I = this;
-        }
-    }
+
 
     void Start()
     {
