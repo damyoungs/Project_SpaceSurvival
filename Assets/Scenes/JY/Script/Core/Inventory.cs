@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum Current_Inventory_State
@@ -17,47 +19,36 @@ public class Inventory : MonoBehaviour
     public GameObject Craft_Inven;
 
     bool is_Inventory_Open = false;
+    public bool is_Initialized;
 
-    public static Current_Inventory_State state;
-
+    public delegate void Inventory_State_Changed(Current_Inventory_State state); //state가 바뀌면 setter가 호출할 delegate
+    Inventory_State_Changed inventory_changed;
+    private Current_Inventory_State state;
+    public Current_Inventory_State State
+    {
+        get { return state; }
+        set
+        {
+            if (state != value)
+            {
+                state = value;
+                inventory_changed?.Invoke(state);
+            }
+        }
+    }
+    private void OnEnable()
+    {
+        inventory_changed += Update_State;
+    }
+    private void OnDisable()
+    {
+        inventory_changed -= Update_State;
+    }
     private void Start()
     {
         GameManager.UI_Spawner.InitializeSlot();
     }
-
-    public void SwitchTab_To_Equip()
-    {
-        state = Current_Inventory_State.Equip;
-        Equip_Inven.SetActive(true);
-        Consume_Inven.SetActive(false);
-        Etc_Inven.SetActive(false);
-        Craft_Inven.SetActive(false);
-    }
-    public void SwitchTab_To_Consume()
-    {
-        state = Current_Inventory_State.Consume;
-        Equip_Inven.SetActive(false);
-        Consume_Inven.SetActive(true);
-        Etc_Inven.SetActive(false);
-        Craft_Inven.SetActive(false);
-    }
-    public void SwitchTab_To_Etc()
-    {
-        state = Current_Inventory_State.Etc;
-        Equip_Inven.SetActive(false);
-        Consume_Inven.SetActive(false);
-        Etc_Inven.SetActive(true);
-        Craft_Inven.SetActive(false);
-    }
-    public void SwitchTab_To_Craft()
-    {
-        state = Current_Inventory_State.Craft;
-        Equip_Inven.SetActive(false);
-        Consume_Inven.SetActive(false);
-        Etc_Inven.SetActive(false);
-        Craft_Inven.SetActive(true);
-    }
-    void SetInvenState(Current_Inventory_State state)
+    void Update_State(Current_Inventory_State state)
     {
         switch (state)
         {
@@ -89,6 +80,23 @@ public class Inventory : MonoBehaviour
                 break;
         }
     }
+    public void SwitchTab_To_Equip()
+    {
+        State = Current_Inventory_State.Equip;
+    }
+    public void SwitchTab_To_Consume()
+    {
+        State = Current_Inventory_State.Consume;    
+    }
+    public void SwitchTab_To_Etc()
+    {
+        State = Current_Inventory_State.Etc;   
+    }
+    public void SwitchTab_To_Craft()
+    {
+        State = Current_Inventory_State.Craft;
+    }
+
     public void Open_Inventory()
     {
         if (!is_Inventory_Open)
