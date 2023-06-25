@@ -39,7 +39,7 @@ public class UIobjectSpawner : MonoBehaviour
     //}
     public void Add_Slot(int? additional_Value = null) //굳이 Make_Slot과 Add_Slot을 나눈 이유는  초기슬롯이 할당되지 않았을 때와 이후 슬롯을 추가하는 상황을 구분해야하기 때문이다.
     {
-        if (GameManager.Inventory.is_Initialized == false)// 초기화가 이미 되었을 경우(초기생성)
+        if (GameManager.Inventory.is_Initialized == false)// 초기화가 아직 안되었을 경우(초기생성)
         {
             Make_Slot(additional_Value);
             GameManager.Inventory.State = Current_Inventory_State.Consume;
@@ -50,14 +50,14 @@ public class UIobjectSpawner : MonoBehaviour
             Make_Slot(additional_Value);
             GameManager.Inventory.is_Initialized = true;
         }
-        else// 초기화가 되지않은 경우(게임 시작 후 처음 인벤토리를 활성화시킬 때)
+        else// 초기화가 되어있다면 (게임 시작 후 이미 이전에 인벤토리를 활성화시킨적이 있다면)
         {
-
+            Make_Slot(additional_Value);
         }
     }
     void Make_Slot(int? additional_Value = null)
     {
-        int? count = 5 + additional_Value;
+        int? count = 5 + (additional_Value ?? 0);
         for (int i = 0; i < count; i++)
         {
             GameObject newSlot = Instantiate(slot);

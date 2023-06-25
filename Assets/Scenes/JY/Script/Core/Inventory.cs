@@ -80,23 +80,10 @@ public class Inventory : MonoBehaviour
                 break;
         }
     }
-    public void SwitchTab_To_Equip()
-    {
-        State = Current_Inventory_State.Equip;
-    }
-    public void SwitchTab_To_Consume()
-    {
-        State = Current_Inventory_State.Consume;    
-    }
-    public void SwitchTab_To_Etc()
-    {
-        State = Current_Inventory_State.Etc;   
-    }
-    public void SwitchTab_To_Craft()
-    {
-        State = Current_Inventory_State.Craft;
-    }
-
+    public void SwitchTab_To_Equip() { State = Current_Inventory_State.Equip; }
+    public void SwitchTab_To_Consume() { State = Current_Inventory_State.Consume;}
+    public void SwitchTab_To_Etc() { State = Current_Inventory_State.Etc;}
+    public void SwitchTab_To_Craft() { State = Current_Inventory_State.Craft;}
     public void Open_Inventory()
     {
         if (!is_Inventory_Open)
