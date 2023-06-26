@@ -1,19 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-
-public class ItemSpawner : MonoBehaviour
+public class ItemSpawner : TestBase
 {
-    PlayerInput inputAction;
-    private void Awake()
-    {
-        inputAction = new PlayerInput();
-    }
-    private void OnEnable()
-    {
-        inputAction.Player.Enable();
-        inputAction.Player.Test1.
-    }
 
+    protected override void Test1(InputAction.CallbackContext context)
+    {
+   
+    }
 }
