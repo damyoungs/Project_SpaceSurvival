@@ -48,9 +48,11 @@
         ButtonController 생성 및 현재 구현된 함수 재연결 //완료
         Add슬롯함수 - 만약 Inventory의 IsInitialized = false = 모든탭에 10개씩 생성, true면 현제 state의 슬롯에 5개 추가// 완료 (매개변수를 nullable 로 받음)
  *      AddSlot함수와 CreateSlot함수의 중복된 기능을 하나의 함수에서 처리 //완료
- *      Pool생성 Dictionary<int, Queue<GameObject>> /완료
  *      
- *      SetActive false 할때 자동으로 returnPool, enQueue 시키기
+ *      player 에 Die 함수를 만들고 해당 위치에 아이템 드롭시키기 // 죽을 때 신호를 보내는게  아니라 직접 Factory.I.Getobject 를 실행하기
+ *      
+ *      타일맵의 위치 or 적의 위치를 파라미터로 받아서 아이템 드롭하기
+ *      
  *      - Item오브젝트 만들기 포션류 먼저
  *      Animation/완료
  *      

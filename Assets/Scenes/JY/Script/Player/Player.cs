@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     GameObject inven;
 
+    public Action onPlayerDie;
     private void Awake()
     {
         playerInput = new PlayerInput();
@@ -63,6 +64,13 @@ public class Player : MonoBehaviour
         {
             Destroy(collision.gameObject);
         }
+    }
+    public void Die()
+    {
+        onPlayerDie?.Invoke();
+        Factory.I.GetObject(Pool_Object_Type.HpPotion, transform.position);
+        this.gameObject.SetActive(false);
+
     }
 
 }
