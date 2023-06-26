@@ -50,6 +50,7 @@
  *      AddSlot함수와 CreateSlot함수의 중복된 기능을 하나의 함수에서 처리 //완료
  *      
  *      
+ *      Pool생성 Dictionary<int, Queue<GameObject>>
  *      - Item오브젝트 만들기 포션류 먼저
  *      Animation/완료
  *      
