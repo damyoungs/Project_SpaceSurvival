@@ -7,7 +7,8 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     PlayerInput playerInput;
-    
+    Rigidbody rigid;
+
     public float moveSpeed = 3.0f;
     int hp;
     int mp;
@@ -32,7 +33,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         playerInput = new PlayerInput();
-
+        rigid = GetComponent<Rigidbody>();
     }
     private void OnEnable()
     {
@@ -67,9 +68,12 @@ public class Player : MonoBehaviour
     }
     public void Die()
     {
-        onPlayerDie?.Invoke();
+        rigid.constraints = RigidbodyConstraints.None;
+        Vector3 root = transform.GetChild(0).position;
+        rigid.AddForceAtPosition(50 * transform.forward,transform.position);
+        rigid.AddTorque(50 * Vector3.right, ForceMode.Impulse);
         Factory.I.GetObject(Pool_Object_Type.HpPotion, transform.position);
-        this.gameObject.SetActive(false);
+       // this.gameObject.SetActive(false);
 
     }
 
