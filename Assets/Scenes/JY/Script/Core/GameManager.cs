@@ -10,13 +10,12 @@ public class GameManager : MonoBehaviour
     public Inventory inventory;
     public UIobjectSpawner ui_Spawner;
     public ItemSpawner itemSpawner;
-    public ButtonController buttonController;
+
     
 
     public static Inventory Inventory { get { return Inst.inventory; } }
     public static UIobjectSpawner UI_Spawner { get { return Inst.ui_Spawner; } }
     public static ItemSpawner Item_Spawner { get { return Inst.itemSpawner; } }
-    public static ButtonController Button_Controller { get { return Inst.buttonController; } }
 
 
     static void Init()

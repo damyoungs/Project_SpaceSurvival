@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum Current_Inventory_State
 {
@@ -17,6 +18,13 @@ public class Inventory : MonoBehaviour
     public GameObject Consume_Inven;
     public GameObject Etc_Inven;
     public GameObject Craft_Inven;
+
+    Button close_Button;
+    Button add_Button;
+    Button equip_Button;
+    Button consume_Button;
+    Button etc_Button;
+    Button craft_Button;
 
     bool is_Inventory_Open = false;
     public bool is_Initialized;
@@ -36,6 +44,22 @@ public class Inventory : MonoBehaviour
             }
         }
     }
+    private void Awake()
+    {
+        close_Button = transform.GetChild(0).GetComponent<Button>();
+        add_Button = transform.GetChild(1).GetComponent<Button>();
+        equip_Button = transform.GetChild(2).GetComponent<Button>();
+        consume_Button = transform.GetChild(3).GetComponent<Button>();
+        etc_Button = transform.GetChild(4).GetComponent<Button>();
+        craft_Button = transform.GetChild(5).GetComponent<Button>();
+
+        close_Button.onClick.AddListener(Open_Inventory);
+        add_Button.onClick.AddListener(GameManager.UI_Spawner.Add_Slot);
+        equip_Button.onClick.AddListener(SwitchTab_To_Equip);
+        consume_Button.onClick.AddListener(SwitchTab_To_Consume);
+        etc_Button.onClick.AddListener(SwitchTab_To_Etc);
+        craft_Button.onClick.AddListener(SwitchTab_To_Craft);
+    }
     private void OnEnable()
     {
         inventory_changed += Update_State;
@@ -46,7 +70,9 @@ public class Inventory : MonoBehaviour
     }
     private void Start()
     {
-        GameManager.UI_Spawner.InitializeSlot();
+        GameManager.UI_Spawner.Initialize();
+
+
     }
     void Update_State(Current_Inventory_State state)
     {
@@ -96,7 +122,5 @@ public class Inventory : MonoBehaviour
             this.gameObject.SetActive(false);
             is_Inventory_Open = false;
         }
-    
     }
-
 }

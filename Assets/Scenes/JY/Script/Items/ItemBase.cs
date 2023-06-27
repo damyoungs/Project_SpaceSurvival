@@ -2,20 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ItemType
+{
+    Equip,
+    Consume,
+    Etc,
+    Craft
+}
 public class ItemBase : PooledObject
 {
-    public float rotateSpeed = 360.0f;
-    protected virtual void Update()
-    {
-
-        transform.Rotate(Vector3.up, 360.0f);
-    }
-    void Rotate()
-    {
-       
-    }
-    void moving()
-    {
-
-    }
+    public ItemType Type { get; set; }
+    protected string Name { get; set; }
+    protected bool Is_Stackable { get; }
 }
