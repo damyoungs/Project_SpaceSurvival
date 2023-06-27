@@ -890,7 +890,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 581, y: 716}
+  m_SizeDelta: {x: 650, y: 716}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7596035628827172058
 CanvasRenderer:
@@ -1414,7 +1414,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7596035628962944173
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1514,6 +1514,7 @@ MonoBehaviour:
   Consume_Inven: {fileID: 7596035628641617166}
   Etc_Inven: {fileID: 7596035630108632482}
   Craft_Inven: {fileID: 7596035628818492598}
+  is_Initialized: 0
 --- !u!1 &7596035628980601106
 GameObject:
   m_ObjectHideFlags: 0
@@ -1643,7 +1644,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 227}
+  m_SizeDelta: {x: 0, y: 655}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &7596035629026719479
 MonoBehaviour:
@@ -2036,8 +2037,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 581, y: 716}
+  m_AnchoredPosition: {x: 1.9146, y: 0}
+  m_SizeDelta: {x: 650, y: 716}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7596035629639407562
 CanvasRenderer:
@@ -2236,7 +2237,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 581, y: 716}
+  m_SizeDelta: {x: 650, y: 716}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7596035629713247812
 CanvasRenderer:
@@ -2545,9 +2546,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 7596035628962944174}
         m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
-        m_MethodName: Open_Inventory_Button
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2594,8 +2595,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 581, y: 716}
+  m_AnchoredPosition: {x: -0.0000025629997, y: 0}
+  m_SizeDelta: {x: 650, y: 716}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7596035630018305501
 CanvasRenderer:
