@@ -83,7 +83,6 @@ public class ObjectPool<T> : MonoBehaviour where T : PooledObject
 
             newArray[i] = comp; // 배열에 저장하고 
             obj.SetActive(false);//비활성화 시키기 비활성화될때 위에서 추가한 람다식이 실행되면서 큐로 다시 돌아가게된다.
-            
         }
     }
 }

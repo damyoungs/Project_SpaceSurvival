@@ -8,7 +8,7 @@ public enum ItemType
     Etc,
     Craft
 }
-public interface I_ItemData 
+public interface I_ItemData //굳이 인터페이스를 만들필요 없어보임
 {
     ItemType Type { get; }
     string Name { get; set; }

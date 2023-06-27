@@ -12,8 +12,8 @@ public class PooledObject : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        transform.localPosition = Vector3.zero;
-        transform.localRotation = Quaternion.identity;
+        //transform.localPosition = Vector3.zero;
+        //transform.localRotation = Quaternion.identity;
     }
   
     protected virtual void OnDisable()

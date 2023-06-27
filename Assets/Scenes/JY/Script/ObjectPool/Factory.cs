@@ -54,13 +54,6 @@ public class Factory : MonoBehaviour
     {
         GameObject obj = GetObject(type);
         obj.transform.position = position;
-
-        switch (type)
-        {
-            default:
-                break;
-
-        }
         return obj;
     }
 
