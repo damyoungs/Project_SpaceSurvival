@@ -41,7 +41,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         Debug.Log("enter");
         ItemCount += 1;
-        UpdateImage();
+        UpdateImage(ItemName.hpPotion);
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -62,8 +62,20 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
         amount_Text.text = amount.ToString();
     }
-    void UpdateImage()
+    void UpdateImage(ItemName name)
     {
-        item_Image.sprite = hpPotion;
+        switch(name)
+        {
+            case ItemName.hpPotion:
+                item_Image.sprite = hpPotion;
+                break;
+            case ItemName.mpPotion: 
+                break;
+            case ItemName.sword:
+                break;
+            case ItemName.hammer:
+                break;
+        }
+       
     }
 }

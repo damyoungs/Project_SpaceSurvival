@@ -8,13 +8,13 @@ public class GameManager : MonoBehaviour
     public static GameManager Inst { get { Init(); return instance; } }
 
     public Inventory inventory;
-    public UIobjectSpawner ui_Spawner;
+    public SlotManager slotManager;
     public ItemSpawner itemSpawner;
 
     
 
     public static Inventory Inventory { get { return Inst.inventory; } }
-    public static UIobjectSpawner UI_Spawner { get { return Inst.ui_Spawner; } }
+    public static SlotManager SlotManager { get { return Inst.slotManager; } }
     public static ItemSpawner Item_Spawner { get { return Inst.itemSpawner; } }
 
 

@@ -12,8 +12,17 @@ public enum Current_Inventory_State
     Etc,
     Craft
 }
+public enum ItemName 
+{
+    hpPotion,
+    mpPotion,
+    sword,
+    hammer
+}
 public class Inventory : MonoBehaviour
 {
+    public static ItemName ItemName;
+
     public GameObject Equip_Inven;
     public GameObject Consume_Inven;
     public GameObject Etc_Inven;
@@ -54,7 +63,7 @@ public class Inventory : MonoBehaviour
         craft_Button = transform.GetChild(5).GetComponent<Button>();
 
         close_Button.onClick.AddListener(Open_Inventory);
-        add_Button.onClick.AddListener(GameManager.UI_Spawner.Add_Slot);
+        add_Button.onClick.AddListener(GameManager.SlotManager.Add_Slot);
         equip_Button.onClick.AddListener(SwitchTab_To_Equip);
         consume_Button.onClick.AddListener(SwitchTab_To_Consume);
         etc_Button.onClick.AddListener(SwitchTab_To_Etc);
@@ -70,7 +79,7 @@ public class Inventory : MonoBehaviour
     }
     private void Start()
     {
-        GameManager.UI_Spawner.Initialize();
+        GameManager.SlotManager.Initialize();
 
 
     }
@@ -106,7 +115,7 @@ public class Inventory : MonoBehaviour
                 break;
         }
     }
-    public void SwitchTab_To_Equip() { State = Current_Inventory_State.Equip; }
+    public void SwitchTab_To_Equip() { State = Current_Inventory_State.Equip; } //버튼 누르면 호출
     public void SwitchTab_To_Consume() { State = Current_Inventory_State.Consume;}
     public void SwitchTab_To_Etc() { State = Current_Inventory_State.Etc;}
     public void SwitchTab_To_Craft() { State = Current_Inventory_State.Craft;}
@@ -123,4 +132,10 @@ public class Inventory : MonoBehaviour
             is_Inventory_Open = false;
         }
     }
+    void GetItem(ItemName name)
+    {
+        //GameManager.SlotManager.SetItemData
+        
+    }
+    
 }

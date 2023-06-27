@@ -5,6 +5,21 @@ using UnityEngine.InputSystem;
 
 public class ItemSpawner : TestBase
 {
+    public class EnemyBase : MonoBehaviour
+    {
+        public int EnemyCode { get; set; }
+    }
+    public class Enemy1 : EnemyBase
+    {
+        private void Awake()
+        {
+            EnemyCode = 0;
+        }
+        void Die()
+        {
+            GameManager.Item_Spawner.SpawnItem(this);
+        }
+    }
     List<GameObject> spawnedObjects = new List<GameObject>();
     Player player;
     protected override void Test1(InputAction.CallbackContext _)
@@ -24,10 +39,15 @@ public class ItemSpawner : TestBase
     }
     protected override void Test3(InputAction.CallbackContext context)
     {
-        if (player == null)
+
+    }
+    public void SpawnItem(EnemyBase enemy)//큰 범위에서 분류가 아니라 정확히 어떤 적인지 알아야한다
+    {
+        switch (enemy.EnemyCode)
         {
-            player = FindObjectOfType<Player>();
+            case 0:
+
+                break;
         }
-        player.Die();
     }
 }

@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIobjectSpawner : MonoBehaviour
+public class SlotManager : MonoBehaviour
 {
     public GameObject slot;
     public Transform equip_Below;
@@ -76,5 +76,9 @@ public class UIobjectSpawner : MonoBehaviour
                 slots[GameManager.Inventory.State].Add(newSlot);
             }
         }
+    }
+    public void SetItemData(ItemName name)
+    {
+
     }
 }
