@@ -300,22 +300,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7596035628962944172, guid: 06a8a185a34bfac4b88279afbea88136, type: 3}
-      propertyPath: m_EffectColor.b
-      value: 0.01886791
-      objectReference: {fileID: 0}
-    - target: {fileID: 7596035628962944172, guid: 06a8a185a34bfac4b88279afbea88136, type: 3}
-      propertyPath: m_EffectColor.g
-      value: 0.01886791
-      objectReference: {fileID: 0}
-    - target: {fileID: 7596035628962944172, guid: 06a8a185a34bfac4b88279afbea88136, type: 3}
-      propertyPath: m_EffectColor.r
-      value: 0.01886791
-      objectReference: {fileID: 0}
-    - target: {fileID: 7596035628962944172, guid: 06a8a185a34bfac4b88279afbea88136, type: 3}
-      propertyPath: m_UseGraphicAlpha
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7596035628962944173, guid: 06a8a185a34bfac4b88279afbea88136, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
