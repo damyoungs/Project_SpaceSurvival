@@ -28,6 +28,7 @@ public class Inventory : MonoBehaviour
     public GameObject Etc_Inven;
     public GameObject Craft_Inven;
 
+    Transform toolBar;
     Button close_Button;
     Button add_Button;
     Button equip_Button;
@@ -55,12 +56,13 @@ public class Inventory : MonoBehaviour
     }
     private void Awake()
     {
-        close_Button = transform.GetChild(0).GetComponent<Button>();
-        add_Button = transform.GetChild(1).GetComponent<Button>();
-        equip_Button = transform.GetChild(2).GetComponent<Button>();
-        consume_Button = transform.GetChild(3).GetComponent<Button>();
-        etc_Button = transform.GetChild(4).GetComponent<Button>();
-        craft_Button = transform.GetChild(5).GetComponent<Button>();
+        toolBar = transform.GetChild(0);
+        close_Button = toolBar.GetChild(0).GetComponent<Button>();
+        add_Button = toolBar.GetChild(1).GetComponent<Button>();
+        equip_Button = transform.GetChild(1).GetComponent<Button>();
+        consume_Button = transform.GetChild(2).GetComponent<Button>();
+        etc_Button = transform.GetChild(3).GetComponent<Button>();
+        craft_Button = transform.GetChild(4).GetComponent<Button>();
 
         close_Button.onClick.AddListener(Open_Inventory);
         add_Button.onClick.AddListener(GameManager.SlotManager.Add_Slot);
