@@ -1,0 +1,21 @@
+{
+    "dataIndex": 3,
+    "saveTime": "2023-06-28 오후 1:34:49",
+    "sceanName": 4,
+    "charcterInfo": [
+        {
+            "charcterName": "아주그냥끝장을보는놈",
+            "level": 98,
+            "exp": 990930944.0,
+            "money": 19191919191919191,
+            "characterPosition": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 9999.0
+            }
+        }
+    ],
+    "itemList": [],
+    "skillList": [],
+    "questList": []
+}

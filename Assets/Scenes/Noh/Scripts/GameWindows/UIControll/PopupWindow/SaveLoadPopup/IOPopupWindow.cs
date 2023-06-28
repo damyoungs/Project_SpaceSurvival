@@ -11,9 +11,9 @@ public class IOPopupWindow : MonoBehaviour
     private void OnDisable()
     {
         WindowList.Instance.ActivePopup = EnumList.PopupList.NONE;
-        SaveLoadPopupWindow.Instance.NewIndex = -1; //값 초기화
-        SaveLoadPopupWindow.Instance.OldIndex = -1; //카피 값 초기화
-        SaveLoadPopupWindow.Instance.CopyCheck = false; //카피 값 초기화
+        WindowList.Instance.IOPopupWindow.NewIndex = -1; //값 초기화
+        WindowList.Instance.IOPopupWindow.OldIndex = -1; //카피 값 초기화
+        WindowList.Instance.IOPopupWindow.CopyCheck = false; //카피 값 초기화
 
     }
 }

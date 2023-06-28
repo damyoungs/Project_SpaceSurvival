@@ -57,13 +57,14 @@ public class LoadingScean : MonoBehaviour
                 isLoading = true;//로딩 시작플래그
                 nextSceanName = sceanName; //씬이름셋팅하고  
                 progressType = type; //프로그래스 타입설정 .
-                WindowList.Instance.OptionsWindow.SetActive(false); //화면전환전에 창끄기 
+                WindowList.Instance.ResetPopupWindow(); //화면 전환시 열려있는창 전부닫자.
                 SceneManager.LoadSceneAsync((int)EnumList.SceanName.LOADING);
             }
         }
         
     }
 
+   
     /// <summary>
     /// 로딩화면 로딩시 바로 코루틴 실행하여 다음씬에대해 비동기로 로딩을 하고
     /// 그에대한 정보를 받아온다.

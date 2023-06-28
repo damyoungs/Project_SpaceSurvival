@@ -87,6 +87,8 @@ public class SaveLoadManager : Singleton<SaveLoadManager> {
     /// <summary>
     /// 게임에사용된 데이터가 파싱되어 여기에 들어가야한다.
     /// 외부클래스에서 관리를 해야하나.?
+    /// 데이터가 커지면 미리미리 저장하는경우가있다.
+    /// 외부
     /// </summary>
     JsonGameData gameSaveData;
     public JsonGameData GameSaveData { 
@@ -120,9 +122,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager> {
     
     protected override void Awake()
     {
-#if UNITY_EDITOR
-        Debug.LogWarning("가끔씩 순번꼬일때가있어서 체크 1번");
-#endif
+
         base.Awake();
         windowList = GameObject.FindGameObjectWithTag("WindowList");
 
@@ -150,9 +150,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager> {
             isProcessing = true;
             Debug.LogWarning($"비동기 로딩테스트 시작 {saveDataList}");
             FileListLoagind();//비동기로 파일로딩
-            //isFilesLoading = SetSaveFileList();//동기방식으로 파일로딩시
         }
-        //Debug.Log($"비동기 로딩테스트 확인2번 {saveDataList}"); // 동기방식이면 이메세지가 잴아래에 떠야한다 하지만 비동기면 다르다.
     
     }
 
@@ -385,9 +383,6 @@ public class SaveLoadManager : Singleton<SaveLoadManager> {
             isProcessing = true;
             try
             {
-#if UNITY_EDITOR
-                    Debug.Log(selectFileIndex);
-#endif
                 if (gameSaveData != null && selectFileIndex > -1) //게임데이터가 있을때 
                 {
                     SetDefaultInfo(gameSaveData, selectFileIndex);// 파일저장시 기본정보를 저장한다.
