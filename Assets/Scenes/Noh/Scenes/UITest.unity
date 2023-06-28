@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -333,20 +333,28 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1972727026, guid: ea02974f5b9364d489d517c2b66aa167, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1972727026, guid: ea02974f5b9364d489d517c2b66aa167, type: 3}
+      propertyPath: m_Pivot.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1972727026, guid: ea02974f5b9364d489d517c2b66aa167, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1972727026, guid: ea02974f5b9364d489d517c2b66aa167, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1972727026, guid: ea02974f5b9364d489d517c2b66aa167, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1972727026, guid: ea02974f5b9364d489d517c2b66aa167, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1972727026, guid: ea02974f5b9364d489d517c2b66aa167, type: 3}
       propertyPath: m_SizeDelta.x
@@ -358,11 +366,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1972727026, guid: ea02974f5b9364d489d517c2b66aa167, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 292.00003
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1972727026, guid: ea02974f5b9364d489d517c2b66aa167, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2000969558, guid: ea02974f5b9364d489d517c2b66aa167, type: 3}
       propertyPath: m_AnchorMax.x

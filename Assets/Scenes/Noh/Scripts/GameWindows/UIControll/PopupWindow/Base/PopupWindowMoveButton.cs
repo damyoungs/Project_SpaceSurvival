@@ -59,8 +59,6 @@ public class PopupWindowMoveButton : MonoBehaviour, IBeginDragHandler, IDragHand
     /// <param name="eventData">이벤트위치정보값</param>
     void IDragHandler.OnDrag(PointerEventData eventData) //인터페이스두개를사용하기때문에 명시적으로 작성
     {
-        
-        
         //이동한 드래그만큼 값을 더해준다.
         //시작지점 에서 이동한거리(이동한값에서 처음값을뺀값)을 더한다.
         if (CheckOutOfWindow(eventData)) { //창밖으로 벗어나지 않았는지 체크 
