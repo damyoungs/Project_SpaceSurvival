@@ -10,7 +10,10 @@ public class MapTest : TestBase
     public GameObject centerTile;           // 중앙에 사용할 타일
     public GameObject sideTile;             // 외곽에 배치될 타일
     public GameObject vertexTile;           // 꼭지점 타일
-    public GameObject wall;                 // 벽
+    public GameObject wall;                 // 기본 벽
+    public GameObject pointLight;           // 조명
+
+
 
     int sizeX = 0;                          // 타일 가로 갯수
     int sizeY = 0;                          // 타일 세로 갯수
@@ -31,6 +34,8 @@ public class MapTest : TestBase
     public GameObject player;
 
 
+    GameObject[] lights;
+
     private void Start()
     {
         // 중앙 타일 사이즈 반환
@@ -48,10 +53,12 @@ public class MapTest : TestBase
     {
         if (!isExist)                   // 타일이 존재하지 않을 경우에만 생성
         {
-            sizeX = Random.Range(10, 21);       // 타일 가로 갯수 랜덤 생성
-            sizeY = Random.Range(10, 21);       // 타일 세로 갯수 랜덤 생성
+            sizeX = Random.Range(20, 31);       // 타일 가로 갯수 랜덤 생성
+            sizeY = Random.Range(20, 31);       // 타일 세로 갯수 랜덤 생성
             tileCount = sizeX * sizeY;          // 총 타일 갯수
             mapTiles = new GameObject[tileCount];   // 배열 동적 생성
+
+            lights = new GameObject[4];
 
             GameObject wallObject;          // 벽 오브젝트
 
@@ -65,7 +72,7 @@ public class MapTest : TestBase
                 {
                     // 꼭지점인 경우
                     mapTiles[i] = Instantiate(vertexTile, gameObject.transform);                // 꼭지점 타일 생성
-                    mapTiles[i].GetComponent<Tile>().Type = (int)TileType.vertexTile;           // 타일 스크립트에 타입 저장
+                    mapTiles[i].GetComponent<Tile>().TileType = (int)MapTileType.vertexTile;           // 타일 스크립트에 타입 저장
 
                     wallObject = Instantiate(wall, mapTiles[i].transform);                      // 측면 벽1 생성
                     wallObject.transform.Translate(new Vector3(1.0f, 0.0f, -1.75f));            // 측면 벽1 이동
@@ -98,7 +105,7 @@ public class MapTest : TestBase
                 {
                     // 사이드 타일 생성 및 회전
                     mapTiles[i] = Instantiate(sideTile, gameObject.transform);              // 사이드 타일 생성
-                    mapTiles[i].GetComponent<Tile>().Type = (int)TileType.sideTile;         // 타일 스크립트에 타입 저장
+                    mapTiles[i].GetComponent<Tile>().TileType = (int)MapTileType.sideTile;         // 타일 스크립트에 타입 저장
                     wallObject = Instantiate(wall, mapTiles[i].transform);
                     wallObject.transform.Translate(new Vector3(1, 0.0f, -1.75f));
 
@@ -123,7 +130,7 @@ public class MapTest : TestBase
                 {
                     mapTiles[i] = Instantiate(centerTile, gameObject.transform);                        // 중앙 타일 생성
                     mapTiles[i].transform.Rotate(new Vector3(0, 90.0f * Random.Range(0, 4), 0));        // 중앙 타일 랜덤 회전(그냥 미관상)
-                    mapTiles[i].GetComponent<Tile>().Type = (int)TileType.centerTile;                   // 타일 스크립트에 타입 저장
+                    mapTiles[i].GetComponent<Tile>().TileType = (int)MapTileType.centerTile;                   // 타일 스크립트에 타입 저장
                 }
 
                 // 타일 위치 이동. startPos는 임시로 넣어놓은 값(0, 0, 0)
@@ -132,6 +139,16 @@ public class MapTest : TestBase
             }
 
             player.transform.position = GetTile(sizeX / 2 + 1, sizeY).transform.position;       // 플레이어 위치 이동
+
+            // 라이트 생성 및 이동
+            for (int i = 0; i < 4; i++)
+            {
+                lights[i] = Instantiate(pointLight);
+            }
+            lights[0].transform.position = GetTile(sizeX / 3, sizeY / 3).transform.position + new Vector3(0.0f, 20.0f, 0.0f);
+            lights[1].transform.position = GetTile(sizeX - sizeX / 3 + 1, sizeY / 3).transform.position + new Vector3(0.0f, 20.0f, 0.0f);
+            lights[2].transform.position = GetTile(sizeX / 3, sizeY - sizeY / 3 + 1).transform.position + new Vector3(0.0f, 20.0f, 0.0f);
+            lights[3].transform.position = GetTile(sizeX - sizeX / 3 + 1, sizeY - sizeY / 3 + 1).transform.position + new Vector3(0.0f, 20.0f, 0.0f);
 
             isExist = true;         // 중복 맵 생성 방지
         }
@@ -148,6 +165,10 @@ public class MapTest : TestBase
             Destroy(mapTiles[i]);
         }
 
+        for (int i = 0;i < 4; i++)
+        {
+            Destroy(lights[i]);
+        }
 
         isExist = false;
     }
@@ -163,4 +184,6 @@ public class MapTest : TestBase
         int index = sizeX * (length - 1) + width - 1;
         return mapTiles[index];
     }
+
+    
 }

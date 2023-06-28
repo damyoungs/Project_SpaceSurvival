@@ -2,19 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-enum TileType
+enum MapTileType
 {
     centerTile = 0,
     sideTile,
     vertexTile
 }
 
+enum ExistType
+{
+    monster = 0,
+    item,
+    prop
+}
+
 [SelectionBase]
 public class Tile : MonoBehaviour
 {
-    
+    MapTileType tileType = MapTileType.centerTile;
+    ExistType existType = 0;
 
-    TileType type = 0;
     //public int Type
     //{
     //    get => type;
@@ -22,15 +29,23 @@ public class Tile : MonoBehaviour
     //    {
     //        type = value;
     //    }
-
     //}
-    public int Type
+
+    public int TileType
     {
-        get => (int)type;
+        get => (int)tileType;
         set
         {
-            type = (TileType)value;
+            tileType = (MapTileType)value;
         }
+    }
 
+    public int ExistType
+    {
+        get => (int)existType;
+        set
+        {
+            existType = (ExistType)value;
+        }
     }
 }
