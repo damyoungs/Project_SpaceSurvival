@@ -11,9 +11,14 @@ public class ItemSpawner : TestBase
     }
     public class Enemy1 : EnemyBase
     {
+        //아이템 드롭 리스트
         private void Awake()
         {
             EnemyCode = 0;
+            //아이템 드랍리스트
+            //확률
+            //수량 option
+            //타일위치 
         }
         void Die()
         {
