@@ -17,8 +17,8 @@ public class ToolBar : MonoBehaviour, IPointerDownHandler,IDragHandler,IPointerU
     }
     public void OnPointerDown(PointerEventData eventData)
     {
-        distance = Input.mousePosition - Inventory.position; //클릭하는순간 eventPosition(마우스위치)와 인벤토리의 피봇간 거리 저장
-        positionBeforeDrag = Inventory.position;
+        distance = Input.mousePosition - Inventory.position; //클릭하는순간의 eventPosition(마우스위치)와 인벤토리의 피봇간 거리 저장
+        positionBeforeDrag = Inventory.position; //클릭하는순간의 Inventory 위치 저장
     }
     public void OnDrag(PointerEventData eventData) //
     {
