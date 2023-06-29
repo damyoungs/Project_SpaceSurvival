@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 682881709103264722}
   - component: {fileID: 1983825210}
+  - component: {fileID: 2464469391869645396}
   m_Layer: 0
   m_Name: _Dagger
   m_TagString: Untagged
@@ -54,6 +55,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2464469391869645396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 682881709103264723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 944ed62a653104748a7df5e14f1e0bab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &682881708543465622
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -133,18 +146,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 323333351367080586, guid: 87b744073f89d274ea9986018a77d4e4, type: 3}
   m_PrefabInstance: {fileID: 682881708543465622}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &682881708543465620
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 938614266991026716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 944ed62a653104748a7df5e14f1e0bab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &365997700
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class HpPotion : ItemBase
 {
-    private void Awake()
-    {
-        
-    }
+
     
 }

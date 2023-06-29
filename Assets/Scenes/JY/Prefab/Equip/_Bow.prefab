@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8648880114658743277}
   - component: {fileID: 1443301783}
+  - component: {fileID: 2764533292833213489}
   m_Layer: 0
   m_Name: _Bow
   m_TagString: Untagged
@@ -54,6 +55,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2764533292833213489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8648880114658743278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c46e3d791659aec48bb0b1e492791081, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8648880114518352182
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -128,18 +141,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4228365931688133127, guid: a289b446aad1c354c849ab51a03a78ab, type: 3}
   m_PrefabInstance: {fileID: 8648880114518352182}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8648880114518352180
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4803320769904698161}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c46e3d791659aec48bb0b1e492791081, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1608907604
 MonoBehaviour:
   m_ObjectHideFlags: 0
