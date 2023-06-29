@@ -46,6 +46,18 @@ public class Factory : MonoBehaviour
             case Pool_Object_Type.HpPotion:
                 result = hpPotionpool?.GetObject()?.gameObject;
                 break;
+            case Pool_Object_Type.MpPotion:
+                result = hpPotionpool?.GetObject()?.gameObject;
+                break;
+            case Pool_Object_Type.Sword:
+                result = hpPotionpool?.GetObject()?.gameObject;
+                break;
+            case Pool_Object_Type.Gun:
+                result = hpPotionpool?.GetObject()?.gameObject;
+                break;
+            case Pool_Object_Type.Cash:
+                result = hpPotionpool?.GetObject()?.gameObject;
+                break;
             default:
                 result = new GameObject();
                 break;

@@ -6,24 +6,23 @@ using UnityEngine.InputSystem;
 
 public class ItemSpawner : TestBase
 {
-    public class EnemyBase : MonoBehaviour
-    {
-        public int EnemyCode { get; set; }
-    }
-    public class Enemy1 : EnemyBase
-    {
-        void Die()
-        {
-            GameManager.Item_Spawner.SpawnItem(this);
-        }
-    }
-    public class Enemy2 : EnemyBase
-    {
-        void Die()
-        {
-            GameManager.Item_Spawner.SpawnItem(this);
-        }
-    }
+    //public class EnemyBase : MonoBehaviour
+    //{
+    //}
+    //public class Enemy1 : EnemyBase
+    //{
+    //    void Die()
+    //    {
+    //        GameManager.Item_Spawner.SpawnItem(this);
+    //    }
+    //}
+    //public class Enemy2 : EnemyBase
+    //{
+    //    void Die()
+    //    {
+    //        GameManager.Item_Spawner.SpawnItem(this);
+    //    }
+    //}
 
     private Dictionary<Type, List<(Pool_Object_Type, float)>> enemyDropTable = new Dictionary<Type, List<(Pool_Object_Type, float)>>();//드랍테이블 생성 
     private void Start()

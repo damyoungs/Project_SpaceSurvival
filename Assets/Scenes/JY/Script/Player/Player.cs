@@ -66,10 +66,4 @@ public class Player : MonoBehaviour
             Destroy(collision.gameObject);
         }
     }
-    public void Die()
-    {
-        Factory.I.GetObject(Pool_Object_Type.HpPotion,this.transform.position);// 델리게이트 어떤 몬스터가 어느 위치ㅔ서 
-        // this.gameObject.SetActive(false);
-    }
-
 }
