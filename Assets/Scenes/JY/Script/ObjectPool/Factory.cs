@@ -8,10 +8,10 @@ public enum Pool_Object_Type
     Cash,
     HpPotion,
     MpPotion,
-    Sword,
+    TwoHandSword,
     Wand,
     Bow,
-    Axe,
+    TwoHandAxe,
     Bat,
     Dagger
 
@@ -82,7 +82,7 @@ public class Factory : MonoBehaviour
             case Pool_Object_Type.MpPotion:
                 result = mpPotionPool?.GetObject()?.gameObject;
                 break;
-            case Pool_Object_Type.Sword:
+            case Pool_Object_Type.TwoHandSword:
                 result = twoHandSwordPool?.GetObject()?.gameObject;
                 break;
             case Pool_Object_Type.Wand:
@@ -91,7 +91,7 @@ public class Factory : MonoBehaviour
             case Pool_Object_Type.Bow:
                 result = bowPool?.GetObject()?.gameObject;
                 break;
-            case Pool_Object_Type.Axe:
+            case Pool_Object_Type.TwoHandAxe:
                 result = twoHandAxePool?.GetObject()?.gameObject;
                 break;
             case Pool_Object_Type.Bat:

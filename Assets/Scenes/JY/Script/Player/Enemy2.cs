@@ -17,5 +17,6 @@ public class Enemy2 : EnemyBase
     void OnDie()
     {
         GameManager.Item_Spawner.SpawnItem(this);
+        Destroy(gameObject);
     }
 }
