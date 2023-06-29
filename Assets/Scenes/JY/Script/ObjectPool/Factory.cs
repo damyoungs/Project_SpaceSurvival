@@ -5,7 +5,12 @@ using UnityEngine.UIElements;
 
 public enum Pool_Object_Type
 {
-    HpPotion
+    HpPotion,
+    MpPotion,
+    Sword,
+    Gun,
+    Cash,
+
 }
 
 public class Factory : MonoBehaviour

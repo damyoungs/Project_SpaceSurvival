@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,18 +12,45 @@ public class ItemSpawner : TestBase
     }
     public class Enemy1 : EnemyBase
     {
-        //아이템 드롭 리스트
-        private void Awake()
-        {
-            EnemyCode = 0;
-            //아이템 드랍리스트
-            //확률
-            //수량 option
-            //타일위치 
-        }
         void Die()
         {
             GameManager.Item_Spawner.SpawnItem(this);
+        }
+    }
+    public class Enemy2 : EnemyBase
+    {
+        void Die()
+        {
+            GameManager.Item_Spawner.SpawnItem(this);
+        }
+    }
+
+    private Dictionary<Type, List<(Pool_Object_Type, float)>> enemyDropTable = new Dictionary<Type, List<(Pool_Object_Type, float)>>();//드랍테이블 생성 
+    private void Start()
+    {
+        enemyDropTable.Add(typeof(Enemy1), new List<(Pool_Object_Type, float)>
+        {
+            (Pool_Object_Type.HpPotion, 0.5f),
+            (Pool_Object_Type.Sword, 0.1f),
+            (Pool_Object_Type.Cash,0.8f)
+        }) ;
+        enemyDropTable.Add(typeof(Enemy2), new List<(Pool_Object_Type, float)>
+        {
+            (Pool_Object_Type.MpPotion, 0.5f),
+            (Pool_Object_Type.Gun, 0.1f),
+            (Pool_Object_Type.Cash,0.8f)
+        });
+    }
+    public void SpawnItem(EnemyBase enemy)//큰 범위에서 분류가 아니라 정확히 어떤 적인지 알아야한다
+    {
+        List<(Pool_Object_Type, float)> dropTable = enemyDropTable[enemy.GetType()];
+
+        foreach (var (itemtype, droprate)in dropTable)
+        {
+            if (UnityEngine.Random.value <= droprate)
+            {
+                GameObject go = Factory.I.GetObject(itemtype,enemy.transform.position);
+            }
         }
     }
     List<GameObject> spawnedObjects = new List<GameObject>();
@@ -45,14 +73,5 @@ public class ItemSpawner : TestBase
     protected override void Test3(InputAction.CallbackContext context)
     {
 
-    }
-    public void SpawnItem(EnemyBase enemy)//큰 범위에서 분류가 아니라 정확히 어떤 적인지 알아야한다
-    {
-        switch (enemy.EnemyCode)
-        {
-            case 0:
-
-                break;
-        }
     }
 }
