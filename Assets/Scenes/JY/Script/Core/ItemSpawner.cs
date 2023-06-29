@@ -36,7 +36,7 @@ public class ItemSpawner : TestBase
         enemyDropTable.Add(typeof(Enemy2), new List<(Pool_Object_Type, float)>
         {
             (Pool_Object_Type.MpPotion, 0.5f),
-            (Pool_Object_Type.Gun, 0.1f),
+            (Pool_Object_Type.Dagger, 0.1f),
             (Pool_Object_Type.Cash,0.8f)
         });
     }

@@ -5,11 +5,15 @@ using UnityEngine.UIElements;
 
 public enum Pool_Object_Type
 {
+    Cash,
     HpPotion,
     MpPotion,
     Sword,
-    Gun,
-    Cash,
+    Wand,
+    Bow,
+    Axe,
+    Bat,
+    Dagger
 
 }
 
@@ -43,6 +47,9 @@ public class Factory : MonoBehaviour
         GameObject result;
         switch (type)
         {
+            case Pool_Object_Type.Cash:
+                result = hpPotionpool?.GetObject()?.gameObject;
+                break;
             case Pool_Object_Type.HpPotion:
                 result = hpPotionpool?.GetObject()?.gameObject;
                 break;
@@ -52,12 +59,22 @@ public class Factory : MonoBehaviour
             case Pool_Object_Type.Sword:
                 result = hpPotionpool?.GetObject()?.gameObject;
                 break;
-            case Pool_Object_Type.Gun:
+            case Pool_Object_Type.Wand:
                 result = hpPotionpool?.GetObject()?.gameObject;
                 break;
-            case Pool_Object_Type.Cash:
+            case Pool_Object_Type.Bow:
                 result = hpPotionpool?.GetObject()?.gameObject;
                 break;
+            case Pool_Object_Type.Axe:
+                result = hpPotionpool?.GetObject()?.gameObject;
+                break;
+            case Pool_Object_Type.Bat:
+                result = hpPotionpool?.GetObject()?.gameObject;
+                break;
+            case Pool_Object_Type.Dagger:
+                result = hpPotionpool?.GetObject()?.gameObject;
+                break;
+
             default:
                 result = new GameObject();
                 break;

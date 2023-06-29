@@ -2,15 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CashPool : MonoBehaviour
+public class CashPool : ObjectPool<Cash>
 {
-    void Start()
-    {
-        
-    }
 
-    void Update()
-    {
-        
-    }
 }
