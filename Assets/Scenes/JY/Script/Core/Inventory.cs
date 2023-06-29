@@ -12,17 +12,9 @@ public enum Current_Inventory_State
     Etc,
     Craft
 }
-public enum ItemName 
-{
-    hpPotion,
-    mpPotion,
-    sword,
-    hammer
-}
+
 public class Inventory : MonoBehaviour
 {
-    public static ItemName ItemName;
-
     public GameObject Equip_Inven;
     public GameObject Consume_Inven;
     public GameObject Etc_Inven;
@@ -41,6 +33,7 @@ public class Inventory : MonoBehaviour
 
     public delegate void Inventory_State_Changed(Current_Inventory_State state); //state가 바뀌면 setter가 호출할 delegate
     Inventory_State_Changed inventory_changed;
+
     private Current_Inventory_State state;
     public Current_Inventory_State State
     {
@@ -148,10 +141,5 @@ public class Inventory : MonoBehaviour
             is_Inventory_Open = false;
         }
     }
-    void GetItem(ItemName name)
-    {
-        //GameManager.SlotManager.SetItemData
-        
-    }
-    
+
 }

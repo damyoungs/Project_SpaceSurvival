@@ -11,6 +11,17 @@ public enum ItemType
 }
 public class ItemBase : PooledObject
 {
-    
+    public ItemType itemType;
+    public string Name { get; protected set; }
+    public bool IsStackable { get; protected set; }
+
+    protected virtual void Start()
+    {
+        Initailize();
+    }
+    protected virtual void Initailize()
+    {
+
+    }
     
 }

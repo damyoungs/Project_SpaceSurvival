@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class SlotManager : MonoBehaviour
 {
@@ -77,8 +78,46 @@ public class SlotManager : MonoBehaviour
             }
         }
     }
-    public void SetItemData(ItemName name)
-    {
 
+    public void GetItem(ItemBase item)
+    {
+        // itemType에 따른 리스트를 가져오기
+        List<GameObject> slotList;
+        switch (item.itemType)
+        {
+            case ItemType.Equip:
+                slotList = slots[Current_Inventory_State.Equip];
+                break;
+            case ItemType.Consume:
+                slotList = slots[Current_Inventory_State.Consume];
+                break;
+            case ItemType.Etc:
+                slotList = slots[Current_Inventory_State.Etc];
+                break;
+            case ItemType.Craft:
+                slotList = slots[Current_Inventory_State.Craft];
+                break;
+            default:
+                slotList = null;
+                break;
+        }
+
+        // 빈 슬롯 찾기
+        foreach (GameObject slotObject in slotList)
+        {
+            Slot slot = slotObject.GetComponent<Slot>();
+            if (slot.IsEmpty)
+            {
+                // 슬롯이 비어있다면 아이템의 이미지를 설정합니다.
+                Image slotImage = slotObject.GetComponent<Image>();
+               // slotImage.sprite = item.image;
+
+                // 슬롯이 빈 상태가 아님을 표시합니다.
+                slot.IsEmpty = false;
+
+                // 아이템을 추가했으므로 loop를 중단합니다.
+                break;
+            }
+        }
     }
 }

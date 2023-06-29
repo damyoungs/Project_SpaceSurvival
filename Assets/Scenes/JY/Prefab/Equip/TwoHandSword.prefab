@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1067464303}
   - component: {fileID: 5869382099394140578}
   m_Layer: 0
-  m_Name: _TwoHandSword
+  m_Name: TwoHandSword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,6 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fb1fa5cd88e1e0478abbd24720343e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemType: 0
 --- !u!1001 &2482448336220054933
 PrefabInstance:
   m_ObjectHideFlags: 0

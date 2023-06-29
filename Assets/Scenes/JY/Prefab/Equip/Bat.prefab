@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 160938841}
   - component: {fileID: 3208574705940561776}
   m_Layer: 0
-  m_Name: _Bat
+  m_Name: Bat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,6 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51fb5b065c6cb7c4192a3fbb078c55a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemType: 0
 --- !u!1001 &1852699017252001209
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -124,7 +125,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7766828980278665741, guid: 1a923a6404d972d40bae42bee1136b84, type: 3}
       propertyPath: m_Name
-      value: Bat
+      value: _Bat
       objectReference: {fileID: 0}
     - target: {fileID: 8127218036640285656, guid: 1a923a6404d972d40bae42bee1136b84, type: 3}
       propertyPath: m_SelectedEditorRenderState

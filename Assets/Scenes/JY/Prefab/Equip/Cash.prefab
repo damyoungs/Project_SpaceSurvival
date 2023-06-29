@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 558187415}
   - component: {fileID: 6090800560057172202}
   m_Layer: 0
-  m_Name: _Cash
+  m_Name: Cash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,6 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e818386afa604a2498f2ca85419e96c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemType: 0
 --- !u!1001 &1931033419277566255
 PrefabInstance:
   m_ObjectHideFlags: 0

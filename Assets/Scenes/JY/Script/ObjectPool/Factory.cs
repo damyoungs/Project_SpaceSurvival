@@ -44,7 +44,7 @@ public class Factory : MonoBehaviour
 
     }
     private void Start()
-    {
+    {       
         hpPotionpool = transform.GetChild(0).GetComponent<HpPotionPool>();
         mpPotionPool = transform.GetChild(1).GetComponent<MpPotionPool>();
         cashPool = transform.GetChild(2).GetComponent<CashPool>();

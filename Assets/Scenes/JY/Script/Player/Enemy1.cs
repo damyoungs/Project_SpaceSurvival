@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class Enemy1 : EnemyBase
 {
+    public IEnumerator DieCoroutine;
+    private void Awake()
+    {
+        DieCoroutine = DieOperator();
+    }
     private void Start()
     {
-        StartCoroutine(DieOperator());
+
+       // StartCoroutine(DieOperator());
     }
-    IEnumerator DieOperator()
+    public IEnumerator DieOperator()
     {
-        yield return new WaitForSeconds(10.0f);
+        yield return new WaitForSeconds(5.0f);
         OnDie();
     }
     void OnDie()

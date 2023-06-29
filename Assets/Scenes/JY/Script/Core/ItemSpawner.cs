@@ -6,24 +6,6 @@ using UnityEngine.InputSystem;
 
 public class ItemSpawner : TestBase
 {
-    //public class EnemyBase : MonoBehaviour
-    //{
-    //}
-    //public class Enemy1 : EnemyBase
-    //{
-    //    void Die()
-    //    {
-    //        GameManager.Item_Spawner.SpawnItem(this);
-    //    }
-    //}
-    //public class Enemy2 : EnemyBase
-    //{
-    //    void Die()
-    //    {
-    //        GameManager.Item_Spawner.SpawnItem(this);
-    //    }
-    //}
-
     private Dictionary<Type, List<(Pool_Object_Type, float)>> enemyDropTable = new Dictionary<Type, List<(Pool_Object_Type, float)>>();//드랍테이블 생성 
     private void Start()
     {
@@ -35,7 +17,7 @@ public class ItemSpawner : TestBase
         }) ;
         enemyDropTable.Add(typeof(Enemy2), new List<(Pool_Object_Type, float)>
         {
-            (Pool_Object_Type.MpPotion, 0.9f),
+            (Pool_Object_Type.MpPotion, 0.9f),// 틱타임 추가해야함 현재 똑같은 드랍률이 나옴
             (Pool_Object_Type.TwoHandAxe, 0.9f),
             (Pool_Object_Type.Cash,0.9f)
         });

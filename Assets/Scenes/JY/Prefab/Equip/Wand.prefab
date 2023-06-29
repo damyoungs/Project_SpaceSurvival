@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1207487362}
   - component: {fileID: 2760057171456851150}
   m_Layer: 0
-  m_Name: _Wand
+  m_Name: Wand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,6 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b2f83e6127592348ba246a194b66e12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemType: 0
 --- !u!1001 &5395680917904766720
 PrefabInstance:
   m_ObjectHideFlags: 0

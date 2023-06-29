@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1983825210}
   - component: {fileID: 2464469391869645396}
   m_Layer: 0
-  m_Name: _Dagger
+  m_Name: Dagger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,6 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 944ed62a653104748a7df5e14f1e0bab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemType: 0
 --- !u!1001 &682881708543465622
 PrefabInstance:
   m_ObjectHideFlags: 0

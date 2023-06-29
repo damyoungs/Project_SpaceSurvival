@@ -4,5 +4,9 @@ using UnityEngine;
 
 public class Dagger : ItemBase
 {
-
+    protected override void Initailize()
+    {
+        itemType = ItemType.Equip;
+        Name = name;
+    }
 }

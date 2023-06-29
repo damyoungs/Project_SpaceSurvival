@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1443301783}
   - component: {fileID: 2764533292833213489}
   m_Layer: 0
-  m_Name: _Bow
+  m_Name: Bow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,6 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c46e3d791659aec48bb0b1e492791081, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemType: 0
 --- !u!1001 &8648880114518352182
 PrefabInstance:
   m_ObjectHideFlags: 0

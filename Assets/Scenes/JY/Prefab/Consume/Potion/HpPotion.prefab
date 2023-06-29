@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 981910951646649385}
   - component: {fileID: 2859348555759925967}
   m_Layer: 0
-  m_Name: _HpPotion
+  m_Name: HpPotion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,6 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e2c98e3bb8f04d4d8781d5a866b9d0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemType: 1
 --- !u!1001 &1577418969730400918
 PrefabInstance:
   m_ObjectHideFlags: 0
