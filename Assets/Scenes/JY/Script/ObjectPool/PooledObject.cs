@@ -18,7 +18,8 @@ public class PooledObject : MonoBehaviour
   
     protected virtual void OnDisable()
     {
-        onDisable?.Invoke(); //비활성화됐다고 알림
+       // onDisable?.Invoke(); //비활성화됐다고 알림
+
     }
     protected IEnumerator LifeOver(float delay = 0.0f)
     {

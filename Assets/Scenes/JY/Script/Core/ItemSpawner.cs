@@ -39,8 +39,8 @@ public class ItemSpawner : TestBase
     Player player;
     protected override void Test1(InputAction.CallbackContext _)
     {
-        GameObject go = NewObjectPool.I.GetObject(0);
-        spawnedObjects.Add(go);
+         NewObjectPool.I.GetObject(NewObjectPool.Pool.PrefabName.hpPotion);
+       // spawnedObjects.Add(go);
     }
     protected override void Test2(InputAction.CallbackContext context)
     {

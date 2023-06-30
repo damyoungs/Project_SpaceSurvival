@@ -79,7 +79,7 @@ public class ObjectPool<T> : MonoBehaviour where T : PooledObject
             obj.name = $"{originalPrefab.name}_{i}"; //이름 구분하기위해 설정
 
             T comp = obj.GetComponent<T>();  // pooledObject 컴포넌트가져와서 
-            comp.onDisable += () => readyQueue.Enqueue(comp); // disable될때 큐로 되돌리기 
+           comp.onDisable += () => readyQueue.Enqueue(comp); // disable될때 큐로 되돌리기 
 
             newArray[i] = comp; // 배열에 저장하고 
             obj.SetActive(false);//비활성화 시키기 비활성화될때 위에서 추가한 람다식이 실행되면서 큐로 다시 돌아가게된다.

@@ -1,43 +1,45 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static NewObjectPool.Pool;
 
 public class NewObjectPool : MonoBehaviour
 {
     public static NewObjectPool I;
-
+    bool isInitialize = false;
+    private void Awake()
+    {
+        I = this;
+    }
     [System.Serializable]
     public class Pool
     {
-        public string tag;
+        public enum PrefabName
+        {
+            hpPotion,
+            mpPotion,
+        }
+
+        public PrefabName name;
         public GameObject prefab;
         public int amountToPool;
     }
-
     public List<Pool> pools;
-    private Dictionary<int, Queue<GameObject>> pooledObjects = new Dictionary<int, Queue<GameObject>>();
-    bool isInitialized = false;
-    private void Awake()
-    {
-        if (I == null)
-        {
-            I = this;
-        }
-    }
+    private Dictionary<Pool.PrefabName, Queue<GameObject>> pooledObjects = new Dictionary<Pool.PrefabName, Queue<GameObject>>();
 
     void Start()
     {
-        for (int i = 0; i < pools.Count; i++)
+        foreach (Pool pool in pools)
         {
-            CreatePool(i, pools[i].amountToPool);
+            CreatePool(pool.name, pool.amountToPool);
         }
     }
 
-    public GameObject GetObject(int prefabIndex)
+    public GameObject GetObject(Pool.PrefabName prefabName)
     {
-        if (!pooledObjects.ContainsKey(prefabIndex)) return null;
+        if (!pooledObjects.ContainsKey(prefabName)) return null;
 
-        Queue<GameObject> pool = pooledObjects[prefabIndex];
+        Queue<GameObject> pool = pooledObjects[prefabName];
 
         if (pool.Count > 0)
         {
@@ -50,59 +52,53 @@ public class NewObjectPool : MonoBehaviour
         }
         else
         {
-            ExpandPool(prefabIndex);
-            return GetObject(prefabIndex);
+            ExpandPool(prefabName);
+            return GetObject(prefabName);
         }
         return null;
     }
 
-    public void ReturnToPool(GameObject obj, int prefabIndex)
+    public void ReturnToPool(GameObject obj, Pool.PrefabName prefabName)
     {
-        if (!pooledObjects.ContainsKey(prefabIndex)) return;
+        if (!pooledObjects.ContainsKey(prefabName)) return;
 
         obj.SetActive(false);
-        pooledObjects[prefabIndex].Enqueue(obj);
+        pooledObjects[prefabName].Enqueue(obj);
     }
 
-    private void ExpandPool(int prefabIndex)
+    private void ExpandPool(Pool.PrefabName prefabName)
     {
-        Pool pool = pools[prefabIndex];
-        Debug.LogWarning($"{pool.prefab.name} 풀사이즈 증가 {pool.amountToPool} -> {pool.amountToPool * 2}");
-        CreatePool(prefabIndex, pool.amountToPool);
+        Pool pool = pools.Find(p => p.name == prefabName);
+        Debug.LogWarning($"풀 사이즈 확장 {prefabName}_Pool {pool.amountToPool} => {pool.amountToPool * 2}");
+        CreatePool(prefabName, pool.amountToPool);
         pool.amountToPool *= 2;
     }
 
-    private void CreatePool(int prefabIndex, int amountToPool)
+    private void CreatePool(Pool.PrefabName prefabName, int amountToPool)
     {
-        Pool pool = pools[prefabIndex];
+        Pool pool = pools.Find(p => p.name == prefabName);
         GameObject root;
-        if (!isInitialized)
+        if (!isInitialize)
         {
             root = new GameObject($"{pool.prefab.name}_Pool");
             root.transform.SetParent(transform);
-            isInitialized = true;
+            isInitialize = true;
         }
         else
         {
             root = GameObject.Find($"{pool.prefab.name}_Pool");
-        }    
+        }
+       
 
         Queue<GameObject> objectPool = new Queue<GameObject>();
         for (int j = 0; j < amountToPool; j++)
         {
             GameObject obj = Instantiate(pool.prefab, root.transform);
+            
             obj.SetActive(false);
             objectPool.Enqueue(obj);
         }
 
-        if (pooledObjects.ContainsKey(prefabIndex))
-        {
-            pooledObjects[prefabIndex] = objectPool;
-        }
-        else
-        {
-            pooledObjects.Add(prefabIndex, objectPool);
-        }
+        pooledObjects[prefabName] = objectPool;
     }
 }
-
