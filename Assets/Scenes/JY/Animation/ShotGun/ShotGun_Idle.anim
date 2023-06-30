@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TwoHandAxe_Idle
+  m_Name: ShotGun_Idle
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -19,61 +19,61 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 30, y: 0, z: 0}
-        inSlope: {x: 0, y: 137.49034, z: 0}
-        outSlope: {x: 0, y: 137.49034, z: 0}
+        value: {x: 0, y: 0, z: 30}
+        inSlope: {x: 0, y: 117.60458, z: 0}
+        outSlope: {x: 0, y: 117.60458, z: 0}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.089514814, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.10367108, z: 0.33333334}
       - serializedVersion: 3
         time: 3
-        value: {x: 30, y: 360, z: 0}
-        inSlope: {x: 0, y: 132.9431, z: 0}
-        outSlope: {x: 0, y: 132.9431, z: 0}
+        value: {x: 0, y: 360, z: 30}
+        inSlope: {x: 0, y: 124.04713, z: 0}
+        outSlope: {x: 0, y: 124.04713, z: 0}
         tangentMode: 0
         weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.08878509, z: 0.33333334}
+        inWeight: {x: 0.33333334, y: 0.09175118, z: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: _TwoHandAxe
+    path: SM_Wep_Shotgun_01
   m_PositionCurves:
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0, y: 1, z: 0}
-        inSlope: {x: 0, y: 0.18723205, z: 0}
-        outSlope: {x: 0, y: 0.18723205, z: 0}
+        value: {x: 0, y: 0.25, z: 0}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.15654068, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 1.5
-        value: {x: 0, y: 1.2, z: 0}
-        inSlope: {x: 0, y: -0.0009958134, z: 0}
-        outSlope: {x: 0, y: -0.0009958134, z: 0}
+        value: {x: 0, y: 0.45, z: 0}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
         weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.24077766, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.23373635, z: 0.33333334}
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 3
-        value: {x: 0, y: 0.99783325, z: 0}
-        inSlope: {x: 0, y: -0.19578014, z: 0}
-        outSlope: {x: 0, y: -0.19578014, z: 0}
+        value: {x: 0, y: 0.25, z: 0}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
         weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.1459713, z: 0.33333334}
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: _TwoHandAxe
+    path: SM_Wep_Shotgun_01
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves: []
@@ -85,14 +85,14 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 542862704
+      path: 23573067
       attribute: 1
       script: {fileID: 0}
       typeID: 4
       customType: 0
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 542862704
+      path: 23573067
       attribute: 4
       script: {fileID: 0}
       typeID: 4
@@ -144,8 +144,8 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: m_LocalPosition.x
-    path: _TwoHandAxe
+    attribute: localEulerAnglesRaw.x
+    path: SM_Wep_Shotgun_01
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -153,36 +153,120 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
-        inSlope: 0.18723205
-        outSlope: 0.18723205
+        value: 0
+        inSlope: 117.60458
+        outSlope: 117.60458
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.15654068
-      - serializedVersion: 3
-        time: 1.5
-        value: 1.2
-        inSlope: -0.0009958134
-        outSlope: -0.0009958134
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.24077766
-        outWeight: 0.23373635
+        outWeight: 0.10367108
       - serializedVersion: 3
         time: 3
-        value: 0.99783325
-        inSlope: -0.19578014
-        outSlope: -0.19578014
+        value: 360
+        inSlope: 124.04713
+        outSlope: 124.04713
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.1459713
+        inWeight: 0.09175118
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: localEulerAnglesRaw.y
+    path: SM_Wep_Shotgun_01
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 30
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 3
+        value: 30
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: localEulerAnglesRaw.z
+    path: SM_Wep_Shotgun_01
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 3
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalPosition.x
+    path: SM_Wep_Shotgun_01
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0.25
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1.5
+        value: 0.45
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 3
+        value: 0.25
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
         outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: _TwoHandAxe
+    path: SM_Wep_Shotgun_01
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -210,91 +294,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: _TwoHandAxe
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 30
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 3
-        value: 30
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: localEulerAnglesRaw.x
-    path: _TwoHandAxe
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 137.49034
-        outSlope: 137.49034
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.089514814
-      - serializedVersion: 3
-        time: 3
-        value: 360
-        inSlope: 132.9431
-        outSlope: 132.9431
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.08878509
-        outWeight: 0.33333334
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: localEulerAnglesRaw.y
-    path: _TwoHandAxe
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 3
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: localEulerAnglesRaw.z
-    path: _TwoHandAxe
+    path: SM_Wep_Shotgun_01
     classID: 4
     script: {fileID: 0}
   m_EulerEditorCurves:
@@ -305,7 +305,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: _TwoHandAxe
+    path: SM_Wep_Shotgun_01
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -315,7 +315,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: _TwoHandAxe
+    path: SM_Wep_Shotgun_01
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -325,7 +325,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: _TwoHandAxe
+    path: SM_Wep_Shotgun_01
     classID: 4
     script: {fileID: 0}
   m_HasGenericRootTransform: 0

@@ -19,7 +19,8 @@ public class ItemSpawner : TestBase
         {
             (Pool_Object_Type.MpPotion, 0.9f),// 틱타임 추가해야함 현재 똑같은 드랍률이 나옴
             (Pool_Object_Type.TwoHandAxe, 0.9f),
-            (Pool_Object_Type.Cash,0.9f)
+            (Pool_Object_Type.Cash,0.9f),
+            (Pool_Object_Type.TwoHandSword,0.9f)
         });
     }
     public void SpawnItem(EnemyBase enemy)//큰 범위에서 분류가 아니라 정확히 어떤 적인지 알아야한다

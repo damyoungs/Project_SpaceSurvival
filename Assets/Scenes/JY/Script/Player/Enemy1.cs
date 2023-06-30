@@ -12,7 +12,7 @@ public class Enemy1 : EnemyBase
     private void Start()
     {
 
-       // StartCoroutine(DieOperator());
+        StartCoroutine(DieOperator());
     }
     public IEnumerator DieOperator()
     {

@@ -72,11 +72,13 @@
  *      
  *       *  할일목록 
  *       
+ *       이미지의 저장은 스프라이트 아틀라스를 사용하고 나중에 에셋번들을 사용하기로 한다.
  *      Inventory의 GetItem - 인벤토리에 표시하기 필요한것 : 아이템 분류Enum(장비, 소비, 기바),이미지로드를 하기위한이름 , -> 데이터 저장하기
  *      의외로 Inventory 클레스는 GetItem에서 실행할 것이 없을지도 모르겠다. 왜냐하면 Slot을 찍어내는 Slot매니저가 각 슬롯들을 바인딩하고 있기 때문이다.
  *      따라서 GetItem함수는 SlotManager에 작성해야겠다
  *      
- *      ItemBase 클래스에 아이템이 가져야할 필수목록 작성,@@@@ ItemImage를 Resources.Load 를 사용할 것인가 아니면 ItemBase 클래스에 미리 할당해놓고 Initialize에서 할당할 것인가
+ *      ItemBase 클래스에 아이템이 가져야할 필수목록 작성,@@@@ ItemImage를 Resources.Load 를 사용할 것인가 아니면 
+ *      ItemBase 클래스에 미리 할당해놓고 Initialize에서 할당할 것인가 -> 이 방법은 너무 메모리 낭비가 심하다
  *      
  *      SetItemData 함수 내 획득한 아이템의 아이템 타입에 따라 어떤 탭에, 몇번째 슬롯에 저장할 것인지, 이미 보유중인 아이템인지, 중복소지 가능한 아이템인지,
  *      저장 후 ItemName 을 파라미터로 해당Slot에 Update Slot함수 호출

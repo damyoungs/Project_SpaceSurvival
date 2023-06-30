@@ -7,7 +7,7 @@ public class Enemy2 : EnemyBase
 {
     private void Start()
     {
-       // StartCoroutine(DieOperator());
+        StartCoroutine(DieOperator());
     }
     IEnumerator DieOperator()
     {
