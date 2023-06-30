@@ -39,11 +39,14 @@ public class MapTest : TestBase
     private void Start()
     {
         // 중앙 타일 사이즈 반환
-        mainTileSize = centerTile.GetComponentInChildren<BoxCollider>().size * centerTile.transform.GetChild(0).localScale.x;
+        //mainTileSize = centerTile.GetComponentInChildren<BoxCollider>().size * centerTile.transform.GetChild(0).localScale.x;
+        mainTileSize = centerTile.GetComponentInChildren<BoxCollider>().size;
         // 사이드 타일 사이즈 반환
-        sideTileSize = sideTile.GetComponentInChildren<BoxCollider>().size * sideTile.transform.GetChild(0).localScale.x;      
+        //sideTileSize = sideTile.GetComponentInChildren<BoxCollider>().size * sideTile.transform.GetChild(0).localScale.x;      
+        sideTileSize = sideTile.GetComponentInChildren<BoxCollider>().size;      
         // 꼭지점 타일 사이즈 반환
-        vertexTileSize = vertexTile.GetComponentInChildren<BoxCollider>().size * vertexTile.transform.GetChild(0).localScale.x;
+        //vertexTileSize = vertexTile.GetComponentInChildren<BoxCollider>().size * vertexTile.transform.GetChild(0).localScale.x;
+        vertexTileSize = vertexTile.GetComponentInChildren<BoxCollider>().size;
     }
 
     /// <summary>
@@ -138,7 +141,8 @@ public class MapTest : TestBase
                                                             0, startPos.z + mainTileSize.z * sizeY - mainTileSize.z * length);
             }
 
-            player.transform.position = GetTile(sizeX / 2 + 1, sizeY).transform.position;       // 플레이어 위치 이동
+            //player.transform.position = GetTile(sizeX / 2 + 1, sizeY).transform.position;       // 플레이어 위치 이동
+            player.transform.position = GetTile(sizeX / 2 + 1, sizeY - (sizeY / 3)).transform.position;       // 플레이어 위치 이동
 
             // 라이트 생성 및 이동
             for (int i = 0; i < 4; i++)
