@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static NewObjectPool;
 
 public enum ItemType
 {
@@ -15,6 +17,8 @@ public class ItemBase : PooledObject
     public string Name { get; protected set; }
     public bool IsStackable { get; protected set; }
 
+    public delegate void ReturnToPoolDelegate(GameObject obj, Pool.PrefabName prefabName);
+    public event ReturnToPoolDelegate returnPool;
     protected virtual void Start()
     {
         Initailize();
@@ -23,5 +27,8 @@ public class ItemBase : PooledObject
     {
 
     }
-    
+    protected override void OnDisable()
+    {
+        //returnPool?.Invoke(this.gameObject,prefabName);
+    }
 }
