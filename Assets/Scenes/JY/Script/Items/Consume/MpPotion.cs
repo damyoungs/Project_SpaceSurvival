@@ -9,7 +9,7 @@ public class MpPotion : ConsumeBase
         itemType = ItemType.Consume;
         Name = name;
         RecoveryMpValue = 50;
-        prefabName = ObjectPool.Pool.PrefabName.mpPotion;
+        prefabName = ObjectPool.Pool.PrefabName.MpPotion;
     }
     private void OnEnable()
     {

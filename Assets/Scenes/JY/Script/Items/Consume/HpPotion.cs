@@ -10,7 +10,7 @@ public class HpPotion : ConsumeBase
         itemType = ItemType.Consume;
         Name = name;
         RecoveryHpValue = 50;
-        prefabName = ObjectPool.Pool.PrefabName.hpPotion;
+        prefabName = ObjectPool.Pool.PrefabName.HpPotion;
     }
     private void OnEnable()
     {

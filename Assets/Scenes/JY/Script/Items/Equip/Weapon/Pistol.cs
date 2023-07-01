@@ -4,5 +4,9 @@ using UnityEngine;
 
 public class Pistol : EquipBase
 {
-
+    protected override void Initailize()
+    {
+        itemType = ItemType.Equip;
+        prefabName = ObjectPool.Pool.PrefabName.Pistol;
+    }
 }

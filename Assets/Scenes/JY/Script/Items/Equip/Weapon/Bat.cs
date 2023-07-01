@@ -7,6 +7,6 @@ public class Bat : EquipBase
     protected override void Initailize()
     {
         itemType = ItemType.Equip;
-        prefabName = ObjectPool.Pool.PrefabName.bat;
+        prefabName = ObjectPool.Pool.PrefabName.Bat;
     }
 }

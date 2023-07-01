@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2609781605765528976}
   - component: {fileID: 2609781605765528977}
+  - component: {fileID: -4427000863847211802}
   m_Layer: 0
   m_Name: Sword_Laser_Advanced
   m_TagString: Untagged
@@ -54,6 +55,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-4427000863847211802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2609781605765528979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce5cd3065513ac94184795295ec9c9d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemType: 0
 --- !u!1 &8731537533812997273
 GameObject:
   m_ObjectHideFlags: 0

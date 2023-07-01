@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2222860111453193089}
   - component: {fileID: 2222860111453193102}
+  - component: {fileID: -9088823813764319469}
   m_Layer: 0
   m_Name: ShotGun
   m_TagString: Untagged
@@ -54,6 +55,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-9088823813764319469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2222860111453193088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 379ab15ffc694554fb738e583ae5f132, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemType: 0
 --- !u!1 &8553693650106048577
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,6 +7,6 @@ public class Dagger : EquipBase
     protected override void Initailize()
     {
         itemType = ItemType.Equip;
-        Name = name;
+        prefabName = ObjectPool.Pool.PrefabName.Dagger;
     }
 }

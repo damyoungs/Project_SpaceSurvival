@@ -6,21 +6,37 @@ using static ObjectPool.Pool;
 
 public class ObjectPool : MonoBehaviour
 {
-    public static ObjectPool I;
+    public static ObjectPool objectPool;
     bool isInitialize = false;
     private void Awake()
     {
-        I = this;
+        objectPool = this;
     }
 
     [System.Serializable]
     public class Pool//기존 풀의 빈오브젝트에 오브젝트 풀 스크립트를  할당하던 것의 기능을 한다.
     {
-        public enum PrefabName//풀에 들어갈 오브젝트 하나당 큐가 하나씩 필요하기 때문에 해당 오브젝트가 어떤큐에 들어갈 것인지 구분하기 위한 열거형
+        //풀에 들어갈 오브젝트 하나당 큐가 하나씩 필요하기 때문에 해당 오브젝트가 어떤큐에 들어갈 것인지 구분하기 위한 열거형
+        //또 아이템을 생성할때도 이 열거형을 파라미터로 받는다
+        public enum PrefabName
         {
-            hpPotion,
-            mpPotion,
-            bat,
+            None,
+            Cash,
+            HpPotion,
+            MpPotion,
+            Bat,
+            Bow,
+            Dagger,
+            Pistol,
+            Rifle,
+            ShotGun,
+            SwordLaser,
+            SwordLaser_Advanced,
+            TwoHandAxe,
+            TwoHandSword,
+            Wand,
+            Shield,
+            Shield_Extended,
         }
 
         public PrefabName name;//열거형 변수선언
