@@ -1,88 +1,115 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using static ObjectPool.Pool;
 
-public class ObjectPool<T> : MonoBehaviour where T : PooledObject
+public class ObjectPool : MonoBehaviour
 {
-    public GameObject originalPrefab;
-
-    public int poolSize = 64;
-    T[] pool;
-    Queue<T> readyQueue; 
-
-    public void Initialize()
+    public static ObjectPool I;
+    bool isInitialize = false;
+    private void Awake()
     {
-        if (pool == null)
+        I = this;
+    }
+
+    [System.Serializable]
+    public class Pool//기존 풀의 빈오브젝트에 오브젝트 풀 스크립트를  할당하던 것의 기능을 한다.
+    {
+        public enum PrefabName//풀에 들어갈 오브젝트 하나당 큐가 하나씩 필요하기 때문에 해당 오브젝트가 어떤큐에 들어갈 것인지 구분하기 위한 열거형
         {
-            pool = new T[poolSize];
-            readyQueue = new Queue<T>(poolSize);
+            hpPotion,
+            mpPotion,
+            bat,
+        }
 
-            //readyQueue.Count; //실제로 들어있는 갯수 
-            //readyQueue.Capacity // 현재 미리 준비해둔 갯수 
+        public PrefabName name;//열거형 변수선언
+        public GameObject prefab;// 
+        public int amountToPool;// 각각 풀안에 들어갈 오브젝트의 갯수
+    }
+    public List<Pool> pools;//풀들의 리스트
+    private Dictionary<Pool.PrefabName, Queue<GameObject>> pooledObjects = new Dictionary<Pool.PrefabName, Queue<GameObject>>();// 위 열거형을 키값으로 갖는 GameObject타입의 큐 Dictionary
 
-            GenerateObjects(0, poolSize, pool);
+    void Start()
+    {
+        foreach (Pool pool in pools) //pools 리스트안의 풀들의 갯수만큼 풀을 만드는 함수 실행
+        {
+            CreatePool(pool.name, pool.amountToPool);
+        }
+    }
+
+    public GameObject GetObject(Pool.PrefabName prefabName) //prefabName을 파라미터로 받아서 해당큐에있응 오브젝트를 꺼내어 활성화한다
+    {
+        if (!pooledObjects.ContainsKey(prefabName)) return null;
+
+        Queue<GameObject> pool = pooledObjects[prefabName]; //파라미터로 받은 prefabName 에 맞는 큐를 불러온다(대입해준다)
+
+        if (pool.Count > 0)
+        {
+            GameObject obj = pool.Dequeue(); //큐에서 오브젝트를 꺼낸다.
+            obj.SetActive(true);
+            return obj;
+
         }
         else
         {
-            foreach (T obj in pool) //만약 두번째 씬이 불러져서 풀이 존재하는 상황이라면 
-            {
-                obj.gameObject.SetActive(false); 
-            }
+            ExpandPool(prefabName);
+            return GetObject(prefabName);
         }
     }
-    /// <summary>
-    /// 풀에서 오브젝트를 하나 꺼낸 후 돌려주는 함수
-    /// </summary>
-    /// <returns>큐에서 꺼내고 활성화시킨 오브젝트</returns>
-    public T GetObject()
+    public GameObject GetObject(Pool.PrefabName prefabName, Vector3 position)
     {
-        if (readyQueue.Count > 0) // 큐에 남아있는 오브젝트가 있는지 확인
-        {
-            //남아있으면 
-            T comp = readyQueue.Dequeue(); // 하나꺼내고
-            comp.gameObject.SetActive(true);// 활성화시킨다음
-            return comp; // 꺼낸것 리턴
-        }
-        else
-        {
-            //안남아있으면 
-           ExpendPool(); //확장시키고
-            return GetObject();// 다시 요청
-        }
+        GameObject obj =  GetObject(prefabName);
+        obj.transform.position = position;
+        return obj;
     }
-    private void ExpendPool()//풀의 크기를 두배로 확장시키는 함수
+    public void ReturnToPool(GameObject obj, Pool.PrefabName prefabName) //풀에 들어갈 오브젝트의 최상위 클래스에서 만들어진 델리게이트에 연결될 함수
     {
-        Debug.LogWarning($"{gameObject.name} 풀사이즈 증가 {poolSize} -> {poolSize * 2}");
+        if (!pooledObjects.ContainsKey(prefabName)) return;//파라미터로 받은 prefabName이 Dictionary 의 Key값에 존재하지 않는다면 return;
 
-        int newSize = poolSize * 2;    //새로운 크기 구하기
-        T[] newPool = new T[newSize];  // 새로운 크기만큼 새 배열만들기
-        for (int i = 0; i < poolSize; i++) // 이전 배열에 있던것을 새 배열에 복사
-        {
-            newPool[i] = pool[i]; 
-        }
-        GenerateObjects(poolSize, newSize, newPool); // 새 배열에 남은 부분에 오브젝트 생성해서 설정
-        pool = newPool; // 새 배열을 풀로 설정
-        poolSize = newSize; // 새 크기를 크기로 설정
+        obj.SetActive(false);
+        pooledObjects[prefabName].Enqueue(obj); //파라미터로 받은 큐로 리턴
     }
+
+    private void ExpandPool(Pool.PrefabName prefabName)//Queue의 Count가 0보다 작거나 같으면 실행되는 풀 확장 함수
+    {
+        Pool pool = pools.Find(p => p.name == prefabName);// 확장할 풀 가져오기
+        Debug.LogWarning($"풀 사이즈 확장 {prefabName}_Pool {pool.amountToPool} => {pool.amountToPool * 2}");
+        CreatePool(prefabName, pool.amountToPool, pooledObjects[prefabName]);
+        pool.amountToPool *= 2;
+    }
+
 
     /// <summary>
-    /// // 오브젝트 생성해서 배열에 추가해주는 함수
+    /// prefabName 에 맞는 타입의 풀을 찾아 그곳에 amountToPool 만큼의 오브젝트를 생성, 추가한다. 풀 안에 들어갈 오브젝트는 ItemBase를 상속받게하고 ItemBase 안에 returnPool라는 델리게이트를 만들어
+    /// 자신이 어떤 큐로들어갈지 정하는 열거형을 매개변수로 Ondisable 될 때 신호를 보내고 이 ObjectPool 클래스의 ReturnToPool 함수를 여기에 연결시켜준다.
     /// </summary>
-    /// <param name="start">배열의 시작인덱스</param>
-    /// <param name="end">배열의 마지막인덱스 -1</param>
-    /// <param name="newArray">생성된 오브젝트가 들어갈 배열</param>
-    void GenerateObjects(int start, int end, T[] newArray) 
+    /// <param name="prefabName"></param>
+    /// <param name="amountToPool"></param>
+    /// <param name="existingQueue">기존에 이미 큐가 만들어져있다면(확장할때) 그 큐를 가져온다. 처음만들때는 Queue가 없기 때문에 함수 안에서 새로 만들어준다</param>
+    private void CreatePool(Pool.PrefabName prefabName, int amountToPool, Queue<GameObject> existingQueue = null)
     {
-        for (int i = start; i < end; i++) //새로 만들어진 반복
+        Pool pool = pools.Find(p => p.name == prefabName); //prefabName에 맞는 pool을 가져온다(대입해준다)
+        GameObject root = GameObject.Find($"{pool.prefab.name}_Pool"); //이미 만들어져있는 , 부모역할을 할 풀 오브젝트가 존재하는지 확인
+        if (root == null)//없다면 새로 만들어서 할당
         {
-            GameObject obj = Instantiate(originalPrefab, transform);// 생성 후 풀을 부모 오브젝트로 설정 
-            obj.name = $"{originalPrefab.name}_{i}"; //이름 구분하기위해 설정
-
-            T comp = obj.GetComponent<T>();  // pooledObject 컴포넌트가져와서 
-           comp.onDisable += () => readyQueue.Enqueue(comp); // disable될때 큐로 되돌리기 
-
-            newArray[i] = comp; // 배열에 저장하고 
-            obj.SetActive(false);//비활성화 시키기 비활성화될때 위에서 추가한 람다식이 실행되면서 큐로 다시 돌아가게된다.
+            root = new GameObject($"{pool.prefab.name}_Pool");//개선해야할 부분// 새오브젝트를 만들고 이름을 할당
+            root.transform.SetParent(transform);// 위에서 만든 오브젝트를 ObjectPool의 자식으로 등록
         }
+
+        //Dictionary의 value값에 해당하는 <GameObject>타입의 큐 생성 // Dictionary 의 내용과 Pool클래스를 같이 작업하지만
+        //Dictionary가 Pool에 종속된 개념은 아니다. Pool 안에 내용을 받아서 그 안의 내용에 맞게 Dictionary의 Key, Value를 조작해주는 것이다.
+        Queue<GameObject> objectPool = existingQueue ?? new Queue<GameObject>(); //existingQueue 가 없다면 (파라미터없이 호출했다면) 새로 큐를 만들어준다
+        for (int j = 0; j < amountToPool; j++)
+        {
+            GameObject obj = Instantiate(pool.prefab, root.transform);//생성 후 root의 자식으로 등록
+            ItemBase itemBase = obj.GetComponent<ItemBase>();// 델리게이트를 연결해주기 위해 생성한 오브젝트의 ItemBase컴포넌트를 가져온다
+            itemBase.returnPool += ReturnToPool;// 연결
+            obj.SetActive(false);
+            objectPool.Enqueue(obj);// 큐에 넣어준다
+        }
+
+        pooledObjects[prefabName] = objectPool;//만들어진 풀을 pooledObjects Dictionary의 prefabName키값을 가진 큐에 대입해준다.
+        Debug.Log($"PoolCount : {pooledObjects[prefabName].Count}");
     }
 }

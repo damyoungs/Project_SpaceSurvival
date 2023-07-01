@@ -17,7 +17,6 @@ public class Player : MonoBehaviour
     int att;
     int dp;
     int level;
-    bool IsAlive = true;
 
     public int HP { get { return hp; } set { hp = value; } }
     public int MP { get { return mp; } set { mp = value; } }

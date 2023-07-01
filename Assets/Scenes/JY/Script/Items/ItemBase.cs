@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static NewObjectPool;
+using static ObjectPool;
 
 public enum ItemType
 {
@@ -11,7 +11,7 @@ public enum ItemType
     Etc,
     Craft
 }
-public class ItemBase : PooledObject
+public class ItemBase : MonoBehaviour
 {
     public ItemType itemType;
     public string Name { get; protected set; }
@@ -28,8 +28,13 @@ public class ItemBase : PooledObject
     {
 
     }
-    protected override void OnDisable()
+    protected virtual void OnDisable()
     {
         returnPool?.Invoke(this.gameObject, prefabName);
+    }
+    protected IEnumerator LifeOver(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        gameObject.SetActive(false);
     }
 }

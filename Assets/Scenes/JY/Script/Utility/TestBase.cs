@@ -12,11 +12,11 @@ public class TestBase : MonoBehaviour
     private void OnEnable()
     {
         inputActions.Player.Enable();
-        inputActions.Player.Test1.performed += Test1;
-        inputActions.Player.Test2.performed += Test2;
-        inputActions.Player.Test3.performed += Test3;
-        inputActions.Player.Test4.performed += Test4;
-        inputActions.Player.Test5.performed += Test5;
+        inputActions.Player.Test1.started += Test1;
+        inputActions.Player.Test2.started += Test2;
+        inputActions.Player.Test3.started += Test3;
+        inputActions.Player.Test4.started += Test4;
+        inputActions.Player.Test5.started += Test5;
     }
 
     protected virtual void Test1(UnityEngine.InputSystem.InputAction.CallbackContext context)

@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class ItemSpawner : TestBase
 {
     private Dictionary<Type, List<(Pool_Object_Type, float)>> enemyDropTable = new Dictionary<Type, List<(Pool_Object_Type, float)>>();//드랍테이블 생성 
-    private void Start()
+    private void Start()//팩토리에서 enum 그대로 가져오기
     {
         enemyDropTable.Add(typeof(Enemy1), new List<(Pool_Object_Type, float)>// 적 타입별 드롭 아이템 목록
         {
@@ -36,24 +36,18 @@ public class ItemSpawner : TestBase
         }
     }
     List<GameObject> spawnedObjects = new List<GameObject>();
-    Player player;
+    public Player player;
     protected override void Test1(InputAction.CallbackContext _)
     {
-         NewObjectPool.I.GetObject(NewObjectPool.Pool.PrefabName.hpPotion);
-       // spawnedObjects.Add(go);
+         ObjectPool.I.GetObject(ObjectPool.Pool.PrefabName.bat);
     }
     protected override void Test2(InputAction.CallbackContext context)
     {
-        while(spawnedObjects.Count > 0)
-        {
-            GameObject del = spawnedObjects[0];
-            spawnedObjects.RemoveAt(0);
-            del.SetActive(false);
-        }
-        spawnedObjects.Clear();
+        ObjectPool.I.GetObject(ObjectPool.Pool.PrefabName.mpPotion, player.transform.position);
     }
     protected override void Test3(InputAction.CallbackContext context)
     {
-
+        Vector3 newPos = new Vector3(1,0,3);
+        ObjectPool.I.GetObject(ObjectPool.Pool.PrefabName.hpPotion, newPos);
     }
 }
