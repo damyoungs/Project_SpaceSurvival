@@ -16,6 +16,7 @@ public class ItemBase : PooledObject
     public ItemType itemType;
     public string Name { get; protected set; }
     public bool IsStackable { get; protected set; }
+    protected Pool.PrefabName prefabName;
 
     public delegate void ReturnToPoolDelegate(GameObject obj, Pool.PrefabName prefabName);
     public event ReturnToPoolDelegate returnPool;
@@ -29,6 +30,6 @@ public class ItemBase : PooledObject
     }
     protected override void OnDisable()
     {
-        //returnPool?.Invoke(this.gameObject,prefabName);
+        returnPool?.Invoke(this.gameObject, prefabName);
     }
 }

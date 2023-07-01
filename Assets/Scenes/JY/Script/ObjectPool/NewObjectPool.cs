@@ -95,7 +95,7 @@ public class NewObjectPool : MonoBehaviour
         {
             GameObject obj = Instantiate(pool.prefab, root.transform);
             ItemBase itemBase = obj.GetComponent<ItemBase>();
-          //  itemBase.returnPool += 
+            itemBase.returnPool += ReturnToPool;
             obj.SetActive(false);
             objectPool.Enqueue(obj);
         }
