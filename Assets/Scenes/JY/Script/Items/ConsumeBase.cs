@@ -6,4 +6,5 @@ public class ConsumeBase : ItemBase
 {
     public int RecoveryHpValue { get; protected set; }
     public int RecoveryMpValue { get; protected set; }
+
 }

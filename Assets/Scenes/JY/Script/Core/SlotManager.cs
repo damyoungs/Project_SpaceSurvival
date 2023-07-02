@@ -80,7 +80,7 @@ public class SlotManager : MonoBehaviour
             }
         }
     }
-
+  
     public void GetItem(ItemBase item)
     {
         // itemType에 따른 리스트를 가져오기
@@ -92,7 +92,7 @@ public class SlotManager : MonoBehaviour
         foreach (GameObject slotObject in slotList)
         {
             Slot slot = slotObject.GetComponent<Slot>();
-            if (item.IsStackable &&  item.name == slot.CurrentItem.name)
+            if (item.IsStackable && slot.CurrentItem != null && item.name == slot.CurrentItem.name)
             {
                 slot.ItemCount++;
                 break;

@@ -17,19 +17,23 @@ public enum ItemImagePath
     Empty,
     _HpPotion,
     _MpPotion,
+    _SecretPotion,
+    _SpellBook,
     _Shield,
-    _Shield_Extended,
+    _ShieldExtended,
     _Bat,
+    _Hammer,
     _Bow,
     _Dagger,
     _Pistol,
     _Rifle,
     _ShotGun,
     _SwordLaser,
-    _SwordLaser_Advanced,
+    _SwordLaserAdvanced,
     _TwoHandAxe,
     _TwoHandSword,
-    _Wand
+    _Wand,
+    _Scythe
 }
 public class ItemBase : MonoBehaviour
 {
@@ -44,6 +48,7 @@ public class ItemBase : MonoBehaviour
     protected virtual void Start()
     {
         Initailize();
+        StartCoroutine( LifeOver(3.0f));
     }
     protected virtual void Initailize()
     {
@@ -51,11 +56,13 @@ public class ItemBase : MonoBehaviour
     }
     protected virtual void OnDisable()
     {
+
         returnPool?.Invoke(this.gameObject, prefabName);
     }
     protected IEnumerator LifeOver(float delay)
     {
         yield return new WaitForSeconds(delay);
+        GameManager.SlotManager.GetItem(this);//테스트용
         gameObject.SetActive(false);
     }
 }

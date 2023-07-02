@@ -23,12 +23,15 @@ public class ObjectPool : MonoBehaviour
             Cash,
             HpPotion,
             MpPotion,
+            SecretPotion,
+            SpellBook,
             Bat,
             Bow,
             Dagger,
             Pistol,
             Rifle,
             ShotGun,
+            Hammer,
             SwordLaser,
             SwordLaser_Advanced,
             TwoHandAxe,
@@ -36,6 +39,7 @@ public class ObjectPool : MonoBehaviour
             Wand,
             Shield,
             Shield_Extended,
+            Scythe
         }
 
         public PrefabName name;//열거형 변수선언

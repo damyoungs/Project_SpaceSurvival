@@ -7,6 +7,7 @@ using static ObjectPool;
 
 public class ItemSpawner : TestBase
 {
+    int value;
     private Dictionary<Type, List<(Pool.PrefabName, float)>> enemyDropTable = new Dictionary<Type, List<(Pool.PrefabName, float)>>();//드랍테이블 생성
     private void Start()//팩토리에서 enum 그대로 가져오기
     {
@@ -40,7 +41,89 @@ public class ItemSpawner : TestBase
     public Player player;
     protected override void Test1(InputAction.CallbackContext _)
     {
-         objectPool.GetObject(Pool.PrefabName.MpPotion);
+        switch (value)
+        {
+            case 0:
+                objectPool.GetObject(Pool.PrefabName.HpPotion);
+                value++;
+                break;
+            case 1:
+                objectPool.GetObject(Pool.PrefabName.MpPotion);
+                value++;
+                break;
+            case 2:
+                objectPool.GetObject(Pool.PrefabName.SecretPotion);
+                value++;
+                break;
+            case 3:
+                objectPool.GetObject(Pool.PrefabName.SpellBook);
+                value++;
+                break;
+            case 4:
+                objectPool.GetObject(Pool.PrefabName.Shield);
+                value++;
+                break;
+            case 5:
+                objectPool.GetObject(Pool.PrefabName.Shield_Extended);
+                value++;
+                break;
+            case 6:
+                objectPool.GetObject(Pool.PrefabName.Bat);
+                value++;
+                break;
+            case 7:
+                objectPool.GetObject(Pool.PrefabName.Bow);
+                value++;
+                break;
+            case 8:
+                objectPool.GetObject(Pool.PrefabName.Dagger);
+                value++;
+                break;
+            case 9:
+                objectPool.GetObject(Pool.PrefabName.Pistol);
+                value++;
+                break;
+            case 10:
+                objectPool.GetObject(Pool.PrefabName.Rifle);
+                value++;
+                break;
+            case 11:
+                objectPool.GetObject(Pool.PrefabName.Scythe);
+                value++;
+                break;
+            case 12:
+                objectPool.GetObject(Pool.PrefabName.ShotGun);
+                value++;
+                break;
+            case 13:
+                objectPool.GetObject(Pool.PrefabName.SwordLaser);
+                value++;
+                break;
+            case 14:
+                objectPool.GetObject(Pool.PrefabName.SwordLaser_Advanced);
+                value++;
+                break;
+            case 15:
+                objectPool.GetObject(Pool.PrefabName.TwoHandAxe);
+                value++;
+                break;
+            case 16:
+                objectPool.GetObject(Pool.PrefabName.TwoHandSword);
+                value++;
+                break;
+            case 17:
+                objectPool.GetObject(Pool.PrefabName.Wand);
+                value++;
+                break;
+            case 18:
+                objectPool.GetObject(Pool.PrefabName.Pistol);
+                value++;
+                break;
+            default:
+      
+                break;
+        }
+ 
     }
     protected override void Test2(InputAction.CallbackContext context)
     {

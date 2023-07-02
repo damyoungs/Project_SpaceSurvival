@@ -7,6 +7,9 @@ public class Shield_Extended : EquipBase
     protected override void Initailize()
     {
         ItemType = ItemType.Equip;
+        ItemImagePath = ItemImagePath._ShieldExtended;
         prefabName = ObjectPool.Pool.PrefabName.Shield_Extended;
+        IsStackable = false;
+        Name = name;
     }
 }

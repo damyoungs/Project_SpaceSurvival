@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rifle : EquipBase
+
+public class Scythe : EquipBase
 {
     protected override void Initailize()
     {
         ItemType = ItemType.Equip;
-        ItemImagePath = ItemImagePath._Rifle;
-        prefabName = ObjectPool.Pool.PrefabName.Rifle;
+        ItemImagePath = ItemImagePath._Scythe;
+        prefabName = ObjectPool.Pool.PrefabName.Scythe;
         IsStackable = false;
         Name = name;
     }

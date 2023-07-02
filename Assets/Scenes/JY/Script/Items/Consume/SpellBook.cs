@@ -2,19 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MpPotion : ConsumeBase
+
+public class SpellBook : ConsumeBase
 {
     protected override void Initailize()
     {
         ItemType = ItemType.Consume;
-        ItemImagePath = ItemImagePath._MpPotion;
-        prefabName = ObjectPool.Pool.PrefabName.MpPotion;
+        ItemImagePath = ItemImagePath._SpellBook;
+        prefabName = ObjectPool.Pool.PrefabName.SpellBook;
         IsStackable = true;
         Name = name;
         RecoveryMpValue = 50;
-    }
-    private void OnEnable()
-    {
-        StartCoroutine(LifeOver(5.0f));
     }
 }

@@ -13,16 +13,11 @@ public class HpPotion : ConsumeBase
         IsStackable = true;
         Name = name;
 
-        RecoveryHpValue = 50;
     }
     private void OnEnable()
     {
         StartCoroutine(LifeOver(5.0f));
     }
 
-    protected override void Start()
-    {
-        base.Start();
-        GameManager.SlotManager.GetItem(this);
-    }
+
 }
