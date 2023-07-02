@@ -6,7 +6,7 @@ public class MpPotion : ConsumeBase
 {
     protected override void Initailize()
     {
-        itemType = ItemType.Consume;
+        ItemType = ItemType.Consume;
         Name = name;
         RecoveryMpValue = 50;
         prefabName = ObjectPool.Pool.PrefabName.MpPotion;

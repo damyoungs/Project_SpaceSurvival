@@ -7,7 +7,8 @@ public class HpPotion : ConsumeBase
 {
     protected override void Initailize()
     {
-        itemType = ItemType.Consume;
+        ItemType = ItemType.Consume;
+        ItemImagePath = ItemImagePath._HpPotion;
         Name = name;
         RecoveryHpValue = 50;
         prefabName = ObjectPool.Pool.PrefabName.HpPotion;

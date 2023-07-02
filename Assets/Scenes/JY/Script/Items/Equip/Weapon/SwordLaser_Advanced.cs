@@ -6,7 +6,7 @@ public class SwordLaser_Advanced : EquipBase
 {
     protected override void Initailize()
     {
-        itemType = ItemType.Equip;
+        ItemType = ItemType.Equip;
         prefabName = ObjectPool.Pool.PrefabName.SwordLaser_Advanced;
     }
 }

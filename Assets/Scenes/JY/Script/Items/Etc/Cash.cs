@@ -6,7 +6,7 @@ public class Cash : ItemBase
 {
     protected override void Initailize()
     {
-        itemType = ItemType.Etc;
+        ItemType = ItemType.Etc;
         prefabName = ObjectPool.Pool.PrefabName.Cash;
     }
     private void OnEnable()

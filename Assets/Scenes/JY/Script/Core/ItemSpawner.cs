@@ -40,7 +40,7 @@ public class ItemSpawner : TestBase
     public Player player;
     protected override void Test1(InputAction.CallbackContext _)
     {
-         objectPool.GetObject(Pool.PrefabName.Cash);
+         objectPool.GetObject(Pool.PrefabName.HpPotion);
     }
     protected override void Test2(InputAction.CallbackContext context)
     {

@@ -6,7 +6,7 @@ public class TwoHandSword : EquipBase
 {
     protected override void Initailize()
     {
-        itemType = ItemType.Equip;
+        ItemType = ItemType.Equip;
         prefabName = ObjectPool.Pool.PrefabName.TwoHandSword;
     }
 }

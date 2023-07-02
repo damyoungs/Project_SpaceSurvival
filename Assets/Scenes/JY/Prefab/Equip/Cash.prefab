@@ -68,6 +68,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemType: 0
+  itemImagePath: 0
 --- !u!1001 &1931033419277566255
 PrefabInstance:
   m_ObjectHideFlags: 0

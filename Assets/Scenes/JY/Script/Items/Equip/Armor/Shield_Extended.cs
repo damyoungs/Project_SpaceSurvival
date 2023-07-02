@@ -6,7 +6,7 @@ public class Shield_Extended : EquipBase
 {
     protected override void Initailize()
     {
-        itemType = ItemType.Equip;
+        ItemType = ItemType.Equip;
         prefabName = ObjectPool.Pool.PrefabName.Shield_Extended;
     }
 }

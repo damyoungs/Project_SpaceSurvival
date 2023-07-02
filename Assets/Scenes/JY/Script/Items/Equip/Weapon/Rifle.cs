@@ -6,7 +6,7 @@ public class Rifle : EquipBase
 {
     protected override void Initailize()
     {
-        itemType = ItemType.Equip;
+        ItemType = ItemType.Equip;
         prefabName = ObjectPool.Pool.PrefabName.Rifle;
     }
 }

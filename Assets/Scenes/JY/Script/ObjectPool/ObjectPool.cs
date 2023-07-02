@@ -115,7 +115,7 @@ public class ObjectPool : MonoBehaviour
 
         //Dictionary의 value값에 해당하는 <GameObject>타입의 큐 생성 // Dictionary 의 내용과 Pool클래스를 같이 작업하지만
         //Dictionary가 Pool에 종속된 개념은 아니다. Pool 안에 내용을 받아서 그 안의 내용에 맞게 Dictionary의 Key, Value를 조작해주는 것이다.
-        Queue<GameObject> objectPool = existingQueue ?? new Queue<GameObject>(); //existingQueue 가 없다면 (파라미터없이 호출했다면) 새로 큐를 만들어준다
+        Queue<GameObject> objectPool = existingQueue ?? new Queue<GameObject>(amountToPool); //existingQueue 가 없다면 (파라미터없이 호출했다면) 새로 큐를 만들어준다
         for (int j = 0; j < amountToPool; j++)
         {
             GameObject obj = Instantiate(pool.prefab, root.transform);//생성 후 root의 자식으로 등록
