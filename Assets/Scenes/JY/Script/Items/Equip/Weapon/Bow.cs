@@ -7,6 +7,18 @@ public class Bow : EquipBase
     protected override void Initailize()
     {
         ItemType = ItemType.Equip;
+        ItemImagePath = ItemImagePath._Bow;
+        IsStackable = false;
         prefabName = ObjectPool.Pool.PrefabName.Bow;
+        Name = name;
+    }
+    private void OnEnable()
+    {
+        StartCoroutine(LifeOver(5.0f));
+    }
+    protected override void Start()
+    {
+        base.Start();
+        GameManager.SlotManager.GetItem(this);
     }
 }

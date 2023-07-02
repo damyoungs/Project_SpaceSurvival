@@ -14,7 +14,8 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     Image item_Image;
     int itemCount;
     public bool IsEmpty { get; set; } = true;//SlotManager에서  빈 슬롯인지 확인할때 쓰일 프로퍼티
-    public Sprite hpPotion;
+    
+    public ItemBase CurrentItem { get;  set; }
     public int ItemCount
     {
         get => itemCount;
@@ -60,9 +61,5 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             return;
         }
         amount_Text.text = amount.ToString();
-    }
-    void UpdateImage(ItemBase itemname)
-    {
-      
     }
 }

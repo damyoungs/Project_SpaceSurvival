@@ -9,9 +9,11 @@ public class HpPotion : ConsumeBase
     {
         ItemType = ItemType.Consume;
         ItemImagePath = ItemImagePath._HpPotion;
-        Name = name;
-        RecoveryHpValue = 50;
         prefabName = ObjectPool.Pool.PrefabName.HpPotion;
+        IsStackable = true;
+        Name = name;
+
+        RecoveryHpValue = 50;
     }
     private void OnEnable()
     {

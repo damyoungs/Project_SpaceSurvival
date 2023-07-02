@@ -92,18 +92,21 @@ public class SlotManager : MonoBehaviour
         foreach (GameObject slotObject in slotList)
         {
             Slot slot = slotObject.GetComponent<Slot>();
-            if (slot.IsEmpty) //a+만약 슬롯이 비었다면
+            if (item.IsStackable &&  item.name == slot.CurrentItem.name)
             {
-                Image slotImage = slotObject.transform.GetChild(0).GetComponent<Image>();
-                SpriteAtlas atlas = Resources.Load<SpriteAtlas>("ItemImage/ItemImages");
-                string spriteName = Enum.GetName(typeof(ItemImagePath), item.ItemImagePath);
-                slotImage.sprite = atlas.GetSprite(spriteName);
-                // slotImage.sprite = item.image;
+                slot.ItemCount++;
+                break;
+            }
+            else if (slot.IsEmpty) //a+만약 슬롯이 비었다면
+            {
+                Image slotImage = slotObject.transform.GetChild(0).GetComponent<Image>();// 바꿔줄 이미지 컴포넌트 가져오기
+                SpriteAtlas atlas = Resources.Load<SpriteAtlas>("ItemImage/ItemImages");// 아틀라스 가져오기 //주소
+                string spriteName = Enum.GetName(typeof(ItemImagePath), item.ItemImagePath);// enum의 이름을 string 변수에 넣어주기
+                slotImage.sprite = atlas.GetSprite(spriteName); //이미지 변경
 
-                // 슬롯이 빈 상태가 아님을 표시합니다.
                 slot.IsEmpty = false;
-
-                // 아이템을 추가했으므로 loop를 중단합니다.
+                slot.CurrentItem = item;
+                // 아이템을 추가했으므로 loop를 중단
                 break;
             }
         }

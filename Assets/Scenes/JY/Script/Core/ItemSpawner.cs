@@ -44,7 +44,7 @@ public class ItemSpawner : TestBase
     }
     protected override void Test2(InputAction.CallbackContext context)
     {
-        objectPool.GetObject(Pool.PrefabName.ShotGun, player.transform.position);
+        objectPool.GetObject(Pool.PrefabName.HpPotion, player.transform.position);
     }
     protected override void Test3(InputAction.CallbackContext context)
     {

@@ -7,7 +7,6 @@ using static ObjectPool.Pool;
 public class ObjectPool : MonoBehaviour
 {
     public static ObjectPool objectPool;
-    bool isInitialize = false;
     private void Awake()
     {
         objectPool = this;
