@@ -7,6 +7,7 @@ public class MpPotion : ConsumeBase
     protected override void Initailize()
     {
         ItemType = ItemType.Consume;
+        ItemImagePath = ItemImagePath._MpPotion;
         Name = name;
         RecoveryMpValue = 50;
         prefabName = ObjectPool.Pool.PrefabName.MpPotion;
@@ -15,5 +16,9 @@ public class MpPotion : ConsumeBase
     {
         StartCoroutine(LifeOver(5.0f));
     }
-
+    protected override void Start()
+    {
+        base.Start();
+        GameManager.SlotManager.GetItem(this);
+    }
 }

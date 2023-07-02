@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.U2D;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class SlotManager : MonoBehaviour
 {
@@ -84,18 +85,20 @@ public class SlotManager : MonoBehaviour
     {
         // itemType에 따른 리스트를 가져오기
         List<GameObject> slotList = GetItemTab(item);//item.itemtype에 따른 리스트(장비, 소비, 기타 중 어느곳에 연결된 리스트인지) 연결하기
-
-        // 빈 슬롯 찾기
+        UpdateSlotImage(item, slotList);
+    }
+    private void UpdateSlotImage(ItemBase item, List<GameObject> slotList)
+    {
         foreach (GameObject slotObject in slotList)
         {
             Slot slot = slotObject.GetComponent<Slot>();
-            if (slot.IsEmpty)
+            if (slot.IsEmpty) //a+만약 슬롯이 비었다면
             {
-                Image slotImage = slotObject.GetComponent<Image>();
-                SpriteAtlas atlas = Resources.Load<SpriteAtlas>("Resources/ItemImage/ItemImages");
+                Image slotImage = slotObject.transform.GetChild(0).GetComponent<Image>();
+                SpriteAtlas atlas = Resources.Load<SpriteAtlas>("ItemImage/ItemImages");
                 string spriteName = Enum.GetName(typeof(ItemImagePath), item.ItemImagePath);
                 slotImage.sprite = atlas.GetSprite(spriteName);
-               // slotImage.sprite = item.image;
+                // slotImage.sprite = item.image;
 
                 // 슬롯이 빈 상태가 아님을 표시합니다.
                 slot.IsEmpty = false;

@@ -18,5 +18,9 @@ public class HpPotion : ConsumeBase
         StartCoroutine(LifeOver(5.0f));
     }
 
-    
+    protected override void Start()
+    {
+        base.Start();
+        GameManager.SlotManager.GetItem(this);
+    }
 }
