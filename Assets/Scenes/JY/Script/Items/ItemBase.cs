@@ -42,13 +42,14 @@ public class ItemBase : MonoBehaviour
     public string Name { get; protected set; }
     public bool IsStackable { get; protected set; }
     protected Pool.PrefabName prefabName;
+    public Coroutine lifeOverCoroutine;
 
     public delegate void ReturnToPoolDelegate(GameObject obj, Pool.PrefabName prefabName);
     public event ReturnToPoolDelegate returnPool;
-    protected virtual void Start()
+    protected virtual void Awake()
     {
         Initailize();
-        StartCoroutine( LifeOver(3.0f));
+       // StartCoroutine( LifeOver(3.0f));
     }
     protected virtual void Initailize()
     {

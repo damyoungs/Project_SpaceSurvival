@@ -127,11 +127,38 @@ public class ItemSpawner : TestBase
     }
     protected override void Test2(InputAction.CallbackContext context)
     {
-        objectPool.GetObject(Pool.PrefabName.HpPotion, player.transform.position);
+        HpPotion hpPotion = objectPool.GetObject(Pool.PrefabName.HpPotion).GetComponent<HpPotion>();
+        GameManager.SlotManager.GetItem(hpPotion);
+        hpPotion.gameObject.SetActive(false);
     }
     protected override void Test3(InputAction.CallbackContext context)
     {
-        Vector3 newPos = new Vector3(1,0,3);
-        objectPool.GetObject(Pool.PrefabName.Bow, newPos);
+        MpPotion mpPotion = objectPool.GetObject(Pool.PrefabName.MpPotion).GetComponent<MpPotion>();
+        GameManager.SlotManager.GetItem(mpPotion);
+        mpPotion.gameObject.SetActive(false);
+    }
+    protected override void Test4(InputAction.CallbackContext context)
+    {
+        SecretPotion secretPotion = objectPool.GetObject(Pool.PrefabName.SecretPotion).GetComponentInParent<SecretPotion>();
+        GameManager.SlotManager.GetItem(secretPotion);
+        secretPotion.gameObject.SetActive(false);
+    }
+    protected override void Test5(InputAction.CallbackContext context)
+    {
+        SpellBook spellBook = objectPool.GetObject(Pool.PrefabName.SpellBook).GetComponentInParent<SpellBook>();
+        GameManager.SlotManager.GetItem(spellBook);
+        spellBook.gameObject.SetActive(false);
+    }
+    protected override void Test6(InputAction.CallbackContext context)
+    {
+        Scythe scythe = objectPool.GetObject(Pool.PrefabName.Scythe).GetComponent<Scythe>();
+        GameManager.SlotManager.GetItem(scythe);
+        scythe.gameObject.SetActive(false);
+    }
+    protected override void Test7(InputAction.CallbackContext context)
+    {
+        ShotGun shotGun = objectPool.GetObject(Pool.PrefabName.ShotGun).GetComponent<ShotGun>();
+        GameManager.SlotManager.GetItem(shotGun);
+        shotGun.gameObject.SetActive(false);
     }
 }

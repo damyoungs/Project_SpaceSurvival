@@ -17,7 +17,14 @@ public class TestBase : MonoBehaviour
         inputActions.Player.Test3.started += Test3;
         inputActions.Player.Test4.started += Test4;
         inputActions.Player.Test5.started += Test5;
+        inputActions.Player.Test6.started += Test6;
+        inputActions.Player.Test7.started += Test7;
+        inputActions.Player.Test8.started += Test8;
+        inputActions.Player.Test9.started += Test9;
+        inputActions.Player.Test10.started += Test10;
     }
+
+
 
     protected virtual void Test1(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
@@ -41,4 +48,28 @@ public class TestBase : MonoBehaviour
     {
  
     }
+    protected virtual void Test6(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+
+    }
+    protected virtual void Test7(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+
+    }
+    protected virtual void Test8(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+   
+    }
+    protected virtual void Test9(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+
+    }
+    protected virtual void Test10(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+
+    }
+
+
+
+
 }
