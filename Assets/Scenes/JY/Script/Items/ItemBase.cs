@@ -14,7 +14,7 @@ public enum ItemType
 }
 public enum ItemImagePath
 {
-    None,
+    Empty,
     _HpPotion,
     _MpPotion,
     _Shield,
