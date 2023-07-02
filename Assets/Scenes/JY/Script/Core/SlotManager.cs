@@ -14,7 +14,7 @@ public class SlotManager : MonoBehaviour
     public Transform consume_Below;
     public Transform etc_Below;
     public Transform craft_Below;
-
+    Slot selectedSlot;
 
     public Dictionary<Current_Inventory_State, List<GameObject>> slots;
     public void Initialize()
@@ -133,6 +133,45 @@ public class SlotManager : MonoBehaviour
                 break;
         }
         return slotList;
+    }
+
+    public void OnSlotClicked(Slot clickedSlot)
+    {
+        // 첫 클릭: 선택한 슬롯 저장
+        if (selectedSlot == null)
+        {
+            selectedSlot = clickedSlot;
+            Image clickedItemImage = clickedSlot.transform.GetChild(0).GetComponent<Image>();
+           
+            var color = clickedItemImage.color;
+            color.a = 0.5f;//로컬변수 color의 알파값을 변경하는건 가능하지만  clickedItemImage.color.a = 0.5f; 이렇게 직접 값을 변경하는건 읽기전용이라 안된다
+            clickedItemImage.color = color;
+        }
+        // 두 번째 클릭: 아이템 교환하고 선택한 슬롯 초기화
+        else
+        {
+            SwapItems(selectedSlot, clickedSlot);
+            selectedSlot = null;
+        }
+    }
+
+    void SwapItems(Slot slot1, Slot slot2)
+    {
+        // 아이템 교환
+        ItemBase tempItem = slot1.CurrentItem;
+        int tempCount = slot1.ItemCount;
+
+        slot1.CurrentItem = slot2.CurrentItem;
+        slot1.ItemCount = slot2.ItemCount;
+        slot1.IsEmpty = slot2.IsEmpty;
+
+        slot2.CurrentItem = tempItem;
+        slot2.ItemCount = tempCount;
+        slot2.IsEmpty = (tempItem == null);
+
+        // UI 업데이트
+       // UpdateSlot(slot1);
+       // UpdateSlot(slot2);
     }
 
 }
