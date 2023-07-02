@@ -9,12 +9,13 @@ using UnityEngine;
 /// </summary>
 public class TurnBaseObject : MonoBehaviour, ISortBase
 {
+    double usingValue = 0;
     /// <summary>
     /// 현재 턴의 진행값 
     /// 이값으로 돌아올순번을 정한다.
     /// </summary>
-    double turnWaitingValue = 0;
-    public double TurnWaitingValue {
+    float turnWaitingValue = 0;
+    public float TurnWaitingValue {
         get => turnWaitingValue;
         set
         {
@@ -25,6 +26,9 @@ public class TurnBaseObject : MonoBehaviour, ISortBase
     /// <summary>
     /// 정렬할 기준값
     /// </summary>
-    public double SortValue => turnWaitingValue;
+    public float SortValue { get => turnWaitingValue; set => turnWaitingValue = value; }
+
+    public double UseTurnValue => usingValue;
+
 
 }

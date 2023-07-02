@@ -11,6 +11,6 @@ public interface ISortBase
     /// <summary>
     /// 정렬될 기준값
     /// </summary>
-    public double SortValue { get; }
+    public float SortValue { get; set; }
 
 }
