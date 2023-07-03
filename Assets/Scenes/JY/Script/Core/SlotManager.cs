@@ -146,6 +146,7 @@ public class SlotManager : MonoBehaviour
             var color = clickedItemImage.color;
             color.a = 0.5f;//로컬변수 color의 알파값을 변경하는건 가능하지만  clickedItemImage.color.a = 0.5f; 이렇게 직접 값을 변경하는건 읽기전용이라 안된다
             clickedItemImage.color = color;
+            StartCoroutine(ImageMovingCoroutine());
         }
         // 두 번째 클릭: 아이템 교환하고 선택한 슬롯 초기화
         else
@@ -154,7 +155,15 @@ public class SlotManager : MonoBehaviour
             selectedSlot = null;
         }
     }
-
+    IEnumerator ImageMovingCoroutine()
+    {
+        while (true)
+        {
+            selectedSlot.transform.position = Input.mousePosition;
+            yield return null;
+        }
+ 
+    }
     void SwapItems(Slot slot1, Slot slot2)
     {
         // 아이템 교환
