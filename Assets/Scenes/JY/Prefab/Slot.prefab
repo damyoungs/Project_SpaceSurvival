@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2477523673708794255}
   - component: {fileID: 2477523673708794254}
   - component: {fileID: -6063853365154957187}
-  - component: {fileID: 7024077520728997075}
+  - component: {fileID: 7798763069057441941}
   m_Layer: 5
   m_Name: Slot
   m_TagString: Untagged
@@ -79,33 +79,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item_Discription: {fileID: 0}
-  hpPotion: {fileID: 21300000, guid: b2183ef4bcf900c439ff71c3e4c13407, type: 3}
---- !u!61 &7024077520728997075
-BoxCollider2D:
+--- !u!114 &7798763069057441941
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2477523673708794291}
   m_Enabled: 1
-  m_Density: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: f9971cb566fc86b45a825a3ea911948c, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &2477523674297871612
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,7 +255,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b90d9660bf7894743a4f0938a58074ab, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f9971cb566fc86b45a825a3ea911948c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
