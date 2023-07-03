@@ -27,9 +27,13 @@ public class ChoClickTest : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            Debug.DrawRay(ray.origin, ray.direction * 20.0f, Color.red, 1.0f);
+
             if (Physics.Raycast(ray, out RaycastHit hitInfo))
             {
                 target = (BoxCollider)hitInfo.collider;
+                Tile tile = target.gameObject.GetComponent<Tile>();
+                Debug.Log($"타일 위치 : {tile.Width}, {tile.Length}");
             }
 
         }
