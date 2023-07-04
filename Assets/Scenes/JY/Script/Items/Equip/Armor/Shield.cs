@@ -8,7 +8,6 @@ public class Shield : EquipBase
     {
         ItemType = ItemType.Equip;
         ItemImagePath = ItemImagePath._Shield;
-        prefabName = ObjectPool.Pool.PrefabName.Shield;
         IsStackable = false;
         Name = name;
 

@@ -8,7 +8,6 @@ public class Shield_Extended : EquipBase
     {
         ItemType = ItemType.Equip;
         ItemImagePath = ItemImagePath._ShieldExtended;
-        prefabName = ObjectPool.Pool.PrefabName.Shield_Extended;
         IsStackable = false;
         Name = name;
     }

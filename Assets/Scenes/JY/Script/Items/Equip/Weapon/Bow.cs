@@ -9,7 +9,6 @@ public class Bow : EquipBase
         ItemType = ItemType.Equip;
         ItemImagePath = ItemImagePath._Bow;
         IsStackable = false;
-        prefabName = ObjectPool.Pool.PrefabName.Bow;
         Name = name;
     }
     private void OnEnable()

@@ -8,7 +8,6 @@ public class TwoHandSword : EquipBase
     {
         ItemType = ItemType.Equip;
         ItemImagePath = ItemImagePath._TwoHandSword;
-        prefabName = ObjectPool.Pool.PrefabName.TwoHandSword;
         IsStackable = false;
         Name = name;
     }

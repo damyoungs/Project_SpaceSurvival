@@ -8,7 +8,6 @@ public class Pistol : EquipBase
     {
         ItemType = ItemType.Equip;
         ItemImagePath = ItemImagePath._Pistol;
-        prefabName = ObjectPool.Pool.PrefabName.Pistol;
         IsStackable = false;
         Name = name;
     }

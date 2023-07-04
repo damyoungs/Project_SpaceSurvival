@@ -9,7 +9,6 @@ public class Scythe : EquipBase
     {
         ItemType = ItemType.Equip;
         ItemImagePath = ItemImagePath._Scythe;
-        prefabName = ObjectPool.Pool.PrefabName.Scythe;
         IsStackable = false;
         Name = name;
     }

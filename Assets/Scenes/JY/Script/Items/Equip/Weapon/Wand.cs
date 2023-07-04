@@ -8,7 +8,6 @@ public class Wand : EquipBase
     {
         ItemType = ItemType.Equip;
         ItemImagePath = ItemImagePath._Wand;
-        prefabName = ObjectPool.Pool.PrefabName.Wand;
         IsStackable = false;
         Name = name;
     }

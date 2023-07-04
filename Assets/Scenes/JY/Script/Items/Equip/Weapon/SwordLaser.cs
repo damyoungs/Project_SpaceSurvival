@@ -8,7 +8,6 @@ public class SwordLaser : EquipBase
     {
         ItemType = ItemType.Equip;
         ItemImagePath = ItemImagePath._SwordLaser;
-        prefabName = ObjectPool.Pool.PrefabName.SwordLaser;
         IsStackable = false;
         Name = name;
     }

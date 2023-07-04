@@ -9,7 +9,6 @@ public class SecretPotion : ConsumeBase
     {
         ItemType = ItemType.Consume;
         ItemImagePath = ItemImagePath._SecretPotion;
-        prefabName = ObjectPool.Pool.PrefabName.SecretPotion;
         IsStackable = true;
         Name = name;
         RecoveryMpValue = 50;

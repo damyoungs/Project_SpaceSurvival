@@ -8,7 +8,6 @@ public class SwordLaser_Advanced : EquipBase
     {
         ItemType = ItemType.Equip;
         ItemImagePath = ItemImagePath._SwordLaserAdvanced;
-        prefabName = ObjectPool.Pool.PrefabName.SwordLaser_Advanced;
         IsStackable = false;
         Name = name;
     }

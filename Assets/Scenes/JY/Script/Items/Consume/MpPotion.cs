@@ -8,7 +8,6 @@ public class MpPotion : ConsumeBase
     {
         ItemType = ItemType.Consume;
         ItemImagePath = ItemImagePath._MpPotion;
-        prefabName = ObjectPool.Pool.PrefabName.MpPotion;
         IsStackable = true;
         Name = name;
         RecoveryMpValue = 50;

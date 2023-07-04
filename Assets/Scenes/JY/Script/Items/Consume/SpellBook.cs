@@ -9,7 +9,6 @@ public class SpellBook : ConsumeBase
     {
         ItemType = ItemType.Consume;
         ItemImagePath = ItemImagePath._SpellBook;
-        prefabName = ObjectPool.Pool.PrefabName.SpellBook;
         IsStackable = true;
         Name = name;
         RecoveryMpValue = 50;

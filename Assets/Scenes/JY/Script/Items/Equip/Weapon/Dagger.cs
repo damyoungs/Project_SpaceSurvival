@@ -8,7 +8,6 @@ public class Dagger : EquipBase
     {
         ItemType = ItemType.Equip;
         ItemImagePath = ItemImagePath._Dagger;
-        prefabName = ObjectPool.Pool.PrefabName.Dagger;
         IsStackable = false;
         Name = name;
     }

@@ -9,7 +9,6 @@ public class HpPotion : ConsumeBase
     {
         ItemType = ItemType.Consume;
         ItemImagePath = ItemImagePath._HpPotion;
-        prefabName = ObjectPool.Pool.PrefabName.HpPotion;
         IsStackable = true;
         Name = name;
 

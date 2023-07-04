@@ -8,7 +8,6 @@ public class Bat : EquipBase
     {
         ItemType = ItemType.Equip;
         ItemImagePath = ItemImagePath._Bat;
-        prefabName = ObjectPool.Pool.PrefabName.Bat;
         IsStackable = false;
         Name = name;
     }

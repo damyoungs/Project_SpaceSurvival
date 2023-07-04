@@ -8,7 +8,6 @@ public class ShotGun : EquipBase
     {
         ItemType = ItemType.Equip;
         ItemImagePath = ItemImagePath._ShotGun;
-        prefabName = ObjectPool.Pool.PrefabName.ShotGun;
         IsStackable = false;
         Name = name;
     }
