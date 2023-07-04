@@ -17,7 +17,7 @@ public class ObjectPool : MonoBehaviour
     {
         //풀에 들어갈 오브젝트 하나당 큐가 하나씩 필요하기 때문에 해당 오브젝트가 어떤큐에 들어갈 것인지 구분하기 위한 열거형
         //또 아이템을 생성할때도 이 열거형을 파라미터로 받는다
-        public enum PrefabName
+        public enum PrefabName // 저장할 prefab variant
         {
             None,
             Cash,
