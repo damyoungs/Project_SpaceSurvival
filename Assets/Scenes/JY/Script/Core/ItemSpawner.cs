@@ -34,6 +34,7 @@ public class ItemSpawner : TestBase
             if (UnityEngine.Random.value <= droprate)
             {
                 objectPool.GetObject(itemtype,enemy.transform.position);
+                
             }
         }
     }
