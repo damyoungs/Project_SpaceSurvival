@@ -8,6 +8,7 @@ TagManager:
   - TitleButton
   - Window
   - SaveList
+  - Tile
   layers:
   - Default
   - TransparentFX

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6946272199594515669}
   m_Layer: 0
   m_Name: Custom_Bld_Floor_Small_06
-  m_TagString: Untagged
+  m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
