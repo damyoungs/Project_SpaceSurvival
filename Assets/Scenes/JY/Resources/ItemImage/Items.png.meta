@@ -213,7 +213,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_4
+      name: _HpPotion
       rect:
         serializedVersion: 2
         x: 516
@@ -234,7 +234,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_5
+      name: _MpPotion
       rect:
         serializedVersion: 2
         x: 645
@@ -255,7 +255,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_6
+      name: _Pistol
       rect:
         serializedVersion: 2
         x: 774
@@ -276,7 +276,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_7
+      name: _Scythe
       rect:
         serializedVersion: 2
         x: 0
@@ -297,7 +297,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_8
+      name: _SecretPotion
       rect:
         serializedVersion: 2
         x: 129
@@ -318,7 +318,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_9
+      name: _Shield
       rect:
         serializedVersion: 2
         x: 258
@@ -339,7 +339,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_10
+      name: _ShotGun
       rect:
         serializedVersion: 2
         x: 387
@@ -360,7 +360,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_11
+      name: _SpellBook
       rect:
         serializedVersion: 2
         x: 516
@@ -381,7 +381,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_12
+      name: _SwordLaser
       rect:
         serializedVersion: 2
         x: 645
@@ -402,7 +402,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_13
+      name: _TwoHandAxe
       rect:
         serializedVersion: 2
         x: 774
@@ -423,7 +423,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_14
+      name: _Wand
       rect:
         serializedVersion: 2
         x: 0
@@ -444,7 +444,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_15
+      name: _SwordLaserAdvanced
       rect:
         serializedVersion: 2
         x: 129
@@ -465,7 +465,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_16
+      name: _ShieldExtended
       rect:
         serializedVersion: 2
         x: 258
@@ -486,7 +486,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_17
+      name: _Rifle
       rect:
         serializedVersion: 2
         x: 387
@@ -507,7 +507,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_18
+      name: _TwoHandSword
       rect:
         serializedVersion: 2
         x: 516
@@ -538,25 +538,25 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Items_10: 807547645
-      Items_11: 1024113124
-      Items_12: -530748721
-      Items_13: 734987248
-      Items_14: 1306625331
-      Items_15: 988614690
-      Items_16: 1234708483
-      Items_17: 1807280807
-      Items_18: -967181197
-      Items_4: -1136555781
-      Items_5: -1949431726
-      Items_6: -687406038
-      Items_7: -1422878164
-      Items_8: -865610889
-      Items_9: 263578104
       _Bat: 182372767
       _Bow: 1928631056
       _Dagger: -2071746272
       _Hammer: 1294446891
+      _HpPotion: -1136555781
+      _MpPotion: -1949431726
+      _Pistol: -687406038
+      _Rifle: 1807280807
+      _Scythe: -1422878164
+      _SecretPotion: -865610889
+      _Shield: 263578104
+      _ShieldExtended: 1234708483
+      _ShotGun: 807547645
+      _SpellBook: 1024113124
+      _SwordLaser: -530748721
+      _SwordLaserAdvanced: 988614690
+      _TwoHandAxe: 734987248
+      _TwoHandSword: -967181197
+      _Wand: 1306625331
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

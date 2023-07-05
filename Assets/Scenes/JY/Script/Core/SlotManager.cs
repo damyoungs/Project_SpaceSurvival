@@ -100,9 +100,10 @@ public class SlotManager : MonoBehaviour
             else if (slot.IsEmpty) //a+만약 슬롯이 비었다면
             {
                 Image slotImage = slotObject.transform.GetChild(0).GetComponent<Image>();// 바꿔줄 이미지 컴포넌트 가져오기
-                SpriteAtlas atlas = Resources.Load<SpriteAtlas>("ItemImage/ItemImages");// 아틀라스 가져오기 //주소
                 string spriteName = Enum.GetName(typeof(ItemImagePath), item.ItemImagePath);// enum의 이름을 string 변수에 넣어주기
-                slotImage.sprite = atlas.GetSprite(spriteName); //이미지 변경
+                Sprite sprite = Resources.Load<Sprite>($"ItemImage/Items/{spriteName}");
+                Debug.Log(sprite);
+                slotImage.sprite = sprite;
 
                 slot.IsEmpty = false;
                 slot.CurrentItem = item;
