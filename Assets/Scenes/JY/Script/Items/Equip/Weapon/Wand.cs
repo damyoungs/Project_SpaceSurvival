@@ -7,7 +7,7 @@ public class Wand : EquipBase
     protected override void Initailize()
     {
         ItemType = ItemType.Equip;
-        ItemImagePath = ItemImagePath._Wand;
+        ItemImagePath = ItemImagePath.Wand;
         IsStackable = false;
         Name = name;
     }

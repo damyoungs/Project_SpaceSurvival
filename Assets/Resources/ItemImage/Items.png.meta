@@ -129,7 +129,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: _Bat
+      name: Bat
       rect:
         serializedVersion: 2
         x: 0
@@ -150,7 +150,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _Bow
+      name: Bow
       rect:
         serializedVersion: 2
         x: 129
@@ -171,7 +171,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _Dagger
+      name: Dagger
       rect:
         serializedVersion: 2
         x: 258
@@ -192,7 +192,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _Hammer
+      name: Hammer
       rect:
         serializedVersion: 2
         x: 387
@@ -213,7 +213,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _HpPotion
+      name: HpPotion
       rect:
         serializedVersion: 2
         x: 516
@@ -234,7 +234,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _MpPotion
+      name: MpPotion
       rect:
         serializedVersion: 2
         x: 645
@@ -255,7 +255,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _Pistol
+      name: Pistol
       rect:
         serializedVersion: 2
         x: 774
@@ -276,7 +276,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _Scythe
+      name: Scythe
       rect:
         serializedVersion: 2
         x: 0
@@ -297,7 +297,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _SecretPotion
+      name: SecretPotion
       rect:
         serializedVersion: 2
         x: 129
@@ -318,7 +318,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _Shield
+      name: Shield
       rect:
         serializedVersion: 2
         x: 258
@@ -339,7 +339,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _ShotGun
+      name: ShotGun
       rect:
         serializedVersion: 2
         x: 387
@@ -360,7 +360,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _SpellBook
+      name: SpellBook
       rect:
         serializedVersion: 2
         x: 516
@@ -381,7 +381,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _SwordLaser
+      name: SwordLaser
       rect:
         serializedVersion: 2
         x: 645
@@ -402,7 +402,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _TwoHandAxe
+      name: TwoHandAxe
       rect:
         serializedVersion: 2
         x: 774
@@ -423,7 +423,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _Wand
+      name: Wand
       rect:
         serializedVersion: 2
         x: 0
@@ -444,7 +444,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _SwordLaserAdvanced
+      name: SwordLaserAdvanced
       rect:
         serializedVersion: 2
         x: 129
@@ -465,7 +465,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _ShieldExtended
+      name: ShieldExtended
       rect:
         serializedVersion: 2
         x: 258
@@ -486,7 +486,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _Rifle
+      name: Rifle
       rect:
         serializedVersion: 2
         x: 387
@@ -507,7 +507,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _TwoHandSword
+      name: TwoHandSword
       rect:
         serializedVersion: 2
         x: 516
@@ -538,25 +538,25 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      _Bat: 182372767
-      _Bow: 1928631056
-      _Dagger: -2071746272
-      _Hammer: 1294446891
-      _HpPotion: -1136555781
-      _MpPotion: -1949431726
-      _Pistol: -687406038
-      _Rifle: 1807280807
-      _Scythe: -1422878164
-      _SecretPotion: -865610889
-      _Shield: 263578104
-      _ShieldExtended: 1234708483
-      _ShotGun: 807547645
-      _SpellBook: 1024113124
-      _SwordLaser: -530748721
-      _SwordLaserAdvanced: 988614690
-      _TwoHandAxe: 734987248
-      _TwoHandSword: -967181197
-      _Wand: 1306625331
+      Bat: 182372767
+      Bow: 1928631056
+      Dagger: -2071746272
+      Hammer: 1294446891
+      HpPotion: -1136555781
+      MpPotion: -1949431726
+      Pistol: -687406038
+      Rifle: 1807280807
+      Scythe: -1422878164
+      SecretPotion: -865610889
+      Shield: 263578104
+      ShieldExtended: 1234708483
+      ShotGun: 807547645
+      SpellBook: 1024113124
+      SwordLaser: -530748721
+      SwordLaserAdvanced: 988614690
+      TwoHandAxe: 734987248
+      TwoHandSword: -967181197
+      Wand: 1306625331
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

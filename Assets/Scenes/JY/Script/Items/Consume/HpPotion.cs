@@ -8,7 +8,7 @@ public class HpPotion : ConsumeBase
     protected override void Initailize()
     {
         ItemType = ItemType.Consume;
-        ItemImagePath = ItemImagePath._HpPotion;
+        ItemImagePath = ItemImagePath.HpPotion;
         IsStackable = true;
         Name = name;
 

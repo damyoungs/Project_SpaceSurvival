@@ -7,26 +7,26 @@ using UnityEngine.InputSystem;
 public enum PrefabName // 저장할 prefab variant
 {
     None,
-    _Cash,
-    _HpPotion,
-    _MpPotion,
-    _SecretPotion,
-    _Bat,
-    _Bow,
-    _Dagger,
-    _Hammer,
-    _Pistol,
-    _Rifle,
-    _Scythe,
-    _Shield,
-    _Shield_Extended,
-    _ShotGun,
-    _SpellBook,
-    _SwordLaser,
-    _SwordLaser_Advanced,
-    _TwoHandAxe,
-    _TwoHandSword,
-    _Wand,
+    Cash,
+    HpPotion,
+    MpPotion,
+    SecretPotion,
+    Bat,
+    Bow,
+    Dagger,
+    Hammer,
+    Pistol,
+    Rifle,
+    Scythe,
+    Shield,
+    Shield_Extended,
+    ShotGun,
+    SpellBook,
+    SwordLaser,
+    SwordLaser_Advanced,
+    TwoHandAxe,
+    TwoHandSword,
+    Wand,
 }
 public class ItemSpawner : TestBase
 {
@@ -66,17 +66,17 @@ public class ItemSpawner : TestBase
         // Initialize the enemy drop table
         enemyDropTable.Add(typeof(Enemy1), new List<(PrefabName, float)>
         {
-            (PrefabName._ShotGun, 0.9f),
-            (PrefabName._Rifle, 0.99f),
-            (PrefabName._Cash,0.9f)
+            (PrefabName.ShotGun, 0.9f),
+            (PrefabName.Rifle, 0.99f),
+            (PrefabName.Cash,0.9f)
         });
 
         enemyDropTable.Add(typeof(Enemy2), new List<(PrefabName, float)>
         {
-            (PrefabName._Bow, 0.9f),
-            (PrefabName._TwoHandAxe, 0.9f),
-            (PrefabName._Cash,0.9f),
-            (PrefabName._TwoHandSword,0.9f)
+            (PrefabName.Bow, 0.9f),
+            (PrefabName.TwoHandAxe, 0.9f),
+            (PrefabName.Cash,0.9f),
+            (PrefabName.TwoHandSword,0.9f)
         });
     }
     public void SpawnItem(EnemyBase enemy)//큰 범위에서 분류가 아니라 정확히 어떤 적인지 알아야한다
@@ -94,19 +94,19 @@ public class ItemSpawner : TestBase
  
     public void GetItem()
     {
-        GameObject obj = Instantiate(prefabDict[PrefabName._Bat]);
+        GameObject obj = Instantiate(prefabDict[PrefabName.Hammer]);
         ItemBase item = obj.GetComponent<ItemBase>();
         GameManager.SlotManager.GetItem(item);
     }
     public void GetItemBow()
     {
-        GameObject obj = Instantiate(prefabDict[PrefabName._Bow]);
+        GameObject obj = Instantiate(prefabDict[PrefabName.Bow]);
         ItemBase item = obj.GetComponent<ItemBase>();
         GameManager.SlotManager.GetItem(item);
     }
     public void GetItemHpPotion()
     {
-        GameObject obj = Instantiate(prefabDict[PrefabName._HpPotion]);
+        GameObject obj = Instantiate(prefabDict[PrefabName.HpPotion]);
         ItemBase item = obj.GetComponent<ItemBase>();
         GameManager.SlotManager.GetItem(item);
     }

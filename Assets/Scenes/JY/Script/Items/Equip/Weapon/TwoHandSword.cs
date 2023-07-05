@@ -7,7 +7,7 @@ public class TwoHandSword : EquipBase
     protected override void Initailize()
     {
         ItemType = ItemType.Equip;
-        ItemImagePath = ItemImagePath._TwoHandSword;
+        ItemImagePath = ItemImagePath.TwoHandSword;
         IsStackable = false;
         Name = name;
     }

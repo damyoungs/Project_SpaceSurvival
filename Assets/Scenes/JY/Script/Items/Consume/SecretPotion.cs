@@ -8,7 +8,7 @@ public class SecretPotion : ConsumeBase
     protected override void Initailize()
     {
         ItemType = ItemType.Consume;
-        ItemImagePath = ItemImagePath._SecretPotion;
+        ItemImagePath = ItemImagePath.SecretPotion;
         IsStackable = true;
         Name = name;
         RecoveryMpValue = 50;

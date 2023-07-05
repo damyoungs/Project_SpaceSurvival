@@ -7,7 +7,7 @@ public class Shield : EquipBase
     protected override void Initailize()
     {
         ItemType = ItemType.Equip;
-        ItemImagePath = ItemImagePath._Shield;
+        ItemImagePath = ItemImagePath.Shield;
         IsStackable = false;
         Name = name;
 

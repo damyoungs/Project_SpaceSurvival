@@ -7,7 +7,7 @@ public class ShotGun : EquipBase
     protected override void Initailize()
     {
         ItemType = ItemType.Equip;
-        ItemImagePath = ItemImagePath._ShotGun;
+        ItemImagePath = ItemImagePath.ShotGun;
         IsStackable = false;
         Name = name;
     }

@@ -7,7 +7,7 @@ public class MpPotion : ConsumeBase
     protected override void Initailize()
     {
         ItemType = ItemType.Consume;
-        ItemImagePath = ItemImagePath._MpPotion;
+        ItemImagePath = ItemImagePath.MpPotion;
         IsStackable = true;
         Name = name;
         RecoveryMpValue = 50;

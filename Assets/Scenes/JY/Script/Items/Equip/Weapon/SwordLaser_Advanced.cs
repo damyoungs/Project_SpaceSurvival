@@ -7,7 +7,7 @@ public class SwordLaser_Advanced : EquipBase
     protected override void Initailize()
     {
         ItemType = ItemType.Equip;
-        ItemImagePath = ItemImagePath._SwordLaserAdvanced;
+        ItemImagePath = ItemImagePath.SwordLaserAdvanced;
         IsStackable = false;
         Name = name;
     }

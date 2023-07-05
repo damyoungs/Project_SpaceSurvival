@@ -8,7 +8,7 @@ public class Scythe : EquipBase
     protected override void Initailize()
     {
         ItemType = ItemType.Equip;
-        ItemImagePath = ItemImagePath._Scythe;
+        ItemImagePath = ItemImagePath.Scythe;
         IsStackable = false;
         Name = name;
     }

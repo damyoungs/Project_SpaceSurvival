@@ -102,9 +102,11 @@ public class SlotManager : MonoBehaviour
                 Image slotImage = slotObject.transform.GetChild(0).GetComponent<Image>();// 바꿔줄 이미지 컴포넌트 가져오기
                 string spriteName = Enum.GetName(typeof(ItemImagePath), item.ItemImagePath);// enum의 이름을 string 변수에 넣어주기
                 
-                Sprite sprite = Resources.Load<Sprite>($"ItemImage/Items/{spriteName}");
-                Debug.Log(sprite);
-                slotImage.sprite = sprite;
+                Sprite[] sprite = Resources.LoadAll<Sprite>($"ItemImage/Items/{spriteName}");
+      
+               // slotImage.sprite = sprite[spriteName];
+
+                
 
                 slot.IsEmpty = false;
                 slot.CurrentItem = item;
