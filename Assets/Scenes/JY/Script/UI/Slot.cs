@@ -16,7 +16,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPo
  
     public bool IsEmpty { get; set; } = true;//SlotManager에서  빈 슬롯인지 확인할때 쓰일 프로퍼티
     
-    public ItemBase CurrentItem { get;  set; }
+    public string CurrentItem { get;  set; }
     public int ItemCount
     {
         get => itemCount;

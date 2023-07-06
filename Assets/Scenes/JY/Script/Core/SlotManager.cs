@@ -92,7 +92,7 @@ public class SlotManager : MonoBehaviour
         foreach (GameObject slotObject in slotList)
         {
             Slot slot = slotObject.GetComponent<Slot>();
-            if (item.IsStackable && slot.CurrentItem != null && item.name == slot.CurrentItem.name)
+            if (item.IsStackable  && item.name == slot.CurrentItem)
             {
                 slot.ItemCount++;
                 break;
@@ -102,18 +102,22 @@ public class SlotManager : MonoBehaviour
                 Image slotImage = slotObject.transform.GetChild(0).GetComponent<Image>();// 바꿔줄 이미지 컴포넌트 가져오기
                 string spriteName = Enum.GetName(typeof(ItemImagePath), item.ItemImagePath);// enum의 이름을 string 변수에 넣어주기
                 
-                Sprite[] sprite = Resources.LoadAll<Sprite>($"ItemImage/Items/{spriteName}");
-      
-               // slotImage.sprite = sprite[spriteName];
-
-                
-
+                Sprite[] sprite = Resources.LoadAll<Sprite>($"ItemImage/Items");
+                foreach (Sprite s in sprite)
+                {
+                    if (s.name == spriteName)
+                    {
+                        slotImage.sprite = s;
+                        break;
+                    }
+                }
                 slot.IsEmpty = false;
-                slot.CurrentItem = item;
+                slot.CurrentItem = item.name;
                 // 아이템을 추가했으므로 loop를 중단
                 break;
             }
         }
+  
     }
     private List<GameObject> GetItemTab(ItemBase item)
     {
@@ -170,17 +174,17 @@ public class SlotManager : MonoBehaviour
     }
     void SwapItems(Slot slot1, Slot slot2)
     {
-        // 아이템 교환
-        ItemBase tempItem = slot1.CurrentItem;
-        int tempCount = slot1.ItemCount;
+        //// 아이템 교환
+        //ItemBase tempItem = slot1.CurrentItem;
+        //int tempCount = slot1.ItemCount;
 
-        slot1.CurrentItem = slot2.CurrentItem;
-        slot1.ItemCount = slot2.ItemCount;
-        slot1.IsEmpty = slot2.IsEmpty;
+        //slot1.CurrentItem = slot2.CurrentItem;
+        //slot1.ItemCount = slot2.ItemCount;
+        //slot1.IsEmpty = slot2.IsEmpty;
 
-        slot2.CurrentItem = tempItem;
-        slot2.ItemCount = tempCount;
-        slot2.IsEmpty = (tempItem == null);
+        //slot2.CurrentItem = tempItem;
+        //slot2.ItemCount = tempCount;
+        //slot2.IsEmpty = (tempItem == null);
 
         // UI 업데이트
        // UpdateSlot(slot1);
