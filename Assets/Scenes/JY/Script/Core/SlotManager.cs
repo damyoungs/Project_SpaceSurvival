@@ -14,7 +14,10 @@ public class SlotManager : MonoBehaviour
     public Transform consume_Below;
     public Transform etc_Below;
     public Transform craft_Below;
+
     Slot selectedSlot;
+    Image clickedItemImage; //첫번째 클릭한 슬롯 하위의 아이템 이미지
+    Vector2 firstClickSlotPosition;
 
     public Dictionary<Current_Inventory_State, List<GameObject>> slots;
     public void Initialize()
@@ -149,8 +152,9 @@ public class SlotManager : MonoBehaviour
         if (selectedSlot == null)
         {
             selectedSlot = clickedSlot;
-            Image clickedItemImage = clickedSlot.transform.GetChild(0).GetComponent<Image>();
-           
+            clickedItemImage = clickedSlot.transform.GetChild(0).GetComponent<Image>();
+            firstClickSlotPosition = clickedItemImage.rectTransform.localPosition;
+
             var color = clickedItemImage.color;
             color.a = 0.5f;//로컬변수 color의 알파값을 변경하는건 가능하지만  clickedItemImage.color.a = 0.5f; 이렇게 직접 값을 변경하는건 읽기전용이라 안된다
             clickedItemImage.color = color;
@@ -165,30 +169,32 @@ public class SlotManager : MonoBehaviour
     }
     IEnumerator ImageMovingCoroutine()
     {
-        while (true)
+        while (selectedSlot != null)
         {
-            selectedSlot.transform.position = Input.mousePosition;
+            selectedSlot.transform.GetChild(0).position = Input.mousePosition;
             yield return null;
         }
- 
+        var color = clickedItemImage.color;
+        color.a = 1.0f;
+        clickedItemImage.color = color;
+        yield break;
     }
-    void SwapItems(Slot slot1, Slot slot2)
+    void SwapItems(Slot firstClickSlot, Slot secondClickSlot)
     {
-        //// 아이템 교환
-        //ItemBase tempItem = slot1.CurrentItem;
-        //int tempCount = slot1.ItemCount;
+        StopCoroutine(ImageMovingCoroutine());
+        // Get the image components
+        
 
-        //slot1.CurrentItem = slot2.CurrentItem;
-        //slot1.ItemCount = slot2.ItemCount;
-        //slot1.IsEmpty = slot2.IsEmpty;
+        Image firstImage = firstClickSlot.transform.GetChild(0).GetComponent<Image>();
+        Image secondImage = secondClickSlot.transform.GetChild(0).GetComponent<Image>();
 
-        //slot2.CurrentItem = tempItem;
-        //slot2.ItemCount = tempCount;
-        //slot2.IsEmpty = (tempItem == null);
+   
 
-        // UI 업데이트
-       // UpdateSlot(slot1);
-       // UpdateSlot(slot2);
+        // Swap the positions
+        firstImage.rectTransform.localPosition = secondImage.rectTransform.localPosition;
+        secondImage.rectTransform.localPosition = firstClickSlotPosition;
+
+        // 아이템 교환
     }
 
 }

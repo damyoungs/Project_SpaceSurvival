@@ -59,7 +59,7 @@ public class ItemBase : MonoBehaviour
     protected IEnumerator LifeOver(float delay)
     {
         yield return new WaitForSeconds(delay);
-     //   GameManager.SlotManager.GetItem(this);//테스트용
+      //  GameManager.SlotManager.GetItem(this);//테스트용
         Destroy(gameObject);
     }
 }

@@ -97,18 +97,21 @@ public class ItemSpawner : TestBase
         GameObject obj = Instantiate(prefabDict[PrefabName.Hammer]);
         ItemBase item = obj.GetComponent<ItemBase>();
         GameManager.SlotManager.GetItem(item);
+        Destroy(obj);
     }
     public void GetItemBow()
     {
         GameObject obj = Instantiate(prefabDict[PrefabName.Bow]);
         ItemBase item = obj.GetComponent<ItemBase>();
         GameManager.SlotManager.GetItem(item);
+        Destroy(obj);
     }
     public void GetItemHpPotion()
     {
         GameObject obj = Instantiate(prefabDict[PrefabName.HpPotion]);
         ItemBase item = obj.GetComponent<ItemBase>();
         GameManager.SlotManager.GetItem(item);
+        Destroy(obj);
     }
     protected override void Test1(InputAction.CallbackContext _)
     {
