@@ -194,7 +194,7 @@ public class SlotManager : MonoBehaviour
         Image firstImage = firstClickSlot.transform.GetChild(0).GetComponent<Image>();
         Image secondImage = secondClickSlot.transform.GetChild(0).GetComponent<Image>();
 
-   
+        
 
         // Swap the positions
         firstImage.rectTransform.localPosition = secondImage.rectTransform.localPosition;

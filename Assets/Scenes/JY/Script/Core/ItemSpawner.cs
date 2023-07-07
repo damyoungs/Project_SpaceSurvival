@@ -32,7 +32,7 @@ public class ItemSpawner : TestBase
 {
     int value;
     public GameObject[] prefabs;
-
+  //  public float dropRate;
     private Dictionary<PrefabName, GameObject> prefabDict = new Dictionary<PrefabName, GameObject>();
     private Dictionary<Type, List<(PrefabName, float)>> enemyDropTable = new Dictionary<Type, List<(PrefabName, float)>>();//드랍테이블 생성
     // Enemy의 타입에 따라 PrefabName(아이템) 을 float 확률로 드롭해라. 그 PrefabName에  dictionary로 GameObject를 바인드해서 연결해준다.
