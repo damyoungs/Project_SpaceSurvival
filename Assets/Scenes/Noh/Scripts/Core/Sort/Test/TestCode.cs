@@ -122,11 +122,11 @@ public class TestCode : TestBase
     /// <param name="after">뒤의값</param>
     /// <returns>비교 결과</returns>
     private int SortComparison(TurnBaseObject before , TurnBaseObject after) {
-        if (before.SortValue < after.SortValue) 
+        if (before.TurnActionValue < after.TurnActionValue) 
         {
             return isAsc ?  -1 : 1; 
         }
-        else if (before.SortValue > after.SortValue)
+        else if (before.TurnActionValue > after.TurnActionValue)
         {
             return isAsc ?  1 : -1;
         }
