@@ -151,20 +151,26 @@ public class SlotManager : MonoBehaviour
         // 첫 클릭: 선택한 슬롯 저장
         if (selectedSlot == null)
         {
-            selectedSlot = clickedSlot;
-            clickedItemImage = clickedSlot.transform.GetChild(0).GetComponent<Image>();
-            firstClickSlotPosition = clickedItemImage.rectTransform.localPosition;
+            if (!clickedSlot.IsEmpty)
+            {
+                Debug.Log("if문 실행");
+                selectedSlot = clickedSlot;
+                clickedItemImage = clickedSlot.transform.GetChild(0).GetComponent<Image>();
+                firstClickSlotPosition = clickedItemImage.rectTransform.localPosition;
 
-            var color = clickedItemImage.color;
-            color.a = 0.5f;//로컬변수 color의 알파값을 변경하는건 가능하지만  clickedItemImage.color.a = 0.5f; 이렇게 직접 값을 변경하는건 읽기전용이라 안된다
-            clickedItemImage.color = color;
-            StartCoroutine(ImageMovingCoroutine());
+                var color = clickedItemImage.color;
+                color.a = 0.5f;//로컬변수 color의 알파값을 변경하는건 가능하지만  clickedItemImage.color.a = 0.5f; 이렇게 직접 값을 변경하는건 읽기전용이라 안된다
+                clickedItemImage.color = color;
+                StartCoroutine(ImageMovingCoroutine());
+            }
         }
         // 두 번째 클릭: 아이템 교환하고 선택한 슬롯 초기화
         else
         {
+            Debug.Log("else문 실행");
             SwapItems(selectedSlot, clickedSlot);
             selectedSlot = null;
+           
         }
     }
     IEnumerator ImageMovingCoroutine()
