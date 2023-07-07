@@ -1,4 +1,7 @@
-﻿using System.Diagnostics;using System.Diagnostics.Metrics;namespace CharacterConcepts;
+﻿using System.Diagnostics;
+using System.Diagnostics.Metrics;
+
+namespace CharacterConcepts;
 class Program
 {
 	/*캐릭터 능력치*/
@@ -12,9 +15,9 @@ ________________________________________________________________________________
 
 	1.힘(Strength) - 근거리 공격력, 최대 소지무게
 
-	2.체력(Health) -최대 HP, 최대 포만감, 최대* 스테미너
+	2.체력(Health) -최대 HP, 최대 포만감
 
-	3.정신력(Spirit) - *공포저항, 스테미너 회복속도
+	3.정신력(Spirit) - 상태이상 저항, 스테미너
 
 	4.재주(Dexterity) - 크래프팅 성공확률, 원거리 공격력
 
