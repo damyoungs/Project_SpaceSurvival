@@ -11,7 +11,7 @@ public class InventoryWindow : PopupWindowBase
     /// </summary>
     float minSizeWidth = 200.0f;
     
-    /// <summary>
+    /// <summary> 
     /// 아이템정렬 시 창크기 최소값 
     /// </summary>
     float minSizeHeight = 200.0f;

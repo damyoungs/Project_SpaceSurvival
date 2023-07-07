@@ -4,13 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 /*
-     기능은 같은데 매개변수타입만 달라서 하나로 묶고싶었지만 IEnumerable타입이 공통된거라 처리하려고햇지만 readonly 라서 수정이안되네 ... 에휴.
      정렬기능만 제공할것이기때문에static 으로 만들어서 상속은 할수없다.    
-     enum 은 상수이기때문에 인터페이스에 명시할수없고 제네릭으로 가져오기힘들다. 그렇다고 제네릭을 클래스로받으면 상속때문에 문제가발생한다.
+     enum 은 상수이기때문에 인터페이스에서 상속할수없고 제네릭으로 가져오기힘들다.
+     그렇다고 제네릭을 클래스로받으면 상속때문에 문제가발생한다.
      ChangeObj(ref listData[min],ref listData[i]); CS0206 오류발생 프로퍼티나 배열이나 리스트의 인덱스는 ref 또는 out 을 사용할수가없다고한다.
+     배열, 리스트 인덱스 또한 함수로 되있는거같다.
 */
 /// <summary>
 ///     
@@ -25,7 +27,7 @@ using UnityEngine.InputSystem;
 /// </summary>
 /// <typeparam name="T">ISortBase 인터페이스를 상속받은 클래스</typeparam>
 
-public static class SortComponent<T> where T : ISortBase
+public static class SortComponent<T> where T : ITurnBaseData
 {
     /// <summary>
     /// 정렬 알고리즘의 종류
@@ -45,8 +47,10 @@ public static class SortComponent<T> where T : ISortBase
         Ascending = 0, //오름차순
         Descending     //내림차순
     }
+
+
     /// <summary>
-    /// IEnumerable 은 쓰기가안되서 ICollection 을 사용해보앗다. 
+    /// IEnumerable 은 쓰기가안되서 ICollection 을 사용해보앗다.
     /// ICollection는 인터페이스 자체가 두종류가 존재하여 Array 와 List 의 공통된 인터페이스인 IList 를 이용하였다. 덕분에 오버로딩 없이 사용할수있다.
     /// 정렬 알고리즘의 종류별로 연결해주는 함수
     /// 알고리즘 출처 : https://hyo-ue4study.tistory.com/68
@@ -54,7 +58,7 @@ public static class SortComponent<T> where T : ISortBase
     ///<param name="proccessType">정렬할 알고리즘타입</param>
     ///<param name="type">정렬방법</param>
     /// </summary>
-    public static void SorttingData(IList<T>  data,                                            //리스트든 배열이든 받을수있는 인터페이스를 인자값으로 받아서 처리해보았다. 
+    public static void SorttingData(IList<T> data,                                            //리스트든 배열이든 받을수있는 인터페이스를 인자값으로 받아서 처리해보았다. 
                                     SortProccessType proccessType = SortProccessType.InsertSort,    //정렬알고리즘이 여러개라 구분하기위해 넣어놨다.
                                     SortType type = SortType.Ascending                             //오름차순 내림차순 구분하기위한 값이다.
                                     )
@@ -64,13 +68,13 @@ public static class SortComponent<T> where T : ISortBase
         switch (proccessType) // 정렬방법선택
         {
             case SortProccessType.InsertSort: //삽입정렬
-                InsertionSort(ref data , length, type); 
+                InsertionSort(ref data, length, type);
                 break;
             case SortProccessType.SelectionSort: //선택정렬
-                SelectionSort(ref data , length, type);
+                SelectionSort(ref data, length, type);
                 break;
             case SortProccessType.BubbleSort: //버블정렬
-                BubbleSort(ref data , length, type);
+                BubbleSort(ref data, length, type);
                 break;
         }
 
@@ -95,7 +99,6 @@ public static class SortComponent<T> where T : ISortBase
             key = listData[i];// 0번이아니라 1번부터 비교할 객체을 담고 
             for (j = i - 1; j >= 0; j--) //담은 값의 -1번째부터 비교를 시작하여 
             {
-                //Debug.Log(j);
                 if (SortAscDesCheck(key, listData[j], type)) //오름차순일땐  key 값보다 큰값이 존재할경우  내림차순일땐 key값보다 작은값이 존재할경우
                 {
                     listData[j + 1] = listData[j];  // 한칸씩 뒤(+)로 이동시킨다.
@@ -116,16 +119,16 @@ public static class SortComponent<T> where T : ISortBase
     /// <param name="max">커야될 값</param>
     /// <param name="sortType">오름차순 내림차순선택값</param>
     /// <returns></returns>
-    private static bool SortAscDesCheck(T min, T max, SortType sortType)
+    public static bool SortAscDesCheck(ITurnBaseData min, ITurnBaseData max, SortType sortType)
     {
         bool resultValue = false;
         switch (sortType)
         {
             case SortType.Ascending:
-                resultValue = min.SortValue < max.SortValue; // 올림차순일경우 -100 ~ 100
+                resultValue = min.TurnActionValue < max.TurnActionValue; // 올림차순일경우 -100 ~ 100
                 break;
             case SortType.Descending:
-                resultValue = min.SortValue > max.SortValue; // 내림차순일경우 100 ~ -100
+                resultValue = min.TurnActionValue > max.TurnActionValue; // 내림차순일경우 100 ~ -100
                 break;
         }
         return resultValue;
@@ -182,6 +185,42 @@ public static class SortComponent<T> where T : ISortBase
             }
         }
     }
+    //==============================================  아래는 링크드 리스트 정렬 기능 ==========================================
+
+    /// <summary>
+    /// 링크드리스트 정렬. 알고리즘 : 버블정렬
+    /// 버블정렬은 인접한 두객체를 비교하면서 교체하기때움에 링크드 리스트의 특성과도 잘맞는다 
+    /// 테스트 완료 
+    /// </summary>
+    /// <param name="turnObjectList">정렬할데이터 ISortBase 링크드리스트</param>
+    /// <param name="type">오름정렬Asc 내림정렬Des</param>
+    public static void BubbleSortLinkedList(LinkedList<ITurnBaseData> turnObjectList, SortType type = SortType.Ascending)
+    {
+        LinkedListNode<ITurnBaseData> key;
+        LinkedListNode<ITurnBaseData> temp;
+        int length = turnObjectList.Count;
+        for (int i = 0; i < length - 1; i++)
+        {
+            key = turnObjectList.First;//무조건 처음부터 검색시작
+            for (int j = 0; j < length - 1 - i; j++)//맨처음부터 끝까지 돌면서 시작 한바퀴돌때마다 포문횟수는 점점 줄어든다
+            {
+                if (SortAscDesCheck(key.Next.Value, key.Value, type)) //값을 비교하여 교체필요하면 
+                {   //교체
+                    temp = key.Next; //뒤에거 임시객체에 담아두고 
+                    turnObjectList.Remove(key);//앞에있던객체 링크드리스트에서 제거 
+                    turnObjectList.AddAfter(temp, key);//그런후 뒤에있던 임시객체를 통해 뒤에다가 노드 추가하여 뒤에있던것과 앞에있던것의 위치를 바꾼다.
+                }
+                else
+                {
+                    key = key.Next; //교체할값이없으면 다음 객체로 비교대상을 옮긴다.
+                }
+
+            }
+
+        }
+
+    }
+
 
 }
 /*
