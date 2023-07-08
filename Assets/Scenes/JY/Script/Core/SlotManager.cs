@@ -19,6 +19,7 @@ public class SlotManager : MonoBehaviour
     Vector2 firstClickSlotPosition;
 
     public Dictionary<Current_Inventory_State, List<GameObject>> slots;
+    private Dictionary<Current_Inventory_State, int> slotCount;
     public void Initialize()
     {
         slots = new Dictionary<Current_Inventory_State, List<GameObject>>
@@ -27,6 +28,13 @@ public class SlotManager : MonoBehaviour
             { Current_Inventory_State.Consume, new List<GameObject>() },
             { Current_Inventory_State.Etc, new List<GameObject>() },
             { Current_Inventory_State.Craft, new List<GameObject>() }
+        };
+        slotCount = new Dictionary<Current_Inventory_State, int>
+        {
+            { Current_Inventory_State.Equip, 0 },
+            { Current_Inventory_State.Consume, 0},
+            { Current_Inventory_State.Etc, 0},
+            { Current_Inventory_State.Craft, 0}
         };
         GameManager.Inventory.State = Current_Inventory_State.Equip;
         for (int i = 0; i < 4; i++)
@@ -76,7 +84,8 @@ public class SlotManager : MonoBehaviour
         }
         if (parentTransform != null)
         {
-          //  newSlot.name = $"{GameManager.Inventory.State}_{i}";
+            slotCount[GameManager.Inventory.State]++;
+            newSlot.name = $"{GameManager.Inventory.State}_{slotCount[ GameManager.Inventory.State]}";
             newSlot.transform.SetParent(parentTransform, false);
             slots[GameManager.Inventory.State].Add(newSlot);
         } 
@@ -181,11 +190,38 @@ public class SlotManager : MonoBehaviour
     }
     void SwapItems(Slot firstSlot, Slot secondSlot)
     {
- 
+        // 먼저 두 슬롯이 어떤 리스트에 속해 있는지 알아냅니다.
+        List<GameObject> SlotList = null;
 
-       // StopCoroutine(ImageMovingCoroutine());
+        foreach (var slotList in slots)
+        {
+            if (slotList.Value.Contains(firstSlot.gameObject))
+            {
+                SlotList = slotList.Value;
+            }
+        }
 
-        // 아이템 교환
+        if (SlotList == null)
+        {
+            Debug.LogError("Slot lists not found.");
+            return;
+        }
+
+        // 각 슬롯의 인덱스를 찾습니다.
+        int firstSlotIndex = SlotList.IndexOf(firstSlot.gameObject);
+        int secondSlotIndex = SlotList.IndexOf(secondSlot.gameObject);
+
+        // 슬롯을 잠시 저장하고 리스트에서 삭제합니다.
+        GameObject tempFirstSlot = SlotList[firstSlotIndex];
+        GameObject tempSecondSlot = SlotList[secondSlotIndex];
+
+        Destroy(firstSlot.gameObject);
+        Destroy(secondSlot.gameObject);
+        SlotList.RemoveAt(firstSlotIndex);
+        SlotList.RemoveAt(secondSlotIndex);
+        // 삭제한 위치에 다른 슬롯을 추가하여 위치를 바꿉니다.
+        SlotList.Insert(firstSlotIndex, tempSecondSlot);
+        SlotList.Insert(secondSlotIndex, tempFirstSlot);
     }
     IEnumerator ImageMovingCoroutine()
     {
