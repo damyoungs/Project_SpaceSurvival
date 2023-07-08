@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro.EditorUtilities;
 using UnityEngine;
 /*
  JsonUtility.ToJson  다중배열 지원안됨 . 
@@ -91,86 +92,83 @@ public struct stringTripleArray
     }
 }
 
+/// <summary>
+/// 클래스나 구조체 등 직렬화 할때 순환참조를 고려해야한다 
+/// 순환참조란  A B C 클래스가있고 
+///            A클래스에는  B맴버가  
+///            B클래스에는  C맴버가 
+///            C 클래스에는 A맴버가 있는경우 같이 
+///            클래스안에 다른 클래스를 맴버로 가질경우 
+///            
+/// 직렬화할때 A 클래스의 B 클래스로 파고들고 
+///            B클래스에서는 C클래스로 파고들고 
+///            C클래스에서는 다시 A클래스로 파고드는데 
+///            여기서 다시 A클래스는 B클래스를 파고 들면서 
+///            무한히 직렬화 할 가능성이 존재한다 
+/// 이를 방지하기위해 유니티에서는 파고드는 깊이를 10단계까지만 제한을 두어 무한루프일때의 상황을대처하였다 
+/// 파싱데이터 구조에 Vector 종류의 데이터타입 배열을 선언해서 사용해보면 바로 무한루프 가능성있다고 알려주는 경고 메세지가 나온다.
+/// 
+/// 클래스,구조체 의 배열이나 리스트는 데이터로 만들때 순환참조를 고려해야한다.
+/// </summary>
+/// <typeparam name="T"></typeparam>
 [Serializable]
 public class TestSaveData<T> : JsonGameData  // 상속받은 것도 같이 json으로 파싱이된다. 제네릭 도 같이 파싱이 된다.
 {
-    public TestSaveData() {
-        CharcterInfo = new StructList.CharcterInfo[1];
-        CharcterInfo[0].Level = 98;
-        CharcterInfo[0].CharcterName = "아주그냥끝장을보는놈";
-        CharcterInfo[0].CharcterPosition = new Vector3(0,0,9999.0f);
-        CharcterInfo[0].EXP = 990930930;
-        CharcterInfo[0].Money = 19191919191919191;
-    }   
-    [SerializeField]stringTripleArray stringTripleArray = new stringTripleArray();
-    [SerializeField]dumyData dumyData = new dumyData();
-    [SerializeField]dumyData dumyEmpty;
-    [SerializeField]Vector3 vector3Test = new Vector3(55.5f, 22.3f, 44.5f);
-    [SerializeField]Vector2 vector2Test = new Vector2(12.4f, 11.3f);
-    [SerializeField]int[] invenIndex = { 75444545, 12213234, 1234556123, 234234211, 352112345, 1262343673, 1231215161 };
-    [SerializeField]List<T> test = new List<T>();
-    public List<T> Test {
-        get => test;
-        set => test = value;
-    }
-    [SerializeField]List<T> test1;
-    [SerializeField]int[][] test3 = new int[][] { new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 } }; ///다중배열은 안된다.
-    [SerializeField]string[] tempString = {"이","게","저","장","되","네" };
-    [SerializeField]stringArray[] tempArray = new stringArray[3];
-    [SerializeField]stringDoubleArray[] tempDoubleArray = new stringDoubleArray[3];
-    [SerializeField]float[] yamiTest = { 10.5f, 20.6f, 33.41f,555.3f};
+    public MyClass otherInstance;//순환 참조 테스트용 클래스
+    /// <summary>0
+    /// 데이터 테스트 Vector를빼고 경고메세지 안나오는것을 확인
+    /// </summary>
     public void TestFunc() {
 
-        //다중배열 처리 방식 데이터입력 확인  json파싱도 확인완료  정상적으로 저장되고 불러옴 
-        for (int i = 0; i < tempArray.Length; i++)
+        base.CharcterInfo = new StructList.CharcterInfo[100];
+        for (int i = 0; i < base.CharcterInfo.Length; i++)
         {
-            tempArray[i].Values = new string[3]; //새로만들어서 
-            tempArray[i].tempInt = new int[3];
-            for (int j = 0; j < tempArray[i].Values.Length; j++)
+            base.CharcterInfo[i].Level = 8 * i;
+            base.CharcterInfo[i].CharcterName = $"{i} 번째 홍길동";
+            base.CharcterInfo[i].EXP = i * 99;
+            base.CharcterInfo[i].SceanPositionZ = 99.9f *i;
+            base.CharcterInfo[i].SceanPositionY = 199.9f *i;
+            base.CharcterInfo[i].SceanPositionX = 199.9f * i;
+            base.CharcterInfo[i].Money = i * 5012;
+            base.CharcterInfo[i].FlagList = new int[100];
+            for (int ij = 0; ij < base.CharcterInfo[i].FlagList.Length; ij++)
             {
-                tempArray[i].Values[j] = tempString[j]; //하나씩 넣어도되고 
-            }
-            for (int j = 0; j < tempArray[i].tempInt.Length; j++) {
-                tempArray[i].tempInt[j] = invenIndex[j];
+                base.CharcterInfo[i].FlagList[ij] = ij * 857;
             }
         }
-        for (int i = 0; i < tempDoubleArray.Length; i++)
+        base.ItemList = new StructList.CharcterItems[100];
+        for (int i = 0; i < base.ItemList.Length; i++)
         {
-            tempDoubleArray[i].Values = tempArray;// 밖에서 만들어진것을 집어넣어도된다.
-            tempDoubleArray[i].yami = yamiTest;
+            base.ItemList[i].Values = i * 12;
+            base.ItemList[i].ItemIndex = i ;
         }
-        stringTripleArray  = new stringTripleArray(tempDoubleArray);
+        base.QuestList = new StructList.CharcterQuest[500];
+        for (int i = 0; i < base.QuestList.Length; i++)
+        {
+            base.QuestList[i].QuestIProgress = i * 5;
+            base.QuestList[i].QuestIndex = i ;
+        }
+        base.SkillList = new StructList.CharcterSkills[100];
+        for (int i = 0; i < base.SkillList.Length; i++)
+        {
+            base.SkillList[i].Values = i * 500;
+            base.SkillList[i].SkillIndex = i ;
 
-
-        //foreach는 읽기 전용으로 만들어져있어서 value 변수는 기본적으로 readonly 값을 가진다.
-        //foreach (stringArray value in tempArray) { 
-        //    value.values = tempString;
-        //}
-
+        }
+        /*
+         * 해당코드 실행시 순한 참조가 발생하여 아래에러를 발생하여 직렬화가 안된다 
+         * Serialization depth limit 10 exceeded at 'MyClass.otherInstance'. There may be an object composition cycle in one or more of your serialized classes.
+         * 유니티에서는 참조깊이를 10번으로 제한하고있다 이는 순환 참조를 방지하기위해서이다.
+        MyClass obj1 = new MyClass();
+        MyClass obj2 = new MyClass();
+        obj1.otherInstance = obj2;
+        obj2.otherInstance = obj1;
+        */
     }
     public JsonGameData SetSaveData() {
         TestSaveData<T> sd = new();
+
         sd.TestFunc();
-        sd.SkillList = new StructList.CharcterSkills[2];
-        sd.SkillList[0].SkillIndex = 0;
-        sd.SkillList[1].SkillIndex = 1;
-        sd.SkillList[0].Values = 94;
-        sd.SkillList[1].Values = 922;
-        sd.ItemList = new StructList.CharcterItems[2];
-        sd.ItemList[0].ItemIndex = 923;
-        sd.ItemList[1].ItemIndex = 9;
-        sd.ItemList[0].Values = 212;
-        sd.ItemList[1].Values = 22;
-        sd.CharcterInfo = new StructList.CharcterInfo[1];
-        sd.CharcterInfo[0].EXP = 59458.2332f;
-        sd.CharcterInfo[0].CharcterName = "장발산";
-        sd.CharcterInfo[0].CharcterPosition = Vector3.zero;
-        sd.CharcterInfo[0].Level = 57;
-        sd.QuestList = new StructList.CharcterQuest[98];
-        for (int i= 0; i< sd.QuestList.Length; i++) {
-            sd.QuestList[i].QuestIndex = i;
-            sd.QuestList[i].QuestIProgress = i * i;
-        }
         return sd;
     }
 
@@ -178,10 +176,18 @@ public class TestSaveData<T> : JsonGameData  // 상속받은 것도 같이 json으로 파싱
         int a =  OriginData.DataIndex;
         EnumList.SceanName o = OriginData.SceanName;
         string time = OriginData.SaveTime;
-        StructList.CharcterSkills[] b = OriginData.SkillList;
-        StructList.CharcterInfo[] c = OriginData.CharcterInfo;
-        StructList.CharcterItems[] d = OriginData.ItemList;
-        StructList.CharcterQuest[] f = OriginData.QuestList;
+       
 
     }
+
+    /// <summary>
+    /// 순환 참조 테스트용 클래스선언
+    /// </summary>
+    [Serializable]
+    public class MyClass
+    {
+        public MyClass otherInstance;
+    }
+
+  
 }

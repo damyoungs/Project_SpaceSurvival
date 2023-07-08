@@ -32,7 +32,7 @@ public class MultipleObjectPool<T> : MonoBehaviour where T : ObjectIsPool
 
     /// <summary>
     /// 오브젝트 생성위치 변경할 변수 추가 
-    /// 이변수가 비활성화되있으면 GenerateObjects 함수의 마지막 비활성화 시켜도 OnDisable함수가 호출이안된다.
+    /// 이변수의 오브젝트가 비활성화되있으면 GenerateObjects 함수의 마지막 비활성화 시켜도 OnDisable함수가 호출이안된다.
     /// </summary>
     protected Transform setPosition;
    

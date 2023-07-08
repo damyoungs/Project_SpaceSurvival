@@ -42,9 +42,8 @@ public class OptionsListButton : MonoBehaviour
 
     public void OptionsAction()
     {
-        TestSaveData<string> testData = new();//테스트 데이터 생성
-        testData.TestFunc(); //값추가
-        testData.SetSaveData();//이것도값추가
+        JsonGameData testData = new();//테스트 데이터 생성
+        testData = new TestSaveData<string>().SetSaveData();//이것도값추가
         SaveLoadManager.Instance.GameSaveData = testData; //저장데이터에 넣기
     }
 

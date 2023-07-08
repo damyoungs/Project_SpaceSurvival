@@ -7,11 +7,10 @@ public class TestBase : MonoBehaviour
 {
     InputKeyMouse inputKeyMouse;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         inputKeyMouse = new InputKeyMouse();
     }
-
     private void OnEnable()
     {
         inputKeyMouse.Test.Enable();

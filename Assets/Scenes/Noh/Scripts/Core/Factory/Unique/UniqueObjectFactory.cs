@@ -8,7 +8,7 @@ using UnityEngine.UI;
 /// 공통적으로 처리해야될 로직작성
 /// 이름만 팩토리....Prefab 이라고붙이는게낫았으려나..
 /// </summary>
-public class UniqueObjectFactory : Singleton<UniqueObjectFactory>
+public class UniqueObjectFactory :ChildComponentSingeton<UniqueObjectFactory>
 {
 
     /// <summary>

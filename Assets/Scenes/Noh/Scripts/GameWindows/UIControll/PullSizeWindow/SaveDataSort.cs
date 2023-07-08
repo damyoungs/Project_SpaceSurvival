@@ -33,11 +33,7 @@ public class SaveDataSort : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 한페이지에 보일 페이지 오브젝트 최대 갯수
-    /// </summary>
-    [SerializeField]
-    int pageViewMaxSize = 8;
+ 
 
     /// <summary>
     /// 한페이지에 보일 최대 저장파일 오브젝트 최대 갯수
@@ -299,9 +295,7 @@ public class SaveDataSort : MonoBehaviour
             //밑으로는 데이터 셋팅 프로퍼티 Set 함수에 화면에 보여주는 기능넣어놨다.
             //보이는기능수정시 SaveDataObject 클래스수정.
             sd.FileIndex = saveData.DataIndex;
-            sd.name = saveData.CharcterInfo[0].CharcterName; //오브젝트가 바뀐건지 확인용
             sd.CreateTime = saveData.SaveTime;
-            sd.Money = saveData.CharcterInfo[0].Money;
             sd.SceanName = saveData.SceanName;
         }
         else
