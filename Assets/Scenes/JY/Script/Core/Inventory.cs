@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public enum Current_Inventory_State
 {
+    None,
     Equip,
     Consume,
     Etc,
@@ -39,8 +40,8 @@ public class Inventory : MonoBehaviour
     public delegate void Inventory_State_Changed(Current_Inventory_State state); //state가 바뀌면 setter가 호출할 delegate
     Inventory_State_Changed inventory_changed;
 
-    private Current_Inventory_State state;
-    public Current_Inventory_State State
+    private  Current_Inventory_State state;
+    public  Current_Inventory_State State
     {
         get { return state; }
         set
@@ -68,7 +69,7 @@ public class Inventory : MonoBehaviour
         craftButtonColor = craft_Button.GetComponent<Image>();
 
         close_Button.onClick.AddListener(Open_Inventory);
-        add_Button.onClick.AddListener(GameManager.SlotManager.Add_Slot);
+        add_Button.onClick.AddListener(GameManager.SlotManager.Make_Slot);
         equip_Button.onClick.AddListener(SwitchTab_To_Equip);
         consume_Button.onClick.AddListener(SwitchTab_To_Consume);
         etc_Button.onClick.AddListener(SwitchTab_To_Etc);
