@@ -28,16 +28,17 @@ public class SaveLoadPopupButton : MonoBehaviour
 
     private void Awake()
     {
-        parentPopupWindow = SaveLoadPopupWindow.Instance.transform.GetChild(1).gameObject; //팝업창 위치 찾기
+        
+        parentPopupWindow = WindowList.Instance.IOPopupWindow.transform.GetChild(WindowList.Instance.IOPopupWindow.transform.childCount - 1).gameObject; //팝업창 위치 찾기
         proccessClass = WindowList.Instance.transform.GetChild(0).GetChild(0).GetChild(1).gameObject.GetComponent<SaveDataSort>();//초기화때 필요한 함수불러오기위해 사용  
     }
     private void OnEnable()//팝업창활성화시 
     {
-        type = SaveLoadPopupWindow.Instance.ButtonType; //팝업창의 타입을 셋팅한다.
+        type = WindowList.Instance.IOPopupWindow.ButtonType; //팝업창의 타입을 셋팅한다.
 
-        selectIndex = SaveLoadPopupWindow.Instance.NewIndex; //세이브데이터 클릭한것의 인덱스값을 넘겨받는다
+        selectIndex = WindowList.Instance.IOPopupWindow.NewIndex; //세이브데이터 클릭한것의 인덱스값을 넘겨받는다
 
-        oldSelectIndex = SaveLoadPopupWindow.Instance.OldIndex;// 카피할 데이터 인덱스값을 넘겨받는다.
+        oldSelectIndex = WindowList.Instance.IOPopupWindow.OldIndex;// 카피할 데이터 인덱스값을 넘겨받는다.
     }
     private void OnDisable()//비활성화시 기본셋팅값 초기화
     {

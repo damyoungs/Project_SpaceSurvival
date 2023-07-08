@@ -28,11 +28,15 @@ public class PopupWindowMoveButton : MonoBehaviour, IBeginDragHandler, IDragHand
     /// 드래그시작위치를담을 백터
     /// </summary>
     private Vector2 startPosition;
+
     /// <summary>
     /// 드래그시작시 이벤트위치값을 담을 백터
     /// </summary>
     private Vector2 movePosition;
 
+    /// <summary>
+    /// 창이동시 임시로 위치담아둘 변수
+    /// </summary>
     private Vector2 moveOffSet;
     private void Awake()
     {
@@ -70,25 +74,19 @@ public class PopupWindowMoveButton : MonoBehaviour, IBeginDragHandler, IDragHand
     /// <returns>화면에서 벗어났으면 false</returns>
     bool CheckOutOfWindow(PointerEventData eventData)
     {
-
-        moveOffSet = startPosition + (eventData.position - movePosition);
-        Debug.Log($"moveOffSet{moveOffSet}");
+        moveOffSet = startPosition + (eventData.position - movePosition); //이동한 값
         //왼쪽과 위 체크
         if (moveOffSet.x < 0 || moveOffSet.y > 0) { 
             return false;
         }
-        
 
-        //Horizontal
         //오른쪽 체크
         float x = moveOffSet.x + parentWindow.rect.width; //오른쪽으로벗어나는것을체크하기위해 창크기랑좌표랑 합친다
         if (x > windowWidth) { //합친값이 창보다 크면 벗어낫으니 아웃!
             //moveOffSet.x = windowWidth;
             return false; 
         }
-
-
-
+         
         //아래체크
         float y = moveOffSet.y - parentWindow.rect.height; // 아래방향이기때문에 더하는게아니라 빼준다. moveOffSet.y는 항상 음수이다.
         if (-y > windowHeight) {//아래방향이기때문에 연산값에 -를해서 양수로 바꿔준다.

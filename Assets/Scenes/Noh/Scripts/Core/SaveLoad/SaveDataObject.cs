@@ -118,7 +118,7 @@ public class SaveDataObject : SaveDataIsPool
     }
     private void Start()
     {
-        proccessManager = SaveLoadPopupWindow.Instance; //저장화면 처리하는클래스가져오기
+        proccessManager = WindowList.Instance.IOPopupWindow; //저장화면 처리하는클래스가져오기
     }
 
     public void InFocusObject() 
@@ -135,7 +135,7 @@ public class SaveDataObject : SaveDataIsPool
             }
             else
             {
-                SaveLoadPopupWindow.Instance.NewIndex = fileIndex; //새로클릭했으면 다시 셋팅 
+                proccessManager.NewIndex = fileIndex; //새로클릭했으면 다시 셋팅 
             }
         }
         

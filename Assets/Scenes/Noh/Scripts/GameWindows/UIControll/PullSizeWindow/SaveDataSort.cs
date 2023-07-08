@@ -85,13 +85,11 @@ public class SaveDataSort : MonoBehaviour
     /// </summary>
     private void Start()
     {
-#if UNITY_EDITOR
-        Debug.Log("실행위치 : Start   - 스타트 테스트 처음시작시 OnEnable 보다 느리다");
-#endif
+
         //싱글톤 설정때매 Awake 에서 못찾는다. 
         saveWindowObject = SaveLoadManager.Instance.SaveLoadWindow;
         saveWindowPageObject = SaveLoadManager.Instance.SaveLoadPagingWindow;
-        saveLoadPopupWindow = SaveLoadPopupWindow.Instance.GetComponent<SaveLoadPopupWindow>();
+        saveLoadPopupWindow = WindowList.Instance.IOPopupWindow;
 
         //델리게이트 연결 
         SaveLoadManager.Instance.saveObjectReflash += SetGameObject; //기능실행시 오브젝트을 다시그린다.
@@ -108,9 +106,7 @@ public class SaveDataSort : MonoBehaviour
     /// </summary>
     private void OnEnable()
     {
-#if UNITY_EDITOR
-        Debug.Log("실행위치 : OnEnable   -  순번 체크 테스트 처음시작시 OnEnable 이 Start보다 빠르다.");
-#endif
+
         if (saveWindowObject != null) { //스타트함수보다 빨리실행되서 처음열때 오류가 발생한다.
             SetGameObjectList(SaveLoadManager.Instance.SaveDataList); //초기화 작업때 비동기로 파일데이터를 읽어오기때문에 셋팅이안됬을수도있다 
         }

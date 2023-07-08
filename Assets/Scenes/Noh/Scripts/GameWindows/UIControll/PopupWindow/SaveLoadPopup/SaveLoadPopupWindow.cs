@@ -8,15 +8,37 @@ using UnityEngine.UI;
 /// <summary>
 /// 팝업 처리용 클래스
 /// </summary>
-public class SaveLoadPopupWindow : Singleton<SaveLoadPopupWindow>
+public class SaveLoadPopupWindow : MonoBehaviour
 {
+    /// <summary>
+    /// 저장 확인버튼
+    /// </summary>
     GameObject saveButton;
+    /// <summary>
+    /// 로드 확인버튼
+    /// </summary>
     GameObject loadButton;
+    /// <summary>
+    /// 복사 확인버튼
+    /// </summary>
     GameObject copyButton;
+    /// <summary>
+    /// 삭제 확인버튼
+    /// </summary>
     GameObject deleteButton;
+    /// <summary>
+    /// 가운데 텍스트 보여주는 오브젝트위치
+    /// </summary>
     TextMeshProUGUI windowText;
 
+    /// <summary>
+    /// 확인팝업창 
+    /// </summary>
     Transform proccessPopup;
+
+    /// <summary>
+    /// 게임오브젝트 클릭했을때 처리할 델리게이터
+    /// </summary>
     public Action<int,bool> focusInChangeFunction;
 
     /// <summary>
@@ -77,11 +99,9 @@ public class SaveLoadPopupWindow : Singleton<SaveLoadPopupWindow>
     /// <summary>
     /// 오브젝트 찾기
     /// </summary>
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
-        int savePopupIndex = transform.childCount - 1;
-        proccessPopup = transform.GetChild(savePopupIndex);
+        proccessPopup = transform.GetChild(transform.childCount - 1);//무조건 마지막 위치에다가 둬야한다!!!!!!!
         saveButton =    proccessPopup.GetChild(1).gameObject;
         loadButton =    proccessPopup.GetChild(2).gameObject;
         copyButton =    proccessPopup.GetChild(3).gameObject;
@@ -114,9 +134,4 @@ public class SaveLoadPopupWindow : Singleton<SaveLoadPopupWindow>
             proccessPopup.gameObject.SetActive(true); //키이벤트 클릭이벤트 막는 창띄우기
         }
     }
-
-    public void AllClosePopup() { 
-        
-    }
-   
 }

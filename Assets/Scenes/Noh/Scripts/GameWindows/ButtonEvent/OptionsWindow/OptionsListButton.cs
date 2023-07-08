@@ -9,21 +9,21 @@ public class OptionsListButton : MonoBehaviour
 {
     public void SaveAction() 
     {
-        SaveLoadPopupWindow.Instance.OpenPopupAction(EnumList.SaveLoadButtonList.SAVE);
+        WindowList.Instance.IOPopupWindow.OpenPopupAction(EnumList.SaveLoadButtonList.SAVE);
     }
 
     public void LoadAction()
     {
-        SaveLoadPopupWindow.Instance.OpenPopupAction(EnumList.SaveLoadButtonList.LOAD);
+        WindowList.Instance.IOPopupWindow.OpenPopupAction(EnumList.SaveLoadButtonList.LOAD);
 
     }
 
     public void CopyAction() 
     {
-        if (SaveLoadPopupWindow.Instance.NewIndex > -1 &&  //선택 값이 있거나
-            SaveLoadManager.Instance?.SaveDataList[SaveLoadPopupWindow.Instance.NewIndex] != null) //선택한값의 데이터가 있을때
+        if (WindowList.Instance.IOPopupWindow.NewIndex > -1 &&  //선택 값이 있거나
+            SaveLoadManager.Instance?.SaveDataList[WindowList.Instance.IOPopupWindow.NewIndex] != null) //선택한값의 데이터가 있을때
         {
-            SaveLoadPopupWindow.Instance.CopyCheck = true; //카피 플래그 온
+            WindowList.Instance.IOPopupWindow.CopyCheck = true; //카피 플래그 온
 
             Debug.Log("복사될 위치를 클릭하세요");
         }
@@ -36,7 +36,7 @@ public class OptionsListButton : MonoBehaviour
 
     public void DeleteAction()
     {
-        SaveLoadPopupWindow.Instance.OpenPopupAction(EnumList.SaveLoadButtonList.DELETE);
+        WindowList.Instance.IOPopupWindow.OpenPopupAction(EnumList.SaveLoadButtonList.DELETE);
        
     }
 

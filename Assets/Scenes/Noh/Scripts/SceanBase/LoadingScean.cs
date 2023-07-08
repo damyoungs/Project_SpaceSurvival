@@ -67,6 +67,7 @@ public class LoadingScean : MonoBehaviour
         
     }
 
+   
     /// <summary>
     /// 로딩화면 로딩시 바로 코루틴 실행하여 다음씬에대해 비동기로 로딩을 하고
     /// 그에대한 정보를 받아온다.

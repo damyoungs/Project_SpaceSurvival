@@ -532,6 +532,9 @@ public class SaveLoadManager : ChildComponentSingeton<SaveLoadManager> {
             isProcessing = true;
             try
             {
+#if UNITY_EDITOR
+                Debug.Log(selectFileIndex);
+#endif
                 string filePath = GetFileInfo(selectFileIndex);
                 if (selectFileIndex > -1 && File.Exists(filePath))//파일있는지 확인 
                 {

@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// 저장페이지  페이지이동버튼 관련 버튼이벤트 설정
+/// </summary>
 public class SaveWindowPageMove : MonoBehaviour
 {
     SaveDataSort proccessClass;

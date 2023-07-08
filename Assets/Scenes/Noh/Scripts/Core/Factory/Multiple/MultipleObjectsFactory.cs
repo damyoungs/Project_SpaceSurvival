@@ -21,20 +21,23 @@ public class MultipleObjectsFactory : ChildComponentSingeton<MultipleObjectsFact
     SavePageButtonPool savePageButtonPool;
 
     /// <summary>
+    /// 인벤토리 컨텐츠에 보여줄 칸 
+    /// </summary>
+    InventoryPool inventoryPool;
+
+    /// <summary>
     /// 팩토리 생성시 초기화 함수
     /// </summary>
     /// <param name="scene">씬정보 딱히필요없음</param>
     /// <param name="mode">모드정보 딱히필요없음</param>
     protected override void Init(Scene scene, LoadSceneMode mode)
     {
-#if UNITY_EDITOR
-        Debug.LogWarning("가끔씩 순번꼬일때가있어서 체크 2번");
-#endif
         saveDataPool = GetComponentInChildren<SaveDataPool>(true);
         savePageButtonPool = GetComponentInChildren<SavePageButtonPool>(true);
-        base.Init(scene, mode);
+        inventoryPool = GetComponentInChildren<InventoryPool>(true);
         saveDataPool.Initialize();
         savePageButtonPool.Initialize();
+        inventoryPool.Initialize(); 
     }
 
     /// <summary>
@@ -52,6 +55,9 @@ public class MultipleObjectsFactory : ChildComponentSingeton<MultipleObjectsFact
                 break;
             case EnumList.MultipleFactoryObjectList.SAVEPAGEBUTTONPOOL:
                 obj = savePageButtonPool?.GetObject()?.gameObject;
+                break;
+            case EnumList.MultipleFactoryObjectList.INVENTORYPOOL:
+                obj = inventoryPool?.GetObject()?.gameObject;
                 break;
             default:
 
