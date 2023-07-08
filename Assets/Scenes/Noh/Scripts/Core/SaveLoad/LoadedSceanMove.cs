@@ -17,7 +17,6 @@ public class LoadedSceanMove : MonoBehaviour
     private void FileLoadAction(JsonGameData data)
     {
         //여기에 파싱작업이필요하다 실제로사용되는 작업
-        Debug.Log($"파싱작업해야됩니다 : {data} 이걸로");
         if (data != null)
         {
             Debug.Log($"{data} 파일이 정상로드됬습니다 , {data.SceanName} 파싱작업후 맵이동 작성을 해야하니 맵이 필요합니다.");

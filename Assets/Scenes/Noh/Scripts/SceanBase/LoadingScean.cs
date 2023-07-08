@@ -19,6 +19,7 @@ public class LoadingScean : MonoBehaviour
     static bool isLoading = false;
     public static bool IsLoading => isLoading;
 
+    static bool isBattleMap = false;
     /// <summary>
     /// 다음씬으로 넘어갈 씬이름
     /// 다음씬이 입력안되면 타이틀로넘어간다.
@@ -50,14 +51,16 @@ public class LoadingScean : MonoBehaviour
     /// </summary>
     /// <param name="sceanName">이동할 씬 이름</param>
     /// <param name="type">진행 상황 표기할 progressType  EnumList의 값을확인</param>
-    public static void SceanLoading(EnumList.SceanName sceanName = EnumList.SceanName.TITLE, EnumList.ProgressType type = EnumList.ProgressType.BAR)
+    public static void SceanLoading(EnumList.SceanName sceanName = EnumList.SceanName.TITLE, bool isMapBattle = false, EnumList.ProgressType type = EnumList.ProgressType.BAR)
     {
         if (sceanName != EnumList.SceanName.NONE) { //씬 셋팅이 되어있고
             if (!isLoading) { //로딩이 안됬을경우 
                 isLoading = true;//로딩 시작플래그
+                isBattleMap = isMapBattle; //배틀 맵인지 체크
                 nextSceanName = sceanName; //씬이름셋팅하고  
-                progressType = type; //프로그래스 타입설정 .
-                WindowList.Instance.OptionsWindow.SetActive(false); //화면전환전에 창끄기 
+                progressType = type; //프로그래스 타입설정.
+                WindowList.Instance.ResetPopupWindow(); //화면 전환시 열려있는창 전부닫자.
+                
                 SceneManager.LoadSceneAsync((int)EnumList.SceanName.LOADING);
             }
         }
@@ -133,12 +136,10 @@ public class LoadingScean : MonoBehaviour
                         //로딩창이 너무빠르게 넘어가는것을 방지하기위해 페이크 타임 체크
                         if (fakeTimer < loadingTime) //에디터에서 페이크로딩시간을 조절한다.
                         {
-#if UNITY_EDITOR
-                            Debug.Log(loadingTime);    //총 걸린시간 체크
-#endif
 
                             isLoading = false;//로딩끝났다고 설정
                             op.allowSceneActivation = true; //해당 변수가 true면 progress 값이 0.9(90%)값이 넘어가는순간 다음씬을 로딩한다.
+                            //TurnManager.Instance.IsBattleMap = isBattleMap; //배틀맵 여부를 넘겨준다.
                             yield break; //제어권넘기기
                         }
                     }

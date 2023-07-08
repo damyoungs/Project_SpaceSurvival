@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scenes/Noh/Scripts/GameWindows/UIControll/PopupWindow/PopupWindowMoveButton.cs.meta
+guid: 7f508de435075f449ad93a2bfa1a6a90
+========
+guid: 8fb2c773e2e8c404dbb3bd8a425ee00e
+>>>>>>>> Noh:Assets/Scenes/Noh/Scripts/Core/Base/ChildComponentSingeton.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

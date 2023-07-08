@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
+/// <summary>
+/// 풀에서 생성될때 자동으로 데이터까지 초기화하도록 고쳤다.
+/// </summary>
 public class SavePageButtonIsPool : ObjectIsPool
 {
     /// <summary>
@@ -13,9 +15,15 @@ public class SavePageButtonIsPool : ObjectIsPool
         get => pageIndex;
         set { 
             pageIndex = value;
+            realIndex = value - 1;
             text.text = $"{pageIndex}";
         }
     }
+    /// <summary>
+    /// 페이지버튼 누를때마다 -1연산이 필요해서 기냥 변수로뺏다.
+    /// </summary>
+    int realIndex = -1; 
+    
     /// <summary>
     /// 처리할 클래스 가져오기
     /// </summary>
@@ -42,9 +50,9 @@ public class SavePageButtonIsPool : ObjectIsPool
     /// </summary>
     public void OnPageDownButton()
     {
-        if (pageIndex > -1)
+        if (realIndex > -1)
         {
-            proccessClass.SetPageList(pageIndex-1); //화면에는 1부터 시작이기때문에 배열처리하기위해 -1
+            proccessClass.SetPageList(realIndex); 
         }
     }
 }

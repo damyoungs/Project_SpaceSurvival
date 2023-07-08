@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: 723774b64a38a0d42a695d80142624ff
+<<<<<<<< HEAD:Assets/Scenes/Noh/Scripts/GameWindows/UIControll/PopupWindow/PopupWindowBase.cs.meta
+guid: 102916dd903adef4e9e0231c1f0be9e9
+========
+guid: 0a058776d9378fe4ca9b4cabf4d08571
+>>>>>>>> Noh:Assets/Scenes/Noh/Scripts/TestCode/MapGeneraer.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

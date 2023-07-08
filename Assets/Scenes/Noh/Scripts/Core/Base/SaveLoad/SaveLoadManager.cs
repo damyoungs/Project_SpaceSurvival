@@ -19,7 +19,7 @@ using System.Collections.Generic;
 /// try{}cahch(Exeption e){} 를 사용한이유는 게임저장은 게임상에서 단독으로 이루어지는 기능이고 
 /// 여기서 오류가난다고 게임이 멈추면 안되기때문에 에러발생하더라도 멈추지않고 플레이 되도록 추가하였다.
 /// </summary>
-public class SaveLoadManager : Singleton<SaveLoadManager> {
+public class SaveLoadManager : ChildComponentSingeton<SaveLoadManager> {
 
     /// <summary>
     /// 저장폴더 위치 
@@ -47,7 +47,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager> {
     /// </summary>
     //string searchPattern = "SpacePirateSave[0-9][0-9][0-9].json"; //사용안됨     
     //readonly string searchPattern = $"{saveFileDefaultName}???{fileExpansionName}"; // 스트링버퍼 왜서치패턴으로 적용안되냐...
-    readonly string searchPattern = "SpacePirateSave???.json";
+    const string searchPattern = "SpacePirateSave???.json";
 
 
     GameObject windowList;
@@ -87,6 +87,8 @@ public class SaveLoadManager : Singleton<SaveLoadManager> {
     /// <summary>
     /// 게임에사용된 데이터가 파싱되어 여기에 들어가야한다.
     /// 외부클래스에서 관리를 해야하나.?
+    /// 데이터가 커지면 미리미리 저장하는경우가있다.
+    /// 외부
     /// </summary>
     JsonGameData gameSaveData;
     public JsonGameData GameSaveData { 
@@ -120,9 +122,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager> {
     
     protected override void Awake()
     {
-#if UNITY_EDITOR
-        Debug.LogWarning("가끔씩 순번꼬일때가있어서 체크 1번");
-#endif
+
         base.Awake();
         windowList = GameObject.FindGameObjectWithTag("WindowList");
 
@@ -148,11 +148,9 @@ public class SaveLoadManager : Singleton<SaveLoadManager> {
         if (!isProcessing)
         {
             isProcessing = true;
-            Debug.LogWarning($"비동기 로딩테스트 시작 {saveDataList}");
+            //Debug.LogWarning($"비동기 로딩테스트 시작 {saveDataList}");
             FileListLoagind();//비동기로 파일로딩
-            //isFilesLoading = SetSaveFileList();//동기방식으로 파일로딩시
         }
-        //Debug.Log($"비동기 로딩테스트 확인2번 {saveDataList}"); // 동기방식이면 이메세지가 잴아래에 떠야한다 하지만 비동기면 다르다.
     
     }
 
@@ -202,15 +200,18 @@ public class SaveLoadManager : Singleton<SaveLoadManager> {
         {
             ExistsSaveDirectory();//폴더체크후 없으면 생성 
             string[] jsonDataList = Directory.GetFiles(saveFileDirectoryPath, searchPattern); // 폴더안에 파일들 정보를 읽어서 
-            if (jsonDataList.Length == 0) //읽어올파일이없으면 리턴~
-            {
-                Debug.LogWarning($"{saveFileDirectoryPath}  ========    {searchPattern}     폴더에 저장 파일이 없습니다 ");
-                return false;
-            }
+
             // 리스트 사용시 게임화면에서 세이브창 바뀔때마다 시간이 걸릴가능성이있다 이중포문이 무조건들어가게된다.  
             JsonGameData[] temp = new JsonGameData[maxSaveDataLength]; //배열로 처리시 포문한번으로해결된다. 
             //temp에담은이유는 saveDataList 가 null 값이면 여기서처리하면되기때문에 버그잡기위해 넣어놧다.
 
+            if (jsonDataList.Length == 0) //읽어올파일이없으면 리턴~
+            {
+                Debug.LogWarning($"{saveFileDirectoryPath}  ========    {searchPattern}     폴더에 저장 파일이 없습니다 ");
+                saveDataList = temp;//화면에는 빈객체만뿌려준다.
+                return false;
+            }
+           
             int checkDumyCount = 0;
 
             for (int i = 0; i < temp.Length; i++)
@@ -306,18 +307,18 @@ public class SaveLoadManager : Singleton<SaveLoadManager> {
 
         //Debug.Log($"비동기 로딩테스트 확인1번 {saveDataList}");
 
-        await TestAsyncFunction(); //이함수가 끝날때까지 기다린다.ㅐ
+        await TestAsyncFunction(); //이함수가 끝날때까지 기다린다.
         //await Task.Run(() => { isFilesLoading =  SetSaveFileList(); }); //이함수가 끝날때까지 대기 
         if (saveDataList != null) { //데이터로딩이 제대로됬으면 
             isDoneDataLoaing?.Invoke(saveDataList);// 데이터로딩이 비동기로진행시 처리끝날때 처리해야될 함수실행  동기방식이면 필요없다.
-            Debug.LogWarning($"비동기 로딩테스트 끝~ {saveDataList.Length}개  파일 로딩완료"); // 함수끝날때까지 대기타는지 확인하기위해 작성
+            //Debug.LogWarning($"비동기 로딩테스트 끝~ {saveDataList.Length}개  파일 로딩완료"); // 함수끝날때까지 대기타는지 확인하기위해 작성
         }
     }
 
     /// <summary>
     /// 비동기 함수 테스트 
     /// 파일저장을 비동기로 하기위해 테스트 코드작성
-    /// 코루틴과 비슷하지만 기본적으로 개념은 다르다.
+    /// 코루틴과 비슷하지만 기본적으로 동작 개념은 다르다.
     /// </summary>
     private async Task TestAsyncFunction() {
         //Debug.Log("비동기 테스트함수 시작");
@@ -385,13 +386,11 @@ public class SaveLoadManager : Singleton<SaveLoadManager> {
             isProcessing = true;
             try
             {
-#if UNITY_EDITOR
-                    Debug.Log(selectFileIndex);
-#endif
+
                 if (gameSaveData != null && selectFileIndex > -1) //게임데이터가 있을때 
                 {
                     SetDefaultInfo(gameSaveData, selectFileIndex);// 파일저장시 기본정보를 저장한다.
-                    string toJsonData = JsonUtility.ToJson(gameSaveData, false); //저장데이터를 Json형식으로 직렬화 하는 작업 유니티 기본제공
+                    string toJsonData = JsonUtility.ToJson(gameSaveData, true); //저장데이터를 Json형식으로 직렬화 하는 작업 유니티 기본제공
                                                                                  //true입력시 파일용량이커진다. 대신보기좋아진다.
                     string filePath = GetFileInfo(selectFileIndex);
                     FileCreate(filePath); //저장할 파일 생성
@@ -429,9 +428,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager> {
             isProcessing = true;
             try
             {
-#if UNITY_EDITOR
-                Debug.Log(selectFileIndex);
-#endif
+
                 string filePath = GetFileInfo(selectFileIndex);
                 if (selectFileIndex > -1 &&  File.Exists(filePath))//저장폴더에서 파일이 있는지 체크 
                 {
@@ -478,10 +475,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager> {
             isProcessing = true; //로직 실행여부
             try
             {
-#if UNITY_EDITOR
-                Debug.Log(oldIndex);
-                Debug.Log(newIndex);
-#endif
+
                 string oldFullFilePathAndName = GetFileInfo(oldIndex);// 복사할 파일위치
                 if (oldIndex > -1 && newIndex > -1 &&  File.Exists(oldFullFilePathAndName))//복사할 파일위치에 파일이있는지 확인
                 {
@@ -538,9 +532,6 @@ public class SaveLoadManager : Singleton<SaveLoadManager> {
             isProcessing = true;
             try
             {
-#if UNITY_EDITOR
-                Debug.Log(selectFileIndex);
-#endif
                 string filePath = GetFileInfo(selectFileIndex);
                 if (selectFileIndex > -1 && File.Exists(filePath))//파일있는지 확인 
                 {

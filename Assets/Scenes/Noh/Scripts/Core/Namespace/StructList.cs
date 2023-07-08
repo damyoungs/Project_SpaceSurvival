@@ -12,6 +12,10 @@ using UnityEngine;
 /// ex) struct A{B[] b; int i;}; struct B{C[] c; int a;};  struct C{int a;};  
 /// A a ; 
 /// public A A => a; 
+/// 4. JsonUtility 에서는 자료의 깊이를 10단계로 정하고있다 이이상되는것은 파싱이 안된다.
+///     ex ) A 구조체 안에 맴버 B 구조체   B구조체 안에 맴버 C 구조체 이런식으로  참조해서들어갓는데 다시참조해서 접근해야되는 깊이를 말한다.
+///     기본적으로 Vector3 도 구조체안에서 사용하면 깊이가 10이넘어갈 가능성이 있어서 에러를 발생한다.
+///     그래서 필요한 값만 저장하도록하자 
 /// 테스트 결과
 /// 1. 해당클래스를 상속받아서 사용해보았지만 상속받은 클래스의 맴버변수는 저장은 되나 읽어올때 값이 제대로 들어가지지가 않는다. 
 ///  1-1. 해결: 함수호출시 상속받은 클래스를 넘기면 제대로 파싱이 된다. 로딩할때도 같은 객체를 사용하여야한다.
@@ -21,7 +25,7 @@ using UnityEngine;
 /// 3. 아직 큐와 리스트 스택은 테스트를 안해보앗다.
 /// 4. 
 ///  ************* 캐릭터 변수선언만하고 해당클래스를 상속하여 파싱함수를 제작한다.***************
-///  
+/// 
 /// MonoBehaviour 는  [Serializable] 를 지원하지않는다.
 /// </summary>
 namespace StructList {
@@ -95,7 +99,7 @@ namespace StructList {
 
 
     /// <summary>
-    /// 캐릭터 의 정보들 여기에 추가
+    /// 캐릭터 의 정보 여기에 추가
     /// </summary>
     [Serializable]
     public struct CharcterInfo
@@ -141,7 +145,6 @@ namespace StructList {
             }
         }
 
-
         /// <summary>
         /// 캐릭터 소지금액
         /// </summary>
@@ -155,19 +158,42 @@ namespace StructList {
                 money = value;
             }
         }
-
+        [SerializeField]
+        int[] flagList;
+        public int[] FlagList 
+        {
+            get=> flagList;
+            set => flagList = value;
+        }
         /// <summary>
-        /// 캐릭터 마지막위치
+        /// 캐릭터 저장맵에서 좌표값 X 월드 좌표가 좋을거같다
         /// </summary>
         [SerializeField]
-        Vector3 characterPosition;
-        public Vector3 CharcterPosition
+        float sceanPositionX;
+        public float SceanPositionX 
         {
-            get => characterPosition;
-            set
-            {
-                characterPosition = value;
-            }
+            get => sceanPositionX;
+            set => sceanPositionX = value;
+        }
+        /// <summary>
+        /// 캐릭터 저장맵에서 좌표값  Y 월드 좌표가 좋을거같다
+        /// </summary>
+        [SerializeField]
+        float sceanPositionY;
+        public float SceanPositionY 
+        { 
+            get => sceanPositionY;
+            set => sceanPositionY = value;  
+        }
+        /// <summary>
+        /// 캐릭터 저장맵에서 좌표값 Z 월드 좌표가 좋을거같다
+        /// </summary>
+        [SerializeField]
+        float sceanPositionZ;
+        public float SceanPositionZ 
+        {
+            get => sceanPositionZ; 
+            set => sceanPositionZ = value;
         }
 
     }
@@ -205,7 +231,8 @@ namespace StructList {
                 questIProgress = value;
             }
         }
-    }
 
+
+    }
 
 }

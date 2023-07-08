@@ -1,6 +1,12 @@
 fileFormatVersion: 2
-guid: 9754fdad34fac1749a1727a4fc601cc8
+<<<<<<<< HEAD:Assets/Prefab/Cho/BaseModel/ETC_Map/PointLight.prefab.meta
+guid: f5dd8ee73f4173c44a2e4447f0ccce24
 PrefabImporter:
+========
+guid: f0a19c55772a72c4c9170821672b4909
+folderAsset: yes
+DefaultImporter:
+>>>>>>>> Noh:Assets/Scenes/Noh/Prefab/ButtonCreateTest.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

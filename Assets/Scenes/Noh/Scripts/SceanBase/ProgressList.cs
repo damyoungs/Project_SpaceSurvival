@@ -7,7 +7,7 @@ using UnityEngine;
 /// 옵션에서 프로그래스이미지 변경 기능 넣기위해 따로 제작  
 /// 씬이동시에도 유지되기때문에 여기서 처리한다.
 /// </summary>
-public class ProgressList : Singleton<ProgressList> 
+public class ProgressList : ChildComponentSingeton<ProgressList> 
 
     
     /// 프로그래스바 변경시 이스크립트에 추가

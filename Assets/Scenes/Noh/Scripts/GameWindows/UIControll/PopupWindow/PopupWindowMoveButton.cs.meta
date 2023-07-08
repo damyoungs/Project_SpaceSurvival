@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: 7ba34e7ecd519f0479726057d2690b51
+<<<<<<<< HEAD:Assets/Scenes/Noh/Scripts/GameWindows/UIControll/PopupWindow/PopupWindowMoveButton.cs.meta
+guid: 70d2d32e05d1ed24b9f51b334c856060
+========
+guid: 8fb2c773e2e8c404dbb3bd8a425ee00e
+>>>>>>>> Noh:Assets/Scenes/Noh/Scripts/Core/Base/ChildComponentSingeton.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

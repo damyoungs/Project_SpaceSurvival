@@ -27,7 +27,7 @@ using UnityEngine.InputSystem;
 /// </summary>
 /// <typeparam name="T">ISortBase 인터페이스를 상속받은 클래스</typeparam>
 
-public static class SortComponent<T> where T : ITurnBaseData
+public static class SortComponent<T> where T : ITurnBaseData 
 {
     /// <summary>
     /// 정렬 알고리즘의 종류
@@ -48,7 +48,7 @@ public static class SortComponent<T> where T : ITurnBaseData
         Descending     //내림차순
     }
 
-
+   
     /// <summary>
     /// IEnumerable 은 쓰기가안되서 ICollection 을 사용해보앗다.
     /// ICollection는 인터페이스 자체가 두종류가 존재하여 Array 와 List 의 공통된 인터페이스인 IList 를 이용하였다. 덕분에 오버로딩 없이 사용할수있다.
@@ -58,7 +58,7 @@ public static class SortComponent<T> where T : ITurnBaseData
     ///<param name="proccessType">정렬할 알고리즘타입</param>
     ///<param name="type">정렬방법</param>
     /// </summary>
-    public static void SorttingData(IList<T> data,                                            //리스트든 배열이든 받을수있는 인터페이스를 인자값으로 받아서 처리해보았다. 
+    public static void SorttingData(IList<T>  data,                                            //리스트든 배열이든 받을수있는 인터페이스를 인자값으로 받아서 처리해보았다. 
                                     SortProccessType proccessType = SortProccessType.InsertSort,    //정렬알고리즘이 여러개라 구분하기위해 넣어놨다.
                                     SortType type = SortType.Ascending                             //오름차순 내림차순 구분하기위한 값이다.
                                     )
@@ -68,13 +68,13 @@ public static class SortComponent<T> where T : ITurnBaseData
         switch (proccessType) // 정렬방법선택
         {
             case SortProccessType.InsertSort: //삽입정렬
-                InsertionSort(ref data, length, type);
+                InsertionSort(ref data , length, type); 
                 break;
             case SortProccessType.SelectionSort: //선택정렬
-                SelectionSort(ref data, length, type);
+                SelectionSort(ref data , length, type);
                 break;
             case SortProccessType.BubbleSort: //버블정렬
-                BubbleSort(ref data, length, type);
+                BubbleSort(ref data , length, type);
                 break;
         }
 
