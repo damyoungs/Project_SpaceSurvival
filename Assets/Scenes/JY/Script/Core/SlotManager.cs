@@ -52,27 +52,8 @@ public class SlotManager : MonoBehaviour
         }
     }
 
-    //public void Add_Slot() //굳이 Make_Slot과 Add_Slot을 나눈 이유는  초기슬롯이 할당되지 않았을 때와 이후 슬롯을 추가하는 상황을 구분해야하기 때문이다.
-    //{
-    //    if (GameManager.Inventory.is_Initialized == false)// 초기화가 아직 안되었을 경우(초기생성)
-    //    {
-    //        Make_Slot();
-    //        GameManager.Inventory.State = Current_Inventory_State.Consume;
-    //        Make_Slot();
-    //        GameManager.Inventory.State = Current_Inventory_State.Etc;
-    //        Make_Slot();
-    //        GameManager.Inventory.State = Current_Inventory_State.Craft;
-    //        Make_Slot();
-    //        GameManager.Inventory.is_Initialized = true;
-    //    }
-    //    else// 초기화가 되어있다면 (게임 시작 후 이미 이전에 인벤토리를 활성화시킨적이 있다면)
-    //    {
-    //        Make_Slot();
-    //    }
-    //}
     public void Make_Slot()
     {
-
         GameObject newSlot = Instantiate(slot);
         Transform parentTransform;
         switch (GameManager.Inventory.State)
@@ -98,8 +79,7 @@ public class SlotManager : MonoBehaviour
           //  newSlot.name = $"{GameManager.Inventory.State}_{i}";
             newSlot.transform.SetParent(parentTransform, false);
             slots[GameManager.Inventory.State].Add(newSlot);
-        }
-        
+        } 
     }
   
     public void GetItem(ItemBase item)
@@ -166,54 +146,56 @@ public class SlotManager : MonoBehaviour
 
     public void OnSlotClicked(Slot clickedSlot)
     {
+
+       
         // 첫 클릭: 선택한 슬롯 저장
         if (selectedSlot == null)
         {
             if (!clickedSlot.IsEmpty)
             {
-                Debug.Log("if문 실행");
                 selectedSlot = clickedSlot;
                 firstClickImage = clickedSlot.transform.GetChild(0).GetComponent<Image>();
 
-                firstClickSlotPosition = firstClickImage.rectTransform.anchoredPosition;
-                Debug.Log($"firstClickSlotPosition : {firstClickSlotPosition}");
-                var color = firstClickImage.color;
-                color.a = 0.5f;//로컬변수 color의 알파값을 변경하는건 가능하지만  clickedItemImage.color.a = 0.5f; 이렇게 직접 값을 변경하는건 읽기전용이라 안된다
-                firstClickImage.color = color;
-                StartCoroutine(ImageMovingCoroutine(firstClickImage));
+                StartCoroutine(ImageMovingCoroutine());
             }
         }
         // 두 번째 클릭: 아이템 교환하고 선택한 슬롯 초기화
         else
         {
-            Debug.Log("else문 실행");
+            ResetImageAlpha();
             SwapItems(selectedSlot, clickedSlot);
             selectedSlot = null;
            
         }
     }
+    void ResetImageAlpha()
+    {
 
+        if (firstClickImage != null)
+        {
+            var color = firstClickImage.color;
+            color.a = 1.0f;
+            firstClickImage.color = color;
+        }
+    }
     void SwapItems(Slot firstClickSlot, Slot secondClickSlot)
     {
-        StopCoroutine(ImageMovingCoroutine(firstClickImage));
+ 
 
-        Image secondClickImage = secondClickSlot.transform.GetChild(0).GetComponent<Image>();
+       // StopCoroutine(ImageMovingCoroutine());
 
-        firstClickImage.rectTransform.anchoredPosition = firstClickSlotPosition;// secondClickImage.rectTransform.anchoredPosition;
-   //     secondClickImage.rectTransform.anchoredPosition = firstClickSlotPosition;
-        Debug.Log($"firstClickSlotPosition at swapItem : {firstClickSlotPosition}");
         // 아이템 교환
     }
-    IEnumerator ImageMovingCoroutine(Image firstClickSlotImage)
+    IEnumerator ImageMovingCoroutine()
     {
+        var color = firstClickImage.color;
+        color.a = 0.5f;//로컬변수 color의 알파값을 변경하는건 가능하지만  clickedItemImage.color.a = 0.5f; 이렇게 직접 값을 변경하는건 읽기전용이라 안된다
+        firstClickImage.color = color;
         while (selectedSlot != null)
         {
             selectedSlot.transform.GetChild(0).position = Input.mousePosition;
             yield return null;
         }
-        var color = firstClickImage.color;
-        color.a = 1.0f;
-        firstClickImage.color = color;
         yield break;
     }
 }
