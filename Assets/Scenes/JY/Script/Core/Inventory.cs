@@ -28,6 +28,11 @@ public class Inventory : MonoBehaviour
     Button etc_Button;
     Button craft_Button;
 
+    Image equipButtonColor;
+    Image consumeButtonColor;
+    Image etcButtonColor;
+    Image craftButtonColor;
+
     bool is_Inventory_Open = false;
     public bool is_Initialized;
 
@@ -57,6 +62,11 @@ public class Inventory : MonoBehaviour
         etc_Button = transform.GetChild(3).GetComponent<Button>();
         craft_Button = transform.GetChild(4).GetComponent<Button>();
 
+        equipButtonColor = equip_Button.GetComponent<Image>();
+        consumeButtonColor = consume_Button.GetComponent<Image>();
+        etcButtonColor = etc_Button.GetComponent<Image>();
+        craftButtonColor = craft_Button.GetComponent<Image>();
+
         close_Button.onClick.AddListener(Open_Inventory);
         add_Button.onClick.AddListener(GameManager.SlotManager.Add_Slot);
         equip_Button.onClick.AddListener(SwitchTab_To_Equip);
@@ -80,42 +90,38 @@ public class Inventory : MonoBehaviour
     }
     void Update_State(Current_Inventory_State state)
     {
-        ColorBlock equipColors = equip_Button.colors;
-        ColorBlock consumeColors = consume_Button.colors;
-        ColorBlock etcColors = etc_Button.colors;
-        ColorBlock craftColors = craft_Button.colors;
+        equipButtonColor.color = Color.white;
+        consumeButtonColor.color = Color.white;
+        etcButtonColor.color = Color.white;
+        craftButtonColor.color = Color.white;
 
-        equipColors.normalColor = Color.white;
-        consumeColors.normalColor = Color.white;
-        etcColors.normalColor = Color.white;
-        craftColors.normalColor = Color.white;
 
         switch (state)
         {
             case Current_Inventory_State.Equip:
                 Equip_Inven.SetActive(true);
-                equipColors.normalColor = Color.grey;
+                equipButtonColor.color = Color.grey;
                 Consume_Inven.SetActive(false);
                 Etc_Inven.SetActive(false);
                 Craft_Inven.SetActive(false);
                 break;
             case Current_Inventory_State.Consume:
                 Consume_Inven.SetActive(true);
-                consumeColors.normalColor = Color.grey;
+                consumeButtonColor.color = Color.grey;
                 Equip_Inven.SetActive(false);
                 Etc_Inven.SetActive(false);
                 Craft_Inven.SetActive(false);
                 break;
             case Current_Inventory_State.Etc:
                 Etc_Inven.SetActive(true);
-                etcColors.normalColor = Color.grey;
+                etcButtonColor.color = Color.gray;
                 Equip_Inven.SetActive(false);
                 Consume_Inven.SetActive(false);
                 Craft_Inven.SetActive(false);
                 break;
             case Current_Inventory_State.Craft:
                 Craft_Inven.SetActive(true);
-                craftColors.normalColor = Color.grey;
+                craftButtonColor.color = Color.grey;
                 Equip_Inven.SetActive(false);
                 Consume_Inven.SetActive(false);
                 Etc_Inven.SetActive(false);
