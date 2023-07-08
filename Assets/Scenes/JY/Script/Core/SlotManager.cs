@@ -16,7 +16,7 @@ public class SlotManager : MonoBehaviour
     public Transform craft_Below;
 
     Slot selectedSlot;
-    Image clickedItemImage; //첫번째 클릭한 슬롯 하위의 아이템 이미지
+    Image firstClickImage; //첫번째 클릭한 슬롯 하위의 아이템 이미지
     Vector2 firstClickSlotPosition;
 
     public Dictionary<Current_Inventory_State, List<GameObject>> slots;
@@ -155,13 +155,14 @@ public class SlotManager : MonoBehaviour
             {
                 Debug.Log("if문 실행");
                 selectedSlot = clickedSlot;
-                clickedItemImage = clickedSlot.transform.GetChild(0).GetComponent<Image>();
-                firstClickSlotPosition = clickedItemImage.rectTransform.localPosition;
+                firstClickImage = clickedSlot.transform.GetChild(0).GetComponent<Image>();
 
-                var color = clickedItemImage.color;
+                firstClickSlotPosition = firstClickImage.rectTransform.anchoredPosition;
+                Debug.Log($"firstClickSlotPosition : {firstClickSlotPosition}");
+                var color = firstClickImage.color;
                 color.a = 0.5f;//로컬변수 color의 알파값을 변경하는건 가능하지만  clickedItemImage.color.a = 0.5f; 이렇게 직접 값을 변경하는건 읽기전용이라 안된다
-                clickedItemImage.color = color;
-                StartCoroutine(ImageMovingCoroutine());
+                firstClickImage.color = color;
+                StartCoroutine(ImageMovingCoroutine(firstClickImage));
             }
         }
         // 두 번째 클릭: 아이템 교환하고 선택한 슬롯 초기화
@@ -173,34 +174,28 @@ public class SlotManager : MonoBehaviour
            
         }
     }
-    IEnumerator ImageMovingCoroutine()
+
+    void SwapItems(Slot firstClickSlot, Slot secondClickSlot)
+    {
+        StopCoroutine(ImageMovingCoroutine(firstClickImage));
+
+        Image secondClickImage = secondClickSlot.transform.GetChild(0).GetComponent<Image>();
+
+        firstClickImage.rectTransform.anchoredPosition = firstClickSlotPosition;// secondClickImage.rectTransform.anchoredPosition;
+   //     secondClickImage.rectTransform.anchoredPosition = firstClickSlotPosition;
+        Debug.Log($"firstClickSlotPosition at swapItem : {firstClickSlotPosition}");
+        // 아이템 교환
+    }
+    IEnumerator ImageMovingCoroutine(Image firstClickSlotImage)
     {
         while (selectedSlot != null)
         {
             selectedSlot.transform.GetChild(0).position = Input.mousePosition;
             yield return null;
         }
-        var color = clickedItemImage.color;
+        var color = firstClickImage.color;
         color.a = 1.0f;
-        clickedItemImage.color = color;
+        firstClickImage.color = color;
         yield break;
     }
-    void SwapItems(Slot firstClickSlot, Slot secondClickSlot)
-    {
-        StopCoroutine(ImageMovingCoroutine());
-        // Get the image components
-        
-
-        Image firstImage = firstClickSlot.transform.GetChild(0).GetComponent<Image>();
-        Image secondImage = secondClickSlot.transform.GetChild(0).GetComponent<Image>();
-
-        
-
-        // Swap the positions
-        firstImage.rectTransform.localPosition = secondImage.rectTransform.localPosition;
-        secondImage.rectTransform.localPosition = firstClickSlotPosition;
-
-        // 아이템 교환
-    }
-
 }
