@@ -159,10 +159,11 @@ public class SlotManager : MonoBehaviour
                 StartCoroutine(ImageMovingCoroutine());
             }
         }
+
         // 두 번째 클릭: 아이템 교환하고 선택한 슬롯 초기화
         else
         {
-            ResetImageAlpha();
+            ResetImageAlpha();//이동중인 첫번째슬롯 알파값 원상복구
             SwapItems(selectedSlot, clickedSlot);
             selectedSlot = null;
            
@@ -178,7 +179,7 @@ public class SlotManager : MonoBehaviour
             firstClickImage.color = color;
         }
     }
-    void SwapItems(Slot firstClickSlot, Slot secondClickSlot)
+    void SwapItems(Slot firstSlot, Slot secondSlot)
     {
  
 
