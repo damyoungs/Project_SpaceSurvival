@@ -86,7 +86,7 @@ public class LoadingScean : MonoBehaviour
     /// 내용추가 필요
     /// </summary>
     private void SetDisavleObjects() { 
-        WindowList.Instance.OptionsWindow.SetActive(false); 
+        WindowList.Instance.MainWindow.gameObject.SetActive(false); 
     }
 
 

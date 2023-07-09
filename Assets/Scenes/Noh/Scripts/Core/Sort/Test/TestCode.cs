@@ -14,6 +14,7 @@ public class TestCode : TestBase
     {
         base.Awake();
     }
+
     LinkedList<ITurnBaseData> turnObjectList;
 
     protected override void Test1(InputAction.CallbackContext context)

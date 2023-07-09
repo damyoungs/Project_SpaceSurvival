@@ -27,7 +27,7 @@ public class SavePageButtonIsPool : ObjectIsPool
     /// <summary>
     /// 처리할 클래스 가져오기
     /// </summary>
-    SaveDataSort proccessClass;
+    SaveWindowManager proccessClass;
 
     /// <summary>
     /// 화면에 보여줄 텍스트위치 가져오기
@@ -42,9 +42,11 @@ public class SavePageButtonIsPool : ObjectIsPool
         isPositionReset = false; //활성화시 로컬포지션 로테이션 초기화를하지않는다.
         text = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
-        proccessClass = transform.parent.parent.parent.GetComponent<SaveDataSort>();
     }
-
+    private void Start()
+    {
+        proccessClass = WindowList.Instance.MainWindow;
+    }
     /// <summary>
     /// 페이지 버튼 클릭 이벤트
     /// </summary>

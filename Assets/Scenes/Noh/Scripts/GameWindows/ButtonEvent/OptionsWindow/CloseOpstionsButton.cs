@@ -6,6 +6,6 @@ public class CloseOpstionsButton : MonoBehaviour
 {
    
    public  void CloseWindow() {
-        WindowList.Instance.OptionsWindow.SetActive(false);
+        WindowList.Instance.MainWindow.gameObject.SetActive(false);
     }
 }

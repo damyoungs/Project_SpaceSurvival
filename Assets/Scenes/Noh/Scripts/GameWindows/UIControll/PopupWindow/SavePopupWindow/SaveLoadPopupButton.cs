@@ -10,7 +10,7 @@ public class SaveLoadPopupButton : MonoBehaviour
     /// </summary>
     GameObject parentPopupWindow;
 
-    SaveDataSort proccessClass;
+    SaveWindowManager proccessClass;
 
     /// <summary>
     /// 어떤 팝업인지 타입설정
@@ -30,7 +30,7 @@ public class SaveLoadPopupButton : MonoBehaviour
     {
         
         parentPopupWindow = WindowList.Instance.IOPopupWindow.transform.GetChild(WindowList.Instance.IOPopupWindow.transform.childCount - 1).gameObject; //팝업창 위치 찾기
-        proccessClass = WindowList.Instance.transform.GetChild(0).GetChild(0).GetChild(1).gameObject.GetComponent<SaveDataSort>();//초기화때 필요한 함수불러오기위해 사용  
+        proccessClass = WindowList.Instance.MainWindow;//초기화때 필요한 함수불러오기위해 사용  
     }
     private void OnEnable()//팝업창활성화시 
     {

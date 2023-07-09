@@ -15,7 +15,15 @@ public class SaveDataPool : MultipleObjectPool<SaveDataIsPool>
     /// </summary>
     protected override void StartInitialize()
     {
-        setPosition = SaveLoadManager.Instance.SaveLoadWindow.transform; //기본적으로 풀아래에 생성되지만 원하는오브젝트아래에 생성되게 변경하였음.
+        setPosition = FindObjectOfType<WindowList>().MainWindow.transform.
+                                                    GetChild(0). //ContentParent
+                                                    GetChild(0). //Contents
+                                                    GetChild(0). //SaveLoadWindow
+                                                    GetChild(0). //SaveFileList
+                                                    GetChild(0). //Scroll View
+                                                    GetChild(0). //Viewport
+                                                    GetChild(0);//Content 
+
     }
 
 

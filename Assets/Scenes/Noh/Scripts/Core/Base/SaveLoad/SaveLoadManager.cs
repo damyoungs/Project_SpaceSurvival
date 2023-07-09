@@ -50,8 +50,6 @@ public class SaveLoadManager : ChildComponentSingeton<SaveLoadManager> {
     const string searchPattern = "SpacePirateSave???.json";
 
 
-    GameObject windowList;
-    public GameObject WindowList => windowList;
 
     /// <summary>
     /// 풀에서 저장윈도우로 SaveData오브젝트를 넘기기위한 저장화면윈도우 게임오브젝트
@@ -122,27 +120,27 @@ public class SaveLoadManager : ChildComponentSingeton<SaveLoadManager> {
     
     protected override void Awake()
     {
-
         base.Awake();
-        windowList = GameObject.FindGameObjectWithTag("WindowList");
+        SaveWindowManager saveManager = FindObjectOfType<WindowList>().transform.GetComponentInChildren<SaveWindowManager>(true); // 찾은 오브젝트에서 비활성회된 자식도 찾는다.
 
-        saveLoadWindow = windowList.transform.
-                                    GetChild(0).            //optionsWindow
-                                    GetChild(0).            //OptionSettingWindow
-                                    GetChild(1).            //SaveLoadWindow
-                                    GetChild(1).            //SaveFileList
-                                    GetChild(0).            //Scroll View
-                                    GetChild(0).            //Viewport
-                                    GetChild(0).gameObject; //Content
+        saveLoadWindow = saveManager.transform.
+                                    GetChild(0). //ContentParent
+                                    GetChild(0). //Contents
+                                    GetChild(0). //SaveLoadWindow
+                                    GetChild(0). //SaveFileList
+                                    GetChild(0). //Scroll View
+                                    GetChild(0). //Viewport
+                                    GetChild(0).gameObject;//Content 
 
-        saveLoadPagingWindow = windowList.transform.
-                                        GetChild(0).            //optionsWindow
-                                        GetChild(0).            //OptionSettingWindow
-                                        GetChild(1).            //SaveLoadWindow
-                                        GetChild(2).            //PageListAndButton
+
+        saveLoadPagingWindow = saveManager.transform.
+                                        GetChild(0). //ContentParent
+                                        GetChild(0). //Contents
+                                        GetChild(0). //SaveLoadWindow
+                                        GetChild(1). //PageListAndButton
                                         GetChild(1).gameObject; //PageNumber
     }
-    
+   
     void Start (){
         SetDirectoryPath(); // 게임 저장할폴더주소값셋팅
         if (!isProcessing)

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 /// <summary>
 /// 화면에 보이는것만 신경쓰자
 /// </summary>
-public class SaveDataSort : MonoBehaviour
+public class SaveWindowManager : PopupWindowBase
 {
     /// <summary>
     /// 현재 페이지넘버
@@ -19,7 +19,6 @@ public class SaveDataSort : MonoBehaviour
     {
         get => pageIndex;
         set {
-
             pageIndex = value;
             if (pageIndex < 0) //페이지수가 0이 첫번째이니 그보다작을순없다
             {
@@ -32,16 +31,24 @@ public class SaveDataSort : MonoBehaviour
 
         }
     }
-
- 
+    [SerializeField]
+    /// <summary>
+    /// 저장오브젝트 세로크기
+    /// </summary>
+    float saveObjectHeight = 150.0f;
 
     /// <summary>
     /// 한페이지에 보일 최대 저장파일 오브젝트 최대 갯수
     /// </summary>
     [SerializeField]
-    int pageViewSaveObjectMaxSize = 8;
-    public int PageViewSaveObjectMaxSize => pageViewSaveObjectMaxSize;
-
+    int pageMaxObject = 8;
+    public int PageViewSaveObjectMaxSize => pageMaxObject;
+    /// <summary>
+    /// 한페이지에 보일 최대 페이징 오브젝트 갯수 
+    /// </summary>
+    [SerializeField]
+    int pagingMaxObject = 4;
+    public int PagingMaxObject => pagingMaxObject;
     /// <summary>
     /// 마지막 페이지 값 
     /// </summary>
@@ -53,16 +60,7 @@ public class SaveDataSort : MonoBehaviour
     /// </summary>
     int lastPageObjectLength = -1;
 
-    /// <summary>
-    /// 저장오브젝트 세로크기
-    /// </summary>
-    float saveObjectHeight = 150.0f;
-
-    /// <summary>
-    /// 페이지 오브젝트 가로 간격
-    /// </summary>
-    float pageObjectWidthPadding = 95.0f;
-
+    
     /// <summary>
     /// 저장윈도우 오브젝트 위치
     /// </summary>
@@ -79,13 +77,30 @@ public class SaveDataSort : MonoBehaviour
     /// </summary>
     private SaveLoadPopupWindow saveLoadPopupWindow;
 
+
+    //int singletonCheck;
+
+    //protected override void Awake()
+    //{
+    //    if (this.GetHashCode() == singletonCheck)
+    //    {
+    //        Debug.Log("해시코드같다 ");
+    //    }
+    //    else 
+    //    {
+    //        singletonCheck = this.GetHashCode();
+    //        Debug.Log($"두개생성? {singletonCheck}");
+    //    }
+    //    base.Awake();
+    //}
+
     /// <summary>
     /// 화면전환시 다시발동안됨 확인완료.
     /// OnEnable 보다 늦게 실행된다.
     /// </summary>
     private void Start()
     {
-
+     
         //싱글톤 설정때매 Awake 에서 못찾는다. 
         saveWindowObject = SaveLoadManager.Instance.SaveLoadWindow;
         saveWindowPageObject = SaveLoadManager.Instance.SaveLoadPagingWindow;
@@ -107,18 +122,21 @@ public class SaveDataSort : MonoBehaviour
     private void OnEnable()
     {
 
-        if (saveWindowObject != null) { //스타트함수보다 빨리실행되서 처음열때 오류가 발생한다.
+        if (saveWindowObject != null)
+        { //스타트함수보다 빨리실행되서 처음열때 오류가 발생한다.
             SetGameObjectList(SaveLoadManager.Instance.SaveDataList); //초기화 작업때 비동기로 파일데이터를 읽어오기때문에 셋팅이안됬을수도있다 
+            SetPoolBug(saveWindowPageObject.transform, pagingMaxObject);
         }
     }
 
+    
     /// <summary>
     /// 현재 페이지에서 화면에 보여줄 저장파일 오브젝트 갯수를 반환한다.
     /// </summary>
     /// <returns>현재페이지의 저장오브젝트갯수</returns>
     private int GetGameObjectLength()
     {
-        return pageIndex > lastPageIndex ? lastPageObjectLength : pageViewSaveObjectMaxSize;
+        return pageIndex > lastPageIndex ? lastPageObjectLength : pageMaxObject;
     }
 
    
@@ -130,7 +148,7 @@ public class SaveDataSort : MonoBehaviour
     /// <returns>현재 페이지의 오브젝트 인덱스</returns>
     private int GetGameObjectIndex(int fileIndex)
     {
-        return fileIndex - (pageIndex * pageViewSaveObjectMaxSize);
+        return fileIndex - (pageIndex * pageMaxObject);
     }
 
 
@@ -139,8 +157,8 @@ public class SaveDataSort : MonoBehaviour
     /// </summary>
     private void InitLastPageIndex()
     {
-        lastPageIndex = (SaveLoadManager.Instance.MaxSaveDataLength / pageViewSaveObjectMaxSize);  //페이지 갯수 가져오기
-        lastPageObjectLength = (SaveLoadManager.Instance.MaxSaveDataLength & pageViewSaveObjectMaxSize); //마지막페이지에 보여줄 오브젝트 갯수
+        lastPageIndex = (SaveLoadManager.Instance.MaxSaveDataLength / pageMaxObject);  //페이지 갯수 가져오기
+        lastPageObjectLength = (SaveLoadManager.Instance.MaxSaveDataLength & pageMaxObject); //마지막페이지에 보여줄 오브젝트 갯수
     }
 
     /// <summary>
@@ -151,28 +169,58 @@ public class SaveDataSort : MonoBehaviour
     {
         //페이징
         int childCount = saveWindowPageObject.transform.childCount; //현재 풀에서 생성된 오브젝트 갯수 를 가져온다. (페이징)
-        int proccessLength = GetGameObjectLength(); //현재페이지의 페이징오브젝트 갯수를 가져온다.
-        if (childCount < proccessLength)//생성된 오브젝트가 화면에 보여질 갯수보다 작을경우 
+        if (childCount < pagingMaxObject)//생성된 오브젝트가 화면에 보여질 갯수보다 작을경우 
         {
-            PoolBugFunction(saveWindowPageObject.transform, childCount, proccessLength, EnumList.MultipleFactoryObjectList.SAVEPAGEBUTTONPOOL);//부족한부분가져와서 필요없는부분감추기
+            PoolBugFunction(saveWindowPageObject.transform, childCount, pagingMaxObject, EnumList.MultipleFactoryObjectList.SAVEPAGEBUTTONPOOL);//부족한부분가져와서 필요없는부분감추기
         }
 
         childCount = saveWindowObject.transform.childCount; //현재 풀에서 생성된 오브젝트 갯수 를 가져온다. (저장오브젝트)
-        proccessLength = GetGameObjectLength(); //현재페이지의 저장오브젝트 갯수를 가져온다.
+        int proccessLength = GetGameObjectLength(); //현재페이지의 저장오브젝트 갯수를 가져온다.
         if (childCount < proccessLength)//생성된 오브젝트가 화면에 보여질 갯수보다 작을경우 
         {
             PoolBugFunction(saveWindowObject.transform, childCount, proccessLength, EnumList.MultipleFactoryObjectList.SAVEDATAPOOL);//부족한부분가져와서 필요없는부분감추기
         }
-
+     
         for (int i = 0; i < proccessLength; i++)//한페이지만큼만 돌린다
         {
-            saveWindowObject.transform.GetChild(i).localPosition = new Vector3(0, -(saveObjectHeight * i), 0);// 창위치 잡아주기 
+            SaveFileRectSetting(saveWindowObject.transform.GetChild(i).GetComponent<RectTransform>(),i); //파일 사이즈조절및 위치잡기 
         }
-        SetListWindowSize(proccessLength);//저장화면 크기조절
+        SetListWindowSize(saveWindowObject.transform, proccessLength);//저장화면 크기조절
 
         SetPageList();//페이징 데이터 화면에뿌리기
     }
+    /// <summary>
+    /// 세이브파일 위치및 크기설정 
+    /// </summary>
+    /// <param name="rt">세이브오브젝트의 렉트트랜스폼</param>
+    /// <param name="index">화면에 보일 인덱스</param>
+    private void SaveFileRectSetting(RectTransform rt , int index) {
+        Vector2 tempV = rt.anchorMax; //앵커 위쪽 으로 몰빵
+        tempV.x = 1.0f;
+        tempV.y = 1.0f;
+        rt.anchorMax = tempV;
 
+        tempV = rt.anchorMin;       //width 는 부모값을 받기위해 최대치 설정 
+        tempV.x = 0.0f;
+        tempV.y = 1.0f;
+        rt.anchorMin = tempV;
+
+        tempV = rt.pivot;           //상위오브젝트와 기준점 위치를 맞추기위해 왼쪽위로 잡앗다.
+        tempV.x = 0.0f;
+        tempV.y = 1.0f;
+        rt.pivot = tempV;
+
+        tempV =  rt.sizeDelta;      
+        tempV.x = 0.0f;             //객체의 크기 width 는 0을줘서 최대값을 주고 위에 anchorX값에서 잡은만큼 적용 
+        tempV.y = saveObjectHeight; //객체의 크기 height 는 설정값을 줬다.
+        rt.sizeDelta = tempV;
+
+        tempV = rt.localPosition;
+        tempV.x = 0.0f;                     //포지션은 왼쪽끝
+        tempV.y = -saveObjectHeight * index ; //포지션은 객체 가 순차적으로 쌓일수있도록 설정 
+        rt.localPosition = tempV;
+
+    }
     /// <summary>
     /// 풀에서 생성된 오브젝트 에서 부족한부분 추가하고 필요없는 것들 비활성화하는 함수 호출
     /// </summary>
@@ -204,19 +252,19 @@ public class SaveDataSort : MonoBehaviour
         {
             position.GetChild(i).gameObject.SetActive(false); //안쓰는파일 숨기기 
         }
-        int pageLength = lastIndex - startIndex < 1 ? lastIndex : lastIndex - startIndex; // 페이지가 라스트 페이지냐 아니냐에따라 값이달라져야해서 연산처리
-        SetListWindowSize(pageLength); //페이지 크기조절 
+        
     }
 
 
     /// <summary>
     /// 저장데이터 리스트의 윈도우 크기를 설정한다.
     /// </summary>
-    private void SetListWindowSize(int fileLength) {
+    private void SetListWindowSize(Transform position, int fileLength) {
         //트랜스폼을 변경해봤지만 사이즈델타값이 최종적으로바껴서 사이즈델타를 수정하였다.
-        saveWindowObject.GetComponent<RectTransform>().sizeDelta = // 사이즈델타에 Vector2로 값을 넣으면 사이즈가 조절된다. 
-                new Vector2(saveWindowObject.GetComponent<RectTransform>().rect.width, //기본사이즈 
-                saveObjectHeight * fileLength); //한페이지 에 보일 페이지크기 정하기
+        RectTransform rt = position.GetComponent<RectTransform>();
+        Vector2 windowSize = rt.sizeDelta;
+        windowSize.y = saveObjectHeight * fileLength;
+        rt.sizeDelta = windowSize;
     }
 
     /// <summary>
@@ -227,14 +275,14 @@ public class SaveDataSort : MonoBehaviour
     {
         if (saveDataList == null)
         { // 읽어온 파일정보가없는경우 리턴
-            Debug.Log("초기화?");
+            Debug.Log("읽어온 파일정보가없어?");
             return;
         }
-        int startIndex = pageIndex * pageViewSaveObjectMaxSize; //페이지시작오브젝트위치값 가져오기
+        int startIndex = pageIndex * pageMaxObject; //페이지시작오브젝트위치값 가져오기
 
-        int lastIndex = (pageIndex + 1) * pageViewSaveObjectMaxSize > SaveLoadManager.Instance.MaxSaveDataLength ? //파일리스트 최대값 < 현재페이징값 * 화면에보여지는최대오브젝트수
+        int lastIndex = (pageIndex + 1) * pageMaxObject > SaveLoadManager.Instance.MaxSaveDataLength ? //파일리스트 최대값 < 현재페이징값 * 화면에보여지는최대오브젝트수
                             SaveLoadManager.Instance.MaxSaveDataLength : //마지막페이지면 남은갯수만 셋팅
-                            (pageIndex + 1) * pageViewSaveObjectMaxSize; //아니면 일반적인 페이징 
+                            (pageIndex + 1) * pageMaxObject; //아니면 일반적인 페이징 
 
         for (int i = startIndex; i < lastIndex; i++)
         { //데이터를 한페이지만큼만 확인한다.
@@ -242,7 +290,7 @@ public class SaveDataSort : MonoBehaviour
         }
         int visibleEndIndex = lastIndex - startIndex; //페이지의 마지막 인덱스값을 준다.
         SetPoolBug(saveWindowObject.transform, visibleEndIndex);//풀은 오브젝트를 2배씩늘리는데 사용안하는것들은 비활성화작업이필요해서 추가했다.
-
+        SetListWindowSize(saveWindowObject.transform, visibleEndIndex);
     }
 
     /// <summary>
@@ -316,19 +364,62 @@ public class SaveDataSort : MonoBehaviour
         if (index > -1) PageIndex = index;
         SetGameObjectList(SaveLoadManager.Instance.SaveDataList); // 파일리스트 보여주기
 
-        int viewLength = GetGameObjectLength(); //한화면에 보여줄 페이지갯수 
+        int startIndex = GetStartIndex(pagingMaxObject); // 페이징처리후 처음 표시할값을 가져온다  //10개면 0.1 값
+        
+        //나누기연산 줄이기
+        float[] arithmeticValue = new float[2];
+        arithmeticValue[0] = 1.0f / pagingMaxObject;// 페이징 버튼 한칸이 차지하는 크기 
+        arithmeticValue[1] = pagingMaxObject / 1000.0f;  //페이징 버튼 끼리의 간격조절하기위한 값
 
-        int startIndex = GetStartIndex(viewLength); // 페이징처리후 처음 표시할값을 가져온다 
-
-        for (int i = 0; i < viewLength; i++) { //한페이지 다시돌면서 셋팅한다
-            RectTransform tempRect = saveWindowPageObject.transform.GetChild(i).GetComponent<RectTransform>(); // 오브젝트의 위치정보를가져오고
-            Vector3 tempX = tempRect.anchoredPosition; //anchoredPosition 값을 수정해야 위치값이 바뀐다.
-            tempX.x = pageObjectWidthPadding * (i + 1);  //패딩간격만큼 균등하게 나열
-            tempRect.anchoredPosition = tempX; // 위치 셋팅 
+        for (int i = 0; i < pagingMaxObject; i++) { //한페이지 다시돌면서 셋팅한다
+            PageNumRectSetting(saveWindowPageObject.transform.GetChild(i).GetComponent<RectTransform>(),i, arithmeticValue, pagingMaxObject);
             saveWindowPageObject.transform.GetChild(i).GetComponent<SavePageButtonIsPool>().PageIndex = startIndex + i; //페이지 인덱스값 표시
         }
         ResetSaveFocusing();//페이지이동시 초기화
+        SetPoolBug(saveWindowPageObject.transform, pagingMaxObject);
     }
+ 
+    /// <summary>
+    /// 버튼의 갯수가 늘어나더라도 버튼의 사이즈 자동 조절하기위한 계산식 
+    /// </summary>
+    /// <param name="rt">렉터 트랜스폼</param>
+    /// <param name="index">페이징버튼 순번</param>
+    /// <param name="arithmeticValue">나누기연산이필요해서 반복문밖에서 처리한값을 배열로받아서 곱셈으로 사용</param>
+    /// <param name="length">화면에보일 버튼의 갯수</param>
+    private void PageNumRectSetting(RectTransform rt , int index , float[] arithmeticValue, int length) 
+    {
+        int doubleCheck = index < 1 ? 0 : 1;
+        Vector2 tempV = rt.anchorMin;
+        tempV.x = index * arithmeticValue[0] + arithmeticValue[1] +  arithmeticValue[1] * doubleCheck; //페이징버튼  연산 맨앞에값은 0 그다음은 1칸크기+ 패딩의2배값
+        tempV.y = 0.25f;
+        rt.anchorMin = tempV;
+
+        tempV = rt.anchorMax;      
+        
+        tempV.x =   (index+1) * arithmeticValue[0]; //한칸의 크기를 잡아준다
+        tempV.y = 0.75f;
+        rt.anchorMax = tempV;
+
+        tempV = rt.pivot;           //상위오브젝트와 기준점 위치를 맞추기위해 왼쪽위로 잡앗다.
+        tempV.x = 0.0f;
+        tempV.y = 1.0f;
+        rt.pivot = tempV;
+        
+       
+        Rect rect = rt.rect;
+
+        rect.xMin = 0.0f; //에디터의 Left   값을 수정한다.
+        rect.yMax = 0.0f; //에디터의 Top    값을 수정한다.
+        rect.xMax = 0.0f; //에디터의 Right  값을 수정한다.
+        rect.yMin = 0.0f; //에디터의 Bottom 값을 수정한다.
+
+        // 수정된 위치와 크기 정보를 RectTransform에 적용합니다.
+        rt.sizeDelta = new Vector2(rect.width, rect.height);
+        rt.anchoredPosition = new Vector2(rect.x, rect.y);
+
+    }
+
+
 
     /// <summary>
     /// 세이브파일 포커싱 리셋하기 

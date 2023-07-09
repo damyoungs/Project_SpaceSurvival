@@ -114,7 +114,7 @@ public struct stringTripleArray
 [Serializable]
 public class TestSaveData<T> : JsonGameData  // 상속받은 것도 같이 json으로 파싱이된다. 제네릭 도 같이 파싱이 된다.
 {
-    public MyClass otherInstance;//순환 참조 테스트용 클래스
+    //public MyClass otherInstance;//순환 참조 테스트용 클래스
     /// <summary>0
     /// 데이터 테스트 Vector를빼고 경고메세지 안나오는것을 확인
     /// </summary>

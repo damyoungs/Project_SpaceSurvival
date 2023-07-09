@@ -6,12 +6,12 @@ using UnityEngine;
 /// </summary>
 public class SaveWindowPageMove : MonoBehaviour
 {
-    SaveDataSort proccessClass;
+    SaveWindowManager proccessClass;
 
 
     private void Start()
     {
-        proccessClass =  SaveLoadManager.Instance.WindowList.GetComponentInChildren<SaveDataSort>(true); // sort 클래스는 하나이기때문에 걍찾아오자
+        proccessClass =  WindowList.Instance.MainWindow; // sort 클래스는 하나이기때문에 걍찾아오자
     }
 
     /// <summary>

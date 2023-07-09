@@ -7,7 +7,7 @@ public class LoadedSceanMove : MonoBehaviour
 {
     private void Start()
     {
-        SaveLoadManager.Instance.loadedSceanMove += FileLoadAction;
+        SaveLoadManager.Instance.loadedSceanMove = FileLoadAction;
     }
 
     /// <summary>

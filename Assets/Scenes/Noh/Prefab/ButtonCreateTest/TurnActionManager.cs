@@ -5,7 +5,7 @@ using TreeEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TurnActionManager : Singleton<TurnActionManager>
+public class TurnActionManager : ChildComponentSingeton<TurnActionManager>
 {
     enum ButtonList {
         Attack = 0,

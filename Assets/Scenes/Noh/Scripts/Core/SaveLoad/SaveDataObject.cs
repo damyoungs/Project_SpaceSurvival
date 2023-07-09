@@ -1,10 +1,5 @@
-using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
-using static System.Net.Mime.MediaTypeNames;
 
 /// <summary>
 /// 저장화면에 보이는 파일 정보 
@@ -12,10 +7,11 @@ using static System.Net.Mime.MediaTypeNames;
 /// </summary>
 public class SaveDataObject : SaveDataIsPool
 {
-  
+
     /// <summary>
     /// 클릭했을때 오브젝트 인덱스
     /// </summary>
+    [SerializeField]
     private int objectIndex = -1;
     public int ObjectIndex { 
         get => objectIndex; 
@@ -25,6 +21,7 @@ public class SaveDataObject : SaveDataIsPool
     /// 내부적인 인덱스값
     /// -1값이면 초기상태
     /// </summary>
+    [SerializeField]
     private int fileIndex = -1;
     public int FileIndex { 
         get => fileIndex;
@@ -100,22 +97,12 @@ public class SaveDataObject : SaveDataIsPool
     TextMeshProUGUI charcterMoneyObj; // 캐릭터이름 , 저장위치 , 돈 , 레벨 정도?
     [SerializeField]
     TextMeshProUGUI etcObj;   // 저장시간 보여주기
-    [SerializeField]
-    GameObject isFocus;
 
-    InputKeyMouse inputSystem;
+
 
     SaveLoadPopupWindow proccessManager;
 
-    /// <summary>
-    /// 생성시 포지션리셋 여부 셋팅
-    /// </summary>
-    private void Awake()
-    {
-        inputSystem = new InputKeyMouse();
-        //풀에서 처리시 로컬포지션 리셋하지않게 변수셋팅
-        isPositionReset = false;
-    }
+
     private void Start()
     {
         proccessManager = WindowList.Instance.IOPopupWindow; //저장화면 처리하는클래스가져오기

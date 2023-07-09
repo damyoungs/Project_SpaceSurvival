@@ -8,7 +8,7 @@ public class OptionsButton : MonoBehaviour
  
     public void OnClickOptions()
     {
-        WindowList.Instance.OptionsWindow.SetActive(true);
+        WindowList.Instance.MainWindow.gameObject.SetActive(true);
 
     }
 }

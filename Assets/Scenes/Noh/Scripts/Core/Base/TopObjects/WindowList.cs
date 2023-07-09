@@ -44,8 +44,8 @@ public class WindowList : Singleton<WindowList> {
     /// <summary>
     /// 관리할 윈도우 중 옵션관련 윈도우
     /// </summary>
-    GameObject optionsWindow;
-    public GameObject OptionsWindow => optionsWindow;
+    SaveWindowManager mainWindow;
+    public SaveWindowManager MainWindow => mainWindow;
     
     /// <summary>
     /// 인벤토리 오브젝트
@@ -56,8 +56,8 @@ public class WindowList : Singleton<WindowList> {
     /// <summary>
     /// 저장 삭제 복사 로드 실행여부 묻는 창 가져오기
     /// </summary>
-    SaveLoadPopupWindow ioPopupWindow;
-    public SaveLoadPopupWindow IOPopupWindow => ioPopupWindow;
+    SaveLoadPopupWindow saveLoadPopupWindow;
+    public SaveLoadPopupWindow IOPopupWindow => saveLoadPopupWindow;
 
     /// <summary>
     /// 윈도우리스트는 항상가지고다니는것이기때문에 여기에서 이벤트처리를 진행.
@@ -69,8 +69,8 @@ public class WindowList : Singleton<WindowList> {
         //오브젝트 순서 계속바껴서 걍무겁더라도 GetComponentInChildren<Type>(true) 으로 찾아둘란다.. 매번 이거때매 고치기귀찮.
         defencePanel = transform.GetComponentInChildren<DefenceEvent>(true); 
         invenWindow = transform.GetComponentInChildren<InventoryWindow>(true);
-        ioPopupWindow = transform.GetComponentInChildren<SaveLoadPopupWindow>(true);
-        optionsWindow = transform.GetChild(0).gameObject; //옵션윈도우는 0번째다 이건 스크립트안넣어놔서 일케찾아야함
+        saveLoadPopupWindow = transform.GetComponentInChildren<SaveLoadPopupWindow>(true);
+        mainWindow = transform.GetComponentInChildren<SaveWindowManager>(true);
     }
 
     /// <summary>
@@ -115,7 +115,7 @@ public class WindowList : Singleton<WindowList> {
         if (!LoadingScean.IsLoading){ 
             if (context.performed)
             {
-                optionsWindow.SetActive(!optionsWindow.activeSelf);//옵션윈도우 열고 닫고 
+                mainWindow.gameObject.SetActive(!mainWindow.gameObject.activeSelf);//옵션윈도우 열고 닫고 
                 
             }
         }
@@ -162,11 +162,9 @@ public class WindowList : Singleton<WindowList> {
     /// </summary>
     public void ResetPopupWindow() {
 
-        optionsWindow.gameObject.SetActive(false);
 
-        for(int i = 0; i< transform.GetChild(1).childCount; i++) {
-            transform.GetChild(1).GetChild(i).gameObject.SetActive(false);
+        for(int i = 0; i< transform.GetChild(0).childCount; i++) {
+            transform.GetChild(0).GetChild(i).gameObject.SetActive(false);
         }
-        transform.GetChild(1).GetChild(transform.GetChild(1).childCount-1).gameObject.SetActive(true);
     }
 }

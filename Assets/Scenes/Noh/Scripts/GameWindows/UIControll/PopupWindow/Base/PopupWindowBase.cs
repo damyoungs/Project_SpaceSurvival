@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
@@ -12,7 +13,7 @@ public class PopupWindowBase : MonoBehaviour,
     IPointerDownHandler, //해당오브젝트안에서 이벤트(클릭) 발동시 실행함  
     IPointerUpHandler,   //해당오브젝트안에서 이벤트(클릭해제) 발동시 실행함  
     IDragHandler        //화면에서 드래그시 발동함.  
-{ 
+{
 
     /// <summary>
     /// 현재 게임화면 width 값
@@ -105,6 +106,7 @@ public class PopupWindowBase : MonoBehaviour,
 
     protected virtual void Awake()
     {
+
         rectTransform = GetComponent<RectTransform>(); //팝업창 크기조절용으로 가져온다
      
         contentPanel = transform.GetChild(0).GetChild(0).GetComponent<RectTransform>(); //컨텐츠패널 RectTransform 가져온다
@@ -118,7 +120,7 @@ public class PopupWindowBase : MonoBehaviour,
 
         SetContentWindowSize();//컨텐츠창 위치랑 크기 조절 , 컴파일단계에서 이미 값들이 다 설정된것만 사용하기때문에 문제없음.
     }
-
+   
     /// <summary>
     /// 클릭 체크 
     /// </summary>
@@ -193,17 +195,15 @@ public class PopupWindowBase : MonoBehaviour,
     private void SetPopupSize(PointerEventData eventData)
     {
         //현재창의 사이즈에서 드래그시작한위치값에서 이동한거리만큼을 뺀 나머지값을 더한다.
-        float x = rectTransform.sizeDelta.x + ((    // 창의 현재 사이즈 width값 
+        arithmeticValue = rectTransform.sizeDelta;
+        arithmeticValue.x = arithmeticValue.x + ((    // 창의 현재 사이즈 width값 
             eventData.position.x -                  // 전체화면!!!에서 드래그하고있는 위치값 x좌표
             ClickPosition.x) *                      // 처음 드래그를 시작한 위치값 x 좌표
-            sizeSpeed);                             // 화면에 변환속도를 늦추기위해 사용
-        float y = rectTransform.sizeDelta.y + ((    // 창의 현재 사이즈 height값
+            sizeSpeed);        
+        arithmeticValue.y = arithmeticValue.y + ((    // 창의 현재 사이즈 height값
             ClickPosition.y -                       // 처음 드래그를 시작한 위치값 y 좌표
             eventData.position.y) *                 // 전체화면!!!에서 드래그하고있는 위치값 y좌표
-            sizeSpeed);  //height 값 조절           // 화면에 변환속도를 늦추기위해 사용
-        arithmeticValue = new Vector2(x, y);        // 연산결과 
-
-
+            sizeSpeed);
 
         //Height 최대 최소 사이즈 체크 
         if (arithmeticValue.y > maxHeight)
@@ -247,8 +247,6 @@ public class PopupWindowBase : MonoBehaviour,
         SetItemList(arithmeticValue);
 
 
-       
-
     }
 
     /// <summary>
@@ -256,11 +254,11 @@ public class PopupWindowBase : MonoBehaviour,
     /// </summary>
     private void SetContentWindowSize() {
         //컨텐츠 창 사이즈조절 
-        arithmeticValue = rectTransform.sizeDelta; //팝업창 사이즈 가져와서
+        //arithmeticValue = rectTransform.sizeDelta; //팝업창 사이즈 가져와서
 
-        arithmeticValue.y -= topPanel.sizeDelta.y; //탑판넬 크기만큼 자르고
+        //arithmeticValue.y -= topPanel.sizeDelta.y; //탑판넬 크기만큼 자르고
 
-        contentPanel.sizeDelta = arithmeticValue;  //그크기를 적용
+        //contentPanel.sizeDelta = arithmeticValue;  //그크기를 적용
 
         //컨텐츠 창 위치 조절 
         arithmeticValue = contentPanel.anchoredPosition;    //컨텐츠 앵커기준 위치값 가져오고

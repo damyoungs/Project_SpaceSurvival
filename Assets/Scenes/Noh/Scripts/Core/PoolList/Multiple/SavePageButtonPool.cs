@@ -10,7 +10,13 @@ public class SavePageButtonPool : MultipleObjectPool<SavePageButtonIsPool>
     /// </summary>
     protected override void StartInitialize()
     {
-        setPosition = SaveLoadManager.Instance.SaveLoadPagingWindow.transform; //기본적으로 풀아래에 생성되지만 원하는오브젝트아래에 생성되게 변경하였음.
+        
+        setPosition = FindObjectOfType<WindowList>().MainWindow.transform.
+                                                    GetChild(0). //ContentParent
+                                                    GetChild(0). //Contents
+                                                    GetChild(0). //SaveLoadWindow
+                                                    GetChild(1). //PageListAndButton
+                                                    GetChild(1); //PageNumber
     }
 
 
