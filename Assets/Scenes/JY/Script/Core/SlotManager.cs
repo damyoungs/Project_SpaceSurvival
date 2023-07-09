@@ -231,10 +231,10 @@ public class SlotManager : MonoBehaviour
 
 
         SlotList.RemoveAt(firstSlotIndex);
-        SlotList.RemoveAt(secondSlotIndex > firstSlotIndex ? secondSlotIndex - 1 : secondSlotIndex);
-        // 삭제한 위치에 다른 슬롯을 추가하여 위치를 바꿉니다.
         SlotList.Insert(firstSlotIndex, tempSecondSlot);
+        SlotList.RemoveAt(secondSlotIndex);
         SlotList.Insert(secondSlotIndex, tempFirstSlot);
+        // 삭제한 위치에 다른 슬롯을 추가하여 위치를 바꿉니다.
     }
     IEnumerator ImageMovingCoroutine()
     {
