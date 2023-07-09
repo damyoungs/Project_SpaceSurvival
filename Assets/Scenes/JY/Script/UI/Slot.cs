@@ -12,10 +12,11 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPo
     [SerializeField]
   
     Text amount_Text;
-    int itemCount;
 
     TextMeshProUGUI itemDescription_Text;
     Animator anim;
+    int popUpHash = Animator.StringToHash("PopUp");
+    int itemCount;
 
     private ItemBase item;
     public ItemBase Item//SlotManager의  GetItem 함수가 실행될때 Item의 정보를 받아오기위한 프로퍼티
@@ -28,6 +29,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPo
         }
     }
     public bool IsEmpty { get; set; } = true;//SlotManager에서  빈 슬롯인지 확인할때 쓰일 프로퍼티
+    public bool IsMoving { get; set; } //이동중 description 팝업을 방지하기 위한 변수 
     
     public string CurrentItem { get;  set; }
     public int ItemCount
@@ -54,15 +56,15 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPo
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!IsEmpty)
+        if (!IsEmpty && !IsMoving)
         {
-            anim.SetBool("PopUp", true);
+            anim.SetBool(popUpHash, true);
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        anim.SetBool("PopUp", false);
+        anim.SetBool(popUpHash, false);
 
     }
     void SetDiscription(ItemBase item)

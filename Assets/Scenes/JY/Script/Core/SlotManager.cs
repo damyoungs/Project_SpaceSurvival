@@ -163,11 +163,10 @@ public class SlotManager : MonoBehaviour
 
     public void OnSlotClicked(Slot clickedSlot)
     {
-
-       
         // 첫 클릭: 선택한 슬롯 저장
         if (selectedSlot == null)
         {
+            clickedSlot.IsMoving = true;
             if (!clickedSlot.IsEmpty)
             {
                 selectedSlot = clickedSlot;
@@ -182,6 +181,7 @@ public class SlotManager : MonoBehaviour
         // 두 번째 클릭: 아이템 교환하고 선택한 슬롯 초기화
         else
         {
+            selectedSlot.IsMoving = false;
             secondSlotPosition = clickedSlot.transform.position;
 
             ResetImageAlpha();//이동중인 첫번째슬롯 알파값 원상복구
