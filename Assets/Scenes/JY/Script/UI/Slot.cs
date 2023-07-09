@@ -9,11 +9,21 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPo
 {
 
     [SerializeField]
-    Text item_Discription;
+    GameObject item_Discription;
     Text amount_Text;
     Image item_Image;
     int itemCount;
- 
+
+    private ItemBase item;
+    public ItemBase Item
+    {
+        get => item;
+        set
+        {
+            item = value;
+            SetDiscription(value);
+        }
+    }
     public bool IsEmpty { get; set; } = true;//SlotManager에서  빈 슬롯인지 확인할때 쓰일 프로퍼티
     
     public string CurrentItem { get;  set; }
@@ -31,7 +41,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPo
     }
     private void Awake()
     {
-        item_Discription = transform.GetChild(2).GetComponent<Text>();
+        item_Discription = transform.GetChild(2).gameObject;
         amount_Text = transform.GetChild(1).GetComponent<Text>();
         item_Image = transform.GetChild(0).GetComponent<Image>();
     }
@@ -49,7 +59,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPo
 
 
     }
-    void SetDiscription()
+    void SetDiscription(ItemBase item)
     {
 
     }

@@ -98,13 +98,13 @@ public class SlotManager : MonoBehaviour
     {
         // itemType에 따른 리스트를 가져오기
         List<GameObject> slotList = GetItemTab(item);//item.itemtype에 따른 리스트(장비, 소비, 기타 중 어느곳에 연결된 리스트인지) 연결하기
-        UpdateSlotImage(item, slotList);
+        UpdateSlot(item, slotList);
     }
-    private void UpdateSlotImage(ItemBase item, List<GameObject> slotList)
+    private void UpdateSlot(ItemBase item, List<GameObject> slotList)
     {
-        if (item.IsStackable)
+        if (item.IsStackable)//한 칸에 여러개 소지 가능한 아이템일 경우 
         {
-            foreach(GameObject slotObject in slotList)
+            foreach(GameObject slotObject in slotList) //리스트를 순회하면서 같은 아이템이 있으면 Count만 증가시키고 return;
             {
                 Slot slot = slotObject.GetComponent<Slot>();
                 if (item.name == slot.CurrentItem)
@@ -127,6 +127,7 @@ public class SlotManager : MonoBehaviour
                     if (s.name == spriteName)
                     {
                         slotImage.sprite = s;
+                        slot.Item = item;
                         break;
                     }
                 }
@@ -189,9 +190,8 @@ public class SlotManager : MonoBehaviour
            
         }
     }
-    void ResetImageAlpha()
+    void ResetImageAlpha()// 이미지 알파값 초기화 
     {
-
         if (firstClickImage != null)
         {
             var color = firstClickImage.color;
@@ -201,7 +201,7 @@ public class SlotManager : MonoBehaviour
     }
     void SwapItems(Slot firstSlot, Slot secondSlot)
     {
-        // 먼저 두 슬롯이 어떤 리스트에 속해 있는지 알아냅니다.
+        // 두 슬롯이 속한 리스트 가져오기
         List<GameObject> SlotList = null;
 
         foreach (var slotList in slots)
@@ -218,11 +218,11 @@ public class SlotManager : MonoBehaviour
             return;
         }
 
-        // 각 슬롯의 인덱스를 찾습니다.
+        // 각 슬롯의 인덱스를 찾기.
         int firstSlotIndex = SlotList.IndexOf(firstSlot.gameObject);
         int secondSlotIndex = SlotList.IndexOf(secondSlot.gameObject);
 
-        // 슬롯을 잠시 저장하고 리스트에서 삭제합니다.
+        // 슬롯을 잠시 저장하고 리스트에서 삭제
         GameObject tempFirstSlot = SlotList[firstSlotIndex];
         GameObject tempSecondSlot = SlotList[secondSlotIndex];
 
@@ -234,7 +234,7 @@ public class SlotManager : MonoBehaviour
         SlotList.Insert(firstSlotIndex, tempSecondSlot);
         SlotList.RemoveAt(secondSlotIndex);
         SlotList.Insert(secondSlotIndex, tempFirstSlot);
-        // 삭제한 위치에 다른 슬롯을 추가하여 위치를 바꿉니다.
+        // 삭제한 위치에 다른 슬롯을 추가하여 위치를 바꿈
     }
     IEnumerator ImageMovingCoroutine()
     {
