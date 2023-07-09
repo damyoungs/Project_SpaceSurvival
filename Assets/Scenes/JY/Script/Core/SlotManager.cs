@@ -14,12 +14,13 @@ public class SlotManager : MonoBehaviour
     public Transform etc_Below;
     public Transform craft_Below;
 
-    Slot selectedSlot;
+    Slot selectedSlot;// 처음 클릭한 슬롯을 저장하기 위한 변수
     Image firstClickImage; //첫번째 클릭한 슬롯 하위의 아이템 이미지
-    Vector2 firstClickSlotPosition;
+    Vector2 firstSlotPosition;
+    Vector2 secondSlotPosition;
 
     public Dictionary<Current_Inventory_State, List<GameObject>> slots;
-    private Dictionary<Current_Inventory_State, int> slotCount;
+    private Dictionary<Current_Inventory_State, int> slotCount; //슬롯 생성후 번호를 부여하기위한 Dic
     public void Initialize()
     {
         slots = new Dictionary<Current_Inventory_State, List<GameObject>>
@@ -164,6 +165,7 @@ public class SlotManager : MonoBehaviour
             {
                 selectedSlot = clickedSlot;
                 firstClickImage = clickedSlot.transform.GetChild(0).GetComponent<Image>();
+                firstSlotPosition = clickedSlot.transform.position;
 
                 StartCoroutine(ImageMovingCoroutine());
             }
@@ -172,6 +174,7 @@ public class SlotManager : MonoBehaviour
         // 두 번째 클릭: 아이템 교환하고 선택한 슬롯 초기화
         else
         {
+            secondSlotPosition = clickedSlot.transform.position;
             ResetImageAlpha();//이동중인 첫번째슬롯 알파값 원상복구
             SwapItems(selectedSlot, clickedSlot);
             selectedSlot = null;
@@ -215,10 +218,12 @@ public class SlotManager : MonoBehaviour
         GameObject tempFirstSlot = SlotList[firstSlotIndex];
         GameObject tempSecondSlot = SlotList[secondSlotIndex];
 
-        Destroy(firstSlot.gameObject);
-        Destroy(secondSlot.gameObject);
+        firstSlot.transform.position = secondSlotPosition;
+        secondSlot.transform.position = firstSlotPosition;
+
+
         SlotList.RemoveAt(firstSlotIndex);
-        SlotList.RemoveAt(secondSlotIndex);
+        SlotList.RemoveAt(secondSlotIndex > firstSlotIndex ? secondSlotIndex - 1 : secondSlotIndex);
         // 삭제한 위치에 다른 슬롯을 추가하여 위치를 바꿉니다.
         SlotList.Insert(firstSlotIndex, tempSecondSlot);
         SlotList.Insert(secondSlotIndex, tempFirstSlot);
