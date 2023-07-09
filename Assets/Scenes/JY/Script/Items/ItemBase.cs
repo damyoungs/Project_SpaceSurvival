@@ -42,6 +42,8 @@ public class ItemBase : MonoBehaviour
     public bool IsStackable { get; protected set; }
     public Coroutine lifeOverCoroutine;
 
+    public string itemDescription;
+
 
     protected virtual void Awake()
     {

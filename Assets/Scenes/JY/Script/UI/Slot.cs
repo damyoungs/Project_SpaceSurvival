@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -9,13 +10,15 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPo
 {
 
     [SerializeField]
-    GameObject item_Discription;
+  
     Text amount_Text;
-    Image item_Image;
     int itemCount;
 
+    TextMeshProUGUI itemDescription_Text;
+    Animator anim;
+
     private ItemBase item;
-    public ItemBase Item
+    public ItemBase Item//SlotManager의  GetItem 함수가 실행될때 Item의 정보를 받아오기위한 프로퍼티
     {
         get => item;
         set
@@ -41,9 +44,9 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPo
     }
     private void Awake()
     {
-        item_Discription = transform.GetChild(2).gameObject;
+        itemDescription_Text = GetComponentInChildren<TextMeshProUGUI>();
         amount_Text = transform.GetChild(1).GetComponent<Text>();
-        item_Image = transform.GetChild(0).GetComponent<Image>();
+        anim = GetComponent<Animator>();
     }
     private void Start()
     {
@@ -51,17 +54,20 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPo
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-
+        if (!IsEmpty)
+        {
+            anim.SetBool("PopUp", true);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-
+        anim.SetBool("PopUp", false);
 
     }
     void SetDiscription(ItemBase item)
     {
-
+        itemDescription_Text.text = $"{item.Name}\n{item.itemDescription}";
     }
     void UpdateAmountText(int amount)
     {
