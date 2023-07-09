@@ -102,19 +102,25 @@ public class SlotManager : MonoBehaviour
     }
     private void UpdateSlotImage(ItemBase item, List<GameObject> slotList)
     {
+        if (item.IsStackable)
+        {
+            foreach(GameObject slotObject in slotList)
+            {
+                Slot slot = slotObject.GetComponent<Slot>();
+                if (item.name == slot.CurrentItem)
+                {
+                    slot.ItemCount++;
+                    return;
+                }
+            }
+        }
         foreach (GameObject slotObject in slotList)
         {
             Slot slot = slotObject.GetComponent<Slot>();
-            if (item.IsStackable  && item.name == slot.CurrentItem)
+            if (slot.IsEmpty)
             {
-                slot.ItemCount++;
-                break;
-            }
-            else if (slot.IsEmpty) //a+만약 슬롯이 비었다면
-            {
-                Image slotImage = slotObject.transform.GetChild(0).GetComponent<Image>();// 바꿔줄 이미지 컴포넌트 가져오기
-                string spriteName = Enum.GetName(typeof(ItemImagePath), item.ItemImagePath);// enum의 이름을 string 변수에 넣어주기
-                
+                Image slotImage = slotObject.transform.GetChild(0).GetComponent<Image>();
+                string spriteName = Enum.GetName(typeof(ItemImagePath), item.ItemImagePath);
                 Sprite[] sprite = Resources.LoadAll<Sprite>($"ItemImage/Items");
                 foreach (Sprite s in sprite)
                 {
@@ -126,11 +132,9 @@ public class SlotManager : MonoBehaviour
                 }
                 slot.IsEmpty = false;
                 slot.CurrentItem = item.name;
-                // 아이템을 추가했으므로 loop를 중단
                 break;
             }
         }
-  
     }
     private List<GameObject> GetItemTab(ItemBase item)
     {
@@ -243,7 +247,7 @@ public class SlotManager : MonoBehaviour
             yield return null;
         }
         imageTransform.anchoredPosition = Vector2.zero;
-       // selectedSlot.transform.GetChild(0).position =  Vector2.zero;
+
         yield break;
     }
 }

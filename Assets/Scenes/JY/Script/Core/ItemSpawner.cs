@@ -113,6 +113,13 @@ public class ItemSpawner : TestBase
         GameManager.SlotManager.GetItem(item);
         Destroy(obj);
     }
+    public void GetItemMpPotion()
+    {
+        GameObject obj = Instantiate(prefabDict[PrefabName.MpPotion]);
+        ItemBase item = obj.GetComponent<ItemBase>();
+        GameManager.SlotManager.GetItem(item);
+        Destroy(obj);
+    }
     protected override void Test1(InputAction.CallbackContext _)
     {
         GetItem();
@@ -129,7 +136,7 @@ public class ItemSpawner : TestBase
     }
     protected override void Test4(InputAction.CallbackContext context)
     {
-    
+        GetItemMpPotion();
     }
     protected override void Test5(InputAction.CallbackContext context)
     {
