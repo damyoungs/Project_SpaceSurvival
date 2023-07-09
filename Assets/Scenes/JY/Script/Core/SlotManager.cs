@@ -16,6 +16,8 @@ public class SlotManager : MonoBehaviour
 
     Slot selectedSlot;// 처음 클릭한 슬롯을 저장하기 위한 변수
     Image firstClickImage; //첫번째 클릭한 슬롯 하위의 아이템 이미지
+    RectTransform imageTransform; 
+
     Vector2 firstSlotPosition;
     Vector2 secondSlotPosition;
 
@@ -164,8 +166,9 @@ public class SlotManager : MonoBehaviour
             if (!clickedSlot.IsEmpty)
             {
                 selectedSlot = clickedSlot;
-                firstClickImage = clickedSlot.transform.GetChild(0).GetComponent<Image>();
+                firstClickImage = clickedSlot.transform.GetChild(0).GetComponent<Image>(); //이미지의 알파값을 바꾸기 위한 이미지 컴포넌트
                 firstSlotPosition = clickedSlot.transform.position;
+                imageTransform = clickedSlot.transform.GetChild(0).GetComponent<RectTransform>();
 
                 StartCoroutine(ImageMovingCoroutine());
             }
@@ -175,6 +178,7 @@ public class SlotManager : MonoBehaviour
         else
         {
             secondSlotPosition = clickedSlot.transform.position;
+
             ResetImageAlpha();//이동중인 첫번째슬롯 알파값 원상복구
             SwapItems(selectedSlot, clickedSlot);
             selectedSlot = null;
@@ -218,7 +222,7 @@ public class SlotManager : MonoBehaviour
         GameObject tempFirstSlot = SlotList[firstSlotIndex];
         GameObject tempSecondSlot = SlotList[secondSlotIndex];
 
-        firstSlot.transform.position = secondSlotPosition;
+        firstSlot.gameObject.transform.position = secondSlotPosition;
         secondSlot.transform.position = firstSlotPosition;
 
 
@@ -235,9 +239,11 @@ public class SlotManager : MonoBehaviour
         firstClickImage.color = color;
         while (selectedSlot != null)
         {
-            selectedSlot.transform.GetChild(0).position = Input.mousePosition;
+            imageTransform.position = Input.mousePosition;
             yield return null;
         }
+        imageTransform.anchoredPosition = Vector2.zero;
+       // selectedSlot.transform.GetChild(0).position =  Vector2.zero;
         yield break;
     }
 }
