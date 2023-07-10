@@ -11,8 +11,8 @@ public class ChoTestCamera : MonoBehaviour
     private void Start()
     {
         Vector3 playerPos = player.position;
-        transform.position = new Vector3(playerPos.x + 1.0f, playerPos.y + 10.0f, playerPos.z - 5.0f);
-        transform.rotation = Quaternion.Euler(45.0f, 0.0f, 0.0f);
+        transform.position = new Vector3(playerPos.x + 1.0f, playerPos.y + 10.0f, playerPos.z - 5.0f);      // 카메라 위치 조정
+        transform.rotation = Quaternion.Euler(45.0f, 0.0f, 0.0f);                                           // 카메라 각도 조절
         offset = transform.position - player.position;
     }
 

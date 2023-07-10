@@ -76,8 +76,8 @@ public class MapTest : TestBase
                     // 꼭지점인 경우
                     mapTiles[i] = Instantiate(vertexTile, gameObject.transform);                // 꼭지점 타일 생성
                     mapTiles[i].GetComponent<Tile>().TileType = (int)MapTileType.vertexTile;    // 타일 스크립트에 타입 저장
-                    mapTiles[i].GetComponent<Tile>().Width = width + 1;                         // 타일 가로 인덱스 저정
-                    mapTiles[i].GetComponent<Tile>().Length = length + 1;                       // 타일 세로 인덱스 저정
+                    mapTiles[i].GetComponent<Tile>().Width = width;                         // 타일 가로 인덱스 저정
+                    mapTiles[i].GetComponent<Tile>().Length = length;                       // 타일 세로 인덱스 저정
 
                     wallObject = Instantiate(wall, mapTiles[i].transform);                      // 측면 벽1 생성
                     wallObject.transform.Translate(new Vector3(1.0f, 0.0f, -1.75f));            // 측면 벽1 이동
@@ -111,8 +111,8 @@ public class MapTest : TestBase
                     // 사이드 타일 생성 및 회전
                     mapTiles[i] = Instantiate(sideTile, gameObject.transform);                      // 사이드 타일 생성
                     mapTiles[i].GetComponent<Tile>().TileType = (int)MapTileType.sideTile;          // 타일 스크립트에 타입 저장
-                    mapTiles[i].GetComponent<Tile>().Width = width + 1;                             // 타일 가로 인덱스 저정
-                    mapTiles[i].GetComponent<Tile>().Length = length + 1;                           // 타일 세로 인덱스 저정
+                    mapTiles[i].GetComponent<Tile>().Width = width;                             // 타일 가로 인덱스 저정
+                    mapTiles[i].GetComponent<Tile>().Length = length;                           // 타일 세로 인덱스 저정
                     wallObject = Instantiate(wall, mapTiles[i].transform);                          // 측면 벽 생성
                     wallObject.transform.Translate(new Vector3(1, 0.0f, -1.75f));                   // 측면 벽 이동
 
@@ -137,8 +137,8 @@ public class MapTest : TestBase
                 {
                     mapTiles[i] = Instantiate(centerTile, gameObject.transform);                        // 중앙 타일 생성
                     mapTiles[i].GetComponent<Tile>().TileType = (int)MapTileType.centerTile;            // 타일 스크립트에 타입 저장
-                    mapTiles[i].GetComponent<Tile>().Width = width + 1;                                 // 타일 가로 인덱스 저정
-                    mapTiles[i].GetComponent<Tile>().Length = length + 1;                               // 타일 세로 인덱스 저정
+                    mapTiles[i].GetComponent<Tile>().Width = width;                                 // 타일 가로 인덱스 저정
+                    mapTiles[i].GetComponent<Tile>().Length = length;                               // 타일 세로 인덱스 저정
                     mapTiles[i].transform.Rotate(new Vector3(0, 90.0f * Random.Range(0, 4), 0));        // 중앙 타일 랜덤 회전(그냥 미관상)
                 }
 
@@ -191,7 +191,7 @@ public class MapTest : TestBase
     /// <returns></returns>
     GameObject GetTile(int width, int length)
     {
-        int index = sizeX * (length - 1) + width - 1;
+        int index = sizeX * length + width;
         return mapTiles[index];
     }
 
