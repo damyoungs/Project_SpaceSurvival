@@ -9,6 +9,6 @@ public class SwordLaser_Advanced : EquipBase
         ItemType = ItemType.Equip;
         ItemImagePath = ItemImagePath.SwordLaserAdvanced;
         IsStackable = false;
-        Name = name;
+        Name = "강화 레이져 소드";
     }
 }

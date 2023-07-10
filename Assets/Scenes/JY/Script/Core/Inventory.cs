@@ -148,5 +148,8 @@ public class Inventory : MonoBehaviour
             is_Inventory_Open = false;
         }
     }
-
+    public void RefreshOrder()
+    {
+        this.transform.SetAsFirstSibling();
+    }
 }

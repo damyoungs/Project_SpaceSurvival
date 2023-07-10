@@ -9,6 +9,6 @@ public class Rifle : EquipBase
         ItemType = ItemType.Equip;
         ItemImagePath = ItemImagePath.Rifle;
         IsStackable = false;
-        Name = name;
+        Name = "ถ๓ภฬวร";
     }
 }

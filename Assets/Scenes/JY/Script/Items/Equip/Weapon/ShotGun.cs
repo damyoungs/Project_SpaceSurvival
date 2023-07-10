@@ -9,6 +9,6 @@ public class ShotGun : EquipBase
         ItemType = ItemType.Equip;
         ItemImagePath = ItemImagePath.ShotGun;
         IsStackable = false;
-        Name = name;
+        Name = "¼¦°Ç";
     }
 }

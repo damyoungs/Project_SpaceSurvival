@@ -9,6 +9,6 @@ public class Dagger : EquipBase
         ItemType = ItemType.Equip;
         ItemImagePath = ItemImagePath.Dagger;
         IsStackable = false;
-        Name = name;
+        Name = "´Ü°Ë";
     }
 }

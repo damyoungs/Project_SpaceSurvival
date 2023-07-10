@@ -9,6 +9,6 @@ public class Pistol : EquipBase
         ItemType = ItemType.Equip;
         ItemImagePath = ItemImagePath.Pistol;
         IsStackable = false;
-        Name = name;
+        Name = "ÇÇ½ºÅç";
     }
 }

@@ -10,7 +10,7 @@ public class SecretPotion : ConsumeBase
         ItemType = ItemType.Consume;
         ItemImagePath = ItemImagePath.SecretPotion;
         IsStackable = true;
-        Name = name;
+        Name = "SecretPotion";
         RecoveryMpValue = 50;
     }
 }

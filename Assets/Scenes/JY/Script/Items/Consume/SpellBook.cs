@@ -10,7 +10,7 @@ public class SpellBook : ConsumeBase
         ItemType = ItemType.Consume;
         ItemImagePath = ItemImagePath.SpellBook;
         IsStackable = true;
-        Name = name;
+        Name = "SpellBook";
         RecoveryMpValue = 50;
     }
 }

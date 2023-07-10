@@ -9,6 +9,6 @@ public class Shield_Extended : EquipBase
         ItemType = ItemType.Equip;
         ItemImagePath = ItemImagePath.ShieldExtended;
         IsStackable = false;
-        Name = name;
+        Name = "ShieldExtended";
     }
 }

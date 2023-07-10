@@ -10,6 +10,6 @@ public class Hammer : EquipBase
         ItemType = ItemType.Equip;
         ItemImagePath = ItemImagePath.Hammer;
         IsStackable = false;
-        Name = name;
+        Name = "¸ÁÄ¡";
     }
 }

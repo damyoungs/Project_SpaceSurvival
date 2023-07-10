@@ -9,6 +9,6 @@ public class TwoHandSword : EquipBase
         ItemType = ItemType.Equip;
         ItemImagePath = ItemImagePath.TwoHandSword;
         IsStackable = false;
-        Name = name;
+        Name = "µÎ¼Õ°Ë";
     }
 }

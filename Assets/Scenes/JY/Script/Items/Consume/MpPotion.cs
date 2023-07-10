@@ -9,7 +9,7 @@ public class MpPotion : ConsumeBase
         ItemType = ItemType.Consume;
         ItemImagePath = ItemImagePath.MpPotion;
         IsStackable = true;
-        Name = name;
+        Name = "MpPotion";
         RecoveryMpValue = 50;
     }
     private void OnEnable()

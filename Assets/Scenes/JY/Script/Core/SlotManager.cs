@@ -181,13 +181,32 @@ public class SlotManager : MonoBehaviour
         // 두 번째 클릭: 아이템 교환하고 선택한 슬롯 초기화
         else
         {
-            selectedSlot.IsMoving = false;
-            secondSlotPosition = clickedSlot.transform.position;
+            //만약 클릭 지점이 인벤토리의 범위를 벗어나면 아이템 필드에 드롭 if(slot.itemcount > 1) 몇개버릴지 숫자입력창 팝업
+            RectTransform inventoryRectTransform = GameManager.Inventory.GetComponent<RectTransform>();
 
-            ResetImageAlpha();//이동중인 첫번째슬롯 알파값 원상복구
-            SwapItems(selectedSlot, clickedSlot);
-            selectedSlot = null;
-           
+            Vector2 localMousePosition;
+
+            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(inventoryRectTransform, Input.mousePosition, null, out localMousePosition))
+            {
+                if (inventoryRectTransform.rect.Contains(localMousePosition))
+                {
+                    Debug.Log("인벤토리 내부");
+                    // 마우스 클릭 위치가 인벤토리 내부
+                    selectedSlot.IsMoving = false;
+                    secondSlotPosition = clickedSlot.transform.position;
+
+                    ResetImageAlpha(); // 이동중인 첫번째 슬롯 알파값 원상복구
+                    SwapItems(selectedSlot, clickedSlot);
+                    selectedSlot = null;
+                }
+                else
+                {
+                    Debug.Log("인벤토리 외부");
+                    // 마우스 클릭 위치가 인벤토리 외부
+                    // 코드 이하 생략...
+                }
+   
+            }
         }
     }
     void ResetImageAlpha()// 이미지 알파값 초기화 

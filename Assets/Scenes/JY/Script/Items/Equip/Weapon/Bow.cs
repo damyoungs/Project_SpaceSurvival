@@ -9,7 +9,7 @@ public class Bow : EquipBase
         ItemType = ItemType.Equip;
         ItemImagePath = ItemImagePath.Bow;
         IsStackable = false;
-        Name = name;
+        Name = "ªÁ≥…≤€¿« »∞";
     }
     private void OnEnable()
     {

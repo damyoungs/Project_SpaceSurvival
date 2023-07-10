@@ -9,6 +9,6 @@ public class Bat : EquipBase
         ItemType = ItemType.Equip;
         ItemImagePath = ItemImagePath.Bat;
         IsStackable = false;
-        Name = name;
+        Name = "Bat";
     }
 }

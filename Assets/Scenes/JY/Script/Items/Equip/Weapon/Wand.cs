@@ -9,6 +9,6 @@ public class Wand : EquipBase
         ItemType = ItemType.Equip;
         ItemImagePath = ItemImagePath.Wand;
         IsStackable = false;
-        Name = name;
+        Name = "Wand";
     }
 }

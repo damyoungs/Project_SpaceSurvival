@@ -10,6 +10,6 @@ public class Scythe : EquipBase
         ItemType = ItemType.Equip;
         ItemImagePath = ItemImagePath.Scythe;
         IsStackable = false;
-        Name = name;
+        Name = "Scythe";
     }
 }

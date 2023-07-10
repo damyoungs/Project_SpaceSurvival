@@ -9,6 +9,6 @@ public class SwordLaser : EquipBase
         ItemType = ItemType.Equip;
         ItemImagePath = ItemImagePath.SwordLaser;
         IsStackable = false;
-        Name = name;
+        Name = "레이져 소드";
     }
 }

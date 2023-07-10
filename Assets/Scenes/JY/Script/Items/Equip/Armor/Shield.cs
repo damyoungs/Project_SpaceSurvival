@@ -9,7 +9,7 @@ public class Shield : EquipBase
         ItemType = ItemType.Equip;
         ItemImagePath = ItemImagePath.Shield;
         IsStackable = false;
-        Name = name;
+        Name = "Shield";
 
     }
 }
