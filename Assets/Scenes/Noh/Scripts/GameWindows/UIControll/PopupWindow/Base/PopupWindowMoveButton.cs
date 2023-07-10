@@ -49,8 +49,8 @@ public class PopupWindowMoveButton : MonoBehaviour, IBeginDragHandler, IDragHand
     /// <param name="eventData">이벤트위치값정보</param>
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)//인터페이스두개를사용하기때문에 명시적으로 작성
     {
-            startPosition = parentWindow.anchoredPosition;//드래그시작할때 위치값저장
-            movePosition = eventData.position; //드래그시작할때의 이동처리할 포지션값 저장
+        startPosition = parentWindow.anchoredPosition;//드래그시작할때 위치값저장
+        movePosition = eventData.position; //드래그시작할때의 이동처리할 포지션값 저장
     }
 
     /// <summary>
@@ -62,37 +62,40 @@ public class PopupWindowMoveButton : MonoBehaviour, IBeginDragHandler, IDragHand
 
         //이동한 드래그만큼 값을 더해준다.
         //시작지점 에서 이동한거리(이동한값에서 처음값을뺀값)을 더한다.
-        if (CheckOutOfWindow(eventData)) { //창밖으로 벗어나지 않았는지 체크 
-            parentWindow.anchoredPosition = moveOffSet;  //벗어나지 않았으면 이동시킨다.
-        }
+        CheckOutOfWindow(eventData);  //창밖으로 벗어나지 않았는지 체크 하면서 이동시킨다
+            
+        
     }
 
     /// <summary>
-    /// 현재화면에서 벗어나지 않았는지 체크한다
+    /// 현재화면에서 벗어나지 않았는지 체크하고 벗어낫으면 더이상안벗어나게 계산한다.
     /// </summary>
     /// <returns>화면에서 벗어났으면 false</returns>
-    bool CheckOutOfWindow(PointerEventData eventData)
+    void CheckOutOfWindow(PointerEventData eventData)
     {
-        moveOffSet = startPosition + (eventData.position - movePosition); //이동한 값
-        //왼쪽과 위 체크
-        if (moveOffSet.x < 0 || moveOffSet.y > 0) { 
-            return false;
-        }
 
+        moveOffSet = startPosition + (eventData.position - movePosition); //이동한 값
+
+
+        //왼쪽 체크
+        if (moveOffSet.x < 0) { 
+            moveOffSet.x = 0;
+        }
+         //위 체크
+        if (moveOffSet.y > 0) { 
+            moveOffSet.y = 0;
+        }
         //오른쪽 체크
         float x = moveOffSet.x + parentWindow.rect.width; //오른쪽으로벗어나는것을체크하기위해 창크기랑좌표랑 합친다
-        if (x > windowWidth) { //합친값이 창보다 크면 벗어낫으니 아웃!
-            //moveOffSet.x = windowWidth;
-            return false; 
-        }
-         
-        //아래체크
-        float y = moveOffSet.y - parentWindow.rect.height; // 아래방향이기때문에 더하는게아니라 빼준다. moveOffSet.y는 항상 음수이다.
-        if (-y > windowHeight) {//아래방향이기때문에 연산값에 -를해서 양수로 바꿔준다.
-            //moveOffSet.y = windowHeight;
-            return false;
+        if (x > windowWidth) { 
+            moveOffSet.x = windowWidth - parentWindow.rect.width; //윈도우 크기의 좌표값에서 창크기를 빼서 적용
         }
 
-        return true;
+        //아래체크
+        float y = moveOffSet.y - parentWindow.rect.height; // 아래방향이기때문에 더하는게아니라 빼준다. moveOffSet.y는 항상 음수이다.
+        if (-y > windowHeight) {
+            moveOffSet.y =  parentWindow.rect.height - windowHeight; // -좌표이기때문에 창크기에서 윈도우창가장밑의 좌표값을 뺀다.
+        }
+        parentWindow.anchoredPosition = moveOffSet;  //벗어나지 않았으면 이동시킨다.
     }
 }
