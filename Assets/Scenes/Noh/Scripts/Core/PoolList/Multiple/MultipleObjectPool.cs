@@ -141,17 +141,42 @@ public class MultipleObjectPool<T> : MonoBehaviour where T : ObjectIsPool
     /// <param name="newArray">생성된 오브젝트가 들어갈 배열</param>
     void GenerateObjects(int start, int end, T[] newArray)
     {
+        // 이 함수는 풀이 더필요할경우 (사용빈도가 낮다)만 사용됨으로 함수내부에서만 사용할수있게 자동변수로 지정
+        // for문안에서 변수 메모리공간을 계속 추가로 생성해주는건 안좋을것같아서 로직문제없는 선에서 밖에다 선언하여 사용한다
+        
+        Transform tf = setPosition; //비활성화된 부모를 체크하기위한 객체
+        
+        GameObject obj; //추가될 게임오브젝트 선언
+
+        bool isParentActive = true; //해당 함수는 부모들이 활성화 되었다는 전제하에 작동함으로 정상작동을하려면 true 가 되있어야한다. 
+
+        T comp; //추가될 컴포넌트
+
+        //추가될위치의 오브젝트가 비활성화 되어있으면 SetActive(false)를해도 OnDisable 이 발동을안함으로 체크를해준다.
+        while (tf != null || !isParentActive) //부모가 최상단이거나 부모가 비활성화 되있으면 빠져나간다
+        {
+            isParentActive = tf.gameObject.activeSelf; //부모의 활성화여부를 체크한다. 여기선 false 값만 있는지 확인한다.
+            tf = tf.parent; //부모의 위치로 변경
+        }
+
         for (int i = start; i < end; i++)    // 새로 만들어진 크기만큼 반복
         {
             //특정위치에 생성하기 기본적으로는 풀아래에 있다.
-            GameObject obj = Instantiate(origianlPrefab, setPosition);
+            obj = Instantiate(origianlPrefab, setPosition);
             obj.name = $"{origianlPrefab.name}_{i}";            // 이름 구분되도록 설정
 
-            T comp = obj.GetComponent<T>();                     // PooledObject 컴포넌트 받아와서
+            comp = obj.GetComponent<T>();                     // PooledObject 컴포넌트 받아와서
             comp.onDisable += () => readyQueue.Enqueue(comp);   // PooledObject가 disable될 때 래디큐로 되돌리기
 
             newArray[i] = comp;     // 배열에 저장
+            
             obj.SetActive(false);   // 생성한 게임 오브젝트 비활성화(=>비활성화 되면서 레디큐에도 추가된다)
+      
+            if (!isParentActive) // 상위 오브젝트에서 비활성화되있으면 SetActive(false)를 해도 onDisable 이 발동을안하여 큐값이 없을수가있다.
+            { 
+                readyQueue.Enqueue(comp);   // 상위 오브젝트가 비활성화 되있는경우  추가해주자
+            }
+            
         }
     }
 

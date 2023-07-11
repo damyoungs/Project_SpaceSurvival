@@ -29,16 +29,16 @@ public class SavePageButtonPool : MultipleObjectPool<SavePageButtonIsPool>
     {
         base.EndInitialize();
 
-        foreach (SavePageButtonIsPool obj in pool) //화면전환시 초기화하고 다시꺼내기위해 추가하였다 처음시작시에도 비활성화를 한번더진행.
-        {
-            obj.gameObject.SetActive(false);    // 전부 비활성화
-        }
-        int queueCount = readyQueue.Count; //큐값이 변동이 있는경우 가져와서 포문을돌린다.
-        for (int i = 0; i < queueCount; i++) //남아있는큐 초기화
-        {
-            SavePageButtonIsPool comp = readyQueue.Dequeue();      // 하나 꺼내고
-            comp.gameObject.SetActive(true);                // 활성화시킨다
-        }
+        //foreach (SavePageButtonIsPool obj in pool) //화면전환시 초기화하고 다시꺼내기위해 추가하였다 처음시작시에도 비활성화를 한번더진행.
+        //{
+        //    obj.gameObject.SetActive(false);    // 전부 비활성화
+        //}
+        //int queueCount = readyQueue.Count; //큐값이 변동이 있는경우 가져와서 포문을돌린다.
+        //for (int i = 0; i < queueCount; i++) //남아있는큐 초기화
+        //{
+        //    SavePageButtonIsPool comp = readyQueue.Dequeue();      // 하나 꺼내고
+        //    comp.gameObject.SetActive(true);                // 활성화시킨다
+        //}
 
 
     }

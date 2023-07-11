@@ -427,7 +427,7 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "OptionKey",
@@ -436,7 +436,7 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "InvenKey",
@@ -445,7 +445,16 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "StateKey",
+                    "type": "Button",
+                    "id": "e5c7918f-fd31-476c-b4fa-c23a393226d7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -479,6 +488,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "InvenKey",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a6c5a7a5-8eeb-44ea-8fa9-4ab87ae83af3",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyMouse",
+                    "action": "StateKey",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

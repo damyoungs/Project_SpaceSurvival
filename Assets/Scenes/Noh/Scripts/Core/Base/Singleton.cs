@@ -62,7 +62,13 @@ public class Singleton<T> : MonoBehaviour where T : Component
             return instance;
         }
     }
-
+    /// <summary>
+    /// 해당 컴포넌트가 사용되는 첫씬에서 한번 Awake 가 발동한다. 
+    /// 대신 해당오브젝트 그리고 부모오브젝트들이 모두 활성화 되어있어야 발동을한다.
+    /// 아니면 활성화 될때 OnEnable 실행되기전에 발동을한다
+    /// 씬이동시 고려해야할점은 Awake 에서 맴버변수로 처리해야되는 로직이있는경우 
+    /// 씬이동시 중복 오브젝트의 Awake 는 내용이 전부 실행이 됨으로 맴버변수로 처리하는로직을 넣으면 안된다.
+    /// </summary>
     protected virtual void Awake()
     {
         if (instance == null)
@@ -75,10 +81,10 @@ public class Singleton<T> : MonoBehaviour where T : Component
             if (instance != this)
             { //두개만들어졌는데 같은거일수도있어서 아닐경우만 처리한다. 
                 Destroy(this.gameObject);  //첫번째 싱글톤과 다른 객체이면 삭제
+                //Awake 에서 맴버변수로 초기화하는건 비추천
             }
         }
     }
-
 
     protected virtual void OnEnable()
     {

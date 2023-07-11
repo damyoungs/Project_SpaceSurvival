@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System;
+ using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
+
 using UnityEngine.UI;
 
 /// <summary>
@@ -10,7 +9,7 @@ using UnityEngine.UI;
 /// 그에비해 IDragHandler 는 화면전체의 마우스포인터 정보를 가져오기때문에 크기조절을 위해 IPointerMoveHandler 를 대신하여 사용하였다 
 /// </summary>
 public class PopupWindowBase : MonoBehaviour, 
-    IPointerDownHandler, //해당오브젝트안에서 이벤트(클릭) 발동시 실행함  
+    //IPointerDownHandler, //해당오브젝트안에서 이벤트(클릭) 발동시 실행함  
     IPointerUpHandler,   //해당오브젝트안에서 이벤트(클릭해제) 발동시 실행함  
     IDragHandler        //화면에서 드래그시 발동함.  
 {
@@ -106,7 +105,7 @@ public class PopupWindowBase : MonoBehaviour,
 
     protected virtual void Awake()
     {
-
+        //Debug.Log("awake 테스트");
         rectTransform = GetComponent<RectTransform>(); //팝업창 크기조절용으로 가져온다
      
         contentPanel = transform.GetChild(0).GetChild(0).GetComponent<RectTransform>(); //컨텐츠패널 RectTransform 가져온다
@@ -120,15 +119,10 @@ public class PopupWindowBase : MonoBehaviour,
 
         SetContentWindowSize();//컨텐츠창 위치랑 크기 조절 , 컴파일단계에서 이미 값들이 다 설정된것만 사용하기때문에 문제없음.
     }
-   
-    /// <summary>
-    /// 클릭 체크 
-    /// </summary>
-    /// <param name="eventData">이벤트 위치정보</param>
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        isClick = true;//클릭체크
-    }
+
+    
+
+    
 
     /// <summary>
     /// 클릭 해제 체크
@@ -136,7 +130,7 @@ public class PopupWindowBase : MonoBehaviour,
     /// <param name="eventData">이벤트 위치정보</param>
     public void OnPointerUp(PointerEventData eventData)
     {
-         initPopupDefaultData(); //클릭 끝났을때 초기화 할내용 실행
+        isWindowSizeChange = false;
     }
 
     /// <summary>
@@ -148,15 +142,7 @@ public class PopupWindowBase : MonoBehaviour,
         OnDragMove(eventData);
     }
 
-    /// <summary>
-    /// 클릭끝났을때 초기화할 내용  
-    /// </summary>
-    protected virtual void initPopupDefaultData()
-    {
-        isClick = false;
-        isWindowSizeChange = false;
-    }
-
+   
     /// <summary>
     /// 클릭후 드래그시 창크기 변경로직 추가
     /// </summary>
@@ -269,6 +255,6 @@ public class PopupWindowBase : MonoBehaviour,
 
     }
 
-  
+    
 }
 

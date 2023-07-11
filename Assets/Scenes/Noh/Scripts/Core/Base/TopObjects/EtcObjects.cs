@@ -7,5 +7,4 @@ using UnityEngine;
 /// </summary>
 public class EtcObjects : Singleton<EtcObjects>
 {
-   
 }

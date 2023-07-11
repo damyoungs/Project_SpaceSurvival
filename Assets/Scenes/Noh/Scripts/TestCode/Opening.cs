@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class Opening : MonoBehaviour
     private bool battleCheck = false;
     private void Start()
     {
-        LoadingScean.SceanLoading(scean,battleCheck);
+        LoadingScean.SceanLoading(scean, battleCheck);
     }
+
 }

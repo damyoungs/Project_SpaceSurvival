@@ -1,10 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-public class InventoryWindow : PopupWindowBase 
+public class InventoryWindow : PopupWindowBase , IPopupSortWindow ,IPointerDownHandler
 {
     /// <summary>
     /// 아이템정렬 시 창크기 최소값 
@@ -19,6 +20,20 @@ public class InventoryWindow : PopupWindowBase
     GameObject contentsObj;
 
     GameObject contentObj;
+
+    Action<IPopupSortWindow> popupEventHandle;
+
+    public Action<IPopupSortWindow> PopupSorting { set => popupEventHandle += value; }
+
+    /// <summary>
+    /// 화면 정렬용 이벤트함수 추가 
+    /// </summary>
+    /// <param name="eventData">사용안함</param>
+    public void OnPointerDown(PointerEventData _)
+    {
+        popupEventHandle(this);
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -46,8 +61,6 @@ public class InventoryWindow : PopupWindowBase
 
         contentObj.GetComponent<RectTransform>().sizeDelta = v2;
        //자동그리기는 자동레이아웃으로 처리하고 컴퍼넌트 창크기만 조절하자 로직짜려면 골치아프다 렉트 오브젝트갯수만큼 가져와서 처리해야되니.
-
-
 
     }
 

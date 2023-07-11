@@ -1,13 +1,20 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 /// <summary>
 /// 화면에 보이는것만 신경쓰자
 /// </summary>
-public class SaveWindowManager : PopupWindowBase
+public class SaveWindowManager : PopupWindowBase ,IPopupSortWindow ,IPointerDownHandler
 {
+    /// <summary>
+    /// 화면이 OnEnable 이 되야 Start 가 실행이되서 초기화 되기때문에 
+    /// 초기화 여부를 체크 
+    /// </summary>
+    bool isInit = false;
+
     /// <summary>
     /// 현재 페이지넘버
     /// 해당값은 기본적으로 1씩 페이지입력처리시 마지막 페이지값을 가져와야한다.
@@ -55,6 +62,9 @@ public class SaveWindowManager : PopupWindowBase
     int lastPageIndex = -1;
     public int LastPageIndex => lastPageIndex;
 
+    Action<IPopupSortWindow> popupEventHandle;
+    public Action<IPopupSortWindow> PopupSorting { set => popupEventHandle += value; }
+
     /// <summary>
     /// 마지막페이지에 보일 저장파일 오브젝트 갯수
     /// </summary>
@@ -100,21 +110,24 @@ public class SaveWindowManager : PopupWindowBase
     /// </summary>
     private void Start()
     {
-     
+        Oninitialize();
+        InitLastPageIndex(); //페이징에 사용될 초기값셋팅
+        InitSaveObjects(); //저장화면 초기값셋팅
+        isInit = true;
+    }
+    public void Oninitialize() 
+    {
         //싱글톤 설정때매 Awake 에서 못찾는다. 
         saveWindowObject = SaveLoadManager.Instance.SaveLoadWindow;
         saveWindowPageObject = SaveLoadManager.Instance.SaveLoadPagingWindow;
         saveLoadPopupWindow = WindowList.Instance.IOPopupWindow;
 
         //델리게이트 연결 
-        SaveLoadManager.Instance.saveObjectReflash += SetGameObject; //기능실행시 오브젝트을 다시그린다.
-        SaveLoadManager.Instance.isDoneDataLoaing += SetGameObjectList; //데이터 비동기로 처리시 끝나면 화면리셋 자동으로 해주기위해 추가
-        saveLoadPopupWindow.focusInChangeFunction += SetFocusView; //저장버튼클릭시 처리하는 함수연결
-
-        InitLastPageIndex(); //페이징에 사용될 초기값셋팅
-        InitSaveObjects(); //저장화면 초기값셋팅
+        SaveLoadManager.Instance.saveObjectReflash = SetGameObject; //저장관련 기능실행시 오브젝트을 다시그린다.
+        SaveLoadManager.Instance.isDoneDataLoaing = SetGameObjectList; //데이터 비동기로 처리시 끝나면 화면리셋 자동으로 해주기위해 추가
+        saveLoadPopupWindow.focusInChangeFunction = SetFocusView; //저장버튼클릭시 처리하는 함수연결
+        
     }
-
     /// <summary>
     /// 활성화시 풀에서 생성된 여분의 오브젝트를 숨기는기능추가
     /// Start함수보다 빨리실행된다.
@@ -122,8 +135,8 @@ public class SaveWindowManager : PopupWindowBase
     private void OnEnable()
     {
 
-        if (saveWindowObject != null)
-        { //스타트함수보다 빨리실행되서 처음열때 오류가 발생한다.
+        if (isInit)//스타트함수보다 빨리실행되서 처음열때 오류가 발생한다.
+        { 
             SetGameObjectList(SaveLoadManager.Instance.SaveDataList); //초기화 작업때 비동기로 파일데이터를 읽어오기때문에 셋팅이안됬을수도있다 
             SetPoolBug(saveWindowPageObject.transform, pagingMaxObject);
         }
@@ -171,14 +184,14 @@ public class SaveWindowManager : PopupWindowBase
         int childCount = saveWindowPageObject.transform.childCount; //현재 풀에서 생성된 오브젝트 갯수 를 가져온다. (페이징)
         if (childCount < pagingMaxObject)//생성된 오브젝트가 화면에 보여질 갯수보다 작을경우 
         {
-            PoolBugFunction(saveWindowPageObject.transform, childCount, pagingMaxObject, EnumList.MultipleFactoryObjectList.SAVEPAGEBUTTONPOOL);//부족한부분가져와서 필요없는부분감추기
+            PoolBugFunction(saveWindowPageObject.transform,  pagingMaxObject, EnumList.MultipleFactoryObjectList.SAVEPAGEBUTTONPOOL);//부족한부분가져와서 필요없는부분감추기
         }
 
         childCount = saveWindowObject.transform.childCount; //현재 풀에서 생성된 오브젝트 갯수 를 가져온다. (저장오브젝트)
         int proccessLength = GetGameObjectLength(); //현재페이지의 저장오브젝트 갯수를 가져온다.
         if (childCount < proccessLength)//생성된 오브젝트가 화면에 보여질 갯수보다 작을경우 
         {
-            PoolBugFunction(saveWindowObject.transform, childCount, proccessLength, EnumList.MultipleFactoryObjectList.SAVEDATAPOOL);//부족한부분가져와서 필요없는부분감추기
+            PoolBugFunction(saveWindowObject.transform,  proccessLength, EnumList.MultipleFactoryObjectList.SAVEDATAPOOL);//부족한부분가져와서 필요없는부분감추기
         }
      
         for (int i = 0; i < proccessLength; i++)//한페이지만큼만 돌린다
@@ -228,9 +241,9 @@ public class SaveWindowManager : PopupWindowBase
     /// <param name="childCount">풀에서 생성된 오브젝트 갯수</param>
     /// <param name="proccessLength">필요한 오브젝트 갯수</param>
     /// <param name="type">생성할 오브젝트 타입</param>
-    private void PoolBugFunction(Transform position, int childCount, int proccessLength, EnumList.MultipleFactoryObjectList type) {
+    private void PoolBugFunction(Transform position, int proccessLength, EnumList.MultipleFactoryObjectList type) {
 
-        for (int i = childCount; i < proccessLength; i++) //필요한만큼 추가로 생성한다 
+        for (int i = 0; i < proccessLength; i++) //필요한만큼 추가로 생성한다 
         {
             MultipleObjectsFactory.Instance.GetObject(type);//오브젝트 추가해서 강제로 풀의사이즈를늘린다.
         }
@@ -276,6 +289,11 @@ public class SaveWindowManager : PopupWindowBase
         if (saveDataList == null)
         { // 읽어온 파일정보가없는경우 리턴
             Debug.Log("읽어온 파일정보가없어?");
+            return;
+        }
+        if (!isInit)
+        {
+            Debug.Log("아직 초기화 안됬다.");
             return;
         }
         int startIndex = pageIndex * pageMaxObject; //페이지시작오브젝트위치값 가져오기
@@ -326,12 +344,15 @@ public class SaveWindowManager : PopupWindowBase
 
     /// <summary>
     /// 파일인덱스를 넣으면 해당오브젝트를 다시그린다.
-
+    /// 게임 오브젝트가 존재한다는 가정하에 실행된다.
     /// </summary>
     /// <param name="saveData">수정된 저장데이터</param>
     /// <param name="index">수정된 인덱스</param>
     public void SetGameObject(JsonGameData saveData, int fileIndex) {
-
+        if (!isInit) {
+            Debug.Log("아직 초기화 안됫다고");
+            return;
+        }
         int viewObjectNumber = GetGameObjectIndex(fileIndex); //페이지별 오브젝트 위치찾기
 
         SaveDataObject sd = saveWindowObject.transform.GetChild(viewObjectNumber).GetComponent<SaveDataObject>(); //수정된 오브젝트 가져온다.
@@ -459,5 +480,15 @@ public class SaveWindowManager : PopupWindowBase
                 }
             }
         } 
+    }
+
+
+    /// <summary>
+    /// 화면 정렬용 이벤트함수 추가 
+    /// </summary>
+    /// <param name="eventData">사용안함</param>
+    public void OnPointerDown(PointerEventData _)
+    {
+        popupEventHandle(this);
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -46,18 +47,31 @@ public class WindowList : Singleton<WindowList> {
     /// </summary>
     SaveWindowManager mainWindow;
     public SaveWindowManager MainWindow => mainWindow;
-    
+
     /// <summary>
     /// 인벤토리 오브젝트
     /// </summary>
-    PopupWindowBase invenWindow;
-    public PopupWindowBase InvenWindow => invenWindow;
+    InventoryWindow invenWindow;
+    public InventoryWindow InvenWindow => invenWindow;
 
     /// <summary>
     /// 저장 삭제 복사 로드 실행여부 묻는 창 가져오기
     /// </summary>
     SaveLoadPopupWindow saveLoadPopupWindow;
     public SaveLoadPopupWindow IOPopupWindow => saveLoadPopupWindow;
+
+    /// <summary>
+    /// 테스트용 옵션 팝업윈도우
+    /// </summary>
+    OptionsPopupWindow optionsPopupWindow;
+    public OptionsPopupWindow OptionsPopupWindow => optionsPopupWindow;
+
+
+    /// <summary>
+    /// 팝업 창 관리해줄 매니저
+    /// </summary>
+    PopupSortManager popupManager;
+    public PopupSortManager PopupSortManager => popupManager;
 
     /// <summary>
     /// 윈도우리스트는 항상가지고다니는것이기때문에 여기에서 이벤트처리를 진행.
@@ -71,8 +85,13 @@ public class WindowList : Singleton<WindowList> {
         invenWindow = transform.GetComponentInChildren<InventoryWindow>(true);
         saveLoadPopupWindow = transform.GetComponentInChildren<SaveLoadPopupWindow>(true);
         mainWindow = transform.GetComponentInChildren<SaveWindowManager>(true);
+        popupManager = transform.GetComponentInChildren<PopupSortManager>(true);
+        optionsPopupWindow = transform.GetComponentInChildren<OptionsPopupWindow>(true);
     }
-
+    private void Start()
+    {
+        mainWindow.Oninitialize();
+    }
     /// <summary>
     /// 키입력및 마우스 입력처리도 추가하자
     /// </summary>
@@ -80,11 +99,13 @@ public class WindowList : Singleton<WindowList> {
     {
         base.OnEnable();
         inputKeyEvent.Enable();
-        inputKeyEvent.KeyBorad.System.performed += OnOffWindowOption; //키입력시 옵션창 온오프 
-        inputKeyEvent.KeyBorad.OptionKey.performed += OnOffWindowOption; // 위에것과 동일
-        inputKeyEvent.KeyBorad.InvenKey.performed += OnOffInventory; // 아직 인벤창을 안만듬 
-        //inputKeyEvent.Mouse.MouseClick.performed += OnLeftClick; //화면에서 클릭했을때 처리할 이벤트 
+        inputKeyEvent.KeyBorad.System.performed += OffPopupWindow; // esc 입력시 순서대로 창닫기 
+        inputKeyEvent.KeyBorad.OptionKey.performed += OnOffWindowOption; // 옵션창 및 세이브창 열고닫기
+        inputKeyEvent.KeyBorad.InvenKey.performed += OnOffInventory; // 인벤창 테스트용 
+        InputKeyEvent.KeyBorad.StateKey.performed += OnOffStateWindow;// 상태창 테스트용
     }
+
+
 
     /// <summary>
     /// 비활성화 될일이 게임종료될때만되기때문에 이벤트 삭제함수 처리안해도된다.
@@ -103,20 +124,32 @@ public class WindowList : Singleton<WindowList> {
 
 
 
-
+    /// <summary>
+    /// 팝업창 버튼을 눌렀을경우 열렸을경우 닫히고 닫혔을경우 열린다.
+    /// <param name="target">열릴 팝업창 객체</param>
+    /// </summary>
+    public void popupOnOff(IPopupSortWindow target) {
+        if (target.gameObject.activeSelf)//창이 열려있으면
+        {
+            popupManager.PopupClose(target) ;//닫고
+        }
+        else //아닌경우엔
+        { 
+            popupManager.PopupOpen(target); //연다
+        }
+    }
 
     /// <summary>
     /// 메뉴 창 온오프 
     /// </summary>
     /// <param name="context">입력정보</param>
-    protected virtual void OnOffWindowOption(InputAction.CallbackContext context)
+    private void OnOffWindowOption(InputAction.CallbackContext context)
     {
         //씬로딩이아닌경우만 실행한다. 
         if (!LoadingScean.IsLoading){ 
             if (context.performed)
             {
-                mainWindow.gameObject.SetActive(!mainWindow.gameObject.activeSelf);//옵션윈도우 열고 닫고 
-                
+                popupOnOff(mainWindow);
             }
         }
     }
@@ -131,40 +164,40 @@ public class WindowList : Singleton<WindowList> {
         if (!LoadingScean.IsLoading)
         {
             if (context.performed)
-            { 
-               invenWindow.gameObject.SetActive(!invenWindow.gameObject.activeSelf);  
+            {
+                popupOnOff(invenWindow);
             }
 
         }
     }
+
     /// <summary>
-    /// 화면클릭시 처리할이벤트
-    /// 제약이많을거같다 클릭한오브젝트정보를 가져올수없어서 처리가 난감하다.
-    /// 필요없을시 삭제
+    /// 스텟 창 온오프
     /// </summary>
     /// <param name="context"></param>
-    //protected virtual void OnLeftClick(InputAction.CallbackContext context)
-    //{
-    //    씬로딩이아닌경우만 실행한다. 
-    //    if (!LoadingScean.IsLoading)
-    //    {
-    //        if (context.performed)
-    //        {
-    //            Debug.Log("클릭했지롱");
+    private void OnOffStateWindow(InputAction.CallbackContext context)
+    {
+        //씬로딩이아닌경우만 실행한다. 
+        if (!LoadingScean.IsLoading)
+        {
+            if (context.performed)
+            {
+                popupOnOff(optionsPopupWindow);
+            }
 
-    //        }
+        }
+    }
 
-    //    }
-    //}
+    private void OffPopupWindow(InputAction.CallbackContext context)
+    {
+        //씬로딩이아닌경우만 실행한다. 
+        if (!LoadingScean.IsLoading)
+        {
+            if (context.performed)
+            {
+                popupManager.PopupClose();
+            }
 
-    /// <summary>
-    /// 열려있는 창들 전부닫기 .
-    /// </summary>
-    public void ResetPopupWindow() {
-
-
-        for(int i = 0; i< transform.GetChild(0).childCount; i++) {
-            transform.GetChild(0).GetChild(i).gameObject.SetActive(false);
         }
     }
 }

@@ -449,7 +449,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""OptionKey"",
@@ -458,7 +458,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""InvenKey"",
@@ -467,7 +467,16 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""StateKey"",
+                    ""type"": ""Button"",
+                    ""id"": ""e5c7918f-fd31-476c-b4fa-c23a393226d7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -501,6 +510,17 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""InvenKey"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a6c5a7a5-8eeb-44ea-8fa9-4ab87ae83af3"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyMouse"",
+                    ""action"": ""StateKey"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -551,6 +571,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         m_KeyBorad_System = m_KeyBorad.FindAction("System", throwIfNotFound: true);
         m_KeyBorad_OptionKey = m_KeyBorad.FindAction("OptionKey", throwIfNotFound: true);
         m_KeyBorad_InvenKey = m_KeyBorad.FindAction("InvenKey", throwIfNotFound: true);
+        m_KeyBorad_StateKey = m_KeyBorad.FindAction("StateKey", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -863,6 +884,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     private readonly InputAction m_KeyBorad_System;
     private readonly InputAction m_KeyBorad_OptionKey;
     private readonly InputAction m_KeyBorad_InvenKey;
+    private readonly InputAction m_KeyBorad_StateKey;
     public struct KeyBoradActions
     {
         private @InputKeyMouse m_Wrapper;
@@ -870,6 +892,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         public InputAction @System => m_Wrapper.m_KeyBorad_System;
         public InputAction @OptionKey => m_Wrapper.m_KeyBorad_OptionKey;
         public InputAction @InvenKey => m_Wrapper.m_KeyBorad_InvenKey;
+        public InputAction @StateKey => m_Wrapper.m_KeyBorad_StateKey;
         public InputActionMap Get() { return m_Wrapper.m_KeyBorad; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -888,6 +911,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @InvenKey.started += instance.OnInvenKey;
             @InvenKey.performed += instance.OnInvenKey;
             @InvenKey.canceled += instance.OnInvenKey;
+            @StateKey.started += instance.OnStateKey;
+            @StateKey.performed += instance.OnStateKey;
+            @StateKey.canceled += instance.OnStateKey;
         }
 
         private void UnregisterCallbacks(IKeyBoradActions instance)
@@ -901,6 +927,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @InvenKey.started -= instance.OnInvenKey;
             @InvenKey.performed -= instance.OnInvenKey;
             @InvenKey.canceled -= instance.OnInvenKey;
+            @StateKey.started -= instance.OnStateKey;
+            @StateKey.performed -= instance.OnStateKey;
+            @StateKey.canceled -= instance.OnStateKey;
         }
 
         public void RemoveCallbacks(IKeyBoradActions instance)
@@ -956,5 +985,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         void OnSystem(InputAction.CallbackContext context);
         void OnOptionKey(InputAction.CallbackContext context);
         void OnInvenKey(InputAction.CallbackContext context);
+        void OnStateKey(InputAction.CallbackContext context);
     }
 }

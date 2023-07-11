@@ -9,7 +9,9 @@ using System;
 /// <summary>
 /// 로딩씬 관리할 클래스
 /// 고려사항 :
-///     1. 팩토리 와 풀 (큐)의 내용을 타이틀로 갈때 초기화 할지 
+///     1. 씬이동시 중복된 컴포넌트를 가지고있을경우 
+///        싱글톤 사용시 Awake 함수에서 맴버 변수에 접근하여 로직수행시 제대로 안될수있다.
+///     2. 팩토리 사용시 
 /// </summary>
 public class LoadingScean : MonoBehaviour
 {
@@ -18,8 +20,13 @@ public class LoadingScean : MonoBehaviour
     /// </summary>
     static bool isLoading = false;
     public static bool IsLoading => isLoading;
-
+    
+    /// <summary>
+    /// 배틀 맵인지 체크하는 변수 
+    /// </summary>
     static bool isBattleMap = false;
+    public static bool IsBattleMap => isBattleMap;
+
     /// <summary>
     /// 다음씬으로 넘어갈 씬이름
     /// 다음씬이 입력안되면 타이틀로넘어간다.
@@ -50,16 +57,20 @@ public class LoadingScean : MonoBehaviour
     /// 로딩씬으로 잠시 넘어갔다가 이동한다.
     /// </summary>
     /// <param name="sceanName">이동할 씬 이름</param>
+    /// <param name="isMapBattle">다음맵이 배틀맵인지 체크</param>
     /// <param name="type">진행 상황 표기할 progressType  EnumList의 값을확인</param>
-    public static void SceanLoading(EnumList.SceanName sceanName = EnumList.SceanName.TITLE, bool isMapBattle = false, EnumList.ProgressType type = EnumList.ProgressType.BAR)
+    public static void SceanLoading(EnumList.SceanName sceanName = EnumList.SceanName.TITLE, 
+                bool isMapBattle = false, 
+                EnumList.ProgressType type = EnumList.ProgressType.BAR)
     {
         if (sceanName != EnumList.SceanName.NONE) { //씬 셋팅이 되어있고
             if (!isLoading) { //로딩이 안됬을경우 
                 isLoading = true;//로딩 시작플래그
+                progressType = type; //프로그래스 타입설정.
                 isBattleMap = isMapBattle; //배틀 맵인지 체크
                 nextSceanName = sceanName; //씬이름셋팅하고  
-                progressType = type; //프로그래스 타입설정.
-                WindowList.Instance.ResetPopupWindow(); //화면 전환시 열려있는창 전부닫자.
+
+                WindowList.Instance.PopupSortManager.CloseAllWindow(); //화면 전환시 열려있는창 전부닫자.
                 
                 SceneManager.LoadSceneAsync((int)EnumList.SceanName.LOADING);
             }
