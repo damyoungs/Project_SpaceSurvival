@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,10 +14,13 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPo
   
     Text amount_Text;
 
+    RectTransform rectTransform;
+    RectTransform itemDescriptionTransform;
     TextMeshProUGUI itemDescription_Text;
     Animator anim;
     int popUpHash = Animator.StringToHash("PopUp");
     int itemCount;
+
 
     private ItemBase item;
     public ItemBase Item//SlotManager의  GetItem 함수가 실행될때 Item의 정보를 받아오기위한 프로퍼티
@@ -25,11 +29,10 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPo
         set
         {
             item = value;
-            SetDiscription(value);
         }
     }
     public bool IsEmpty { get; set; } = true;//SlotManager에서  빈 슬롯인지 확인할때 쓰일 프로퍼티
-    public bool IsMoving { get; set; } //이동중 description 팝업을 방지하기 위한 변수 
+    public bool IsMoving { get; set; } = false; //이동중 description 팝업을 방지하기 위한 변수 
     
     public string CurrentItem { get;  set; }
     public int ItemCount
@@ -46,31 +49,48 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPo
     }
     private void Awake()
     {
-        itemDescription_Text = GetComponentInChildren<TextMeshProUGUI>();
         amount_Text = transform.GetChild(1).GetComponent<Text>();
-        anim = GetComponent<Animator>();
+        rectTransform = GetComponent<RectTransform>();
+      
     }
     private void Start()
     {
         UpdateAmountText(0);
+        GameManager.SlotManager.isMovingChange += IsMovingChange;
+        itemDescription_Text = GameManager.Inventory.transform.GetChild(9).GetComponentInChildren<TextMeshProUGUI>();
+        itemDescriptionTransform = GameManager.Inventory.transform.GetChild(9).GetComponent<RectTransform>();
+        anim = GameManager.Inventory.GetComponent<Animator>();
     }
+
+    private void IsMovingChange()
+    {
+        if (!IsMoving)
+        {
+            IsMoving = true;
+        }
+        else
+        {
+            IsMoving = false;
+        }
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (!IsEmpty && !IsMoving)
         {
+            itemDescriptionTransform.position = rectTransform.position;
+            SetDiscription(item);
             anim.SetBool(popUpHash, true);
         }
     }
     public void OnPointerClick(PointerEventData eventData)
     {
         anim.SetBool(popUpHash, false);
-        IsMoving = true;
         GameManager.SlotManager.OnSlotClicked(this);
     }
     public void OnPointerExit(PointerEventData eventData)
     {
         anim.SetBool(popUpHash, false);
-
     }
     void SetDiscription(ItemBase item)
     {

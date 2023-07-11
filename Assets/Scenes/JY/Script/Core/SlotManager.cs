@@ -21,6 +21,9 @@ public class SlotManager : MonoBehaviour
     Vector2 firstSlotPosition;
     Vector2 secondSlotPosition;
 
+    public delegate void IsMovingChange();
+    public IsMovingChange isMovingChange;
+
     public Dictionary<Current_Inventory_State, List<GameObject>> slots;
     private Dictionary<Current_Inventory_State, int> slotCount; //슬롯 생성후 번호를 부여하기위한 Dic
     public void Initialize()
@@ -163,10 +166,10 @@ public class SlotManager : MonoBehaviour
 
     public void OnSlotClicked(Slot clickedSlot)
     {
+        isMovingChange?.Invoke();
         // 첫 클릭: 선택한 슬롯 저장
         if (selectedSlot == null)
         {
-           // clickedSlot.IsMoving = true;
             if (!clickedSlot.IsEmpty)
             {
                 selectedSlot = clickedSlot;
@@ -193,7 +196,6 @@ public class SlotManager : MonoBehaviour
                 {
                     Debug.Log("인벤토리 내부");
                     // 마우스 클릭 위치가 인벤토리 내부
-                    selectedSlot.IsMoving = false;
                     secondSlotPosition = clickedSlot.transform.position;
 
                     ResetImageAlpha(); // 이동중인 첫번째 슬롯 알파값 원상복구
