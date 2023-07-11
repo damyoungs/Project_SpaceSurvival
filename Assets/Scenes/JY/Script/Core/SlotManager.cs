@@ -166,11 +166,12 @@ public class SlotManager : MonoBehaviour
         // 첫 클릭: 선택한 슬롯 저장
         if (selectedSlot == null)
         {
-            clickedSlot.IsMoving = true;
+           // clickedSlot.IsMoving = true;
             if (!clickedSlot.IsEmpty)
             {
                 selectedSlot = clickedSlot;
                 firstClickImage = clickedSlot.transform.GetChild(0).GetComponent<Image>(); //이미지의 알파값을 바꾸기 위한 이미지 컴포넌트
+                firstClickImage.raycastTarget = false;
                 firstSlotPosition = clickedSlot.transform.position;
                 imageTransform = clickedSlot.transform.GetChild(0).GetComponent<RectTransform>();
 

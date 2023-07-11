@@ -45,11 +45,11 @@ public class Player : MonoBehaviour
     {
         dir = context.ReadValue<Vector3>();
     }
-    private void FixedUpdate()
-    {
-        transform.position += (Time.fixedDeltaTime * moveSpeed * dir);
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 0.2f);
-    }
+    //private void FixedUpdate()
+    //{
+    //    transform.position += (Time.fixedDeltaTime * moveSpeed * dir);
+    //    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 0.2f);
+    //}
     private void OnDisable()
     {
         

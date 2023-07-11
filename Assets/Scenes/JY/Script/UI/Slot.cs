@@ -61,7 +61,12 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPo
             anim.SetBool(popUpHash, true);
         }
     }
-
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        anim.SetBool(popUpHash, false);
+        IsMoving = true;
+        GameManager.SlotManager.OnSlotClicked(this);
+    }
     public void OnPointerExit(PointerEventData eventData)
     {
         anim.SetBool(popUpHash, false);
@@ -81,8 +86,5 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPo
         amount_Text.text = amount.ToString();
     }
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        GameManager.SlotManager.OnSlotClicked(this);
-    }
+ 
 }
