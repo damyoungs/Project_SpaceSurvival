@@ -31,9 +31,11 @@ public class MapTest : TestBase
 
 
     public GameObject player;
+    public Material material;
 
 
     GameObject[] lights;
+
 
     private void Start()
     {
@@ -70,14 +72,7 @@ public class MapTest : TestBase
                 if ((width == 0 && length == 0) || (width == 0 && length == sizeY - 1) || (width == sizeX - 1 && length == 0) || (width == sizeX - 1 && length == sizeY - 1))
                 {
                     // 꼭지점인 경우
-
-                    TileInstantiate(i, vertexTile, MapTileType.vertexTile, width, length);
-
-                    //mapTiles[i] = Instantiate(vertexTile, gameObject.transform);                // 꼭지점 타일 생성
-                    //mapTiles[i].GetComponent<Tile>().TileType = (int)MapTileType.vertexTile;    // 타일 스크립트에 타입 저장
-                    //mapTiles[i].GetComponent<Tile>().Width = width;                         // 타일 가로 인덱스 저정
-                    //mapTiles[i].GetComponent<Tile>().Length = length;                       // 타일 세로 인덱스 저정
-
+                    TileInstantiate(i, vertexTile, MapTileType.vertexTile, width, length);      // 꼭지점 타일 생성
                     wallObject = Instantiate(wall, mapTiles[i].transform);                      // 측면 벽1 생성
                     wallObject.transform.Translate(new Vector3(1.0f, 0.0f, -1.75f));            // 측면 벽1 이동
                     wallObject = Instantiate(wall, mapTiles[i].transform);                      // 측면 벽2 생성
@@ -107,13 +102,8 @@ public class MapTest : TestBase
                 }
                 else if (width == 0 || width == sizeX - 1 || length == 0 || length == sizeY - 1)              
                 {
-                    // 사이드 타일 생성 및 회전
-                    TileInstantiate(i, sideTile, MapTileType.sideTile, width, length);
-
-                    //mapTiles[i] = Instantiate(sideTile, gameObject.transform);                      // 사이드 타일 생성
-                    //mapTiles[i].GetComponent<Tile>().TileType = (int)MapTileType.sideTile;          // 타일 스크립트에 타입 저장
-                    //mapTiles[i].GetComponent<Tile>().Width = width;                             // 타일 가로 인덱스 저정
-                    //mapTiles[i].GetComponent<Tile>().Length = length;                           // 타일 세로 인덱스 저정
+                    // 가장자리일 경우
+                    TileInstantiate(i, sideTile, MapTileType.sideTile, width, length);              // 사이드 타일 생성
                     wallObject = Instantiate(wall, mapTiles[i].transform);                          // 측면 벽 생성
                     wallObject.transform.Translate(new Vector3(1, 0.0f, -1.75f));                   // 측면 벽 이동
 
@@ -136,11 +126,8 @@ public class MapTest : TestBase
                 }
                 else
                 {
-                    TileInstantiate(i, centerTile, MapTileType.centerTile, width, length);
-                    //mapTiles[i] = Instantiate(centerTile, gameObject.transform);                        // 중앙 타일 생성
-                    //mapTiles[i].GetComponent<Tile>().TileType = (int)MapTileType.centerTile;            // 타일 스크립트에 타입 저장
-                    //mapTiles[i].GetComponent<Tile>().Width = width;                                 // 타일 가로 인덱스 저정
-                    //mapTiles[i].GetComponent<Tile>().Length = length;                               // 타일 세로 인덱스 저정
+                    // 가장자리가 아닌 경우
+                    TileInstantiate(i, centerTile, MapTileType.centerTile, width, length);              //중앙 타일 생성
                     mapTiles[i].transform.Rotate(new Vector3(0, 90.0f * Random.Range(0, 4), 0));        // 중앙 타일 랜덤 회전(그냥 미관상)
                 }
 
@@ -163,54 +150,30 @@ public class MapTest : TestBase
             lights[3].transform.position = GetTile(sizeX - sizeX / 3 + 1, sizeY - sizeY / 3 + 1).transform.position + new Vector3(0.0f, 20.0f, 0.0f);
 
 
-            //GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-
-            //// 미니맵 위치를 위해 0번 인덱스로 초기화
-            //Vector3 miniMapPos = mapTiles[0].transform.position;
-
-            ////miniMapPos.x = GetMiniMapPos(sizeX, miniMapPos.x);
-            ////miniMapPos.z = GetMiniMapPos(sizeY, miniMapPos.z);
-
-
-            //if (sizeX % 2 == 0)         // 가로축이 짝수인 경우
-            //{
-            //    miniMapPos.x = (mapTiles[(sizeX / 2) - 1].transform.position.x + mapTiles[sizeX / 2].transform.position.x) * 0.5f;
-            //}
-            //else                        // 가로축이 홀수인 경우
-            //{
-            //    miniMapPos.x = mapTiles[sizeX / 2].transform.position.x;
-            //}
-
-            //if (sizeY % 2 == 0)
-            //{
-            //    miniMapPos.z = (mapTiles[((sizeY / 2) - 1) * sizeX].transform.position.z + mapTiles[(sizeY / 2) * sizeX].transform.position.z) * 0.5f;
-            //}
-            //else
-            //{
-            //    miniMapPos.z = mapTiles[(sizeY / 2) * sizeX].transform.position.z;
-            //}
-
-            //miniMapPos.y += (mainTileSize.y * 0.5f) + 10.0f;
-            //cube.transform.position = miniMapPos;
-            MiniMapInstantiate();
-            
+            MiniMapInstantiate();       // 미니맵 생성
 
             isExist = true;         // 중복 맵 생성 방지
         }
 
     }
 
+    
+    protected override void Test2(InputAction.CallbackContext context)
+    {
+        MapDestroy();
+    }
+
     /// <summary>
     /// 타일 제거
     /// </summary>
-    protected override void Test2(InputAction.CallbackContext context)
+    private void MapDestroy()
     {
         for (int i = 0; i < tileCount; i++)
         {
             Destroy(mapTiles[i]);
         }
 
-        for (int i = 0;i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
             Destroy(lights[i]);
         }
@@ -230,7 +193,7 @@ public class MapTest : TestBase
         int index = sizeX * length + width;
         return mapTiles[index];
     }
-
+    
     void MiniMapInstantiate()
     {
         GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -247,16 +210,16 @@ public class MapTest : TestBase
             miniMapPos.x = mapTiles[sizeX / 2].transform.position.x;
         }
 
-        if (sizeY % 2 == 0)
+        if (sizeY % 2 == 0)         // 세로축이 짝수인 경우
         {
             miniMapPos.z = (mapTiles[((sizeY / 2) - 1) * sizeX].transform.position.z + mapTiles[(sizeY / 2) * sizeX].transform.position.z) * 0.5f;
         }
-        else
+        else                        // 세로축이 홀수인 경우
         {
             miniMapPos.z = mapTiles[(sizeY / 2) * sizeX].transform.position.z;
         }
 
-        miniMapPos.y += (mainTileSize.y * 0.5f) + 10.0f;
+        miniMapPos.y += (mainTileSize.y * 0.5f) + 40.0f;
         cube.transform.position = miniMapPos;
         cube.transform.localScale = new Vector3(mainTileSize.x * sizeX, mainTileSize.y, mainTileSize.z * sizeY);
     }
