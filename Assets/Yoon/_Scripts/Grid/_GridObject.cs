@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridObject
+public class _GridObject
 {
 
-    private GridSystem gridSystem;
-    private GridPosition gridPosition;
+    private _GridSystem gridSystem;
+    private _GridPosition gridPosition;
     private List<Unit> unitList;
 
-    public GridObject(GridSystem gridSystem, GridPosition gridPosition)
+    public _GridObject(_GridSystem gridSystem, _GridPosition gridPosition)
     {
         this.gridSystem = gridSystem;
         this.gridPosition = gridPosition;
