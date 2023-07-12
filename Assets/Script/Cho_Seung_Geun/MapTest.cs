@@ -194,6 +194,9 @@ public class MapTest : TestBase
         return mapTiles[index];
     }
     
+    /// <summary>
+    /// ¹Ì´Ï¸Ê »ý¼º
+    /// </summary>
     void MiniMapInstantiate()
     {
         GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -222,6 +225,7 @@ public class MapTest : TestBase
         miniMapPos.y += (mainTileSize.y * 0.5f) + 40.0f;
         cube.transform.position = miniMapPos;
         cube.transform.localScale = new Vector3(mainTileSize.x * sizeX, mainTileSize.y, mainTileSize.z * sizeY);
+        cube.GetComponent<MeshRenderer>().material = material;
     }
 
     /// <summary>
