@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:SpaceSurvival/Assets/_Cho_Seung_Geun/Scripts/ChoTestCamera.cs.meta
 guid: 1b49692c7321bc1458d6abe3e5ae1634
+========
+guid: 6343d126487257f418a32def9c391c80
+>>>>>>>> main:SpaceSurvival/Assets/_Cho_Seung_Geun/Scripts/ChoClickTest.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
