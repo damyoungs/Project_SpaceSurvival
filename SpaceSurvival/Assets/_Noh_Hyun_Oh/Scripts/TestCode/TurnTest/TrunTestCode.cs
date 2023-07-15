@@ -30,7 +30,9 @@ public class TrunTestCode : TestBase
     //턴실행 
     protected override void Test2(InputAction.CallbackContext context)
     {
+        Debug.Log("턴종료전 정렬된 값 현재턴유닛은 행동력소모된상태");
         turnManager.ViewTurnList();
+        Debug.Log("정렬값 끝 ======================================");
     }
     //활력도 소모된후 정렬된값 출력 
     protected override void Test3(InputAction.CallbackContext context)
