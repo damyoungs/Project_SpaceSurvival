@@ -35,7 +35,7 @@ public class SlotManager : MonoBehaviour
             { Current_Inventory_State.Etc, new List<GameObject>() },
             { Current_Inventory_State.Craft, new List<GameObject>() }
         };
-        slotCount = new Dictionary<Current_Inventory_State, int>
+        slotCount = new Dictionary<Current_Inventory_State, int> // 슬롯 오브젝트에 번호를 부여하기 위한 Dic
         {
             { Current_Inventory_State.Equip, 0 },
             { Current_Inventory_State.Consume, 0},
@@ -68,6 +68,7 @@ public class SlotManager : MonoBehaviour
 
     public void Make_Slot()
     {
+        
         GameObject newSlot = Instantiate(slot);
         Transform parentTransform;
         switch (GameManager.Inventory.State)
@@ -90,10 +91,18 @@ public class SlotManager : MonoBehaviour
         }
         if (parentTransform != null)
         {
+            GameObject emptySlotImage = new GameObject("EmptySlotImage");
+            emptySlotImage.AddComponent<Image>();
+            emptySlotImage.transform.SetParent(parentTransform,false);
+            emptySlotImage.transform.position = newSlot.transform.position;
+
             slotCount[GameManager.Inventory.State]++;
             newSlot.name = $"{GameManager.Inventory.State}_{slotCount[ GameManager.Inventory.State]}";
-            newSlot.transform.SetParent(parentTransform, false);
+            newSlot.transform.SetParent(emptySlotImage.transform, true);
             slots[GameManager.Inventory.State].Add(newSlot);
+
+
+
         } 
     }
   
