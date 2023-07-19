@@ -24,7 +24,7 @@ public class SlotManager : MonoBehaviour
     Vector2 secondSlotPosition;
 
     public delegate void IsMovingChange();
-    public IsMovingChange isMovingChange; // Slot의 isMoving을 바꾸는 함수 호출
+    public IsMovingChange isMovingChange; // Slot의 isMoving 과 이 클래스의 IsSlotMoving을 바꾸는 함수 호출
 
     public bool IsSlotMoving { get; set; } = false; // 외부에서 클릭했을 때 이 조건이 true이면 아이템을 버리는 로직 실행
 
@@ -178,7 +178,12 @@ public class SlotManager : MonoBehaviour
         }
         return slotList;
     }
-
+    private List<GameObject> GetItemTab(Slot slot)
+    {
+        ItemBase item = slot.Item;
+        List<GameObject>slotList = GetItemTab(item);
+        return slotList;
+    }
     public void OnSlotClicked(Slot clickedSlot)//리턴타입을 slot으로?
     {
         isMovingChange?.Invoke();
@@ -193,6 +198,7 @@ public class SlotManager : MonoBehaviour
                 firstSlotPosition = clickedSlot.transform.position;
                 imageTransform = clickedSlot.transform.GetChild(0).GetComponent<RectTransform>();
 
+                ResetImageAlpha();
                 StartCoroutine(ImageMovingCoroutine());//알파값을 moving코루틴에서 바꾼다? 뭔가 이상하다
             }
         }
@@ -209,25 +215,14 @@ public class SlotManager : MonoBehaviour
     }
     void ResetImageAlpha()// 이미지 알파값 초기화 
     {
-        if (firstClickImage != null)
-        {
-            var color = firstClickImage.color;
-            color.a = 1.0f;
-            firstClickImage.color = color;
-        }
+        var color = firstClickImage.color;
+        color.a = IsSlotMoving? 0.5f : 1f;
+        firstClickImage.color = color;
     }
     void SwapItems(Slot firstSlot, Slot secondSlot)
     {
         // 두 슬롯이 속한 리스트 가져오기
-        List<GameObject> SlotList = null;
-
-        foreach (var slotList in slots)
-        {
-            if (slotList.Value.Contains(firstSlot.gameObject))
-            {
-                SlotList = slotList.Value;
-            }
-        }
+        List<GameObject> SlotList = GetItemTab(firstSlot);
 
         if (SlotList == null)
         {
@@ -255,9 +250,6 @@ public class SlotManager : MonoBehaviour
     }
     IEnumerator ImageMovingCoroutine()
     {
-        var color = firstClickImage.color;
-        color.a = 0.5f;//로컬변수 color의 알파값을 변경하는건 가능하지만  clickedItemImage.color.a = 0.5f; 이렇게 직접 값을 변경하는건 읽기전용이라 안된다
-        firstClickImage.color = color;
         while (selectedSlot != null)
         {
             imageTransform.position = Input.mousePosition;
