@@ -91,18 +91,10 @@ public class SlotManager : MonoBehaviour
         }
         if (parentTransform != null)
         {
-            GameObject emptySlotImage = new GameObject("EmptySlotImage");
-            emptySlotImage.AddComponent<Image>();
-            emptySlotImage.transform.SetParent(parentTransform,false);
-            emptySlotImage.transform.position = newSlot.transform.position;
-
             slotCount[GameManager.Inventory.State]++;
             newSlot.name = $"{GameManager.Inventory.State}_{slotCount[ GameManager.Inventory.State]}";
-            newSlot.transform.SetParent(emptySlotImage.transform, true);
+            newSlot.transform.SetParent(parentTransform.transform, true);
             slots[GameManager.Inventory.State].Add(newSlot);
-
-
-
         } 
     }
   
