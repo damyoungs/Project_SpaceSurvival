@@ -14,16 +14,7 @@ public class SlotImage : MonoBehaviour,IPointerClickHandler, IPointerEnterHandle
     }
     void SwitchOnFirstClick()
     {
-        if (!firstClick)
-        {
-            firstClick = true;
-            Debug.Log(firstClick);
-        }
-        else
-        {
-            firstClick = false;
-            Debug.Log(firstClick);
-        }
+        firstClick = !firstClick;
     }
     public void OnPointerClick(PointerEventData eventData)
     {

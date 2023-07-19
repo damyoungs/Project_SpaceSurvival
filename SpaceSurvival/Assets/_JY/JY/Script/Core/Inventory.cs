@@ -20,6 +20,7 @@ public class Inventory : MonoBehaviour
     public GameObject Consume_Inven;
     public GameObject Etc_Inven;
     public GameObject Craft_Inven;
+    GameObject ItemDescription;
 
     Transform toolBar;
     Button close_Button;
@@ -74,6 +75,9 @@ public class Inventory : MonoBehaviour
         consume_Button.onClick.AddListener(SwitchTab_To_Consume);
         etc_Button.onClick.AddListener(SwitchTab_To_Etc);
         craft_Button.onClick.AddListener(SwitchTab_To_Craft);
+
+        ItemDescription = transform.GetChild(9).gameObject;
+        ItemDescription.SetActive(true);
     }
     private void OnEnable()
     {
@@ -86,8 +90,6 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         GameManager.SlotManager.Initialize();
-
-
     }
     void Update_State(Current_Inventory_State state)
     {
