@@ -117,7 +117,37 @@ public class SlotManager : MonoBehaviour
     {
         //이미지 emptySlot으로 바꾸기
         //slot.CurrentItem null;
+        //List에서 지우기
         selectedSlot = null;
+    }
+    public void OnSlotClicked(Slot clickedSlot)//리턴타입을 slot으로?
+    {
+        isMovingChange?.Invoke();
+        // 첫 클릭: 선택한 슬롯 저장
+        if (selectedSlot == null)
+        {
+            if (!clickedSlot.IsEmpty)
+            {
+                selectedSlot = clickedSlot;
+                firstClickImage = clickedSlot.transform.GetChild(0).GetComponent<Image>(); //이미지의 알파값을 바꾸기 위한 이미지 컴포넌트 알파값변경하는 함수를 따로빼서 옮기는게 좋을것 같다
+                firstClickImage.raycastTarget = false;
+                firstSlotPosition = clickedSlot.transform.position;
+                imageTransform = clickedSlot.transform.GetChild(0).GetComponent<RectTransform>();
+
+                ResetImageAlpha();
+                StartCoroutine(ImageMovingCoroutine());//알파값을 moving코루틴에서 바꾼다? 뭔가 이상하다
+            }
+        }
+        // 두 번째 클릭: 아이템 교환하고 선택한 슬롯 초기화
+        // 외부에서 클릭했을때(버릴때) 는 ItemSpawner 에서 함수를 실행시킨다.
+        else
+        {
+            secondSlotPosition = clickedSlot.transform.position;
+
+            ResetImageAlpha(); // 이동중인 첫번째 슬롯 알파값 원상복구
+            SwapItems(selectedSlot, clickedSlot);
+            selectedSlot = null;
+        }
     }
     private void UpdateSlot(ItemBase item, List<GameObject> slotList)
     {
@@ -184,51 +214,17 @@ public class SlotManager : MonoBehaviour
         List<GameObject>slotList = GetItemTab(item);
         return slotList;
     }
-    public void OnSlotClicked(Slot clickedSlot)//리턴타입을 slot으로?
-    {
-        isMovingChange?.Invoke();
-        // 첫 클릭: 선택한 슬롯 저장
-        if (selectedSlot == null)
-        {
-            if (!clickedSlot.IsEmpty)
-            {
-                selectedSlot = clickedSlot;
-                firstClickImage = clickedSlot.transform.GetChild(0).GetComponent<Image>(); //이미지의 알파값을 바꾸기 위한 이미지 컴포넌트 알파값변경하는 함수를 따로빼서 옮기는게 좋을것 같다
-                firstClickImage.raycastTarget = false;
-                firstSlotPosition = clickedSlot.transform.position;
-                imageTransform = clickedSlot.transform.GetChild(0).GetComponent<RectTransform>();
 
-                ResetImageAlpha();
-                StartCoroutine(ImageMovingCoroutine());//알파값을 moving코루틴에서 바꾼다? 뭔가 이상하다
-            }
-        }
-        // 두 번째 클릭: 아이템 교환하고 선택한 슬롯 초기화
-        // 외부에서 클릭했을때(버릴때) 는 ItemSpawner 에서 함수를 실행시킨다.
-        else
-        {
-            secondSlotPosition = clickedSlot.transform.position;
-
-            ResetImageAlpha(); // 이동중인 첫번째 슬롯 알파값 원상복구
-            SwapItems(selectedSlot, clickedSlot);
-            selectedSlot = null;  
-        }
-    }
     void ResetImageAlpha()// 이미지 알파값 초기화 
     {
         var color = firstClickImage.color;
-        color.a = IsSlotMoving? 0.5f : 1f;
+        color.a = IsSlotMoving? 0.5f : 1.0f;
         firstClickImage.color = color;
     }
     void SwapItems(Slot firstSlot, Slot secondSlot)
     {
         // 두 슬롯이 속한 리스트 가져오기
         List<GameObject> SlotList = GetItemTab(firstSlot);
-
-        if (SlotList == null)
-        {
-            Debug.LogError("Slot lists not found.");
-            return;
-        }
 
         // 각 슬롯의 인덱스를 찾기.
         int firstSlotIndex = SlotList.IndexOf(firstSlot.gameObject);
@@ -256,7 +252,8 @@ public class SlotManager : MonoBehaviour
             yield return null;
         }
         imageTransform.anchoredPosition = Vector2.zero;
-
+        IsSlotMoving = false;// 알파값 초기화 를위해 변경
+        ResetImageAlpha();
         yield break;
     }
 }
