@@ -16,6 +16,8 @@ public class SlotManager : MonoBehaviour
 
     Slot selectedSlot;// 처음 클릭한 슬롯을 저장하기 위한 변수
     Image firstClickImage; //첫번째 클릭한 슬롯 하위의 아이템 이미지
+
+    Sprite[] sprite; //아이템 이미지의 배열
     RectTransform imageTransform; 
 
     Vector2 firstSlotPosition;
@@ -30,6 +32,7 @@ public class SlotManager : MonoBehaviour
     private Dictionary<Current_Inventory_State, int> slotCount; //슬롯 생성후 번호를 부여하기위한 Dic
     public void Initialize()//Inventory에서 호출
     {
+        sprite = Resources.LoadAll<Sprite>($"ItemImage/Items");
         isMovingChange += () =>
         {
             IsSlotMoving = !IsSlotMoving;
@@ -110,6 +113,12 @@ public class SlotManager : MonoBehaviour
         List<GameObject> slotList = GetItemTab(item);//item.itemtype에 따른 리스트(장비, 소비, 기타 중 어느곳에 연결된 리스트인지) 연결하기
         UpdateSlot(item, slotList);
     }
+    public void DropItem()
+    {
+        //이미지 emptySlot으로 바꾸기
+        //slot.CurrentItem null;
+        selectedSlot = null;
+    }
     private void UpdateSlot(ItemBase item, List<GameObject> slotList)
     {
         if (item.IsStackable)//한 칸에 여러개 소지 가능한 아이템일 경우 
@@ -130,8 +139,7 @@ public class SlotManager : MonoBehaviour
             if (slot.IsEmpty)
             {
                 Image slotImage = slotObject.transform.GetChild(0).GetComponent<Image>();
-                string spriteName = Enum.GetName(typeof(ItemImagePath), item.ItemImagePath);
-                Sprite[] sprite = Resources.LoadAll<Sprite>($"ItemImage/Items");
+                string spriteName = Enum.GetName(typeof(ItemImagePath), item.ItemImagePath);          
                 foreach (Sprite s in sprite)
                 {
                     if (s.name == spriteName)
@@ -171,7 +179,7 @@ public class SlotManager : MonoBehaviour
         return slotList;
     }
 
-    public void OnSlotClicked(Slot clickedSlot)
+    public void OnSlotClicked(Slot clickedSlot)//리턴타입을 slot으로?
     {
         isMovingChange?.Invoke();
         // 첫 클릭: 선택한 슬롯 저장
@@ -180,41 +188,23 @@ public class SlotManager : MonoBehaviour
             if (!clickedSlot.IsEmpty)
             {
                 selectedSlot = clickedSlot;
-                firstClickImage = clickedSlot.transform.GetChild(0).GetComponent<Image>(); //이미지의 알파값을 바꾸기 위한 이미지 컴포넌트
+                firstClickImage = clickedSlot.transform.GetChild(0).GetComponent<Image>(); //이미지의 알파값을 바꾸기 위한 이미지 컴포넌트 알파값변경하는 함수를 따로빼서 옮기는게 좋을것 같다
                 firstClickImage.raycastTarget = false;
                 firstSlotPosition = clickedSlot.transform.position;
                 imageTransform = clickedSlot.transform.GetChild(0).GetComponent<RectTransform>();
 
-                StartCoroutine(ImageMovingCoroutine());
+                StartCoroutine(ImageMovingCoroutine());//알파값을 moving코루틴에서 바꾼다? 뭔가 이상하다
             }
         }
-
         // 두 번째 클릭: 아이템 교환하고 선택한 슬롯 초기화
+        // 외부에서 클릭했을때(버릴때) 는 ItemSpawner 에서 함수를 실행시킨다.
         else
         {
-            //만약 클릭 지점이 인벤토리의 범위를 벗어나면 아이템 필드에 드롭 if(slot.itemcount > 1) 몇개버릴지 숫자입력창 팝업
-            RectTransform inventoryRectTransform = GameManager.Inventory.GetComponent<RectTransform>();
+            secondSlotPosition = clickedSlot.transform.position;
 
-            Vector2 localMousePosition;
-
-            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(inventoryRectTransform, Input.mousePosition, null, out localMousePosition))
-            {
-                if (inventoryRectTransform.rect.Contains(localMousePosition))
-                {
-                    // 마우스 클릭 위치가 인벤토리 내부
-                    secondSlotPosition = clickedSlot.transform.position;
-
-                    ResetImageAlpha(); // 이동중인 첫번째 슬롯 알파값 원상복구
-                    SwapItems(selectedSlot, clickedSlot);
-                    selectedSlot = null;
-                }
-                else
-                {
-                    // 마우스 클릭 위치가 인벤토리 외부
-                    // 코드 이하 생략...
-                }
-   
-            }
+            ResetImageAlpha(); // 이동중인 첫번째 슬롯 알파값 원상복구
+            SwapItems(selectedSlot, clickedSlot);
+            selectedSlot = null;  
         }
     }
     void ResetImageAlpha()// 이미지 알파값 초기화 

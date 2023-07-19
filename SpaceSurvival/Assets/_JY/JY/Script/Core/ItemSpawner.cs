@@ -134,7 +134,7 @@ public class ItemSpawner : TestBase
             {
                 if (!inventoryRectTransform.rect.Contains(localMousePosition))
                 {
-                    Debug.Log("외부감지");
+                    GameManager.SlotManager.DropItem();
                 }
             }
         }
