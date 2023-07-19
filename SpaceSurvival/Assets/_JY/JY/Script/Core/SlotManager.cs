@@ -118,6 +118,9 @@ public class SlotManager : MonoBehaviour
         //이미지 emptySlot으로 바꾸기
         //slot.CurrentItem null;
         //List에서 지우기
+        ItemBase item = selectedSlot.Item;
+        List<GameObject> slotList = GetItemTab(item);
+        UpdateSlot(item, slotList);
         selectedSlot = null;
     }
     public void OnSlotClicked(Slot clickedSlot)//리턴타입을 slot으로?
@@ -153,7 +156,7 @@ public class SlotManager : MonoBehaviour
     {
         if (item.IsStackable)//한 칸에 여러개 소지 가능한 아이템일 경우 
         {
-            foreach(GameObject slotObject in slotList) //리스트를 순회하면서 같은 아이템이 있으면 Count만 증가시키고 return;
+            foreach (GameObject slotObject in slotList) //리스트를 순회하면서 같은 아이템이 있으면 Count만 증가시키고 return;
             {
                 Slot slot = slotObject.GetComponent<Slot>();
                 if (item.name == slot.CurrentItem)
@@ -163,28 +166,44 @@ public class SlotManager : MonoBehaviour
                 }
             }
         }
+        CheckGetOrDrop(item, slotList);
+    }
+
+    private void CheckGetOrDrop(ItemBase item, List<GameObject> slotList)
+    {
         foreach (GameObject slotObject in slotList)
         {
             Slot slot = slotObject.GetComponent<Slot>();
             if (slot.IsEmpty)
             {
-                Image slotImage = slotObject.transform.GetChild(0).GetComponent<Image>();
-                string spriteName = Enum.GetName(typeof(ItemImagePath), item.ItemImagePath);          
-                foreach (Sprite s in sprite)
-                {
-                    if (s.name == spriteName)
-                    {
-                        slotImage.sprite = s;
-                        slot.Item = item;
-                        break;
-                    }
-                }
-                slot.IsEmpty = false;
-                slot.CurrentItem = item.name;
+                ChangeSprite(item, slotObject, slot);
                 break;
+            }
+            else
+            {
+                item.ItemImagePath = ItemImagePath.EmptySlot;
+                ChangeSprite(item, slotObject, slot);
             }
         }
     }
+
+    private void ChangeSprite(ItemBase item, GameObject slotObject, Slot slot)
+    {
+        Image slotImage = slotObject.transform.GetChild(0).GetComponent<Image>();
+        string spriteName = Enum.GetName(typeof(ItemImagePath), item.ItemImagePath);
+        foreach (Sprite s in sprite)
+        {
+            if (s.name == spriteName)
+            {
+                slotImage.sprite = s;
+                slot.Item = item;
+                break;
+            }
+        }
+        slot.IsEmpty = !slot.IsEmpty;
+        slot.CurrentItem = slot.IsEmpty ? null : item.name;
+    }
+
     private List<GameObject> GetItemTab(ItemBase item)
     {
         List<GameObject> slotList;

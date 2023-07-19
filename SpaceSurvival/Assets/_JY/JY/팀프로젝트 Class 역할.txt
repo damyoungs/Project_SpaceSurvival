@@ -1,5 +1,9 @@
 SlotManager
 
+ChangeSlotImage 함수 내부 if (isEmpty) 부분 어떻게 할지 고민중
+
+크게 봤을 때 초기생성(Initialize) - 획득(GetItem) - 버리기(DropItem) - 교환(SwapItem)  기능으로 구성되어있다 
+
 Initialize() => 초기화 진행
 {
 
@@ -18,7 +22,7 @@ Make_Slot() =>
 
 GetItem() => 파라미터 (ItemBase item)
 {
-	파라미터로 받은 item을 파라미터로 GetItemTab으 호출해 해당 아이탬이 속한 시르트를 불러온다
+	파라미터로 받은 item을 파라미터로 GetItemTab으 호출해 해당 아이탬이 속한 리스트를 불러온다
 	item 과 불러온 리스트를 파라미터로 UpdateSlot함수 호출	
 }
 
@@ -56,4 +60,12 @@ OnSlotClicked (Slot clickedSlot) => slot 오브젝트에서 OnPointerClick 함�
 ResetImageAlpha() 
 {
 	ImageMovingCoroutine 에서 변경한 알파값을 다시 원상복구시킨다.
+}
+
+SwapItems (Slot firstSlot, Slot secondSlot) => 첫번째클릭한 슬롯과 두번째 클릭한 슬롯을 받는다.
+{
+	비어있는 GameObject타입의 List를 선언하고 slots 딕셔너리의 List를 순회하며	slotList.Value.Contains(firstSlot.gameObject)이용해
+	해당 리스트에 firstSlot이 있다면 그 리스트를 위에 선언한 빈 리스트에 할당한다.
+	SlotList.IndexOf(firstSlot.gameObject) 를 사용해 int 타입 변수에 각 슬롯의 인덱스를 저장하고 
+	해당 두slot오브젝트를 임시로 저장한 뒤 위치를 바꾸고 리스트를 지우고 다시 Insert 해준다
 }
