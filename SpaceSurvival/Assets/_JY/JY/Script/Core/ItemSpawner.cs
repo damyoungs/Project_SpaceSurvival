@@ -45,6 +45,10 @@ public class ItemSpawner : TestBase
 
     void Initialize()
     {
+        SetDropTable();//몬스터 드롭정보 저장
+    }
+    void SetDropTable()
+    {
         if (prefabs.Length != Enum.GetValues(typeof(PrefabName)).Length - 1)
         {
             Debug.LogError("Enum 의 갯수와 프리팹배열의 갯수가 다릅니다.");
@@ -65,19 +69,19 @@ public class ItemSpawner : TestBase
 
         // Initialize the enemy drop table
         enemyDropTable.Add(typeof(Enemy1), new List<(PrefabName, float)>
-        {
-            (PrefabName.ShotGun, 0.9f),
-            (PrefabName.Rifle, 0.99f),
-            (PrefabName.Cash,0.9f)
-        });
+            {
+                (PrefabName.ShotGun, 0.9f),
+                (PrefabName.Rifle, 0.99f),
+                (PrefabName.Cash,0.9f)
+            });
 
         enemyDropTable.Add(typeof(Enemy2), new List<(PrefabName, float)>
-        {
-            (PrefabName.Bow, 0.9f),
-            (PrefabName.TwoHandAxe, 0.9f),
-            (PrefabName.Cash,0.9f),
-            (PrefabName.TwoHandSword,0.9f)
-        });
+            {
+                (PrefabName.Bow, 0.9f),
+                (PrefabName.TwoHandAxe, 0.9f),
+                (PrefabName.Cash,0.9f),
+                (PrefabName.TwoHandSword,0.9f)
+            });
     }
     public void SpawnItem(EnemyBase enemy)//큰 범위에서 분류가 아니라 정확히 어떤 적인지 알아야한다
     {
@@ -119,6 +123,22 @@ public class ItemSpawner : TestBase
         ItemBase item = obj.GetComponent<ItemBase>();
         GameManager.SlotManager.GetItem(item);
         Destroy(obj);
+    }
+    protected override void TestClick(InputAction.CallbackContext context)
+    {
+
+        if (GameManager.SlotManager.IsSlotMoving)
+        {
+            RectTransform inventoryRectTransform = GameManager.Inventory.GetComponent<RectTransform>();
+            Vector2 localMousePosition;
+            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(inventoryRectTransform, Input.mousePosition, null, out localMousePosition))
+            {
+                if (!inventoryRectTransform.rect.Contains(localMousePosition))
+                {
+                    Debug.Log("외부감지");
+                }
+            }
+        }
     }
     protected override void Test1(InputAction.CallbackContext _)
     {

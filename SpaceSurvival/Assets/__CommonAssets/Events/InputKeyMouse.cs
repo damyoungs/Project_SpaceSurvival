@@ -360,7 +360,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""TestClick"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""ce03a7e5-86f4-43b8-a1c4-421ea1dd879d"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -430,7 +430,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""KeyMouse"",
+                    ""groups"": """",
                     ""action"": ""TestClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false

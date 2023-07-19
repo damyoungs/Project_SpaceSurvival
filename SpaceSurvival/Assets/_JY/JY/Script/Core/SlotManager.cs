@@ -22,12 +22,18 @@ public class SlotManager : MonoBehaviour
     Vector2 secondSlotPosition;
 
     public delegate void IsMovingChange();
-    public IsMovingChange isMovingChange;
+    public IsMovingChange isMovingChange; // Slot의 isMoving을 바꾸는 함수 호출
+
+    public bool IsSlotMoving { get; set; } = false; // 외부에서 클릭했을 때 이 조건이 true이면 아이템을 버리는 로직 실행
 
     public Dictionary<Current_Inventory_State, List<GameObject>> slots;
     private Dictionary<Current_Inventory_State, int> slotCount; //슬롯 생성후 번호를 부여하기위한 Dic
-    public void Initialize()
+    public void Initialize()//Inventory에서 호출
     {
+        isMovingChange += () =>
+        {
+            IsSlotMoving = !IsSlotMoving;
+        };
         slots = new Dictionary<Current_Inventory_State, List<GameObject>>
         {
             { Current_Inventory_State.Equip, new List<GameObject>() },
@@ -91,18 +97,10 @@ public class SlotManager : MonoBehaviour
         }
         if (parentTransform != null)
         {
-            GameObject emptySlotImage = new GameObject("EmptySlotImage");
-            emptySlotImage.AddComponent<Image>();
-            emptySlotImage.transform.SetParent(parentTransform,false);
-            emptySlotImage.transform.position = newSlot.transform.position;
-
             slotCount[GameManager.Inventory.State]++;
             newSlot.name = $"{GameManager.Inventory.State}_{slotCount[ GameManager.Inventory.State]}";
-            newSlot.transform.SetParent(emptySlotImage.transform, true);
+            newSlot.transform.SetParent(parentTransform.transform, true);
             slots[GameManager.Inventory.State].Add(newSlot);
-
-
-
         } 
     }
   
@@ -203,7 +201,6 @@ public class SlotManager : MonoBehaviour
             {
                 if (inventoryRectTransform.rect.Contains(localMousePosition))
                 {
-                    Debug.Log("인벤토리 내부");
                     // 마우스 클릭 위치가 인벤토리 내부
                     secondSlotPosition = clickedSlot.transform.position;
 
@@ -213,7 +210,6 @@ public class SlotManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("인벤토리 외부");
                     // 마우스 클릭 위치가 인벤토리 외부
                     // 코드 이하 생략...
                 }
