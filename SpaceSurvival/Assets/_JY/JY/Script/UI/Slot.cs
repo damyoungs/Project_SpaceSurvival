@@ -64,14 +64,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPo
 
     private void IsMovingChange()
     {
-        if (!IsMoving)
-        {
-            IsMoving = true;
-        }
-        else
-        {
-            IsMoving = false;
-        }
+        IsMoving = !IsMoving;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

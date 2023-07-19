@@ -126,7 +126,6 @@ public class ItemSpawner : TestBase
     }
     protected override void TestClick(InputAction.CallbackContext context)
     {
-
         if (GameManager.SlotManager.IsSlotMoving)
         {
             RectTransform inventoryRectTransform = GameManager.Inventory.GetComponent<RectTransform>();
