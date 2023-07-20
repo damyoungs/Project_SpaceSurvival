@@ -156,14 +156,22 @@ public class SlotManager : MonoBehaviour
     {
         if (item.IsStackable)//한 칸에 여러개 소지 가능한 아이템일 경우 
         {
-            foreach (GameObject slotObject in slotList) //리스트를 순회하면서 같은 아이템이 있으면 Count만 증가시키고 return;
+            if (getItem)
             {
-                Slot slot = slotObject.GetComponent<Slot>();
-                if (item.name == slot.CurrentItem)
+                foreach (GameObject slotObject in slotList) //리스트를 순회하면서 같은 아이템이 있으면 Count만 증가시키고 return;
                 {
-                    slot.ItemCount++;
-                    return;
+                    Slot slot = slotObject.GetComponent<Slot>();
+                    if (item.name == slot.CurrentItem)
+                    {
+                        slot.ItemCount++;
+                        return;
+                    }
                 }
+            }
+            else
+            {
+                CheckGetOrDrop(item, slotList, getItem);// 이부분에서 몇개를 버릴건지 팝업하고 굳이 CheckGetOrDrop을 호출할 필요없이 바로 ChangeSprite을 호출하면 되겠다.
+                return;
             }
         }
         CheckGetOrDrop(item, slotList, getItem);
@@ -179,22 +187,21 @@ public class SlotManager : MonoBehaviour
                 slot = slotObject.GetComponent<Slot>();
                 if (slot.IsEmpty)
                 {
-                    ChangeSprite(item, slot);
+                    ChangeSprite(slot, item);
                     break;
                 }         
             }
         }
         else
         {
-            item.ItemImagePath = ItemImagePath.EmptySlot;
-            ChangeSprite(item, selectedSlot);
+            ChangeSprite(selectedSlot);         
         }
     }
 
-    private void ChangeSprite(ItemBase item, Slot slot)
+    private void ChangeSprite(Slot slot, ItemBase item = null)
     {
         Image slotImage = slot.transform.GetChild(0).GetComponent<Image>();
-        string spriteName = Enum.GetName(typeof(ItemImagePath), item.ItemImagePath);
+        string spriteName = item == null ? Enum.GetName(typeof(ItemImagePath), ItemImagePath.EmptySlot) : Enum.GetName(typeof(ItemImagePath), item.ItemImagePath);
         foreach (Sprite s in sprite)
         {
             if (s.name == spriteName)
@@ -204,8 +211,16 @@ public class SlotManager : MonoBehaviour
                 break;
             }
         }
-        slot.IsEmpty = !slot.IsEmpty;
-        slot.CurrentItem = slot.IsEmpty ? null : item.name;
+        slot.IsEmpty = !slot.IsEmpty;// 버릴때  false에서 true로 바뀜
+      
+        if(!slot.IsEmpty)
+        {
+            slot.CurrentItem = item.name;
+        }
+        else
+        {
+            slot.CurrentItem = null;
+        }
     }
 
     private List<GameObject> GetItemTab(ItemBase item)

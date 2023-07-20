@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HpPotion : ConsumeBase
+public class HpPotion : ItemBase
 {
   
     protected override void Initailize()
