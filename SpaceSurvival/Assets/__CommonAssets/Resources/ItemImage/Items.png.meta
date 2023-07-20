@@ -143,8 +143,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d522741ea0a8de84eabb91eba7b8479d
-      internalID: 182372767
+      spriteID: d48d3585accf33243b7db91bb07a5ff6
+      internalID: 1100685551
       vertices: []
       indices: 
       edges: []
@@ -164,8 +164,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 025790abac342064d869879a3bed1771
-      internalID: 1928631056
+      spriteID: d4175cdd0f2f69a4d9ceb48b02939b56
+      internalID: -1685962536
       vertices: []
       indices: 
       edges: []
@@ -185,8 +185,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7489da60a186ecc41a644fbec186a738
-      internalID: -2071746272
+      spriteID: 98f7c6f2095b7df4eb6e25cf5a1804d6
+      internalID: 1544897590
       vertices: []
       indices: 
       edges: []
@@ -206,8 +206,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bc57ac829f38d694dbee7e7bc840780d
-      internalID: 1294446891
+      spriteID: aa546d45c2b6b6645b70288e41102d6c
+      internalID: 1448009267
       vertices: []
       indices: 
       edges: []
@@ -227,8 +227,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 440414fd459c7464fa93bbb08b79cd84
-      internalID: -1136555781
+      spriteID: 1eda9551f43a8d3418ddc8092f3358e0
+      internalID: -1742498291
       vertices: []
       indices: 
       edges: []
@@ -248,8 +248,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a74aa424d51090249892affb0f0dd4b3
-      internalID: -1949431726
+      spriteID: 5adcb19bd8d858e44bda5a30e404d3da
+      internalID: 1604917094
       vertices: []
       indices: 
       edges: []
@@ -269,8 +269,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 53e442ae3f9442a40964a06a8e1e34b8
-      internalID: -687406038
+      spriteID: 1d9fb7fba28678b41b2de92869929c3c
+      internalID: -109127132
       vertices: []
       indices: 
       edges: []
@@ -290,8 +290,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b024e228e64e77d4aa2edc497b9a336b
-      internalID: -1422878164
+      spriteID: 3603522b380332e4eb1135d3bc86e040
+      internalID: 1718116553
       vertices: []
       indices: 
       edges: []
@@ -311,8 +311,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f1b522e6d2bc8c34cab6c45657a1690d
-      internalID: -865610889
+      spriteID: c6e6380552fd4094f899bf1ed0e9049a
+      internalID: 994234639
       vertices: []
       indices: 
       edges: []
@@ -332,14 +332,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 53990144e18cabe4caeeec78b7a0066e
-      internalID: 263578104
+      spriteID: 464880fe1367a0544abcdfa1aa58cd5d
+      internalID: 1725925163
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ShotGun
+      name: Rifle
       rect:
         serializedVersion: 2
         x: 387
@@ -353,8 +353,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7aa8a1ba07380b048b018e2d6bd3a8fd
-      internalID: 807547645
+      spriteID: 7fa288076948a8d4c9c077388b7dc84a
+      internalID: 1809714329
       vertices: []
       indices: 
       edges: []
@@ -374,8 +374,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 305f8c72236699e4f8bd8fea2ef04521
-      internalID: 1024113124
+      spriteID: 717dc5cb8efad0044b0a1e4c34c77e7b
+      internalID: 1202215156
       vertices: []
       indices: 
       edges: []
@@ -395,8 +395,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0f21a5556f66a4f4080989199f1538c4
-      internalID: -530748721
+      spriteID: 36b4b2cab7df052408951e8b3b9ac19e
+      internalID: -1439841681
       vertices: []
       indices: 
       edges: []
@@ -416,8 +416,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3da34d4cbeee73147a3a1ceff7d5a007
-      internalID: 734987248
+      spriteID: eea2b495f15c4594b84a4337a13d0a45
+      internalID: 1063982460
       vertices: []
       indices: 
       edges: []
@@ -437,8 +437,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6846833dd73bdf04dadcde331c4afcd4
-      internalID: 1306625331
+      spriteID: e916a0b554144434495001748fd0c91b
+      internalID: -1520374609
       vertices: []
       indices: 
       edges: []
@@ -458,8 +458,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0ceb7e2148d57d045af61faef30c3ffb
-      internalID: 988614690
+      spriteID: ecdb720933b75b7439c1749efb9614ee
+      internalID: 1151783381
       vertices: []
       indices: 
       edges: []
@@ -479,14 +479,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5ab9b919eeca69e4a88b025e6b49aa7d
-      internalID: 1234708483
+      spriteID: 7991b265688d66541939af414c255cbd
+      internalID: -1250176964
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Rifle
+      name: ShotGun
       rect:
         serializedVersion: 2
         x: 387
@@ -500,8 +500,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 54c7bf4c27fed484d88fd0515b614f14
-      internalID: 1807280807
+      spriteID: 17fd36b89d7118847a8d830a30cf8e72
+      internalID: -1998648044
       vertices: []
       indices: 
       edges: []
@@ -521,8 +521,92 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2721ac17582bc7e4b911c1c9b40e1247
-      internalID: -967181197
+      spriteID: 0f8dc8a51119a0243aacb9ea48c23a76
+      internalID: 43337394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Items_19
+      rect:
+        serializedVersion: 2
+        x: 691
+        y: 445
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7eb709b1cdbb93e4e9582b07e9af2e5b
+      internalID: -1221742977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Items_20
+      rect:
+        serializedVersion: 2
+        x: 855
+        y: 537
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7df0547c450cfd64889c7149241c4f71
+      internalID: 945975869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EmptySlot
+      rect:
+        serializedVersion: 2
+        x: 411
+        y: 449
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37472f3f61a683c41af3a6226e54c510
+      internalID: 114732954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Items_22
+      rect:
+        serializedVersion: 2
+        x: 643
+        y: 314
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34a8344d85dd5b4479be788183214512
+      internalID: 1435167596
       vertices: []
       indices: 
       edges: []
@@ -530,7 +614,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 7b17d0d09e83db841959bca67109d178
+    spriteID: cecd1a2720cdf8540af6fce3fb31b536
     internalID: 0
     vertices: []
     indices: 
@@ -538,25 +622,30 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Bat: 182372767
-      Bow: 1928631056
-      Dagger: -2071746272
-      Hammer: 1294446891
-      HpPotion: -1136555781
-      MpPotion: -1949431726
-      Pistol: -687406038
-      Rifle: 1807280807
-      Scythe: -1422878164
-      SecretPotion: -865610889
-      Shield: 263578104
-      ShieldExtended: 1234708483
-      ShotGun: 807547645
-      SpellBook: 1024113124
-      SwordLaser: -530748721
-      SwordLaserAdvanced: 988614690
-      TwoHandAxe: 734987248
-      TwoHandSword: -967181197
-      Wand: 1306625331
+      Bat: 1100685551
+      Bow: -1685962536
+      Dagger: 1544897590
+      EmptySlot: 114732954
+      Hammer: 1448009267
+      HpPotion: -1742498291
+      Items_0: -604942382
+      Items_19: -1221742977
+      Items_20: 945975869
+      Items_22: 1435167596
+      MpPotion: 1604917094
+      Pistol: -109127132
+      Rifle: 1809714329
+      Scythe: 1718116553
+      SecretPotion: 994234639
+      Shield: 1725925163
+      ShieldExtended: -1250176964
+      ShotGun: -1998648044
+      SpellBook: 1202215156
+      SwordLaser: -1439841681
+      SwordLaserAdvanced: 1151783381
+      TwoHandAxe: 1063982460
+      TwoHandSword: 43337394
+      Wand: -1520374609
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

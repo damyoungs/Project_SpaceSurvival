@@ -13,7 +13,7 @@ public enum ItemType
 }
 public enum ItemImagePath
 {
-    Empty,
+    EmptySlot,
     HpPotion,
     MpPotion,
     SecretPotion,
@@ -37,7 +37,7 @@ public enum ItemImagePath
 public class ItemBase : MonoBehaviour
 {
     public ItemType ItemType { get; protected set; }
-    public ItemImagePath ItemImagePath { get; protected set; }
+    public ItemImagePath ItemImagePath { get;  set; }
     public string Name { get; protected set; }
     public bool IsStackable { get; protected set; }
     public Coroutine lifeOverCoroutine;

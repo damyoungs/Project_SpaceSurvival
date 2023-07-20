@@ -126,7 +126,6 @@ public class ItemSpawner : TestBase
     }
     protected override void TestClick(InputAction.CallbackContext context)
     {
-
         if (GameManager.SlotManager.IsSlotMoving)
         {
             RectTransform inventoryRectTransform = GameManager.Inventory.GetComponent<RectTransform>();
@@ -135,7 +134,7 @@ public class ItemSpawner : TestBase
             {
                 if (!inventoryRectTransform.rect.Contains(localMousePosition))
                 {
-                    Debug.Log("외부감지");
+                    GameManager.SlotManager.DropItem();
                 }
             }
         }

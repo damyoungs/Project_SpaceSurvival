@@ -16,13 +16,15 @@ public class SlotManager : MonoBehaviour
 
     Slot selectedSlot;// 처음 클릭한 슬롯을 저장하기 위한 변수
     Image firstClickImage; //첫번째 클릭한 슬롯 하위의 아이템 이미지
+
+    Sprite[] sprite; //아이템 이미지의 배열
     RectTransform imageTransform; 
 
     Vector2 firstSlotPosition;
     Vector2 secondSlotPosition;
 
     public delegate void IsMovingChange();
-    public IsMovingChange isMovingChange; // Slot의 isMoving을 바꾸는 함수 호출
+    public IsMovingChange isMovingChange; // Slot의 isMoving 과 이 클래스의 IsSlotMoving을 바꾸는 함수 호출
 
     public bool IsSlotMoving { get; set; } = false; // 외부에서 클릭했을 때 이 조건이 true이면 아이템을 버리는 로직 실행
 
@@ -30,6 +32,7 @@ public class SlotManager : MonoBehaviour
     private Dictionary<Current_Inventory_State, int> slotCount; //슬롯 생성후 번호를 부여하기위한 Dic
     public void Initialize()//Inventory에서 호출
     {
+        sprite = Resources.LoadAll<Sprite>($"ItemImage/Items");
         isMovingChange += () =>
         {
             IsSlotMoving = !IsSlotMoving;
@@ -108,45 +111,118 @@ public class SlotManager : MonoBehaviour
     {
         // itemType에 따른 리스트를 가져오기
         List<GameObject> slotList = GetItemTab(item);//item.itemtype에 따른 리스트(장비, 소비, 기타 중 어느곳에 연결된 리스트인지) 연결하기
-        UpdateSlot(item, slotList);
+        UpdateSlot(item, slotList, true);
     }
-    private void UpdateSlot(ItemBase item, List<GameObject> slotList)
+    public void DropItem()
+    {
+        //이미지 emptySlot으로 바꾸기
+        //slot.CurrentItem null;
+        //List에서 지우기
+        ItemBase item = selectedSlot.Item;
+        List<GameObject> slotList = GetItemTab(item);
+        UpdateSlot(item, slotList, false);
+        selectedSlot = null;
+    }
+    public void OnSlotClicked(Slot clickedSlot)//리턴타입을 slot으로?
+    {
+        isMovingChange?.Invoke();
+        // 첫 클릭: 선택한 슬롯 저장
+        if (selectedSlot == null)
+        {
+            if (!clickedSlot.IsEmpty)
+            {
+                selectedSlot = clickedSlot;
+                firstClickImage = clickedSlot.transform.GetChild(0).GetComponent<Image>(); //이미지의 알파값을 바꾸기 위한 이미지 컴포넌트 알파값변경하는 함수를 따로빼서 옮기는게 좋을것 같다
+                firstClickImage.raycastTarget = false;
+                firstSlotPosition = clickedSlot.transform.position;
+                imageTransform = clickedSlot.transform.GetChild(0).GetComponent<RectTransform>();
+
+                ResetImageAlpha();
+                StartCoroutine(ImageMovingCoroutine());//알파값을 moving코루틴에서 바꾼다? 뭔가 이상하다
+            }
+        }
+        // 두 번째 클릭: 아이템 교환하고 선택한 슬롯 초기화
+        // 외부에서 클릭했을때(버릴때) 는 ItemSpawner 에서 함수를 실행시킨다.
+        else
+        {
+            secondSlotPosition = clickedSlot.transform.position;
+
+            ResetImageAlpha(); // 이동중인 첫번째 슬롯 알파값 원상복구
+            SwapItems(selectedSlot, clickedSlot);
+            selectedSlot = null;
+        }
+    }
+    private void UpdateSlot(ItemBase item, List<GameObject> slotList, bool getItem)
     {
         if (item.IsStackable)//한 칸에 여러개 소지 가능한 아이템일 경우 
         {
-            foreach(GameObject slotObject in slotList) //리스트를 순회하면서 같은 아이템이 있으면 Count만 증가시키고 return;
+            if (getItem)
             {
-                Slot slot = slotObject.GetComponent<Slot>();
-                if (item.name == slot.CurrentItem)
+                foreach (GameObject slotObject in slotList) //리스트를 순회하면서 같은 아이템이 있으면 Count만 증가시키고 return;
                 {
-                    slot.ItemCount++;
-                    return;
-                }
-            }
-        }
-        foreach (GameObject slotObject in slotList)
-        {
-            Slot slot = slotObject.GetComponent<Slot>();
-            if (slot.IsEmpty)
-            {
-                Image slotImage = slotObject.transform.GetChild(0).GetComponent<Image>();
-                string spriteName = Enum.GetName(typeof(ItemImagePath), item.ItemImagePath);
-                Sprite[] sprite = Resources.LoadAll<Sprite>($"ItemImage/Items");
-                foreach (Sprite s in sprite)
-                {
-                    if (s.name == spriteName)
+                    Slot slot = slotObject.GetComponent<Slot>();
+                    if (item.name == slot.CurrentItem)
                     {
-                        slotImage.sprite = s;
-                        slot.Item = item;
-                        break;
+                        slot.ItemCount++;
+                        return;
                     }
                 }
-                slot.IsEmpty = false;
-                slot.CurrentItem = item.name;
+            }
+            else
+            {
+                CheckGetOrDrop(item, slotList, getItem);// 이부분에서 몇개를 버릴건지 팝업하고 굳이 CheckGetOrDrop을 호출할 필요없이 바로 ChangeSprite을 호출하면 되겠다.
+                return;
+            }
+        }
+        CheckGetOrDrop(item, slotList, getItem);
+    }
+
+    private void CheckGetOrDrop(ItemBase item, List<GameObject> slotList, bool getItem)
+    {
+        Slot slot;
+        if (getItem)//획득
+        {
+            foreach (GameObject slotObject in slotList)
+            {
+                slot = slotObject.GetComponent<Slot>();
+                if (slot.IsEmpty)
+                {
+                    ChangeSprite(slot, item);
+                    break;
+                }         
+            }
+        }
+        else
+        {
+            ChangeSprite(selectedSlot);         
+        }
+    }
+
+    private void ChangeSprite(Slot slot, ItemBase item = null)
+    {
+        Image slotImage = slot.transform.GetChild(0).GetComponent<Image>();
+        string spriteName = item == null ? Enum.GetName(typeof(ItemImagePath), ItemImagePath.EmptySlot) : Enum.GetName(typeof(ItemImagePath), item.ItemImagePath);
+        foreach (Sprite s in sprite)
+        {
+            if (s.name == spriteName)
+            {
+                slotImage.sprite = s;
+                slot.Item = item;
                 break;
             }
         }
+        slot.IsEmpty = !slot.IsEmpty;// 버릴때  false에서 true로 바뀜
+      
+        if(!slot.IsEmpty)
+        {
+            slot.CurrentItem = item.name;
+        }
+        else
+        {
+            slot.CurrentItem = null;
+        }
     }
+
     private List<GameObject> GetItemTab(ItemBase item)
     {
         List<GameObject> slotList;
@@ -170,80 +246,23 @@ public class SlotManager : MonoBehaviour
         }
         return slotList;
     }
-
-    public void OnSlotClicked(Slot clickedSlot)
+    private List<GameObject> GetItemTab(Slot slot)
     {
-        isMovingChange?.Invoke();
-        // 첫 클릭: 선택한 슬롯 저장
-        if (selectedSlot == null)
-        {
-            if (!clickedSlot.IsEmpty)
-            {
-                selectedSlot = clickedSlot;
-                firstClickImage = clickedSlot.transform.GetChild(0).GetComponent<Image>(); //이미지의 알파값을 바꾸기 위한 이미지 컴포넌트
-                firstClickImage.raycastTarget = false;
-                firstSlotPosition = clickedSlot.transform.position;
-                imageTransform = clickedSlot.transform.GetChild(0).GetComponent<RectTransform>();
-
-                StartCoroutine(ImageMovingCoroutine());
-            }
-        }
-
-        // 두 번째 클릭: 아이템 교환하고 선택한 슬롯 초기화
-        else
-        {
-            //만약 클릭 지점이 인벤토리의 범위를 벗어나면 아이템 필드에 드롭 if(slot.itemcount > 1) 몇개버릴지 숫자입력창 팝업
-            RectTransform inventoryRectTransform = GameManager.Inventory.GetComponent<RectTransform>();
-
-            Vector2 localMousePosition;
-
-            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(inventoryRectTransform, Input.mousePosition, null, out localMousePosition))
-            {
-                if (inventoryRectTransform.rect.Contains(localMousePosition))
-                {
-                    // 마우스 클릭 위치가 인벤토리 내부
-                    secondSlotPosition = clickedSlot.transform.position;
-
-                    ResetImageAlpha(); // 이동중인 첫번째 슬롯 알파값 원상복구
-                    SwapItems(selectedSlot, clickedSlot);
-                    selectedSlot = null;
-                }
-                else
-                {
-                    // 마우스 클릭 위치가 인벤토리 외부
-                    // 코드 이하 생략...
-                }
-   
-            }
-        }
+        ItemBase item = slot.Item;
+        List<GameObject>slotList = GetItemTab(item);
+        return slotList;
     }
+
     void ResetImageAlpha()// 이미지 알파값 초기화 
     {
-        if (firstClickImage != null)
-        {
-            var color = firstClickImage.color;
-            color.a = 1.0f;
-            firstClickImage.color = color;
-        }
+        var color = firstClickImage.color;
+        color.a = IsSlotMoving? 0.5f : 1.0f;
+        firstClickImage.color = color;
     }
     void SwapItems(Slot firstSlot, Slot secondSlot)
     {
         // 두 슬롯이 속한 리스트 가져오기
-        List<GameObject> SlotList = null;
-
-        foreach (var slotList in slots)
-        {
-            if (slotList.Value.Contains(firstSlot.gameObject))
-            {
-                SlotList = slotList.Value;
-            }
-        }
-
-        if (SlotList == null)
-        {
-            Debug.LogError("Slot lists not found.");
-            return;
-        }
+        List<GameObject> SlotList = GetItemTab(firstSlot);
 
         // 각 슬롯의 인덱스를 찾기.
         int firstSlotIndex = SlotList.IndexOf(firstSlot.gameObject);
@@ -265,16 +284,14 @@ public class SlotManager : MonoBehaviour
     }
     IEnumerator ImageMovingCoroutine()
     {
-        var color = firstClickImage.color;
-        color.a = 0.5f;//로컬변수 color의 알파값을 변경하는건 가능하지만  clickedItemImage.color.a = 0.5f; 이렇게 직접 값을 변경하는건 읽기전용이라 안된다
-        firstClickImage.color = color;
         while (selectedSlot != null)
         {
             imageTransform.position = Input.mousePosition;
             yield return null;
         }
         imageTransform.anchoredPosition = Vector2.zero;
-
+        IsSlotMoving = false;// 알파값 초기화 를위해 변경
+        ResetImageAlpha();
         yield break;
     }
 }
