@@ -111,7 +111,7 @@ public class SlotManager : MonoBehaviour
     {
         // itemType에 따른 리스트를 가져오기
         List<GameObject> slotList = GetItemTab(item);//item.itemtype에 따른 리스트(장비, 소비, 기타 중 어느곳에 연결된 리스트인지) 연결하기
-        UpdateSlot(item, slotList);
+        UpdateSlot(item, slotList, true);
     }
     public void DropItem()
     {
@@ -120,7 +120,7 @@ public class SlotManager : MonoBehaviour
         //List에서 지우기
         ItemBase item = selectedSlot.Item;
         List<GameObject> slotList = GetItemTab(item);
-        UpdateSlot(item, slotList);
+        UpdateSlot(item, slotList, false);
         selectedSlot = null;
     }
     public void OnSlotClicked(Slot clickedSlot)//리턴타입을 slot으로?
@@ -152,7 +152,7 @@ public class SlotManager : MonoBehaviour
             selectedSlot = null;
         }
     }
-    private void UpdateSlot(ItemBase item, List<GameObject> slotList)
+    private void UpdateSlot(ItemBase item, List<GameObject> slotList, bool getItem)
     {
         if (item.IsStackable)//한 칸에 여러개 소지 가능한 아이템일 경우 
         {
@@ -166,30 +166,34 @@ public class SlotManager : MonoBehaviour
                 }
             }
         }
-        CheckGetOrDrop(item, slotList);
+        CheckGetOrDrop(item, slotList, getItem);
     }
 
-    private void CheckGetOrDrop(ItemBase item, List<GameObject> slotList)
+    private void CheckGetOrDrop(ItemBase item, List<GameObject> slotList, bool getItem)
     {
-        foreach (GameObject slotObject in slotList)
+        Slot slot;
+        if (getItem)//획득
         {
-            Slot slot = slotObject.GetComponent<Slot>();
-            if (slot.IsEmpty)
+            foreach (GameObject slotObject in slotList)
             {
-                ChangeSprite(item, slotObject, slot);
-                break;
+                slot = slotObject.GetComponent<Slot>();
+                if (slot.IsEmpty)
+                {
+                    ChangeSprite(item, slot);
+                    break;
+                }         
             }
-            else
-            {
-                item.ItemImagePath = ItemImagePath.EmptySlot;
-                ChangeSprite(item, slotObject, slot);
-            }
+        }
+        else
+        {
+            item.ItemImagePath = ItemImagePath.EmptySlot;
+            ChangeSprite(item, selectedSlot);
         }
     }
 
-    private void ChangeSprite(ItemBase item, GameObject slotObject, Slot slot)
+    private void ChangeSprite(ItemBase item, Slot slot)
     {
-        Image slotImage = slotObject.transform.GetChild(0).GetComponent<Image>();
+        Image slotImage = slot.transform.GetChild(0).GetComponent<Image>();
         string spriteName = Enum.GetName(typeof(ItemImagePath), item.ItemImagePath);
         foreach (Sprite s in sprite)
         {
