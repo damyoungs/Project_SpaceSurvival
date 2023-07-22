@@ -1,5 +1,41 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1202978854
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1202978855}
+  m_Layer: 5
+  m_Name: BattleTraceList
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1202978855
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202978854}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7077860605808497486}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &89164175486161708
 GameObject:
   m_ObjectHideFlags: 0
@@ -622,7 +658,7 @@ RectTransform:
   - {fileID: 8108404063018543866}
   - {fileID: 3755675616151727267}
   m_Father: {fileID: 2677307996146309302}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -1267,7 +1303,7 @@ RectTransform:
   m_Father: {fileID: 2139947175548028588}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.100000024}
+  m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
@@ -1431,8 +1467,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2139947175722992690}
   m_HandleRect: {fileID: 2139947175722992653}
   m_Direction: 2
-  m_Value: 1.0000015
-  m_Size: 0.9
+  m_Value: 1
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2198,8 +2234,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 300, y: -47}
-  m_SizeDelta: {x: 1200, y: 900}
+  m_AnchoredPosition: {x: 272.53, y: -47}
+  m_SizeDelta: {x: 1400, y: 1000}
   m_Pivot: {x: 0, y: 1}
 --- !u!212 &625171469396639655
 SpriteRenderer:
@@ -2267,9 +2303,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sizeSpeed: 0.01
   minWidth: 600
-  minHeight: 700
-  maxWidth: 1200
-  maxHeight: 900
+  minHeight: 800
+  maxWidth: 1400
+  maxHeight: 1000
   pageIndex: 0
   saveObjectHeight: 150
   pageMaxObject: 12
@@ -2318,8 +2354,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 232704967847071675}
   - {fileID: 7077860605808497486}
+  - {fileID: 232704967847071675}
   - {fileID: 4292849234953259727}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -2659,9 +2695,10 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1202978855}
   - {fileID: 874878005118167308}
   m_Father: {fileID: 2677307996146309302}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -3751,7 +3788,7 @@ RectTransform:
   - {fileID: 2447503479761080750}
   - {fileID: 2226467469767457184}
   m_Father: {fileID: 7077860605808497486}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0.1}

@@ -49,7 +49,7 @@ public class Singleton<T> : MonoBehaviour where T : Component
                     GameObject gameObj = new GameObject(); //오브젝트만들어서 
                     gameObj.name = $"{typeof(T).Name} Singleton"; //이름추가하고
                     instance = gameObj.AddComponent<T>(); //싱글톤객체에 추가하여 생성
-                    Debug.Log($"instance = {instance} 생성순서확인");
+                    //Debug.Log($"instance = {instance} 생성순서확인");
                     DontDestroyOnLoad(instance.gameObject); //씬이 사라질때 게임오브젝트가 삭제되지 안하게하는 함수
                 }
                 else

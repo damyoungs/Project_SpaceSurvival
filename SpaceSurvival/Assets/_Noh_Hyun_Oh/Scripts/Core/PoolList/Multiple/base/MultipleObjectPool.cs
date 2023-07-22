@@ -35,8 +35,8 @@ public class MultipleObjectPool<T> : MonoBehaviour where T : ObjectIsPool
     /// 이변수의 오브젝트가 비활성화되있으면 GenerateObjects 함수의 마지막 비활성화 시켜도 OnDisable함수가 호출이안된다.
     /// </summary>
     protected Transform setPosition;
-   
-    
+
+    protected bool isBattleMap = false;
 
     /// <summary>
     /// 풀에서 객체 생성 전에 처리해야할 내용 
@@ -47,18 +47,18 @@ public class MultipleObjectPool<T> : MonoBehaviour where T : ObjectIsPool
     /// 풀에서 객체 생성 후에 처리해야 할 내용 상속받아서 각자사용
     /// </summary>
     protected virtual void EndInitialize() {
-        if (readyQueue.Count == 0)
-        { //비활성화 된 부모에 들어간경우 카운트가 0이다 무한 생성을막기위해 큐를 초기화
-            for (int i = 0; i < poolSize; i++)
-            {
-                readyQueue.Enqueue(pool[i]);
-            }
-            //오브젝트풀의 치명적인 버그는 
-            //비활성화된 부모에 오브젝트들을 생성했을때 생긴다.
-            //비활성화된 부모에 집어넣을경우 기본적으로 SetEnable(false)를 실행시켜도 작동을안한다. 
-            //비활성화되면 큐에 데이터가 쌓이지않고 
-            //GetObject 를진행시 큐에내용가지고 확장함으로 무한 확장을 시작할것이다.
-        }
+        //if (readyQueue.Count == 0)
+        //{ //비활성화 된 부모에 들어간경우 카운트가 0이다 무한 생성을막기위해 큐를 초기화
+        //    for (int i = 0; i < poolSize; i++)
+        //    {
+        //        readyQueue.Enqueue(pool[i]);
+        //    }
+        //    //오브젝트풀의 치명적인 버그는 
+        //    //비활성화된 부모에 오브젝트들을 생성했을때 생긴다.
+        //    //비활성화된 부모에 집어넣을경우 기본적으로 SetEnable(false)를 실행시켜도 작동을안한다. 
+        //    //비활성화되면 큐에 데이터가 쌓이지않고 
+        //    //GetObject 를진행시 큐에내용가지고 확장함으로 무한 확장을 시작할것이다.
+        //}
     }
     /// <summary>
     /// 화면전환시 계속 발생하여 버그가생긴다,.
@@ -76,7 +76,6 @@ public class MultipleObjectPool<T> : MonoBehaviour where T : ObjectIsPool
         {
             pool = new T[poolSize];                 // 풀 전체 크기로 배열 할당
             readyQueue = new Queue<T>(poolSize);    // 레디큐 생성(capacity는 poolSize로 지정)
-
             //readyQueue.Count;       // 실제로 들어있는 갯수
             //readyQueue.Capatity;    // 현재 미리 준비해 놓은 갯수
 
@@ -84,11 +83,13 @@ public class MultipleObjectPool<T> : MonoBehaviour where T : ObjectIsPool
         }
         else
         {
+            
             // 두번째 씬이 불려져서 이미 풀은 만들어져 있는 상황
             foreach (T obj in pool)
             {
                 obj.gameObject.SetActive(false);    // 전부 비활성화
             }
+            
         }
         EndInitialize();//초기화 끝날때  처리 할내용 
     }
@@ -161,7 +162,7 @@ public class MultipleObjectPool<T> : MonoBehaviour where T : ObjectIsPool
         for (int i = start; i < end; i++)    // 새로 만들어진 크기만큼 반복
         {
             //특정위치에 생성하기 기본적으로는 풀아래에 있다.
-            obj = Instantiate(origianlPrefab, setPosition);
+            obj = Instantiate(origianlPrefab, setPosition); //생성되면 일단 Awake =>  OnEnable 순으로 실행시킨다.
             obj.name = $"{origianlPrefab.name}_{i}";            // 이름 구분되도록 설정
 
             T comp = obj.GetComponent<T>();                     // PooledObject 컴포넌트 받아와서
@@ -171,16 +172,25 @@ public class MultipleObjectPool<T> : MonoBehaviour where T : ObjectIsPool
 
             };
             newArray[i] = comp;     // 배열에 저장
-            
+
+            ReturnPoolTransformSetting(comp,transform);
+
             obj.SetActive(false);   // 생성한 게임 오브젝트 비활성화(=>비활성화 되면서 레디큐에도 추가된다)
       
-            if (!isParentActive) // 상위 오브젝트에서 비활성화되있으면 SetActive(false)를 해도 onDisable 이 발동을안하여 큐값이 없을수가있다.
+            if (!isParentActive) // 상위 오브젝트에서 비활성화되있으면 SetActive(false)를 해도 OnDisable 이 발동을안하여 큐값이 없을수가있다.
             { 
                 readyQueue.Enqueue(comp);   // 상위 오브젝트가 비활성화 되있는경우  추가해주자
             }
             
         }
     }
-
+    /// <summary>
+    /// 풀에서 생성이되고 오브젝트가 해제될시에 다시 풀로돌리기위해 풀위치를 넘겨주기위한 함수
+    /// </summary>
+    /// <param name="comp">추가될 객체</param>
+    protected virtual void ReturnPoolTransformSetting(T comp ,Transform poolObj) 
+    {
+        
+    }
 
 }

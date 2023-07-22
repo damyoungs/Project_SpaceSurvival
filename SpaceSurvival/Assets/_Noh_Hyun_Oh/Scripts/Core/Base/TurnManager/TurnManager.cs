@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 /// <summary>
@@ -23,13 +21,14 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
     /// <summary>
     /// 턴관리할 링크드 리스트
     /// </summary>
-    LinkedList<ITurnBaseData> turnObjectList;
+    LinkedList<ITurnBaseData> turnObjectList = null;
 
     /// <summary>
     /// 화면에 턴진행도 보여줄 UI
     /// </summary>
     TurnGaugeManager turnGaugeManager;
     public TurnGaugeManager TurnGaugeManager => turnGaugeManager;
+
 
     /// <summary>
     /// 해당턴에서 삭제된 오브젝트를 턴 게이지 관리자에게 전달할 델리게이터
@@ -54,7 +53,7 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
     /// 턴시작의 최소값
     /// </summary>
     [SerializeField]
-    [Range(0.0f,1.0f)]
+    [Range(0.1f,1.0f)]
     private float turnStartValue = 1.0f;
 
     /// <summary>
@@ -64,6 +63,7 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
 
     /// <summary>
     /// 씬 이동시 배틀맵인지 체크하는 변수 로드 할때 변경해준다.
+    /// 테스트용 변수
     /// </summary>
     bool isBattleMap = false;
     public bool IsBattleMap
@@ -76,7 +76,7 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
     private void Start()
     {
         turnGaugeManager =  WindowList.Instance.GetComponentInChildren<TurnGaugeManager>(true);
-
+        EnumList.MultipleFactoryObjectList.TURN_GAUGE_UNIT_POOL.ToString();
     }
 
     /// <summary>
@@ -84,41 +84,58 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
     /// </summary>
     protected override void Init(Scene _, LoadSceneMode __)
     {
-        //Debug.Log("로드완료");
-        if(isBattleMap)//배틀 맵이면 
+        //Debug.Log($"로드완료 {IsBattleMap}");
+        if(IsBattleMap)//배틀 맵이면 
         {
             IsBattleMap = false; //싱글톤에서 맵이동시마다 호출되기때문에 초기화하기전에 다시 턴로직이 실행됨으로 막는다.
-            InitTurnData(); //턴 진행 시작 
+            InitTurnData(); //턴 진행 시작  테스트용 .
             
 
         }
     }
 
+     /*
+        결정사항  
+            1. 씬이동 -> 유닛 셋팅 (PC NPC)생성 -> 생성관련 관리클래스 ???? ->   
+     */
+
 
     /// <summary>
-    /// 맵이동시 한번만 실행되야되고 
-    /// 맵초기화 후 오브젝트 배치 끝난뒤
-    /// 데이터 다생성되고 호출되야됨
+    /// 배틀 맵일경우 데이터 초기화가 이루어진뒤에 호출이 되야된다 .
+    /// 캐릭터 데이터가 전부생성이된상태일때 인자값으로받을지 결정한다.
     /// </summary>
     public void InitTurnData() {
         turnIndex = 0; //턴값 초기화
-
         //테스트 데이터 
+        TestInit(); //테스트용 데이터생성
 
-        ITurnBaseData[] turnListTemp = TestGeneratorArraData();//테스트 데이터 생성
-       
+        //캐릭터 생성을 어떻게 진행할지 
+        // 1. 메니저 클래스를 둬서 거기에 전부 담아서 처리할지
+        ITurnBaseData[] turnListTemp = GameObject.FindObjectsOfType<TurnBaseObject>(); //씬에있는 유닛들 긁어오기 
+        //ITurnBaseData[] turnListTemp = TestGeneratorArraData();//테스트 데이터 생성
+
+
         Array.Sort(turnListTemp, SortComparison); //정렬
 
-        turnObjectList = new LinkedList<ITurnBaseData>(turnListTemp);//초기화
+
+        turnObjectList = new LinkedList<ITurnBaseData>(turnListTemp);//링크드 리스트 초기화
 
         //여기까지 테스트 데이터생성 나중에 데이터 구조가 정해지면 파싱 작업 해야함.
-        
+
+
+        if (turnListTemp == null || turnListTemp.Length == 0)
+        {
+            Debug.Log("배틀맵 유닛이없어 임마");
+            return;
+        }
         turnGaugeManager.gameObject.SetActive(true);
         turnGaugeManager.initGauge?.Invoke(turnObjectList);//전체 UI 정렬 
 
-
+        //턴시작은 초기화끝난뒤 따로 실행시키자 ..  화면에 배틀 시작 띄워주고 실행시키면 될것같다.
         TurnStart();//턴시작
     }
+
+    
 
     /// <summary>
     /// 턴시작할 오브젝트를 가져와서 시작함수를 호출한다.
@@ -135,7 +152,7 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
             /*
              * 적군움직일때 클릭이벤트를 제한 하거나 할때 기능추가 위치
              */
-            nowTurnUnit.TurnRemove = TurnListDeleteObj;
+            nowTurnUnit.TurnRemove = TurnListDeleteObj; //턴진행중 삭제될 유닛이 있으면 삭제함수를 연결시킨다.
 
             nowTurnUnit.TurnStartAction();  //턴시작을 알린다
         }
@@ -164,7 +181,7 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
     {
         turnEndObj.TurnEndAction = null; // 턴이꼬이는것을 방지하기위해 턴종료가 끝낫으면 델리게이터를 초기화한다
         turnEndObj.TurnRemove = null; //해당턴이끝낫으니 델리게이트 회수한다.
-
+        if(turnEndObj.BattleUI != null) turnEndObj.BattleUI.TrunActionStateChange(); //턴끝났으니 상태이상값들의 값을 수정
         SetTurnValue();// 턴종료시마다 리스트의 유닛들의 행동력 값을 추가해주는 기능
         
         TurnSorting(turnEndObj); // 값이 변경된 오브젝트의 정렬기능 실행
@@ -234,6 +251,7 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
     {
         if (turnObjectList.Contains(deleteObject)) //유닛이 리스트에 존재할경우 처리 
         {
+            deleteObject.BattleUI.InitValue();//초기화 
             turnObjectList.Remove(deleteObject);//리스트에서 삭제
             TurnObjectRemoveGauge?.Invoke(deleteObject); //UI메니져 전달 
         }
@@ -251,7 +269,6 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
 
         for (int i = 0; i < turnObjectList.Count; i++)//리스트 한번돌정도로 포문을돌리고
         {
-
             if (SortComponent<ITurnBaseData>.SortAscDesCheck(addObject, checkNode.Value, isAscending))//인자로받은 노드값이 리스트의 노드값과비교를해서 정렬기준을정한다. 
             {
                 turnObjectList.AddBefore(checkNode, addObject); // 그앞단에 추가를해버린다.
@@ -266,27 +283,74 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
         }
     }
 
+    /// <summary>
+    /// 화면전환 시
+    /// </summary>
+    public void ResetBattleData() 
+    {
+        if (turnObjectList != null) 
+        {
+            foreach (ITurnBaseData node in turnObjectList) 
+            {
+                node.BattleUI.InitValue();//상태 추적창 초기화 
+                foreach (IStateData slot in node.BattleUI.States) 
+                {
+                    if (slot != null) 
+                    {
+                        slot.InitValue();// 상태에대한 내용 초기화
+                    }
+
+                }
+                
+            }
+        
+        }
+    }
+
+
     /*======================================== 테스트용 ==================================================*/
 
+    public TurnBaseObject objectTest;
     /// <summary>
     /// 테스트 데이터 생성
     /// </summary>
     /// <returns></returns>
     private TurnBaseObject[] TestGeneratorArraData()
     {
+
+        //안쓴다
         TurnBaseObject[] tbo = new TurnBaseObject[10];
         for (int i = 0; i < tbo.Length; i++)
         {
-            GameObject go = new GameObject();
-            go.name = $"{i} 번째 오브젝트";
-            go.AddComponent<TurnBaseObject>();
-            tbo[i] = go.GetComponent<TurnBaseObject>();
+            if (objectTest == null)
+            {
+                GameObject go = new GameObject();
+                go.name = $"{i} 번째 오브젝트";
+                go.transform.position = new Vector3(UnityEngine.Random.Range(0.0f, 0.1f), UnityEngine.Random.Range(0.0f, 0.1f), UnityEngine.Random.Range(0.0f, 0.1f));
+                go.AddComponent<TurnBaseObject>();
+                tbo[i] = go.GetComponent<TurnBaseObject>();
+                GameObject obj = MultipleObjectsFactory.Instance.GetObject(EnumList.MultipleFactoryObjectList.TRACKING_BATTLE_UI_POOL);
+                tbo[i].BattleUI = obj.GetComponent<TrackingBattleUI>();
+                obj.transform.SetParent(WindowList.Instance.transform.GetChild(1).GetChild(1));
+
+            }
+            else 
+            {
+                GameObject obj = MultipleObjectsFactory.Instance.GetObject(EnumList.MultipleFactoryObjectList.TRACKING_BATTLE_UI_POOL);
+                TurnBaseObject tempObj = Instantiate(objectTest,obj.transform);
+                tempObj.transform.position = new Vector3(UnityEngine.Random.Range(0.0f, 5.0f), UnityEngine.Random.Range(0.0f, 3.0f), UnityEngine.Random.Range(0.0f, 10.0f));
+                tempObj.gameObject.name = $"{i} 번째 오브젝트";
+                tbo[i] = tempObj;
+                tbo[i].BattleUI = obj.GetComponent<TrackingBattleUI>();
+                obj.transform.SetParent(WindowList.Instance.transform.GetChild(1).GetChild(1));
+
+            }
             //tbo[i] = new TurnBaseObject(); //컴퍼넌트상속받은 클래스는 new 를사용해서 생성을못하게 막아놨다 .
             //생성하려면 게임오브젝트를 만들고 AddComponent를 이용해야한다.
             //Debug.Log($"객체 널이냐? :{tbo[i]}");
             tbo[i].TurnWaitingValue = UnityEngine.Random.Range(0.0f, 0.1f);
             tbo[i].UnitBattleIndex = i;
-
+            tbo[i].BattleUI.Player = tbo[i];
         }
         return tbo;
     }
@@ -303,6 +367,33 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
         return turnObjectList.First;
     }
 
+    public GameObject unit;
+    /// <summary>
+    /// 테스트 데이터 만드는용
+    /// </summary>
+    public void TestInit() 
+    {
+        for (int i = 0; i < 20; i++)
+        {
+            GameObject obj = MultipleObjectsFactory.Instance.GetObject(EnumList.MultipleFactoryObjectList.BATTLEMAP_UNIT_POOL);
+            TurnBaseObject tbo = obj?.GetComponent<TurnBaseObject>();
+            tbo.UnitBattleIndex = i;
+            RectTransform rt = obj.GetComponent<RectTransform>();
+            rt = rt == null ? obj.AddComponent<RectTransform>() : rt;
+            GameObject parentObj = Instantiate(unit);
+            if (tbo != null)
+            {
+                parentObj.transform.position = new Vector3(
+                                                UnityEngine.Random.Range(-10.0f, 10.0f),
+                                                0.0f,
+                                                UnityEngine.Random.Range(-10.0f, -5.0f)
+                                                );
+            }
+            obj.transform.SetParent(parentObj.transform);
+            rt.anchoredPosition3D = new Vector3(0.0f, 2.0f, 0.0f);
+            obj.SetActive(true);
+        }
+    }
     /// <summary>
     /// 리스트와 Array 의 기본정렬기능을 이용한 정렬 
     /// 인자값의 자료형은 맞춰줘야한다 반환값은 int -1 0 1

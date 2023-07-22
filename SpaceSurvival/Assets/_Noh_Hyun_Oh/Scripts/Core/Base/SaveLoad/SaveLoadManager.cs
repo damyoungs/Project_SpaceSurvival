@@ -21,6 +21,8 @@ using System.Collections.Generic;
 /// </summary>
 public class SaveLoadManager : ChildComponentSingeton<SaveLoadManager> {
 
+
+
     /// <summary>
     /// 저장폴더 위치 
     /// project 폴더 바로밑에있음 Assets폴더랑 동급위치
@@ -184,7 +186,7 @@ public class SaveLoadManager : ChildComponentSingeton<SaveLoadManager> {
         {
             //상위폴더가 없을경우 올수도있겠다.
             //여기올일은 없겠지만 내가모르는 경우가 있을수있으니 일단 걸어둔다.
-            Debug.LogException(e);
+            Debug.LogWarning(e);
         }
     }
     /// <summary>
@@ -259,7 +261,7 @@ public class SaveLoadManager : ChildComponentSingeton<SaveLoadManager> {
         }
         catch (Exception e)
         {
-            Debug.LogException(e);
+            Debug.LogWarning(e);
             return false;
         }
     }
@@ -309,7 +311,7 @@ public class SaveLoadManager : ChildComponentSingeton<SaveLoadManager> {
         //await Task.Run(() => { isFilesLoading =  SetSaveFileList(); }); //이함수가 끝날때까지 대기 
         if (saveDataList != null) { //데이터로딩이 제대로됬으면 
             isDoneDataLoaing?.Invoke(saveDataList);// 데이터로딩이 비동기로진행시 처리끝날때 처리해야될 함수실행  동기방식이면 필요없다.
-            //Debug.LogWarning($"비동기 로딩테스트 끝~ {saveDataList.Length}개  파일 로딩완료"); // 함수끝날때까지 대기타는지 확인하기위해 작성
+            Debug.LogWarning($"비동기 로딩테스트 끝~ {saveDataList.Length}개  파일 로딩완료"); // 함수끝날때까지 대기타는지 확인하기위해 작성
         }
     }
 
@@ -404,7 +406,7 @@ public class SaveLoadManager : ChildComponentSingeton<SaveLoadManager> {
             }
             catch (Exception e)
             {
-                Debug.LogException(e);
+                Debug.LogWarning(e);
                 isProcessing=false;
                 return false;
             }
@@ -446,7 +448,7 @@ public class SaveLoadManager : ChildComponentSingeton<SaveLoadManager> {
             }
             catch (Exception e)
             {
-                Debug.LogException(e); // 예상치 못한 오류 발생시 아직발견못함. 클래스 구조만 잘맞추면 대체로 잘된다.
+                Debug.LogWarning(e); // 예상치 못한 오류 발생시 아직발견못함. 클래스 구조만 잘맞추면 대체로 잘된다.
                 isProcessing = false;
                 return false;
             }
@@ -506,7 +508,7 @@ public class SaveLoadManager : ChildComponentSingeton<SaveLoadManager> {
             }
             catch (Exception e)
             {
-                Debug.LogException(e);
+                Debug.LogWarning(e);
                 isProcessing = false;
                 return false;
             }
@@ -552,7 +554,7 @@ public class SaveLoadManager : ChildComponentSingeton<SaveLoadManager> {
             catch (Exception e)
             {
                 //파일 IO관련은 알수없는 오류가 발생할수 있으니 일단 걸어둔다.
-                Debug.LogException(e);
+                Debug.LogWarning(e);
                 isProcessing = false;
                 return false;
             }

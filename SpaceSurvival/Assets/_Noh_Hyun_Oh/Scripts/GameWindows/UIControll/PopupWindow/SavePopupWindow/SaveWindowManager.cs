@@ -113,7 +113,8 @@ public class SaveWindowManager : PopupWindowBase ,IPopupSortWindow ,IPointerDown
         Oninitialize();
         InitLastPageIndex(); //페이징에 사용될 초기값셋팅
         InitSaveObjects(); //저장화면 초기값셋팅
-        isInit = true;
+        isInit = true; //데이터가 초기화된뒤 화면을 셋팅해줘야함으로 초기화됬는지 체크
+        SetGameObjectList(SaveLoadManager.Instance.SaveDataList);//처음화면을띄울때 화면셋팅용
     }
     public void Oninitialize() 
     {
@@ -288,12 +289,12 @@ public class SaveWindowManager : PopupWindowBase ,IPopupSortWindow ,IPointerDown
     {
         if (saveDataList == null)
         { // 읽어온 파일정보가없는경우 리턴
-            Debug.Log("읽어온 파일정보가없어?");
+            Debug.LogWarning("읽어온 파일정보가없어?");
             return;
         }
         if (!isInit)//비동기로 처리하는것때문에 추가 
         {
-            Debug.Log("아직 초기화 안됬다.");
+            Debug.LogWarning("아직 초기화 안됬다.");
             return;
         }
         int startIndex = pageIndex * pageMaxObject; //페이지시작오브젝트위치값 가져오기
@@ -312,7 +313,6 @@ public class SaveWindowManager : PopupWindowBase ,IPopupSortWindow ,IPointerDown
     }
 
     /// <summary>
-    /// ==미완성==
     /// 값이 셋팅되야한다 
     /// lastPageIndex = 페이지 총갯수-1개 
     /// pageMaxSize = 한페이지에 보이는갯수

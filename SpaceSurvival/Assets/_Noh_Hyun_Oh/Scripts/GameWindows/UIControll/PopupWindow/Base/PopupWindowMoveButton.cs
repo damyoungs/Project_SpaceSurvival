@@ -73,8 +73,10 @@ public class PopupWindowMoveButton : MonoBehaviour, IBeginDragHandler, IDragHand
     /// <returns>화면에서 벗어났으면 false</returns>
     void CheckOutOfWindow(PointerEventData eventData)
     {
-
+        //창이동이 이상하면 전체 스크린 사이즈를 확인해보자
         moveOffSet = startPosition + (eventData.position - movePosition); //이동한 값
+
+        // 추가 -  나중에 마우스가 이동한방향으로 조금씩이동시키는 로직으로 변경하는게 좋을거같다.
 
 
         //왼쪽 체크

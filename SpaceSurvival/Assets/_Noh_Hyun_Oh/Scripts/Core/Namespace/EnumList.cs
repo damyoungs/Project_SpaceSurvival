@@ -72,7 +72,10 @@ namespace EnumList
 		SAVE_DATA_POOL = 0, //저장화면에 보여줄 오브젝트생산용 풀
         SAVE_PAGE_BUTTON_POOL,
         INVENTORY_POOL,
-        TURN_GAUGE_UNIT_POOL
+        TURN_GAUGE_UNIT_POOL,
+        TRACKING_BATTLE_UI_POOL,
+		STATE_POOL,
+		BATTLEMAP_UNIT_POOL,
 
     }
 
@@ -86,4 +89,18 @@ namespace EnumList
 		DEFAULT_BGM,		  //배경음악 처리할 싱글톤담으려고 생각중
 		SYSTEM_EFFECT_SOUND //이팩트사운드 담을 싱글톤 아직 제작안함.
 	}
+
+	/// <summary>
+	/// 화상 감전 동상 중독 공포 
+	/// </summary>
+	public enum StateType 
+	{
+		None = 0, //빈값
+        ElectricShock, //감전
+        Freeze, //동상
+        Poison, //중독
+        Fear, //공포
+        Burns //화상
+    }
+
 }

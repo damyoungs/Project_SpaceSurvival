@@ -20,7 +20,9 @@ public class LoadedSceanMove : MonoBehaviour
         if (data != null)
         {
             Debug.Log($"{data} 파일이 정상로드됬습니다 , {data.SceanName} 파싱작업후 맵이동 작성을 해야하니 맵이 필요합니다.");
+            
             LoadingScean.SceanLoading(data.SceanName);
+
         }
     }
 

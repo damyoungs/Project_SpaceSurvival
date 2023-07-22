@@ -8,6 +8,7 @@ using UnityEngine;
 /// </summary>
 public class ObjectIsPool : MonoBehaviour
 {
+    
     /// <summary>
     /// 비활성화시 Queue로 반환 처리가 이루어져야한다.
     /// 오브젝트 풀에 들어갈 오브젝트들이 상속받을 클래스 

@@ -30,6 +30,11 @@ public class MultipleObjectsFactory : ChildComponentSingeton<MultipleObjectsFact
     /// </summary>
     TurnUnitPool turnUnitPool;
 
+    TrackingBattleUIPool trackingBattleUIPool;
+
+    StatePool statePool;
+
+    BattleMapUnitPool battleMapUnitPool;
     /// <summary>
     /// 팩토리 생성시 초기화 함수
     /// </summary>
@@ -41,10 +46,16 @@ public class MultipleObjectsFactory : ChildComponentSingeton<MultipleObjectsFact
         savePageButtonPool = GetComponentInChildren<SavePageButtonPool>(true);
         inventoryPool = GetComponentInChildren<InventoryPool>(true);
         turnUnitPool = GetComponentInChildren<TurnUnitPool>(true);
+        trackingBattleUIPool = GetComponentInChildren<TrackingBattleUIPool>(true);
+        statePool = GetComponentInChildren<StatePool>(true);
+        battleMapUnitPool = GetComponentInChildren<BattleMapUnitPool>(true);
         saveDataPool.Initialize();
         savePageButtonPool.Initialize();
         inventoryPool.Initialize(); 
         turnUnitPool.Initialize();  
+        trackingBattleUIPool.Initialize();
+        statePool.Initialize();
+        battleMapUnitPool.Initialize();
     }
 
     /// <summary>
@@ -69,12 +80,22 @@ public class MultipleObjectsFactory : ChildComponentSingeton<MultipleObjectsFact
             case EnumList.MultipleFactoryObjectList.TURN_GAUGE_UNIT_POOL:
                 obj = turnUnitPool?.GetObject()?.gameObject;
                 break;
+            case EnumList.MultipleFactoryObjectList.TRACKING_BATTLE_UI_POOL:
+                obj = trackingBattleUIPool?.GetObject()?.gameObject;
+                break;
+            case EnumList.MultipleFactoryObjectList.STATE_POOL:
+                obj = statePool?.GetObject()?.gameObject;
+                break;
+            case EnumList.MultipleFactoryObjectList.BATTLEMAP_UNIT_POOL:
+                obj = battleMapUnitPool?.GetObject()?.gameObject;
+                break;
             default:
 
                 break;
         }
         return obj;
     }
+
 }
 
 

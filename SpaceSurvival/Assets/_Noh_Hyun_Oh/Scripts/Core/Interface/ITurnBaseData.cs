@@ -5,14 +5,19 @@ using UnityEngine;
 /// </summary>
 public interface ITurnBaseData
 {
+    TrackingBattleUI BattleUI { get; set; }
+    
+    /// <summary>
+    /// 컴포넌트에 정의된 함수를 연결
+    /// 추적형 UI적용을위해 유닛의 좌표값을 알아야함으로 추가
+    /// </summary>
+    public Transform transform { get;}
     /// <summary>
     /// 전투씬에서 사용할 유닛의 번호 
-    /// 추천 정렬방법 : PC 유닛 0~순서대로 최대로 10개면 10까지 20개면 20까지잡고 그이후
     /// </summary>
     public int UnitBattleIndex { get; set; }
     /// <summary>
     /// 턴종료시 추가될 행동력 
-    /// 개별 턴제일때 차이를 두기위해 필요한값으로 팀별 턴제에는 값을 1000정도로 통일 시키면된다.
     /// </summary>
     public float TurnEndActionValue { get; }
     /// <summary>
@@ -34,4 +39,6 @@ public interface ITurnBaseData
     /// 턴시작시 실행할 함수
     /// </summary>
     public void TurnStartAction();
+
+
 }
