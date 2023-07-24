@@ -1,14 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.InputSystem;
-/*
-     정렬기능만 제공할것이기때문에static 으로 만들어서 상속은 할수없다.    
+/*   정렬기능만 제공할것이기때문에static 으로 만들어서 상속은 할수없다.    
      enum 은 상수이기때문에 인터페이스에서 상속할수없고 제네릭으로 가져오기힘들다.
      그렇다고 제네릭을 클래스로받으면 상속때문에 문제가발생한다.
      ChangeObj(ref listData[min],ref listData[i]); CS0206 오류발생 프로퍼티나 배열이나 리스트의 인덱스는 ref 또는 out 을 사용할수가없다고한다.
@@ -39,14 +31,7 @@ public static class SortComponent<T> where T : ITurnBaseData
         SelectionSort,  //선택 정렬하기
         BubbleSort,     //버블 정렬하기
     }
-    /// <summary>
-    /// 정렬방법 오름차순(ASCENDING), 내림차순(DESCENDING)
-    /// </summary>
-    public enum SortType
-    {
-        Ascending = 0, //오름차순
-        Descending     //내림차순
-    }
+
 
    
     /// <summary>

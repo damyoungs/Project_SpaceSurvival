@@ -42,6 +42,7 @@ public class WindowList : Singleton<WindowList> {
     /// </summary>
     InputKeyMouse inputKeyEvent;
     public InputKeyMouse InputKeyEvent => inputKeyEvent;
+    
     /// <summary>
     /// 관리할 윈도우 중 옵션관련 윈도우
     /// </summary>
@@ -72,9 +73,18 @@ public class WindowList : Singleton<WindowList> {
     /// </summary>
     PopupSortManager popupManager;
     public PopupSortManager PopupSortManager => popupManager;
-
+    
+    /// <summary>
+    /// 턴 메니저  
+    /// </summary>
     TurnManager turnManager;
     public TurnManager TurnManager => turnManager;
+
+    /// <summary>
+    /// 턴 게이지 UI 위치
+    /// </summary>
+    Transform turnGaugeUI;
+    public Transform TurnGaugeUI => turnGaugeUI;
 
     /// <summary>
     /// 윈도우리스트는 항상가지고다니는것이기때문에 여기에서 이벤트처리를 진행.
@@ -90,11 +100,12 @@ public class WindowList : Singleton<WindowList> {
         mainWindow = transform.GetComponentInChildren<SaveWindowManager>(true);
         popupManager = transform.GetComponentInChildren<PopupSortManager>(true);
         optionsPopupWindow = transform.GetComponentInChildren<OptionsPopupWindow>(true);
+        turnGaugeUI = transform.GetChild(0).GetChild(1);
+        turnManager = FindObjectOfType<DataFactory>().transform.GetComponentInChildren<TurnManager>(true);
     }
     private void Start()
     {
         mainWindow.Oninitialize();
-        turnManager = DataFactory.Instance.transform.GetComponentInChildren<TurnManager>(true);
     }
     /// <summary>
     /// 키입력및 마우스 입력처리도 추가하자

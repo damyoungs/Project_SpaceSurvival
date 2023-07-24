@@ -73,7 +73,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 1
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 2
   m_UseSpriteMesh: 0
@@ -90,6 +90,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cf1af41ea8f0334c903680fabfbc099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reducedDuration: 0.19
+  maxDuation: 1
+  currentDuration: 0
 --- !u!1 &8176059076311087887
 GameObject:
   m_ObjectHideFlags: 0

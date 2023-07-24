@@ -5,7 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// 추적형 UI 기능 클래스
+/// 추적형 UI 기능 클래스 
+/// 상태이상 과 체력 관련 UI 기능 들어있는 컴퍼넌트
 /// </summary>
 public class TrackingBattleUI : TrackingBattleUIObjectIsPool 
 {
@@ -125,8 +126,8 @@ public class TrackingBattleUI : TrackingBattleUIObjectIsPool
     /// 상태이상 최대갯수 
     /// </summary>
     int stateSize = 4;
-    public int StateSize {
-        
+    int StateSize {
+        get => stateSize;
         set
         {
             if (value > stateSize) //크기가 기본사이즈보다크면 
@@ -190,18 +191,14 @@ public class TrackingBattleUI : TrackingBattleUIObjectIsPool
     /// </summary>
     private void InitTracking() 
     {
-#if UNITY_EDITOR
-            if (isDebug) 
-            {
-                Debug.Log(player);
-            }
-#endif
-            mainCamera = FindObjectOfType<Camera>(); //카메라 찾아서 셋팅한다. - 시네머신으로 카메라 전환시 해당값을 교체하는 로직을 추가가 필요
-            //mainCamera = Camera.main; //유니티에서 제공해주는걸 사용해보자 awake에서는 못가져온다. OnEnable 처음호출에서도못가져온다.
-            StopAllCoroutines();//기존추적하던게있으면 멈추고 
-            StartCoroutine(StartTracking()); //새로추척
-    
+        mainCamera = FindObjectOfType<Camera>(); //카메라 찾아서 셋팅한다. - 시네머신으로 카메라 전환시 해당값을 교체하는 로직을 추가가 필요
+        //mainCamera = Camera.main; //유니티에서 제공해주는걸 사용해보자 awake에서는 못가져온다. OnEnable 처음호출에서도못가져온다.
+        StopAllCoroutines();//기존추적하던게있으면 멈추고 
+        StartCoroutine(StartTracking()); //새로추척
     }
+    /// <summary>
+    /// 추적 시작
+    /// </summary>
     IEnumerator StartTracking() 
     {
         while (true)
@@ -216,9 +213,9 @@ public class TrackingBattleUI : TrackingBattleUIObjectIsPool
     /// </summary>
     private void SetTrackingUI()
     {
-        if (Player != null)
+        if (Player != null) //플레이어가 존재하면
         {
-            Vector3 playerPosition = mainCamera.WorldToScreenPoint(player.transform.position); //플레이어 스크린좌표를 읽어온다.
+            Vector3 playerPosition = mainCamera.WorldToScreenPoint(Player.transform.position); //플레이어 스크린좌표를 읽어온다.
             transform.position = playerPosition; //주적할 오브젝트의 위치를 쫒아간다.
 #if UNITY_EDITOR
             if (isDebug) 
@@ -262,6 +259,56 @@ public class TrackingBattleUI : TrackingBattleUIObjectIsPool
             }
         }
     }
+   
+    /// <summary>
+    /// 한턴당 상태이상의 진행도를 감소시키는 함수  (수정하는함수)
+    /// 턴메니져에서 일괄실행  - 테스트 진행중
+    /// </summary>
+    public void TrunActionStateChange() 
+    {
+        for (int i=0; i<  states.Length; i++) 
+        {
+            if (states[i] == null) continue; //빈값이면 다음으로 
+            states[i].CurrentDuration += states[i].ReducedDuration; //값이 존재하면 상태이상 갱신
+            if (states[i].CurrentDuration < 0.0f) // 상태이상 지속시간이 끝났으면 
+            {
+                releaseStatus?.Invoke(states[i]);//상태해제됬다고 신호를 보낸다.
+                states[i] = null; //배열에서 삭제
+            } 
+        }
+
+    }
+
+    /// <summary>
+    /// 상태변화 발생(추가)시 UI 추가 
+    /// 유닛쪽에서 호출 하는 함수 
+    /// </summary>
+    /// <param name="stateData">상태이상 의 타입</param>
+    public void AddOfStatus(EnumList.StateType type)
+    {
+        IStateData stateData = SettingStateUI(type); //풀에서 객체가져와서 UI셋팅
+        AddStateArray(stateData); //데이터셋팅
+        
+    }
+
+    /// <summary>
+    /// 현재 진행중인 상태이상 데이터 셋팅
+    /// 배열에 추가하고 관리한다.
+    /// </summary>
+    /// <param name="addData">상태이상의 정보</param>
+    private void AddStateArray(IStateData addData) 
+    {
+        for(int i=0; i< StateSize; i++)//전체검색해보고 
+        {
+            if (states[i] == null) //빈곳이있는경우 
+            {
+                states[i] = addData;//추가하고
+                return;//빠져나간다.
+            }
+        }
+        StateSize++; //상태리스트 꽉차있으면 배열 사이즈늘리고 
+        AddStateArray(addData); // 함수를 다시호출해서 배열에 추가시킨다.
+    }
 
     /// <summary>
     /// 상태이상이 발동시 호출될 함수 
@@ -269,12 +316,12 @@ public class TrackingBattleUI : TrackingBattleUIObjectIsPool
     /// </summary>
     /// <param name="type">추가된 상태이상타입</param>
     /// <returns>상태이상의 정보를 생성해서 반환</returns>
-    private IStateData SettingStateUI(EnumList.StateType type) 
+    private IStateData SettingStateUI(EnumList.StateType type)
     {
         GameObject obj = MultipleObjectsFactory.Instance.GetObject(EnumList.MultipleFactoryObjectList.STATE_POOL); //풀에서 꺼내고
         StateObjectIsPool poolObj = obj.GetComponent<StateObjectIsPool>(); //컴포넌트 내용읽어와서 
         poolObj.transform.SetParent(stateGroup);// 부모 셋팅하고 
-        
+
         ///밑에는 이미지 셋팅 
         switch (type)
         {
@@ -298,63 +345,13 @@ public class TrackingBattleUI : TrackingBattleUIObjectIsPool
         }
         return poolObj;
     }
-    /// <summary>
-    /// 한턴당 상태이상의 진행도를 감소시키는 함수  (수정하는함수)
-    /// 턴메니져에서 일괄실행  - 테스트 아직 안됨
-    /// </summary>
-    public void TrunActionStateChange() 
-    {
-        float duration = 0.0f;
-        for (int i=0; i<  states.Length; i++) 
-        {
-            if (states[i] == null) continue; //빈값이면 다음으로 
-            duration = ( states[i].CurrentDuration -= states[i].ReducedDuration) ; //값이 존재하면 상태이상 갱신
-            if (duration < 0.0f) // 상태이상 지속시간이 끝났으면 
-            {
-                releaseStatus?.Invoke(states[i]);//상태해제됬다고 신호를 보낸다.
-                states[i] = null; //배열에서 삭제
-            } 
-        }
 
-    }
-
-
-    /// <summary>
-    /// 상태변화 발생(추가)시 UI 추가 
-    /// 유닛쪽에서 호출 하는 함수 
-    /// </summary>
-    /// <param name="stateData">상태이상 의 타입</param>
-    public void AddOfStatus(EnumList.StateType type)
-    {
-        IStateData stateData = SettingStateUI(type); //풀에서 객체가져와서 UI셋팅
-        AddStateArray(stateData); //데이터셋팅
-        
-    }
-
-    /// <summary>
-    /// 현재 진행중인 상태이상 데이터 셋팅
-    /// 배열에 추가하고 관리한다.
-    /// </summary>
-    /// <param name="addData">상태이상의 정보</param>
-    private void AddStateArray(IStateData addData) 
-    {
-        for(int i=0; i< states.Length; i++)//전체검색해보고 
-        {
-            if (states[i] == null) //빈곳이있는경우 
-            {
-                states[i] = addData;//추가하고
-                break;//빠져나간다.
-            }
-        }
-    }
-   
-   
     /// <summary>
     /// 초기화 함수
     /// 셋팅값 초기화및 풀로 돌리고걸려있는 상태이상 도 전부 초기화 
     /// 최종적으로 큐에 추가하고 풀로 돌려버린다.
     /// </summary>
-    public  void InitValue() 
+    public  void ResetData() 
     {
         //델리게이트 초기화 
         statusAbnormalities = null;
@@ -362,14 +359,15 @@ public class TrackingBattleUI : TrackingBattleUIObjectIsPool
         //거리재기위한 카메라와 기준점이될 플레이어 참조를 해제 
         mainCamera = null;
         Player = null;
-        foreach (IStateData item in states)
+
+        for (int i = 0; i < StateSize; i++) //상태이상 내용을 전부
         {
-            if (item != null) //상태이상 걸린것이있으면 
+            if (states[i] != null) //값이 들어 있는것들 찾아서
             {
-                item.InitValue(); //내부값들 초기화및 풀로 돌리기작업 
+                states[i].ResetData(); //내부값들 초기화및 풀로 돌리기작업 하고
+                states[i] = null; // 빈값으로 셋팅
             }
         }
-        states = new IStateData[stateSize]; // 상태 초기화  
        
         transform.SetParent(PoolTransform);//풀로 돌린다
         gameObject.SetActive(false); //큐로 돌리고 

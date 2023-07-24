@@ -57,16 +57,13 @@ public class LoadingScean : MonoBehaviour
     /// 로딩씬으로 잠시 넘어갔다가 이동한다.
     /// </summary>
     /// <param name="sceanName">이동할 씬 이름</param>
-    /// <param name="isMapBattle">다음맵이 배틀맵인지 체크</param>
     /// <param name="type">진행 상황 표기할 progressType  EnumList의 값을확인</param>
     public static void SceanLoading(EnumList.SceanName sceanName = EnumList.SceanName.TITLE, 
-                bool isMapBattle = false, 
                 EnumList.ProgressType type = EnumList.ProgressType.BAR)
     {
         if (sceanName != EnumList.SceanName.NONE) { //씬 셋팅이 되어있고
             if (!isLoading) { //로딩이 안됬을경우 
                 isLoading = true;//로딩 시작플래그
-                isBattleMap = isMapBattle; //배틀 맵인지 체크
                 progressType = type; //프로그래스 타입설정.
                 nextSceanName = sceanName; //씬이름셋팅하고  
                 TurnManager.Instance.ResetBattleData();// 배틀 정보 초기화
@@ -98,8 +95,6 @@ public class LoadingScean : MonoBehaviour
     /// </summary>
     private void SetDisavleObjects() { 
         WindowList.Instance.MainWindow.gameObject.SetActive(false);
-        TurnManager.Instance.TurnGaugeManager.OnInvisible();
-        TurnManager.Instance.TurnGaugeManager.gameObject.SetActive(false);
     }
 
 
@@ -156,7 +151,6 @@ public class LoadingScean : MonoBehaviour
 
                             isLoading = false;//로딩끝났다고 설정
                             op.allowSceneActivation = true; //해당 변수가 true면 progress 값이 0.9(90%)값이 넘어가는순간 다음씬을 로딩한다.
-                            TurnManager.Instance.IsBattleMap = isBattleMap; //배틀맵 여부를 넘겨준다.
                             yield break; //제어권넘기기
                         }
                     }

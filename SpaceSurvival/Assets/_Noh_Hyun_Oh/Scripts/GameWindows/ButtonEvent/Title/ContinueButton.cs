@@ -19,6 +19,6 @@ public class ContinueButton : MonoBehaviour
     }
     public void OnClickContinue()
     {
-        LoadingScean.SceanLoading(sceanName,isBattleMap);
+        LoadingScean.SceanLoading(sceanName);
     }
 }

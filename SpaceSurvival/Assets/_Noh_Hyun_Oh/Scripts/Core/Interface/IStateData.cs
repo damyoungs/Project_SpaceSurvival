@@ -19,7 +19,7 @@ public interface IStateData
     /// <summary>
     /// 아이콘 이미지
     /// </summary>
-    Image Icon { get; }
+    Sprite Icon { get; }
 
     /// <summary>
     /// 한턴당 감소되는 수치 
@@ -39,5 +39,5 @@ public interface IStateData
     /// 값을 초기화 하기위한 함수
     /// 필요 기능 풀로 위치옮기기 , 모든 값들 null 셋팅 float 은 -1셋팅 type 은 none 값 셋팅
     /// </summary>
-    void InitValue();
+    void ResetData();
 }

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3520079797870004657}
   - component: {fileID: 3520079797870004658}
   - component: {fileID: 3520079797870004659}
-  - component: {fileID: 3613406742506090334}
   m_Layer: 5
   m_Name: TrackingBattleUI
   m_TagString: Untagged
@@ -94,18 +93,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDebug: 0
   mainCamera: {fileID: 0}
---- !u!114 &3613406742506090334
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3520079797870004621}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a8c0066213a32c429dfb71a1c5e0df0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3520079797937783551
 GameObject:
   m_ObjectHideFlags: 0
@@ -548,7 +535,7 @@ MonoBehaviour:
   m_CellSize: {x: 50, y: 50}
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 1
-  m_ConstraintCount: 5
+  m_ConstraintCount: 4
 --- !u!1 &3520079799746694738
 GameObject:
   m_ObjectHideFlags: 0
