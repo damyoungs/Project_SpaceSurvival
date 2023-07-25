@@ -134,7 +134,7 @@ public class ItemSpawner : TestBase
             {
                 if (!inventoryRectTransform.rect.Contains(localMousePosition))
                 {
-                    GameManager.SlotManager.DropItem();
+                   // GameManager.SlotManager.DropItem();
                 }
             }
         }

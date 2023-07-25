@@ -148,7 +148,7 @@ public class Slot : SlotUI_Base, IPointerEnterHandler, IPointerExitHandler,IPoin
     public void OnPointerClick(PointerEventData eventData)
     {
         anim.SetBool(popUpHash, false);
-        GameManager.SlotManager.OnSlotClicked(this);
+  //      GameManager.SlotManager.OnSlotClicked(this);
     }
     public void OnPointerExit(PointerEventData eventData)
     {
