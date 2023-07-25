@@ -99,28 +99,28 @@ public class ItemSpawner : TestBase
     public void GetItem()
     {
         GameObject obj = Instantiate(prefabDict[PrefabName.Hammer]);
-        ItemBase item = obj.GetComponent<ItemBase>();
+        ItemData item = obj.GetComponent<ItemData>();
         GameManager.SlotManager.GetItem(item);
         Destroy(obj);
     }
     public void GetItemBow()
     {
         GameObject obj = Instantiate(prefabDict[PrefabName.Bow]);
-        ItemBase item = obj.GetComponent<ItemBase>();
+        ItemData item = obj.GetComponent<ItemData>();
         GameManager.SlotManager.GetItem(item);
         Destroy(obj);
     }
     public void GetItemHpPotion()
     {
         GameObject obj = Instantiate(prefabDict[PrefabName.HpPotion]);
-        ItemBase item = obj.GetComponent<ItemBase>();
+        ItemData item = obj.GetComponent<ItemData>();
         GameManager.SlotManager.GetItem(item);
         Destroy(obj);
     }
     public void GetItemMpPotion()
     {
         GameObject obj = Instantiate(prefabDict[PrefabName.MpPotion]);
-        ItemBase item = obj.GetComponent<ItemBase>();
+        ItemData item = obj.GetComponent<ItemData>();
         GameManager.SlotManager.GetItem(item);
         Destroy(obj);
     }

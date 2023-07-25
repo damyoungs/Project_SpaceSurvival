@@ -6,9 +6,11 @@ using UnityEngine;
 using UnityEngine.U2D;
 using UnityEngine.UI;
 
-public class SlotManager : MonoBehaviour
+public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = Slot,     Inventory, InventoryUI = SlotManager
 {
     public GameObject slot;
+    public GameObject tempSlot;
+
     public Transform equip_Below;
     public Transform consume_Below;
     public Transform etc_Below;
@@ -25,6 +27,7 @@ public class SlotManager : MonoBehaviour
 
     public delegate void IsMovingChange();
     public IsMovingChange isMovingChange; // Slot의 isMoving 과 이 클래스의 IsSlotMoving을 바꾸는 함수 호출
+
 
     public bool IsSlotMoving { get; set; } = false; // 외부에서 클릭했을 때 이 조건이 true이면 아이템을 버리는 로직 실행
 
@@ -77,8 +80,29 @@ public class SlotManager : MonoBehaviour
 
     public void Make_Slot()
     {
-        
         GameObject newSlot = Instantiate(slot);
+        Transform parentTransform = GetParentTransform();
+        if (parentTransform != null)
+        {
+            slotCount[GameManager.Inventory.State]++;
+            newSlot.name = $"{GameManager.Inventory.State}_{slotCount[GameManager.Inventory.State]}";           
+            newSlot.transform.SetParent(parentTransform.transform, true);
+            slots[GameManager.Inventory.State].Add(newSlot);
+
+            Slot slotComp = newSlot.GetComponent<Slot>();
+            slotComp.InitializeSlot(slotComp);
+            //slotComp.onDragBegin += OnItemMoveBegin;
+            //slotComp.onDragEnd += OnItemMoveEnd;
+            //slotComp.onClick += OnSlotClick;
+            //slotComp.onPointerEnter += OnItemDetailOn;
+            //slotComp.onPointerExit += OnItemDetailOff;
+            //slotComp.onPointerMove += OnSlotPointerMove;
+            slotComp.Index = (uint)slots[GameManager.Inventory.State].Count - 1;
+        }
+    }
+
+    private Transform GetParentTransform()
+    {
         Transform parentTransform;
         switch (GameManager.Inventory.State)
         {
@@ -98,27 +122,75 @@ public class SlotManager : MonoBehaviour
                 parentTransform = null;
                 break;
         }
-        if (parentTransform != null)
-        {
-            slotCount[GameManager.Inventory.State]++;
-            newSlot.name = $"{GameManager.Inventory.State}_{slotCount[ GameManager.Inventory.State]}";
-            newSlot.transform.SetParent(parentTransform.transform, true);
-            slots[GameManager.Inventory.State].Add(newSlot);
-        } 
+        return parentTransform;
     }
-  
-    public void GetItem(ItemBase item)
+
+    public void GetItem(ItemData item)
     {
         // itemType에 따른 리스트를 가져오기
         List<GameObject> slotList = GetItemTab(item);//item.itemtype에 따른 리스트(장비, 소비, 기타 중 어느곳에 연결된 리스트인지) 연결하기
         UpdateSlot(item, slotList, true);
     }
+    //public bool AddItem(ItemCode code)
+    //{
+    //    bool result = false;
+    //    ItemData data = itemDataManager[code];
+
+    //    InvenSlot sameDataSlot = FindSameItem(data);
+    //    if (sameDataSlot != null)
+    //    {
+    //        // 같은 종류의 아이템이 있다.
+    //        // 아이템 개수 1 증가시키기고 결과 받기
+    //        result = sameDataSlot.IncreaseSlotItem(out _);  // 넘치는 개수가 의미 없어서 따로 받지 않음
+    //    }
+    //    else
+    //    {
+    //        // 같은 종류의 아이템이 없다.
+    //        InvenSlot emptySlot = FindEmptySlot();
+    //        if (emptySlot != null)
+    //        {
+    //            emptySlot.AssignSlotItem(data); // 빈슬롯이 있으면 아이템 하나 할당
+    //            result = true;
+    //        }
+    //        else
+    //        {
+    //            // 비어있는 슬롯이 없다.
+    //            //Debug.Log("아이템 추가 실패 : 인벤토리가 가득 차있습니다.");
+    //        }
+    //    }
+
+    //    return result;
+    //}
+    //public void RemoveItem(uint slotIndex, uint decreaseCount = 1)
+    //{
+    //    if (IsValidIndex(slotIndex))
+    //    {
+    //        InvenSlot invenSlot = slots[slotIndex];
+    //        invenSlot.DecreaseSlotItem(decreaseCount);
+    //    }
+    //    else
+    //    {
+    //        //Debug.Log($"아이템 감소 실패 : {slotIndex}는 없는 인덱스입니다.");
+    //    }
+    //}
+    //public void ClearSlot(uint slotIndex)
+    //{
+    //    if (IsValidIndex(slotIndex))
+    //    {
+    //        InvenSlot invenSlot = slots[slotIndex];
+    //        invenSlot.ClearSlotItem();
+    //    }
+    //    else
+    //    {
+    //        //Debug.Log($"아이템 삭제 실패 : {slotIndex}는 없는 인덱스입니다.");
+    //    }
+    //}
     public void DropItem()
     {
         //이미지 emptySlot으로 바꾸기
         //slot.CurrentItem null;
         //List에서 지우기
-        ItemBase item = selectedSlot.Item;
+        ItemData item = selectedSlot.ItemData;
         List<GameObject> slotList = GetItemTab(item);
         UpdateSlot(item, slotList, false);
         selectedSlot = null;
@@ -152,20 +224,20 @@ public class SlotManager : MonoBehaviour
             selectedSlot = null;
         }
     }
-    private void UpdateSlot(ItemBase item, List<GameObject> slotList, bool getItem)
+    private void UpdateSlot(ItemData item, List<GameObject> slotList, bool getItem)
     {
-        if (item.IsStackable)//한 칸에 여러개 소지 가능한 아이템일 경우 
+        if (item.maxStackCount > 1)//한 칸에 여러개 소지 가능한 아이템일 경우 
         {
             if (getItem)
             {
                 foreach (GameObject slotObject in slotList) //리스트를 순회하면서 같은 아이템이 있으면 Count만 증가시키고 return;
                 {
-                    Slot slot = slotObject.GetComponent<Slot>();
-                    if (item.Name == slot.CurrentItem)
-                    {
-                        slot.ItemCount++;
-                        return;
-                    }
+                    //Slot slot = slotObject.GetComponent<Slot>();
+                    //if (item.itemName == slot.CurrentItem)
+                    //{
+                    //    slot.ItemCount++;
+                    //    return;
+                    //}
                 }
             }
             else
@@ -177,7 +249,7 @@ public class SlotManager : MonoBehaviour
         CheckGetOrDrop(item, slotList, getItem);
     }
 
-    private void CheckGetOrDrop(ItemBase item, List<GameObject> slotList, bool getItem)
+    private void CheckGetOrDrop(ItemData item, List<GameObject> slotList, bool getItem)
     {
         Slot slot;
         if (getItem)//획득
@@ -187,43 +259,26 @@ public class SlotManager : MonoBehaviour
                 slot = slotObject.GetComponent<Slot>();
                 if (slot.IsEmpty)
                 {
-                    ChangeSprite(slot, item);
+                   // ChangeSprite(slot);
                     break;
                 }         
             }
         }
         else
         {
-            ChangeSprite(selectedSlot);         
+           // ChangeSprite(selectedSlot);         
         }
     }
 
-    private void ChangeSprite(Slot slot, ItemBase item = null)
-    {
-        Image slotImage = slot.transform.GetChild(0).GetComponent<Image>();
-        string spriteName = item == null ? Enum.GetName(typeof(ItemImagePath), ItemImagePath.EmptySlot) : Enum.GetName(typeof(ItemImagePath), item.ItemImagePath);
-        foreach (Sprite s in sprite)
-        {
-            if (s.name == spriteName)
-            {
-                slotImage.sprite = s;
-                slot.Item = item;
-                break;
-            }
-        }
-        slot.IsEmpty = !slot.IsEmpty;// 버릴때  false에서 true로 바뀜
-      
-        if(!slot.IsEmpty)
-        {
-            slot.CurrentItem = item.Name;
-        }
-        else
-        {
-            slot.CurrentItem = null;
-        }
-    }
+    //private void ChangeSprite(Slot slot)
+    //{
+    //    if (slot.IsEmpty)
+    //    {
+    //        slot.Item.itemIcon.
+    //    }
+    //}
 
-    private List<GameObject> GetItemTab(ItemBase item)
+    private List<GameObject> GetItemTab(ItemData item)
     {
         List<GameObject> slotList;
         switch (item.ItemType)
@@ -248,7 +303,7 @@ public class SlotManager : MonoBehaviour
     }
     private List<GameObject> GetItemTab(Slot slot)
     {
-        ItemBase item = slot.Item;
+        ItemData item = slot.ItemData;
         List<GameObject>slotList = GetItemTab(item);
         return slotList;
     }
