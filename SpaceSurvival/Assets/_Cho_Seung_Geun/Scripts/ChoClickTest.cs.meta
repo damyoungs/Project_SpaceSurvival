@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:SpaceSurvival/Assets/_Cho_Seung_Geun/Scripts/ChoClickTest.cs.meta
 guid: 6343d126487257f418a32def9c391c80
+========
+guid: 4cae8cef2fcaf564481a5ad6aadb0030
+>>>>>>>> main:SpaceSurvival/Assets/__CommonAssets/Events/InputKeyMouse.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
