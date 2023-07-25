@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1931033417459860902}
   - component: {fileID: 558187415}
-  - component: {fileID: 6090800560057172202}
   m_Layer: 0
   m_Name: Cash
   m_TagString: Untagged
@@ -55,20 +54,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6090800560057172202
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1931033417459860901}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e818386afa604a2498f2ca85419e96c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemType: 0
-  itemImagePath: 0
 --- !u!1001 &1931033419277566255
 PrefabInstance:
   m_ObjectHideFlags: 0

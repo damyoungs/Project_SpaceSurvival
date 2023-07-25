@@ -161,7 +161,7 @@ public class SlotManager : MonoBehaviour
                 foreach (GameObject slotObject in slotList) //리스트를 순회하면서 같은 아이템이 있으면 Count만 증가시키고 return;
                 {
                     Slot slot = slotObject.GetComponent<Slot>();
-                    if (item.name == slot.CurrentItem)
+                    if (item.Name == slot.CurrentItem)
                     {
                         slot.ItemCount++;
                         return;
@@ -215,7 +215,7 @@ public class SlotManager : MonoBehaviour
       
         if(!slot.IsEmpty)
         {
-            slot.CurrentItem = item.name;
+            slot.CurrentItem = item.Name;
         }
         else
         {

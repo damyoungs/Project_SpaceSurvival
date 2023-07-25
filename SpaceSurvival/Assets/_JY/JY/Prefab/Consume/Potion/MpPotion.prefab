@@ -1737,7 +1737,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1921507159427551100}
   - component: {fileID: 578717917853233771}
-  - component: {fileID: 7522145132308970986}
   m_Layer: 0
   m_Name: MpPotion
   m_TagString: Untagged
@@ -1782,16 +1781,3 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7522145132308970986
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1921507159427551103}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 254d46f205cda224c85016be8852a968, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemDescription: 

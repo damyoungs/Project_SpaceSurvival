@@ -8,8 +8,5 @@ public class Cash : ItemBase
     {
         ItemType = ItemType.Etc;
     }
-    private void OnEnable()
-    {
-        StartCoroutine(LifeOver(5.0f));
-    }
+
 }

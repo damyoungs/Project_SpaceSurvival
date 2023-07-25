@@ -12,8 +12,5 @@ public class MpPotion : ConsumeBase
         Name = "MpPotion";
         RecoveryMpValue = 50;
     }
-    private void OnEnable()
-    {
-        StartCoroutine(LifeOver(5.0f));
-    }
+
 }

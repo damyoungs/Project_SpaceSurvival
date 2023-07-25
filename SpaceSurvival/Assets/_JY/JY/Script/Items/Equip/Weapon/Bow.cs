@@ -11,9 +11,6 @@ public class Bow : EquipBase
         IsStackable = false;
         Name = "ªÁ≥…≤€¿« »∞";
     }
-    private void OnEnable()
-    {
-        StartCoroutine(LifeOver(5.0f));
-    }
+
 
 }

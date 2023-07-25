@@ -3,14 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ItemType
-{
-    None,
-    Equip,
-    Consume,
-    Etc,
-    Craft
-}
+
 public enum ItemImagePath
 {
     EmptySlot,
@@ -34,7 +27,7 @@ public enum ItemImagePath
     Wand,
     Scythe
 }
-public class ItemBase : MonoBehaviour
+public class ItemBase 
 {
     public ItemType ItemType { get; protected set; }
     public ItemImagePath ItemImagePath { get;  set; }
@@ -58,10 +51,5 @@ public class ItemBase : MonoBehaviour
     {
 
     }
-    protected IEnumerator LifeOver(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-      //  GameManager.SlotManager.GetItem(this);//테스트용
-        Destroy(gameObject);
-    }
+
 }

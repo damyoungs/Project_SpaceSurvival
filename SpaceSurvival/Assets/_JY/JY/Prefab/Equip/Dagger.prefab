@@ -14609,7 +14609,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7830112442101443482}
   - component: {fileID: 7336417172691508594}
-  - component: {fileID: 5180192177200957980}
   m_Layer: 0
   m_Name: Dagger
   m_TagString: Untagged
@@ -14654,16 +14653,3 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5180192177200957980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7830112442101443483}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 944ed62a653104748a7df5e14f1e0bab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemDescription: 
