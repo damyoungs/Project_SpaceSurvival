@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc36f109a09320b49ade6d638ecd078b, type: 3}
   m_Name: Shield
   m_EditorClassIdentifier: 
-  ItemType: 0
-  code: 0
-  itemName: "\uC544\uC774\uD15C"
-  modelPrefab: {fileID: 0}
-  itemIcon: {fileID: 0}
+  ItemType: 1
+  code: 4
+  itemName: Shield
+  modelPrefab: {fileID: 5978446304524171423, guid: 9ed01d7e7679c5641b01d0ac10cdcef0, type: 3}
+  itemIcon: {fileID: 1725925163, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
   price: 0
   maxStackCount: 1
-  itemDescription: "\uC124\uBA85"
+  itemDescription: "\uC2E4\uB4DC"

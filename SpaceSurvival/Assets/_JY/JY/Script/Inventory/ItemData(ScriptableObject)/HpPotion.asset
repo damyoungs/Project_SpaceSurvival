@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc36f109a09320b49ade6d638ecd078b, type: 3}
   m_Name: HpPotion
   m_EditorClassIdentifier: 
-  ItemType: 0
+  ItemType: 2
   code: 0
-  itemName: "\uC544\uC774\uD15C"
-  modelPrefab: {fileID: 0}
-  itemIcon: {fileID: 0}
+  itemName: HpPotion
+  modelPrefab: {fileID: 3534490304491141583, guid: 9c2eea78ad466bc48abfe285fbfab1ed, type: 3}
+  itemIcon: {fileID: -1742498291, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
   price: 0
   maxStackCount: 1
-  itemDescription: "\uC124\uBA85"
+  itemDescription: "\uCCB4\uB825 \uD68C\uBCF5 \uD3EC\uC158"

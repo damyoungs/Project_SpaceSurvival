@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc36f109a09320b49ade6d638ecd078b, type: 3}
   m_Name: MpPotion
   m_EditorClassIdentifier: 
-  ItemType: 0
-  code: 0
-  itemName: "\uC544\uC774\uD15C"
-  modelPrefab: {fileID: 0}
-  itemIcon: {fileID: 0}
+  ItemType: 2
+  code: 1
+  itemName: MpPotion
+  modelPrefab: {fileID: 1921507159427551103, guid: d7b998cd95a00fd409f544c76e35916d, type: 3}
+  itemIcon: {fileID: 1604917094, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
   price: 0
   maxStackCount: 1
-  itemDescription: "\uC124\uBA85"
+  itemDescription: "\uB9C8\uB098 \uD3EC\uC158"

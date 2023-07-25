@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc36f109a09320b49ade6d638ecd078b, type: 3}
   m_Name: Scythe
   m_EditorClassIdentifier: 
-  ItemType: 0
-  code: 0
-  itemName: "\uC544\uC774\uD15C"
-  modelPrefab: {fileID: 0}
-  itemIcon: {fileID: 0}
+  ItemType: 1
+  code: 12
+  itemName: Scythe
+  modelPrefab: {fileID: 7871946945433305950, guid: 9be774cbd1092f9448f5e23502c0e13d, type: 3}
+  itemIcon: {fileID: 1718116553, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
   price: 0
   maxStackCount: 1
-  itemDescription: "\uC124\uBA85"
+  itemDescription: "\uC8FD\uC74C\uC758 \uB0AB"
