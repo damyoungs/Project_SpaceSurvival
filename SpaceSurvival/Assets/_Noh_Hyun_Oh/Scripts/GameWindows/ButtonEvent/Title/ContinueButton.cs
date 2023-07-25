@@ -11,8 +11,6 @@ public class ContinueButton : MonoBehaviour
 {
     [SerializeField]
     EnumList.SceanName sceanName;
-    [SerializeField]
-    bool isBattleMap = false;
     private void Awake()
     {
         sceanName = EnumList.SceanName.SAVELOADTEST;

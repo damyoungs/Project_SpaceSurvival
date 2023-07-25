@@ -37,7 +37,7 @@ public class SaveLoadPopupWindow : MonoBehaviour
     Transform proccessPopup;
 
     /// <summary>
-    /// 게임오브젝트 클릭했을때 처리할 델리게이터
+    /// 게임오브젝트 클릭했을때 처리할 델리게이트
     /// </summary>
     public Action<int,bool> focusInChangeFunction;
 

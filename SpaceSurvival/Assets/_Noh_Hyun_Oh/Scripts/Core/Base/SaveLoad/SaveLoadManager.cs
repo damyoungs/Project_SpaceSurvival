@@ -79,7 +79,7 @@ public class SaveLoadManager : ChildComponentSingeton<SaveLoadManager> {
 
 
     /// <summary>
-    /// 비동기 데이터 저장이끝낫을때 화면에 보여줄함수와연결해줄 델리게이터
+    /// 비동기 데이터 저장이끝낫을때 화면에 보여줄함수와연결해줄 델리게이트
     /// </summary>
     public Action<JsonGameData[]> isDoneDataLoaing;
 

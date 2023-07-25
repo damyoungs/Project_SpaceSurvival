@@ -5,7 +5,7 @@ using TreeEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TurnActionManager : ChildComponentSingeton<TurnActionManager>
+public class TurnActionManager : MonoBehaviour
 {
     enum ButtonList {
         Attack = 0,
@@ -18,9 +18,8 @@ public class TurnActionManager : ChildComponentSingeton<TurnActionManager>
         options
     }
     Action[] buttonClickListener; 
-    protected override void Awake()
+     void Awake()
     {
-        base.Awake();
         Array enumList = Enum.GetValues(typeof(ButtonList));
         buttonClickListener  = new Action[enumList.Length];
 

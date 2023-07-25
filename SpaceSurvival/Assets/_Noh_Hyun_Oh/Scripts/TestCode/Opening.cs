@@ -7,8 +7,6 @@ public class Opening : MonoBehaviour
 {
     [SerializeField]
     private EnumList.SceanName scean = EnumList.SceanName.TITLE;
-    [SerializeField]
-    private bool battleCheck = false;
     private void Start()
     {
         LoadingScean.SceanLoading(scean);
