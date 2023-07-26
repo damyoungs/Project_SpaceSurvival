@@ -86,6 +86,11 @@ public class ItemSpawner : TestBase
     {
         GameManager.SlotManager.AddItem(ItemCode.HpPotion);
     }
+    public void RemoveItem()
+    {
+        ItemData data = GameManager.Itemdata[ItemCode.HpPotion];
+        GameManager.SlotManager.RemoveItem(data, 0);
+    }
     public void GetItemMpPotion()
     {
         GameManager.SlotManager.AddItem(ItemCode.MpPotion);
@@ -107,17 +112,18 @@ public class ItemSpawner : TestBase
     }
     protected override void Test1(InputAction.CallbackContext _)
     {
-        GetItem();
+        GetItemHpPotion();
+    
     }
     protected override void Test2(InputAction.CallbackContext context)
     {
 
-        GetItemBow();
+      //리무브아이템 테스트 필요
 
     }
     protected override void Test3(InputAction.CallbackContext context)
     {
-        GetItemHpPotion();
+        GetItem();
     }
     protected override void Test4(InputAction.CallbackContext context)
     {
@@ -125,7 +131,7 @@ public class ItemSpawner : TestBase
     }
     protected override void Test5(InputAction.CallbackContext context)
     {
-
+        GetItemBow();
     }
     protected override void Test6(InputAction.CallbackContext context)
     {
