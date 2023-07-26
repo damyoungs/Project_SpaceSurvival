@@ -335,7 +335,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         List<Slot> slots = GetItemTab(data);
         foreach (var slot in slots)
         {
-            slot.onItemChange?.Invoke();
+            slot.onValueChange?.Invoke();
         }
     }
     Slot FindSameItem(ItemData data)

@@ -80,24 +80,15 @@ public class ItemSpawner : TestBase
     }
     public void GetItemBow()
     {
-        GameObject obj = Instantiate(prefabDict[ItemCode.Bow]);
-        ItemData item = obj.GetComponent<ItemData>();
-      //  GameManager.SlotManager.GetItem(item);
-        Destroy(obj);
+        GameManager.SlotManager.AddItem(ItemCode.Bow);
     }
     public void GetItemHpPotion()
     {
-        GameObject obj = Instantiate(prefabDict[ItemCode.HpPotion]);
-        ItemData item = obj.GetComponent<ItemData>();
-    //    GameManager.SlotManager.GetItem(item);
-        Destroy(obj);
+        GameManager.SlotManager.AddItem(ItemCode.HpPotion);
     }
     public void GetItemMpPotion()
     {
-        GameObject obj = Instantiate(prefabDict[ItemCode.MpPotion]);
-        ItemData item = obj.GetComponent<ItemData>();
-     //   GameManager.SlotManager.GetItem(item);
-        Destroy(obj);
+        GameManager.SlotManager.AddItem(ItemCode.MpPotion);
     }
     protected override void TestClick(InputAction.CallbackContext context)
     {
