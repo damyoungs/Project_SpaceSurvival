@@ -13,6 +13,9 @@ public class ItemSpawner : TestBase
     private Dictionary<Type, List<(ItemCode, float)>> enemyDropTable = new Dictionary<Type, List<(ItemCode, float)>>();//드랍테이블 생성
     // Enemy의 타입에 따라 PrefabName(아이템) 을 float 확률로 드롭해라. 그 PrefabName에  dictionary로 GameObject를 바인드해서 연결해준다.
 
+    public uint index = 0;
+    public ItemCode itemCode;
+
     protected override void Awake()
     {
         base.Awake();
@@ -78,6 +81,16 @@ public class ItemSpawner : TestBase
         GameManager.SlotManager.AddItem(ItemCode.Hammer);
 
     }
+    public void ClearInventory()
+    {
+        ItemData data = GameManager.Itemdata[itemCode];
+        GameManager.SlotManager.ClearInventory(data);
+    }
+    public void ClearSlot()
+    {
+        ItemData data = GameManager.Itemdata[itemCode];
+        GameManager.SlotManager.ClearSlot(data, index);
+    }
     public void GetItemBow()
     {
         GameManager.SlotManager.AddItem(ItemCode.Bow);
@@ -88,8 +101,8 @@ public class ItemSpawner : TestBase
     }
     public void RemoveItem()
     {
-        ItemData data = GameManager.Itemdata[ItemCode.HpPotion];
-        GameManager.SlotManager.RemoveItem(data, 0);
+        ItemData data = GameManager.Itemdata[itemCode];
+        GameManager.SlotManager.RemoveItem(data, index);
     }
     public void GetItemMpPotion()
     {
@@ -112,31 +125,37 @@ public class ItemSpawner : TestBase
     }
     protected override void Test1(InputAction.CallbackContext _)
     {
-        GetItemHpPotion();
     
+        GetItemBow();
     }
     protected override void Test2(InputAction.CallbackContext context)
     {
-        RemoveItem();
+    
+        GetItemHpPotion();
     }
     protected override void Test3(InputAction.CallbackContext context)
     {
-        GetItem();
+   
+        GetItemMpPotion();
     }
     protected override void Test4(InputAction.CallbackContext context)
     {
-        GetItemMpPotion();
+        GetItem();
     }
     protected override void Test5(InputAction.CallbackContext context)
     {
-        GetItemBow();
+        GetItemHpPotion();
     }
     protected override void Test6(InputAction.CallbackContext context)
     {
- 
+        RemoveItem();
     }
     protected override void Test7(InputAction.CallbackContext context)
     {
-
+        ClearSlot();
+    }
+    protected override void Test8(InputAction.CallbackContext context)
+    {
+        ClearInventory();
     }
 }
