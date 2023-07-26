@@ -30,6 +30,7 @@ public class TempSlot : Slot
     {
         Close();
         Refresh();
+        Index = 9898989;
     }
 
     /// <summary>

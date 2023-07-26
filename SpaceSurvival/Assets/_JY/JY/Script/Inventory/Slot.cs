@@ -124,7 +124,7 @@ public class Slot : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandle
     {
         onPointerEnter?.Invoke(Index);
     }
-    public void OnPointerClick(PointerEventData eventData)
+    public void OnPointerClick(PointerEventData eventData)// itemdata가 null 이 되는 문제
     {
         onClick?.Invoke(ItemData, Index);
     }
@@ -136,7 +136,10 @@ public class Slot : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandle
     {
         onPointerMove?.Invoke(eventData.position);
     }
-
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        onDragBegin?.Invoke(ItemData, Index);
+    }
     public void OnEndDrag(PointerEventData eventData)
     {
         // 드래그가 끝나는지점 확인
@@ -149,13 +152,13 @@ public class Slot : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandle
             {
                 // 슬롯UI다.
                 Debug.Log($"드래그 종료 : {endSlot.Index}번 슬롯");
-                onDragEnd?.Invoke(ItemData, endSlot.Index, true); // 끝난지점에 있는 슬롯의 인덱스와 정상적으로 끝났다고 알람 보내기
+                onDragEnd?.Invoke(GameManager.SlotManager.TempSlot.ItemData, endSlot.Index, true); // 끝난지점에 있는 슬롯의 인덱스와 정상적으로 끝났다고 알람 보내기
             }
             else
             {
                 // 슬롯UI가 아니다.
                 Debug.Log($"슬롯이 아닙니다.");           // (드래그 실패했을 때는 원래 위치로 되돌리는 것이 정상)
-                onDragEnd?.Invoke(ItemData, Index, false);        // 원래 드래그가 시작한 인덱스와 비정상적으로 끝났다고 알람 보내기
+                onDragEnd?.Invoke(GameManager.SlotManager.TempSlot.ItemData, Index, false);        // 원래 드래그가 시작한 인덱스와 비정상적으로 끝났다고 알람 보내기
             }
         }
         else
@@ -165,13 +168,10 @@ public class Slot : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandle
         }
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        onDragBegin?.Invoke(ItemData,Index);
-    }
+
 
     public void OnDrag(PointerEventData eventData)
     {
-        throw new NotImplementedException();
+       
     }
 }

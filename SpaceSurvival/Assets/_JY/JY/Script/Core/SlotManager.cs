@@ -10,9 +10,8 @@ using UnityEngine.UI;
 public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = Slot,     Inventory, InventoryUI = SlotManager
 {
     public GameObject slot;
-    TempSlot tempSlot;
+    public TempSlot tempSlot;
     public TempSlot TempSlot => tempSlot;
-    uint tempSlotIndex = 999999;
 
     public Transform equip_Below;
     public Transform consume_Below;
@@ -29,7 +28,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     private Dictionary<Current_Inventory_State, int> slotCount; //슬롯 생성후 번호를 부여하기위한 Dic
     public void Initialize()//Inventory에서 호출
     {
-        tempSlot = FindObjectOfType<TempSlot>();
+        TempSlot.InitializeSlot(TempSlot);
         isMovingChange += () =>
         {
             IsSlotMoving = !IsSlotMoving;
@@ -91,21 +90,21 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             slotComp.onClick += OnSlotClick;
            // slotComp.onPointerEnter += OnItemDetailOn;
             //slotComp.onPointerExit += OnItemDetailOff;
-            //slotComp.onPointerMove += OnSlotPointerMove;
+           // slotComp.onPointerMove += OnSlotPointerMove;
             slotComp.Index = (uint)slots[GameManager.Inventory.State].Count - 1;  
         }
     }
     private void OnItemMoveBegin(ItemData data, uint index)
     {
         MoveItem(data ,index, tempSlot.Index);    // 시작 슬롯에서 임시 슬롯으로 아이템 옮기기
-        tempSlot.Open();                          // 임시 슬롯 열기
+        TempSlot.Open();                          // 임시 슬롯 열기
     }
     private void OnItemMoveEnd(ItemData data, uint index, bool isSuccess)
     {
         MoveItem(data, tempSlot.Index, index);    // 임시 슬롯에서 도착 슬롯으로 아이템 옮기기
         if (tempSlot.IsEmpty)          // 비었다면(같은 종류의 아이템일 때 일부만 들어가는 경우가 있을 수 있으므로)
         {
-            tempSlot.Close();                     // 임시 슬롯 닫기
+            TempSlot.Close();                     // 임시 슬롯 닫기
         }
 
         //if (isSuccess)
@@ -113,9 +112,9 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         //    detail.Open(inven[index].ItemData);     // 드래그가 성공적으로 끝났으면 상세 정보창도 열기
         //}
     }
-    private void OnSlotClick(ItemData data, uint index)
+    private void OnSlotClick(ItemData data, uint index)//data null 일때 null 이 아닐때 처리필요
     {
-        if (tempSlot.IsEmpty)
+        if (TempSlot.IsEmpty)
         {
             //if (isShiftPress)
             //{
@@ -271,10 +270,10 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         // from지점과 to지점이 다르고 from과 to가 모두 valid해야 한다.
         if ((from != to) && IsValidIndex(data, from) && IsValidIndex(data, to))
         {
-            Slot fromSlot = (from == tempSlotIndex) ? tempSlot : slots[(int)from];  // 임시 슬롯을 감안해서 삼항연산자로 처리
+            Slot fromSlot = (from == tempSlot.Index) ? tempSlot : slots[(int)from];  // 임시 슬롯을 감안해서 삼항연산자로 처리
             if (!fromSlot.IsEmpty)
             {
-                Slot toSlot = (to == tempSlotIndex) ? TempSlot : slots[(int)to];
+                Slot toSlot = (to == tempSlot.Index) ? TempSlot : slots[(int)to];
                 if (fromSlot.ItemData == toSlot.ItemData)  // 같은 종류의 아이템이면
                 {
                     toSlot.IncreaseSlotItem(out uint overCount, fromSlot.ItemCount);    // 일단 from이 가진 개수만큼 to 감소 시도
@@ -447,7 +446,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     bool IsValidIndex(ItemData data ,uint index)
     {
         List<Slot> slots = GetItemTab(data);
-        if (index < slots.Count - 1 || index == tempSlotIndex)
+        if (index < slots.Count - 1 || index == tempSlot.Index)
         {
             return true;
         }
