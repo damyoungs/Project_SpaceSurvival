@@ -8,14 +8,19 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 //UI 와 분리되어있었다면 delegate로 신호를 보내야하지만  지금은 그냥 Set함수에서 바로 함수를 호출하도록한다
-public class Slot : SlotUI_Base, IPointerEnterHandler, IPointerExitHandler,IPointerClickHandler
+public class Slot : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler
 {
     RectTransform itemDescriptionTransform;
     TextMeshProUGUI itemDescription_Text;
     Animator anim;
     int popUpHash = Animator.StringToHash("PopUp");
 
-    
+    public Action<ItemData, uint> onDragBegin;
+    public Action<ItemData, uint, bool> onDragEnd;
+    public Action<ItemData, uint> onClick;
+    public Action<uint> onPointerEnter;
+    public Action<uint> onPointerExit;
+    public Action<Vector2> onPointerMove;
     public bool IsMoving { get; set; } = false; //이동중 description 팝업을 방지하기 위한 변수 
     bool isEquipped = false;
     public bool IsEquipped
@@ -117,29 +122,56 @@ public class Slot : SlotUI_Base, IPointerEnterHandler, IPointerExitHandler,IPoin
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!IsEmpty && !IsMoving)
-        {
-            SetDiscription(ItemData);
-            anim.SetBool(popUpHash, true);
-        }
+        onPointerEnter?.Invoke(Index);
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        anim.SetBool(popUpHash, false);
-  //      GameManager.SlotManager.OnSlotClicked(this);
+        onClick?.Invoke(ItemData, Index);
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        anim.SetBool(popUpHash, false);
+        onPointerExit?.Invoke(Index);
     }
-    void SetDiscription(ItemData item)
+    public void OnPointerMove(PointerEventData eventData)
     {
-        itemDescription_Text.text = item.itemDescription;
-    }
-    void UpdateAmountText(uint amount)
-    {
-   
+        onPointerMove?.Invoke(eventData.position);
     }
 
- 
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        // 드래그가 끝나는지점 확인
+        GameObject obj = eventData.pointerCurrentRaycast.gameObject;    // 마우스 있는 위치에 게임 오브젝트가 있는지 확인
+        if (obj != null)
+        {
+            // 마우스 위치에 어떤 오브젝트가 있다.
+            Slot endSlot = obj.GetComponent<Slot>();  // 마우스 위치에 있는 오브젝트가 슬롯UI인지 확인
+            if (endSlot != null)
+            {
+                // 슬롯UI다.
+                Debug.Log($"드래그 종료 : {endSlot.Index}번 슬롯");
+                onDragEnd?.Invoke(ItemData, endSlot.Index, true); // 끝난지점에 있는 슬롯의 인덱스와 정상적으로 끝났다고 알람 보내기
+            }
+            else
+            {
+                // 슬롯UI가 아니다.
+                Debug.Log($"슬롯이 아닙니다.");           // (드래그 실패했을 때는 원래 위치로 되돌리는 것이 정상)
+                onDragEnd?.Invoke(ItemData, Index, false);        // 원래 드래그가 시작한 인덱스와 비정상적으로 끝났다고 알람 보내기
+            }
+        }
+        else
+        {
+            // 마우스 위치에 아무런 오브젝트도 없다.
+            Debug.Log("아무런 오브젝트도 없습니다.");
+        }
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        onDragBegin?.Invoke(ItemData,Index);
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -15,7 +15,8 @@ public class ItemSpawner : TestBase
 
     public uint index = 0;
     public ItemCode itemCode;
-
+    public ItemSortBy sortBy;
+    public bool IsAccending;
     protected override void Awake()
     {
         base.Awake();
@@ -76,10 +77,7 @@ public class ItemSpawner : TestBase
  
     public void GetItem()
     {
-       // GameObject obj = Instantiate(prefabDict[ItemCode.Hammer]);
-
-        GameManager.SlotManager.AddItem(ItemCode.Hammer);
-
+        GameManager.SlotManager.AddItem(itemCode);
     }
     public void ClearInventory()
     {
@@ -107,6 +105,11 @@ public class ItemSpawner : TestBase
     public void GetItemMpPotion()
     {
         GameManager.SlotManager.AddItem(ItemCode.MpPotion);
+    }
+    public void SlotSorting()
+    {
+        ItemData data = GameManager.Itemdata[itemCode];
+        GameManager.SlotManager.SlotSorting(data, sortBy, IsAccending);
     }
     protected override void TestClick(InputAction.CallbackContext context)
     {
@@ -157,5 +160,9 @@ public class ItemSpawner : TestBase
     protected override void Test8(InputAction.CallbackContext context)
     {
         ClearInventory();
+    }
+    protected override void Test9(InputAction.CallbackContext context)
+    {
+        SlotSorting();
     }
 }

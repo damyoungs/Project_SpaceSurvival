@@ -3,29 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.U2D;
 using UnityEngine.UI;
 
 public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = Slot,     Inventory, InventoryUI = SlotManager
 {
     public GameObject slot;
-    Slot tempSlot;
-    public Slot TempSlot => tempSlot;
+    TempSlot tempSlot;
+    public TempSlot TempSlot => tempSlot;
     uint tempSlotIndex = 999999;
 
     public Transform equip_Below;
     public Transform consume_Below;
     public Transform etc_Below;
     public Transform craft_Below;
-
-    Slot selectedSlot;// 처음 클릭한 슬롯을 저장하기 위한 변수
-    Image firstClickImage; //첫번째 클릭한 슬롯 하위의 아이템 이미지
-
-    Sprite[] sprite; //아이템 이미지의 배열
-    RectTransform imageTransform; 
-
-    Vector2 firstSlotPosition;
-    Vector2 secondSlotPosition;
 
     public delegate void IsMovingChange();
     public IsMovingChange isMovingChange; // Slot의 isMoving 과 이 클래스의 IsSlotMoving을 바꾸는 함수 호출
@@ -37,7 +29,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     private Dictionary<Current_Inventory_State, int> slotCount; //슬롯 생성후 번호를 부여하기위한 Dic
     public void Initialize()//Inventory에서 호출
     {
-        tempSlot = FindObjectOfType<Slot>();
+        tempSlot = FindObjectOfType<TempSlot>();
         isMovingChange += () =>
         {
             IsSlotMoving = !IsSlotMoving;
@@ -94,16 +86,96 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
 
         
             slotComp.InitializeSlot(slotComp);
-            //slotComp.onDragBegin += OnItemMoveBegin;
-            //slotComp.onDragEnd += OnItemMoveEnd;
-            //slotComp.onClick += OnSlotClick;
-            //slotComp.onPointerEnter += OnItemDetailOn;
+            slotComp.onDragBegin += OnItemMoveBegin;
+            slotComp.onDragEnd += OnItemMoveEnd;
+            slotComp.onClick += OnSlotClick;
+           // slotComp.onPointerEnter += OnItemDetailOn;
             //slotComp.onPointerExit += OnItemDetailOff;
             //slotComp.onPointerMove += OnSlotPointerMove;
             slotComp.Index = (uint)slots[GameManager.Inventory.State].Count - 1;  
         }
     }
+    private void OnItemMoveBegin(ItemData data, uint index)
+    {
+        MoveItem(data ,index, tempSlot.Index);    // 시작 슬롯에서 임시 슬롯으로 아이템 옮기기
+        tempSlot.Open();                          // 임시 슬롯 열기
+    }
+    private void OnItemMoveEnd(ItemData data, uint index, bool isSuccess)
+    {
+        MoveItem(data, tempSlot.Index, index);    // 임시 슬롯에서 도착 슬롯으로 아이템 옮기기
+        if (tempSlot.IsEmpty)          // 비었다면(같은 종류의 아이템일 때 일부만 들어가는 경우가 있을 수 있으므로)
+        {
+            tempSlot.Close();                     // 임시 슬롯 닫기
+        }
 
+        //if (isSuccess)
+        //{
+        //    detail.Open(inven[index].ItemData);     // 드래그가 성공적으로 끝났으면 상세 정보창도 열기
+        //}
+    }
+    private void OnSlotClick(ItemData data, uint index)
+    {
+        if (tempSlot.IsEmpty)
+        {
+            //if (isShiftPress)
+            //{
+            //    OnSpliterOpen(index);   // 임시 슬롯에 아이템이 없는데 쉬프트가 눌러진체로 슬롯을 클릭했을 때 아이템 분리창을 열어라
+            //}
+            //else
+            //{
+            //    // 아이템 사용, 장비 등등
+            //}
+        }
+        else
+        {
+            // 임시 슬롯에 아이템이 있을 때 클릭이 되었으면
+            OnItemMoveEnd(data, index, true); // 클릭된 슬롯으로 아이템 이동
+        }
+    }
+    //private void OnItemDetailOn(uint index)
+    //{
+    //    detail.Open(slotsUI[index].InvenSlot.ItemData); // 상세정보창 열기
+    //}
+    //private void OnItemDetailOff(uint index)
+    //{
+    //    detail.Close(); // 상세정보창 닫기
+    //}
+    //private void OnSlotPointerMove(Vector2 screenPos)
+    //{
+    //    detail.MovePosition(screenPos);
+    //}
+    //private void OnDetailPause(bool isPause)
+    //{
+    //    detail.IsPause = isPause;
+    //}
+    //private void OnSpliterOpen(uint index)
+    //{
+
+    //    Slot target = slotsUI[index];
+    //    spliter.transform.position = target.transform.position + Vector3.up * 100;
+    //    spliter.Open(target.InvenSlot);
+    //    detail.IsPause = true;
+    //}
+
+    /// <summary>
+    /// 아이템 분리창에서 OK 버튼이 눌러졌을 때 실행될 함수
+    /// </summary>
+    /// <param name="index">아이템이 분리될 슬롯</param>
+    /// <param name="count">분리된 개수</param>
+    //private void OnSpliterOk(uint index, uint count)
+    //{
+    //    inven.SplitItem(index, count);
+    //    tempSlotUI.Open();
+    //}
+
+    /// <summary>
+    /// 쉬프트키가 눌려지거나 때졌을 때 실행될 함수
+    /// </summary>
+    /// <param name="context"></param>
+    //private void OnShiftPress(InputAction.CallbackContext context)
+    //{
+    //    isShiftPress = !context.canceled;   // 쉬프트키 상황 기록
+    //}
     private Transform GetParentTransform()
     {
         Transform parentTransform;
@@ -371,11 +443,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         return findSlot;
     }
 
-    /// <summary>
     /// 적절한 인덱스인지 확인하는 함수
-    /// </summary>
-    /// <param name="index">확인할 인덱스</param>
-    /// <returns>true면 적절한 인덱스, false면 없는 인덱스</returns>
     bool IsValidIndex(ItemData data ,uint index)
     {
         List<Slot> slots = GetItemTab(data);
@@ -385,99 +453,6 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         }
         return false;
     } 
-
-    //public void DropItem()
-    //{
-    //    //이미지 emptySlot으로 바꾸기
-    //    //slot.CurrentItem null;
-    //    //List에서 지우기
-    //    ItemData item = selectedSlot.ItemData;
-    //    List<Slot> slotList = GetItemTab(item);
-    //    UpdateSlot(item, slotList, false);
-    //    selectedSlot = null;
-    //}
-    //public void OnSlotClicked(Slot clickedSlot)//리턴타입을 slot으로?
-    //{
-    //    isMovingChange?.Invoke();
-    //    // 첫 클릭: 선택한 슬롯 저장
-    //    if (selectedSlot == null)
-    //    {
-    //        if (!clickedSlot.IsEmpty)
-    //        {
-    //            selectedSlot = clickedSlot;
-    //            firstClickImage = clickedSlot.transform.GetChild(0).GetComponent<Image>(); //이미지의 알파값을 바꾸기 위한 이미지 컴포넌트 알파값변경하는 함수를 따로빼서 옮기는게 좋을것 같다
-    //            firstClickImage.raycastTarget = false;
-    //            firstSlotPosition = clickedSlot.transform.position;
-    //            imageTransform = clickedSlot.transform.GetChild(0).GetComponent<RectTransform>();
-
-    //            ResetImageAlpha();
-    //            StartCoroutine(ImageMovingCoroutine());//알파값을 moving코루틴에서 바꾼다? 뭔가 이상하다
-    //        }
-    //    }
-    //    // 두 번째 클릭: 아이템 교환하고 선택한 슬롯 초기화
-    //    // 외부에서 클릭했을때(버릴때) 는 ItemSpawner 에서 함수를 실행시킨다.
-    //    else
-    //    {
-    //        secondSlotPosition = clickedSlot.transform.position;
-
-    //        ResetImageAlpha(); // 이동중인 첫번째 슬롯 알파값 원상복구
-    //        SwapItems(selectedSlot, clickedSlot);
-    //        selectedSlot = null;
-    //    }
-    //}
-    //private void UpdateSlot(ItemData item, List<Slot> slotList, bool getItem)
-    //{
-    //    if (item.maxStackCount > 1)//한 칸에 여러개 소지 가능한 아이템일 경우 
-    //    {
-    //        if (getItem)
-    //        {
-    //            foreach (GameObject slotObject in slotList) //리스트를 순회하면서 같은 아이템이 있으면 Count만 증가시키고 return;
-    //            {
-    //                //Slot slot = slotObject.GetComponent<Slot>();
-    //                //if (item.itemName == slot.CurrentItem)
-    //                //{
-    //                //    slot.ItemCount++;
-    //                //    return;
-    //                //}
-    //            }
-    //        }
-    //        else
-    //        {
-    //            CheckGetOrDrop(item, slotList, getItem);// 이부분에서 몇개를 버릴건지 팝업하고 굳이 CheckGetOrDrop을 호출할 필요없이 바로 ChangeSprite을 호출하면 되겠다.
-    //            return;
-    //        }
-    //    }
-    //    CheckGetOrDrop(item, slotList, getItem);
-    //}
-
-    private void CheckGetOrDrop(ItemData item, List<GameObject> slotList, bool getItem)
-    {
-        Slot slot;
-        if (getItem)//획득
-        {
-            foreach (GameObject slotObject in slotList)
-            {
-                slot = slotObject.GetComponent<Slot>();
-                if (slot.IsEmpty)
-                {
-                   // ChangeSprite(slot);
-                    break;
-                }         
-            }
-        }
-        else
-        {
-           // ChangeSprite(selectedSlot);         
-        }
-    }
-
-    //private void ChangeSprite(Slot slot)
-    //{
-    //    if (slot.IsEmpty)
-    //    {
-    //        slot.Item.itemIcon.
-    //    }
-    //}
 
     private List<Slot> GetItemTab(ItemData item)
     {
@@ -507,47 +482,5 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         ItemData item = slot.ItemData;
         List<Slot> slotList = GetItemTab(item);
         return slotList;
-    }
-
-    void ResetImageAlpha()// 이미지 알파값 초기화 
-    {
-        var color = firstClickImage.color;
-        color.a = IsSlotMoving? 0.5f : 1.0f;
-        firstClickImage.color = color;
-    }
-    //void SwapItems(Slot firstSlot, Slot secondSlot)
-    //{
-    //    // 두 슬롯이 속한 리스트 가져오기
-    //    List<GameObject> SlotList = GetItemTab(firstSlot);
-
-    //    // 각 슬롯의 인덱스를 찾기.
-    //    int firstSlotIndex = SlotList.IndexOf(firstSlot.gameObject);
-    //    int secondSlotIndex = SlotList.IndexOf(secondSlot.gameObject);
-
-    //    // 슬롯을 잠시 저장하고 리스트에서 삭제
-    //    GameObject tempFirstSlot = SlotList[firstSlotIndex];
-    //    GameObject tempSecondSlot = SlotList[secondSlotIndex];
-
-    //    firstSlot.gameObject.transform.position = secondSlotPosition;
-    //    secondSlot.transform.position = firstSlotPosition;
-
-
-    //    SlotList.RemoveAt(firstSlotIndex);
-    //    SlotList.Insert(firstSlotIndex, tempSecondSlot);
-    //    SlotList.RemoveAt(secondSlotIndex);
-    //    SlotList.Insert(secondSlotIndex, tempFirstSlot);
-    //    // 삭제한 위치에 다른 슬롯을 추가하여 위치를 바꿈
-    //}
-    IEnumerator ImageMovingCoroutine()
-    {
-        while (selectedSlot != null)
-        {
-            imageTransform.position = Input.mousePosition;
-            yield return null;
-        }
-        imageTransform.anchoredPosition = Vector2.zero;
-        IsSlotMoving = false;// 알파값 초기화 를위해 변경
-        ResetImageAlpha();
-        yield break;
     }
 }
