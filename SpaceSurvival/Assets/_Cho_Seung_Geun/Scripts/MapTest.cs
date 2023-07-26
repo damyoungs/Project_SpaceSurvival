@@ -150,7 +150,7 @@ public class MapTest : TestBase
             lights[3].transform.position = GetTile(sizeX - sizeX / 3 + 1, sizeY - sizeY / 3 + 1).transform.position + new Vector3(0.0f, 20.0f, 0.0f);
 
 
-            MiniMapInstantiate();       // 固聪甘 积己
+            //MiniMapInstantiate();       // 固聪甘 积己
 
             isExist = true;         // 吝汗 甘 积己 规瘤
         }
