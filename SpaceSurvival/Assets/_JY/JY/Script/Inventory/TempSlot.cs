@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class TempSlotUI : SlotUI_Base
+public class TempSlot : Slot
 {
     /// <summary>
     /// 이 인벤토리를 가진 플레이어(아이템 드랍 때문에 필요)
     /// </summary>
-   // Player owner;
+    //Player owner;
 
     /// <summary>
     /// 임시 슬롯이 열리고 닫힐 때 실행되는 함수
@@ -26,12 +26,10 @@ public class TempSlotUI : SlotUI_Base
     /// 임시 슬롯 초기화하는 함수
     /// </summary>
     /// <param name="slot">이 임시 슬롯과 연결된 인벤 슬롯</param>
-    public override void InitializeSlot(Slot slot)
+    private void Start()
     {
-        onTempSlotOpenClose = null;                 // 델리게이트 초기화
-        base.InitializeSlot(slot);
-      //  owner = GameManager.Inst.InvenUI.Owner;     // 오너 미리 가지고 있기
-        Close();                                    // 시작할 때 자동으로 닫히기
+        Close();
+        Refresh();
     }
 
     /// <summary>
@@ -43,11 +41,16 @@ public class TempSlotUI : SlotUI_Base
         onTempSlotOpenClose?.Invoke(true);                          // 열렸다고 신호 보내고
         gameObject.SetActive(true);                                 // 활성화 시키기(보이게 만들기)
     }
+
+    /// <summary>
+    /// 임시 슬롯을 닫는 함수
+    /// </summary>
     public void Close()
     {
         onTempSlotOpenClose?.Invoke(false);     // 닫혔다고 신호 보내고
         gameObject.SetActive(false);            // 비활성화 시키기(안보이게 만들기)
     }
+
     /// <summary>
     /// 바닥에 아이템을 드랍하는 함수
     /// </summary>

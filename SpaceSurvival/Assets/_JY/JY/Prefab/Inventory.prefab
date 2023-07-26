@@ -528,7 +528,7 @@ GameObject:
   - component: {fileID: 6098924357449724321}
   - component: {fileID: 6098924357449724316}
   - component: {fileID: 6098924357449724317}
-  - component: {fileID: 6708824926631860334}
+  - component: {fileID: 6098924357449724325}
   m_Layer: 5
   m_Name: TempSlot
   m_TagString: Untagged
@@ -581,7 +581,7 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 5, y: -5}
   m_UseGraphicAlpha: 1
---- !u!114 &6708824926631860334
+--- !u!114 &6098924357449724325
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -590,7 +590,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6098924357449724320}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45e1f154a7cc4574c9a236acab9842f4, type: 3}
+  m_Script: {fileID: 11500000, guid: 98f79a37fbbc0704d97d6a1b11e9d171, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7596035628093736797

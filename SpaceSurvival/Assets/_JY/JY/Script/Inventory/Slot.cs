@@ -15,7 +15,7 @@ public class Slot : SlotUI_Base, IPointerEnterHandler, IPointerExitHandler,IPoin
     Animator anim;
     int popUpHash = Animator.StringToHash("PopUp");
 
-    public bool IsEmpty => ItemData == null;//SlotManager에서  빈 슬롯인지 확인할때 쓰일 프로퍼티// 초기 
+    
     public bool IsMoving { get; set; } = false; //이동중 description 팝업을 방지하기 위한 변수 
     bool isEquipped = false;
     public bool IsEquipped
@@ -40,7 +40,7 @@ public class Slot : SlotUI_Base, IPointerEnterHandler, IPointerExitHandler,IPoin
         itemDescription_Text = GameManager.Inventory.transform.GetChild(9).GetComponentInChildren<TextMeshProUGUI>();
         itemDescriptionTransform = GameManager.Inventory.transform.GetChild(9).GetComponent<RectTransform>();
 
-        ItemData = null;
+
     }
     public void AssignSlotItem(ItemData data, uint count = 1)
     {
