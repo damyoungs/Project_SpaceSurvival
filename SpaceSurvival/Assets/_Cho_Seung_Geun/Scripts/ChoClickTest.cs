@@ -32,10 +32,16 @@ public class ChoClickTest : MonoBehaviour
     {
         inputClick.Mouse.Enable();
         inputClick.Mouse.MouseClick.performed += onClick;
+        inputClick.Player.Enable();
+        inputClick.Player.LeftRotate.performed += onLeftRotate;
+        inputClick.Player.RightRotate.performed += onRightRotate;
     }
 
     private void OnDisable()
     {
+        inputClick.Player.RightRotate.performed -= onRightRotate;
+        inputClick.Player.LeftRotate.performed -= onLeftRotate;
+        inputClick.Player.Disable();
         inputClick.Mouse.MouseClick.performed -= onClick;
         inputClick.Mouse.Disable();
     }
@@ -58,6 +64,21 @@ public class ChoClickTest : MonoBehaviour
                 Debug.Log($"타일 위치 : {tile.Width}, {tile.Length}");
             }
         }
+    }
+
+    private void onLeftRotate(InputAction.CallbackContext _)
+    {
+        Quaternion rotate = Quaternion.Slerp(transform.rotation, Quaternion.AngleAxis(-90.0f, Vector3.up), 1.0f);
+
+        transform.rotation *= rotate;
+        
+    }
+
+    private void onRightRotate(InputAction.CallbackContext _)
+    {
+        Quaternion rotate = Quaternion.Slerp(transform.rotation, Quaternion.AngleAxis(90.0f, Vector3.up), 1.0f);
+
+        transform.rotation *= rotate;
     }
 
     private void Start()
