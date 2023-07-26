@@ -4,37 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public enum PrefabName // 저장할 prefab variant
-{
-    None,
-    Cash,
-    HpPotion,
-    MpPotion,
-    SecretPotion,
-    Bat,
-    Bow,
-    Dagger,
-    Hammer,
-    Pistol,
-    Rifle,
-    Scythe,
-    Shield,
-    Shield_Extended,
-    ShotGun,
-    SpellBook,
-    SwordLaser,
-    SwordLaser_Advanced,
-    TwoHandAxe,
-    TwoHandSword,
-    Wand,
-}
 public class ItemSpawner : TestBase
 {
     int value;
     public GameObject[] prefabs;
   //  public float dropRate;
-    private Dictionary<PrefabName, GameObject> prefabDict = new Dictionary<PrefabName, GameObject>();
-    private Dictionary<Type, List<(PrefabName, float)>> enemyDropTable = new Dictionary<Type, List<(PrefabName, float)>>();//드랍테이블 생성
+    private Dictionary<ItemCode, GameObject> prefabDict = new Dictionary<ItemCode, GameObject>();
+    private Dictionary<Type, List<(ItemCode, float)>> enemyDropTable = new Dictionary<Type, List<(ItemCode, float)>>();//드랍테이블 생성
     // Enemy의 타입에 따라 PrefabName(아이템) 을 float 확률로 드롭해라. 그 PrefabName에  dictionary로 GameObject를 바인드해서 연결해준다.
 
     protected override void Awake()
@@ -49,13 +25,13 @@ public class ItemSpawner : TestBase
     }
     void SetDropTable()
     {
-        if (prefabs.Length != Enum.GetValues(typeof(PrefabName)).Length - 1)
+        if (prefabs.Length != Enum.GetValues(typeof(ItemCode)).Length - 1)
         {
             Debug.LogError("Enum 의 갯수와 프리팹배열의 갯수가 다릅니다.");
             return;
         }
         // Make sure the prefabs array and the PrefabName enum have the same length
-        if (prefabs.Length != Enum.GetValues(typeof(PrefabName)).Length - 1)
+        if (prefabs.Length != Enum.GetValues(typeof(ItemCode)).Length - 1)
         {
             Debug.LogError("The prefabs array and the PrefabName enum do not match!");
             return;
@@ -64,28 +40,27 @@ public class ItemSpawner : TestBase
         // Initialize the prefab dictionary
         for (int i = 0; i < prefabs.Length; i++)
         {
-            prefabDict.Add((PrefabName)i + 1, prefabs[i]);
+            prefabDict.Add((ItemCode)i + 1, prefabs[i]);
         }
 
         // Initialize the enemy drop table
-        enemyDropTable.Add(typeof(Enemy1), new List<(PrefabName, float)>
+        enemyDropTable.Add(typeof(Enemy1), new List<(ItemCode, float)>
             {
-                (PrefabName.ShotGun, 0.9f),
-                (PrefabName.Rifle, 0.99f),
-                (PrefabName.Cash,0.9f)
+                (ItemCode.ShotGun, 0.9f),
+                (ItemCode.Rifle, 0.99f),
+          
             });
 
-        enemyDropTable.Add(typeof(Enemy2), new List<(PrefabName, float)>
+        enemyDropTable.Add(typeof(Enemy2), new List<(ItemCode, float)>
             {
-                (PrefabName.Bow, 0.9f),
-                (PrefabName.TwoHandAxe, 0.9f),
-                (PrefabName.Cash,0.9f),
-                (PrefabName.TwoHandSword,0.9f)
+                (ItemCode.Bow, 0.9f),
+                (ItemCode.TwoHandAxe, 0.9f),
+                (ItemCode.TwoHandSword,0.9f)
             });
     }
     public void SpawnItem(EnemyBase enemy)//큰 범위에서 분류가 아니라 정확히 어떤 적인지 알아야한다
     {
-        List<(PrefabName, float)> dropTable = enemyDropTable[enemy.GetType()];
+        List<(ItemCode, float)> dropTable = enemyDropTable[enemy.GetType()];
 
         foreach (var (itemtype, droprate)in dropTable)
         {
@@ -98,30 +73,30 @@ public class ItemSpawner : TestBase
  
     public void GetItem()
     {
-        GameObject obj = Instantiate(prefabDict[PrefabName.Hammer]);
-        ItemData item = obj.GetComponent<ItemData>();
-        GameManager.SlotManager.GetItem(item);
-        Destroy(obj);
+       // GameObject obj = Instantiate(prefabDict[ItemCode.Hammer]);
+
+        GameManager.SlotManager.AddItem(ItemCode.Hammer);
+
     }
     public void GetItemBow()
     {
-        GameObject obj = Instantiate(prefabDict[PrefabName.Bow]);
+        GameObject obj = Instantiate(prefabDict[ItemCode.Bow]);
         ItemData item = obj.GetComponent<ItemData>();
-        GameManager.SlotManager.GetItem(item);
+      //  GameManager.SlotManager.GetItem(item);
         Destroy(obj);
     }
     public void GetItemHpPotion()
     {
-        GameObject obj = Instantiate(prefabDict[PrefabName.HpPotion]);
+        GameObject obj = Instantiate(prefabDict[ItemCode.HpPotion]);
         ItemData item = obj.GetComponent<ItemData>();
-        GameManager.SlotManager.GetItem(item);
+    //    GameManager.SlotManager.GetItem(item);
         Destroy(obj);
     }
     public void GetItemMpPotion()
     {
-        GameObject obj = Instantiate(prefabDict[PrefabName.MpPotion]);
+        GameObject obj = Instantiate(prefabDict[ItemCode.MpPotion]);
         ItemData item = obj.GetComponent<ItemData>();
-        GameManager.SlotManager.GetItem(item);
+     //   GameManager.SlotManager.GetItem(item);
         Destroy(obj);
     }
     protected override void TestClick(InputAction.CallbackContext context)

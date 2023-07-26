@@ -4,6 +4,8 @@ using UnityEngine;
 
 public enum ItemCode
 {
+    None,
+    Cash,
     HpPotion,
     MpPotion,
     SecretPotion,

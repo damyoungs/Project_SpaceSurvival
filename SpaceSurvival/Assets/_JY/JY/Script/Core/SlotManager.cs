@@ -131,12 +131,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         return parentTransform;
     }
 
-    public void GetItem(ItemData item)
-    {
-        // itemType에 따른 리스트를 가져오기
-        List<Slot> slotList = GetItemTab(item);//item.itemtype에 따른 리스트(장비, 소비, 기타 중 어느곳에 연결된 리스트인지) 연결하기
-      //  UpdateSlot(item, slotList, true);
-    }
+
     public bool AddItem(ItemCode code)
     {
         bool result = false;
@@ -369,7 +364,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         List<Slot> slots = GetItemTab(data);
         foreach (var slot in slots)     // 모든 슬롯을 다 돌면서
         {
-            if (slot.IsEmpty)            // 비어있는 슬롯이 있으면 찾았다.
+            if (slot.IsEmpty)            // 비어있는 슬롯이 있으면 찾았다.// Slot의 IsEmpty가 초기 false인 문제  ItemData가 null 인데 왜 false인지 잘 모르겠다.
             {
                 findSlot = slot;
                 break;
