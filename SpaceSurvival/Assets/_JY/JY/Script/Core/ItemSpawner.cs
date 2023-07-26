@@ -117,9 +117,7 @@ public class ItemSpawner : TestBase
     }
     protected override void Test2(InputAction.CallbackContext context)
     {
-
-      //리무브아이템 테스트 필요
-
+        RemoveItem();
     }
     protected override void Test3(InputAction.CallbackContext context)
     {

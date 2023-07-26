@@ -18,8 +18,6 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     public Transform etc_Below;
     public Transform craft_Below;
 
-    ItemDataManager itemDataManager;
-
     Slot selectedSlot;// 처음 클릭한 슬롯을 저장하기 위한 변수
     Image firstClickImage; //첫번째 클릭한 슬롯 하위의 아이템 이미지
 
@@ -39,7 +37,6 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     private Dictionary<Current_Inventory_State, int> slotCount; //슬롯 생성후 번호를 부여하기위한 Dic
     public void Initialize()//Inventory에서 호출
     {
-        itemDataManager = FindObjectOfType<ItemDataManager>();
         tempSlot = FindObjectOfType<Slot>();
         isMovingChange += () =>
         {
@@ -103,7 +100,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             //slotComp.onPointerEnter += OnItemDetailOn;
             //slotComp.onPointerExit += OnItemDetailOff;
             //slotComp.onPointerMove += OnSlotPointerMove;
-            slotComp.Index = (uint)slots[GameManager.Inventory.State].Count - 1;
+            slotComp.Index = (uint)slots[GameManager.Inventory.State].Count - 1;  
         }
     }
 
@@ -135,7 +132,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     public bool AddItem(ItemCode code)
     {
         bool result = false;
-        ItemData data = itemDataManager[code];
+        ItemData data = GameManager.Itemdata[code];
 
         Slot sameDataSlot = FindSameItem(data);
         if (sameDataSlot != null)
