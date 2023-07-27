@@ -100,7 +100,7 @@ public class MapTest : TestBase
                     //    mapTiles[i].transform.Rotate(new Vector3(0, 360.0f, 0));
                     //}
                 }
-                else if (width == 0 || width == sizeX - 1 || length == 0 || length == sizeY - 1)              
+                else if (width == 0 || width == sizeX - 1 || length == 0 || length == sizeY - 1)
                 {
                     // 가장자리일 경우
                     TileInstantiate(i, sideTile, MapTileType.sideTile, width, length);              // 사이드 타일 생성
@@ -139,15 +139,8 @@ public class MapTest : TestBase
             //player.transform.position = GetTile(sizeX / 2, sizeY).transform.position;       // 플레이어 위치 이동
             player.transform.position = GetTile(sizeX / 2, sizeY - (sizeY / 3)).transform.position;       // 플레이어 위치 이동(임시)
 
-            // 라이트 생성 및 이동
-            for (int i = 0; i < 4; i++)
-            {
-                lights[i] = Instantiate(pointLight);
-            }
-            lights[0].transform.position = GetTile(sizeX / 3, sizeY / 3).transform.position + new Vector3(0.0f, 20.0f, 0.0f);
-            lights[1].transform.position = GetTile(sizeX - sizeX / 3 + 1, sizeY / 3).transform.position + new Vector3(0.0f, 20.0f, 0.0f);
-            lights[2].transform.position = GetTile(sizeX / 3, sizeY - sizeY / 3 + 1).transform.position + new Vector3(0.0f, 20.0f, 0.0f);
-            lights[3].transform.position = GetTile(sizeX - sizeX / 3 + 1, sizeY - sizeY / 3 + 1).transform.position + new Vector3(0.0f, 20.0f, 0.0f);
+            // 라이트 생성
+            LightInstantiate();
 
 
             //MiniMapInstantiate();       // 미니맵 생성
@@ -157,10 +150,14 @@ public class MapTest : TestBase
 
     }
 
-    
+
+
     protected override void Test2(InputAction.CallbackContext context)
     {
-        MapDestroy();
+        if (isExist)
+        {
+            MapDestroy();
+        }
     }
 
     /// <summary>
@@ -181,7 +178,6 @@ public class MapTest : TestBase
         isExist = false;
     }
 
-
     /// <summary>
     /// 이차원 좌표를 타일로 반환하는 함수
     /// </summary>
@@ -193,7 +189,38 @@ public class MapTest : TestBase
         int index = sizeX * length + width;
         return mapTiles[index];
     }
-    
+
+    /// <summary>
+    /// 타입에 따른 타일 생성
+    /// </summary>
+    /// <param name="i">맵타일 인덱스</param>
+    /// <param name="type">생성할 타일의 타입</param>
+    /// <param name="tileType">타일 스크립트에 저장할 타입</param>
+    /// <param name="width">타일의 가로 인덱스</param>
+    /// <param name="length">타일의 세로 인덱스</param>
+    void TileInstantiate(int i, GameObject type, MapTileType tileType, int width, int length)
+    {
+        mapTiles[i] = Instantiate(type, gameObject.transform);                  // type에 따른 타일 생성
+        mapTiles[i].GetComponent<Tile>().TileType = (int)tileType;              // 타일 스크립트에 타입 저장
+        mapTiles[i].GetComponent<Tile>().Width = width;                         // 타일 가로 인덱스 저정
+        mapTiles[i].GetComponent<Tile>().Length = length;                       // 타일 세로 인덱스 저정
+    }
+
+    /// <summary>
+    /// 라이트 생성 및 이동
+    /// </summary>
+    private void LightInstantiate()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            lights[i] = Instantiate(pointLight);
+        }
+        lights[0].transform.position = GetTile(sizeX / 3, sizeY / 3).transform.position + new Vector3(0.0f, 20.0f, 0.0f);
+        lights[1].transform.position = GetTile(sizeX - sizeX / 3 + 1, sizeY / 3).transform.position + new Vector3(0.0f, 20.0f, 0.0f);
+        lights[2].transform.position = GetTile(sizeX / 3, sizeY - sizeY / 3 + 1).transform.position + new Vector3(0.0f, 20.0f, 0.0f);
+        lights[3].transform.position = GetTile(sizeX - sizeX / 3 + 1, sizeY - sizeY / 3 + 1).transform.position + new Vector3(0.0f, 20.0f, 0.0f);
+    }
+
     /// <summary>
     /// 미니맵 생성
     /// </summary>
@@ -228,20 +255,5 @@ public class MapTest : TestBase
         cube.GetComponent<MeshRenderer>().material = material;
     }
 
-    /// <summary>
-    /// 타입에 따른 타일 생성
-    /// </summary>
-    /// <param name="i">맵타일 인덱스</param>
-    /// <param name="type">생성할 타일의 타입</param>
-    /// <param name="tileType">타일 스크립트에 저장할 타입</param>
-    /// <param name="width">타일의 가로 인덱스</param>
-    /// <param name="length">타일의 세로 인덱스</param>
-    void TileInstantiate(int i, GameObject type, MapTileType tileType, int width, int length)
-    {
-        mapTiles[i] = Instantiate(type, gameObject.transform);                  // type에 따른 타일 생성
-        mapTiles[i].GetComponent<Tile>().TileType = (int)tileType;              // 타일 스크립트에 타입 저장
-        mapTiles[i].GetComponent<Tile>().Width = width;                         // 타일 가로 인덱스 저정
-        mapTiles[i].GetComponent<Tile>().Length = length;                       // 타일 세로 인덱스 저정
-    }
 
 }
