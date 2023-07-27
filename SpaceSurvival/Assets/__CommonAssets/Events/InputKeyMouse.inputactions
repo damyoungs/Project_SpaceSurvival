@@ -22,6 +22,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "LeftRotate",
+                    "type": "Button",
+                    "id": "2b702604-5cb8-40f3-9dd1-0e909eed1cb4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RightRotate",
+                    "type": "Button",
+                    "id": "ee67fc0c-d326-44ae-b7e8-7f793d49b5e2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -112,6 +130,28 @@
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7a6083ef-02ec-46bb-bfb0-be940fdec55e",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyMouse",
+                    "action": "LeftRotate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "74497746-bd9a-4324-a4c0-d8b076d6fa0c",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyMouse",
+                    "action": "RightRotate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -164,7 +204,7 @@
             ]
         },
         {
-            "name": "KeyBorad",
+            "name": "KeyBoard",
             "id": "2fe57fd0-94ec-48be-a1c3-751133faf037",
             "actions": [
                 {

@@ -44,6 +44,24 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""LeftRotate"",
+                    ""type"": ""Button"",
+                    ""id"": ""2b702604-5cb8-40f3-9dd1-0e909eed1cb4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RightRotate"",
+                    ""type"": ""Button"",
+                    ""id"": ""ee67fc0c-d326-44ae-b7e8-7f793d49b5e2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -134,6 +152,28 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7a6083ef-02ec-46bb-bfb0-be940fdec55e"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyMouse"",
+                    ""action"": ""LeftRotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""74497746-bd9a-4324-a4c0-d8b076d6fa0c"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyMouse"",
+                    ""action"": ""RightRotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -186,7 +226,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""KeyBorad"",
+            ""name"": ""KeyBoard"",
             ""id"": ""2fe57fd0-94ec-48be-a1c3-751133faf037"",
             ""actions"": [
                 {
@@ -505,16 +545,18 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_LeftRotate = m_Player.FindAction("LeftRotate", throwIfNotFound: true);
+        m_Player_RightRotate = m_Player.FindAction("RightRotate", throwIfNotFound: true);
         // Mouse
         m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
         m_Mouse_MouseClick = m_Mouse.FindAction("MouseClick", throwIfNotFound: true);
         m_Mouse_TestClick = m_Mouse.FindAction("TestClick", throwIfNotFound: true);
-        // KeyBorad
-        m_KeyBorad = asset.FindActionMap("KeyBorad", throwIfNotFound: true);
-        m_KeyBorad_InvenKey = m_KeyBorad.FindAction("InvenKey", throwIfNotFound: true);
-        m_KeyBorad_OptionKey = m_KeyBorad.FindAction("OptionKey", throwIfNotFound: true);
-        m_KeyBorad_StateKey = m_KeyBorad.FindAction("StateKey", throwIfNotFound: true);
-        m_KeyBorad_System = m_KeyBorad.FindAction("System", throwIfNotFound: true);
+        // KeyBoard
+        m_KeyBoard = asset.FindActionMap("KeyBoard", throwIfNotFound: true);
+        m_KeyBoard_InvenKey = m_KeyBoard.FindAction("InvenKey", throwIfNotFound: true);
+        m_KeyBoard_OptionKey = m_KeyBoard.FindAction("OptionKey", throwIfNotFound: true);
+        m_KeyBoard_StateKey = m_KeyBoard.FindAction("StateKey", throwIfNotFound: true);
+        m_KeyBoard_System = m_KeyBoard.FindAction("System", throwIfNotFound: true);
         // Test
         m_Test = asset.FindActionMap("Test", throwIfNotFound: true);
         m_Test_Test1 = m_Test.FindAction("Test1", throwIfNotFound: true);
@@ -590,12 +632,16 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_LeftRotate;
+    private readonly InputAction m_Player_RightRotate;
     public struct PlayerActions
     {
         private @InputKeyMouse m_Wrapper;
         public PlayerActions(@InputKeyMouse wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        public InputAction @LeftRotate => m_Wrapper.m_Player_LeftRotate;
+        public InputAction @RightRotate => m_Wrapper.m_Player_RightRotate;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -611,6 +657,12 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @LeftRotate.started += instance.OnLeftRotate;
+            @LeftRotate.performed += instance.OnLeftRotate;
+            @LeftRotate.canceled += instance.OnLeftRotate;
+            @RightRotate.started += instance.OnRightRotate;
+            @RightRotate.performed += instance.OnRightRotate;
+            @RightRotate.canceled += instance.OnRightRotate;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -621,6 +673,12 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @LeftRotate.started -= instance.OnLeftRotate;
+            @LeftRotate.performed -= instance.OnLeftRotate;
+            @LeftRotate.canceled -= instance.OnLeftRotate;
+            @RightRotate.started -= instance.OnRightRotate;
+            @RightRotate.performed -= instance.OnRightRotate;
+            @RightRotate.canceled -= instance.OnRightRotate;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -693,30 +751,30 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     }
     public MouseActions @Mouse => new MouseActions(this);
 
-    // KeyBorad
-    private readonly InputActionMap m_KeyBorad;
-    private List<IKeyBoradActions> m_KeyBoradActionsCallbackInterfaces = new List<IKeyBoradActions>();
-    private readonly InputAction m_KeyBorad_InvenKey;
-    private readonly InputAction m_KeyBorad_OptionKey;
-    private readonly InputAction m_KeyBorad_StateKey;
-    private readonly InputAction m_KeyBorad_System;
-    public struct KeyBoradActions
+    // KeyBoard
+    private readonly InputActionMap m_KeyBoard;
+    private List<IKeyBoardActions> m_KeyBoardActionsCallbackInterfaces = new List<IKeyBoardActions>();
+    private readonly InputAction m_KeyBoard_InvenKey;
+    private readonly InputAction m_KeyBoard_OptionKey;
+    private readonly InputAction m_KeyBoard_StateKey;
+    private readonly InputAction m_KeyBoard_System;
+    public struct KeyBoardActions
     {
         private @InputKeyMouse m_Wrapper;
-        public KeyBoradActions(@InputKeyMouse wrapper) { m_Wrapper = wrapper; }
-        public InputAction @InvenKey => m_Wrapper.m_KeyBorad_InvenKey;
-        public InputAction @OptionKey => m_Wrapper.m_KeyBorad_OptionKey;
-        public InputAction @StateKey => m_Wrapper.m_KeyBorad_StateKey;
-        public InputAction @System => m_Wrapper.m_KeyBorad_System;
-        public InputActionMap Get() { return m_Wrapper.m_KeyBorad; }
+        public KeyBoardActions(@InputKeyMouse wrapper) { m_Wrapper = wrapper; }
+        public InputAction @InvenKey => m_Wrapper.m_KeyBoard_InvenKey;
+        public InputAction @OptionKey => m_Wrapper.m_KeyBoard_OptionKey;
+        public InputAction @StateKey => m_Wrapper.m_KeyBoard_StateKey;
+        public InputAction @System => m_Wrapper.m_KeyBoard_System;
+        public InputActionMap Get() { return m_Wrapper.m_KeyBoard; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(KeyBoradActions set) { return set.Get(); }
-        public void AddCallbacks(IKeyBoradActions instance)
+        public static implicit operator InputActionMap(KeyBoardActions set) { return set.Get(); }
+        public void AddCallbacks(IKeyBoardActions instance)
         {
-            if (instance == null || m_Wrapper.m_KeyBoradActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_KeyBoradActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_KeyBoardActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_KeyBoardActionsCallbackInterfaces.Add(instance);
             @InvenKey.started += instance.OnInvenKey;
             @InvenKey.performed += instance.OnInvenKey;
             @InvenKey.canceled += instance.OnInvenKey;
@@ -731,7 +789,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @System.canceled += instance.OnSystem;
         }
 
-        private void UnregisterCallbacks(IKeyBoradActions instance)
+        private void UnregisterCallbacks(IKeyBoardActions instance)
         {
             @InvenKey.started -= instance.OnInvenKey;
             @InvenKey.performed -= instance.OnInvenKey;
@@ -747,21 +805,21 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @System.canceled -= instance.OnSystem;
         }
 
-        public void RemoveCallbacks(IKeyBoradActions instance)
+        public void RemoveCallbacks(IKeyBoardActions instance)
         {
-            if (m_Wrapper.m_KeyBoradActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_KeyBoardActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IKeyBoradActions instance)
+        public void SetCallbacks(IKeyBoardActions instance)
         {
-            foreach (var item in m_Wrapper.m_KeyBoradActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_KeyBoardActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_KeyBoradActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_KeyBoardActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public KeyBoradActions @KeyBorad => new KeyBoradActions(this);
+    public KeyBoardActions @KeyBoard => new KeyBoardActions(this);
 
     // Test
     private readonly InputActionMap m_Test;
@@ -893,13 +951,15 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnLeftRotate(InputAction.CallbackContext context);
+        void OnRightRotate(InputAction.CallbackContext context);
     }
     public interface IMouseActions
     {
         void OnMouseClick(InputAction.CallbackContext context);
         void OnTestClick(InputAction.CallbackContext context);
     }
-    public interface IKeyBoradActions
+    public interface IKeyBoardActions
     {
         void OnInvenKey(InputAction.CallbackContext context);
         void OnOptionKey(InputAction.CallbackContext context);
