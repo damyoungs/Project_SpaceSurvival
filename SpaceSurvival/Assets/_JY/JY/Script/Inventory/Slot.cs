@@ -18,7 +18,7 @@ public class Slot : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandle
     public Action<ItemData, uint> onDragBegin;
     public Action<ItemData, uint, bool> onDragEnd;
     public Action<ItemData, uint> onClick;
-    public Action<uint> onPointerEnter;
+    public Action<ItemData, uint> onPointerEnter;
     public Action<uint> onPointerExit;
     public Action<Vector2> onPointerMove;
     public bool IsMoving { get; set; } = false; //이동중 description 팝업을 방지하기 위한 변수 
@@ -122,7 +122,7 @@ public class Slot : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandle
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        onPointerEnter?.Invoke(Index);
+        onPointerEnter?.Invoke(ItemData, Index);
     }
     public void OnPointerClick(PointerEventData eventData)// itemdata가 null 이 되는 문제
     {

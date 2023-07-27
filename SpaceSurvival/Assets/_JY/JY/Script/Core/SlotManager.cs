@@ -11,6 +11,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
 {
     public GameObject slot;
     public TempSlot tempSlot;
+    public ItemDescription itemDescription;
     public TempSlot TempSlot => tempSlot;
 
     public Transform equip_Below;
@@ -18,16 +19,18 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     public Transform etc_Below;
     public Transform craft_Below;
 
+
     public delegate void IsMovingChange();
     public IsMovingChange isMovingChange; // Slot의 isMoving 과 이 클래스의 IsSlotMoving을 바꾸는 함수 호출
-
 
     public bool IsSlotMoving { get; set; } = false; // 외부에서 클릭했을 때 이 조건이 true이면 아이템을 버리는 로직 실행
 
     public Dictionary<Current_Inventory_State, List<Slot>> slots;
     private Dictionary<Current_Inventory_State, int> slotCount; //슬롯 생성후 번호를 부여하기위한 Dic
+
     public void Initialize()//Inventory에서 호출
     {
+        itemDescription.Close();
         TempSlot.InitializeSlot(TempSlot);
         isMovingChange += () =>
         {
@@ -88,8 +91,8 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             slotComp.onDragBegin += OnItemMoveBegin;
             slotComp.onDragEnd += OnItemMoveEnd;
             slotComp.onClick += OnSlotClick;
-           // slotComp.onPointerEnter += OnItemDetailOn;
-            //slotComp.onPointerExit += OnItemDetailOff;
+            slotComp.onPointerEnter += OnItemDetailOn;
+            slotComp.onPointerExit += OnItemDetailOff;
            // slotComp.onPointerMove += OnSlotPointerMove;
             slotComp.Index = (uint)slots[GameManager.Inventory.State].Count - 1;  
         }
@@ -131,14 +134,16 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             OnItemMoveEnd(data, index, true); // 클릭된 슬롯으로 아이템 이동
         }
     }
-    //private void OnItemDetailOn(uint index)
-    //{
-    //    detail.Open(slotsUI[index].InvenSlot.ItemData); // 상세정보창 열기
-    //}
-    //private void OnItemDetailOff(uint index)
-    //{
-    //    detail.Close(); // 상세정보창 닫기
-    //}
+    private void OnItemDetailOn( ItemData data, uint index)
+    {
+        List<Slot> slots = GetItemTab(data); //빈슬롯 위에 Pointer Enter시 data가 null 이되서 리스트를 가져올때 터짐
+
+        itemDescription.Open(slots[(int)index].ItemData); // 상세정보창 열기
+    }
+    private void OnItemDetailOff(uint index)
+    {
+        itemDescription.Close(); // 상세정보창 닫기
+    }
     //private void OnSlotPointerMove(Vector2 screenPos)
     //{
     //    detail.MovePosition(screenPos);
@@ -459,6 +464,8 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
 
     private List<Slot> GetItemTab(ItemData item)
     {
+        //item이 null일때 처리 필요
+
         List<Slot> slotList;
         switch (item.ItemType)
         {
