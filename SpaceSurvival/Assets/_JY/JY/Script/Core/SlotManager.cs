@@ -266,6 +266,10 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     }
     public void MoveItem(ItemData data, uint from, uint to)
     {
+        if (data == null)
+        {
+            data = TempSlot.ItemData;
+        }
         List<Slot> slots = GetItemTab(data);
         // from지점과 to지점이 다르고 from과 to가 모두 valid해야 한다.
         if ((from != to) && IsValidIndex(data, from) && IsValidIndex(data, to))
