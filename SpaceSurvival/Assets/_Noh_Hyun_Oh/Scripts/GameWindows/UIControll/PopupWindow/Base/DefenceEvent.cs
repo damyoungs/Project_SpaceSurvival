@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// Å¬¸¯ÀÌº¥Æ®¸¦ ¸·±âÀ§ÇØ ÀüÃ¼È­¸éÀ¸·Î µ¤¾î¹ö¸®°í ´ÜÃàÅ° ÀÌº¥Æ®¸¦ ²ô°í escÀÌº¥Æ®¸¸ Ãß°¡ÇÑ´Ù.
+/// Å¬ï¿½ï¿½ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼È­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å° ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ escï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 /// </summary>
 public class DefenceEvent: MonoBehaviour
 {
@@ -15,31 +15,31 @@ public class DefenceEvent: MonoBehaviour
 
     private void Awake()
     {
-        inputSystem = new InputKeyMouse();//escÀÌº¥Æ® Ãß°¡ÇÒ ÄÁÆ®·Ñ·¯
+        inputSystem = new InputKeyMouse();//escï¿½Ìºï¿½Æ® ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½Ñ·ï¿½
         int index = transform.parent.childCount - 1;
-        targetWindow = transform.parent.GetChild(index).GetChild(5).GetComponent<SaveLoadPopupButton>();// esc´­·¶À»¶§ Ã³¸®ÇÒ Á¾·á process ½ÇÇàÅ¬·¡½º 
+        targetWindow = transform.parent.GetChild(index).GetChild(5).GetComponent<SaveLoadPopupButton>();// escï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ process ï¿½ï¿½ï¿½ï¿½Å¬ï¿½ï¿½ï¿½ï¿½ 
     }
     private void OnEnable()
     {
-        WindowList.Instance.InputKeyEvent.Disable();// ´ÜÃàÅ° ºñÈ°¼ºÈ­
+        WindowList.Instance.InputKeyEvent.Disable();// ï¿½ï¿½ï¿½ï¿½Å° ï¿½ï¿½È°ï¿½ï¿½È­
         inputSystem.Enable();
-        inputSystem.KeyBorad.System.performed += Close;
+        inputSystem.KeyBoard.System.performed += Close;
     }
 
 
     private void OnDisable()
     {
 
-        inputSystem.KeyBorad.System.performed -= Close;
+        inputSystem.KeyBoard.System.performed -= Close;
         inputSystem.Disable();
 
-        WindowList.Instance.InputKeyEvent.Enable(); //´ÜÃàÅ° È°¼ºÈ­
+        WindowList.Instance.InputKeyEvent.Enable(); //ï¿½ï¿½ï¿½ï¿½Å° È°ï¿½ï¿½È­
     }
     /// <summary>
-    /// esc ´­·¶À»¶§ ÆË¾÷Ã¢´Ý±â·ÎÁ÷½ÇÇà
+    /// esc ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¾ï¿½Ã¢ï¿½Ý±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     private void Close(InputAction.CallbackContext context)
     {
-        targetWindow.CancelButton();//´Ý±âÃ¢´©¸£´Â°Í°ú °°´Ù 
+        targetWindow.CancelButton();//ï¿½Ý±ï¿½Ã¢ï¿½ï¿½ï¿½ï¿½ï¿½Â°Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ 
     }
 }
