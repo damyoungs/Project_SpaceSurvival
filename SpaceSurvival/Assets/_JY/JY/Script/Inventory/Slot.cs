@@ -108,9 +108,7 @@ public class Slot : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandle
     public void EquipItem(GameObject target)
     {
     }
-    private void IsMovingChange() { IsMoving = !IsMoving; }
     
-
     public void OnPointerEnter(PointerEventData eventData)
     {
         onPointerEnter?.Invoke(ItemData, Index);

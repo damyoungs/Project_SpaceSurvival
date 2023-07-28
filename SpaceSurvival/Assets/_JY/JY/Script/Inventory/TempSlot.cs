@@ -56,7 +56,7 @@ public class TempSlot : Slot
     /// 바닥에 아이템을 드랍하는 함수
     /// </summary>
     /// <param name="screenPos">마우스 커서의 스크린 좌표</param>
-    public void OnDrop(Vector2 screenPos)
+    public void OnDrop(Vector2 screenPos) //구현 필요 itemFactory, Player의 dropArea필요
     {
     }
 }
