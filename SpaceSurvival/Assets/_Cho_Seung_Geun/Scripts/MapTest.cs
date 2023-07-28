@@ -142,7 +142,6 @@ public class MapTest : TestBase
             // 라이트 생성
             LightInstantiate();
 
-
             //MiniMapInstantiate();       // 미니맵 생성
 
             isExist = true;         // 중복 맵 생성 방지
@@ -215,9 +214,9 @@ public class MapTest : TestBase
         {
             lights[i] = Instantiate(pointLight);
         }
-        lights[0].transform.position = GetTile(sizeX / 3, sizeY / 3).transform.position + new Vector3(0.0f, 20.0f, 0.0f);
-        lights[1].transform.position = GetTile(sizeX - sizeX / 3 + 1, sizeY / 3).transform.position + new Vector3(0.0f, 20.0f, 0.0f);
-        lights[2].transform.position = GetTile(sizeX / 3, sizeY - sizeY / 3 + 1).transform.position + new Vector3(0.0f, 20.0f, 0.0f);
+        lights[0].transform.position = GetTile(sizeX / 3 - 1, sizeY / 3 - 1).transform.position + new Vector3(0.0f, 20.0f, 0.0f);
+        lights[1].transform.position = GetTile(sizeX - sizeX / 3 + 1, sizeY / 3 - 1).transform.position + new Vector3(0.0f, 20.0f, 0.0f);
+        lights[2].transform.position = GetTile(sizeX / 3 - 1, sizeY - sizeY / 3 + 1).transform.position + new Vector3(0.0f, 20.0f, 0.0f);
         lights[3].transform.position = GetTile(sizeX - sizeX / 3 + 1, sizeY - sizeY / 3 + 1).transform.position + new Vector3(0.0f, 20.0f, 0.0f);
     }
 
