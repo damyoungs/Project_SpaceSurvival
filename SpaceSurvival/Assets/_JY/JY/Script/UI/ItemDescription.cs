@@ -16,7 +16,7 @@ public class ItemDescription : MonoBehaviour
     bool isPause = false;
 
     public float alphaChangeSpeed = 10.0f;
-    public bool isPaused
+    public bool IsPause
     {
         get => isPause;
         set
@@ -54,10 +54,6 @@ public class ItemDescription : MonoBehaviour
     {
         StopAllCoroutines();
         StartCoroutine(FadeOut());
-    }
-    public void Pause()
-    {
- 
     }
     public void MovePosition(Vector2 screenPos)
     {

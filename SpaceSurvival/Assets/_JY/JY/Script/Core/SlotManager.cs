@@ -32,6 +32,8 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     {
         itemDescription.Close();
         TempSlot.InitializeSlot(TempSlot);
+        TempSlot.onTempSlotOpenClose += OnDetailPause; // TempSlot이 Open할때 true로 호출하고 Close할때 false로 호출
+
         isMovingChange += () =>
         {
             IsSlotMoving = !IsSlotMoving;
@@ -149,10 +151,10 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     {
         itemDescription.MovePosition(screenPos);
     }
-    //private void OnDetailPause(bool isPause)
-    //{
-    //    detail.IsPause = isPause;
-    //}
+    private void OnDetailPause(bool isPause)
+    {
+        itemDescription.IsPause = isPause;
+    }
     //private void OnSpliterOpen(uint index)
     //{
 
