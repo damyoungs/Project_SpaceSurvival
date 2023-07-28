@@ -61,7 +61,16 @@ public class ItemDescription : MonoBehaviour
     }
     public void MovePosition(Vector2 screenPos)
     {
-        transform.position = screenPos;
+        if (canvasGroup.alpha > 0.0f)
+        {
+            RectTransform rectTransform = (RectTransform)transform;
+            int overX = (int)(rectTransform.sizeDelta.x + screenPos.x) - Screen.width;
+            overX = Mathf.Max(0, overX);
+            screenPos.x -= overX;
+
+            transform.position = screenPos;
+        }
+        
     }
     IEnumerator FadeIn()
     {

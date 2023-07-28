@@ -93,7 +93,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             slotComp.onClick += OnSlotClick;
             slotComp.onPointerEnter += OnItemDetailOn;
             slotComp.onPointerExit += OnItemDetailOff;
-           // slotComp.onPointerMove += OnSlotPointerMove;
+            slotComp.onPointerMove += OnSlotPointerMove;
             slotComp.Index = (uint)slots[GameManager.Inventory.State].Count - 1;  
         }
     }
@@ -145,10 +145,10 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     {
         itemDescription.Close(); // 상세정보창 닫기
     }
-    //private void OnSlotPointerMove(Vector2 screenPos)
-    //{
-    //    detail.MovePosition(screenPos);
-    //}
+    private void OnSlotPointerMove(Vector2 screenPos)//마우스 움직일때마다 호출
+    {
+        itemDescription.MovePosition(screenPos);
+    }
     //private void OnDetailPause(bool isPause)
     //{
     //    detail.IsPause = isPause;
@@ -398,7 +398,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         //{
         //    slots[index].AssignSlotItem(data.Item1, data.Item2);
         //    index++;
-        //}
+        //}//수동 복사부분
 
         // 정렬 완료된 것을 다시 배열로 만들기
         slots = beforeSlots;
@@ -422,7 +422,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         Slot findSlot = null;
         foreach (var slot in slots)  // 모든 슬롯을 다 돌면서
         {
-            if (slot.ItemData == data && slot.ItemCount < slot.ItemData.maxStackCount)  // itemData가 같고 여유 공간이 있으면 찾았다.
+            if (slot.ItemData == data && slot.ItemCount < slot.ItemData.maxStackCount)  // itemData가 같고 여유 공간이 있으면 그 슬롯을 리턴한다
             {
                 findSlot = slot;
                 break;
@@ -456,7 +456,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     bool IsValidIndex(ItemData data ,uint index)
     {
         List<Slot> slots = GetItemTab(data);
-        if (index < slots.Count - 1 || index == tempSlot.Index)
+        if (index < slots.Count || index == tempSlot.Index)
         {
             return true;
         }
