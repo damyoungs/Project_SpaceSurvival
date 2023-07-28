@@ -110,10 +110,11 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             TempSlot.Close();                     // 임시 슬롯 닫기
         }
 
-        //if (isSuccess)
-        //{
-        //    detail.Open(inven[index].ItemData);     // 드래그가 성공적으로 끝났으면 상세 정보창도 열기
-        //}
+        if (isSuccess)
+        {
+            List<Slot> slots = GetItemTab();
+            itemDescription.Open(slots[(int)index].ItemData);     // 드래그가 성공적으로 끝났으면 상세 정보창도 열기
+        }
     }
     private void OnSlotClick(ItemData data, uint index)//data null 일때 null 이 아닐때 처리필요
     {
