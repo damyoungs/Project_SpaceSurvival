@@ -426,23 +426,23 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         }
         // beforeSlots은 정해진 기준에 따라 정렬 완료
 
-        //// 아이템 종류와 개수를 따로 저장하기
-        //List<(ItemData, uint)> sortedData = new List<(ItemData, uint)>(SlotCount);
-        //foreach(var slot in beforeSlots)
-        //{
-        //    sortedData.Add((slot.ItemData, slot.ItemCount));
-        //}
+        // 아이템 종류와 개수를 따로 저장하기
+        List<(ItemData, uint)> sortedData = new List<(ItemData, uint)>(slots.Count);
+        foreach (var slot in beforeSlots)
+        {
+            sortedData.Add((slot.ItemData, slot.ItemCount));
+        }
 
-        //// 슬롯에 아이템 종류와 개수를 순서대로 할당하기
-        //int index = 0;
-        //foreach(var data in sortedData)
-        //{
-        //    slots[index].AssignSlotItem(data.Item1, data.Item2);
-        //    index++;
-        //}//수동 복사부분
+        // 슬롯에 아이템 종류와 개수를 순서대로 할당하기
+        int index = 0;
+        foreach (var data in sortedData)
+        {
+            slots[index].AssignSlotItem(data.Item1, data.Item2);
+            index++;
+        }//수동 복사부분
 
         // 정렬 완료된 것을 다시 배열로 만들기
-        slots = beforeSlots;
+       // slots = beforeSlots;
         RefreshInventory();
     }
 

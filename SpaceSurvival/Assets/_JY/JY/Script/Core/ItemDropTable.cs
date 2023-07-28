@@ -108,7 +108,7 @@ public class ItemDropTable : TestBase
     public void SlotSorting()
     {
        // ItemData data = GameManager.Itemdata[itemCode];
-        GameManager.SlotManager.SlotSorting(sortBy, IsAccending);
+        GameManager.SlotManager.SlotSorting(ItemSortBy.Price, true);
     }
     //protected override void TestClick(InputAction.CallbackContext context)
     //{
@@ -127,8 +127,8 @@ public class ItemDropTable : TestBase
     //}
     protected override void Test1(InputAction.CallbackContext _)
     {
-    
-        GetItemBow();
+        GetItem();
+       
     }
     protected override void Test2(InputAction.CallbackContext context)
     {
@@ -142,7 +142,7 @@ public class ItemDropTable : TestBase
     }
     protected override void Test4(InputAction.CallbackContext context)
     {
-        GetItem();
+        GetItemBow();
     }
     protected override void Test5(InputAction.CallbackContext context)
     {

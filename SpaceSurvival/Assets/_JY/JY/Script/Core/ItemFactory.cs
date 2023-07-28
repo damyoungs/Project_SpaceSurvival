@@ -18,8 +18,8 @@ static public class ItemFactory
     {
         ItemData itemData = GameManager.Itemdata[code];             // 코드로 아이템 데이터 가져오기
         GameObject itemObj = GameObject.Instantiate(itemData.modelPrefab);  // 아이템 데이터에 있는 프리팹을 이용해 아이템 오브젝트 생성
-//        ItemObject item = itemObj.GetComponent<ItemObject>();
-  //      item.ItemData = itemData;                                           // 생성한 아이템 오브젝트에 아이템 데이터 기록
+        ItemObject item = itemObj.GetComponent<ItemObject>();
+        item.ItemData = itemData;                                           // 생성한 아이템 오브젝트에 아이템 데이터 기록
 
         string[] itemName = itemData.name.Split('_');   // 00_Ruby => 00 Ruby 두개의 스트링으로 나누어 줌 
         itemObj.name = $"{itemName[1]}_{itemSerialNumber++}";               // 이름과 일련번호를 합쳐서 이름 수정

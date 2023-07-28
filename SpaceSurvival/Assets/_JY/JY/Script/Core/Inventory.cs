@@ -29,6 +29,7 @@ public class Inventory : MonoBehaviour
     Button consume_Button;
     Button etc_Button;
     Button craft_Button;
+    Button sort_Button;
 
     Image equipButtonColor;
     Image consumeButtonColor;
@@ -59,16 +60,19 @@ public class Inventory : MonoBehaviour
         toolBar = transform.GetChild(0);
         close_Button = toolBar.GetChild(0).GetComponent<Button>();
         add_Button = toolBar.GetChild(1).GetComponent<Button>();
+        sort_Button = transform.GetChild(0).GetChild(2).GetComponent<Button>();
         equip_Button = transform.GetChild(1).GetComponent<Button>();
         consume_Button = transform.GetChild(2).GetComponent<Button>();
         etc_Button = transform.GetChild(3).GetComponent<Button>();
         craft_Button = transform.GetChild(4).GetComponent<Button>();
+
 
         equipButtonColor = equip_Button.GetComponent<Image>();
         consumeButtonColor = consume_Button.GetComponent<Image>();
         etcButtonColor = etc_Button.GetComponent<Image>();
         craftButtonColor = craft_Button.GetComponent<Image>();
 
+        sort_Button.onClick.AddListener(SlotSorting);
         close_Button.onClick.AddListener(Open_Inventory);
         add_Button.onClick.AddListener(GameManager.SlotManager.Make_Slot);
         equip_Button.onClick.AddListener(SwitchTab_To_Equip);
@@ -78,6 +82,10 @@ public class Inventory : MonoBehaviour
 
         ItemDescription = transform.GetChild(9).gameObject;
         ItemDescription.SetActive(true);
+    }
+    void SlotSorting() //addListener 로 매개변수필요한 함수 바로 등록이 안되서 우회접근
+    {
+        GameManager.SlotManager.SlotSorting(ItemSortBy.Price, false);
     }
     private void OnEnable()
     {
