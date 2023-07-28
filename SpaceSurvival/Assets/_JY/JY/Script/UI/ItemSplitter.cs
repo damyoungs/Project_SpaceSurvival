@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class ItemSpliterUI : MonoBehaviour
+public class ItemSplitter : MonoBehaviour
 {
     /// <summary>
     /// 아이템을 덜어낼 슬롯
@@ -63,6 +63,10 @@ public class ItemSpliterUI : MonoBehaviour
     private void Awake()
     {
         itemIcon = transform.GetChild(0).GetChild(0).GetComponent<Image>();
+        Button minus = transform.GetChild(1).GetComponent<Button>();
+        Button plus = transform.GetChild(2).GetComponent<Button>();
+        Button cancel = transform.GetChild(4).GetComponent<Button>();
+        Button ok = transform.GetChild(5).GetComponent<Button>();
 
         inputField = GetComponentInChildren<TMP_InputField>();
         inputField.onValueChanged.AddListener((text) =>
@@ -85,35 +89,30 @@ public class ItemSpliterUI : MonoBehaviour
             ItemSplitCount = (uint)ratio;   // 최대최소가 적절히 변경되어있어서 바로 대입 가능
         });
 
-        //child = transform.GetChild(2);
-        //Button plus = child.GetComponent<Button>();
-        //plus.onClick.AddListener(() =>
-        //{
-        //    ItemSplitCount++;   // plus버튼이 눌려지면 덜어낼 개수 1증가
-        //});
 
-        //child = transform.GetChild(3);
-        //Button minus = child.GetComponent<Button>();
-        //minus.onClick.AddListener(() =>
-        //{
-        //    ItemSplitCount--;   // minus버튼이 눌려지면 덜어낼 개수 1감소
-        //});
+        plus.onClick.AddListener(() =>
+        {
+            ItemSplitCount++;   // plus버튼이 눌려지면 덜어낼 개수 1증가
+        });
 
-        //child = transform.GetChild(5);
-        //Button ok = child.GetComponent<Button>();
-        //ok.onClick.AddListener(() =>
-        //{
-        //    onOkClick?.Invoke(targetSlot.Index, ItemSplitCount);    // ok 버튼이 눌려지면 신호보내고 닫기
-        //    Close();
-        //});
 
-        //child = transform.GetChild(6);
-        //Button cancel = child.GetComponent<Button>();
-        //cancel.onClick.AddListener(() =>
-        //{
-        //    onCancel?.Invoke();     // cancel버튼이 눌려지면 신호보내고 닫기
-        //    Close();
-        //});
+        minus.onClick.AddListener(() =>
+        {
+            ItemSplitCount--;   // minus버튼이 눌려지면 덜어낼 개수 1감소
+        });
+
+
+        ok.onClick.AddListener(() =>
+        {
+            onOkClick?.Invoke(targetSlot.Index, ItemSplitCount);    // ok 버튼이 눌려지면 신호보내고 닫기
+            Close();
+        });
+
+        cancel.onClick.AddListener(() =>
+        {
+            onCancel?.Invoke();     // cancel버튼이 눌려지면 신호보내고 닫기
+            Close();
+        });
 
         inputActions = new InputKeyMouse();
     }

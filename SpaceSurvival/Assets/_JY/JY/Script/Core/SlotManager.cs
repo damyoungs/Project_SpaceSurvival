@@ -9,9 +9,13 @@ using UnityEngine.UI;
 
 public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = Slot,     Inventory, InventoryUI = SlotManager
 {
+    InputKeyMouse input;
+
     public GameObject slot;
     public TempSlot tempSlot;
     public ItemDescription itemDescription;
+    public RectTransform inventoryRectTransform;
+
     public TempSlot TempSlot => tempSlot;
 
     public Transform equip_Below;
@@ -19,25 +23,39 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     public Transform etc_Below;
     public Transform craft_Below;
 
-
-    public delegate void IsMovingChange();
-    public IsMovingChange isMovingChange; // Slot의 isMoving 과 이 클래스의 IsSlotMoving을 바꾸는 함수 호출
-
-    public bool IsSlotMoving { get; set; } = false; // 외부에서 클릭했을 때 이 조건이 true이면 아이템을 버리는 로직 실행
+    public ItemSplitter spliter;
+    bool isShiftPress = false;
 
     public Dictionary<Current_Inventory_State, List<Slot>> slots;
     private Dictionary<Current_Inventory_State, int> slotCount; //슬롯 생성후 번호를 부여하기위한 Dic
 
+    private void Awake()
+    {
+        input = new InputKeyMouse();
+    }
+    private void OnEnable()
+    {
+        input.UI.Enable();
+        input.UI.Click.canceled += OnItemDrop;
+        input.UI.Shift.performed += OnShiftPress;
+        input.UI.Shift.canceled += OnShiftPress;
+    }
+    private void OnDisable()
+    {
+        input.UI.Click.canceled -= OnItemDrop;
+        input.UI.Shift.performed -= OnShiftPress;
+        input.UI.Shift.canceled -= OnShiftPress;
+        input.UI.Disable();
+    }
     public void Initialize()//Inventory에서 호출
     {
         itemDescription.Close();
         TempSlot.InitializeSlot(TempSlot);
         TempSlot.onTempSlotOpenClose += OnDetailPause; // TempSlot이 Open할때 true로 호출하고 Close할때 false로 호출
+        spliter.onCancel += () => itemDescription.IsPause = false;   // 캔슬버턴 누르면 상세정보창 일시정지 해제
+        spliter.Close();
 
-        isMovingChange += () =>
-        {
-            IsSlotMoving = !IsSlotMoving;
-        };
+
         slots = new Dictionary<Current_Inventory_State, List<Slot>>
         {
             { Current_Inventory_State.Equip, new List<Slot>() },
@@ -118,14 +136,14 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             itemDescription.Open(slots[(int)index].ItemData);     // 드래그가 성공적으로 끝났으면 상세 정보창도 열기
         }
     }
-    private void OnSlotClick(ItemData data, uint index)//data null 일때 null 이 아닐때 처리필요
+    private void OnSlotClick(ItemData data, uint index)
     {
         if (TempSlot.IsEmpty)
         {
-            //if (isShiftPress)
-            //{
-            //    OnSpliterOpen(index);   // 임시 슬롯에 아이템이 없는데 쉬프트가 눌러진체로 슬롯을 클릭했을 때 아이템 분리창을 열어라
-            //}
+            if (isShiftPress)
+            {
+                OnSpliterOpen(index);   // 임시 슬롯에 아이템이 없는데 쉬프트가 눌러진체로 슬롯을 클릭했을 때 아이템 분리창을 열어라
+            }
             //else
             //{
             //    // 아이템 사용, 장비 등등
@@ -155,34 +173,54 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     {
         itemDescription.IsPause = isPause;
     }
-    //private void OnSpliterOpen(uint index)
-    //{
-
-    //    Slot target = slotsUI[index];
-    //    spliter.transform.position = target.transform.position + Vector3.up * 100;
-    //    spliter.Open(target.InvenSlot);
-    //    detail.IsPause = true;
-    //}
+    /// <summary>
+    /// 아이템 분리창을 여는 함수
+    /// </summary>
+    /// <param name="index">아이템을 분리할 슬롯의 인덱스</param>
+    private void OnSpliterOpen(uint index)
+    {
+        List<Slot> slots = GetItemTab();
+        Slot target = slots[(int)index];
+        spliter.transform.position = target.transform.position + Vector3.up * 100;
+        spliter.Open(target);
+        itemDescription.IsPause = true;
+    }
 
     /// <summary>
     /// 아이템 분리창에서 OK 버튼이 눌러졌을 때 실행될 함수
     /// </summary>
     /// <param name="index">아이템이 분리될 슬롯</param>
     /// <param name="count">분리된 개수</param>
-    //private void OnSpliterOk(uint index, uint count)
-    //{
-    //    inven.SplitItem(index, count);
-    //    tempSlotUI.Open();
-    //}
+    private void OnSpliterOk(uint index, uint count)
+    {
+        SplitItem(index, count);
+        TempSlot.Open();
+    }
 
     /// <summary>
     /// 쉬프트키가 눌려지거나 때졌을 때 실행될 함수
     /// </summary>
     /// <param name="context"></param>
-    //private void OnShiftPress(InputAction.CallbackContext context)
-    //{
-    //    isShiftPress = !context.canceled;   // 쉬프트키 상황 기록
-    //}
+    private void OnShiftPress(InputAction.CallbackContext context)
+    {
+        isShiftPress = !context.canceled;   // 쉬프트키 상황 기록
+    }
+
+
+    /// <summary>
+    /// 마우스 클릭이 떨어졌을 때 실행되는 함수(아이템 드랍용)
+    /// </summary>
+    private void OnItemDrop(InputAction.CallbackContext _)
+    {
+        Vector2 screenPos = Mouse.current.position.ReadValue();
+        Vector2 diff = screenPos - (Vector2)inventoryRectTransform.position;
+
+        if (!inventoryRectTransform.rect.Contains(diff))
+        {
+            // 인벤토리 영역 밖이면
+            TempSlot.OnDrop(screenPos);
+        }
+    }
     private Transform GetParentTransform()
     {
         Transform parentTransform;
@@ -241,7 +279,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     public void RemoveItem(ItemData data, uint slotIndex, uint decreaseCount = 1)
     {
         List<Slot> slots = GetItemTab(data);
-        if (IsValidIndex(data, slotIndex))
+        if (IsValidIndex(slotIndex, data))
         {
             Slot invenSlot = slots[(int)slotIndex];
             invenSlot.DecreaseSlotItem(decreaseCount);
@@ -254,7 +292,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     public void ClearSlot(ItemData data, uint slotIndex)
     {
         List<Slot> slots = GetItemTab(data);
-        if (IsValidIndex(data, slotIndex))
+        if (IsValidIndex(slotIndex, data))
         {
             Slot invenSlot = slots[(int)slotIndex];
             invenSlot.ClearSlotItem();
@@ -280,7 +318,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         }
         List<Slot> slots = GetItemTab(data);
         // from지점과 to지점이 다르고 from과 to가 모두 valid해야 한다.
-        if ((from != to) && IsValidIndex(data, from) && IsValidIndex(data, to))
+        if ((from != to) && IsValidIndex(from, data) && IsValidIndex(to, data))
         {
             Slot fromSlot = (from == tempSlot.Index) ? tempSlot : slots[(int)from];  // 임시 슬롯을 감안해서 삼항연산자로 처리
             if (!fromSlot.IsEmpty)
@@ -310,11 +348,11 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     /// </summary>
     /// <param name="slotIndex">아이템을 덜어낼 슬롯</param>
     /// <param name="count">덜어낼 개수</param>
-    public void SplitItem(ItemData data, uint slotIndex, uint count)
+    public void SplitItem(uint slotIndex, uint count) // 스플릿할때는 굳이 
     {
-        if (IsValidIndex(data, slotIndex))
+        if (IsValidIndex(slotIndex))
         {
-            List<Slot> slots = GetItemTab(data);
+            List<Slot> slots = GetItemTab();
             Slot slot = slots[(int)slotIndex];
             tempSlot.AssignSlotItem(slot.ItemData, count);  // 임시 슬롯에 할당하기
             slot.DecreaseSlotItem(count);                   // 슬롯에서 덜어내고
@@ -455,7 +493,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     }
 
     /// 적절한 인덱스인지 확인하는 함수
-    bool IsValidIndex(ItemData data ,uint index)
+    bool IsValidIndex(uint index, ItemData data = null)
     {
         List<Slot> slots = GetItemTab(data);
         if (index < slots.Count || index == tempSlot.Index)
@@ -501,11 +539,5 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             }
         }
         return null;
-    }
-    private List<Slot> GetItemTab(Slot slot)
-    {
-        ItemData item = slot.ItemData;
-        List<Slot> slotList = GetItemTab(item);
-        return slotList;
     }
 }

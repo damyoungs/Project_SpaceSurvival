@@ -110,21 +110,21 @@ public class ItemSpawner : TestBase
        // ItemData data = GameManager.Itemdata[itemCode];
         GameManager.SlotManager.SlotSorting(sortBy, IsAccending);
     }
-    protected override void TestClick(InputAction.CallbackContext context)
-    {
-        if (GameManager.SlotManager.IsSlotMoving)
-        {
-            RectTransform inventoryRectTransform = GameManager.Inventory.GetComponent<RectTransform>();
-            Vector2 localMousePosition;
-            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(inventoryRectTransform, Input.mousePosition, null, out localMousePosition))
-            {
-                if (!inventoryRectTransform.rect.Contains(localMousePosition))
-                {
-                   // GameManager.SlotManager.DropItem();
-                }
-            }
-        }
-    }
+    //protected override void TestClick(InputAction.CallbackContext context)
+    //{
+    //    if (GameManager.SlotManager.IsSlotMoving)
+    //    {
+    //        RectTransform inventoryRectTransform = GameManager.Inventory.GetComponent<RectTransform>();
+    //        Vector2 localMousePosition;
+    //        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(inventoryRectTransform, Input.mousePosition, null, out localMousePosition))
+    //        {
+    //            if (!inventoryRectTransform.rect.Contains(localMousePosition))
+    //            {
+    //               // GameManager.SlotManager.DropItem();
+    //            }
+    //        }
+    //    }
+    //}
     protected override void Test1(InputAction.CallbackContext _)
     {
     

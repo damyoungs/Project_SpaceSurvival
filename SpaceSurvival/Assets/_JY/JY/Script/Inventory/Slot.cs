@@ -38,15 +38,6 @@ public class Slot : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandle
 
     public uint Index { get; set; }
  
-    private void Start()
-    {
-        GameManager.SlotManager.isMovingChange += IsMovingChange;
-        anim = GameManager.Inventory.GetComponent<Animator>();
-        itemDescription_Text = GameManager.Inventory.transform.GetChild(9).GetComponentInChildren<TextMeshProUGUI>();
-        itemDescriptionTransform = GameManager.Inventory.transform.GetChild(9).GetComponent<RectTransform>();
-
-
-    }
     public void AssignSlotItem(ItemData data, uint count = 1)
     {
         if (data != null)
