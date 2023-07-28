@@ -29,13 +29,13 @@ public class ItemDropTable : TestBase
     }
     void SetDropTable()
     {
-        if (prefabs.Length != Enum.GetValues(typeof(ItemCode)).Length - 1)
+        if (prefabs.Length != Enum.GetValues(typeof(ItemCode)).Length)
         {
             Debug.LogError("Enum ÀÇ °¹¼ö¿Í ÇÁ¸®ÆÕ¹è¿­ÀÇ °¹¼ö°¡ ´Ù¸¨´Ï´Ù.");
             return;
         }
         // Make sure the prefabs array and the PrefabName enum have the same length
-        if (prefabs.Length != Enum.GetValues(typeof(ItemCode)).Length - 1)
+        if (prefabs.Length != Enum.GetValues(typeof(ItemCode)).Length)
         {
             Debug.LogError("The prefabs array and the PrefabName enum do not match!");
             return;
@@ -132,13 +132,13 @@ public class ItemDropTable : TestBase
     }
     protected override void Test1(InputAction.CallbackContext _)
     {
-        GetItem();
        
+        SpawnItemPrefab();
     }
     protected override void Test2(InputAction.CallbackContext context)
     {
-        SpawnItemPrefab();
-       // GetItemHpPotion();
+        GetItem();
+        // GetItemHpPotion();
     }
     protected override void Test3(InputAction.CallbackContext context)
     {
