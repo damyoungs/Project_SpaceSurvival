@@ -21,8 +21,8 @@ static public class ItemFactory
         ItemObject item = itemObj.GetComponent<ItemObject>();
         item.ItemData = itemData;                                           // 생성한 아이템 오브젝트에 아이템 데이터 기록
 
-        string[] itemName = itemData.name.Split('_');   // 00_Ruby => 00 Ruby 두개의 스트링으로 나누어 줌 
-        itemObj.name = $"{itemName[1]}_{itemSerialNumber++}";               // 이름과 일련번호를 합쳐서 이름 수정
+       // string[] itemName = itemData.name.Split('_');   // 00_Ruby => 00 Ruby 두개의 스트링으로 나누어 줌 
+       // itemObj.name = $"{itemName[1]}_{itemSerialNumber++}";               // 이름과 일련번호를 합쳐서 이름 수정
 
         return itemObj;
     }

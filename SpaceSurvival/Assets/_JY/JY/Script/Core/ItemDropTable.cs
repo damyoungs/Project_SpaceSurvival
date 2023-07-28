@@ -125,6 +125,11 @@ public class ItemDropTable : TestBase
     //        }
     //    }
     //}
+
+    public void SpawnItemPrefab()
+    {
+        ItemFactory.MakeItem(itemCode);
+    }
     protected override void Test1(InputAction.CallbackContext _)
     {
         GetItem();
@@ -132,8 +137,8 @@ public class ItemDropTable : TestBase
     }
     protected override void Test2(InputAction.CallbackContext context)
     {
-    
-        GetItemHpPotion();
+        SpawnItemPrefab();
+       // GetItemHpPotion();
     }
     protected override void Test3(InputAction.CallbackContext context)
     {
