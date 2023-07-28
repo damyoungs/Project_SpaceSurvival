@@ -79,10 +79,9 @@ public class ItemSpawner : TestBase
     {
         GameManager.SlotManager.AddItem(itemCode);
     }
-    public void ClearInventory()
+    public void ClearInventory()//itemdata 참조 불필요 현재 선택된 탭의 인벤토리를 기준으로 클리어
     {
-        ItemData data = GameManager.Itemdata[itemCode];
-        GameManager.SlotManager.ClearInventory(data);
+        GameManager.SlotManager.ClearInventory();
     }
     public void ClearSlot()
     {
@@ -108,8 +107,8 @@ public class ItemSpawner : TestBase
     }
     public void SlotSorting()
     {
-        ItemData data = GameManager.Itemdata[itemCode];
-        GameManager.SlotManager.SlotSorting(data, sortBy, IsAccending);
+       // ItemData data = GameManager.Itemdata[itemCode];
+        GameManager.SlotManager.SlotSorting(sortBy, IsAccending);
     }
     protected override void TestClick(InputAction.CallbackContext context)
     {

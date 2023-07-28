@@ -261,9 +261,9 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             //Debug.Log($"아이템 삭제 실패 : {slotIndex}는 없는 인덱스입니다.");
         }
     }
-    public void ClearInventory(ItemData data)
+    public void ClearInventory()
     {
-        List<Slot> slots = GetItemTab(data);
+        List<Slot> slots = GetItemTab();
         foreach (var slot in slots)
         {
             slot.ClearSlotItem();
@@ -323,9 +323,9 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     /// </summary>
     /// <param name="sortBy">정렬 기준</param>
     /// <param name="isAcending">true면 오름차순, false면 내림차순</param>
-    public void SlotSorting(ItemData data ,ItemSortBy sortBy, bool isAcending = true)
+    public void SlotSorting(ItemSortBy sortBy, bool isAcending = true)
     {
-        List<Slot> slots = GetItemTab(data);
+        List<Slot> slots = GetItemTab();
         List<Slot> beforeSlots = new List<Slot>(slots);   // slots 배열을 이용해서 리스트 만들기
 
         switch (sortBy) // 정렬 기준에 따라 다르게 처리하기(Sort 함수의 파라메터로 들어갈 람다함수를 다르게 작성)
@@ -401,15 +401,15 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
 
         // 정렬 완료된 것을 다시 배열로 만들기
         slots = beforeSlots;
-        RefreshInventory(data);
+        RefreshInventory();
     }
 
     /// <summary>
     /// 모든 슬롯이 변경되었음을 알리는 함수
     /// </summary>
-    void RefreshInventory(ItemData data)
+    void RefreshInventory()
     {
-        List<Slot> slots = GetItemTab(data);
+        List<Slot> slots = GetItemTab();
         foreach (var slot in slots)
         {
             slot.onValueChange?.Invoke();
@@ -462,30 +462,42 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         return false;
     } 
 
-    private List<Slot> GetItemTab(ItemData item)
+    private List<Slot> GetItemTab(ItemData item = null)
     {
-        //item이 null일때 처리 필요
-
         List<Slot> slotList;
-        switch (item.ItemType)
+        if (item != null) // 이 함수를 호출할 때 itemdata가 null 이면  인벤토리에 현재 선택된 탭의 리스트를 리턴한다.
         {
-            case ItemType.Equip:
-                slotList = slots[Current_Inventory_State.Equip];
-                break;
-            case ItemType.Consume:
-                slotList = slots[Current_Inventory_State.Consume];
-                break;
-            case ItemType.Etc:
-                slotList = slots[Current_Inventory_State.Etc];
-                break;
-            case ItemType.Craft:
-                slotList = slots[Current_Inventory_State.Craft];
-                break;
-            default:
-                slotList = null;
-                break;
+            switch (item.ItemType) // null 이 아니면 Inventory 클래스에서 현재 어떤 탭이 선택되었든 관계없이 item의 itemType에 따라 리스트를 결정 한다.
+            {
+                case ItemType.Equip:
+                    return slotList = slots[Current_Inventory_State.Equip];
+                case ItemType.Consume:
+                    return slotList = slots[Current_Inventory_State.Consume];
+                case ItemType.Etc:
+                    return slotList = slots[Current_Inventory_State.Etc];
+                case ItemType.Craft:
+                    return slotList = slots[Current_Inventory_State.Craft];
+                default:
+                    break;
+            }
         }
-        return slotList;
+        else
+        {      
+            switch (GameManager.Inventory.State)
+            {
+                case Current_Inventory_State.Equip:
+                    return slotList = slots[Current_Inventory_State.Equip];
+                case Current_Inventory_State.Consume:
+                    return slotList = slots[Current_Inventory_State.Consume];
+                case Current_Inventory_State.Etc:
+                    return slotList = slots[Current_Inventory_State.Etc];
+                case Current_Inventory_State.Craft:
+                    return slotList = slots[Current_Inventory_State.Craft];
+                default:
+                    break;
+            }
+        }
+        return null;
     }
     private List<Slot> GetItemTab(Slot slot)
     {
