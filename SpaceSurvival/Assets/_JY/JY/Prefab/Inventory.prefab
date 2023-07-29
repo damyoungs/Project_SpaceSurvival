@@ -1295,7 +1295,7 @@ GameObject:
   - component: {fileID: 1504912643}
   - component: {fileID: 1504912642}
   m_Layer: 5
-  m_Name: SortBtn (1)
+  m_Name: 'SortBtn '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4030,8 +4030,8 @@ GameObject:
   - component: {fileID: 7596035628962944178}
   - component: {fileID: 7596035628962944179}
   - component: {fileID: 7596035628962944172}
-  - component: {fileID: 7596035628962944177}
   - component: {fileID: 1696498221}
+  - component: {fileID: 4638546749103636170}
   m_Layer: 5
   m_Name: Inventory
   m_TagString: Untagged
@@ -4124,23 +4124,6 @@ MonoBehaviour:
   m_EffectColor: {r: 0.01886791, g: 0.01886791, b: 0.01886791, a: 0.5}
   m_EffectDistance: {x: 15, y: 15}
   m_UseGraphicAlpha: 0
---- !u!114 &7596035628962944177
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7596035628962944174}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51e51d2f90e07814ca75411010655179, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Equip_Inven: {fileID: 7596035629701356640}
-  Consume_Inven: {fileID: 7596035628511692949}
-  Etc_Inven: {fileID: 7596035628476176109}
-  Craft_Inven: {fileID: 7596035628832011605}
-  is_Initialized: 0
 --- !u!95 &1696498221
 Animator:
   serializedVersion: 5
@@ -4162,6 +4145,23 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4638546749103636170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7596035628962944174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7ff52b14e4dd7d418b6451723d5f985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Equip_Inven: {fileID: 7596035629701356640}
+  Consume_Inven: {fileID: 7596035628511692949}
+  Etc_Inven: {fileID: 7596035628476176109}
+  Craft_Inven: {fileID: 7596035628832011605}
+  is_Initialized: 0
 --- !u!1 &7596035629026719474
 GameObject:
   m_ObjectHideFlags: 0

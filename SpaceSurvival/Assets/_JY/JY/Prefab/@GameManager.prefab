@@ -62,7 +62,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemDatas:
   - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 11400000, guid: 302155bab316b3e44a56122b14449767, type: 2}
   - {fileID: 11400000, guid: 1b46d357494dff44c9a55201583860b4, type: 2}
   - {fileID: 11400000, guid: 6b94876741b46da46a7568db165beec8, type: 2}
@@ -76,7 +75,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 04fc54cfd17cdf64f8cbd6bfc62475fa, type: 2}
   - {fileID: 11400000, guid: 81f25d9d00ac00d439ab1bb3bbd4dea2, type: 2}
   - {fileID: 11400000, guid: c6e0ffc633c1096489e2f9bc362b2512, type: 2}
-  - {fileID: 11400000, guid: 81f25d9d00ac00d439ab1bb3bbd4dea2, type: 2}
   - {fileID: 11400000, guid: 735bfeba7534f81448f955185eb080a8, type: 2}
   - {fileID: 11400000, guid: 531cab2f353949042bd55ca529a57e5e, type: 2}
   - {fileID: 11400000, guid: 1ea481532b1297f47bb90a24dbd11835, type: 2}

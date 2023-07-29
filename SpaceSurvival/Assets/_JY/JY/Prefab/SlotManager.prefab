@@ -45,7 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slot: {fileID: 6896384939065089292, guid: 3099353c8fe11cb4189d2ce67af5e4cc, type: 3}
+  tempSlot: {fileID: 0}
+  itemDescription: {fileID: 0}
+  inventoryRectTransform: {fileID: 0}
   equip_Below: {fileID: 0}
   consume_Below: {fileID: 0}
   etc_Below: {fileID: 0}
   craft_Below: {fileID: 0}
+  spliter: {fileID: 0}
