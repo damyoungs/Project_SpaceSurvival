@@ -10,7 +10,7 @@ static public class ItemFactory
     /// <summary>
     /// 생성된 아이템의 일련번호
     /// </summary>
-    static int itemSerialNumber = 0;
+    //static int itemSerialNumber = 0;
 
     static float spawnPositionNoise = 0.5f;
 
