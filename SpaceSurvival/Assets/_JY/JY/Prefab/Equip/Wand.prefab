@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 1997986479537302312}
   - component: {fileID: 3176618333794837645}
   - component: {fileID: 860586388058624071}
-  - component: {fileID: 3176618333794837634}
   - component: {fileID: 1730611930770686007}
+  - component: {fileID: 44211227966442857}
   m_Layer: 0
   m_Name: Wand
   m_TagString: Untagged
@@ -85,20 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3176618333794837634
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1220922667665387922}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!114 &1730611930770686007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60027,6 +60013,22 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!114 &44211227966442857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1220922667665387922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f3f7eb9918db43419be145a7b6dad57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minY: 0.5
+  maxY: 1.5
+  rotateSpeed: 90
+  moveSpeed: 2
 --- !u!1 &5973199535789980846
 GameObject:
   m_ObjectHideFlags: 0
@@ -60036,8 +60038,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5973199535789980847}
-  - component: {fileID: 1730611929751260545}
-  - component: {fileID: 4488381553275845325}
+  - component: {fileID: -7962728764004720715}
   m_Layer: 0
   m_Name: Wand
   m_TagString: Untagged
@@ -60061,28 +60062,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &1730611929751260545
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5973199535789980846}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 08b2989dc257ae04caa2ee14893adba1, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &4488381553275845325
+--- !u!114 &-7962728764004720715
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -60091,7 +60071,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5973199535789980846}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b2f83e6127592348ba246a194b66e12, type: 3}
+  m_Script: {fileID: 11500000, guid: a28a419ec8afe6249818d94357bca294, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemDescription: 

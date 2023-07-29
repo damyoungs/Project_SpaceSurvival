@@ -9,8 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3899290549971835659}
-  - component: {fileID: 3899290549971835658}
-  - component: {fileID: 5817239739934276221}
+  - component: {fileID: 691977455879647450}
   m_Layer: 0
   m_Name: Sword_Laser_Advanced
   m_TagString: Untagged
@@ -34,28 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &3899290549971835658
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3899290549971835656}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7b15182845998284081f42ec2f104fb8, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5817239739934276221
+--- !u!114 &691977455879647450
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -64,10 +42,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3899290549971835656}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce5cd3065513ac94184795295ec9c9d6, type: 3}
+  m_Script: {fileID: 11500000, guid: a28a419ec8afe6249818d94357bca294, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemDescription: 
 --- !u!1 &7711807694998653082
 GameObject:
   m_ObjectHideFlags: 0
@@ -80,6 +57,7 @@ GameObject:
   - component: {fileID: 7743343017446120442}
   - component: {fileID: 7733958480354267510}
   - component: {fileID: 7743343017446120445}
+  - component: {fileID: 246835750785959132}
   m_Layer: 0
   m_Name: SM_Wep_Sword_Double_01
   m_TagString: Untagged
@@ -9047,6 +9025,22 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!114 &246835750785959132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7711807694998653082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f3f7eb9918db43419be145a7b6dad57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minY: 0.5
+  maxY: 1.5
+  rotateSpeed: 90
+  moveSpeed: 2
 --- !u!1 &7711985224039700994
 GameObject:
   m_ObjectHideFlags: 0

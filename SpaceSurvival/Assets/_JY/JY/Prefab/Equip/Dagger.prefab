@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 7177964383078310126}
   - component: {fileID: 6067082098794491723}
   - component: {fileID: 8346978049221598081}
-  - component: {fileID: 6067082098794491732}
   - component: {fileID: 7336417171070006988}
+  - component: {fileID: 8459723010743106561}
   m_Layer: 0
   m_Name: Dagger
   m_TagString: Untagged
@@ -85,20 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6067082098794491732
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7554384029336320596}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!114 &7336417171070006988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14599,6 +14585,22 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!114 &8459723010743106561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7554384029336320596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f3f7eb9918db43419be145a7b6dad57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minY: 0.5
+  maxY: 1.5
+  rotateSpeed: 90
+  moveSpeed: 2
 --- !u!1 &7830112442101443483
 GameObject:
   m_ObjectHideFlags: 0
@@ -14608,8 +14610,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7830112442101443482}
-  - component: {fileID: 7336417172691508594}
-  - component: {fileID: 5180192177200957980}
+  - component: {fileID: -5843984128976255423}
   m_Layer: 0
   m_Name: Dagger
   m_TagString: Untagged
@@ -14633,28 +14634,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &7336417172691508594
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7830112442101443483}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6004ec4d39280b04f96ea0ef0114858a, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5180192177200957980
+--- !u!114 &-5843984128976255423
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14663,7 +14643,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7830112442101443483}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 944ed62a653104748a7df5e14f1e0bab, type: 3}
+  m_Script: {fileID: 11500000, guid: a28a419ec8afe6249818d94357bca294, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemDescription: 

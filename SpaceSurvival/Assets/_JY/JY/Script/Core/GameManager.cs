@@ -9,15 +9,18 @@ public class GameManager : MonoBehaviour
 
     public Inventory inventory;
     public SlotManager slotManager;
-    public ItemSpawner itemSpawner;
-
+    public ItemDropTable itemSpawner;
+    ItemDataManager itemDataManager;
     
-
+    public static ItemDataManager Itemdata { get { return Inst.itemDataManager; } }
     public static Inventory Inventory { get { return Inst.inventory; } }
     public static SlotManager SlotManager { get { return Inst.slotManager; } }
-    public static ItemSpawner Item_Spawner { get { return Inst.itemSpawner; } }
+    public static ItemDropTable Item_Spawner { get { return Inst.itemSpawner; } }
 
-
+    private void Awake()
+    {
+        itemDataManager = GetComponent<ItemDataManager>();
+    }
     static void Init()
     {
         
@@ -31,6 +34,7 @@ public class GameManager : MonoBehaviour
             }
             DontDestroyOnLoad(go);
             instance = go.GetComponent<GameManager>();
+    
         }
     }
 }

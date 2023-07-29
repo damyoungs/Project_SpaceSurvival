@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1831845884094795577}
   - component: {fileID: 4506116863388531699}
   - component: {fileID: 2975019841092134760}
+  - component: {fileID: 3083357367336025402}
   m_Layer: 0
   m_Name: HpPotion
   m_TagString: Untagged
@@ -1727,6 +1728,22 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!114 &3083357367336025402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2704425979811732006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f3f7eb9918db43419be145a7b6dad57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minY: 0.5
+  maxY: 0.75
+  rotateSpeed: 90
+  moveSpeed: 2
 --- !u!1 &3534490304491141583
 GameObject:
   m_ObjectHideFlags: 0
@@ -1736,8 +1753,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3534490304491141577}
-  - component: {fileID: 3534490304491141576}
-  - component: {fileID: 1946408976764624686}
+  - component: {fileID: 8035887718281354525}
   m_Layer: 0
   m_Name: HpPotion
   m_TagString: Untagged
@@ -1761,28 +1777,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &3534490304491141576
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3534490304491141583}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8839114ae4f989748a3a909b86cb22e4, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1946408976764624686
+--- !u!114 &8035887718281354525
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1791,7 +1786,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 3534490304491141583}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e2c98e3bb8f04d4d8781d5a866b9d0a, type: 3}
+  m_Script: {fileID: 11500000, guid: a28a419ec8afe6249818d94357bca294, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemDescription: 
