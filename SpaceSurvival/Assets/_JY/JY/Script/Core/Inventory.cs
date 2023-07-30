@@ -20,6 +20,8 @@ public class Inventory : MonoBehaviour
     public GameObject Consume_Inven;
     public GameObject Etc_Inven;
     public GameObject Craft_Inven;
+    public GameObject ItemEnhancer;
+
     GameObject ItemDescription;
 
     Transform toolBar;
@@ -30,6 +32,7 @@ public class Inventory : MonoBehaviour
     Button etc_Button;
     Button craft_Button;
     Button sort_Button;
+    Button enhance_Button;
 
     Image equipButtonColor;
     Image consumeButtonColor;
@@ -55,12 +58,30 @@ public class Inventory : MonoBehaviour
             }
         }
     }
+    bool enhancerOpen = false;
+    public bool EnhancerOpen
+    {
+        get => enhancerOpen;
+        set
+        {
+            enhancerOpen = value;
+            if (enhancerOpen)
+            {
+                ItemEnhancer.SetActive(true);
+            }
+            else
+            {
+                ItemEnhancer.SetActive(false);
+            }
+        }
+    }
     private void Awake()
     {
         toolBar = transform.GetChild(0);
         close_Button = toolBar.GetChild(0).GetComponent<Button>();
         add_Button = toolBar.GetChild(1).GetComponent<Button>();
         sort_Button = transform.GetChild(0).GetChild(2).GetComponent<Button>();
+        enhance_Button = toolBar.GetChild(3).GetComponent<Button>();
         equip_Button = transform.GetChild(1).GetComponent<Button>();
         consume_Button = transform.GetChild(2).GetComponent<Button>();
         etc_Button = transform.GetChild(3).GetComponent<Button>();
@@ -75,6 +96,7 @@ public class Inventory : MonoBehaviour
         sort_Button.onClick.AddListener(SlotSorting);
         close_Button.onClick.AddListener(Open_Inventory);
         add_Button.onClick.AddListener(GameManager.SlotManager.Make_Slot);
+        enhance_Button.onClick.AddListener(Change_EnhancerOpen_Property);
         equip_Button.onClick.AddListener(SwitchTab_To_Equip);
         consume_Button.onClick.AddListener(SwitchTab_To_Consume);
         etc_Button.onClick.AddListener(SwitchTab_To_Etc);
@@ -86,6 +108,10 @@ public class Inventory : MonoBehaviour
     void SlotSorting() //addListener 로 매개변수필요한 함수 바로 등록이 안되서 우회접근
     {
         GameManager.SlotManager.SlotSorting(ItemSortBy.Price, false);
+    }
+    void Change_EnhancerOpen_Property()
+    {
+        EnhancerOpen = !EnhancerOpen;
     }
     private void OnEnable()
     {
