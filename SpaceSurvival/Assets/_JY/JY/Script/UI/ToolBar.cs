@@ -32,30 +32,11 @@ public class ToolBar : MonoBehaviour, IPointerDownHandler,IDragHandler,IPointerU
         //parentTransform.position = Vector3.zero; 로컬좌표가 아닌 스크린좌표 기준 (0, 0, 0)
         parentTransform.position = eventData.position - distance; //이동
 
-        //if (parentTransform.position.x > maxX)
-        //{
-        //    parentTransform.position = new Vector2 (maxX, parentTransform.position.y);
-        //}
-        //else if (parentTransform.position.x < minX)
-        //{
-        //    parentTransform.position = new Vector2 (minX, parentTransform.position.y);
-        //}
-        //else if (parentTransform.position.y > maxY)
-        //{
-        //    parentTransform.position = new Vector2 (parentTransform.position.x, maxY);
-        //}
-        //else if (parentTransform.position.y < minY)
-        //{
-        //    parentTransform.position = new Vector2(parentTransform.position.x, minY);
-        //}
-        //Debug.Log($"parent RectTransform : {parentTransform}");
-        //Debug.Log($"EventData Pos : {eventData.position}");
-        //마우스포지션 + parentTransform.sizedelta > Screen.width보다 크면  화면밖을 벗어난것 
-        //if (eventData.position.x + parentTransform.sizeDelta.x > Screen.)
+    
     }
 
 
-    public void OnPointerUp(PointerEventData eventData)//로컬기준 범위밖으로 나갈시 처음 클릭했던 곳으로 이동
+    public void OnPointerUp(PointerEventData eventData)//로컬기준 범위밖으로 나갈시 처음 클릭했던 곳으로 이동, Drag에서 돌리기에는 다소 부담된다
     {
         if (parentTransform.position.x > maxX && parentTransform.position.y > maxY)
         {
