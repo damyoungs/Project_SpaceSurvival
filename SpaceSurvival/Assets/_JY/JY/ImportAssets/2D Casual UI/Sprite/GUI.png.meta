@@ -1323,7 +1323,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GUI_55
+      name: _Right_Arrow
       rect:
         serializedVersion: 2
         x: 217
@@ -1668,7 +1668,6 @@ TextureImporter:
       GUI_51: 21300088
       GUI_53: 21300092
       GUI_54: 21300094
-      GUI_55: 21300096
       GUI_56: 21300098
       GUI_57: 21300100
       GUI_58: 21300102
@@ -1688,6 +1687,7 @@ TextureImporter:
       _CloseButton: 21300120
       _InvenBackGround: 21300054
       _OkButton: 21300118
+      _Right_Arrow: 21300096
       _Slot: 21300090
   spritePackingTag: 
   pSDRemoveMatte: 0
