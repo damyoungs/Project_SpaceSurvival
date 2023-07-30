@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class TempSlot : Slot
 {
     /// <summary>
     /// 이 인벤토리를 가진 플레이어(아이템 드랍 때문에 필요)
     /// </summary>
-    //Player owner;
+    PlayerDummy owner;
 
     /// <summary>
     /// 임시 슬롯이 열리고 닫힐 때 실행되는 함수
@@ -21,7 +22,11 @@ public class TempSlot : Slot
         // 임시 슬롯은 대부분 꺼져 있을 거라 부담이 적음
         transform.position = Mouse.current.position.ReadValue();    // 임시 슬롯은 마우스 위치를 따라 움직임
     }
-
+    public override void InitializeSlot(Slot slot)
+    {
+        base.InitializeSlot(slot);
+        owner = GameManager.playerDummy;
+    }
     /// <summary>
     /// 임시 슬롯 초기화하는 함수
     /// </summary>
@@ -58,6 +63,25 @@ public class TempSlot : Slot
     /// <param name="screenPos">마우스 커서의 스크린 좌표</param>
     public void OnDrop(Vector2 screenPos) //구현 필요 itemFactory, Player의 dropArea필요
     {
-        Debug.Log("드롭실행");
+        if (!IsEmpty)    // 임시 슬롯에 아이템이 있을 떄만 처리
+        {
+            Ray ray = Camera.main.ScreenPointToRay(screenPos);  // 스크린 좌표를 이용해 ray 계산
+            if (Physics.Raycast(ray, out RaycastHit hitInfo, 1000.0f, LayerMask.GetMask("Ground"))) // 레이와 바닥이 닿는지 검사
+            {
+                Vector3 dropPos = hitInfo.point;    // 바닥에 레이가 닿았으면 닿은 위치를 저장
+
+                Vector3 dropDir = dropPos - owner.transform.position;   // 오너 위치에서 레이가 닿은 지점까지의 방향 벡터 계산
+                if (dropDir.sqrMagnitude > owner.pickupRange * owner.pickupRange)    // 방향 벡터의 크기가 ItemPickupRange를 넘는지 체크
+                {
+                    // 넘었으면 ItemPickupRange가 만드는 원의 가장자리 저점으로 dropPos 변경
+                    dropPos = owner.transform.position + dropDir.normalized * owner.pickupRange;
+                }
+
+                ItemFactory.MakeItems(ItemData.code, ItemCount, dropPos, true);
+                ClearSlotItem();//임시슬롯 비우기
+                Close();//닫기
+            }
+        }
+
     }
 }

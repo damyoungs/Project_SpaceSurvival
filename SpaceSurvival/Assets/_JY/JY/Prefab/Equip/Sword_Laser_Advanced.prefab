@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3899290549971835659}
   - component: {fileID: 691977455879647450}
+  - component: {fileID: 8686431947334240747}
   m_Layer: 7
   m_Name: Sword_Laser_Advanced
   m_TagString: Untagged
@@ -45,6 +46,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a28a419ec8afe6249818d94357bca294, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!136 &8686431947334240747
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3899290549971835656}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.2
+  m_Height: 1.5
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.7, z: 0}
 --- !u!1 &7711807694998653082
 GameObject:
   m_ObjectHideFlags: 0

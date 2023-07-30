@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7554384029336320596}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.009854764, y: 0.5602881, z: -0.00068576634}
+  m_LocalPosition: {x: 0, y: 0.5602881, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14611,6 +14611,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7830112442101443482}
   - component: {fileID: -5843984128976255423}
+  - component: {fileID: 3667173946510223343}
   m_Layer: 7
   m_Name: Dagger
   m_TagString: Untagged
@@ -14646,3 +14647,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a28a419ec8afe6249818d94357bca294, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!136 &3667173946510223343
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7830112442101443483}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.1
+  m_Height: 0.8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.5, z: 0}
