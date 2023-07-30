@@ -29,6 +29,7 @@ public class PlayerDummy : MonoBehaviour
             if (money != value)
             {
                 money = value;
+                Debug.Log(money);
             }
         }
     }
