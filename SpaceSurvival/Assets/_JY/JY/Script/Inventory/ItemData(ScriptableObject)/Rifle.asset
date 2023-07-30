@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Rifle
   m_EditorClassIdentifier: 
   ItemType: 1
-  code: 11
+  code: 12
   itemName: Rifle
   modelPrefab: {fileID: 3245523985422523675, guid: 3041a24a9efac4e409fa85b6e6d7fd13, type: 3}
   itemIcon: {fileID: 1809714329, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}

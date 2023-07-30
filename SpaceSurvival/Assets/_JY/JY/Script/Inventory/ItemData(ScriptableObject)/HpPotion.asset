@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HpPotion
   m_EditorClassIdentifier: 
   ItemType: 2
-  code: 0
+  code: 1
   itemName: HpPotion
   modelPrefab: {fileID: 3534490304491141583, guid: 9c2eea78ad466bc48abfe285fbfab1ed, type: 3}
   itemIcon: {fileID: -1742498291, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}

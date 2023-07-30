@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Scythe
   m_EditorClassIdentifier: 
   ItemType: 1
-  code: 12
+  code: 13
   itemName: Scythe
   modelPrefab: {fileID: 7871946945433305950, guid: 9be774cbd1092f9448f5e23502c0e13d, type: 3}
   itemIcon: {fileID: 1718116553, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}

@@ -60039,7 +60039,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5973199535789980847}
   - component: {fileID: -7962728764004720715}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Wand
   m_TagString: Untagged
   m_Icon: {fileID: 0}

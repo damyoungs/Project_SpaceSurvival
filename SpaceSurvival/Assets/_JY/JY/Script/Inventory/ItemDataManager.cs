@@ -45,7 +45,7 @@ public class ItemDataManager : MonoBehaviour
 
     public ItemData[] itemDatas = null;
 
-    public ItemData this[ItemCode code] => itemDatas[(int)code];
+    public ItemData this[ItemCode code] => itemDatas[(int)code];//cash 가 itemDatas배열에 없어서 null
 
     public int length => itemDatas.Length;
 

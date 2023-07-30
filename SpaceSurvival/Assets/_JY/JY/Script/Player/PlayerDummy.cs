@@ -1,22 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using System;
+using Unity.VisualScripting;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 public class PlayerDummy : MonoBehaviour
 {
     InputKeyMouse inputActions;
-
+    Vector3 root2 = Vector3.zero;
 
 
     Vector3 dir = Vector3.zero;
 
-    Quaternion lookDir = Quaternion.identity;
     public float moveSpeed = 0.0f;
     public float rotateSpeed = 0.0f;
 
     public float pickupRange = 3.0f;
+
+    int money = 0;
+    public int Money
+    {
+        get => money;
+        set
+        {
+            if (money != value)
+            {
+                money = value;
+            }
+        }
+    }
     private void Awake()
     {
         inputActions = new InputKeyMouse();
@@ -25,8 +40,28 @@ public class PlayerDummy : MonoBehaviour
     {
         inputActions.Player.Enable();
         inputActions.Player.Move.performed += ChangeVectorDir;
-     //   inputActions.Player.Move.canceled += MakeDirZero;
+        inputActions.Player.ItemPickUp.performed += ItemPickUp;
     }
+
+    private void ItemPickUp(InputAction.CallbackContext _)
+    {
+        Collider[] itemColliders = Physics.OverlapSphere(transform.position, pickupRange, LayerMask.GetMask("Item"));
+        foreach(var collider in itemColliders)
+        {
+            ItemObject itemObj = collider.GetComponent<ItemObject>();
+            IConsumable consumable = itemObj.ItemData as IConsumable;
+            if (consumable != null)
+            {
+                consumable.Consume(this.gameObject);
+                Destroy(itemObj.gameObject);
+            }
+            else if (GameManager.SlotManager.AddItem(itemObj.ItemData.code))
+            {
+                Destroy(itemObj.gameObject);
+            }  
+        }
+    }
+
     private void Update()
     {
         Move();
@@ -38,24 +73,16 @@ public class PlayerDummy : MonoBehaviour
     }
     void Rotate()
     {
-        //Vector3 newDir = transform.position + dir;
-        // transform.LookAt(transform.position + dir);
-        transform.LookAt(transform.position + dir);
+         transform.LookAt(transform.position + dir);
+
     }
+
     private void ChangeVectorDir(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        if (!context.canceled)
-        {
-            Vector3 value = context.ReadValue<Vector3>();
-            dir = value;
-            Debug.Log(dir);
-        }
+        dir = context.ReadValue<Vector3>();        
     }
 
-    void ItemPickUp()
-    {
 
-    }
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {

@@ -31488,7 +31488,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6996946570097063790}
   - component: {fileID: 7221498533259351803}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TwoHandAxe
   m_TagString: Untagged
   m_Icon: {fileID: 0}

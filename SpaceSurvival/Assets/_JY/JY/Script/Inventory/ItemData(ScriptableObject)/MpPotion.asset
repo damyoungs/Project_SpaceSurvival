@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MpPotion
   m_EditorClassIdentifier: 
   ItemType: 2
-  code: 1
+  code: 2
   itemName: MpPotion
   modelPrefab: {fileID: 1921507159427551103, guid: d7b998cd95a00fd409f544c76e35916d, type: 3}
   itemIcon: {fileID: 1604917094, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}

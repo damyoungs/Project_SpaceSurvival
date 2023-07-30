@@ -110,7 +110,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7871946945433305944}
   - component: {fileID: -8977173792510109698}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Scythe
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bat
   m_EditorClassIdentifier: 
   ItemType: 1
-  code: 6
+  code: 7
   itemName: Bat
   modelPrefab: {fileID: 472039736912630700, guid: 4f7771338ebcd034b82ab30a1b6fbcc2, type: 3}
   itemIcon: {fileID: 1100685551, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}

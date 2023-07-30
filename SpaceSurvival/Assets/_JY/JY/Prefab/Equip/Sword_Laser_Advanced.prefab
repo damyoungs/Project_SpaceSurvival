@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3899290549971835659}
   - component: {fileID: 691977455879647450}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sword_Laser_Advanced
   m_TagString: Untagged
   m_Icon: {fileID: 0}
