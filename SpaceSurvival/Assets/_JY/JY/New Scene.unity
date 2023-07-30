@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &25391240 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8274379443351205685, guid: 06a8a185a34bfac4b88279afbea88136, type: 3}
+  m_PrefabInstance: {fileID: 282065969}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &64156041
 GameObject:
   m_ObjectHideFlags: 3
@@ -491,37 +496,25 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1504912640, guid: 06a8a185a34bfac4b88279afbea88136, type: 3}
-      propertyPath: m_Name
-      value: Sort_Button
-      objectReference: {fileID: 0}
     - target: {fileID: 1689104326, guid: 06a8a185a34bfac4b88279afbea88136, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 410226913176878986, guid: 06a8a185a34bfac4b88279afbea88136, type: 3}
-      propertyPath: m_Text
-      value: "\uAC15\uD654 "
-      objectReference: {fileID: 0}
-    - target: {fileID: 2268614431579964561, guid: 06a8a185a34bfac4b88279afbea88136, type: 3}
-      propertyPath: m_Name
-      value: EnhanceButton
-      objectReference: {fileID: 0}
-    - target: {fileID: 5833356128248947172, guid: 06a8a185a34bfac4b88279afbea88136, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 120
-      objectReference: {fileID: 0}
-    - target: {fileID: 5833356128248947172, guid: 06a8a185a34bfac4b88279afbea88136, type: 3}
+    - target: {fileID: 3411477804915421363, guid: 06a8a185a34bfac4b88279afbea88136, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 83
+      value: -617
       objectReference: {fileID: 0}
+    - target: {fileID: 3411477804915421363, guid: 06a8a185a34bfac4b88279afbea88136, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4638546749103636170, guid: 06a8a185a34bfac4b88279afbea88136, type: 3}
+      propertyPath: ItemEnhancer
+      value: 
+      objectReference: {fileID: 25391240}
     - target: {fileID: 7596035628093736796, guid: 06a8a185a34bfac4b88279afbea88136, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7596035628832583538, guid: 06a8a185a34bfac4b88279afbea88136, type: 3}
-      propertyPath: m_Name
-      value: AddSlot_Button
       objectReference: {fileID: 0}
     - target: {fileID: 7596035628838144067, guid: 06a8a185a34bfac4b88279afbea88136, type: 3}
       propertyPath: m_SizeDelta.y
@@ -623,10 +616,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7596035630012093307, guid: 06a8a185a34bfac4b88279afbea88136, type: 3}
-      propertyPath: m_Name
-      value: Close_Button
-      objectReference: {fileID: 0}
     - target: {fileID: 7933197360265248255, guid: 06a8a185a34bfac4b88279afbea88136, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -643,7 +632,9 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6053304444658595208, guid: 06a8a185a34bfac4b88279afbea88136, type: 3}
+    - {fileID: 8520011368463437304, guid: 06a8a185a34bfac4b88279afbea88136, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 06a8a185a34bfac4b88279afbea88136, type: 3}
 --- !u!224 &282065970 stripped
 RectTransform:
