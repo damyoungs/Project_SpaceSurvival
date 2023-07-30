@@ -35,7 +35,7 @@ static public class ItemFactory
     /// <param name="position">생성할 위치</param>
     /// <param name="randomNoise">위치에 노이즈를 추가할지 여부(true면 노이즈 적용)</param>
     /// <returns></returns>
-    public static GameObject MakeItem(ItemCode code, Vector3 position, bool randomNoise = false)
+    public static GameObject MakeItem(ItemCode code, Vector3 position, bool randomNoise = false)//아이템은 알맞은 위치에 소환이 되는데 자식오브젝트의 위치가 고정되어있다
     {
         GameObject itemObj = MakeItem(code);
         if (randomNoise)

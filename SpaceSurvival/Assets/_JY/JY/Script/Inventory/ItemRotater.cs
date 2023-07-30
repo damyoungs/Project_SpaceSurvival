@@ -24,7 +24,7 @@ public class ItemRotater : MonoBehaviour
         pos.x = 0;
         pos.y = minY + (((1 - Mathf.Cos(timeElapsed)) * 0.5f) * (maxY - minY));
 
-        transform.position = pos;
+        transform.localPosition = pos;
         transform.Rotate(0,Time.deltaTime * rotateSpeed, 0, Space.World);
     }
 }
