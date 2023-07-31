@@ -61,15 +61,15 @@ public class TempSlot : Slot
     /// 바닥에 아이템을 드랍하는 함수
     /// </summary>
     /// <param name="screenPos">마우스 커서의 스크린 좌표</param>
-    public void OnDrop(Vector2 screenPos) //구현 필요 itemFactory, Player의 dropArea필요
+    public void OnDrop(Vector2 screenPos) //LayerMask - Enhancer,Befor, After 감지 가능하면 
     {
         if (!IsEmpty)    // 임시 슬롯에 아이템이 있을 떄만 처리
         {
             Ray ray = Camera.main.ScreenPointToRay(screenPos);  // 스크린 좌표를 이용해 ray 계산
-            if (Physics.Raycast(ray, out RaycastHit hitInfo, 1000.0f, LayerMask.GetMask("Ground"))) // 레이와 바닥이 닿는지 검사
+            if (Physics.Raycast(ray, out RaycastHit ground, 1000.0f, LayerMask.GetMask("Ground"))) // 레이와 바닥이 닿는지 검사
             {
-                Vector3 dropPos = hitInfo.point;    // 바닥에 레이가 닿았으면 닿은 위치를 저장
-
+                Vector3 dropPos = ground.point;    // 바닥에 레이가 닿았으면 닿은 위치를 저장
+                
                 Vector3 dropDir = dropPos - owner.transform.position;   // 오너 위치에서 레이가 닿은 지점까지의 방향 벡터 계산
                 if (dropDir.sqrMagnitude > owner.pickupRange * owner.pickupRange)    // 방향 벡터의 크기가 ItemPickupRange를 넘는지 체크
                 {
@@ -80,6 +80,10 @@ public class TempSlot : Slot
                 ItemFactory.MakeItems(ItemData.code, ItemCount, dropPos, true);
                 ClearSlotItem();//임시슬롯 비우기
                 Close();//닫기
+            }
+            else if (Physics.Raycast(ray, out RaycastHit enhancer_Before, 1000.0f, LayerMask.GetMask("Enhancer_Before")))
+            {
+                Debug.Log("드롭 감지");
             }
         }
 
