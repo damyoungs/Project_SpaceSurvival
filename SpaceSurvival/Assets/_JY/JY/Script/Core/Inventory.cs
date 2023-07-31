@@ -109,7 +109,7 @@ public class Inventory : MonoBehaviour
     {
         GameManager.SlotManager.SlotSorting(ItemSortBy.Price, false);
     }
-    void Change_EnhancerOpen_Property()
+    public void Change_EnhancerOpen_Property()
     {
         EnhancerOpen = !EnhancerOpen;
     }
