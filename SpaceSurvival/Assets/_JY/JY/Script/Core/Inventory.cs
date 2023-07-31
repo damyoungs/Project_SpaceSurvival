@@ -58,6 +58,9 @@ public class Inventory : MonoBehaviour
             }
         }
     }
+
+    public Action onEnHancerOpen;
+    public Action onEnHancerClose;
     bool enhancerOpen = false;
     public bool EnhancerOpen
     {
@@ -67,11 +70,11 @@ public class Inventory : MonoBehaviour
             enhancerOpen = value;
             if (enhancerOpen)
             {
-                ItemEnhancer.SetActive(true);
+                onEnHancerOpen?.Invoke();
             }
             else
             {
-                ItemEnhancer.SetActive(false);
+                onEnHancerClose?.Invoke();
             }
         }
     }
@@ -107,7 +110,7 @@ public class Inventory : MonoBehaviour
     }
     void SlotSorting() //addListener 로 매개변수필요한 함수 바로 등록이 안되서 우회접근
     {
-        GameManager.SlotManager.SlotSorting(ItemSortBy.Price, false);
+        GameManager.SlotManager.SlotSorting(ItemSortBy.Price, true);
     }
     public void Change_EnhancerOpen_Property()
     {

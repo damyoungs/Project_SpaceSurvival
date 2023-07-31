@@ -108,7 +108,7 @@ public class ItemDropTable : TestBase
     public void SlotSorting()
     {
        // ItemData data = GameManager.Itemdata[itemCode];
-        GameManager.SlotManager.SlotSorting(ItemSortBy.Price, true);
+        GameManager.SlotManager.SlotSorting(ItemSortBy.Price, false);
     }
     //protected override void TestClick(InputAction.CallbackContext context)
     //{

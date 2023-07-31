@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public Inventory inventory;
     public SlotManager slotManager;
     public ItemDropTable itemSpawner;
+    public Item_Enhancer enhancer;
+
     ItemDataManager itemDataManager;
     
     public static ItemDataManager Itemdata { get { return Inst.itemDataManager; } }
@@ -18,6 +20,7 @@ public class GameManager : MonoBehaviour
     public static SlotManager SlotManager { get { return Inst.slotManager; } }
     public static ItemDropTable Item_Spawner { get { return Inst.itemSpawner; } }
     public static PlayerDummy playerDummy { get { return Inst.player; } }
+    public static Item_Enhancer Item_Enhancer { get { return Inst.enhancer; } }
 
     private void Awake()
     {

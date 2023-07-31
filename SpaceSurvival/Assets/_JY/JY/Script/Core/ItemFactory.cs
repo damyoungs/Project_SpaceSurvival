@@ -16,7 +16,6 @@ static public class ItemFactory
 
     public static GameObject MakeItem(ItemCode code)
     {
-        Debug.Log(GameManager.Itemdata[code]);
         ItemData itemData = GameManager.Itemdata[code];             // 코드로 아이템 데이터 가져오기
         GameObject itemObj = GameObject.Instantiate(itemData.modelPrefab);  // 아이템 데이터에 있는 프리팹을 이용해 아이템 오브젝트 생성
         ItemObject item = itemObj.GetComponent<ItemObject>();

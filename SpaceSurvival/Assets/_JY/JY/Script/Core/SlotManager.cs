@@ -23,6 +23,8 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     public Transform etc_Below;
     public Transform craft_Below;
 
+    public Action<ItemData> setEnhanceItem;
+    RectTransform beforeSlotRectTransform;
     public ItemSplitter spliter;
     bool isShiftPress = false;
 
@@ -55,6 +57,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         spliter.onCancel += () => itemDescription.IsPause = false;   // 캔슬버턴 누르면 상세정보창 일시정지 해제
         spliter.Close();
         spliter.onOkClick += OnSpliterOk;
+        beforeSlotRectTransform = GameManager.Item_Enhancer.EnhancerUI.BeforeSlot.GetComponent<RectTransform>();
 
 
         slots = new Dictionary<Current_Inventory_State, List<Slot>>
@@ -212,15 +215,23 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     /// 마우스 클릭이 떨어졌을 때 실행되는 함수(아이템 드랍용)
     /// </summary>
     private void OnItemDrop(InputAction.CallbackContext _)
-    {
-        Vector2 screenPos = Mouse.current.position.ReadValue();
-        Vector2 diff = screenPos - (Vector2)inventoryRectTransform.position;
-
-        if (!inventoryRectTransform.rect.Contains(diff))
+    {    
+        if (!tempSlot.IsEmpty)
         {
-            // 인벤토리 영역 밖이면
-            TempSlot.OnDrop(screenPos);
+            Vector2 screenPos = Mouse.current.position.ReadValue();
+            Vector2 distance_BetweenMouse_Inven = screenPos - (Vector2)inventoryRectTransform.position;//inventoryRectTransform.position의 피봇을 기준으로 거리 계산
+            Vector2 distance_BetweenMouse_BeforeSlot = screenPos - (Vector2)beforeSlotRectTransform.position;
+            if (beforeSlotRectTransform.rect.Contains(distance_BetweenMouse_BeforeSlot))
+            {
+                setEnhanceItem?.Invoke(tempSlot.ItemData);
+            }
+            else if (!inventoryRectTransform.rect.Contains(distance_BetweenMouse_Inven))// 그 거리의 크기가 rect 의 크기보다 작으면 인벤토리 안쪽
+            {
+                // 인벤토리 영역 밖이면
+                TempSlot.OnDrop(screenPos);
+            }
         }
+  
     }
     private Transform GetParentTransform()
     {

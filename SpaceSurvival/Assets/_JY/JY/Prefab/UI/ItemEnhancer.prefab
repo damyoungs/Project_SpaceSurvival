@@ -2637,7 +2637,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -3036,6 +3036,8 @@ GameObject:
   - component: {fileID: 6336402597938854543}
   - component: {fileID: 246758097728066387}
   - component: {fileID: 9057650379926132272}
+  - component: {fileID: 1356782769335729881}
+  - component: {fileID: 2119834413}
   m_Layer: 5
   m_Name: ItemEnhancer
   m_TagString: Untagged
@@ -3148,8 +3150,30 @@ MonoBehaviour:
   amountText: {fileID: 1411703492782080442}
   amountSlider: {fileID: 2474593297578543036}
   warningBox: {fileID: 3164763721300199048}
-  beforeSlot: {fileID: 226410009}
-  afterSlot: {fileID: 1281675563}
+--- !u!114 &1356782769335729881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7872418777090734736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c210143900f23f4289ff0e92c958c80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!225 &2119834413
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7872418777090734736}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &8020345027800437275
 GameObject:
   m_ObjectHideFlags: 0

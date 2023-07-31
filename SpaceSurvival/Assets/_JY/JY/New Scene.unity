@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -487,6 +487,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2054279955}
     m_Modifications:
+    - target: {fileID: 908656586, guid: 06a8a185a34bfac4b88279afbea88136, type: 3}
+      propertyPath: m_Alpha
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 994594390, guid: 06a8a185a34bfac4b88279afbea88136, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -636,11 +640,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66825a2c18f92674cb91d06f90e15e82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &669108250 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6098924357449724320, guid: 06a8a185a34bfac4b88279afbea88136, type: 3}
-  m_PrefabInstance: {fileID: 282065969}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &674611024
 GameObject:
   m_ObjectHideFlags: 0
@@ -1134,6 +1133,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1928691839}
     - target: {fileID: 4970949364816093331, guid: e30040716f477e14aaf383c423214e52, type: 3}
+      propertyPath: enhancer
+      value: 
+      objectReference: {fileID: 2119834412}
+    - target: {fileID: 4970949364816093331, guid: e30040716f477e14aaf383c423214e52, type: 3}
       propertyPath: inventory
       value: 
       objectReference: {fileID: 1419479397}
@@ -1149,10 +1152,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: '@GameManager'
       objectReference: {fileID: 0}
-    - target: {fileID: 5938913832177739167, guid: e30040716f477e14aaf383c423214e52, type: 3}
-      propertyPath: itemDatas.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 444aa2a93b478a7459749a3b63b3a094, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e30040716f477e14aaf383c423214e52, type: 3}
 --- !u!224 &1419479391 stripped
@@ -1692,10 +1691,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2054279955}
     m_Modifications:
-    - target: {fileID: 1314816051950888014, guid: f79ccc757d55b794c99fb431805966ac, type: 3}
-      propertyPath: m_RaycastTarget
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3516453228117589270, guid: f79ccc757d55b794c99fb431805966ac, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1804,6 +1799,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3516453228117589270, guid: f79ccc757d55b794c99fb431805966ac, type: 3}
   m_PrefabInstance: {fileID: 2119834405}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2119834412 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1356782769335729881, guid: f79ccc757d55b794c99fb431805966ac, type: 3}
+  m_PrefabInstance: {fileID: 2119834405}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119834406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c210143900f23f4289ff0e92c958c80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4905802208669190798
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1898,30 +1904,9 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6098924357449724325, guid: 06a8a185a34bfac4b88279afbea88136, type: 3}
   m_PrefabInstance: {fileID: 282065969}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 669108250}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98f79a37fbbc0704d97d6a1b11e9d171, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!223 &6098924357449724329
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 669108250}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 1
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0

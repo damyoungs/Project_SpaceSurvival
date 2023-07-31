@@ -20,7 +20,7 @@ public class ToolBar : MonoBehaviour, IPointerDownHandler,IDragHandler,IPointerU
         maxX = Screen.width - (parentTransform.sizeDelta.x * 0.5f);
         minY = parentTransform.sizeDelta.y * 0.5f;
         maxY = Screen.height - (parentTransform.sizeDelta.y * 0.5f);
-        Debug.Log(minX);
+
     }
     public void OnPointerDown(PointerEventData eventData)
     {
