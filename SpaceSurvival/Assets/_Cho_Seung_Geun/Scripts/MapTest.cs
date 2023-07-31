@@ -13,9 +13,10 @@ public class MapTest : TestBase
     public GameObject vertexTile;           // 꼭지점 타일
     public GameObject wall;                 // 기본 벽
     public GameObject pointLight;           // 조명
+    public GameObject pillar;               // 기둥
 
-    public int sizeX = 0;                          // 타일 가로 갯수
-    public int sizeY = 0;                          // 타일 세로 갯수
+    public int sizeX = 0;                   // 타일 가로 갯수
+    public int sizeY = 0;                   // 타일 세로 갯수
 
     public int tileCount = 0;               // 타일의 수
 
@@ -39,7 +40,7 @@ public class MapTest : TestBase
 
     private void Start()
     {
-        // 중앙 타일 사이즈 반환
+        // 중앙 타일 사이즈 반환     - 밑의 두 타일과 사이즈 같음(혹시 몰라 밑에도 구했지만 필요없으면 지울 예정)
         mainTileSize = centerTile.GetComponentInChildren<BoxCollider>().size;
         // 사이드 타일 사이즈 반환
         sideTileSize = sideTile.GetComponentInChildren<BoxCollider>().size;      
@@ -139,12 +140,13 @@ public class MapTest : TestBase
             //player.transform.position = GetTile(sizeX / 2, sizeY).transform.position;       // 플레이어 위치 이동
             player.transform.position = GetTile(sizeX / 2, sizeY - (sizeY / 3)).transform.position;       // 플레이어 위치 이동(임시)
 
-            // 라이트 생성
+            // 라이트 및 기둥 생성
             LightInstantiate();
 
-            //MiniMapInstantiate();       // 미니맵 생성
+            //MiniMapInstantiate();       // 미니맵 판자 생성(필요없을 것 같아 나중에 지울 예정)
 
             isExist = true;         // 중복 맵 생성 방지
+            
         }
 
     }
@@ -218,10 +220,17 @@ public class MapTest : TestBase
         lights[1].transform.position = GetTile(sizeX - sizeX / 3 + 1, sizeY / 3 - 1).transform.position + new Vector3(0.0f, 20.0f, 0.0f);
         lights[2].transform.position = GetTile(sizeX / 3 - 1, sizeY - sizeY / 3 + 1).transform.position + new Vector3(0.0f, 20.0f, 0.0f);
         lights[3].transform.position = GetTile(sizeX - sizeX / 3 + 1, sizeY - sizeY / 3 + 1).transform.position + new Vector3(0.0f, 20.0f, 0.0f);
+
+        GameObject[] pillars = new GameObject[4];
+        for (int i = 0; i < lights.Length; i++)
+        {
+            pillars[i] = Instantiate(pillar);
+            pillars[i].transform.position = lights[i].transform.position + new Vector3(0.0f, -20.0f, 0.0f);
+        }
     }
 
     /// <summary>
-    /// 미니맵 생성
+    /// 미니맵 판자 생성(지울 예정)
     /// </summary>
     void MiniMapInstantiate()
     {
