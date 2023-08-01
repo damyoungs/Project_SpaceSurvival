@@ -25,6 +25,8 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
 
     public Action<ItemData> setEnhanceItem;
     RectTransform beforeSlotRectTransform;
+    RectTransform enhancerUIRectTransform;
+
     public ItemSplitter spliter;
     bool isShiftPress = false;
 
@@ -58,6 +60,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         spliter.Close();
         spliter.onOkClick += OnSpliterOk;
         beforeSlotRectTransform = GameManager.Item_Enhancer.EnhancerUI.BeforeSlot.GetComponent<RectTransform>();
+        enhancerUIRectTransform = GameManager.Item_Enhancer.GetComponent<RectTransform>();
 
 
         slots = new Dictionary<Current_Inventory_State, List<Slot>>
@@ -218,15 +221,31 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     {    
         if (!tempSlot.IsEmpty)
         {
+            //레이를 쏘기 전에 레이의 좌표를 스크린좌표로 바꿔줘야함 그러나 굳이 위치를 비교하는 것 보다 레이를 쏴서 비교할 이유는 없다.
+            //Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+            //if (Physics.Raycast(ray, out RaycastHit ground, 1000.0f, LayerMask.GetMask("BeforeSlot")))
+            //{
+            //    Debug.Log("BeforeSlot감지");
+            //}
+            //else if ((Physics.Raycast(ray, out RaycastHit beforeSlot, 1000.0f, LayerMask.GetMask("Ground"))))
+            //{
+            //    Debug.Log("Ground");
+            //}
             Vector2 screenPos = Mouse.current.position.ReadValue();
-            Vector2 distance_BetweenMouse_Inven = screenPos - (Vector2)inventoryRectTransform.position;//inventoryRectTransform.position의 피봇을 기준으로 거리 계산
+            Vector2 distance_BetweenMouse_Inven = screenPos - (Vector2)inventoryRectTransform.position;//inventoryRectTransform.position의 피봇을 기준으로 떨어진거리 계산
             Vector2 distance_BetweenMouse_BeforeSlot = screenPos - (Vector2)beforeSlotRectTransform.position;
-            if (beforeSlotRectTransform.rect.Contains(distance_BetweenMouse_BeforeSlot))
+            Vector2 distance_BetweenMouse_enhancerUI = screenPos - (Vector2)enhancerUIRectTransform.position;
+
+            if (beforeSlotRectTransform.rect.Contains(distance_BetweenMouse_BeforeSlot) && tempSlot.ItemData.Enhanceable)//강화 슬롯의 위치이면서 강화ㅑ 가능한 아이템 일 때
             {
                 setEnhanceItem?.Invoke(tempSlot.ItemData);
             }
-            else if (!inventoryRectTransform.rect.Contains(distance_BetweenMouse_Inven))// 그 거리의 크기가 rect 의 크기보다 작으면 인벤토리 안쪽
+            else if (!inventoryRectTransform.rect.Contains(distance_BetweenMouse_Inven))// 거리의 크기가 rect 의 크기보다 작으면 인벤토리 안쪽
             {
+                if (enhancerUIRectTransform.rect.Contains(distance_BetweenMouse_enhancerUI))
+                {
+                    return;
+                }
                 // 인벤토리 영역 밖이면
                 TempSlot.OnDrop(screenPos);
             }
