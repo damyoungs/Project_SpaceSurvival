@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMove : MonoBehaviour
 {
-	[SerializeField] private Animator unitAnimator;
+	public Animator unitAnimator;
 	Camera mainCamera;
 	
 	float moveSpeed = 4.0f;
@@ -25,10 +25,14 @@ public class PlayerMove : MonoBehaviour
 	{
 		inputClick.Mouse.Enable();
 		inputClick.Mouse.MouseClick.performed += onClick;
+		inputClick.Mouse.MouseClickRight.performed += onClickRight;
+		//inputClick.Test.Test3.performed += onUnitDie;
 	}
 
 	private void OnDisable()
 	{
+		//inputClick.Test.Test3.performed -= onUnitDie;
+		inputClick.Mouse.MouseClickRight.performed -= onClickRight;
 		inputClick.Mouse.MouseClick.performed -= onClick;
 		inputClick.Mouse.Disable();
 	}
@@ -45,7 +49,7 @@ public class PlayerMove : MonoBehaviour
 			{
 				target = (BoxCollider)hitInfo.collider;                     
 				Tile tile = target.gameObject.GetComponent<Tile>();            
-				//Debug.Log($"Ÿ�� ��ġ : {tile.Width}, {tile.Length}");
+				
 			}
 		}
 	}
@@ -77,4 +81,12 @@ public class PlayerMove : MonoBehaviour
 		}
 	
 	}
+
+	protected virtual void onClickRight(InputAction.CallbackContext context)
+	{
+	}
+
+	//protected virtual void onUnitDie(InputAction.CallbackContext context)
+	//{
+	//}
 }
