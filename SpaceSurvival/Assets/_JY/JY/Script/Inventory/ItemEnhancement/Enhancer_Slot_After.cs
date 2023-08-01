@@ -7,5 +7,8 @@ using UnityEngine.UI;
 
 public class Enhancer_Slot_After : Enhancer_Slot_Base
 {
-
+    private void Start()
+    {
+        GameManager.SlotManager.setEnhanceItem += (itemData) => ItemData = itemData;
+    }
 }
