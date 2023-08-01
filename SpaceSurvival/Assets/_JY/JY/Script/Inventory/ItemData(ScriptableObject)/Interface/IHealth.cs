@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IConsumable 
+public interface IHealth
 {
 
-    public void Consume(GameObject target);
 }
