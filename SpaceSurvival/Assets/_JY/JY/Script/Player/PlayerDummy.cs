@@ -17,7 +17,6 @@ public class PlayerDummy : MonoBehaviour
 
     public float moveSpeed = 0.0f;
     public float rotateSpeed = 0.0f;
-
     public float pickupRange = 3.0f;
 
     int money = 0;

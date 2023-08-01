@@ -41,6 +41,7 @@ public class Item_Enhancer_UI : MonoBehaviour
     {
         GameManager.Inventory.onEnHancerOpen += Open;
         GameManager.Inventory.onEnHancerClose += Close;
+        GameManager.SlotManager.setEnhanceItem += (_) => RefreshEnhancerUI();
     }
     void Open()
     {
@@ -54,5 +55,8 @@ public class Item_Enhancer_UI : MonoBehaviour
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
     }
-
+    void RefreshEnhancerUI()
+    {
+       // amountSlider.value = GameManager.Inst.player.
+    }
 }
