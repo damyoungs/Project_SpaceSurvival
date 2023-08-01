@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IConsumable 
+public interface IUsable
 {
-
-    public void Consume(GameObject target);
+    void Use();
 }

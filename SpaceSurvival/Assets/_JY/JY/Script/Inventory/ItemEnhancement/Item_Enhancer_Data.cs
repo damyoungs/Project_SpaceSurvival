@@ -12,7 +12,7 @@ public class Item_Enhancer_Data
     {
         return 0;
     }
-    public float Set_SuccessRate(ItemData item)
+    public float Set_SuccessRate(ItemData item, uint darkforce)
     {
         return 0;
     }

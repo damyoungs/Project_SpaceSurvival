@@ -59,25 +59,6 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public Action onEnHancerOpen;
-    public Action onEnHancerClose;
-    bool enhancerOpen = false;
-    public bool EnhancerOpen
-    {
-        get => enhancerOpen;
-        set
-        {
-            enhancerOpen = value;
-            if (enhancerOpen)
-            {
-                onEnHancerOpen?.Invoke();
-            }
-            else
-            {
-                onEnHancerClose?.Invoke();
-            }
-        }
-    }
     private void Awake()
     {
         toolBar = transform.GetChild(0);
@@ -99,7 +80,7 @@ public class Inventory : MonoBehaviour
         sort_Button.onClick.AddListener(SlotSorting);
         close_Button.onClick.AddListener(Open_Inventory);
         add_Button.onClick.AddListener(GameManager.SlotManager.Make_Slot);
-        enhance_Button.onClick.AddListener(Change_EnhancerOpen_Property);
+     
         equip_Button.onClick.AddListener(SwitchTab_To_Equip);
         consume_Button.onClick.AddListener(SwitchTab_To_Consume);
         etc_Button.onClick.AddListener(SwitchTab_To_Etc);
@@ -112,13 +93,11 @@ public class Inventory : MonoBehaviour
     {
         GameManager.SlotManager.SlotSorting(ItemSortBy.Price, true);
     }
-    public void Change_EnhancerOpen_Property()
-    {
-        EnhancerOpen = !EnhancerOpen;
-    }
+ 
     private void OnEnable()
     {
         inventory_changed += Update_State;
+    
     }
     private void OnDisable()
     {
@@ -127,6 +106,7 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         GameManager.SlotManager.Initialize();
+        enhance_Button.onClick.AddListener(GameManager.Item_Enhancer.EnhancerUI.Open);//enable, Awake¿¡¼­´Â ¾ÈµÊ
     }
     void Update_State(Current_Inventory_State state)
     {

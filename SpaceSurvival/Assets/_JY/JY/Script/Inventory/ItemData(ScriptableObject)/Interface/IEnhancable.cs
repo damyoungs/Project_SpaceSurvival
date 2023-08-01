@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IConsumable 
+public interface IEnhancable 
 {
-
-    public void Consume(GameObject target);
+    bool TryEnhance();
 }
