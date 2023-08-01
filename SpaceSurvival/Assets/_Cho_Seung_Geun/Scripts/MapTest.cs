@@ -147,7 +147,7 @@ public class MapTest : TestBase
 
             isExist = true;         // 중복 맵 생성 방지
         }
-
+        SetBlock(true);
     }
 
 
@@ -255,5 +255,50 @@ public class MapTest : TestBase
         cube.GetComponent<MeshRenderer>().material = material;
     }
 
+    /// <summary>
+    /// 카메라가 벗어나지않게 설정해주는 박스 컬라이더  
+    /// 피벗 위치가 Z기준 중앙에서 왼쪽 아래로 바뀌어서 로직수정
+    /// </summary>
+    public BoxCollider blockCamera;
+    private void SetBlock()
+    {
+        if (blockCamera != null)
+        {
+            float blockHeight = 100.0f;//높이 대충 카메라가 벗어나지않을정도로 높게
+            float cameraPositionCalibration = 4.0f;//보정값 카메라 시야에 따라 수정
+            float tempX = sizeX * sideTileSize.x; //전체 가로사이즈 구해오기
+            float tempY = sizeY * sideTileSize.x; //전체 세로사이즈 구해오기
+            float halfX = tempX * 0.5f; //전체 X 길이의 중간
+            float halfY = tempY * 0.5f; //전체 Z 길이의 중간
+            float halfTileSize = sideTileSize.x * 0.5f; //타일의 중간값
+
+            blockCamera.size = new Vector3(tempX - cameraPositionCalibration, //카메라 시야때문에 밖이안보이게 보정값을 적용
+                                            blockHeight,                    //값 대충셋팅
+                                            tempY - cameraPositionCalibration //카메라 시야때문에 밖이안보이게 보정값을 적용
+                                            );
+            blockCamera.center = new Vector3(halfX - halfTileSize, //x 셋터값은 중앙 위치할수있게 셋팅 타일 크기의 반을추가로빼준다
+                                             1.0f, // 높이 대충설정해놔서 이값도 대충
+                                             halfY - halfTileSize //Z 값도 중앙에 위치할수있게 반을 
+                                             );
+        }
+
+    }
+
+    /// <summary>
+    /// 카메라가 벗어나지않게 설정해주는 박스 컬라이더 
+    /// 피봇 위치 Z 중앙
+    /// </summary>
+    private void SetBlock(bool pivotCenter = true)
+    {
+        float blockHeight = 100.0f;//높이 대충 높게
+        if (blockCamera != null)
+        {
+            float tempX = sizeX * sideTileSize.x; //전체 가로사이즈 구해오기
+            float tempY = sizeY * sideTileSize.x; //전체 세로사이즈 구해오기
+            blockCamera.size = new Vector3(tempX - 4.0f, blockHeight, tempY - 2.0f); //비율 왼쪽:오른쪽 4:2로 셋팅 셀한칸에 3정도 잡히니깐 양쪽으로 하나씩줄였다.
+            blockCamera.center = new Vector3(-1.0f, 1.0f, (tempY * 0.5f) + 0.5f); //카메라 벗어나지않게 1칸씩 줄였다.
+        }
+
+    }
 
 }
