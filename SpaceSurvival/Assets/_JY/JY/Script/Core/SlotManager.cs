@@ -218,10 +218,19 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     {    
         if (!tempSlot.IsEmpty)
         {
+            //Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+            //if (Physics.Raycast(ray, out RaycastHit ground, 1000.0f, LayerMask.GetMask("BeforeSlot")))
+            //{
+            //    Debug.Log("BeforeSlot감지");
+            //}
+            //else if ((Physics.Raycast(ray, out RaycastHit beforeSlot, 1000.0f, LayerMask.GetMask("Ground"))))
+            //{
+            //    Debug.Log("Ground");
+            //}
             Vector2 screenPos = Mouse.current.position.ReadValue();
             Vector2 distance_BetweenMouse_Inven = screenPos - (Vector2)inventoryRectTransform.position;//inventoryRectTransform.position의 피봇을 기준으로 거리 계산
             Vector2 distance_BetweenMouse_BeforeSlot = screenPos - (Vector2)beforeSlotRectTransform.position;
-            if (beforeSlotRectTransform.rect.Contains(distance_BetweenMouse_BeforeSlot))
+            if (beforeSlotRectTransform.rect.Contains(distance_BetweenMouse_BeforeSlot) && tempSlot.ItemData.Enhanceable)//강화 슬롯의 위치이면서 강화ㅑ 가능한 아이템 일 때
             {
                 setEnhanceItem?.Invoke(tempSlot.ItemData);
             }
