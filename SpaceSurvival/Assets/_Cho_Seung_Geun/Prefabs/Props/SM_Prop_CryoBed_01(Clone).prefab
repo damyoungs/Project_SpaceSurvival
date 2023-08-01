@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   width: 1
-  height: 2
+  length: 2
 --- !u!1 &5282291663091995535
 GameObject:
   m_ObjectHideFlags: 0

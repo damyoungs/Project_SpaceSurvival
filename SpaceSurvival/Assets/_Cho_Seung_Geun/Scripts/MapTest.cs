@@ -1,3 +1,4 @@
+using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -27,15 +28,14 @@ public class MapTest : TestBase
     public List<GameObject> multiProps;     // 2칸 이상의 타일을 차지하는 물체
 
     bool isExist = false;                   // 타일 존재 여부
+    bool isPropExist = false;
 
     Vector3 mainTileSize = Vector3.zero;    // 중앙 타일 사이즈
     Vector3 sideTileSize = Vector3.zero;    // 사이드 타일 사이즈
     Vector3 vertexTileSize = Vector3.zero;  // 꼭지점 타일 사이즈
 
-    Vector3 startPos = new Vector3();       // 추후에 캐릭터 놓을 위치. 지금은 임시적으로 (0, 0, 0) 으로 설정
-
     GameObject[] mapTiles;                  // 타일 오브젝트 객체를 담을 배열
-
+    List<GameObject> props;                 // 지형 지물을 담을 배열
 
     GameObject[] lights;                    // 조명
     GameObject[] pillars;                   // 기둥
@@ -72,7 +72,6 @@ public class MapTest : TestBase
             isExist = true;         // 중복 맵 생성 방지
 
         }
-
     }
 
     /// <summary>
@@ -88,7 +87,20 @@ public class MapTest : TestBase
 
     protected override void Test3(InputAction.CallbackContext _)
     {
-        PropInstantiate();
+        if (isExist)
+        {
+            PropInstantiate();
+            isPropExist = true;
+        }
+    }
+
+    protected override void Test4(InputAction.CallbackContext context)
+    {
+        if (isPropExist)
+        {
+            PropDestroy();
+            isPropExist = false;
+        }
     }
 
 
@@ -123,44 +135,44 @@ public class MapTest : TestBase
 
                 if (width == 0 && length == 0)                                      // 왼쪽 위
                 {
-                    mapTiles[i].transform.Rotate(new Vector3(0, 180.0f, 0));
+                    mapTiles[i].transform.Rotate(new Vector3(0, 90.0f, 0));
                 }
                 else if (width == 0 && length == sizeY - 1)                         // 왼쪽 아래
                 {
-                    mapTiles[i].transform.Rotate(new Vector3(0, 90.0f, 0));
+                    mapTiles[i].transform.Rotate(new Vector3(0, 180.0f, 0));
                 }
                 else if (width == sizeX - 1 && length == 0)                         // 오른쪽 위
                 {
+                    mapTiles[i].transform.Rotate(new Vector3(0, 0.0f, 0));
+                }
+                else if (width == sizeX - 1 && length == sizeY - 1)                 // 오른쪽 아래
+                {
                     mapTiles[i].transform.Rotate(new Vector3(0, 270.0f, 0));
                 }
-                //else if (width == sizeX - 1 && length == sizeY - 1)               // 오른쪽 아래
-                //{
-                //    mapTiles[i].transform.Rotate(new Vector3(0, 360.0f, 0));
-                //}
             }
             else if (width == 0 || width == sizeX - 1 || length == 0 || length == sizeY - 1)
             {
                 // 가장자리일 경우
-                TileInstantiate(i, sideTile, Tile.MapTileType.sideTile, width, length);              // 사이드 타일 생성
-                wallObject = Instantiate(wall, mapTiles[i].transform);                          // 측면 벽 생성
-                wallObject.transform.Translate(new Vector3(1, 0.0f, -1.75f));                   // 측면 벽 이동
+                TileInstantiate(i, sideTile, Tile.MapTileType.sideTile, width, length);             // 사이드 타일 생성
+                wallObject = Instantiate(wall, mapTiles[i].transform);                              // 측면 벽 생성
+                wallObject.transform.Translate(new Vector3(1, 0.0f, -1.75f));                       // 측면 벽 이동
 
-                if (width == 0)                                                             // 왼쪽 세로줄
+                if (width == 0)                                                                     // 왼쪽 세로줄
                 {
                     mapTiles[i].transform.Rotate(new Vector3(0, 90.0f, 0));
                 }
-                else if (width == sizeX - 1)                                                // 오른쪽 세로줄
+                else if (width == sizeX - 1)                                                        // 오른쪽 세로줄
                 {
                     mapTiles[i].transform.Rotate(new Vector3(0, 270.0f, 0));
                 }
-                else if (length == 0)                                                        // 맨 윗줄
+                else if (length == 0)                                                               // 맨 윗줄
+                {
+                    mapTiles[i].transform.Rotate(new Vector3(0, 0.0f, 0));
+                }
+                else if (length == sizeY - 1)                                                       // 맨 아랫줄
                 {
                     mapTiles[i].transform.Rotate(new Vector3(0, 180.0f, 0));
                 }
-                //else if (j == sizeY - 1)                                              // 맨 아랫줄
-                //{
-                //    mapTiles[i, j].transform.Rotate(new Vector3(0, 360.0f, 0));
-                //}
             }
             else
             {
@@ -169,9 +181,7 @@ public class MapTest : TestBase
                 mapTiles[i].transform.Rotate(new Vector3(0, 90.0f * Random.Range(0, 4), 0));        // 중앙 타일 랜덤 회전(그냥 미관상)
             }
 
-            // 타일 위치 이동. startPos는 임시로 넣어놓은 값(0, 0, 0)
-            mapTiles[i].transform.position = new Vector3(startPos.x + mainTileSize.x * width,
-                                                        0, startPos.z + mainTileSize.z * (sizeY - 1) - mainTileSize.z * length);
+            mapTiles[i].transform.position = new Vector3(mainTileSize.x * width, 0, mainTileSize.z * length);
         }
     }
 
@@ -220,6 +230,7 @@ public class MapTest : TestBase
         mapTiles[i].GetComponent<Tile>().TileType = tileType;              // 타일 스크립트에 타입 저장
         mapTiles[i].GetComponent<Tile>().Width = width;                         // 타일 가로 인덱스 저정
         mapTiles[i].GetComponent<Tile>().Length = length;                       // 타일 세로 인덱스 저정
+        mapTiles[i].GetComponent<Tile>().Index = i;
     }
 
     /// <summary>
@@ -238,12 +249,12 @@ public class MapTest : TestBase
 
         for (int i = 0; i < 4; i++)
         {
-            standardPos[i].GetComponent<Tile>().ExistTypes = Tile.ExistType.prop;                       // 기둥이 있는 타일의 타입 지정
+            standardPos[i].GetComponent<Tile>().ExistTypes = Tile.ExistType.prop;                                 // 기둥이 있는 타일의 타입 지정
 
-            pillars[i] = Instantiate(pillar, gameObject.transform);                                                           // 기둥 생성
+            pillars[i] = Instantiate(pillar, gameObject.transform);                                               // 기둥 생성
             pillars[i].transform.position = standardPos[i].transform.position;                                    // 기둥 이동
 
-            lights[i] = Instantiate(pointLight, gameObject.transform);                                                        // 조명 생성
+            lights[i] = Instantiate(pointLight, gameObject.transform);                                            // 조명 생성
             lights[i].transform.position = standardPos[i].transform.position + new Vector3(0.0f, 20.0f, 0.0f);    // 조명 이동
         }
     }
@@ -284,45 +295,94 @@ public class MapTest : TestBase
 
     private void PropInstantiate()
     {
-        int chooseProp = Random.Range(0, 5);
+        if (props == null)
+        {
+            props = new List<GameObject>(9);
+        }
+        else
+        {
+            return;
+        }
+
+        int chooseProp;
+
+        int[] tempArrayX = new int[4] { 0, standardPos[0].Width, standardPos[1].Width, sizeX };
+        int[] tempArrayY = new int[4] { 0, standardPos[0].Length, standardPos[2].Length, sizeY };
+
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                chooseProp = Random.Range(0, multiProps.Count);
+                PropMultiMaking(chooseProp, tempArrayX[i], tempArrayX[i + 1], tempArrayY[j], tempArrayY[j + 1]);
+            }
+        }
+
+        for (int i = 0; i < Random.Range(0, singleProps.Count); i++)
+        {
+            chooseProp = Random.Range(0, singleProps.Count);
+            PropSingleMaking(chooseProp);
+        }
+
+    }
+
+
+    private void PropSingleMaking(int chooseProp)
+    {
+        GameObject obj = Instantiate(singleProps[chooseProp]);
+        obj.transform.position = GetTile(Random.Range(0, sizeX), Random.Range(0, sizeY)).transform.position;
+        props.Add(obj);
+    }
+
+    private void PropMultiMaking(int chooseProp, int index1, int index2, int index3, int index4)
+    {
         GameObject obj = Instantiate(multiProps[chooseProp]);
-        
-        //while (true)
-        //{
-            Tile tileTemp = GetTile(Random.Range(0, standardPos[0].Width),
-                                                                Random.Range(0, standardPos[0].Length)).GetComponent<Tile>();
 
-            if (obj.GetComponent<PropData>().width % 2 == 1)
-            {
-                if (tileTemp.Width % 2 == 1)
-                {
-                    tileTemp.Width++;
-                }
-            }
-            else
-            {
-                if (tileTemp.Width % 2 == 0)
-                {
-                    tileTemp.Width++;
-                }
-            }
+        Vector3Int getPos = new Vector3Int(Random.Range(index1 * 2, index2 * 2), 0, Random.Range(index3 * 2, index4 * 2));
+        //Vector3Int getPos = new Vector3Int(Random.Range(0, standardPos[0].Width * 2), 0, Random.Range(standardPos[0].Length * 2, sizeY * 2));
 
-            if (obj.GetComponent<PropData>().length % 2 == 1)
+        if (obj.GetComponent<PropData>().width % 2 == 1)
+        {
+            if (getPos.x % 2 == 1)
             {
-                if (tileTemp.Length % 2 == 1)
-                {
-                    tileTemp.Length++;
-                }
+                getPos.x++;
             }
-            else
+        }
+        else
+        {
+            if (getPos.x % 2 == 0)
             {
-                if (tileTemp.Length % 2 == 0)
-                {
-                    tileTemp.Length++;
-                }
+                getPos.x++;
             }
+        }
 
-            obj.transform.position = GetTile(tileTemp.Width, tileTemp.Length).transform.position;
-        //}
+        if (obj.GetComponent<PropData>().length % 2 == 1)
+        {
+            if (getPos.z % 2 == 1)
+            {
+                getPos.z++;
+            }
+        }
+        else
+        {
+            if (getPos.z % 2 == 0)
+            {
+                getPos.z++;
+            }
+        }
+
+        obj.transform.position = getPos;
+
+        props.Add(obj);
+    }
+
+    private void PropDestroy()
+    {
+        foreach (var obj in props)
+        {
+            Destroy(obj);
+        }
+        props.Clear();
+        props = null;
     }
 }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1465890701412962629}
   - component: {fileID: 1465890701412962630}
   - component: {fileID: 1465890701412962631}
+  - component: {fileID: -6460887230557194997}
   m_Layer: 0
   m_Name: SM_Prop_Crate_Wide_01(Clone)
   m_TagString: Untagged
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1465890701412962632}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1465890701638740604}
@@ -99,6 +100,21 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43881338687351010, guid: 230e54622c6a6764fa831732b6170349, type: 2}
+--- !u!114 &-6460887230557194997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465890701412962632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b000c63bccbd1e49a6962350676e276, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  width: 1
+  length: 1
+  count: 1
 --- !u!1 &1465890701638740605
 GameObject:
   m_ObjectHideFlags: 0

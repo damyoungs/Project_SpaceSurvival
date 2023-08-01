@@ -49,7 +49,7 @@ public class Tile : MonoBehaviour
     }
 
     // 타일의 가로 인덱스
-    int width = 0;
+    public int width = 0;
     public int Width
     {
         get => width;
@@ -60,7 +60,7 @@ public class Tile : MonoBehaviour
     }
 
     // 타일의 세로 인덱스
-    int length = 0;
+    public int length = 0;
     public int Length
     {
         get => length;
@@ -69,4 +69,6 @@ public class Tile : MonoBehaviour
             length = value;
         }
     }
+
+    public int Index = 0;
 }
