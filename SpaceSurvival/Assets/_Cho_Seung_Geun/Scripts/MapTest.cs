@@ -1,3 +1,4 @@
+//using System;
 using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
@@ -67,7 +68,7 @@ public class MapTest : TestBase
             //MiniMapInstantiate();                 // 미니맵 판자 생성(필요없을 것 같아 나중에 지울 예정)
 
             //player.transform.position = GetTile(sizeX / 2, sizeY).transform.position;                     // 플레이어 위치 이동
-            player.transform.position = GetTile(sizeX / 2, sizeY - (sizeY / 3)).transform.position;         // 플레이어 위치 이동(임시)
+            player.transform.position = GetTile(sizeX / 2, sizeY / 3).transform.position;         // 플레이어 위치 이동(임시)
 
             isExist = true;         // 중복 맵 생성 방지
 
@@ -332,6 +333,15 @@ public class MapTest : TestBase
         GameObject obj = Instantiate(singleProps[chooseProp]);
         obj.transform.position = GetTile(Random.Range(0, sizeX), Random.Range(0, sizeY)).transform.position;
         props.Add(obj);
+    }
+
+    private void PropMultiMaking2(int chooseProp, int index1, int index2, int index3, int index4)
+    {
+        GameObject obj = Instantiate(multiProps[chooseProp]);
+        //Vector3Int getPos = new Vector3Int(Random.Range(0, standardPos[0].Width * 2), 0, Random.Range(standardPos[0].Length * 2, sizeY * 2));
+        GameObject tile = GetTile(Random.Range(index1, index2), Random.Range(index3, index4));
+
+        obj.transform.position = tile.transform.position;
     }
 
     private void PropMultiMaking(int chooseProp, int index1, int index2, int index3, int index4)
