@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -8,6 +9,7 @@ using UnityEngine.UIElements;
 
 public class MapTest : TestBase
 {
+    [Header("맵 관련 테스트변수")]
     public GameObject centerTile;           // 중앙에 사용할 타일
     public GameObject sideTile;             // 외곽에 배치될 타일
     public GameObject vertexTile;           // 꼭지점 타일
@@ -30,12 +32,22 @@ public class MapTest : TestBase
     GameObject[] mapTiles;                // 타일 오브젝트 객체를 담을 배열
 
 
-    public GameObject player;
+    GameObject player;
+
+
     public Material material;
 
 
     GameObject[] lights;
+  
 
+    protected override void Awake()
+    {
+        base.Awake();
+        miniMap = GameObject.FindObjectOfType<MiniMapCamera>(true);
+        cameraOrigin = GameObject.FindObjectOfType<CameraOriginTarget>(true);
+        moveCam = GameObject.FindObjectOfType<Camera_Move>(true);
+    }
 
     private void Start()
     {
@@ -45,15 +57,22 @@ public class MapTest : TestBase
         sideTileSize = sideTile.GetComponentInChildren<BoxCollider>().size;      
         // 꼭지점 타일 사이즈 반환
         vertexTileSize = vertexTile.GetComponentInChildren<BoxCollider>().size;
+        
+        ///턴관련 변수추가
+        turnManager = TurnManager.Instance;
+        brain = Camera.main.GetComponent<CinemachineBrain>();
     }
+
+   
 
     /// <summary>
     /// 타일 랜덤 생성
     /// </summary>
-    protected override void Test1(InputAction.CallbackContext context)
+    private void MapGenerater() 
     {
         if (!isExist)                   // 타일이 존재하지 않을 경우에만 생성
         {
+            
             sizeX = Random.Range(20, 31);       // 타일 가로 갯수 랜덤 생성
             sizeY = Random.Range(20, 31);       // 타일 세로 갯수 랜덤 생성
             tileCount = sizeX * sizeY;          // 총 타일 갯수
@@ -147,18 +166,10 @@ public class MapTest : TestBase
 
             isExist = true;         // 중복 맵 생성 방지
         }
-
+        SetBlock(true);
     }
 
-
-
-    protected override void Test2(InputAction.CallbackContext context)
-    {
-        if (isExist)
-        {
-            MapDestroy();
-        }
-    }
+  
 
     /// <summary>
     /// 타일 제거
@@ -256,4 +267,143 @@ public class MapTest : TestBase
     }
 
 
+
+
+
+
+
+
+
+
+
+    protected override void Test1(InputAction.CallbackContext context)
+    {
+        InitTotalData(); //초기데이터생성    
+        MapGenerater();
+    }
+    protected override void Test2(InputAction.CallbackContext context)
+    {
+        if (isExist)
+        {
+            MapDestroy(); //맵삭제
+
+            turnManager.ResetBattleData(); //리셋후
+
+            TurnBaseObject[] ps = GameObject.FindObjectsOfType<TurnBaseObject>(); //대충만든 오브젝트 찾기
+            foreach (TurnBaseObject p in ps)
+            {
+                GameObject.Destroy(p.gameObject); //오브젝트 삭제
+            }
+
+            InitTotalData();
+            MapGenerater(); //맵생성
+        }
+    }
+
+
+
+    /// <summary>
+    /// 턴 진행 
+    /// </summary>
+    /// <param name="context"></param>
+    protected override void Test3(InputAction.CallbackContext context)
+    {
+        ITurnBaseData node = turnManager.GetNode(); //원래는 캐릭터 쪽에서 턴완료 버튼 호출해야하는데 캐릭터 가없음으로  테스트코드로 찾아온다.
+       
+        if (node == null)
+        {
+            Debug.Log("왜못찾냐?");
+            return;
+        }
+        Debug.Log($"{node.UnitBattleIndex}번째 옵젝 : 값 :{node.TurnActionValue} 함수가등록되있냐? : {node.TurnEndAction}");
+        node.TurnActionValue -= UnityEngine.Random.Range(0.05f, 0.7f); //턴 진행 시 행동력 감소치 대충 때려넣는다.
+
+        node.TurnEndAction(node); //턴완료 를 알린다.
+    }
+
+
+    /// <summary>
+    /// 랜덤한 캐릭터의 상태를 추가
+    /// </summary>
+    /// <param name="context"></param>
+    protected override void Test4(InputAction.CallbackContext context)
+    {
+        TurnBaseObject tbo = (TurnBaseObject)turnManager.RandomGetNode();
+        tbo.BattleUI.AddOfStatus(EnumList.StateType.Poison);//상태이상 추가해보기 
+    }
+
+
+
+
+
+    /// <summary>
+    /// 카메라가 벗어나지않게 설정해주는 박스 컬라이더  
+    /// 피벗 위치가 Z기준 중앙에서 왼쪽 아래로 바뀌어서 로직수정
+    /// </summary>
+    public BoxCollider blockCamera;
+    private void SetBlock()
+    {
+        if (blockCamera != null)
+        {
+            float blockHeight = 100.0f;//높이 대충 카메라가 벗어나지않을정도로 높게
+            float cameraPositionCalibration = 4.0f;//보정값 카메라 시야에 따라 수정
+            float tempX = sizeX * sideTileSize.x; //전체 가로사이즈 구해오기
+            float tempY = sizeY * sideTileSize.x; //전체 세로사이즈 구해오기
+            float halfX = tempX * 0.5f; //전체 X 길이의 중간
+            float halfY = tempY * 0.5f; //전체 Z 길이의 중간
+            float halfTileSize = sideTileSize.x * 0.5f; //타일의 중간값
+
+            blockCamera.size = new Vector3(tempX - cameraPositionCalibration, //카메라 시야때문에 밖이안보이게 보정값을 적용
+                                            blockHeight,                    //값 대충셋팅
+                                            tempY - cameraPositionCalibration //카메라 시야때문에 밖이안보이게 보정값을 적용
+                                            );
+            blockCamera.center = new Vector3(halfX - halfTileSize, //x 셋터값은 중앙 위치할수있게 셋팅 타일 크기의 반을추가로빼준다
+                                             1.0f, // 높이 대충설정해놔서 이값도 대충
+                                             halfY - halfTileSize //Z 값도 중앙에 위치할수있게 반을 
+                                             );
+        }
+
+    }
+
+    /// <summary>
+    /// 카메라가 벗어나지않게 설정해주는 박스 컬라이더 
+    /// 피봇 위치 Z 중앙 셋팅값 
+    /// </summary>
+    private void SetBlock(bool pivotCenter = true)
+    {
+        if (blockCamera != null)
+        {
+            float blockHeight = 100.0f; //높이 대충 높게\
+            float widthPadding = 1.0f;  //맵크기 에 맞게 카메라 돌리기위한 제한범위 크기조절값
+            float heightPadding = 0.5f; //맵크기 에 맞게 카메라 돌리기위한 제한범위 크기조절값
+
+            float tempX = sizeX * sideTileSize.x; //전체 가로사이즈 구해오기
+            float tempY = sizeY * sideTileSize.x; //전체 세로사이즈 구해오기
+            blockCamera.size = new Vector3(tempX - widthPadding, blockHeight, tempY - heightPadding); //비율 Width 2 : Height 1
+            blockCamera.center = new Vector3(-1.0f, 1.0f, (tempY * 0.5f) + 1.0f); //제한범위 중간위치값 구하기
+        }
+
+    }
+
+
+
+    [Header("턴 관련 테스트 변수")]
+    TurnManager turnManager;
+    [Header("초기화할 데이터 ")]
+    //TurnBaseObject turnUnit;
+    MiniMapCamera miniMap;
+    CameraOriginTarget cameraOrigin;
+    Camera_Move moveCam;
+    CinemachineBrain brain;
+    private void InitTotalData()
+    {
+        turnManager.InitTurnData();//초기데이터 셋팅 
+        player = turnManager.GetNode().gameObject;
+        miniMap.Player = player.transform;
+        cameraOrigin.Target = player;
+        moveCam.Brain = brain;
+        miniMap.gameObject.SetActive(true);
+        cameraOrigin.gameObject.SetActive(true);
+        moveCam.gameObject.SetActive(true);
+    }
 }

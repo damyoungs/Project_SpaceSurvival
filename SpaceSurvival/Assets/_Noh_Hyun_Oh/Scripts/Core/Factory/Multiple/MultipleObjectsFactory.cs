@@ -21,11 +21,6 @@ public class MultipleObjectsFactory : ChildComponentSingeton<MultipleObjectsFact
     SavePageButtonPool savePageButtonPool;
 
     /// <summary>
-    /// 인벤토리 컨텐츠에 보여줄 칸 
-    /// </summary>
-    InventoryPool inventoryPool;
-
-    /// <summary>
     /// 턴진행상황 뿌려줄 풀
     /// </summary>
     TurnUnitPool turnUnitPool;
@@ -44,14 +39,12 @@ public class MultipleObjectsFactory : ChildComponentSingeton<MultipleObjectsFact
     {
         saveDataPool = GetComponentInChildren<SaveDataPool>(true);
         savePageButtonPool = GetComponentInChildren<SavePageButtonPool>(true);
-        inventoryPool = GetComponentInChildren<InventoryPool>(true);
         turnUnitPool = GetComponentInChildren<TurnUnitPool>(true);
         trackingBattleUIPool = GetComponentInChildren<TrackingBattleUIPool>(true);
         statePool = GetComponentInChildren<StatePool>(true);
         battleMapUnitPool = GetComponentInChildren<BattleMapUnitPool>(true);
         saveDataPool.Initialize();
         savePageButtonPool.Initialize();
-        inventoryPool.Initialize(); 
         turnUnitPool.Initialize();  
         trackingBattleUIPool.Initialize();
         statePool.Initialize();
@@ -73,9 +66,6 @@ public class MultipleObjectsFactory : ChildComponentSingeton<MultipleObjectsFact
                 break;
             case EnumList.MultipleFactoryObjectList.SAVE_PAGE_BUTTON_POOL:
                 obj = savePageButtonPool?.GetObject()?.gameObject;
-                break;
-            case EnumList.MultipleFactoryObjectList.INVENTORY_POOL:
-                obj = inventoryPool?.GetObject()?.gameObject;
                 break;
             case EnumList.MultipleFactoryObjectList.TURN_GAUGE_UNIT_POOL:
                 obj = turnUnitPool?.GetObject()?.gameObject;

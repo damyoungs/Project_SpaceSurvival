@@ -17,7 +17,7 @@ namespace EnumList
 		ENDING,
         //Item_Test,//인벤창쪽으로넘어가나확인
         //CreateCharcter, //아직안만듬
-		SAVELOADTEST,	//맵은 종류가많음 가장밑에 추가
+        TestBattleMap,	//맵은 종류가많음 가장밑에 추가
 	}
     /// <summary>
     /// 로딩화면에 보여줄 이미지 종류리스트
@@ -71,7 +71,6 @@ namespace EnumList
 	{
 		SAVE_DATA_POOL = 0, //저장화면에 보여줄 오브젝트생산용 풀
         SAVE_PAGE_BUTTON_POOL,
-        INVENTORY_POOL,
         TURN_GAUGE_UNIT_POOL,
         TRACKING_BATTLE_UI_POOL,
 		STATE_POOL,

@@ -630,6 +630,54 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Camera"",
+            ""id"": ""0c04e0dc-59e0-4a25-a0d2-0f78bde0d4c5"",
+            ""actions"": [
+                {
+                    ""name"": ""RightRotate"",
+                    ""type"": ""Button"",
+                    ""id"": ""b1ff20a7-071a-4977-a13b-a30e670b5dbc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""LeftRotate"",
+                    ""type"": ""Button"",
+                    ""id"": ""6a51fb97-32f0-461b-a5ca-abb04484fe91"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""10b9e187-3357-4e90-b1cb-0cd0ddf71203"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyMouse"",
+                    ""action"": ""LeftRotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4938f774-f587-4710-831f-357baa60df75"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyMouse"",
+                    ""action"": ""RightRotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -685,6 +733,10 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Click = m_UI.FindAction("Click", throwIfNotFound: true);
         m_UI_Shift = m_UI.FindAction("Shift", throwIfNotFound: true);
+        // Camera
+        m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
+        m_Camera_RightRotate = m_Camera.FindAction("RightRotate", throwIfNotFound: true);
+        m_Camera_LeftRotate = m_Camera.FindAction("LeftRotate", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1124,6 +1176,60 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
+
+    // Camera
+    private readonly InputActionMap m_Camera;
+    private List<ICameraActions> m_CameraActionsCallbackInterfaces = new List<ICameraActions>();
+    private readonly InputAction m_Camera_RightRotate;
+    private readonly InputAction m_Camera_LeftRotate;
+    public struct CameraActions
+    {
+        private @InputKeyMouse m_Wrapper;
+        public CameraActions(@InputKeyMouse wrapper) { m_Wrapper = wrapper; }
+        public InputAction @RightRotate => m_Wrapper.m_Camera_RightRotate;
+        public InputAction @LeftRotate => m_Wrapper.m_Camera_LeftRotate;
+        public InputActionMap Get() { return m_Wrapper.m_Camera; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CameraActions set) { return set.Get(); }
+        public void AddCallbacks(ICameraActions instance)
+        {
+            if (instance == null || m_Wrapper.m_CameraActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_CameraActionsCallbackInterfaces.Add(instance);
+            @RightRotate.started += instance.OnRightRotate;
+            @RightRotate.performed += instance.OnRightRotate;
+            @RightRotate.canceled += instance.OnRightRotate;
+            @LeftRotate.started += instance.OnLeftRotate;
+            @LeftRotate.performed += instance.OnLeftRotate;
+            @LeftRotate.canceled += instance.OnLeftRotate;
+        }
+
+        private void UnregisterCallbacks(ICameraActions instance)
+        {
+            @RightRotate.started -= instance.OnRightRotate;
+            @RightRotate.performed -= instance.OnRightRotate;
+            @RightRotate.canceled -= instance.OnRightRotate;
+            @LeftRotate.started -= instance.OnLeftRotate;
+            @LeftRotate.performed -= instance.OnLeftRotate;
+            @LeftRotate.canceled -= instance.OnLeftRotate;
+        }
+
+        public void RemoveCallbacks(ICameraActions instance)
+        {
+            if (m_Wrapper.m_CameraActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ICameraActions instance)
+        {
+            foreach (var item in m_Wrapper.m_CameraActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_CameraActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public CameraActions @Camera => new CameraActions(this);
     private int m_KeyMouseSchemeIndex = -1;
     public InputControlScheme KeyMouseScheme
     {
@@ -1171,5 +1277,10 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     {
         void OnClick(InputAction.CallbackContext context);
         void OnShift(InputAction.CallbackContext context);
+    }
+    public interface ICameraActions
+    {
+        void OnRightRotate(InputAction.CallbackContext context);
+        void OnLeftRotate(InputAction.CallbackContext context);
     }
 }

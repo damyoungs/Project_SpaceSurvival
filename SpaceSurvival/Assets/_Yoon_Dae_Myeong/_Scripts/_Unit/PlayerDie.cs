@@ -12,12 +12,12 @@ public class PlayerDie : TestBase
 	[SerializeField]
 	private Animator unitAnimator;
 
-	protected override void Test3(InputAction.CallbackContext context)
+	protected override void Test5(InputAction.CallbackContext context)
 	{
 		unitAnimator.SetTrigger("IsDead");
 	}
 
-	protected override void Test4(InputAction.CallbackContext context)
+	protected override void Test6(InputAction.CallbackContext context)
 	{
 		unitAnimator.SetTrigger("IsHit");
 	}

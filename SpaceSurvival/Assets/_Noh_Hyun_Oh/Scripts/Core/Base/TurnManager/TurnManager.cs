@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// 정렬방법 오름차순(ASCENDING), 내림차순(DESCENDING)
@@ -30,6 +31,12 @@ public enum SortType
 
 public class TurnManager : ChildComponentSingeton<TurnManager>
 {
+    /// <summary>
+    /// 턴게이지 보여줄지 여부
+    /// </summary>
+    [SerializeField]
+    private bool isViewGauge = false;
+    public bool IsViewGauge => isViewGauge;
     /// <summary>
     /// 턴관리할 링크드 리스트
     /// </summary>
@@ -79,6 +86,11 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
     private float turnStartValue = 1.0f;
 
     /// <summary>
+    /// Battle UI 최상단 위치
+    /// </summary>
+    Transform uiParent;
+
+    /// <summary>
     /// 시간제한이 있을경우 제한턴의 값
     /// </summary>
     //private int maxTurnValue = 0;
@@ -93,9 +105,13 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
         get => isBattleMap;
         set => isBattleMap = value;
     }
+    BattleUICamera[] battleInfoCamArray;
+
     private void Start()
     {
         turnGaugeUI = WindowList.Instance.TurnGaugeUI; //턴게이지 위치 찾기
+        uiParent = WindowList.Instance.transform.GetChild(0); //Battle UI최상단 가져오기
+        battleInfoCamArray = EtcObjects.Instance.GetComponentsInChildren<BattleUICamera>(true); //배틀상태창 카메라 가져오기
     }
 
 
@@ -108,7 +124,7 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
         
         //테스트 데이터 
         
-        TestInit(); //테스트용 데이터생성
+        TestInit(3); //테스트용 데이터생성
 
         ITurnBaseData[] turnListTemp = GameObject.FindObjectsOfType<TurnBaseObject>(); //씬에있는 유닛들 긁어오기 
 
@@ -118,7 +134,8 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
 
         //여기까지 테스트 데이터생성 나중에 데이터 구조가 정해지면 파싱 작업 해야함.
 
-
+        //Sprite image = (Sprite)Resources.Load("/Resources/Forest");
+         
         if (turnListTemp == null || turnListTemp.Length == 0)
         {
             Debug.Log("배틀맵 유닛이없어 임마");
@@ -127,6 +144,12 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
         /*
          턴시작전 기능추가 위치
          */
+
+        if (isViewGauge)
+        {
+
+        }
+
         TurnStart();//턴시작
     }
 
@@ -261,6 +284,15 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
         {
             node.ResetData(); //턴유닛의 데이터 초기화 
         }
+
+        for (int i = 1; i < uiParent.childCount - 1; i++) //첫번째 오브젝트는 추적형이라 빼고 1부터시작
+        {
+            for (int j = 0; j < uiParent.GetChild(i).childCount; j++) //찾아와서 
+            {
+                uiParent.GetChild(i).GetChild(j).gameObject.SetActive(false);//보이는 UI 다가리기
+            }
+        }
+
         turnGaugeUI.gameObject.SetActive(false);//게이지 UI 감추기
         turnObjectList.Clear();//리스트 비우기 
     }
@@ -372,33 +404,48 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
         return isRandNode;
     }
 
-    public GameObject unit;
     /// <summary>
     /// 테스트 데이터 만드는용
     /// </summary>
-    public void TestInit() 
+    public void TestInit(int initSize = 1) 
     {
-        turnGaugeUI.gameObject.SetActive(true); // 팩토리에서 꺼낼때 활성화 상태임으로 맞춰주기위해 미리설정 
-                                                // 미리안맞춰주면 SetParent함수 할때 쓸대없이 OnDisable OnEnable  함수가 호출된다.
-        for (int i = 0; i < 20; i++)
+        if (IsViewGauge) 
+        {
+            turnGaugeUI.gameObject.SetActive(true); // 팩토리에서 꺼낼때 활성화 상태임으로 맞춰주기위해 미리설정 
+                                                    // 미리안맞춰주면 SetParent함수 할때 쓸대없이 OnDisable OnEnable  함수가 호출된다.
+            
+        }
+        for (int i = 1; i < uiParent.childCount - 1; i++)
+        {
+
+            for (int j = 0; j < uiParent.GetChild(i).childCount; j++)
+            {
+                uiParent.GetChild(i).GetChild(j).gameObject.SetActive(true);
+            }
+        }
+        for (int i = 0; i < initSize; i++)
         {
             GameObject obj = MultipleObjectsFactory.Instance.GetObject(EnumList.MultipleFactoryObjectList.BATTLEMAP_UNIT_POOL); //가져오고
             TurnBaseObject tbo = obj?.GetComponent<TurnBaseObject>(); //찾고
             battleUnitIndex = i;// 일단 체크용 변수 입력
             tbo.UnitBattleIndex = battleUnitIndex; //인덱스 설정하고
             tbo.InitUI(); //UI 초기화 시키고
-            RectTransform rt = obj.GetComponent<RectTransform>(); //랜덤으로 위치 뿌려주기위해 위치값정보가져오고
-            rt = rt == null ? obj.AddComponent<RectTransform>() : rt; // 없으면 추가하고 
-            GameObject parentObj = Instantiate(unit); // 테스트용 캐릭터 생성하고
-            parentObj.transform.position = new Vector3(
+            tbo.TurnAddValue = UnityEngine.Random.Range(0.0f, 0.1f); //턴진행시마다 증가되는 행동력값 랜덤 설정 -테스트
+            tbo.TurnActionValue = UnityEngine.Random.Range(0.0f, 8.0f); // -테스트값 설정
+
+            obj.transform.position = new Vector3(
                                             UnityEngine.Random.Range(-10.0f, 10.0f),
                                             0.0f,
                                             UnityEngine.Random.Range(-10.0f, 0.0f)
                                             );//랜덤위치로 뿌리고
-            tbo.TurnAddValue = UnityEngine.Random.Range(0.0f, 0.1f); //턴진행시마다 증가되는 행동력값 랜덤 설정 -테스트
-            tbo.TurnActionValue = UnityEngine.Random.Range(0.0f, 8.0f); // -테스트값 설정
-            obj.transform.SetParent(parentObj.transform);//부모위치 옮기고 - 부모가 활성화 상태가 아닐경우 문제발생여부존재함
-            rt.anchoredPosition3D = new Vector3(0.0f, 2.0f, 0.0f);// UI기본위치 살짝위로 옮기고 
+            Transform cameraTarget = obj.transform.GetChild(obj.transform.childCount - 1);
+
+            //UI 위치 살짝올리는거해야함
+            
+            if(battleInfoCamArray != null  && battleInfoCamArray.Length > i ) //테스트용 아무거나가져오기 
+            {
+                battleInfoCamArray[i].TObj = cameraTarget;
+            }
         }
 
     }
