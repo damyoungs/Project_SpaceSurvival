@@ -23,7 +23,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     public Transform etc_Below;
     public Transform craft_Below;
 
-    public Action<ItemData> setEnhanceItem;
+   
     RectTransform beforeSlotRectTransform;
     RectTransform enhancerUIRectTransform;
 
@@ -238,7 +238,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
 
             if (beforeSlotRectTransform.rect.Contains(distance_BetweenMouse_BeforeSlot) && tempSlot.ItemData.Enhanceable)//강화 슬롯의 위치이면서 강화ㅑ 가능한 아이템 일 때
             {
-                setEnhanceItem?.Invoke(tempSlot.ItemData);
+                GameManager.Item_Enhancer.ItemData = tempSlot.ItemData;
             }
             else if (!inventoryRectTransform.rect.Contains(distance_BetweenMouse_Inven))// 거리의 크기가 rect 의 크기보다 작으면 인벤토리 안쪽
             {

@@ -88,9 +88,6 @@ public class Item_Enhancer : MonoBehaviour
         item_Enhancer_UI = GetComponent<Item_Enhancer_UI>();
         item_Enhancer_Data = new Item_Enhancer_Data();
     }
-    private void Start()
-    {
-        GameManager.SlotManager.setEnhanceItem += (item) => this.ItemData = item;
-    }
+
 
 }

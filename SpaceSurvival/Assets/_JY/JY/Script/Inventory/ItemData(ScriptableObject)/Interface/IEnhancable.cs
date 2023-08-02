@@ -4,5 +4,6 @@ using UnityEngine;
 
 public interface IEnhancable 
 {
-    bool TryEnhance();
+    bool TryEnhance(uint darkForceCount);
+    float CalculateSuccessRate(uint darkForceCount);
 }

@@ -9,12 +9,14 @@ using UnityEngine.UIElements;
 public class Item_Enhancer_UI : MonoBehaviour
 { 
     CanvasGroup canvasGroup;
+    Item_Enhancer itemEnhancer;
 
     public UnityEngine.UI.Button closeButton;
     public UnityEngine.UI.Button cancelButton;
     public UnityEngine.UI.Button plusButton;
     public UnityEngine.UI.Button minusButton;
     public UnityEngine.UI.Button confirmButton;
+    public TextMeshProUGUI successRateText;
 
     public TMP_InputField amountText;
     public UnityEngine.UI.Slider amountSlider;
@@ -41,6 +43,7 @@ public class Item_Enhancer_UI : MonoBehaviour
 
     private void Awake()
     {
+        itemEnhancer = GetComponent<Item_Enhancer>();
         canvasGroup = GetComponent<CanvasGroup>();
         beforeSlot = GetComponentInChildren<Enhancer_Slot_Before>();
         afterSlot = GetComponentInChildren<Enhancer_Slot_After>();
@@ -74,16 +77,16 @@ public class Item_Enhancer_UI : MonoBehaviour
     }
     private void Start()
     {
-        GameManager.Item_Enhancer.onOpen += Open;
-        GameManager.Item_Enhancer.onClose += Close;
-        GameManager.SlotManager.setEnhanceItem += (_) => RefreshEnhancerUI();      
+        itemEnhancer.onOpen += Open;
+        itemEnhancer.onClose += Close;
+        itemEnhancer.onSetItem += RefreshEnhancerUI; 
     }
     public void Open()
     {
         canvasGroup.alpha = 1.0f;
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
-        confirmButton.interactable = false;
+        RefreshEnhancerUI();
     }
     public void Close()
     {
@@ -92,9 +95,19 @@ public class Item_Enhancer_UI : MonoBehaviour
         canvasGroup.blocksRaycasts = false;
         DarkForceCount = 0;
     }
-    void RefreshEnhancerUI()
+    void RefreshEnhancerUI(ItemData itemData = null)
     {
         amountSlider.maxValue = GameManager.playerDummy.DarkForce;
-        confirmButton.interactable = true;
+        amountSlider.value = GameManager.playerDummy.DarkForce;
+        amountText.text = GameManager.playerDummy.DarkForce.ToString();
+        //성공확률 text 팝업 추가
+        if (itemData != null)
+        {
+            UpdateSuccessRate(itemData);
+        }
+    }
+    void UpdateSuccessRate(ItemData item)//확률 계산은 IEnhancable 에서 직접하는게 좋을것 같다. 필요한 데이터가 모두 거기있기때문이다.
+    {
+        
     }
 }

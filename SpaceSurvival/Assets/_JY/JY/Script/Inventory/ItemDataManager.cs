@@ -33,6 +33,12 @@ public enum ItemType
     Etc,
     Craft
 }
+public enum EnhanceType
+{
+    attack,
+    defence
+
+}
 public enum ItemSortBy
 {
     Code,  
