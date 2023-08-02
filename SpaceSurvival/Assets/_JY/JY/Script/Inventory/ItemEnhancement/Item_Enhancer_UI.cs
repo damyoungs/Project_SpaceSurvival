@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
@@ -26,6 +27,8 @@ public class Item_Enhancer_UI : MonoBehaviour
     Enhancer_Slot_Before beforeSlot;
     Enhancer_Slot_After afterSlot;
 
+    public Action<ItemData> onDarkForceValurChange;
+
     const uint MinDarkForceCount = 0;
     uint darkForceCount = MinDarkForceCount;
     public uint DarkForceCount
@@ -36,6 +39,7 @@ public class Item_Enhancer_UI : MonoBehaviour
             darkForceCount = Math.Clamp(value, MinDarkForceCount, (uint)GameManager.playerDummy.DarkForce);
             amountText.text = darkForceCount.ToString();    // 인풋 필드에 적용
             amountSlider.value = darkForceCount;
+            onDarkForceValurChange?.Invoke(itemEnhancer.ItemData);
         }
     }
     public Enhancer_Slot_Before BeforeSlot => beforeSlot;
@@ -79,7 +83,9 @@ public class Item_Enhancer_UI : MonoBehaviour
     {
         itemEnhancer.onOpen += Open;
         itemEnhancer.onClose += Close;
-        itemEnhancer.onSetItem += RefreshEnhancerUI; 
+        itemEnhancer.onSetItem += RefreshEnhancerUI;
+        onDarkForceValurChange += UpdateSuccessRate;
+        Close();
     }
     public void Open()
     {
@@ -94,6 +100,10 @@ public class Item_Enhancer_UI : MonoBehaviour
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
         DarkForceCount = 0;
+        itemEnhancer.ItemData = null;
+        BeforeSlot.ItemData = null;
+        AfterSlot.ItemData = null;
+        successRateText.text = "0";
     }
     void RefreshEnhancerUI(ItemData itemData = null)
     {
@@ -108,6 +118,13 @@ public class Item_Enhancer_UI : MonoBehaviour
     }
     void UpdateSuccessRate(ItemData item)//확률 계산은 IEnhancable 에서 직접하는게 좋을것 같다. 필요한 데이터가 모두 거기있기때문이다.
     {
-        
+        if (item == null)
+            return;
+        ItemData_Enhancable enhancable = item as ItemData_Enhancable;
+        if (enhancable != null)
+        {
+            successRateText.text = enhancable.CalculateSuccessRate(DarkForceCount).ToString("f1");
+        }
+     
     }
 }
