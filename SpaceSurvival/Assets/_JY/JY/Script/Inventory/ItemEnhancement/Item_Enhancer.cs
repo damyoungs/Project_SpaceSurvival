@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,30 @@ public class Item_Enhancer : MonoBehaviour
     public Item_Enhancer_UI EnhancerUI => item_Enhancer_UI;
     public Item_Enhancer_Data EnhancerData => item_Enhancer_Data;
 
+    public Action onOpen;
+    public Action<ItemData> onSetItem;
+    public Action onWaitforResult;
+    public Action onSuccess;
+    public Action onFail;
+    public Action onClearItem;
+    public Action onClose;
+
+    ItemData itemData;
+    public ItemData ItemData
+    {
+        get => itemData;
+        set
+        {
+            if (itemData != value)
+            {
+                itemData = value;
+                if (itemData != null)
+                {
+                    EnhancerState = EnhancerState.SetItem;
+                }
+            }
+        }
+    }
     EnhancerState enhancerState;
     public EnhancerState EnhancerState
     {
@@ -33,18 +58,25 @@ public class Item_Enhancer : MonoBehaviour
             switch (enhancerState)
             {
                 case EnhancerState.Open:
+                    onOpen?.Invoke();
                     break;
                 case EnhancerState.SetItem:
+                    onSetItem?.Invoke(ItemData);
                     break;
                 case EnhancerState.WaitforResult:
+                    onWaitforResult?.Invoke();
                     break;
                 case EnhancerState.Success:
+                    onSuccess?.Invoke();
                     break;
                 case EnhancerState.Fail:
+                    onFail?.Invoke();
                     break;
                 case EnhancerState.ClearItem:
+                    onClearItem?.Invoke();
                     break;
                 case EnhancerState.Close:
+                    onClose?.Invoke();
                     break;
                 default:
                     break;
@@ -55,6 +87,10 @@ public class Item_Enhancer : MonoBehaviour
     {
         item_Enhancer_UI = GetComponent<Item_Enhancer_UI>();
         item_Enhancer_Data = new Item_Enhancer_Data();
+    }
+    private void Start()
+    {
+        GameManager.SlotManager.setEnhanceItem += (item) => this.ItemData = item;
     }
 
 }

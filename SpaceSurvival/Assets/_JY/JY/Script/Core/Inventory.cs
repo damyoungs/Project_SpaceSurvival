@@ -20,7 +20,7 @@ public class Inventory : MonoBehaviour
     public GameObject Consume_Inven;
     public GameObject Etc_Inven;
     public GameObject Craft_Inven;
-    public GameObject ItemEnhancer;
+    public Item_Enhancer ItemEnhancer;
 
     GameObject ItemDescription;
 
@@ -106,7 +106,11 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         GameManager.SlotManager.Initialize();
-        enhance_Button.onClick.AddListener(GameManager.Item_Enhancer.EnhancerUI.Open);//enable, Awake¿¡¼­´Â ¾ÈµÊ
+        enhance_Button.onClick.AddListener(EnhancerOpen);//enable, Awake¿¡¼­´Â ¾ÈµÊ
+    }
+    void EnhancerOpen()
+    {
+        GameManager.Item_Enhancer.EnhancerState = EnhancerState.Open;
     }
     void Update_State(Current_Inventory_State state)
     {

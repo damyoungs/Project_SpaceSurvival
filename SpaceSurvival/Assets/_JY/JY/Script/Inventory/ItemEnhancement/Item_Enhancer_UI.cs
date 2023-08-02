@@ -45,8 +45,8 @@ public class Item_Enhancer_UI : MonoBehaviour
         beforeSlot = GetComponentInChildren<Enhancer_Slot_Before>();
         afterSlot = GetComponentInChildren<Enhancer_Slot_After>();
 
-        closeButton.onClick.AddListener(Close);// 수정필요
-        cancelButton.onClick.AddListener(Close);
+        closeButton.onClick.AddListener(() => GameManager.Item_Enhancer.EnhancerState = EnhancerState.Close);// 수정필요
+        cancelButton.onClick.AddListener(() => GameManager.Item_Enhancer.EnhancerState = EnhancerState.Close);
 
         confirmButton.onClick.AddListener(() =>
         {
@@ -74,6 +74,8 @@ public class Item_Enhancer_UI : MonoBehaviour
     }
     private void Start()
     {
+        GameManager.Item_Enhancer.onOpen += Open;
+        GameManager.Item_Enhancer.onClose += Close;
         GameManager.SlotManager.setEnhanceItem += (_) => RefreshEnhancerUI();      
     }
     public void Open()
