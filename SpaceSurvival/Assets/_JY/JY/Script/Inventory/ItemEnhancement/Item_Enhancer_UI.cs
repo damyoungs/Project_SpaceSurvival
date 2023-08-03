@@ -114,10 +114,11 @@ public class Item_Enhancer_UI : MonoBehaviour
         amountSlider.maxValue = GameManager.playerDummy.DarkForce;
         amountSlider.value = GameManager.playerDummy.DarkForce;
         amountText.text = GameManager.playerDummy.DarkForce.ToString();
-        //성공확률 text 팝업 추가
+        
         if (itemData != null)
         {
             UpdateSuccessRate(itemData);
+            
         }
     }
     void UpdateSuccessRate(ItemData item)//확률 계산은 IEnhancable 에서 직접하는게 좋을것 같다. 필요한 데이터가 모두 거기있기때문이다.
