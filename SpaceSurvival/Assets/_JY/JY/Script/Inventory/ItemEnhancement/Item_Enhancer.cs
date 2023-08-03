@@ -22,15 +22,18 @@ public class Item_Enhancer : MonoBehaviour
     public Item_Enhancer_Data EnhancerData => item_Enhancer_Data;
 
     public Action onOpen;
-    public Action<ItemData> onSetItem;
+    public Action<ItemData_Enhancable> onSetItem;
     public Action onWaitforResult;
     public Action onSuccess;
     public Action onFail;
     public Action onClearItem;
     public Action onClose;
 
-    ItemData itemData;
-    public ItemData ItemData
+
+    ItemData_Enhancable itemData;
+
+
+    public ItemData_Enhancable ItemData
     {
         get => itemData;
         set
@@ -38,9 +41,14 @@ public class Item_Enhancer : MonoBehaviour
             if (itemData != value)
             {
                 itemData = value;
+                //ClearState ´ë¸®ÀÚ 
                 if (itemData != null)
                 {
                     EnhancerState = EnhancerState.SetItem;
+                }
+                else
+                {
+                    onClearItem?.Invoke();
                 }
             }
         }
@@ -87,6 +95,11 @@ public class Item_Enhancer : MonoBehaviour
     {
         item_Enhancer_UI = GetComponent<Item_Enhancer_UI>();
         item_Enhancer_Data = new Item_Enhancer_Data();
+        onClearItem = SetItemDataNull;
+    }
+    void SetItemDataNull()
+    {
+        ItemData = null;
     }
 
 

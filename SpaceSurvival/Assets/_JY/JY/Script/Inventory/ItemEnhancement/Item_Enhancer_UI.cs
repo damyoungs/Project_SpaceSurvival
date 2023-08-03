@@ -30,10 +30,11 @@ public class Item_Enhancer_UI : MonoBehaviour
     Enhancer_Slot_Before beforeSlot;
     Enhancer_Slot_After afterSlot;
 
-    public Action<ItemData> onDarkForceValurChange;
+    public Action<ItemData_Enhancable> onDarkForceValurChange;
 
     const uint MinDarkForceCount = 0;
     uint darkForceCount = MinDarkForceCount;
+    byte itemLevel = 0;
     public uint DarkForceCount
     {
         get => darkForceCount;
@@ -111,14 +112,18 @@ public class Item_Enhancer_UI : MonoBehaviour
     void RefreshEnhancerUI(ItemData itemData = null)
     {
         //levelText 초기화 필요 
+    
+
         amountSlider.maxValue = GameManager.playerDummy.DarkForce;
-        amountSlider.value = GameManager.playerDummy.DarkForce;
-        amountText.text = GameManager.playerDummy.DarkForce.ToString();
+        amountSlider.value = 0;
+        amountText.text = "0";
         
         if (itemData != null)
         {
-            UpdateSuccessRate(itemData);
-            
+            itemLevel = GameManager.Item_Enhancer.ItemData.Itemlevel;
+            beforelevelText.text = $"{itemLevel}";
+            afterlevelText.text = $"{itemLevel + 1}";
+            UpdateSuccessRate(itemData);            
         }
     }
     void UpdateSuccessRate(ItemData item)//확률 계산은 IEnhancable 에서 직접하는게 좋을것 같다. 필요한 데이터가 모두 거기있기때문이다.

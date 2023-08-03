@@ -95,7 +95,7 @@
  *      ItemData_Enhance - ItemData, IEnhancable 상속받고 
  *      Enhancer_Description, SuccessRateText, Warning PopUp, ItemLevelText, 슬롯 애니메이션, 성공실패 파티클, 
  *      
- *      
+ *      SlotBase에서 onClearItem 대리자 연결하기 
  *      
  *      
  *      

@@ -236,9 +236,13 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             Vector2 distance_BetweenMouse_BeforeSlot = screenPos - (Vector2)beforeSlotRectTransform.position;
             Vector2 distance_BetweenMouse_enhancerUI = screenPos - (Vector2)enhancerUIRectTransform.position;
 
-            if (beforeSlotRectTransform.rect.Contains(distance_BetweenMouse_BeforeSlot) && tempSlot.ItemData.Enhanceable)//강화 슬롯의 위치이면서 강화ㅑ 가능한 아이템 일 때
+            if (beforeSlotRectTransform.rect.Contains(distance_BetweenMouse_BeforeSlot))//강화 슬롯의 위치이면서 강화ㅑ 가능한 아이템 일 때
             {
-                GameManager.Item_Enhancer.ItemData = tempSlot.ItemData;
+                ItemData_Enhancable enhancable = TempSlot.ItemData as ItemData_Enhancable;
+                if (enhancable != null)
+                {
+                    GameManager.Item_Enhancer.ItemData = enhancable;
+                }
             }
             else if (!inventoryRectTransform.rect.Contains(distance_BetweenMouse_Inven))// 거리의 크기가 rect 의 크기보다 작으면 인벤토리 안쪽
             {
