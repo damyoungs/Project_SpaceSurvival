@@ -70,11 +70,11 @@ public class ItemData_Enhancable : ItemData, IEnhancable
 
         if (this.itemLevel == 2)
         {
-            itemName = $"{this.itemName} ¡Ù";
+            itemName = $"{this.itemName} ¡Ú";
         }
         else
         {
-            itemName = $"{this.itemName+"¡Ù"}";
+            itemName = $"{this.itemName+"¡Ú"}";
         }
         resultAttackPoint = this.attackPoint + increaseAttackValue;
         resultDefencePoint = this.defencePoint + increaseDefenceValue;

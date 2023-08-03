@@ -14,9 +14,9 @@ public class Enhancer_Slot_Base : MonoBehaviour,IPointerEnterHandler,IPointerMov
         PointerEnter,
         PointerExit,
     }
-
     protected Item_Enhancer item_Enhancer;
-    protected Image itemIcon;
+    public Image imageComp;
+    public Image itemIcon;
     public Action onValueChange;
     public Action<ItemData_Enhancable> onPointerEnter;
     public Action<Vector2> onPointerMove;
@@ -67,6 +67,7 @@ public class Enhancer_Slot_Base : MonoBehaviour,IPointerEnterHandler,IPointerMov
         // 상속받은 클래스에서 추가적인 초기화가 필요하기 때문에 가상함수로 만듬
         Transform child = transform.GetChild(0);
         itemIcon = child.GetComponent<Image>();
+        imageComp = GetComponent<Image>();
 
     }
     protected virtual void Start()

@@ -7,6 +7,7 @@ public enum EnhancerState
 {
     Open,
     SetItem,
+    Confirm,
     WaitforResult,
     Success,
     Fail,
@@ -28,6 +29,7 @@ public class Item_Enhancer : MonoBehaviour
     public Action onFail;
     public Action onClearItem;
     public Action onClose;
+    public Action onConfirmButtonClick;
 
 
     ItemData_Enhancable itemData;
@@ -70,6 +72,12 @@ public class Item_Enhancer : MonoBehaviour
                     break;
                 case EnhancerState.SetItem:
                     onSetItem?.Invoke(ItemData);
+                    break;
+                case EnhancerState.Confirm:
+                    if (ItemData != null)
+                    {
+                        onConfirmButtonClick?.Invoke();
+                    }
                     break;
                 case EnhancerState.WaitforResult:
                     onWaitforResult?.Invoke();

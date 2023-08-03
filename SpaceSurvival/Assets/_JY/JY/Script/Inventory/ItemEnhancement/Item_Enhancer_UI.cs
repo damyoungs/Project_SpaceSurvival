@@ -56,13 +56,11 @@ public class Item_Enhancer_UI : MonoBehaviour
         beforeSlot = GetComponentInChildren<Enhancer_Slot_Before>();
         afterSlot = GetComponentInChildren<Enhancer_Slot_After>();
 
-        closeButton.onClick.AddListener(() => GameManager.Item_Enhancer.EnhancerState = EnhancerState.Close);// 수정필요
-        cancelButton.onClick.AddListener(() => GameManager.Item_Enhancer.EnhancerState = EnhancerState.Close);
+        closeButton.onClick.AddListener(() => itemEnhancer.EnhancerState = EnhancerState.Close);// 수정필요
+        cancelButton.onClick.AddListener(() => itemEnhancer.EnhancerState = EnhancerState.Close);
 
-        confirmButton.onClick.AddListener(() =>
-        {
-
-        });
+        confirmButton.onClick.AddListener(() => itemEnhancer.EnhancerState = EnhancerState.Confirm);
+     
         plusButton.onClick.AddListener(() => DarkForceCount++);
         minusButton.onClick.AddListener(() => DarkForceCount--);
 
@@ -85,12 +83,17 @@ public class Item_Enhancer_UI : MonoBehaviour
     }
     private void Start()
     {
+
         itemEnhancer.onOpen += Open;
         itemEnhancer.onClose += Close;
         itemEnhancer.onSetItem += RefreshEnhancerUI;
         itemEnhancer.onClearItem += ClearEnhancerUI;
+        itemEnhancer.onConfirmButtonClick += WarningBoxOn;
         onDarkForceValurChange += UpdateSuccessRate;
         Close();
+
+        WarningBox warningBox = FindObjectOfType<WarningBox>();
+        warningBox.onWarningBoxClose += WarningBoxOff;
     }
     public void Open()
     {
@@ -135,7 +138,30 @@ public class Item_Enhancer_UI : MonoBehaviour
         afterSlot.ItemData = null;
         itemEnhancer.ItemData = null;
     }
-
+    void WarningBoxOn()//Enhancer에서 신호 받음 
+    {
+        beforeSlot.imageComp.raycastTarget = false;
+        beforeSlot.itemIcon.raycastTarget = false;
+        confirmButton.interactable = false;
+        cancelButton.interactable = false;
+        closeButton.interactable = false;
+        amountSlider.interactable = false;
+        amountText.interactable= false;
+        plusButton.interactable = false;
+        minusButton.interactable = false;
+    }
+    void WarningBoxOff()//warningbox에서 신호받음
+    {
+        beforeSlot.imageComp.raycastTarget = true;
+        beforeSlot.itemIcon.raycastTarget = true;
+        confirmButton.interactable = true;
+        cancelButton.interactable = true;
+        closeButton.interactable = true;
+        amountSlider.interactable = true;
+        amountText.interactable = true;
+        plusButton.interactable = true;
+        minusButton.interactable = true;
+    }
     void UpdateSuccessRate(ItemData item)//확률 계산은 IEnhancable 에서 직접하는게 좋을것 같다. 필요한 데이터가 모두 거기있기때문이다.
     {
         if (item == null)
