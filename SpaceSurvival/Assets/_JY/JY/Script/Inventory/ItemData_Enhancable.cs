@@ -57,12 +57,18 @@ public class ItemData_Enhancable : ItemData, IEnhancable
     }
     void LevelUpItemStatus()
     {
+        Calculate_LevelUp_Result_Value(out uint resultAttackPoint, out uint resultDefencePoint);
+        this.attackPoint = resultAttackPoint;
+        this.defencePoint = resultDefencePoint;
+    }
+    public void Calculate_LevelUp_Result_Value(out uint resultAttackPoint, out uint resultDefencePoint)
+    {
         float increaseRatio = 0.3f;
-        uint increaseAttackValue = (uint)(attackPoint * increaseRatio * (Itemlevel * 0.5f));
-        uint increaseDefenceValue = (uint)(defencePoint * increaseRatio * (Itemlevel * 0.5f));
+        uint increaseAttackValue = (uint)(this.attackPoint * increaseRatio * (Itemlevel * 0.5f));
+        uint increaseDefenceValue = (uint)(this.defencePoint * increaseRatio * (Itemlevel * 0.5f));
 
-        attackPoint += increaseAttackValue;
-        defencePoint += increaseDefenceValue;
+        resultAttackPoint = this.attackPoint + increaseAttackValue;
+        resultDefencePoint = this.defencePoint + increaseDefenceValue;
     }
     void LevelDownItemStatus()
     {

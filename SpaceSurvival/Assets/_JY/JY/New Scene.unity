@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -123,17 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &13037237 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 13037237, guid: f79ccc757d55b794c99fb431805966ac, type: 3}
-  m_PrefabInstance: {fileID: 2119834405}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &64156041
 GameObject:
   m_ObjectHideFlags: 3
@@ -1473,17 +1462,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1931676210 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1931676210, guid: f79ccc757d55b794c99fb431805966ac, type: 3}
-  m_PrefabInstance: {fileID: 2119834405}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1935877323
 GameObject:
   m_ObjectHideFlags: 0
@@ -1857,14 +1835,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9057650379926132272, guid: f79ccc757d55b794c99fb431805966ac, type: 3}
-      propertyPath: afterlevelText
-      value: 
-      objectReference: {fileID: 1931676210}
-    - target: {fileID: 9057650379926132272, guid: f79ccc757d55b794c99fb431805966ac, type: 3}
-      propertyPath: beforelevelText
-      value: 
-      objectReference: {fileID: 13037237}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f79ccc757d55b794c99fb431805966ac, type: 3}
 --- !u!1 &2119834406 stripped
