@@ -18,6 +18,9 @@ public class Item_Enhancer_UI : MonoBehaviour
     public UnityEngine.UI.Button minusButton;
     public UnityEngine.UI.Button confirmButton;
     public TextMeshProUGUI successRateText;
+    public TextMeshProUGUI beforelevelText;
+    public TextMeshProUGUI afterlevelText;
+
 
     public TMP_InputField amountText;
     public UnityEngine.UI.Slider amountSlider;
@@ -107,6 +110,7 @@ public class Item_Enhancer_UI : MonoBehaviour
     }
     void RefreshEnhancerUI(ItemData itemData = null)
     {
+        //levelText 초기화 필요 
         amountSlider.maxValue = GameManager.playerDummy.DarkForce;
         amountSlider.value = GameManager.playerDummy.DarkForce;
         amountText.text = GameManager.playerDummy.DarkForce.ToString();
