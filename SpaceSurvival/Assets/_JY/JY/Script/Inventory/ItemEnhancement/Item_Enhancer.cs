@@ -48,7 +48,7 @@ public class Item_Enhancer : MonoBehaviour
                 }
                 else
                 {
-                    onClearItem?.Invoke();
+                    EnhancerState = EnhancerState.ClearItem;
                 }
             }
         }
@@ -95,12 +95,8 @@ public class Item_Enhancer : MonoBehaviour
     {
         item_Enhancer_UI = GetComponent<Item_Enhancer_UI>();
         item_Enhancer_Data = new Item_Enhancer_Data();
-        onClearItem = SetItemDataNull;
     }
-    void SetItemDataNull()
-    {
-        ItemData = null;
-    }
+ 
 
 
 }

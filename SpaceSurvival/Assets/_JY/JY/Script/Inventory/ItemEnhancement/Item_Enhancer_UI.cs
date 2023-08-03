@@ -88,6 +88,7 @@ public class Item_Enhancer_UI : MonoBehaviour
         itemEnhancer.onOpen += Open;
         itemEnhancer.onClose += Close;
         itemEnhancer.onSetItem += RefreshEnhancerUI;
+        itemEnhancer.onClearItem += ClearEnhancerUI;
         onDarkForceValurChange += UpdateSuccessRate;
         Close();
     }
@@ -96,7 +97,7 @@ public class Item_Enhancer_UI : MonoBehaviour
         canvasGroup.alpha = 1.0f;
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
-        RefreshEnhancerUI();
+        ClearEnhancerUI();
     }
     public void Close()
     {
@@ -109,27 +110,40 @@ public class Item_Enhancer_UI : MonoBehaviour
         AfterSlot.ItemData = null;
         successRateText.text = "0";
     }
-    void RefreshEnhancerUI(ItemData itemData = null)
+    void RefreshEnhancerUI(ItemData itemData)
     {
-        //levelText 초기화 필요 
-    
-
-        amountSlider.maxValue = GameManager.playerDummy.DarkForce;
-        amountSlider.value = 0;
-        amountText.text = "0";
-        
         if (itemData != null)
         {
             itemLevel = GameManager.Item_Enhancer.ItemData.Itemlevel;
             beforelevelText.text = $"{itemLevel}";
             afterlevelText.text = $"{itemLevel + 1}";
-            UpdateSuccessRate(itemData);            
+            amountSlider.maxValue = GameManager.playerDummy.DarkForce;
+            UpdateSuccessRate(itemData);
         }
     }
+
+    private void ClearEnhancerUI()
+    {
+        //이미지, 성공률 text
+        beforelevelText.text = string.Empty;
+        afterlevelText.text = string.Empty;
+        amountSlider.maxValue = 0.0f;
+        amountSlider.value = 0;
+        amountText.text = "0";
+        successRateText.text = $"{0}";
+        beforeSlot.ItemData = null;
+        afterSlot.ItemData = null;
+        itemEnhancer.ItemData = null;
+    }
+
     void UpdateSuccessRate(ItemData item)//확률 계산은 IEnhancable 에서 직접하는게 좋을것 같다. 필요한 데이터가 모두 거기있기때문이다.
     {
         if (item == null)
+        {
+      
             return;
+        }
+          
         ItemData_Enhancable enhancable = item as ItemData_Enhancable;
         if (enhancable != null)
         {
