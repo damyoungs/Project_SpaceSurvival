@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class EnhancerDescription : MonoBehaviour
 {
+ 
+
     public Image itemIcon;
     public TextMeshProUGUI itemName;
     public TextMeshProUGUI itemLevel;
@@ -27,23 +29,57 @@ public class EnhancerDescription : MonoBehaviour
                 Close();
         }
     }
-
+    private void Awake()
+    {
+        itemIcon = transform.GetChild(0).GetChild(0).GetComponent<Image>();
+    }
     //pause, open, close,
-    public void Open(ItemData data)
+    private void Start()
+    {
+
+        Enhancer_Slot_Before beforeSlot;
+        Enhancer_Slot_After afterSlot;
+        beforeSlot = GameManager.Item_Enhancer.EnhancerUI.BeforeSlot;
+        afterSlot = GameManager.Item_Enhancer.EnhancerUI.AfterSlot;
+
+        beforeSlot.onPointerEnter += Open_BeforeSlotDescription;
+        afterSlot.onPointerEnter += Open_AfterSlotDescription;
+        beforeSlot.onPointerExit += Close;
+        afterSlot.onPointerExit += Close;
+        beforeSlot.onPointerMove += MovePosition;
+        afterSlot.onPointerMove += MovePosition;
+    }
+    public void Open_BeforeSlotDescription(ItemData_Enhancable data)
     {
         if (!isPause && data != null)
         {
             itemIcon.sprite = data.itemIcon;
             itemName.text = data.itemName;
-            itemLevel.text = data.price.ToString("N0");
-            attackPointText.text = data.itemDescription;
-            defencePointText.text = data.itemDescription;
+            itemLevel.text = $"{data.itemLevel}";
+            attackPointText.text = $"{data.attackPoint}";
+            defencePointText.text = $"{data.defencePoint}";
+            StopAllCoroutines();
+            StartCoroutine(FadeIn());
+
+            MovePosition(Mouse.current.position.ReadValue());
+        }       
+    }
+    public void Open_AfterSlotDescription(ItemData_Enhancable data)
+    {
+        data.Calculate_LevelUp_Result_Value(out uint resultAttackPoint, out uint resultDefencePoint, out string itemname);
+    
+        if (!isPause && data != null)
+        {
+            itemIcon.sprite = data.itemIcon;
+            itemName.text = itemname;
+            itemLevel.text = $"{data.itemLevel + 1}";
+            attackPointText.text = $"{resultAttackPoint}";
+            defencePointText.text = $"{resultDefencePoint}";
             StopAllCoroutines();
             StartCoroutine(FadeIn());
 
             MovePosition(Mouse.current.position.ReadValue());
         }
-        
     }
     public void Close()
     {

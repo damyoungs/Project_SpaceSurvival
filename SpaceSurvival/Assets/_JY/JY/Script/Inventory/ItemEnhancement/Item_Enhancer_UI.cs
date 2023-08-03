@@ -140,7 +140,6 @@ public class Item_Enhancer_UI : MonoBehaviour
     {
         if (item == null)
         {
-      
             return;
         }
           
