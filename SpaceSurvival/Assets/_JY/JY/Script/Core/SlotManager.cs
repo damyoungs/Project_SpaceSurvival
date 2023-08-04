@@ -130,6 +130,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     }
     private void OnItemMoveBegin(ItemData data, uint index)
     {
+        IndexForEnhancer = (byte)index;
         MoveItem(data ,index, tempSlot.Index);    // 시작 슬롯에서 임시 슬롯으로 아이템 옮기기
         TempSlot.Open();                          // 임시 슬롯 열기
     }
@@ -246,7 +247,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                 if (enhancable != null)
                 {
                     GameManager.Item_Enhancer.ItemData = enhancable;
-                   // IndexForEnhancer = 
+                   // IndexForEnhancer =  애초에 장비탭의 Slot 이 TempSlot으로 옮겨갈때 인덱스 저장이 필요함
                 }
             }
             else if (!inventoryRectTransform.rect.Contains(distance_BetweenMouse_Inven))// 거리의 크기가 rect 의 크기보다 작으면 인벤토리 안쪽

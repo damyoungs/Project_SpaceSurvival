@@ -66,6 +66,10 @@ public class ItemData_Enhancable : ItemData, IEnhancable
         this.attackPoint = resultAttackPoint;
         this.defencePoint = resultDefencePoint;
         this.itemName = itemname;
+        ItemData_Enhancable Pistol = new ItemData_Enhancable();
+        GameManager.SlotManager.RemoveItem(this, GameManager.SlotManager.IndexForEnhancer);
+        GameManager.SlotManager.AddItem(Pistol.code);
+       // Debug.Log(GameManager.SlotManager.slots[Current_Inventory_State.Equip][GameManager.SlotManager.IndexForEnhancer].ItemData);
         //이 시점에서 Slot에 이 아이템 데이터를 Assign 해줘야한다.
     }
  
