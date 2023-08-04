@@ -34,7 +34,7 @@ public class ItemData_Enhancable : ItemData, IEnhancable
     {
         bool result = false;
         float SuccessRate = CalculateSuccessRate(darkForceCount);
-        if (Random.Range(0, 100) > SuccessRate)
+        if (Random.Range(0, 100) < SuccessRate)
         {
             Itemlevel++;
             result = true;
@@ -59,10 +59,14 @@ public class ItemData_Enhancable : ItemData, IEnhancable
     void LevelUpItemStatus()
     {
         Calculate_LevelUp_Result_Value(out uint resultAttackPoint, out uint resultDefencePoint, out string itemname);
+
+        //생성자 new?
         this.attackPoint = resultAttackPoint;
         this.defencePoint = resultDefencePoint;
         this.itemName = itemname;
+        //이 시점에서 Slot에 이 아이템 데이터를 Assign 해줘야한다.
     }
+ 
     public void Calculate_LevelUp_Result_Value(out uint resultAttackPoint, out uint resultDefencePoint, out string itemName)
     {
         float increaseRatio = 0.3f;
@@ -93,4 +97,5 @@ public class ItemData_Enhancable : ItemData, IEnhancable
         attackPoint -= decreaseAttackValue;
         defencePoint -= decreaseDefenceValue;
     }
+ 
 }

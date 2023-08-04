@@ -114,11 +114,11 @@ public class Item_Enhancer_UI : MonoBehaviour
         AfterSlot.ItemData = null;
         successRateText.text = "0";
     }
-    void RefreshEnhancerUI(ItemData itemData)
+    void RefreshEnhancerUI(ItemData_Enhancable itemData)
     {
         if (itemData != null)
         {
-            itemLevel = GameManager.Item_Enhancer.ItemData.Itemlevel;
+            itemLevel = itemEnhancer.ItemData.Itemlevel;
             beforelevelText.text = $"{itemLevel}";
             afterlevelText.text = $"{itemLevel + 1}";
             amountSlider.maxValue = GameManager.playerDummy.DarkForce;
@@ -178,7 +178,8 @@ public class Item_Enhancer_UI : MonoBehaviour
     }
     void WaitForResult()
     {
-        if (itemEnhancer.ItemData.LevelUp(DarkForceCount))
+        ItemData_Enhancable tempData = itemEnhancer.ItemData;// 프로퍼티는 함수라서 바로 ref로 넘겨줄 수 없다
+        if (itemEnhancer.ItemData.LevelUp(DarkForceCount))//
         {
             StartCoroutine(PopUpSuccessEffect());
         }
