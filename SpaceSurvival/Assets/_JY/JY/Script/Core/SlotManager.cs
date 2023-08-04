@@ -33,6 +33,10 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     public Dictionary<Current_Inventory_State, List<Slot>> slots;
     private Dictionary<Current_Inventory_State, int> slotCount; //슬롯 생성후 번호를 부여하기위한 Dic
 
+ 
+    public byte IndexForEnhancer { get; set; }
+  
+
     private void Awake()
     {
         input = new InputKeyMouse();
@@ -242,7 +246,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                 if (enhancable != null)
                 {
                     GameManager.Item_Enhancer.ItemData = enhancable;
-
+                   // IndexForEnhancer = 
                 }
             }
             else if (!inventoryRectTransform.rect.Contains(distance_BetweenMouse_Inven))// 거리의 크기가 rect 의 크기보다 작으면 인벤토리 안쪽

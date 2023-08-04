@@ -58,6 +58,8 @@ public class ItemData_Enhancable : ItemData, IEnhancable
     }
     void LevelUpItemStatus()
     {
+        //처음부터 TempSlot으로 옮길때 해당 슬롯의 인덱스를 저장했다가 강화가 성공하면 해당 인덱스의 슬롯을 삭제하고 이 ItemData를 할당해보면어떨까?
+        //슬롯메니저로 이 아이템과 같은 아이템이 있다면 삭제하도록 델리게이트?
         Calculate_LevelUp_Result_Value(out uint resultAttackPoint, out uint resultDefencePoint, out string itemname);
 
         //생성자 new?
