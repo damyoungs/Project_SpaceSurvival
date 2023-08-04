@@ -18,13 +18,14 @@ public class WarningBox : MonoBehaviour
         cancelButton = transform.GetChild(2).GetComponent<Button>();
 
         cancelButton.onClick.AddListener(Close);
+
     }
     void Start()
     {
         Item_Enhancer item_Enhancer;
         item_Enhancer = GameManager.Item_Enhancer;
         item_Enhancer.onConfirmButtonClick += Open;
-        
+        confirmButton.onClick.AddListener(() => item_Enhancer.EnhancerState = EnhancerState.WaitforResult);
     }
 
     void Open()

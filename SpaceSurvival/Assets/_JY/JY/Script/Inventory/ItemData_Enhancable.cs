@@ -30,13 +30,14 @@ public class ItemData_Enhancable : ItemData, IEnhancable
     }
     public uint attackPoint;
     public uint defencePoint;
-    public bool TryEnhance(uint darkForceCount)
+    public bool LevelUp(uint darkForceCount)
     {
         bool result = false;
         float SuccessRate = CalculateSuccessRate(darkForceCount);
         if (Random.Range(0, 100) > SuccessRate)
         {
             Itemlevel++;
+            result = true;
         }
         else
         {

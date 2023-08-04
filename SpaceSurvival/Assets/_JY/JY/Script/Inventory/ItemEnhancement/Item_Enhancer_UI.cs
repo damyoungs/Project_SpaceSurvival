@@ -90,6 +90,7 @@ public class Item_Enhancer_UI : MonoBehaviour
         itemEnhancer.onClearItem += ClearEnhancerUI;
         itemEnhancer.onConfirmButtonClick += WarningBoxOn;
         onDarkForceValurChange += UpdateSuccessRate;
+        itemEnhancer.onWaitforResult += WaitForResult;
         Close();
 
         WarningBox warningBox = FindObjectOfType<WarningBox>();
@@ -174,6 +175,33 @@ public class Item_Enhancer_UI : MonoBehaviour
         {
             successRateText.text = enhancable.CalculateSuccessRate(DarkForceCount).ToString("f1");
         }
-     
+    }
+    void WaitForResult()
+    {
+        if (itemEnhancer.ItemData.LevelUp(DarkForceCount))
+        {
+            StartCoroutine(PopUpSuccessEffect());
+        }
+        else
+        {
+            StartCoroutine(PopUpFailEffect());
+        }
+       
+    }
+    IEnumerator PopUpSuccessEffect()
+    {
+        //이펙트 팝업
+        Debug.Log("강화 성공 대기 시작");
+        yield return new WaitForSeconds(3.0f);
+        itemEnhancer.EnhancerState = EnhancerState.Success;
+        Debug.Log("강화 성공 대기시간 종료");
+    }
+    IEnumerator PopUpFailEffect()
+    {
+        //이펙트 팝업
+        Debug.Log("강화 실패 대기 시작");
+        yield return new WaitForSeconds(3.0f);
+        itemEnhancer.EnhancerState = EnhancerState.Fail;
+        Debug.Log("강화 실패 대기시간 종료");
     }
 }
