@@ -839,6 +839,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 545458410, guid: ea1d848a20585473a8e754b50fa02f04, type: 3}
+      propertyPath: bulletProjectilePrefab
+      value: 
+      objectReference: {fileID: 7858710621172566663, guid: 5c43df6fcf61b4546b33015441d70fb2, type: 3}
     - target: {fileID: 4704479901468517709, guid: ea1d848a20585473a8e754b50fa02f04, type: 3}
       propertyPath: m_Name
       value: PlayerYoon
