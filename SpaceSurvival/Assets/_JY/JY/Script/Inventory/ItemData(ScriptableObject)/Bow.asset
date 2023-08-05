@@ -9,14 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc36f109a09320b49ade6d638ecd078b, type: 3}
+  m_Script: {fileID: 11500000, guid: 71493d611014d104397c48460add8633, type: 3}
   m_Name: Bow
   m_EditorClassIdentifier: 
   ItemType: 1
-  code: 7
+  code: 8
   itemName: Bow
   modelPrefab: {fileID: 5040603382300954309, guid: e4d5c01c14072554bb12dfd9e508a80a, type: 3}
   itemIcon: {fileID: -1685962536, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
-  price: 0
+  price: 1000
   maxStackCount: 1
-  itemDescription: "\uD65C"
+  itemDescription: "\uC124\uBA85"
+  attackPoint: 10
+  defencePoint: 0

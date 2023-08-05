@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Item Data - Enhancable", menuName = "Scriptable Object/Item Data/ItemData - Enhancable", order = 3)]
-public class ItemData_Enhancable : ItemData, IEnhancable
+[CreateAssetMenu(fileName = "New Item Data - Enhancable", menuName = "Scriptable Object/Item Data/ItemData - Enhancable", order = 4)]
+public class ItemData_Enhancable : ItemData_Equip, IEnhancable
 {
-    public EnhanceType enhanceType;
+    [Header("강화 가능 아이템 데이터")]
     public byte itemLevel;
+    public EnhanceType enhanceType;
+
+
     byte priviousLevel;
     public byte Itemlevel
     {
@@ -28,8 +31,7 @@ public class ItemData_Enhancable : ItemData, IEnhancable
             priviousLevel = value;
         }
     }
-    public uint attackPoint;
-    public uint defencePoint;
+
     public bool LevelUp(uint darkForceCount)
     {
         bool result = false;
@@ -66,13 +68,13 @@ public class ItemData_Enhancable : ItemData, IEnhancable
         this.attackPoint = resultAttackPoint;
         this.defencePoint = resultDefencePoint;
         this.itemName = itemname;
-        ItemData_Enhancable Pistol = new ItemData_Enhancable();
+   
         GameManager.SlotManager.RemoveItem(this, GameManager.SlotManager.IndexForEnhancer);
-        GameManager.SlotManager.AddItem(Pistol.code);
+        GameManager.SlotManager.AddItem(this.code);
        // Debug.Log(GameManager.SlotManager.slots[Current_Inventory_State.Equip][GameManager.SlotManager.IndexForEnhancer].ItemData);
         //이 시점에서 Slot에 이 아이템 데이터를 Assign 해줘야한다.
     }
- 
+
     public void Calculate_LevelUp_Result_Value(out uint resultAttackPoint, out uint resultDefencePoint, out string itemName)
     {
         float increaseRatio = 0.3f;
