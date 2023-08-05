@@ -105,13 +105,13 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
         get => isBattleMap;
         set => isBattleMap = value;
     }
-    BattleUICamera[] battleInfoCamArray;
+    UICamera[] battleInfoCamArray;
 
     private void Start()
     {
         turnGaugeUI = WindowList.Instance.TurnGaugeUI; //턴게이지 위치 찾기
         uiParent = WindowList.Instance.transform.GetChild(0); //Battle UI최상단 가져오기
-        battleInfoCamArray = EtcObjects.Instance.GetComponentsInChildren<BattleUICamera>(true); //배틀상태창 카메라 가져오기
+        battleInfoCamArray = EtcObjects.Instance.GetComponentsInChildren<UICamera>(true); //배틀상태창 카메라 가져오기
     }
 
 
@@ -124,7 +124,7 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
         
         //테스트 데이터 
         
-        TestInit(3); //테스트용 데이터생성
+        TestInit(); //테스트용 데이터생성
 
         ITurnBaseData[] turnListTemp = GameObject.FindObjectsOfType<TurnBaseObject>(); //씬에있는 유닛들 긁어오기 
 
@@ -403,11 +403,12 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
         }
         return isRandNode;
     }
-
+    [SerializeField]
+    int initSize = 1;
     /// <summary>
     /// 테스트 데이터 만드는용
     /// </summary>
-    public void TestInit(int initSize = 1) 
+    public void TestInit() 
     {
         if (IsViewGauge) 
         {
@@ -438,13 +439,14 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
                                             0.0f,
                                             UnityEngine.Random.Range(-10.0f, 0.0f)
                                             );//랜덤위치로 뿌리고
-            Transform cameraTarget = obj.transform.GetChild(obj.transform.childCount - 1);
+            Transform cameraTarget = obj.transform.GetChild(0).GetChild(obj.transform.GetChild(0).childCount - 1);
 
             //UI 위치 살짝올리는거해야함
             
             if(battleInfoCamArray != null  && battleInfoCamArray.Length > i ) //테스트용 아무거나가져오기 
             {
-                battleInfoCamArray[i].TObj = cameraTarget;
+                battleInfoCamArray[i].TargetObject = cameraTarget;
+                battleInfoCamArray[i].gameObject.SetActive(true);
             }
         }
 

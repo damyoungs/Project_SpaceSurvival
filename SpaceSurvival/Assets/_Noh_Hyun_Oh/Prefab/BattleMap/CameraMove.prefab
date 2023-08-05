@@ -25,7 +25,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 91321151}
-  m_LocalRotation: {x: 0.3826835, y: 0.000000015896624, z: -0.000000006584597, w: 0.92387956}
+  m_LocalRotation: {x: 0.3826835, y: -0.000000015896621, z: 0.000000006584596, w: 0.92387956}
   m_LocalPosition: {x: 0, y: 10, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -176,9 +176,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BindingMode: 1
   m_FollowOffset: {x: 0, y: 10, z: -5}
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
+  m_XDamping: 10
+  m_YDamping: 10
+  m_ZDamping: 10
   m_AngularDampingMode: 0
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -261,7 +261,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateSpeed: 100
-  target: {fileID: 0}
 --- !u!1 &4770894709539036587
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,7 +325,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   originCam: {fileID: 91321152}
   moveCam: {fileID: 4770894711165001898}
-  brain: {fileID: 8302684408633846718, guid: b09c11ab4d2a8ef45a08543e66dbab78, type: 3}
+  brain: {fileID: 0}
   moveSpeed: 10
 --- !u!1 &4770894709575202474
 GameObject:

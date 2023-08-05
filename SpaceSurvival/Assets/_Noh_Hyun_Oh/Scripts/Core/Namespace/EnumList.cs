@@ -102,4 +102,15 @@ namespace EnumList
         Burns //화상
     }
 
+	/// <summary>
+	/// 캐릭터 카메라 
+	/// </summary>
+	public enum CameraTargetType
+	{
+		None = -1,
+		MiniMap ,
+		Player = 0,
+		Npc,
+	}
+
 }

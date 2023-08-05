@@ -152,7 +152,7 @@ public class TurnBaseObject : BattleMapUnitIsPool, ITurnBaseData
             obj.transform.SetParent(battleUICanvas);//풀은 캔버스 밑에없기때문에 배틀맵UI만 관리할 캔버스 위치 밑으로 이동시킨다.
             obj.gameObject.SetActive(true); //활성화 시킨다.
             BattleUI = obj.GetComponent<TrackingBattleUI>(); //UI 컴퍼넌트 찾아온다.
-            BattleUI.Player = this ;     //UI 는 유닛과 1:1 매치가 되있어야 됨으로 담아둔다.
+            BattleUI.Player = transform.GetChild(0) ;     //UI 는 유닛과 1:1 매치가 되있어야 됨으로 담아둔다.
             
         }
         if (GaugeUnit == null) //턴 게이지UI 가 셋팅 안되있으면

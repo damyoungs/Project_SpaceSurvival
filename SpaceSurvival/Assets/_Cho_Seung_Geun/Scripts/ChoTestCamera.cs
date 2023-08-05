@@ -11,8 +11,8 @@ public class ChoTestCamera : MonoBehaviour
     private void Start()
     {
         Vector3 playerPos = player.position;
-        transform.position = new Vector3(playerPos.x + 1.0f, playerPos.y + 10.0f, playerPos.z - 5.0f);      // Ä«ï¿½Þ¶ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½
-        transform.rotation = Quaternion.Euler(90.0f, 0.0f, 0.0f);                                           // Ä«ï¿½Þ¶ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        transform.position = new Vector3(playerPos.x + 1.0f, playerPos.y + 10.0f, playerPos.z - 5.0f);      // Ä«¸Þ¶ó À§Ä¡ Á¶Á¤
+        transform.rotation = Quaternion.Euler(45.0f, 0.0f, 0.0f);                                           // Ä«¸Þ¶ó °¢µµ Á¶Àý
         offset = transform.position - player.position;
     }
 

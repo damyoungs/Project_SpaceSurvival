@@ -18,6 +18,6 @@ EditorBuildSettings:
     path: Assets/_Noh_Hyun_Oh/Scenes/Ending.unity
     guid: 8f820110527124d4a9fee3546a7e1041
   - enabled: 1
-    path: Assets/_Noh_Hyun_Oh/Scenes/TestBattleMap/TestBattleMap.unity
-    guid: 470f74b85bb696240aee99e4244232d5
+    path: Assets/_Noh_Hyun_Oh/Scenes/TestBattleMap/Test_Map.unity
+    guid: 3986321f77c821c49ad39212ced245d4
   m_configObjects: {}

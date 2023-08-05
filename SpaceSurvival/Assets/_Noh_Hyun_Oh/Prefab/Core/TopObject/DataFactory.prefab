@@ -138,7 +138,7 @@ MonoBehaviour:
   isViewGauge: 0
   isAscending: 1
   turnStartValue: 1
-  unit: {fileID: 8315282709884055028, guid: b382c80ecb6b116498aca4dd4e8c0b6a, type: 3}
+  initSize: 5
 --- !u!1 &1453051092
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,7 +256,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 188753052431562838}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -97.29422, y: 41.69752, z: 100}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -415,7 +415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a3d1f2f7181a5742b02fbdf2e9b5294, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  origianlPrefab: {fileID: 8839344176925574838, guid: 98dc248aa211544469e2ffdf5271a062, type: 3}
+  origianlPrefab: {fileID: 2958273194949555751, guid: ddca3c67046c56d45a84255d43ef85e5, type: 3}
   poolSize: 8
 --- !u!1 &3795129548570730236
 GameObject:

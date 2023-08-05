@@ -13,14 +13,17 @@ public class CameraOriginTarget : MonoBehaviour
     bool isRotate = false;
 
     [SerializeField]
-    GameObject target;
-    public GameObject Target 
+    Transform target;
+    public Transform Target 
     {
         set => target = value;
     }
     Vector3 screenHalfPosition = Vector3.zero;
+    public Action<Transform> onCameraOriginMove;
 
-    Camera mainCam;
+    Vector3 offSet = Vector3.zero;
+    [SerializeField]
+    float followSpeed = 3.0f;
 
     private void Awake()
     {
@@ -29,14 +32,12 @@ public class CameraOriginTarget : MonoBehaviour
         screenHalfPosition.z = 0.0f;
         screenHalfPosition.y = Screen.height * 0.5f;
     }
-    private void Start()
-    {
-        mainCam = Camera.main;
-    }
 
-    private void Update()
+    private void LateUpdate()
     {
-        transform.position = target.transform.position;
+        offSet = target.position;
+        transform.position = Vector3.Lerp(transform.position,offSet,followSpeed * Time.deltaTime);
+        //transform.Translate(target.transform.position ,Space.World);
     }
 
     private void OnEnable()

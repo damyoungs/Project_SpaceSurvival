@@ -46,6 +46,7 @@ public class Camera_Move : MonoBehaviour
     /// </summary>
     public Action<Vector2> moveCamera;
 
+    [SerializeField]
     /// <summary>
     /// 이동값 방향 담을 백터
     /// </summary>
@@ -57,10 +58,15 @@ public class Camera_Move : MonoBehaviour
         //나중에 카메라 픽스되면 여기에 찾는로직추가
         moveCamera += OnMove;
     }
-    private void Start()
+    private void OnEnable()
+    {
+        OnInitPos();
+    }
+    public void OnInitPos() 
     {
         moveCam.transform.position = originCam.transform.position; //일단 위치 기본카메라로
         moveCam.transform.rotation = originCam.transform.rotation; //카메라이동시 이상하지않게 시작점잡기
+    
     }
     /// <summary>
     /// 카메라 이동 관련 값셋팅
@@ -119,7 +125,7 @@ public class Camera_Move : MonoBehaviour
     private void Update()
     {
         moveCam.transform.rotation = originCam.transform.rotation;
-        moveCam.transform.Translate(Time.deltaTime * moveSpeed * tempMoveDir, Space.World);
+        moveCam.transform.position += Time.deltaTime * moveSpeed * tempMoveDir;
     }
 
 }

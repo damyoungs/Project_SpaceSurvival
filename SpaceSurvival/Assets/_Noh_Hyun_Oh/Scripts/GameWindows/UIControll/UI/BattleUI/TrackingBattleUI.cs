@@ -15,11 +15,11 @@ public class TrackingBattleUI : TrackingBattleUIObjectIsPool
 #endif
 
     /// <summary>
-    /// 추적할 오브젝트 유닛
+    /// 추적할 유닛
     /// </summary>
     [SerializeField]
-    private ITurnBaseData player = null;
-    public ITurnBaseData Player
+    private Transform player = null;
+    public Transform Player
     {
         get => player;
         set
@@ -216,7 +216,7 @@ public class TrackingBattleUI : TrackingBattleUIObjectIsPool
     {
         if (Player != null ) //플레이어가 있을경우만 실행
         {
-            Vector3 playerPosition = mainCamera.WorldToScreenPoint(Player.transform.position); //플레이어 스크린좌표를 읽어온다.
+            Vector3 playerPosition = mainCamera.WorldToScreenPoint(Player.position); //플레이어 스크린좌표를 읽어온다.
             playerPosition.y += 100.0f; //캐릭터위치정중앙에서 살짝위로 
             transform.position = playerPosition; //주적할 오브젝트의 위치를 쫒아간다.
             

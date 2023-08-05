@@ -4,16 +4,10 @@ using UnityEngine;
 
 public class MiniMapCamera : MonoBehaviour
 {
-    Transform player;
-    public Transform Player 
-    {
-        set 
-        {
-            player = value;
-        }
-    }
+    public Transform player;
+
     Vector3 offset = Vector3.zero;
-    private void OnEnable()
+    private void Start()
     {
         Vector3 playerPos = player.position;
         transform.position = new Vector3(playerPos.x, playerPos.y + 50.0f, playerPos.z);
