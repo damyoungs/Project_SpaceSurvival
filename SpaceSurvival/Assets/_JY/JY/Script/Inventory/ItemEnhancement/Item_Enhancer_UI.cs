@@ -194,7 +194,7 @@ public class Item_Enhancer_UI : MonoBehaviour
     }
     IEnumerator PopUpSuccessEffect()
     {
-        //이펙트 팝업
+        //이펙트 팝업  Proceed 창 열고 슬라이더 값 연동 파티클은 굳이 UI가 아니어도 괜찮을 것 같다
         yield return new WaitForSeconds(3.0f);
         Debug.Log("이펙트 엔드");
         onEffectEnd?.Invoke();
