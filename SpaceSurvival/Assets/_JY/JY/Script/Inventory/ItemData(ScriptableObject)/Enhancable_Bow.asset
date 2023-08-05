@@ -9,16 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71493d611014d104397c48460add8633, type: 3}
-  m_Name: Pistol
+  m_Script: {fileID: 11500000, guid: d4a00957eb4b4d1478ead36b908bf85d, type: 3}
+  m_Name: Enhancable_Bow
   m_EditorClassIdentifier: 
   ItemType: 1
-  code: 12
-  itemName: Pistol
-  modelPrefab: {fileID: 1478929842005552467, guid: 8f3ba16da44494748ad4269562998851, type: 3}
-  itemIcon: {fileID: -109127132, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
+  code: 9
+  itemName: Bow
+  modelPrefab: {fileID: 5040603382300954309, guid: e4d5c01c14072554bb12dfd9e508a80a, type: 3}
+  itemIcon: {fileID: -1685962536, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
   price: 0
   maxStackCount: 1
   itemDescription: "\uC124\uBA85"
   attackPoint: 15
-  defencePoint: 0
+  defencePoint: 1
+  itemLevel: 21
+  enhanceType: 0

@@ -252,7 +252,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             }
             else if (!inventoryRectTransform.rect.Contains(distance_BetweenMouse_Inven))// 거리의 크기가 rect 의 크기보다 작으면 인벤토리 안쪽
             {
-                if (enhancerUIRectTransform.rect.Contains(distance_BetweenMouse_enhancerUI))
+                if (enhancerUIRectTransform.rect.Contains(distance_BetweenMouse_enhancerUI) && GameManager.Item_Enhancer.EnhancerState == EnhancerState.Open)//inhancerUI열려있으면 return
                 {
                     return;
                 }

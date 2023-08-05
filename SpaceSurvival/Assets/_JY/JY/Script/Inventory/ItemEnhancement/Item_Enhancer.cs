@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EnhancerState
+ public enum EnhancerState
 {
     Open,
     SetItem,
@@ -55,8 +55,8 @@ public class Item_Enhancer : MonoBehaviour
             }
         }
     }
-    EnhancerState enhancerState;
-    public EnhancerState EnhancerState
+     EnhancerState enhancerState;
+    public  EnhancerState EnhancerState
     {
         get => enhancerState;
         set
@@ -103,6 +103,7 @@ public class Item_Enhancer : MonoBehaviour
     {
         item_Enhancer_UI = GetComponent<Item_Enhancer_UI>();
         item_Enhancer_Data = new Item_Enhancer_Data();
+        EnhancerState = EnhancerState.Close;
     }
  
 
