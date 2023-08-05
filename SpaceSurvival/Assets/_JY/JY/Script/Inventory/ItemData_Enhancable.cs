@@ -9,7 +9,7 @@ public class ItemData_Enhancable : ItemData_Equip, IEnhancable
     public byte itemLevel;
     public EnhanceType enhanceType;
 
-
+    
     byte priviousLevel;
     public byte Itemlevel
     {
@@ -20,31 +20,17 @@ public class ItemData_Enhancable : ItemData_Equip, IEnhancable
             {
                 itemLevel = value;
             }
-            if (itemLevel > priviousLevel)
-            {
-                LevelUpItemStatus();
-            }
-            else if (itemLevel < priviousLevel)
-            {
-                LevelDownItemStatus();
-            }
-            priviousLevel = value;
+           
         }
     }
 
-    public bool LevelUp(uint darkForceCount)
+    public bool LevelUp(uint darkForceCount)//enhancerUI에서 호출, 
     {
         bool result = false;
         float SuccessRate = CalculateSuccessRate(darkForceCount);
         if (Random.Range(0, 100) < SuccessRate)
         {
-            Itemlevel++;
             result = true;
-        }
-        else
-        {
-            if (Itemlevel > 7)
-            Itemlevel--;
         }
         return result;
     }
@@ -58,19 +44,20 @@ public class ItemData_Enhancable : ItemData_Equip, IEnhancable
 
         return finalSuccessRate;
     }
-    void LevelUpItemStatus()
+    public void LevelUpItemStatus()// 코루틴 끝나고 실행 시킨 후 Enhancer의 State를 Clear로 바꾸기
     {
-        //처음부터 TempSlot으로 옮길때 해당 슬롯의 인덱스를 저장했다가 강화가 성공하면 해당 인덱스의 슬롯을 삭제하고 이 ItemData를 할당해보면어떨까?
-        //슬롯메니저로 이 아이템과 같은 아이템이 있다면 삭제하도록 델리게이트?
         Calculate_LevelUp_Result_Value(out uint resultAttackPoint, out uint resultDefencePoint, out string itemname);
 
         //생성자 new?
         this.attackPoint = resultAttackPoint;
         this.defencePoint = resultDefencePoint;
         this.itemName = itemname;
-   
+        priviousLevel = itemLevel;
+        Itemlevel++;
+
         GameManager.SlotManager.RemoveItem(this, GameManager.SlotManager.IndexForEnhancer);
         GameManager.SlotManager.AddItem(this.code);
+        Debug.Log("값 변경 완료");
        // Debug.Log(GameManager.SlotManager.slots[Current_Inventory_State.Equip][GameManager.SlotManager.IndexForEnhancer].ItemData);
         //이 시점에서 Slot에 이 아이템 데이터를 Assign 해줘야한다.
     }
@@ -81,14 +68,7 @@ public class ItemData_Enhancable : ItemData_Equip, IEnhancable
         uint increaseAttackValue = (uint)(this.attackPoint * increaseRatio * (Itemlevel * 0.5f));
         uint increaseDefenceValue = (uint)(this.defencePoint * increaseRatio * (Itemlevel * 0.5f));
 
-        if (this.itemLevel == 2)
-        {
-            itemName = $"{this.itemName} ★";
-        }
-        else
-        {
-            itemName = $"{this.itemName+"★"}";
-        }
+        itemName = this.itemName + "★";
         resultAttackPoint = this.attackPoint + increaseAttackValue;
         resultDefencePoint = this.defencePoint + increaseDefenceValue;
     }

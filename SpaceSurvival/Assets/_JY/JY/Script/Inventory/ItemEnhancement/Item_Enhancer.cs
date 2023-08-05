@@ -17,10 +17,8 @@ using UnityEngine;
 public class Item_Enhancer : MonoBehaviour
 {
     Item_Enhancer_UI item_Enhancer_UI;
-    Item_Enhancer_Data item_Enhancer_Data;
 
     public Item_Enhancer_UI EnhancerUI => item_Enhancer_UI;
-    public Item_Enhancer_Data EnhancerData => item_Enhancer_Data;
 
     public Action onOpen;
     public Action<ItemData_Enhancable> onSetItem;
@@ -47,10 +45,12 @@ public class Item_Enhancer : MonoBehaviour
                 if (itemData != null)
                 {
                     EnhancerState = EnhancerState.SetItem;
+                    EnhancerUI.onEffectEnd = itemData.LevelUpItemStatus;
                 }
                 else
                 {
                     EnhancerState = EnhancerState.ClearItem;
+                    EnhancerUI.onEffectEnd = null;
                 }
             }
         }
@@ -81,6 +81,7 @@ public class Item_Enhancer : MonoBehaviour
                     break;
                 case EnhancerState.WaitforResult:
                     onWaitforResult?.Invoke();// WarningBox Close하기
+                   // EnhancerState = EnhancerState.ClearItem;
                     break;
                 case EnhancerState.Success:
                     onSuccess?.Invoke(); // inventory에 Itemdata 리턴하고 EnhancerUI Clear
@@ -102,7 +103,6 @@ public class Item_Enhancer : MonoBehaviour
     private void Awake()
     {
         item_Enhancer_UI = GetComponent<Item_Enhancer_UI>();
-        item_Enhancer_Data = new Item_Enhancer_Data();
         EnhancerState = EnhancerState.Close;
     }
  

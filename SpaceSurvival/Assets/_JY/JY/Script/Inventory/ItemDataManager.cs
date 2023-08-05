@@ -21,6 +21,7 @@ public enum ItemCode// 밑의 ItemData 배열과 같은 순서를 유지해야 알맞은 프리팹을
     Rifle,
     Scythe,
     ShotGun,
+    Enhancable_shotGun,
     SwordLaser,
     SwordLaser_Advanced,
     TwoHandAxe,

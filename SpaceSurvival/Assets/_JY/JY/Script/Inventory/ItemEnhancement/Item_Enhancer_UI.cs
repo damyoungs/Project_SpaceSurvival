@@ -30,7 +30,8 @@ public class Item_Enhancer_UI : MonoBehaviour
     Enhancer_Slot_Before beforeSlot;
     Enhancer_Slot_After afterSlot;
 
-    public Action<ItemData_Enhancable> onDarkForceValurChange;
+    public Action<ItemData_Enhancable> onDarkForceValueChange;
+    public Action onEffectEnd;
 
     const uint MinDarkForceCount = 0;
     uint darkForceCount = MinDarkForceCount;
@@ -43,7 +44,7 @@ public class Item_Enhancer_UI : MonoBehaviour
             darkForceCount = Math.Clamp(value, MinDarkForceCount, (uint)GameManager.playerDummy.DarkForce);
             amountText.text = darkForceCount.ToString();    // 인풋 필드에 적용
             amountSlider.value = darkForceCount;
-            onDarkForceValurChange?.Invoke(itemEnhancer.ItemData);
+            onDarkForceValueChange?.Invoke(itemEnhancer.ItemData);
         }
     }
     public Enhancer_Slot_Before BeforeSlot => beforeSlot;
@@ -89,8 +90,11 @@ public class Item_Enhancer_UI : MonoBehaviour
         itemEnhancer.onSetItem += RefreshEnhancerUI;
         itemEnhancer.onClearItem += ClearEnhancerUI;
         itemEnhancer.onConfirmButtonClick += WarningBoxOn;
-        onDarkForceValurChange += UpdateSuccessRate;
+        onDarkForceValueChange += UpdateSuccessRate;
         itemEnhancer.onWaitforResult += WaitForResult;
+        itemEnhancer.onSuccess += () => StartCoroutine(PopUpSuccessEffect());
+        itemEnhancer.onFail += () => StartCoroutine(PopUpFailEffect());
+
         Close();
 
         WarningBox warningBox = FindObjectOfType<WarningBox>();
@@ -181,28 +185,24 @@ public class Item_Enhancer_UI : MonoBehaviour
         ItemData_Enhancable tempData = itemEnhancer.ItemData;// 프로퍼티는 함수라서 바로 ref로 넘겨줄 수 없다
         if (itemEnhancer.ItemData.LevelUp(DarkForceCount))//
         {
-            StartCoroutine(PopUpSuccessEffect());
+            itemEnhancer.EnhancerState = EnhancerState.Success;
         }
         else
         {
-            StartCoroutine(PopUpFailEffect());
+            itemEnhancer.EnhancerState = EnhancerState.Fail;
         }
-       
     }
     IEnumerator PopUpSuccessEffect()
     {
         //이펙트 팝업
-        Debug.Log("강화 성공 대기 시작");
         yield return new WaitForSeconds(3.0f);
-        itemEnhancer.EnhancerState = EnhancerState.Success;
-        Debug.Log("강화 성공 대기시간 종료");
+        Debug.Log("이펙트 엔드");
+        onEffectEnd?.Invoke();
+        //Enhancable로 이펙트 끝났다고 신호 날리기
     }
     IEnumerator PopUpFailEffect()
     {
         //이펙트 팝업
-        Debug.Log("강화 실패 대기 시작");
         yield return new WaitForSeconds(3.0f);
-        itemEnhancer.EnhancerState = EnhancerState.Fail;
-        Debug.Log("강화 실패 대기시간 종료");
     }
 }

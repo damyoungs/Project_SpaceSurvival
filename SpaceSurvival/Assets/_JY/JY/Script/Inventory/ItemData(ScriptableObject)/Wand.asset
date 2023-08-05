@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Wand
   m_EditorClassIdentifier: 
   ItemType: 1
-  code: 19
+  code: 21
   itemName: Wand
   modelPrefab: {fileID: 5973199535789980846, guid: 40fd63343197f8f4ea14e8acbb3eb87a, type: 3}
-  itemIcon: {fileID: -1520374609, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
+  itemIcon: {fileID: -488295770, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
   price: 0
   maxStackCount: 1
   itemDescription: "\uC644\uB4DC"
