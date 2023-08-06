@@ -13,12 +13,15 @@ public enum ItemCode// 밑의 ItemData 배열과 같은 순서를 유지해야 알맞은 프리팹을
     Shield_Extended,
     Bat,
     Bow,
+    Enhancable_Bow,
     Dagger,
     Hammer,
     Pistol,
+    Enhancable_Pistol,
     Rifle,
     Scythe,
     ShotGun,
+    Enhancable_shotGun,
     SwordLaser,
     SwordLaser_Advanced,
     TwoHandAxe,
@@ -32,6 +35,12 @@ public enum ItemType
     Consume,
     Etc,
     Craft
+}
+public enum EnhanceType
+{
+    attack,
+    defence
+
 }
 public enum ItemSortBy
 {

@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: TwoHandSword
   m_EditorClassIdentifier: 
   ItemType: 1
-  code: 18
+  code: 20
   itemName: TwoHandSword
   modelPrefab: {fileID: 6660370603909060218, guid: 684797b2836d61e438b92cf9d14bc03a, type: 3}
-  itemIcon: {fileID: 43337394, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
+  itemIcon: {fileID: 1664508130, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
   price: 0
   maxStackCount: 1
   itemDescription: "\uB450\uC190\uAC80"

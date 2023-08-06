@@ -23,7 +23,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     public Transform etc_Below;
     public Transform craft_Below;
 
-    public Action<ItemData> setEnhanceItem;
+   
     RectTransform beforeSlotRectTransform;
     RectTransform enhancerUIRectTransform;
 
@@ -32,6 +32,10 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
 
     public Dictionary<Current_Inventory_State, List<Slot>> slots;
     private Dictionary<Current_Inventory_State, int> slotCount; //슬롯 생성후 번호를 부여하기위한 Dic
+
+ 
+    public byte IndexForEnhancer { get; set; }
+  
 
     private void Awake()
     {
@@ -126,6 +130,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     }
     private void OnItemMoveBegin(ItemData data, uint index)
     {
+        IndexForEnhancer = (byte)index;
         MoveItem(data ,index, tempSlot.Index);    // 시작 슬롯에서 임시 슬롯으로 아이템 옮기기
         TempSlot.Open();                          // 임시 슬롯 열기
     }
@@ -236,13 +241,18 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             Vector2 distance_BetweenMouse_BeforeSlot = screenPos - (Vector2)beforeSlotRectTransform.position;
             Vector2 distance_BetweenMouse_enhancerUI = screenPos - (Vector2)enhancerUIRectTransform.position;
 
-            if (beforeSlotRectTransform.rect.Contains(distance_BetweenMouse_BeforeSlot) && tempSlot.ItemData.Enhanceable)//강화 슬롯의 위치이면서 강화ㅑ 가능한 아이템 일 때
+            if (beforeSlotRectTransform.rect.Contains(distance_BetweenMouse_BeforeSlot))//강화 슬롯의 위치이면서 강화ㅑ 가능한 아이템 일 때
             {
-                setEnhanceItem?.Invoke(tempSlot.ItemData);
+                ItemData_Enhancable enhancable = TempSlot.ItemData as ItemData_Enhancable;
+                if (enhancable != null)
+                {
+                    GameManager.Item_Enhancer.ItemData = enhancable;
+                   // IndexForEnhancer =  애초에 장비탭의 Slot 이 TempSlot으로 옮겨갈때 인덱스 저장이 필요함
+                }
             }
             else if (!inventoryRectTransform.rect.Contains(distance_BetweenMouse_Inven))// 거리의 크기가 rect 의 크기보다 작으면 인벤토리 안쪽
             {
-                if (enhancerUIRectTransform.rect.Contains(distance_BetweenMouse_enhancerUI))
+                if (enhancerUIRectTransform.rect.Contains(distance_BetweenMouse_enhancerUI) && GameManager.Item_Enhancer.EnhancerState == EnhancerState.Open)//inhancerUI열려있으면 return
                 {
                     return;
                 }

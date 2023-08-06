@@ -39,10 +39,24 @@ public class ItemDescription : MonoBehaviour
     {
         if (!isPause && data != null)
         {
+            ItemData_Equip equipItem = data as ItemData_Equip;
+            ItemData_Enhancable enhancableItem = data as ItemData_Enhancable;
+            if (enhancableItem != null)
+            {
+                itemDetail.text = $"공격력 : {equipItem.attackPoint} \n방어력 : {equipItem.defencePoint}\n아이템 레벨 : {enhancableItem.itemLevel}";
+            }
+            else if (equipItem != null)
+            {
+                itemDetail.text = $"공격력 : {equipItem.attackPoint} \n방어력 : {equipItem.defencePoint}";
+            }
+            else
+            {
+                itemDetail.text = $"효과 : {data.itemDescription}";
+            }
             itemIcon.sprite = data.itemIcon;
             itemName.text = data.itemName;
             itemPrice.text = data.price.ToString("N0");
-            itemDetail.text = data.itemDescription;
+         
             StopAllCoroutines();
             StartCoroutine(FadeIn());
 
