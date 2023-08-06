@@ -294,6 +294,9 @@ public class MapTest : TestBase
         cube.GetComponent<MeshRenderer>().material = material;
     }
 
+    /// <summary>
+    /// 구조물 생성 함수
+    /// </summary>
     private void PropInstantiate()
     {
         if (props == null)
@@ -335,16 +338,18 @@ public class MapTest : TestBase
         props.Add(obj);
     }
 
-    private void PropMultiMaking2(int chooseProp, int index1, int index2, int index3, int index4)
+    private void PropMultiMaking(int chooseProp, int index1, int index2, int index3, int index4)
     {
         GameObject obj = Instantiate(multiProps[chooseProp]);
         //Vector3Int getPos = new Vector3Int(Random.Range(0, standardPos[0].Width * 2), 0, Random.Range(standardPos[0].Length * 2, sizeY * 2));
         GameObject tile = GetTile(Random.Range(index1, index2), Random.Range(index3, index4));
 
         obj.transform.position = tile.transform.position;
+
+        props.Add(obj);
     }
 
-    private void PropMultiMaking(int chooseProp, int index1, int index2, int index3, int index4)
+    private void PropMultiMaking2(int chooseProp, int index1, int index2, int index3, int index4)
     {
         GameObject obj = Instantiate(multiProps[chooseProp]);
 
