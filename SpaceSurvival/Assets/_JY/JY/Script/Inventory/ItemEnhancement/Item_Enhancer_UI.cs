@@ -85,12 +85,13 @@ public class Item_Enhancer_UI : MonoBehaviour
 
         itemEnhancer.onOpen += Open;
         itemEnhancer.onClose += Close;
-        itemEnhancer.onSetItem += RefreshEnhancerUI;
-        itemEnhancer.onClearItem += ClearEnhancerUI;
-        itemEnhancer.onConfirmButtonClick += WarningBoxOn;
-        onDarkForceValueChange += UpdateSuccessRate;
-        itemEnhancer.onWaitforResult += WaitForResult;
-        itemEnhancer.onSuccess += () => StartCoroutine(PopUp_ProceedBox(true));
+        itemEnhancer.onSetItem += RefreshEnhancerUI; //tempSlot의 아이템을 드롭했을 때
+        itemEnhancer.onClearItem += ClearEnhancerUI; // beforeSlot을 클릭했을 때
+        itemEnhancer.onConfirmButtonClick += BlockInteractable;// enhancerUI창의 체크버튼 클맀했을 때
+        onDarkForceValueChange += UpdateSuccessRate; // InputField의 Darkforce의 값이 바뀔때
+        itemEnhancer.onWaitforResult += WaitForResult; // warningBox의 체크버튼을 누를 때 
+       // itemEnhancer.onWaitforResult += BlockInteractable;
+        itemEnhancer.onSuccess += () => StartCoroutine(PopUp_ProceedBox(true)); //WaitForResult에서 호출
         itemEnhancer.onFail += () => StartCoroutine(PopUp_ProceedBox(false));
 
 
@@ -98,7 +99,7 @@ public class Item_Enhancer_UI : MonoBehaviour
         Close();
 
         WarningBox warningBox = FindObjectOfType<WarningBox>();
-        warningBox.onWarningBoxClose += WarningBoxOff;
+        warningBox.onWarningBoxClose += OpenInteractable;
     }
     public void Open()
     {
@@ -143,7 +144,7 @@ public class Item_Enhancer_UI : MonoBehaviour
         afterSlot.ItemData = null;
         itemEnhancer.ItemData = null;
     }
-    void WarningBoxOn()//Enhancer에서 신호 받음 
+    void BlockInteractable()//Enhancer에서 신호 받음 
     {
         beforeSlot.imageComp.raycastTarget = false;
         beforeSlot.itemIcon.raycastTarget = false;
@@ -155,8 +156,9 @@ public class Item_Enhancer_UI : MonoBehaviour
         plusButton.interactable = false;
         minusButton.interactable = false;
     }
-    void WarningBoxOff()//warningbox에서 신호받음
+    void OpenInteractable()//warningbox에서 신호받음
     {
+
         beforeSlot.imageComp.raycastTarget = true;
         beforeSlot.itemIcon.raycastTarget = true;
         confirmButton.interactable = true;
@@ -182,7 +184,6 @@ public class Item_Enhancer_UI : MonoBehaviour
     }
     void WaitForResult()
     {
-        ItemData_Enhancable tempData = itemEnhancer.ItemData;// 프로퍼티는 함수라서 바로 ref로 넘겨줄 수 없다
         if (itemEnhancer.ItemData.LevelUp(DarkForceCount))//
         {
             itemEnhancer.EnhancerState = EnhancerState.Success;
@@ -205,11 +206,9 @@ public class Item_Enhancer_UI : MonoBehaviour
         else
         {
             proceedAnim.SetTrigger("Fail");
+            yield return new WaitForSeconds(3.0f);//대기시간이 없으면 버튼 활성화가 너무 빨리된다.
         }
-        //이펙트 팝업  Proceed 창 열고 슬라이더 값 연동 파티클은 굳이 UI가 아니어도 괜찮을 것 같다
-        yield return new WaitForSeconds(3.0f);
-        Debug.Log("이펙트 엔드");
-        //Enhancable로 이펙트 끝났다고 신호 날리기
+        OpenInteractable();
     }
 
 }

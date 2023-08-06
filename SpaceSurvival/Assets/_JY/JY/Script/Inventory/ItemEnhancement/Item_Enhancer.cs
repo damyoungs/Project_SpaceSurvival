@@ -80,8 +80,7 @@ public class Item_Enhancer : MonoBehaviour
                     }
                     break;
                 case EnhancerState.WaitforResult:
-                    onWaitforResult?.Invoke();// WarningBox Close하기
-                   // EnhancerState = EnhancerState.ClearItem;
+                    onWaitforResult?.Invoke();
                     break;
                 case EnhancerState.Success:
                     onSuccess?.Invoke(); // inventory에 Itemdata 리턴하고 EnhancerUI Clear
