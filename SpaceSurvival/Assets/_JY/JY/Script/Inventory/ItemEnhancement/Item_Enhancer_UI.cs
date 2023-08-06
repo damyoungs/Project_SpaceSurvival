@@ -20,12 +20,10 @@ public class Item_Enhancer_UI : MonoBehaviour
     public TextMeshProUGUI successRateText;
     public TextMeshProUGUI beforelevelText;
     public TextMeshProUGUI afterlevelText;
-
+    public Animator proceedAnim;
 
     public TMP_InputField amountText;
     public UnityEngine.UI.Slider amountSlider;
-
-    public GameObject warningBox;
     
     Enhancer_Slot_Before beforeSlot;
     Enhancer_Slot_After afterSlot;
@@ -94,6 +92,8 @@ public class Item_Enhancer_UI : MonoBehaviour
         itemEnhancer.onWaitforResult += WaitForResult;
         itemEnhancer.onSuccess += () => StartCoroutine(PopUp_ProceedBox(true));
         itemEnhancer.onFail += () => StartCoroutine(PopUp_ProceedBox(false));
+
+
 
         Close();
 
@@ -194,13 +194,21 @@ public class Item_Enhancer_UI : MonoBehaviour
     }
     IEnumerator PopUp_ProceedBox(bool levelUp)
     {
+        if (levelUp)
+        {
+            proceedAnim.SetTrigger("Success");
+            yield return new WaitForSeconds(3.0f);// Success clip의 재생시간을 고려한 딜레이
+            onTriggerLevelUp?.Invoke();
+            itemEnhancer.EnhancerState = EnhancerState.ClearItem;
+            Debug.Log("State 변경 ");
+        }
+        else
+        {
+            proceedAnim.SetTrigger("Fail");
+        }
         //이펙트 팝업  Proceed 창 열고 슬라이더 값 연동 파티클은 굳이 UI가 아니어도 괜찮을 것 같다
         yield return new WaitForSeconds(3.0f);
         Debug.Log("이펙트 엔드");
-        if (levelUp)
-        {
-            onTriggerLevelUp?.Invoke();
-        }
         //Enhancable로 이펙트 끝났다고 신호 날리기
     }
 

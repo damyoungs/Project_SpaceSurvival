@@ -65,8 +65,8 @@ public class ItemData_Enhancable : ItemData_Equip, IEnhancable
     public void Calculate_LevelUp_Result_Value(out uint resultAttackPoint, out uint resultDefencePoint, out string itemName)
     {
         float increaseRatio = 0.3f;
-        uint increaseAttackValue = (uint)(this.attackPoint * increaseRatio * (Itemlevel * 0.5f));
-        uint increaseDefenceValue = (uint)(this.defencePoint * increaseRatio * (Itemlevel * 0.5f));
+        uint increaseAttackValue = (uint)(this.attackPoint * increaseRatio + (Itemlevel * 2));
+        uint increaseDefenceValue = (uint)(this.defencePoint * increaseRatio + (Itemlevel * 2));
 
         itemName = this.itemName + "¡Ú";
         resultAttackPoint = this.attackPoint + increaseAttackValue;

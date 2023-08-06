@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
- public enum EnhancerState
+ public enum EnhancerState// 강화도중 창 닫기 비활성화
 {
     Open,
     SetItem,
