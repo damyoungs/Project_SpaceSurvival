@@ -45,12 +45,12 @@ public class Item_Enhancer : MonoBehaviour
                 if (itemData != null)
                 {
                     EnhancerState = EnhancerState.SetItem;
-                    EnhancerUI.onEffectEnd = itemData.LevelUpItemStatus;
+                    EnhancerUI.onTriggerLevelUp = itemData.LevelUpItemStatus;
                 }
                 else
                 {
                     EnhancerState = EnhancerState.ClearItem;
-                    EnhancerUI.onEffectEnd = null;
+                    EnhancerUI.onTriggerLevelUp = null;
                 }
             }
         }

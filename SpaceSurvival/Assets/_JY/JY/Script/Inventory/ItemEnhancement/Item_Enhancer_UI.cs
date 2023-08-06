@@ -31,7 +31,7 @@ public class Item_Enhancer_UI : MonoBehaviour
     Enhancer_Slot_After afterSlot;
 
     public Action<ItemData_Enhancable> onDarkForceValueChange;
-    public Action onEffectEnd;
+    public Action onTriggerLevelUp;
 
     const uint MinDarkForceCount = 0;
     uint darkForceCount = MinDarkForceCount;
@@ -92,8 +92,8 @@ public class Item_Enhancer_UI : MonoBehaviour
         itemEnhancer.onConfirmButtonClick += WarningBoxOn;
         onDarkForceValueChange += UpdateSuccessRate;
         itemEnhancer.onWaitforResult += WaitForResult;
-        itemEnhancer.onSuccess += () => StartCoroutine(PopUpSuccessEffect());
-        itemEnhancer.onFail += () => StartCoroutine(PopUpFailEffect());
+        itemEnhancer.onSuccess += () => StartCoroutine(PopUp_ProceedBox(true));
+        itemEnhancer.onFail += () => StartCoroutine(PopUp_ProceedBox(false));
 
         Close();
 
@@ -192,17 +192,16 @@ public class Item_Enhancer_UI : MonoBehaviour
             itemEnhancer.EnhancerState = EnhancerState.Fail;
         }
     }
-    IEnumerator PopUpSuccessEffect()
+    IEnumerator PopUp_ProceedBox(bool levelUp)
     {
         //이펙트 팝업  Proceed 창 열고 슬라이더 값 연동 파티클은 굳이 UI가 아니어도 괜찮을 것 같다
         yield return new WaitForSeconds(3.0f);
         Debug.Log("이펙트 엔드");
-        onEffectEnd?.Invoke();
+        if (levelUp)
+        {
+            onTriggerLevelUp?.Invoke();
+        }
         //Enhancable로 이펙트 끝났다고 신호 날리기
     }
-    IEnumerator PopUpFailEffect()
-    {
-        //이펙트 팝업
-        yield return new WaitForSeconds(3.0f);
-    }
+
 }
