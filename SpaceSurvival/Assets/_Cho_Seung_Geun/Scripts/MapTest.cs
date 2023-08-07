@@ -211,10 +211,10 @@ public class MapTest : TestBase
     /// <param name="width">∞°∑Œ ¿Œµ¶Ω∫</param>
     /// <param name="length">ºº∑Œ ¿Œµ¶Ω∫</param>
     /// <returns></returns>
-    private GameObject GetTile(int width, int length)
+    private Tile GetTile(int width, int length)
     {
         int index = sizeX * length + width;
-        return mapTiles[index];
+        return mapTiles[index].GetComponent<Tile>();
     }
 
     /// <summary>
@@ -322,7 +322,7 @@ public class MapTest : TestBase
             }
         }
 
-        for (int i = 0; i < Random.Range(0, singleProps.Count); i++)
+        for (int i = 0; i < Random.Range(1, singleProps.Count + 1); i++)
         {
             chooseProp = Random.Range(0, singleProps.Count);
             PropSingleMaking(chooseProp);
@@ -334,15 +334,29 @@ public class MapTest : TestBase
     private void PropSingleMaking(int chooseProp)
     {
         GameObject obj = Instantiate(singleProps[chooseProp]);
-        obj.transform.position = GetTile(Random.Range(0, sizeX), Random.Range(0, sizeY)).transform.position;
+
+        while (true)
+        {
+            Tile getTile = GetTile(Random.Range(0, sizeX), Random.Range(0, sizeY));
+            if (getTile.ExistTypes != Tile.ExistType.None)
+            {
+                continue;
+            }
+            obj.transform.position = getTile.transform.position;
+            obj.transform.GetChild(0).rotation = Quaternion.Euler(0.0f, 90.0f * Random.Range(0, 4), 0.0f);
+            getTile.ExistTypes = Tile.ExistType.prop;
+            break;
+        }
+        
         props.Add(obj);
+
     }
 
     private void PropMultiMaking(int chooseProp, int index1, int index2, int index3, int index4)
     {
         GameObject obj = Instantiate(multiProps[chooseProp]);
         //Vector3Int getPos = new Vector3Int(Random.Range(0, standardPos[0].Width * 2), 0, Random.Range(standardPos[0].Length * 2, sizeY * 2));
-        GameObject tile = GetTile(Random.Range(index1, index2), Random.Range(index3, index4));
+        GameObject tile = GetTile(Random.Range(index1, index2), Random.Range(index3, index4)).gameObject;
 
         obj.transform.position = tile.transform.position;
 
