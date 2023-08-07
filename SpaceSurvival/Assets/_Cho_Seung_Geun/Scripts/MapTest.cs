@@ -301,7 +301,7 @@ public class MapTest : TestBase
     {
         if (props == null)
         {
-            props = new List<GameObject>(9);
+            props = new List<GameObject>(16);
         }
         else
         {
@@ -319,6 +319,10 @@ public class MapTest : TestBase
             {
                 chooseProp = Random.Range(0, multiProps.Count);
                 PropMultiMaking(chooseProp, tempArrayX[i], tempArrayX[i + 1], tempArrayY[j], tempArrayY[j + 1]);
+                if (i == 1 && j == 1)
+                {
+                    PropMultiMaking(chooseProp, tempArrayX[i], tempArrayX[i + 1], tempArrayY[j], tempArrayY[j + 1]);
+                }
             }
         }
 
@@ -329,7 +333,6 @@ public class MapTest : TestBase
         }
 
     }
-
 
     private void PropSingleMaking(int chooseProp)
     {
@@ -437,7 +440,7 @@ public class MapTest : TestBase
             if (isSuccess)
             {
                 obj.transform.position = tile.transform.position;
-                obj.transform.GetChild(0).rotation = Quaternion.Euler(0.0f, 90.0f * randomRotation, 0.0f);
+                obj.transform.rotation = Quaternion.Euler(0.0f, 90.0f * randomRotation, 0.0f);
                 props.Add(obj);
                 break;
             }
@@ -494,5 +497,15 @@ public class MapTest : TestBase
         }
         props.Clear();
         props = null;
+
+        for (int i = 0; i < mapTiles.Length; i++)
+        {
+            mapTiles[i].GetComponent<Tile>().ExistType = Tile.TileExistType.None;
+        }
+
+        for (int i = 0; i < standardPos.Length; i++)
+        {
+            standardPos[i].ExistType = Tile.TileExistType.prop;
+        }
     }
 }
