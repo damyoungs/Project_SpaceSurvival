@@ -23,14 +23,14 @@ public class DefenceEvent: MonoBehaviour
     {
         WindowList.Instance.InputKeyEvent.Disable();// 단축키 비활성화
         inputSystem.Enable();
-        inputSystem.KeyBorad.System.performed += Close;
+        inputSystem.KeyBoard.System.performed += Close;
     }
 
 
     private void OnDisable()
     {
 
-        inputSystem.KeyBorad.System.performed -= Close;
+        inputSystem.KeyBoard.System.performed -= Close;
         inputSystem.Disable();
 
         WindowList.Instance.InputKeyEvent.Enable(); //단축키 활성화

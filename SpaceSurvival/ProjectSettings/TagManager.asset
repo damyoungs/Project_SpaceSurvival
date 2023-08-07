@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Tile
+  - SaveList
+  - IOPopupWindow
+  - WindowList
+  - DataFactory
+  - TitleButton
   layers:
   - Default
   - TransparentFX
@@ -13,9 +18,9 @@ TagManager:
   - Water
   - UI
   - Units
-  - 
-  - 
-  - 
+  - Item
+  - Ground
+  - BeforeSlot
   - 
   - 
   - 

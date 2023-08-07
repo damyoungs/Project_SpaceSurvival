@@ -5,6 +5,7 @@ using UnityEngine;
 /// </summary>
 public interface ITurnBaseData
 {
+    GameObject gameObject { get; }
     /// <summary>
     /// 추적형 UI 캐싱용 프로퍼티
     /// </summary>

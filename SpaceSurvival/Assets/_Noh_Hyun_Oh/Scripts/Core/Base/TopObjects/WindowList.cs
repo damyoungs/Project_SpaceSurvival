@@ -100,7 +100,7 @@ public class WindowList : Singleton<WindowList> {
         mainWindow = transform.GetComponentInChildren<SaveWindowManager>(true);
         popupManager = transform.GetComponentInChildren<PopupSortManager>(true);
         optionsPopupWindow = transform.GetComponentInChildren<OptionsPopupWindow>(true);
-        turnGaugeUI = transform.GetChild(0).GetChild(1);
+        turnGaugeUI = transform.GetChild(0).GetChild(transform.GetChild(0).childCount-1);
         turnManager = FindObjectOfType<DataFactory>().transform.GetComponentInChildren<TurnManager>(true);
     }
     private void Start()
@@ -114,11 +114,11 @@ public class WindowList : Singleton<WindowList> {
     {
         base.OnEnable();
         inputKeyEvent.Enable();
-        inputKeyEvent.KeyBorad.System.performed += OffPopupWindow; // esc 입력시 순서대로 창닫기 
-        inputKeyEvent.KeyBorad.OptionKey.performed += OnOffWindowOption; // 옵션창 및 세이브창 열고닫기
-        inputKeyEvent.KeyBorad.InvenKey.performed += OnOffInventory; // 인벤창 테스트용 
-        InputKeyEvent.KeyBorad.StateKey.performed += OnOffStateWindow;// 상태창 테스트용
-    }
+        inputKeyEvent.KeyBoard.System.performed += OffPopupWindow; // esc 입력시 순서대로 창닫기 
+        inputKeyEvent.KeyBoard.OptionKey.performed += OnOffWindowOption; // 옵션창 및 세이브창 열고닫기
+        inputKeyEvent.KeyBoard.InvenKey.performed += OnOffInventory; // 인벤창 테스트용 
+        InputKeyEvent.KeyBoard.StateKey.performed += OnOffStateWindow;// 상태창 테스트용
+    }   
 
 
 

@@ -2,42 +2,49 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-enum MapTileType
-{
-    centerTile = 0,
-    sideTile,
-    vertexTile
-}
-
-enum ExistType
-{
-    monster = 0,
-    item,
-    prop
-}
-
-[SelectionBase]
+[SelectionBase]                         // 오브젝트 클릭 시 자식 오브젝트가 아닌 이 클래스가 들어있는 오브젝트가 클릭되도록 만드는 어트리뷰트
 public class Tile : MonoBehaviour
 {
-    // 타일 타입
-    MapTileType tileType = MapTileType.centerTile;
-    public int TileType
+    /// <summary>
+    /// 타일의 타입
+    /// </summary>
+    public enum MapTileType
     {
-        get => (int)tileType;
+        centerTile = 0,
+        sideTile,
+        vertexTile
+    }
+
+    /// <summary>
+    /// 이 타일 위에 놓여져 있는 물체의 타입
+    /// </summary>
+    public enum ExistType
+    {
+        None = 0,
+        monster,
+        item,
+        prop
+    }
+
+    // 타일 타입
+    public MapTileType tileType = 0;
+    public MapTileType TileType
+    {
+        get => tileType;
         set
         {
-            tileType = (MapTileType)value;
+            tileType = value;
         }
     }
 
     // 타일 위 몬스터, 아이템 등 타입 존재 여부
-    ExistType existType = 0;
-    public int ExistType
+    public ExistType existType = 0;
+    public ExistType ExistTypes
     {
-        get => (int)existType;
+        get => existType;
         set
         {
-            existType = (ExistType)value;
+            existType = value;
         }
     }
 
@@ -62,4 +69,6 @@ public class Tile : MonoBehaviour
             length = value;
         }
     }
+
+    public int Index = 0;
 }

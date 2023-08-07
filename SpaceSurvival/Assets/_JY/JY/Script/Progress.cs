@@ -92,15 +92,8 @@
  *      SetItemData 함수 내 획득한 아이템의 아이템 타입에 따라 어떤 탭에, 몇번째 슬롯에 저장할 것인지, 이미 보유중인 아이템인지, 중복소지 가능한 아이템인지,
  *      저장 후 ItemName 을 파라미터로 해당Slot에 Update Slot함수 호출// 완료
  *      
- *               
- *       *  할일목록 
- *        
- *      Slot 생성할때 슬롯 상위에 빈오브젝트 생성 addComponent<Image> 붙히고 EmptySlot 부여 
- *      
- *      클릭시 이미지 대신 슬롯자체를 옮기고 이동중일 때 rayCastTarget 끄기
- *      
- *      위 처럼 하려다가 slot자체를 움직이면 첫번째 슬롯에 두번째슬롯이 가려져서 클릭이 안되는 문제로 다시 원래대로 돌아가기로 했다
- *      
+ *      ItemData_Enhance - ItemData, IEnhancable 상속받고 
+ *      Enhancer_Description, SuccessRateText, Warning PopUp, ItemLevelText, 슬롯 애니메이션, 성공실패 파티클, 
  *      
  *      
  *      
