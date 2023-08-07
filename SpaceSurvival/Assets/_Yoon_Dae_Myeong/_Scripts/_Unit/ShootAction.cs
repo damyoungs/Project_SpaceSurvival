@@ -10,9 +10,11 @@ public class ShootAction : PlayerMove
 	[SerializeField]
 	private Transform shootPointTransform;
 
+
 	protected override void onClickRight(InputAction.CallbackContext context)
 	{
 		unitAnimator.SetTrigger("IsFiring");
 		Instantiate(bulletProjectilePrefab, shootPointTransform.position, shootPointTransform.rotation);
+		audioSource.Play();
 	}
 }

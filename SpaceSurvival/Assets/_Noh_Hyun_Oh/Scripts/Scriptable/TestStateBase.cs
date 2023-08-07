@@ -2,7 +2,7 @@ using EnumList;
 using UnityEngine;
 using UnityEngine.UI;
 /// <summary>
-/// 추가할것 추가 
+/// 기능 말고 데이터만으로 구성되야 된다.
 /// </summary>
 [CreateAssetMenu(fileName = "New State Data", menuName = "Scriptable Object/State Data", order = 1)]
 public class TestStateBase : ScriptableObject
