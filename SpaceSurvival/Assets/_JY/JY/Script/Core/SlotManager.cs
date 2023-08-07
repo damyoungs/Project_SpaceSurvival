@@ -317,6 +317,23 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
 
         return result;
     }
+    public bool AddItem(ItemData_Enhancable data)
+    {
+        bool result = false;
+        // 같은 종류의 아이템이 없다.
+        Slot emptySlot = FindEmptySlot(data);
+        if (emptySlot != null)
+        {
+            emptySlot.AssignSlotItem(data); // 빈슬롯이 있으면 아이템 하나 할당
+            result = true;
+        }
+        else
+        {
+            // 비어있는 슬롯이 없다.
+            //Debug.Log("아이템 추가 실패 : 인벤토리가 가득 차있습니다.");
+        }
+        return result;
+    }
     public void RemoveItem(ItemData data, uint slotIndex, uint decreaseCount = 1)
     {
         List<Slot> slots = GetItemTab(data);
