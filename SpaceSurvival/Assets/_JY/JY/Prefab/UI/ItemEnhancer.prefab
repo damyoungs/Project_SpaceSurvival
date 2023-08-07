@@ -1109,6 +1109,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95b7738d2bd569b4f8d1a66cf5e4d849, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  imageComp: {fileID: 0}
+  itemIcon: {fileID: 0}
 --- !u!1 &1962146671984160698
 GameObject:
   m_ObjectHideFlags: 0
@@ -3896,6 +3898,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecf296f71bc9d634ca17c5be2f02da74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  imageComp: {fileID: 0}
+  itemIcon: {fileID: 0}
 --- !u!1 &7530640412088465811
 GameObject:
   m_ObjectHideFlags: 0
@@ -4082,9 +4086,9 @@ MonoBehaviour:
   successRateText: {fileID: 1925767791}
   beforelevelText: {fileID: 13037237}
   afterlevelText: {fileID: 1931676210}
+  proceedAnim: {fileID: 0}
   amountText: {fileID: 1411703492782080442}
   amountSlider: {fileID: 2474593297578543036}
-  warningBox: {fileID: 0}
 --- !u!114 &1356782769335729881
 MonoBehaviour:
   m_ObjectHideFlags: 0

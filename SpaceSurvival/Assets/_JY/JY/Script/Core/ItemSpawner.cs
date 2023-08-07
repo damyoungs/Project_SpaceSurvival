@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ItemDropTable : TestBase
+public class ItemSpawner : TestBase
 {
     int value;
     public GameObject[] prefabs;
@@ -140,33 +140,33 @@ public class ItemDropTable : TestBase
         GetItem();
         // GetItemHpPotion();
     }
-    protected override void Test3(InputAction.CallbackContext context)
-    {
+    //protected override void Test3(InputAction.CallbackContext context)
+    //{
    
-        GetItemMpPotion();
-    }
-    protected override void Test4(InputAction.CallbackContext context)
-    {
-        GetItemBow();
-    }
-    protected override void Test5(InputAction.CallbackContext context)
-    {
-        GetItemHpPotion();
-    }
-    protected override void Test6(InputAction.CallbackContext context)
-    {
-        RemoveItem();
-    }
-    protected override void Test7(InputAction.CallbackContext context)
-    {
-        ClearSlot();
-    }
-    protected override void Test8(InputAction.CallbackContext context)
-    {
-        ClearInventory();
-    }
-    protected override void Test9(InputAction.CallbackContext context)
-    {
-        SlotSorting();
-    }
+    //    GetItemMpPotion();
+    //}
+    //protected override void Test4(InputAction.CallbackContext context)
+    //{
+    //    GetItemBow();
+    //}
+    //protected override void Test5(InputAction.CallbackContext context)
+    //{
+    //    GetItemHpPotion();
+    //}
+    //protected override void Test6(InputAction.CallbackContext context)
+    //{
+    //    RemoveItem();
+    //}
+    //protected override void Test7(InputAction.CallbackContext context)
+    //{
+    //    ClearSlot();
+    //}
+    //protected override void Test8(InputAction.CallbackContext context)
+    //{
+    //    ClearInventory();
+    //}
+    //protected override void Test9(InputAction.CallbackContext context)
+    //{
+    //    SlotSorting();
+    //}
 }

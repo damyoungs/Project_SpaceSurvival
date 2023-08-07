@@ -223,7 +223,9 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     /// 마우스 클릭이 떨어졌을 때 실행되는 함수(아이템 드랍용)
     /// </summary>
     private void OnItemDrop(InputAction.CallbackContext _)
-    {    
+    {
+        if (tempSlot == null)
+            return;
         if (!tempSlot.IsEmpty)
         {
             //레이를 쏘기 전에 레이의 좌표를 스크린좌표로 바꿔줘야함 그러나 굳이 위치를 비교하는 것 보다 레이를 쏴서 비교할 이유는 없다.

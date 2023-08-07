@@ -31,7 +31,7 @@ public class LoadingScean : MonoBehaviour
     /// 다음씬으로 넘어갈 씬이름
     /// 다음씬이 입력안되면 타이틀로넘어간다.
     /// </summary>
-    static  EnumList.SceanName nextSceanName = EnumList.SceanName.TITLE; 
+    static  EnumList.SceneName nextSceanName = EnumList.SceneName.TITLE; 
     //static int nextSceanName = 0; //성능 차이가 미미하게 더빠르다
 
      /// <summary>
@@ -58,17 +58,17 @@ public class LoadingScean : MonoBehaviour
     /// </summary>
     /// <param name="sceanName">이동할 씬 이름</param>
     /// <param name="type">진행 상황 표기할 progressType  EnumList의 값을확인</param>
-    public static void SceanLoading(EnumList.SceanName sceanName = EnumList.SceanName.TITLE, 
+    public static void SceanLoading(EnumList.SceneName sceanName = EnumList.SceneName.TITLE, 
                 EnumList.ProgressType type = EnumList.ProgressType.BAR)
     {
-        if (sceanName != EnumList.SceanName.NONE) { //씬 셋팅이 되어있고
+        if (sceanName != EnumList.SceneName.NONE) { //씬 셋팅이 되어있고
             if (!isLoading) { //로딩이 안됬을경우 
                 isLoading = true;//로딩 시작플래그
                 progressType = type; //프로그래스 타입설정.
                 nextSceanName = sceanName; //씬이름셋팅하고  
                 TurnManager.Instance.ResetBattleData();// 배틀 정보 초기화
                 WindowList.Instance.PopupSortManager.CloseAllWindow(); //화면 전환시 열려있는창 전부닫자.
-                SceneManager.LoadSceneAsync((int)EnumList.SceanName.LOADING);
+                SceneManager.LoadSceneAsync((int)EnumList.SceneName.LOADING);
             }
         }
         
