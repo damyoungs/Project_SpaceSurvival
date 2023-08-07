@@ -250,7 +250,7 @@ public class MapTest : TestBase
 
         for (int i = 0; i < 4; i++)
         {
-            standardPos[i].GetComponent<Tile>().ExistType = Tile.TileExistType.prop;                                 // 기둥이 있는 타일의 타입 지정
+            standardPos[i].GetComponent<Tile>().ExistTypes = Tile.ExistType.prop;                                 // 기둥이 있는 타일의 타입 지정
 
             pillars[i] = Instantiate(pillar, gameObject.transform);                                               // 기둥 생성
             pillars[i].transform.position = standardPos[i].transform.position;                                    // 기둥 이동
@@ -337,14 +337,14 @@ public class MapTest : TestBase
 
         while (true)
         {
-            Tile tile = GetTile(Random.Range(0, sizeX), Random.Range(0, sizeY));
-            if (tile.ExistType != Tile.TileExistType.None)
+            Tile getTile = GetTile(Random.Range(0, sizeX), Random.Range(0, sizeY));
+            if (getTile.ExistTypes != Tile.ExistType.None)
             {
                 continue;
             }
-            obj.transform.position = tile.transform.position;
+            obj.transform.position = getTile.transform.position;
             obj.transform.GetChild(0).rotation = Quaternion.Euler(0.0f, 90.0f * Random.Range(0, 4), 0.0f);
-            tile.ExistType = Tile.TileExistType.prop;
+            getTile.ExistTypes = Tile.ExistType.prop;
             break;
         }
         
@@ -355,93 +355,12 @@ public class MapTest : TestBase
     private void PropMultiMaking(int chooseProp, int index1, int index2, int index3, int index4)
     {
         GameObject obj = Instantiate(multiProps[chooseProp]);
-        PropData objData = obj.GetComponent<PropData>();
-        Tile tile;
-        int randomRotation;
-        bool isSuccess = false;
-        int tileCount;
+        //Vector3Int getPos = new Vector3Int(Random.Range(0, standardPos[0].Width * 2), 0, Random.Range(standardPos[0].Length * 2, sizeY * 2));
+        GameObject tile = GetTile(Random.Range(index1, index2), Random.Range(index3, index4)).gameObject;
 
-        while (!isSuccess)
-        {
-            tile = GetTile(Random.Range(index1, index2), Random.Range(index3, index4));
-            randomRotation = Random.Range(0, 4);
-            for (int count = 0; count < 4; count++)
-            {
-                randomRotation++;
-                randomRotation %= 4;
-                tileCount = 0;
-                for (int i = 0; i < objData.width; i++)
-                {
-                    for (int j = 0; j < objData.length; j++)
-                    {
-                        switch (randomRotation)
-                        {
-                            case 0:
-                                if (GetTile(tile.Width + i, tile.Length + j).ExistType == Tile.TileExistType.prop || 
-                                    GetTile(tile.Width + i, tile.Length + j).TileType == Tile.MapTileType.sideTile ||
-                                    GetTile(tile.Width + i, tile.Length + j).TileType == Tile.MapTileType.vertexTile)
-                                {
-                                    i = objData.width;
-                                    j = objData.length;
-                                    break;
-                                }
-                                GetTile(tile.Width + i, tile.Length + j).ExistType = Tile.TileExistType.prop;
-                                break;
-                            case 1:
-                                if (GetTile(tile.Width + j, tile.Length - i).ExistType == Tile.TileExistType.prop ||
-                                    GetTile(tile.Width + j, tile.Length - i).TileType == Tile.MapTileType.sideTile ||
-                                    GetTile(tile.Width + j, tile.Length - i).TileType == Tile.MapTileType.vertexTile)
-                                {
-                                    i = objData.width;
-                                    j = objData.length;
-                                    break;
-                                }
-                                GetTile(tile.Width + j, tile.Length - i).ExistType = Tile.TileExistType.prop;
-                                break;
-                            case 2:
-                                if (GetTile(tile.Width - i, tile.Length - j).ExistType == Tile.TileExistType.prop ||
-                                    GetTile(tile.Width - i, tile.Length - j).TileType == Tile.MapTileType.sideTile ||
-                                    GetTile(tile.Width - i, tile.Length - j).TileType == Tile.MapTileType.vertexTile)
-                                {
-                                    i = objData.width;
-                                    j = objData.length;
-                                    break;
-                                }
-                                GetTile(tile.Width - i, tile.Length - j).ExistType = Tile.TileExistType.prop;
-                                break;
-                            case 3:
-                                if (GetTile(tile.Width - j, tile.Length + i).ExistType == Tile.TileExistType.prop ||
-                                    GetTile(tile.Width - j, tile.Length + i).TileType == Tile.MapTileType.sideTile ||
-                                    GetTile(tile.Width - j, tile.Length + i).TileType == Tile.MapTileType.vertexTile)
-                                {
-                                    i = objData.width;
-                                    j = objData.length;
-                                    break;
-                                }
-                                GetTile(tile.Width - j, tile.Length + i).ExistType = Tile.TileExistType.prop;
-                                break;
-                            default:
-                                break;
-                        }
-                        tileCount++;
+        obj.transform.position = tile.transform.position;
 
-                    }
-                }
-                if (tileCount == objData.width * objData.length)
-                {
-                    isSuccess = true;
-                    count = 4;
-                }
-            }
-
-            if (isSuccess)
-            {
-                obj.transform.position = tile.transform.position;
-                obj.transform.GetChild(0).rotation = Quaternion.Euler(0.0f, 90.0f * randomRotation, 0.0f);
-                props.Add(obj);
-                break;
-            }
-        }
+        props.Add(obj);
     }
 
     private void PropMultiMaking2(int chooseProp, int index1, int index2, int index3, int index4)
