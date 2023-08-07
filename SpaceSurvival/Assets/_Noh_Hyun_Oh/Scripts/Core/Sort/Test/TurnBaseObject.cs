@@ -1,6 +1,7 @@
 using System;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using static UnityEditor.Progress;
 /// <summary>
 /// 기본 베이스는 ITurnBaseData 인터페이스
 /// 턴을 사용할 유닛들의 기본 틀.
@@ -93,7 +94,6 @@ public class TurnBaseObject : BattleMapUnitIsPool, ITurnBaseData
     Action<ITurnBaseData> turnRemove;
     public Action<ITurnBaseData> TurnRemove { get => turnRemove; set => turnRemove = value; }
 
-    [SerializeField]
     /// <summary>
     /// 추적형 UI 
     /// </summary>
@@ -109,7 +109,6 @@ public class TurnBaseObject : BattleMapUnitIsPool, ITurnBaseData
     /// 추적형 UI 가 있는 캔버스 위치
     /// </summary>
     Transform battleUICanvas;
-    [SerializeField]
     /// <summary>
     /// 턴게이지 UI 
     /// </summary>
@@ -126,12 +125,11 @@ public class TurnBaseObject : BattleMapUnitIsPool, ITurnBaseData
     /// 턴 UI가 담길 캔버스 위치
     /// </summary>
     Transform turnGaugeCanvas;
-
     private void Awake()
     {
         Transform windowList = FindObjectOfType<WindowList>().transform; //싱글톤이 생성안되있는상태라 검색해서 가져온다.
         battleUICanvas = windowList.GetChild(0).GetChild(0);  // TrackingUI 담을 캔버스위치
-        turnGaugeCanvas = windowList.GetChild(0).GetChild(1).GetChild(0);// 턴 게이지 담을 캔버스위치
+        turnGaugeCanvas = windowList.GetChild(0).GetChild(windowList.GetChild(0).childCount - 1).GetChild(0);// 턴 게이지 담을 캔버스위치
     }
 
     protected override void OnEnable()
@@ -154,7 +152,8 @@ public class TurnBaseObject : BattleMapUnitIsPool, ITurnBaseData
             obj.transform.SetParent(battleUICanvas);//풀은 캔버스 밑에없기때문에 배틀맵UI만 관리할 캔버스 위치 밑으로 이동시킨다.
             obj.gameObject.SetActive(true); //활성화 시킨다.
             BattleUI = obj.GetComponent<TrackingBattleUI>(); //UI 컴퍼넌트 찾아온다.
-            BattleUI.Player = this ;     //UI 는 유닛과 1:1 매치가 되있어야 됨으로 담아둔다.
+            BattleUI.Player = transform.GetChild(0) ;     //UI 는 유닛과 1:1 매치가 되있어야 됨으로 담아둔다.
+            
         }
         if (GaugeUnit == null) //턴 게이지UI 가 셋팅 안되있으면
         {//셋팅
@@ -166,8 +165,8 @@ public class TurnBaseObject : BattleMapUnitIsPool, ITurnBaseData
             GaugeUnit = obj.GetComponent<GaugeUnit>(); //턴 유닛에 게이지 유닛 캐싱 
             GaugeUnit.ProgressValue = TurnActionValue; //초기값 셋팅
         }
+       
     }
-
     /// <summary>
     /// 셋팅전의 값으로 돌리기
     /// 값을 초기화 시키고 풀로 돌리고 큐로 돌린다.
@@ -185,6 +184,12 @@ public class TurnBaseObject : BattleMapUnitIsPool, ITurnBaseData
             GaugeUnit.ResetData();// 턴 게이지 UI  초기화 
             GaugeUnit = null; // 비우기
         }
+        //if (followCamera != null) //
+        //{
+        //    followCamera.gameObject.SetActive(false);
+        //    followCamera.targetObject = null;
+        //    followCamera = null; //연결끊기
+        //}
         turnEndAction = null;
         turnRemove = null;
         //턴 오브젝트 초기화

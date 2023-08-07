@@ -6,15 +6,15 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// Ã¢ï¿½ï¿½ï¿½ï¿½ ï¿½Ö»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½
-/// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Üºï¿½ï¿½Ô·ï¿½ï¿½Ìºï¿½Æ®Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½â¼­ ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ï¿½ï¿½.
-/// ï¿½Îµï¿½Ã¢ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ÈµÇ°ï¿½ ï¿½Ìºï¿½Æ®ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ if (!LoadingScean.IsLoading){ } ï¿½È¿ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½
-/// WindowList , DataFactory  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½Å°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½Î¿ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½Å°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½ï¿½ï¿½Å¹ï¿½å¸³ï¿½Ï´ï¿½.
+/// Ã¢°ü·Ã ÃÖ»óÀ§ ¿ÀºêÁ§Æ®¿¡ »ç¿ë
+/// °øÅëÀûÀÎ ¿ÜºÎÀÔ·ÂÀÌº¥Æ®Ã³¸®¸¦ ¿©±â¼­ ÇÏ¸é ÁÁÀ»°Í°°´Ù.
+/// ·ÎµùÃ¢¿¡¼­ Ã³¸®¾ÈµÇ°Ô ÀÌº¥Æ®ÇÔ¼ö¸¶´Ù if (!LoadingScean.IsLoading){ } ¾È¿¡¼­ ¸¸ ½ÇÇàµÇ°Ô ¸¸µé¾îÁÖ¼¼¿ä
+/// WindowList , DataFactory  ¿ÀºêÁ§Æ®´Â ºñÈ°¼ºÈ­¸¦ ½ÃÅ°Áö¸¶¼¼¿ä. ³»ºÎ¿ÀºêÁ§Æ®¸¸ ½ÃÅ°µµ·Ï ·ÎÁ÷ÀÛ¼ººÎÅ¹µå¸³´Ï´Ù.
 /// </summary>
 public class WindowList : Singleton<WindowList> {
 
     /// <summary>
-    /// È°ï¿½ï¿½È­ ï¿½ï¿½ ï¿½Ë¾ï¿½ï¿½ï¿½ï¿½Ö´Â°ï¿½ï¿½ defencePanel ï¿½ï¿½ï¿½ï¿½
+    /// È°¼ºÈ­ µÈ ÆË¾÷ÀÌÀÖ´Â°æ¿ì defencePanel ¼ÂÆÃ
     /// </summary>
     EnumList.PopupList activePopup;
     public EnumList.PopupList ActivePopup{
@@ -33,74 +33,74 @@ public class WindowList : Singleton<WindowList> {
         } 
     }
     /// <summary>
-    /// ï¿½Ë¾ï¿½Ã¢ï¿½Ì¶ß¸ï¿½ ï¿½ï¿½ï¿½æ½º ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Ç²ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½Â´ï¿½.
+    /// ÆË¾÷Ã¢ÀÌ¶ß¸é µðÆæ½º ÆÐ³ÎÀ» ¶ç¿ö ÀÎÇ²ÀÌº¥Æ®¸¦ ¸·´Â´Ù.
     /// </summary>
     DefenceEvent defencePanel;
 
     /// <summary>
-    /// Å°ï¿½Ô·ï¿½ ï¿½Ìºï¿½Æ®
+    /// Å°ÀÔ·Â ÀÌº¥Æ®
     /// </summary>
     InputKeyMouse inputKeyEvent;
     public InputKeyMouse InputKeyEvent => inputKeyEvent;
     
     /// <summary>
-    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½É¼Ç°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    /// °ü¸®ÇÒ À©µµ¿ì Áß ¿É¼Ç°ü·Ã À©µµ¿ì
     /// </summary>
     SaveWindowManager mainWindow;
     public SaveWindowManager MainWindow => mainWindow;
 
     /// <summary>
-    /// ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+    /// ÀÎº¥Åä¸® ¿ÀºêÁ§Æ®
     /// </summary>
     InventoryWindow invenWindow;
     public InventoryWindow InvenWindow => invenWindow;
 
     /// <summary>
-    /// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ ï¿½ï¿½ï¿½à¿©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¢ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    /// ÀúÀå »èÁ¦ º¹»ç ·Îµå ½ÇÇà¿©ºÎ ¹¯´Â Ã¢ °¡Á®¿À±â
     /// </summary>
     SaveLoadPopupWindow saveLoadPopupWindow;
     public SaveLoadPopupWindow IOPopupWindow => saveLoadPopupWindow;
 
     /// <summary>
-    /// ï¿½×½ï¿½Æ®ï¿½ï¿½ ï¿½É¼ï¿½ ï¿½Ë¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    /// Å×½ºÆ®¿ë ¿É¼Ç ÆË¾÷À©µµ¿ì
     /// </summary>
     OptionsPopupWindow optionsPopupWindow;
     public OptionsPopupWindow OptionsPopupWindow => optionsPopupWindow;
 
 
     /// <summary>
-    /// ï¿½Ë¾ï¿½ Ã¢ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å´ï¿½ï¿½ï¿½
+    /// ÆË¾÷ Ã¢ °ü¸®ÇØÁÙ ¸Å´ÏÀú
     /// </summary>
     PopupSortManager popupManager;
     public PopupSortManager PopupSortManager => popupManager;
     
     /// <summary>
-    /// ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½  
+    /// ÅÏ ¸Þ´ÏÀú  
     /// </summary>
     TurnManager turnManager;
     public TurnManager TurnManager => turnManager;
 
     /// <summary>
-    /// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ UI ï¿½ï¿½Ä¡
+    /// ÅÏ °ÔÀÌÁö UI À§Ä¡
     /// </summary>
     Transform turnGaugeUI;
     public Transform TurnGaugeUI => turnGaugeUI;
 
     /// <summary>
-    /// ï¿½ï¿½ï¿½ï¿½ï¿½ì¸®ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½×»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù´Ï´Â°ï¿½ï¿½Ì±â¶§ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½â¿¡ï¿½ï¿½ ï¿½Ìºï¿½Æ®Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+    /// À©µµ¿ì¸®½ºÆ®´Â Ç×»ó°¡Áö°í´Ù´Ï´Â°ÍÀÌ±â¶§¹®¿¡ ¿©±â¿¡¼­ ÀÌº¥Æ®Ã³¸®¸¦ ÁøÇà.
     /// </summary>
     protected override void Awake()
     {
         base.Awake();
         inputKeyEvent = new InputKeyMouse();
-        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ó¹Ù²ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ï¿½ï¿½ GetComponentInChildren<Type>(true) ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ÆµÑ¶ï¿½ï¿½ï¿½.. ï¿½Å¹ï¿½ ï¿½Ì°Å¶ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ï¿½.
+        //¿ÀºêÁ§Æ® ¼ø¼­ °è¼Ó¹Ù²¸¼­ °Á¹«°Ì´õ¶óµµ GetComponentInChildren<Type>(true) À¸·Î Ã£¾ÆµÑ¶õ´Ù.. ¸Å¹ø ÀÌ°Å¶§¸Å °íÄ¡±â±ÍÂú.
         defencePanel = transform.GetComponentInChildren<DefenceEvent>(true); 
         invenWindow = transform.GetComponentInChildren<InventoryWindow>(true);
         saveLoadPopupWindow = transform.GetComponentInChildren<SaveLoadPopupWindow>(true);
         mainWindow = transform.GetComponentInChildren<SaveWindowManager>(true);
         popupManager = transform.GetComponentInChildren<PopupSortManager>(true);
         optionsPopupWindow = transform.GetComponentInChildren<OptionsPopupWindow>(true);
-        turnGaugeUI = transform.GetChild(0).GetChild(1);
+        turnGaugeUI = transform.GetChild(0).GetChild(transform.GetChild(0).childCount-1);
         turnManager = FindObjectOfType<DataFactory>().transform.GetComponentInChildren<TurnManager>(true);
     }
     private void Start()
@@ -108,24 +108,24 @@ public class WindowList : Singleton<WindowList> {
         mainWindow.Oninitialize();
     }
     /// <summary>
-    /// Å°ï¿½Ô·Â¹ï¿½ ï¿½ï¿½ï¿½ì½º ï¿½Ô·ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ï¿½ï¿½
+    /// Å°ÀÔ·Â¹× ¸¶¿ì½º ÀÔ·ÂÃ³¸®µµ Ãß°¡ÇÏÀÚ
     /// </summary>
     protected override void OnEnable()
     {
         base.OnEnable();
         inputKeyEvent.Enable();
-        inputKeyEvent.KeyBoard.System.performed += OffPopupWindow; // esc ï¿½Ô·Â½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¢ï¿½Ý±ï¿½ 
-        inputKeyEvent.KeyBoard.OptionKey.performed += OnOffWindowOption; // ï¿½É¼ï¿½Ã¢ ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½Ã¢ ï¿½ï¿½ï¿½ï¿½ï¿½Ý±ï¿½
-        inputKeyEvent.KeyBoard.InvenKey.performed += OnOffInventory; // ï¿½Îºï¿½Ã¢ ï¿½×½ï¿½Æ®ï¿½ï¿½ 
-        InputKeyEvent.KeyBoard.StateKey.performed += OnOffStateWindow;// ï¿½ï¿½ï¿½ï¿½Ã¢ ï¿½×½ï¿½Æ®ï¿½ï¿½
-    }
+        inputKeyEvent.KeyBoard.System.performed += OffPopupWindow; // esc ÀÔ·Â½Ã ¼ø¼­´ë·Î Ã¢´Ý±â 
+        inputKeyEvent.KeyBoard.OptionKey.performed += OnOffWindowOption; // ¿É¼ÇÃ¢ ¹× ¼¼ÀÌºêÃ¢ ¿­°í´Ý±â
+        inputKeyEvent.KeyBoard.InvenKey.performed += OnOffInventory; // ÀÎº¥Ã¢ Å×½ºÆ®¿ë 
+        InputKeyEvent.KeyBoard.StateKey.performed += OnOffStateWindow;// »óÅÂÃ¢ Å×½ºÆ®¿ë
+    }   
 
 
 
     /// <summary>
-    /// ï¿½ï¿½È°ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¶ï¿½ï¿½ï¿½ï¿½Ç±â¶§ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½È´ï¿½.
-    /// ï¿½Ù¸ï¿½ ï¿½Ì±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È°ï¿½ï¿½ï¿½ Destroyï¿½É¶ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±â¶§ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½. - È®ï¿½Î¿Ï·ï¿½
-    /// ï¿½ï¿½ï¿½Ìµï¿½ï¿½ï¿½ OnEnableï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê´Â´ï¿½ (È®ï¿½Î¿Ï·ï¿½)
+    /// ºñÈ°¼ºÈ­ µÉÀÏÀÌ °ÔÀÓÁ¾·áµÉ¶§¸¸µÇ±â¶§¹®¿¡ ÀÌº¥Æ® »èÁ¦ÇÔ¼ö Ã³¸®¾ÈÇØµµµÈ´Ù.
+    /// ´Ù¸¸ ½Ì±ÛÅæ »ý¼º½Ã ±âÁ¸»ý¼ºµÈ°ÍÀÌ DestroyµÉ¶§ ºñÈ°¼ºÈ­¸¦ ½ÇÇàÇÏ±â¶§¹®¿¡ ¿À·ù°¡³¯¼öÀÖ´Ù. - È®ÀÎ¿Ï·á
+    /// ¾ÀÀÌµ¿½Ã OnEnableÇÔ¼ö°¡ ÀçÈ£ÃâµÇÁø¾Ê´Â´Ù (È®ÀÎ¿Ï·á)
     /// </summary>
     //protected override void OnDisable()
     //{
@@ -140,27 +140,27 @@ public class WindowList : Singleton<WindowList> {
 
 
     /// <summary>
-    /// ï¿½Ë¾ï¿½Ã¢ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
-    /// <param name="target">ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¾ï¿½Ã¢ ï¿½ï¿½Ã¼</param>
+    /// ÆË¾÷Ã¢ ¹öÆ°À» ´­·¶À»°æ¿ì ¿­·ÈÀ»°æ¿ì ´ÝÈ÷°í ´ÝÇûÀ»°æ¿ì ¿­¸°´Ù.
+    /// <param name="target">¿­¸± ÆË¾÷Ã¢ °´Ã¼</param>
     /// </summary>
     public void popupOnOff(IPopupSortWindow target) {
-        if (target.gameObject.activeSelf)//Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        if (target.gameObject.activeSelf)//Ã¢ÀÌ ¿­·ÁÀÖÀ¸¸é
         {
-            popupManager.PopupClose(target) ;//ï¿½Ý°ï¿½
+            popupManager.PopupClose(target) ;//´Ý°í
         }
-        else //ï¿½Æ´Ñ°ï¿½ì¿£
+        else //¾Æ´Ñ°æ¿ì¿£
         { 
-            popupManager.PopupOpen(target); //ï¿½ï¿½ï¿½ï¿½
+            popupManager.PopupOpen(target); //¿¬´Ù
         }
     }
 
     /// <summary>
-    /// ï¿½Þ´ï¿½ Ã¢ ï¿½Â¿ï¿½ï¿½ï¿½ 
+    /// ¸Þ´º Ã¢ ¿Â¿ÀÇÁ 
     /// </summary>
-    /// <param name="context">ï¿½Ô·ï¿½ï¿½ï¿½ï¿½ï¿½</param>
+    /// <param name="context">ÀÔ·ÂÁ¤º¸</param>
     private void OnOffWindowOption(InputAction.CallbackContext context)
     {
-        //ï¿½ï¿½ï¿½Îµï¿½ï¿½Ì¾Æ´Ñ°ï¿½ì¸¸ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. 
+        //¾À·ÎµùÀÌ¾Æ´Ñ°æ¿ì¸¸ ½ÇÇàÇÑ´Ù. 
         if (!LoadingScean.IsLoading){ 
             if (context.performed)
             {
@@ -170,12 +170,12 @@ public class WindowList : Singleton<WindowList> {
     }
 
     /// <summary>
-    /// ï¿½Îºï¿½ Ã¢ ï¿½Â¿ï¿½ï¿½ï¿½
+    /// ÀÎº¥ Ã¢ ¿Â¿ÀÇÁ
     /// </summary>
     /// <param name="context"></param>
     private void OnOffInventory(InputAction.CallbackContext context)
     {
-        //ï¿½ï¿½ï¿½Îµï¿½ï¿½Ì¾Æ´Ñ°ï¿½ì¸¸ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. 
+        //¾À·ÎµùÀÌ¾Æ´Ñ°æ¿ì¸¸ ½ÇÇàÇÑ´Ù. 
         if (!LoadingScean.IsLoading)
         {
             if (context.performed)
@@ -187,12 +187,12 @@ public class WindowList : Singleton<WindowList> {
     }
 
     /// <summary>
-    /// ï¿½ï¿½ï¿½ï¿½ Ã¢ ï¿½Â¿ï¿½ï¿½ï¿½
+    /// ½ºÅÝ Ã¢ ¿Â¿ÀÇÁ
     /// </summary>
     /// <param name="context"></param>
     private void OnOffStateWindow(InputAction.CallbackContext context)
     {
-        //ï¿½ï¿½ï¿½Îµï¿½ï¿½Ì¾Æ´Ñ°ï¿½ì¸¸ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. 
+        //¾À·ÎµùÀÌ¾Æ´Ñ°æ¿ì¸¸ ½ÇÇàÇÑ´Ù. 
         if (!LoadingScean.IsLoading)
         {
             if (context.performed)
@@ -205,7 +205,7 @@ public class WindowList : Singleton<WindowList> {
 
     private void OffPopupWindow(InputAction.CallbackContext context)
     {
-        //ï¿½ï¿½ï¿½Îµï¿½ï¿½Ì¾Æ´Ñ°ï¿½ì¸¸ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. 
+        //¾À·ÎµùÀÌ¾Æ´Ñ°æ¿ì¸¸ ½ÇÇàÇÑ´Ù. 
         if (!LoadingScean.IsLoading)
         {
             if (context.performed)

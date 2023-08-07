@@ -105,7 +105,7 @@ public class MultipleObjectPool<T> : MonoBehaviour where T : ObjectIsPool
             // 남아있으면
             T comp = readyQueue.Dequeue();      // 하나 꺼내고
             comp.gameObject.SetActive(true);    // 활성화시킨 다음에 
-            Debug.Log($"GetObject : {comp.name} :  {readyQueue.Count} : {poolSize}");
+            //Debug.Log($"GetObject : {comp.name} :  {readyQueue.Count} : {poolSize}");
             return comp;                        // 꺼낸 것 리턴
         }
         else
@@ -169,7 +169,7 @@ public class MultipleObjectPool<T> : MonoBehaviour where T : ObjectIsPool
             T comp = obj.GetComponent<T>();                     // PooledObject 컴포넌트 받아와서
             comp.onDisable += () =>
             {
-                Debug.Log($"OnDisable : {comp.name} :  {readyQueue.Count} : {poolSize}");
+                //Debug.Log($"OnDisable : {comp.name} :  {readyQueue.Count} : {poolSize}");
                 readyQueue.Enqueue(comp);   // PooledObject가 disable될 때 래디큐로 되돌리기
 
             };

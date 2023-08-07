@@ -16,6 +16,7 @@ public class TurnTestCode : TestBase
     {
         turnManager = TurnManager.Instance;
     }
+
     /// <summary>
     /// 턴 유닛 생성 테스트
     /// </summary>
@@ -78,15 +79,15 @@ public class TurnTestCode : TestBase
     /// 턴 내용 전부 초기화후 게임화면에있는 캐릭터 오브젝트 지우기
     /// </summary>
     /// <param name="context"></param>
-    protected override void Test4(InputAction.CallbackContext context)
-    {
-        turnManager.ResetBattleData(); //턴관리자의 데이터 리셋후
-        Player[] ps = GameObject.FindObjectsOfType<Player>(); //대충만든 오브젝트 찾기
-        foreach (Player p in ps)
-        {
-            GameObject.Destroy(p.gameObject); //오브젝트 삭제
-        }
-    }
+    //protected override void Test4(InputAction.CallbackContext context)
+    //{
+    //    turnManager.ResetBattleData(); //턴관리자의 데이터 리셋후
+    //    TurnBaseObject[] ps = GameObject.FindObjectsOfType<TurnBaseObject>(); //대충만든 오브젝트 찾기
+    //    foreach (TurnBaseObject p in ps)
+    //    {
+    //        GameObject.Destroy(p.gameObject); //오브젝트 삭제
+    //    }
+    //}
     /// <summary>
     /// 턴 초기화 함수 실행
     /// </summary>
@@ -94,6 +95,11 @@ public class TurnTestCode : TestBase
     protected override void Test5(InputAction.CallbackContext context)
     {
         turnManager.ResetBattleData(); //리셋후
+        TurnBaseObject[] ps = GameObject.FindObjectsOfType<TurnBaseObject>(); //대충만든 오브젝트 찾기
+        foreach (TurnBaseObject p in ps)
+        {
+            GameObject.Destroy(p.gameObject); //오브젝트 삭제
+        }
         turnManager.InitTurnData();//초기데이터 셋팅 
     }
     /// <summary>
