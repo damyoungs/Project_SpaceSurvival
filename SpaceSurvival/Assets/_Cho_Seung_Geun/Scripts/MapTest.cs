@@ -363,12 +363,21 @@ public class MapTest : TestBase
 
     }
 
+    /// <summary>
+    /// 가로 혹은 세로의 인덱스가 2 이상인 구조물을 생성하는 함수
+    /// </summary>
+    /// <param name="chooseProp">구조물 종류 인덱스</param>
+    /// <param name="index1">가로 인덱스의 최소 범위</param>
+    /// <param name="index2">가로 인덱스의 최대 범위</param>
+    /// <param name="index3">세로 인덱스의 최소 범위</param>
+    /// <param name="index4">세로 인덱스의 최대 범위</param>
     private void PropMultiMaking(int chooseProp, int index1, int index2, int index3, int index4)
     {
-        GameObject obj = Instantiate(multiProps[chooseProp]);
-        PropData objData = obj.GetComponent<PropData>();
-        bool isSuccess = false;
+        GameObject obj = Instantiate(multiProps[chooseProp]);           // 구조물 생성
+        PropData objData = obj.GetComponent<PropData>();                // 구조물의 데이터 반환
+        bool isSuccess = false;                                         // 구조물 이동에 성공했는지 여부
 
+        // 생성 가능한 위치에 구조물 이동 및 배열 추가
         while (!isSuccess)
         {
             Tile tile = GetTile(Random.Range(index1, index2), Random.Range(index3, index4));
@@ -452,68 +461,29 @@ public class MapTest : TestBase
         }
     }
 
-    private void PropMultiMaking2(int chooseProp, int index1, int index2, int index3, int index4)
-    {
-        GameObject obj = Instantiate(multiProps[chooseProp]);
-
-        Vector3Int getPos = new Vector3Int(Random.Range(index1 * 2, index2 * 2), 0, Random.Range(index3 * 2, index4 * 2));
-        //Vector3Int getPos = new Vector3Int(Random.Range(0, standardPos[0].Width * 2), 0, Random.Range(standardPos[0].Length * 2, sizeY * 2));
-
-        if (obj.GetComponent<PropData>().width % 2 == 1)
-        {
-            if (getPos.x % 2 == 1)
-            {
-                getPos.x++;
-            }
-        }
-        else
-        {
-            if (getPos.x % 2 == 0)
-            {
-                getPos.x++;
-            }
-        }
-
-        if (obj.GetComponent<PropData>().length % 2 == 1)
-        {
-            if (getPos.z % 2 == 1)
-            {
-                getPos.z++;
-            }
-        }
-        else
-        {
-            if (getPos.z % 2 == 0)
-            {
-                getPos.z++;
-            }
-        }
-
-        obj.transform.position = getPos;
-
-        props.Add(obj);
-    }
-
+    /// <summary>
+    /// 구조물을 제거하는 함수
+    /// </summary>
     private void PropDestroy()
     {
         foreach (var obj in props)
         {
-            Destroy(obj);
+            Destroy(obj);           // 구조물 배열 순회하며 제거
         }
         props.Clear();
-        props = null;
+        props = null;               // 비우고 null로 초기화
 
-        if (isExist)
+        if (isExist)                // 맵이 있을 때만 가능
         {
             for (int i = 0; i < mapTiles.Length; i++)
             {
-                mapTiles[i].GetComponent<Tile>().ExistType = Tile.TileExistType.None;
+                mapTiles[i].GetComponent<Tile>().ExistType = Tile.TileExistType.None;   // 타일의 타입을 None으로 초기화
             }
         }
 
         for (int i = 0; i < standardPos.Length; i++)
         {
-            standardPos[i].ExistType = Tile.TileExistType.prop;
+            standardPos[i].ExistType = Tile.TileExistType.prop;     // 기둥이 있는 타일은 다시 Prop으로 변경
         }
     }
 }
