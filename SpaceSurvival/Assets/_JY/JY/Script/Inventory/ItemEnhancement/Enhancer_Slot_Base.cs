@@ -73,7 +73,7 @@ public class Enhancer_Slot_Base : MonoBehaviour,IPointerEnterHandler,IPointerMov
     protected virtual void Start()
     {
         onValueChange = Refresh;
-        item_Enhancer = GameManager.Item_Enhancer;
+        item_Enhancer = GameManager.Enhancer;
         item_Enhancer.onSetItem += (itemData) => ItemData = itemData;
         Refresh();
     }

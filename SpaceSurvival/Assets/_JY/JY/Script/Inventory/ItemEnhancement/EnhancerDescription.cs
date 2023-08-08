@@ -39,8 +39,8 @@ public class EnhancerDescription : MonoBehaviour
 
         Enhancer_Slot_Before beforeSlot;
         Enhancer_Slot_After afterSlot;
-        beforeSlot = GameManager.Item_Enhancer.EnhancerUI.BeforeSlot;
-        afterSlot = GameManager.Item_Enhancer.EnhancerUI.AfterSlot;
+        beforeSlot = GameManager.Enhancer.EnhancerUI.BeforeSlot;
+        afterSlot = GameManager.Enhancer.EnhancerUI.AfterSlot;
 
         beforeSlot.onPointerEnter += Open_BeforeSlotDescription;
         afterSlot.onPointerEnter += Open_AfterSlotDescription;
