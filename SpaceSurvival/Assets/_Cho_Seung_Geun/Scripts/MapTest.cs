@@ -64,11 +64,12 @@ public class MapTest : TestBase
             tileCount = sizeX * sizeY;          // 총 타일 갯수
 
             MapInstantiate();                       // 메인 맵 생성
+
+            player.transform.position = GetTile(sizeX / 2, sizeY / 3).transform.position;         // 플레이어 위치 이동(임시)
+            GetTile(sizeX / 2, sizeY / 3).ExistType = Tile.TileExistType.monster;
+
             LightInstantiate();                     // 조명 및 기둥 생성
             //MiniMapInstantiate();                 // 미니맵 판자 생성(필요없을 것 같아 나중에 지울 예정)
-
-            //player.transform.position = GetTile(sizeX / 2, sizeY).transform.position;                     // 플레이어 위치 이동
-            player.transform.position = GetTile(sizeX / 2, sizeY / 3).transform.position;         // 플레이어 위치 이동(임시)
 
             isExist = true;         // 중복 맵 생성 방지
 
@@ -80,7 +81,7 @@ public class MapTest : TestBase
     /// </summary>
     protected override void Test2(InputAction.CallbackContext _)
     {
-        if (isExist)
+        if (isExist && !isPropExist)
         {
             MapDestroy();
         }
@@ -301,15 +302,16 @@ public class MapTest : TestBase
     {
         if (props == null)
         {
-            props = new List<GameObject>(16);
+            props = new List<GameObject>(16);               // 구조물이 비어있으면 생성. 16은 임의로 넣은 숫자.
         }
         else
         {
-            return;
+            return;                         // 구조물이 생성돼 있으면 더 이상 생성하지 않음
         }
 
-        int chooseProp;
+        int chooseProp;     // 구조물 종류 중 랜덤 생성
 
+        // 기둥을 기준으로 구역을 나누기 위해 생성한 두 개의 임시 배열(각각 가로와 세로)
         int[] tempArrayX = new int[4] { 0, standardPos[0].Width, standardPos[1].Width, sizeX };
         int[] tempArrayY = new int[4] { 0, standardPos[0].Length, standardPos[2].Length, sizeY };
 
@@ -317,11 +319,13 @@ public class MapTest : TestBase
         {
             for (int j = 0; j < 3; j++)
             {
+                // 가로 혹은 세로가 2 이상의 길이를 가진 구조물 생성
                 chooseProp = Random.Range(0, multiProps.Count);
-                PropMultiMaking(chooseProp, tempArrayX[i], tempArrayX[i + 1], tempArrayY[j], tempArrayY[j + 1]);
+                PropMultiMaking(chooseProp, tempArrayX[i], tempArrayX[i + 1], tempArrayY[j], tempArrayY[j + 1]);    
                 if (i == 1 && j == 1)
                 {
-                    PropMultiMaking(chooseProp, tempArrayX[i], tempArrayX[i + 1], tempArrayY[j], tempArrayY[j + 1]);
+                    // 조금 더 빽빽하게 해주기 위해 중앙에 하나 더 생성
+                    PropMultiMaking(chooseProp, tempArrayX[i], tempArrayX[i + 1], tempArrayY[j], tempArrayY[j + 1]);    
                 }
             }
         }
@@ -329,29 +333,33 @@ public class MapTest : TestBase
         for (int i = 0; i < Random.Range(1, singleProps.Count + 1); i++)
         {
             chooseProp = Random.Range(0, singleProps.Count);
-            PropSingleMaking(chooseProp);
+            PropSingleMaking(chooseProp);   // 가로와 세로가 각각 1인 구조물 생성
         }
 
     }
 
+    /// <summary>
+    /// 가로와 세로가 각각 1인 구조물을 생성하는 함수
+    /// </summary>
+    /// <param name="chooseProp">구조물 종류 인덱스</param>
     private void PropSingleMaking(int chooseProp)
     {
-        GameObject obj = Instantiate(singleProps[chooseProp]);
+        GameObject obj = Instantiate(singleProps[chooseProp]);      // 구조물 생성
 
         while (true)
         {
-            Tile tile = GetTile(Random.Range(0, sizeX), Random.Range(0, sizeY));
-            if (tile.ExistType != Tile.TileExistType.None)
+            Tile tile = GetTile(Random.Range(0, sizeX), Random.Range(0, sizeY));    // 임의의 타일 지정
+            if (tile.ExistType != Tile.TileExistType.None)          // 임의의 타일이 비어있는 게 아닐 경우
             {
-                continue;
+                continue;                                           // 다시 뽑기(될 때까지 무한 반복). 만약 됐으면 아래로 내려감
             }
-            obj.transform.position = tile.transform.position;
-            obj.transform.GetChild(0).rotation = Quaternion.Euler(0.0f, 90.0f * Random.Range(0, 4), 0.0f);
-            tile.ExistType = Tile.TileExistType.prop;
-            break;
+            obj.transform.position = tile.transform.position;       // 구조물을 타일의 위치로 이동
+            obj.transform.GetChild(0).rotation = Quaternion.Euler(0.0f, 90.0f * Random.Range(0, 4), 0.0f);  // 구조물 회전시켜 주기
+            tile.ExistType = Tile.TileExistType.prop;               // 구조물이 있는 타일 구조물이 있다고 표시
+            break;                  // 무한 루프 탈출
         }
         
-        props.Add(obj);
+        props.Add(obj);             // 구조물 배열에 추가
 
     }
 
@@ -359,20 +367,17 @@ public class MapTest : TestBase
     {
         GameObject obj = Instantiate(multiProps[chooseProp]);
         PropData objData = obj.GetComponent<PropData>();
-        Tile tile;
-        int randomRotation;
         bool isSuccess = false;
-        int tileCount;
 
         while (!isSuccess)
         {
-            tile = GetTile(Random.Range(index1, index2), Random.Range(index3, index4));
-            randomRotation = Random.Range(0, 4);
+            Tile tile = GetTile(Random.Range(index1, index2), Random.Range(index3, index4));
+            int randomRotation = Random.Range(0, 4);
             for (int count = 0; count < 4; count++)
             {
                 randomRotation++;
                 randomRotation %= 4;
-                tileCount = 0;
+                int tileCount = 0;
                 for (int i = 0; i < objData.width; i++)
                 {
                     for (int j = 0; j < objData.length; j++)
@@ -498,9 +503,12 @@ public class MapTest : TestBase
         props.Clear();
         props = null;
 
-        for (int i = 0; i < mapTiles.Length; i++)
+        if (isExist)
         {
-            mapTiles[i].GetComponent<Tile>().ExistType = Tile.TileExistType.None;
+            for (int i = 0; i < mapTiles.Length; i++)
+            {
+                mapTiles[i].GetComponent<Tile>().ExistType = Tile.TileExistType.None;
+            }
         }
 
         for (int i = 0; i < standardPos.Length; i++)
