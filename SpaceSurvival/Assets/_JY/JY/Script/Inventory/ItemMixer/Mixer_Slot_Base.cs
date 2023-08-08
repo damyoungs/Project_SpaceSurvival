@@ -20,13 +20,13 @@ public class Mixer_Slot_Base : MonoBehaviour,IPointerEnterHandler,IPointerMoveHa
     TextMeshProUGUI itemNameText;
 
 
-
+    public Action<ItemData> onItemDataChange;
     public Action<ItemData> onPointerEnter;
     public Action<Vector2> onPointerMove;
     public Action onPointerExit;
     public bool IsEmpty => ItemData == null;//SlotManager에서  빈 슬롯인지 확인할때 쓰일 프로퍼티// 초기 
     private ItemData itemData = null;
-    public ItemData ItemData//SlotManager의  GetItem 함수가 실행될때 Item의 정보를 받아오기위한 프로퍼티
+    public ItemData ItemData
     {
         get => itemData;
         set
@@ -35,6 +35,7 @@ public class Mixer_Slot_Base : MonoBehaviour,IPointerEnterHandler,IPointerMoveHa
             {
                 itemData = value;
                 Refresh();
+                onItemDataChange?.Invoke(itemData);
             }
         }
     }
@@ -65,7 +66,7 @@ public class Mixer_Slot_Base : MonoBehaviour,IPointerEnterHandler,IPointerMoveHa
             }
         }
     }
-    private void Awake()
+    protected virtual void Awake()
     {
         itemIcon = transform.GetChild(0).GetComponent<Image>();
         imageComp = GetComponent<Image>();

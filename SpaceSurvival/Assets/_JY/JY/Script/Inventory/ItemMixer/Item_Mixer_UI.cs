@@ -41,7 +41,7 @@ public class Item_Mixer_UI : MonoBehaviour
             darkForceCount = Math.Clamp(value, MinDarkForceCount, (uint)GameManager.playerDummy.DarkForce);
             amountText.text = darkForceCount.ToString();    // 인풋 필드에 적용
             amountSlider.value = darkForceCount;
-            onDarkForceValueChange?.Invoke(mixer.ItemData);
+          //  onDarkForceValueChange?.Invoke(mixer.ItemData);
         }
     }
     public Mixer_Slot_Left Left_Slot => left_Slot;
@@ -116,7 +116,7 @@ public class Item_Mixer_UI : MonoBehaviour
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
         DarkForceCount = 0;
-        mixer.ItemData = null;
+      //  mixer.ItemData = null;
         left_Slot.ItemData = null;
         middle_Slot.ItemData = null;
         result_Slot.ItemData = null;
@@ -141,7 +141,7 @@ public class Item_Mixer_UI : MonoBehaviour
         left_Slot.ItemData = null;
         middle_Slot.ItemData = null;
         result_Slot.ItemData = null;
-        mixer.ItemData = null;
+       // mixer.ItemData = null;
     }
     void BlockInteractable()//Enhancer에서 신호 받음 
     {

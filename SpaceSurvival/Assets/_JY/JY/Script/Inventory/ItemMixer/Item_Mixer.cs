@@ -29,25 +29,35 @@ public class Item_Mixer : MonoBehaviour
     public Action onClose;
     public Action onConfirmButtonClick;
 
-    ItemData itemData;
+    Mixer_Slot_Left left_Slot;
+    Mixer_Slot_Middle middle_Slot;
 
-    public ItemData ItemData
+    ItemData leftSlotData = null;
+    ItemData middleSlotData = null;
+
+    public Action<ItemData> onLeftSlotDataChange;
+    public Action<ItemData> onMiddleSlotDataChange;
+    public ItemData LeftSLotData
     {
-        get => itemData;
+        get => leftSlotData;
         set
         {
-            if (itemData != value)
+            if (leftSlotData != value)
             {
-                itemData = value;
-                //ClearState ´ë¸®ÀÚ 
-                if (itemData != null)
-                {
-                    mixerState = ItemMixerState.SetItem;
-                }
-                else
-                {
-                    mixerState = ItemMixerState.ClearItem;
-                }
+                leftSlotData = value;
+                onLeftSlotDataChange?.Invoke(leftSlotData);
+            }
+        }
+    }
+    public ItemData MiddleSlotData
+    {
+        get => middleSlotData;
+        set
+        {
+            if (middleSlotData != value)
+            {
+                middleSlotData = value;
+                onMiddleSlotDataChange?.Invoke(middleSlotData);
             }
         }
     }
@@ -67,13 +77,13 @@ public class Item_Mixer : MonoBehaviour
                     onOpen?.Invoke();
                     break;
                 case ItemMixerState.SetItem:
-                    onSetItem?.Invoke(ItemData);
+                //    onSetItem?.Invoke(ItemData);
                     break;
                 case ItemMixerState.Confirm:
-                    if (ItemData != null)
-                    {
-                        onConfirmButtonClick?.Invoke();
-                    }
+                    //if (ItemData != null)
+                    //{
+                    //    onConfirmButtonClick?.Invoke();
+                    //}
                     break;
                 case ItemMixerState.WaitforResult:
                     onWaitforResult?.Invoke();
@@ -99,8 +109,13 @@ public class Item_Mixer : MonoBehaviour
     {
         item_Mixer_UI = GetComponent<Item_Mixer_UI>();
         MixerState = ItemMixerState.Close;
+        left_Slot = GetComponentInChildren<Mixer_Slot_Left>();
+        middle_Slot = GetComponentInChildren<Mixer_Slot_Middle>();
+
+        left_Slot.onClearLeftSlot += () => LeftSLotData = null;
+        middle_Slot.onClearMiddleSlot += () => MiddleSlotData = null;
     }
- 
+
 
     //
 }

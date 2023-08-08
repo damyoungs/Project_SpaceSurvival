@@ -27,8 +27,6 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     RectTransform beforeSlotRectTransform;
     RectTransform enhancerUIRectTransform;
 
-    Mixer_Slot_Left mixer_Left_Slot;
-    Mixer_Slot_Middle mixer_Middle_Slot;
     RectTransform mixer_Left_slot_Transform;
     RectTransform mixer_Middle_Slot_Transform;
 
@@ -70,13 +68,10 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         spliter.onOkClick += OnSpliterOk;
 
         beforeSlotRectTransform = GameManager.Enhancer.EnhancerUI.BeforeSlot.GetComponent<RectTransform>();
-        enhancerUIRectTransform = GameManager.Enhancer.GetComponent<RectTransform>();
-
-        mixer_Left_Slot = GameManager.Mixer.MixerUI.Left_Slot;
-        mixer_Left_slot_Transform = mixer_Left_Slot.GetComponent<RectTransform>();
-        mixer_Middle_Slot = GameManager.Mixer.MixerUI.Middle_Slot;
-        mixer_Middle_Slot_Transform = mixer_Middle_Slot.GetComponent<RectTransform>();
-
+        enhancerUIRectTransform = GameManager.Enhancer.EnhancerUI.AfterSlot.GetComponent<RectTransform>();
+   
+        mixer_Left_slot_Transform = GameManager.Mixer.MixerUI.Left_Slot.GetComponent<RectTransform>();
+        mixer_Middle_Slot_Transform = GameManager.Mixer.MixerUI.Middle_Slot.GetComponent<RectTransform>();
 
         slots = new Dictionary<Current_Inventory_State, List<Slot>>
         {
@@ -267,11 +262,11 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             }
             else if (mixer_Left_slot_Transform.rect.Contains(distance_Between_Mouse_Left_Slot))
             {
-                mixer_Left_Slot.ItemData = TempSlot.ItemData;
+                GameManager.Mixer.LeftSLotData = TempSlot.ItemData;
             }
             else if (mixer_Middle_Slot_Transform.rect.Contains(distance_Between_Mouse_Middle_Slot))
             {
-                mixer_Middle_Slot.ItemData = TempSlot.ItemData;
+                GameManager.Mixer.MiddleSlotData = TempSlot.ItemData;
             }
             else if (!inventoryRectTransform.rect.Contains(distance_Between_Mouse_Inven))// 거리의 크기가 rect 의 크기보다 작으면 인벤토리 안쪽
             {
