@@ -140,9 +140,13 @@ public class ItemSpawner : TestBase
         GetItem();
         // GetItemHpPotion();
     }
+    protected override void OpenInven(InputAction.CallbackContext _)
+    {
+        GameManager.Inventory.Open_Inventory();
+    }
     //protected override void Test3(InputAction.CallbackContext context)
     //{
-   
+
     //    GetItemMpPotion();
     //}
     //protected override void Test4(InputAction.CallbackContext context)
