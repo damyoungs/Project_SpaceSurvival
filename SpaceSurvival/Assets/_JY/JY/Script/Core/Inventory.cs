@@ -67,7 +67,7 @@ public class Inventory : MonoBehaviour
         add_Button = toolBar.GetChild(1).GetComponent<Button>();
         sort_Button = transform.GetChild(0).GetChild(2).GetComponent<Button>();
         enhance_Button = toolBar.GetChild(3).GetComponent<Button>();
-        mixer_Button = transform.GetChild(4).GetComponent<Button>();
+        mixer_Button = transform.GetChild(0).GetChild(4).GetComponent<Button>();
 
         equip_Button = transform.GetChild(1).GetComponent<Button>();
         consume_Button = transform.GetChild(2).GetComponent<Button>();
@@ -83,7 +83,9 @@ public class Inventory : MonoBehaviour
         sort_Button.onClick.AddListener(SlotSorting);
         close_Button.onClick.AddListener(Open_Inventory);
         add_Button.onClick.AddListener(GameManager.SlotManager.Make_Slot);
-     
+        mixer_Button.onClick.AddListener(Open_Mixer);
+
+
         equip_Button.onClick.AddListener(SwitchTab_To_Equip);
         consume_Button.onClick.AddListener(SwitchTab_To_Consume);
         etc_Button.onClick.AddListener(SwitchTab_To_Etc);

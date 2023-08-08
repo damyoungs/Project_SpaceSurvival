@@ -27,6 +27,9 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     RectTransform beforeSlotRectTransform;
     RectTransform enhancerUIRectTransform;
 
+    RectTransform mixer_Left_slot_Transform;
+    RectTransform mixer_Middle_Slot_Transform;
+
     public ItemSplitter spliter;
     bool isShiftPress = false;
 
@@ -63,9 +66,12 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         spliter.onCancel += () => itemDescription.IsPause = false;   // 캔슬버턴 누르면 상세정보창 일시정지 해제
         spliter.Close();
         spliter.onOkClick += OnSpliterOk;
-        beforeSlotRectTransform = GameManager.Enhancer.EnhancerUI.BeforeSlot.GetComponent<RectTransform>();
-        enhancerUIRectTransform = GameManager.Enhancer.GetComponent<RectTransform>();
 
+        beforeSlotRectTransform = GameManager.Enhancer.EnhancerUI.BeforeSlot.GetComponent<RectTransform>();
+        enhancerUIRectTransform = GameManager.Enhancer.EnhancerUI.AfterSlot.GetComponent<RectTransform>();
+   
+        mixer_Left_slot_Transform = GameManager.Mixer.MixerUI.Left_Slot.GetComponent<RectTransform>();
+        mixer_Middle_Slot_Transform = GameManager.Mixer.MixerUI.Middle_Slot.GetComponent<RectTransform>();
 
         slots = new Dictionary<Current_Inventory_State, List<Slot>>
         {
@@ -239,11 +245,13 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             //    Debug.Log("Ground");
             //}
             Vector2 screenPos = Mouse.current.position.ReadValue();
-            Vector2 distance_BetweenMouse_Inven = screenPos - (Vector2)inventoryRectTransform.position;//inventoryRectTransform.position의 피봇을 기준으로 떨어진거리 계산
-            Vector2 distance_BetweenMouse_BeforeSlot = screenPos - (Vector2)beforeSlotRectTransform.position;
-            Vector2 distance_BetweenMouse_enhancerUI = screenPos - (Vector2)enhancerUIRectTransform.position;
+            Vector2 distance_Between_Mouse_Inven = screenPos - (Vector2)inventoryRectTransform.position;//inventoryRectTransform.position의 피봇을 기준으로 떨어진거리 계산
+            Vector2 distance_Between_Mouse_BeforeSlot = screenPos - (Vector2)beforeSlotRectTransform.position;
+            Vector2 distance_Between_Mouse_enhancerUI = screenPos - (Vector2)enhancerUIRectTransform.position;
+            Vector2 distance_Between_Mouse_Left_Slot = screenPos - (Vector2)mixer_Left_slot_Transform.position;
+            Vector2 distance_Between_Mouse_Middle_Slot = screenPos - (Vector2)mixer_Middle_Slot_Transform.position;
 
-            if (beforeSlotRectTransform.rect.Contains(distance_BetweenMouse_BeforeSlot))//강화 슬롯의 위치이면서 강화ㅑ 가능한 아이템 일 때
+            if (beforeSlotRectTransform.rect.Contains(distance_Between_Mouse_BeforeSlot))//강화 슬롯의 위치이면서 강화ㅑ 가능한 아이템 일 때
             {
                 ItemData_Enhancable enhancable = TempSlot.ItemData as ItemData_Enhancable;
                 if (enhancable != null)
@@ -252,9 +260,17 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                    // IndexForEnhancer =  애초에 장비탭의 Slot 이 TempSlot으로 옮겨갈때 인덱스 저장이 필요함
                 }
             }
-            else if (!inventoryRectTransform.rect.Contains(distance_BetweenMouse_Inven))// 거리의 크기가 rect 의 크기보다 작으면 인벤토리 안쪽
+            else if (mixer_Left_slot_Transform.rect.Contains(distance_Between_Mouse_Left_Slot))
             {
-                if (enhancerUIRectTransform.rect.Contains(distance_BetweenMouse_enhancerUI) && GameManager.Enhancer.EnhancerState == EnhancerState.Open)//inhancerUI열려있으면 return
+                GameManager.Mixer.LeftSLotData = TempSlot.ItemData;
+            }
+            else if (mixer_Middle_Slot_Transform.rect.Contains(distance_Between_Mouse_Middle_Slot))
+            {
+                GameManager.Mixer.MiddleSlotData = TempSlot.ItemData;
+            }
+            else if (!inventoryRectTransform.rect.Contains(distance_Between_Mouse_Inven))// 거리의 크기가 rect 의 크기보다 작으면 인벤토리 안쪽
+            {
+                if (enhancerUIRectTransform.rect.Contains(distance_Between_Mouse_enhancerUI) && GameManager.Enhancer.EnhancerState == EnhancerState.Open)//inhancerUI열려있으면 return
                 {
                     return;
                 }

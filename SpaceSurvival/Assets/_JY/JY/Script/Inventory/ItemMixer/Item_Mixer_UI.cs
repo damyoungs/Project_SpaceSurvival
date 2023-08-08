@@ -10,7 +10,7 @@ using UnityEngine.UIElements;
 public class Item_Mixer_UI : MonoBehaviour
 { 
     CanvasGroup canvasGroup;
-    Item_Enhancer itemEnhancer;
+    Item_Mixer mixer;
 
     public UnityEngine.UI.Button closeButton;
     public UnityEngine.UI.Button cancelButton;
@@ -27,7 +27,7 @@ public class Item_Mixer_UI : MonoBehaviour
     Mixer_Slot_Middle middle_Slot;
     Mixer_Slot_Result result_Slot;
 
-    public Action<ItemData_Enhancable> onDarkForceValueChange;
+    public Action<ItemData> onDarkForceValueChange;
     public Action onTriggerLevelUp;
 
     const uint MinDarkForceCount = 0;
@@ -41,7 +41,7 @@ public class Item_Mixer_UI : MonoBehaviour
             darkForceCount = Math.Clamp(value, MinDarkForceCount, (uint)GameManager.playerDummy.DarkForce);
             amountText.text = darkForceCount.ToString();    // 인풋 필드에 적용
             amountSlider.value = darkForceCount;
-            onDarkForceValueChange?.Invoke(itemEnhancer.ItemData);
+          //  onDarkForceValueChange?.Invoke(mixer.ItemData);
         }
     }
     public Mixer_Slot_Left Left_Slot => left_Slot;
@@ -50,17 +50,17 @@ public class Item_Mixer_UI : MonoBehaviour
 
     private void Awake()
     {
-        itemEnhancer = GetComponent<Item_Enhancer>();
+        mixer = GetComponent<Item_Mixer>();
         canvasGroup = GetComponent<CanvasGroup>();
 
         left_Slot = GetComponentInChildren<Mixer_Slot_Left>();
         middle_Slot = GetComponentInChildren<Mixer_Slot_Middle>();
         result_Slot = GetComponentInChildren<Mixer_Slot_Result>();
 
-        closeButton.onClick.AddListener(() => itemEnhancer.EnhancerState = EnhancerState.Close);// 수정필요
-        cancelButton.onClick.AddListener(() => itemEnhancer.EnhancerState = EnhancerState.Close);
+        closeButton.onClick.AddListener(() => mixer.MixerState = ItemMixerState.Close);// 수정필요
+        cancelButton.onClick.AddListener(() => mixer.MixerState = ItemMixerState.Close);
 
-        confirmButton.onClick.AddListener(() => itemEnhancer.EnhancerState = EnhancerState.Confirm);
+        confirmButton.onClick.AddListener(() => mixer.MixerState = ItemMixerState.Confirm);
      
         plusButton.onClick.AddListener(() => DarkForceCount++);
         minusButton.onClick.AddListener(() => DarkForceCount--);
@@ -85,16 +85,16 @@ public class Item_Mixer_UI : MonoBehaviour
     private void Start()
     {
 
-        itemEnhancer.onOpen += Open;
-        itemEnhancer.onClose += Close;
-        itemEnhancer.onSetItem += RefreshEnhancerUI; //tempSlot의 아이템을 드롭했을 때
-        itemEnhancer.onClearItem += ClearEnhancerUI; // beforeSlot을 클릭했을 때
-        itemEnhancer.onConfirmButtonClick += BlockInteractable;// enhancerUI창의 체크버튼 클맀했을 때
+        mixer.onOpen += Open;
+        mixer.onClose += Close;
+        //mixer.onSetItem += RefreshEnhancerUI; //tempSlot의 아이템을 드롭했을 때
+        mixer.onClearItem += ClearEnhancerUI; // beforeSlot을 클릭했을 때
+        mixer.onConfirmButtonClick += BlockInteractable;// enhancerUI창의 체크버튼 클맀했을 때
         onDarkForceValueChange += UpdateSuccessRate; // InputField의 Darkforce의 값이 바뀔때
-        itemEnhancer.onWaitforResult += WaitForResult; // warningBox의 체크버튼을 누를 때 
+        //mixer.onWaitforResult += WaitForResult; // warningBox의 체크버튼을 누를 때 
        // itemEnhancer.onWaitforResult += BlockInteractable;
-        itemEnhancer.onSuccess += () => StartCoroutine(PopUp_ProceedBox(true)); //WaitForResult에서 호출
-        itemEnhancer.onFail += () => StartCoroutine(PopUp_ProceedBox(false));
+        mixer.onSuccess += () => StartCoroutine(PopUp_ProceedBox(true)); //WaitForResult에서 호출
+        mixer.onFail += () => StartCoroutine(PopUp_ProceedBox(false));
 
 
 
@@ -116,17 +116,16 @@ public class Item_Mixer_UI : MonoBehaviour
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
         DarkForceCount = 0;
-        itemEnhancer.ItemData = null;
+      //  mixer.ItemData = null;
         left_Slot.ItemData = null;
         middle_Slot.ItemData = null;
         result_Slot.ItemData = null;
         successRateText.text = "0";
     }
-    void RefreshEnhancerUI(ItemData_Enhancable itemData)
+    void RefreshEnhancerUI(ItemData itemData)
     {
         if (itemData != null)
         {
-            itemLevel = itemEnhancer.ItemData.Itemlevel;
             amountSlider.maxValue = GameManager.playerDummy.DarkForce;
             UpdateSuccessRate(itemData);
         }
@@ -142,7 +141,7 @@ public class Item_Mixer_UI : MonoBehaviour
         left_Slot.ItemData = null;
         middle_Slot.ItemData = null;
         result_Slot.ItemData = null;
-        itemEnhancer.ItemData = null;
+       // mixer.ItemData = null;
     }
     void BlockInteractable()//Enhancer에서 신호 받음 
     {
@@ -183,17 +182,17 @@ public class Item_Mixer_UI : MonoBehaviour
             successRateText.text = enhancable.CalculateSuccessRate(DarkForceCount).ToString("f1");
         }
     }
-    void WaitForResult()
-    {
-        if (itemEnhancer.ItemData.LevelUp(DarkForceCount))//
-        {
-            itemEnhancer.EnhancerState = EnhancerState.Success;
-        }
-        else
-        {
-            itemEnhancer.EnhancerState = EnhancerState.Fail;
-        }
-    }
+    //void WaitForResult()
+    //{
+    //    if (mixer.ItemData.LevelUp(DarkForceCount))//
+    //    {
+    //        itemEnhancer.EnhancerState = EnhancerState.Success;
+    //    }
+    //    else
+    //    {
+    //        itemEnhancer.EnhancerState = EnhancerState.Fail;
+    //    }
+    //}
     IEnumerator PopUp_ProceedBox(bool levelUp)
     {
         if (levelUp)
@@ -201,7 +200,7 @@ public class Item_Mixer_UI : MonoBehaviour
             proceedAnim.SetTrigger("Success");
             yield return new WaitForSeconds(3.0f);// Success clip의 재생시간을 고려한 딜레이
             onTriggerLevelUp?.Invoke();
-            itemEnhancer.EnhancerState = EnhancerState.ClearItem;
+            mixer.MixerState = ItemMixerState.ClearItem;
             Debug.Log("State 변경 ");
         }
         else
