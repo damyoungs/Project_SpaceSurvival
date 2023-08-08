@@ -411,16 +411,6 @@ public class MapTest : TestBase
             isPropExist = false;
         }
     }
-
-
-
-
-
-
-
-
-
-
     protected override void Test5(InputAction.CallbackContext context)
     {
         InitTotalData(); //초기데이터생성    
@@ -477,9 +467,6 @@ public class MapTest : TestBase
             SetBlock();
         }
     }
-
-
-
     /// <summary>
     /// 턴 진행 
     /// </summary>
@@ -509,10 +496,6 @@ public class MapTest : TestBase
         TurnBaseObject tbo = (TurnBaseObject)turnManager.RandomGetNode();
         tbo.BattleUI.AddOfStatus(EnumList.StateType.Poison);//상태이상 추가해보기 
     }
-
-
-
-
 
     /// <summary>
     /// 카메라가 벗어나지않게 설정해주는 박스 컬라이더  
@@ -563,8 +546,6 @@ public class MapTest : TestBase
 
     }
 
-
-
     [Header("턴 관련 테스트 변수")]
     TurnManager turnManager;
     [Header("초기화할 데이터 ")]
@@ -584,8 +565,4 @@ public class MapTest : TestBase
         cameraOrigin.gameObject.SetActive(true);
         moveCam.gameObject.SetActive(true);
     }
-
-
-
-
 }

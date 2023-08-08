@@ -24,9 +24,14 @@ public class TestBase : MonoBehaviour
         inputKeyMouse.Test.Test8.performed += Test8;
         inputKeyMouse.Test.Test9.performed += Test9;
         inputKeyMouse.Test.TestClick.performed += TestClick;
+        inputKeyMouse.Test.PressI.performed += OpenInven;
     }
 
-
+ 
+    protected virtual void OpenInven(UnityEngine.InputSystem.InputAction.CallbackContext _)
+    {
+       
+    }
 
     private void OnDisable()
     {

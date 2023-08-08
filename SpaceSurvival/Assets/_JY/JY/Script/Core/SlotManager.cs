@@ -63,8 +63,8 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         spliter.onCancel += () => itemDescription.IsPause = false;   // 캔슬버턴 누르면 상세정보창 일시정지 해제
         spliter.Close();
         spliter.onOkClick += OnSpliterOk;
-        beforeSlotRectTransform = GameManager.Item_Enhancer.EnhancerUI.BeforeSlot.GetComponent<RectTransform>();
-        enhancerUIRectTransform = GameManager.Item_Enhancer.GetComponent<RectTransform>();
+        beforeSlotRectTransform = GameManager.Enhancer.EnhancerUI.BeforeSlot.GetComponent<RectTransform>();
+        enhancerUIRectTransform = GameManager.Enhancer.GetComponent<RectTransform>();
 
 
         slots = new Dictionary<Current_Inventory_State, List<Slot>>
@@ -223,7 +223,9 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     /// 마우스 클릭이 떨어졌을 때 실행되는 함수(아이템 드랍용)
     /// </summary>
     private void OnItemDrop(InputAction.CallbackContext _)
-    {    
+    {
+        if (tempSlot == null)
+            return;
         if (!tempSlot.IsEmpty)
         {
             //레이를 쏘기 전에 레이의 좌표를 스크린좌표로 바꿔줘야함 그러나 굳이 위치를 비교하는 것 보다 레이를 쏴서 비교할 이유는 없다.
@@ -246,13 +248,13 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                 ItemData_Enhancable enhancable = TempSlot.ItemData as ItemData_Enhancable;
                 if (enhancable != null)
                 {
-                    GameManager.Item_Enhancer.ItemData = enhancable;
+                    GameManager.Enhancer.ItemData = enhancable;
                    // IndexForEnhancer =  애초에 장비탭의 Slot 이 TempSlot으로 옮겨갈때 인덱스 저장이 필요함
                 }
             }
             else if (!inventoryRectTransform.rect.Contains(distance_BetweenMouse_Inven))// 거리의 크기가 rect 의 크기보다 작으면 인벤토리 안쪽
             {
-                if (enhancerUIRectTransform.rect.Contains(distance_BetweenMouse_enhancerUI) && GameManager.Item_Enhancer.EnhancerState == EnhancerState.Open)//inhancerUI열려있으면 return
+                if (enhancerUIRectTransform.rect.Contains(distance_BetweenMouse_enhancerUI) && GameManager.Enhancer.EnhancerState == EnhancerState.Open)//inhancerUI열려있으면 return
                 {
                     return;
                 }
@@ -315,6 +317,23 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             }
         }
 
+        return result;
+    }
+    public bool AddItem(ItemData_Enhancable data)
+    {
+        bool result = false;
+        // 같은 종류의 아이템이 없다.
+        Slot emptySlot = FindEmptySlot(data);
+        if (emptySlot != null)
+        {
+            emptySlot.AssignSlotItem(data); // 빈슬롯이 있으면 아이템 하나 할당
+            result = true;
+        }
+        else
+        {
+            // 비어있는 슬롯이 없다.
+            //Debug.Log("아이템 추가 실패 : 인벤토리가 가득 차있습니다.");
+        }
         return result;
     }
     public void RemoveItem(ItemData data, uint slotIndex, uint decreaseCount = 1)

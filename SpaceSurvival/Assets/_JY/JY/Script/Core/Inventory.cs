@@ -21,6 +21,7 @@ public class Inventory : MonoBehaviour
     public GameObject Etc_Inven;
     public GameObject Craft_Inven;
     public Item_Enhancer ItemEnhancer;
+    Item_Mixer mixer;
 
     GameObject ItemDescription;
 
@@ -33,6 +34,7 @@ public class Inventory : MonoBehaviour
     Button craft_Button;
     Button sort_Button;
     Button enhance_Button;
+    Button mixer_Button;
 
     Image equipButtonColor;
     Image consumeButtonColor;
@@ -40,7 +42,6 @@ public class Inventory : MonoBehaviour
     Image craftButtonColor;
 
     bool is_Inventory_Open = false;
-    public bool is_Initialized;
 
     public delegate void Inventory_State_Changed(Current_Inventory_State state); //state가 바뀌면 setter가 호출할 delegate
     Inventory_State_Changed inventory_changed;
@@ -66,6 +67,8 @@ public class Inventory : MonoBehaviour
         add_Button = toolBar.GetChild(1).GetComponent<Button>();
         sort_Button = transform.GetChild(0).GetChild(2).GetComponent<Button>();
         enhance_Button = toolBar.GetChild(3).GetComponent<Button>();
+        mixer_Button = transform.GetChild(4).GetComponent<Button>();
+
         equip_Button = transform.GetChild(1).GetComponent<Button>();
         consume_Button = transform.GetChild(2).GetComponent<Button>();
         etc_Button = transform.GetChild(3).GetComponent<Button>();
@@ -106,12 +109,18 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         GameManager.SlotManager.Initialize();
-        enhance_Button.onClick.AddListener(EnhancerOpen);//enable, Awake에서는 안됨
+        enhance_Button.onClick.AddListener(Open_Enhancer);//enable, Awake에서는 안됨
+        mixer = GameManager.Mixer;
     }
-    void EnhancerOpen()
+    void Open_Enhancer()
     {
-        GameManager.Item_Enhancer.EnhancerState = EnhancerState.Open;
+        GameManager.Enhancer.EnhancerState = EnhancerState.Open;
     }
+    void Open_Mixer()
+    {
+        mixer.MixerState = ItemMixerState.Open;
+    }
+
     void Update_State(Current_Inventory_State state)
     {
         equipButtonColor.color = Color.white;

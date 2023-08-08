@@ -49,7 +49,7 @@ public class OptionsListButton : MonoBehaviour
 
     public void TitleAction()
     {
-        LoadingScean.SceanLoading(EnumList.SceanName.TITLE);
+        LoadingScean.SceanLoading(EnumList.SceneName.TITLE);
     }
 
     

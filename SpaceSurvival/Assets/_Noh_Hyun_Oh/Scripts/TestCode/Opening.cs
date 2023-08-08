@@ -6,10 +6,10 @@ using UnityEngine;
 public class Opening : MonoBehaviour
 {
     [SerializeField]
-    private EnumList.SceanName scean = EnumList.SceanName.TITLE;
+    private EnumList.SceneName scene = EnumList.SceneName.TITLE;
     private void Start()
     {
-        LoadingScean.SceanLoading(scean);
+        LoadingScean.SceanLoading(scene);
     }
 
 }

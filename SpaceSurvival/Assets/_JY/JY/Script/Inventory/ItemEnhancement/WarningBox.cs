@@ -25,7 +25,7 @@ public class WarningBox : MonoBehaviour
     void Start()
     {
 
-        item_Enhancer = GameManager.Item_Enhancer;
+        item_Enhancer = GameManager.Enhancer;
         item_Enhancer.onConfirmButtonClick += Open;
         item_Enhancer.onWaitforResult += Close;
         confirmButton.onClick.AddListener(() => item_Enhancer.EnhancerState = EnhancerState.WaitforResult);

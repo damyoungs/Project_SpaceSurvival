@@ -357,7 +357,7 @@ public class SaveLoadManager : ChildComponentSingeton<SaveLoadManager> {
     private void SetDefaultInfo(JsonGameData saveData , int index) {
         saveData.DataIndex = index;  ///파일인덱스 저장
         saveData.SaveTime = DateTime.Now.ToString();// 저장되는 시간을 저장한다
-        saveData.SceanName = (EnumList.SceanName)SceneManager.GetActiveScene().buildIndex; //씬이름을 저장한다.
+        saveData.SceanName = (EnumList.SceneName)SceneManager.GetActiveScene().buildIndex; //씬이름을 저장한다.
     }
 
     /// <summary>

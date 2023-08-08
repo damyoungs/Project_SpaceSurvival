@@ -10,21 +10,25 @@ public class GameManager : MonoBehaviour
     public PlayerDummy player;
     public Inventory inventory;
     public SlotManager slotManager;
-    public ItemDropTable itemSpawner;
+    public ItemSpawner itemSpawner;
     public Item_Enhancer enhancer;
+    public Item_Mixer mixer;
 
     ItemDataManager itemDataManager;
     
     public static ItemDataManager Itemdata { get { return Inst.itemDataManager; } }
     public static Inventory Inventory { get { return Inst.inventory; } }
     public static SlotManager SlotManager { get { return Inst.slotManager; } }
-    public static ItemDropTable Item_Spawner { get { return Inst.itemSpawner; } }
+    public static ItemSpawner Item_Spawner { get { return Inst.itemSpawner; } }
     public static PlayerDummy playerDummy { get { return Inst.player; } }
-    public static Item_Enhancer Item_Enhancer { get { return Inst.enhancer; } }
+    public static Item_Enhancer Enhancer { get { return Inst.enhancer; } }
+    public static Item_Mixer Mixer { get { return Inst.mixer; } }
 
     private void Awake()
     {
+        Init();
         itemDataManager = GetComponent<ItemDataManager>();
+
     }
     static void Init()
     {
