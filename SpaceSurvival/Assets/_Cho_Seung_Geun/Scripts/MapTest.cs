@@ -376,41 +376,39 @@ public class MapTest : TestBase
     {
         GameObject obj = Instantiate(multiProps[chooseProp]);           // 구조물 생성
         PropData objData = obj.GetComponent<PropData>();                // 구조물의 데이터 반환
-        Tile[] tempTile = new Tile[objData.width * objData.length];
-        bool isSuccess = false;                                         // 구조물 이동에 성공했는지 여부
-        int trialCount = 0;
+        Tile[] tempTile = new Tile[objData.width * objData.length];     // 타일 체크 시 담아놓을 임시 배열(구조물의 가로와 세로 길이의 곱과 같다)
+        bool isSuccess = false;                                         // 구조물 이동이 가능한지 여부
 
         // 생성 가능한 위치에 구조물 이동 및 배열 추가
         while (!isSuccess)
         {
-            Tile tile = GetTile(Random.Range(index1, index2), Random.Range(index3, index4));
-            int randomRotation = Random.Range(0, 4);
-            trialCount++;
-            for (int count = 0; count < 4; count++)
+            Tile tile = GetTile(Random.Range(index1, index2), Random.Range(index3, index4));        // 구조물을 놓을 랜덤 위치의 타일을 가져오고
+            int randomRotation = Random.Range(0, 4);                                                // 생성 시 배치될 랜덤 회전 (0 ~ 3). y축 기준.
+            for (int count = 0; count < 4; count++)                         // (0, 90, 180, 270)도의 회전을 해야하기에 4번 돌린다.
             {
-                randomRotation++;
-                randomRotation %= 4;
-                int tileCount = 0;
-                for (int i = 0; i < objData.width; i++)
+                randomRotation++;                                           // 나중에 회전 각을 맞추기 위해 앞으로 당겨 놓음(중요하지 않음)
+                randomRotation %= 4;                                        // 랜덤로테이션 값이 계속 0~3 이 되도록 지정
+                int tileCount = 0;                                          // 체크한 타일의 개수를 세기 위한 값
+                for (int i = 0; i < objData.width; i++)         // 구조물의 가로 길이 만큼 반복 돌리기
                 {
-                    for (int j = 0; j < objData.length; j++)
+                    for (int j = 0; j < objData.length; j++)    // 구조물의 세로 길이 만큼 반복 돌리기
                     {
-                        switch (randomRotation)
+                        switch (randomRotation)         // 회전 정도에 따라 체크해야할 타일의 인덱스가 달라지기 때문에 각자 맞춰 계산하도록 돌림
                         {
-                            case 0:
-                                if (GetTile(tile.Width + i, tile.Length + j).ExistType == Tile.TileExistType.prop || 
-                                    GetTile(tile.Width + i, tile.Length + j).TileType == Tile.MapTileType.sideTile ||
-                                    GetTile(tile.Width + i, tile.Length + j).TileType == Tile.MapTileType.vertexTile)
+                            case 0:         // 회전이 0도일 때
+                                if (GetTile(tile.Width + i, tile.Length + j).ExistType == Tile.TileExistType.prop ||    // 타일에 구조물이 놓여있거나
+                                    GetTile(tile.Width + i, tile.Length + j).TileType == Tile.MapTileType.sideTile ||   // 타일이 사이드 타일이거나
+                                    GetTile(tile.Width + i, tile.Length + j).TileType == Tile.MapTileType.vertexTile)   // 꼭지점 타일인 경우
                                 {
-                                    i = objData.width;
-                                    j = objData.length;
-                                    break;
+                                    i = objData.width;          // 가로축 for문 탈출을 위한 최대값 지정
+                                    j = objData.length;         // 세로축 for문 탈을을 위한 최대값 지정
+                                    break;                      // switch문 탈출
                                 }
-                                tempTile[i * objData.length + j] = GetTile(tile.Width + i, tile.Length + j);
-                                //GetTile(tile.Width + i, tile.Length + j).ExistType = Tile.TileExistType.prop;
-                                break;
-                            case 1:
-                                if (GetTile(tile.Width + j, tile.Length - i).ExistType == Tile.TileExistType.prop ||
+                                tempTile[i * objData.length + j] = GetTile(tile.Width + i, tile.Length + j);    // 위의 경우에 해당하지 않으면 임시 배열에 타일 저장
+                                tileCount++;                                                           // 몇 개의 타일을 체크했는지 확인하기 위해 타일 카운트 증가
+                                break;                                                                 // switch문 탈출
+                            case 1:         // 회전이 90도 일 때
+                                if (GetTile(tile.Width + j, tile.Length - i).ExistType == Tile.TileExistType.prop ||        // 위와 동일
                                     GetTile(tile.Width + j, tile.Length - i).TileType == Tile.MapTileType.sideTile ||
                                     GetTile(tile.Width + j, tile.Length - i).TileType == Tile.MapTileType.vertexTile)
                                 {
@@ -418,11 +416,11 @@ public class MapTest : TestBase
                                     j = objData.length;
                                     break;
                                 }
-                                tempTile[i * objData.length + j] = GetTile(tile.Width + j, tile.Length - j);
-                                //GetTile(tile.Width + j, tile.Length - i).ExistType = Tile.TileExistType.prop;
+                                tempTile[i * objData.length + j] = GetTile(tile.Width + j, tile.Length - i);
+                                tileCount++;
                                 break;
-                            case 2:
-                                if (GetTile(tile.Width - i, tile.Length - j).ExistType == Tile.TileExistType.prop ||
+                            case 2:         // 회전이 180도 일 때
+                                if (GetTile(tile.Width - i, tile.Length - j).ExistType == Tile.TileExistType.prop ||        // 위와 동일
                                     GetTile(tile.Width - i, tile.Length - j).TileType == Tile.MapTileType.sideTile ||
                                     GetTile(tile.Width - i, tile.Length - j).TileType == Tile.MapTileType.vertexTile)
                                 {
@@ -431,10 +429,10 @@ public class MapTest : TestBase
                                     break;
                                 }
                                 tempTile[i * objData.length + j] = GetTile(tile.Width - i, tile.Length - j);
-                                //GetTile(tile.Width - i, tile.Length - j).ExistType = Tile.TileExistType.prop;
+                                tileCount++;
                                 break;
-                            case 3:
-                                if (GetTile(tile.Width - j, tile.Length + i).ExistType == Tile.TileExistType.prop ||
+                            case 3:         // 회전이 270도 일 때
+                                if (GetTile(tile.Width - j, tile.Length + i).ExistType == Tile.TileExistType.prop ||        // 위와 동일
                                     GetTile(tile.Width - j, tile.Length + i).TileType == Tile.MapTileType.sideTile ||
                                     GetTile(tile.Width - j, tile.Length + i).TileType == Tile.MapTileType.vertexTile)
                                 {
@@ -443,40 +441,33 @@ public class MapTest : TestBase
                                     break;
                                 }
                                 tempTile[i * objData.length + j] = GetTile(tile.Width - j, tile.Length + i);
-                                //GetTile(tile.Width - j, tile.Length + i).ExistType = Tile.TileExistType.prop;
+                                tileCount++;
                                 break;
                             default:
                                 break;
-                        }
-                        tileCount++;
+                        }       // switch문 끝
+                    }       // 세로 for문 (j) 끝
+                }       // 가로 for문 (i) 끝
 
-                    }
-                }
-                if (tileCount == objData.width * objData.length)
+                if (tileCount == objData.width * objData.length)    // 만약 체크한 타일의 개수와 체크해야 할 타일의 개수가 같다면
                 {
-                    isSuccess = true;
-                    count = 4;
+                    isSuccess = true;           // 이동이 가능한 것으로 변경
+                    count = 4;                  // 회전을 위해 돌리는 for문을 탈출하기 위해 최대치인 4로 설정
                 }
-            }
+            }           // 회전을 위해 사용하는 for문 (count) 끝
 
-            if (!isSuccess && trialCount == 100)
+            if (isSuccess)      // 만약 이동이 가능하다면
             {
-                Debug.Log($"가로 {index1} ~ {index2}, 세로 {index3} ~ {index4} 범위에 공간이 없어 프롭 생성에 실패");
-                Destroy(obj);
-                break;
+                obj.transform.position = tile.transform.position;                                   // 그 타일의 위치로 구조물을 이동시켜 주고
+                obj.transform.rotation = Quaternion.Euler(0.0f, 90.0f * randomRotation, 0.0f);      // 구조물을 회전시킨다.
+                props.Add(obj);                                                                     // 구조물 배열에 추가
+                break;                  // while 반복문 탈출
             }
+        }       // while 반복문 끝
 
-            if (isSuccess)
-            {
-                obj.transform.position = tile.transform.position;
-                obj.transform.rotation = Quaternion.Euler(0.0f, 90.0f * randomRotation, 0.0f);
-                props.Add(obj);
-                break;
-            }
-        }
-        for (int i = 0; i < tempTile.Length; i++)
+        for (int i = 0; i < tempTile.Length; i++)           // 필요한 타일을 담아놓은 배열을 순환시키며
         {
-            tempTile[i].ExistType = Tile.TileExistType.prop;
+            tempTile[i].ExistType = Tile.TileExistType.prop;        // 그 타일은 구조물이 있음을 표시
         }
     }
 
