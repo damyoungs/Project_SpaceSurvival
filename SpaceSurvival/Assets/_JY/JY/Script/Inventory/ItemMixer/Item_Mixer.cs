@@ -31,20 +31,24 @@ public class Item_Mixer : MonoBehaviour
 
     Mixer_Slot_Left left_Slot;
     Mixer_Slot_Middle middle_Slot;
+    Mixer_Slot_Result result_Slot;
 
     ItemData leftSlotData = null;
     ItemData middleSlotData = null;
 
     public Action<ItemData> onLeftSlotDataChange;
     public Action<ItemData> onMiddleSlotDataChange;
+
+    //일단 먼저 할당을 한 후 비교해서 다르면 삭제해야함. 추가할 때부터 비교를해서 하려면 초기에 아이템이 추가가 안되는 문제가 있음
     public ItemData LeftSLotData
     {
         get => leftSlotData;
         set
         {
-            if (leftSlotData != value)
+            if (leftSlotData != value) 
             {
                 leftSlotData = value;
+                CheckBothSlot();
                 onLeftSlotDataChange?.Invoke(leftSlotData);
             }
         }
@@ -57,10 +61,31 @@ public class Item_Mixer : MonoBehaviour
             if (middleSlotData != value)
             {
                 middleSlotData = value;
+                CheckBothSlot();
                 onMiddleSlotDataChange?.Invoke(middleSlotData);
             }
         }
     }
+    void CheckBothSlot()
+    {
+        if (leftSlotData != null && middleSlotData != null)//두 슬롯 모두 셋팅 되었다면 
+        {
+            if (leftSlotData.ItemType == middleSlotData.ItemType)//두슬롯 아이템의 타입이 같다면 
+            {
+                MiddleSlotData = null;
+            }
+            else
+            {
+                MixerState = ItemMixerState.SetItem;
+            }
+        }
+    }
+    //bool CompareSlotData()
+    //{
+    //    bool result = false;
+    //    if (leftSlotData.ItemType)
+    //    return result;
+    //}
     ItemMixerState mixerState;
     public ItemMixerState MixerState
     {
@@ -111,6 +136,7 @@ public class Item_Mixer : MonoBehaviour
         MixerState = ItemMixerState.Close;
         left_Slot = GetComponentInChildren<Mixer_Slot_Left>();
         middle_Slot = GetComponentInChildren<Mixer_Slot_Middle>();
+        result_Slot = GetComponentInChildren<Mixer_Slot_Result>();
 
         left_Slot.onClearLeftSlot += () => LeftSLotData = null;
         middle_Slot.onClearMiddleSlot += () => MiddleSlotData = null;
