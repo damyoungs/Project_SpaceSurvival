@@ -2,6 +2,7 @@
 using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -375,13 +376,16 @@ public class MapTest : TestBase
     {
         GameObject obj = Instantiate(multiProps[chooseProp]);           // 구조물 생성
         PropData objData = obj.GetComponent<PropData>();                // 구조물의 데이터 반환
+        Tile[] tempTile = new Tile[objData.width * objData.length];
         bool isSuccess = false;                                         // 구조물 이동에 성공했는지 여부
+        int trialCount = 0;
 
         // 생성 가능한 위치에 구조물 이동 및 배열 추가
         while (!isSuccess)
         {
             Tile tile = GetTile(Random.Range(index1, index2), Random.Range(index3, index4));
             int randomRotation = Random.Range(0, 4);
+            trialCount++;
             for (int count = 0; count < 4; count++)
             {
                 randomRotation++;
@@ -402,7 +406,8 @@ public class MapTest : TestBase
                                     j = objData.length;
                                     break;
                                 }
-                                GetTile(tile.Width + i, tile.Length + j).ExistType = Tile.TileExistType.prop;
+                                tempTile[i * objData.length + j] = GetTile(tile.Width + i, tile.Length + j);
+                                //GetTile(tile.Width + i, tile.Length + j).ExistType = Tile.TileExistType.prop;
                                 break;
                             case 1:
                                 if (GetTile(tile.Width + j, tile.Length - i).ExistType == Tile.TileExistType.prop ||
@@ -413,7 +418,8 @@ public class MapTest : TestBase
                                     j = objData.length;
                                     break;
                                 }
-                                GetTile(tile.Width + j, tile.Length - i).ExistType = Tile.TileExistType.prop;
+                                tempTile[i * objData.length + j] = GetTile(tile.Width + j, tile.Length - j);
+                                //GetTile(tile.Width + j, tile.Length - i).ExistType = Tile.TileExistType.prop;
                                 break;
                             case 2:
                                 if (GetTile(tile.Width - i, tile.Length - j).ExistType == Tile.TileExistType.prop ||
@@ -424,7 +430,8 @@ public class MapTest : TestBase
                                     j = objData.length;
                                     break;
                                 }
-                                GetTile(tile.Width - i, tile.Length - j).ExistType = Tile.TileExistType.prop;
+                                tempTile[i * objData.length + j] = GetTile(tile.Width - i, tile.Length - j);
+                                //GetTile(tile.Width - i, tile.Length - j).ExistType = Tile.TileExistType.prop;
                                 break;
                             case 3:
                                 if (GetTile(tile.Width - j, tile.Length + i).ExistType == Tile.TileExistType.prop ||
@@ -435,7 +442,8 @@ public class MapTest : TestBase
                                     j = objData.length;
                                     break;
                                 }
-                                GetTile(tile.Width - j, tile.Length + i).ExistType = Tile.TileExistType.prop;
+                                tempTile[i * objData.length + j] = GetTile(tile.Width - j, tile.Length + i);
+                                //GetTile(tile.Width - j, tile.Length + i).ExistType = Tile.TileExistType.prop;
                                 break;
                             default:
                                 break;
@@ -451,6 +459,13 @@ public class MapTest : TestBase
                 }
             }
 
+            if (!isSuccess && trialCount == 100)
+            {
+                Debug.Log($"가로 {index1} ~ {index2}, 세로 {index3} ~ {index4} 범위에 공간이 없어 프롭 생성에 실패");
+                Destroy(obj);
+                break;
+            }
+
             if (isSuccess)
             {
                 obj.transform.position = tile.transform.position;
@@ -458,6 +473,10 @@ public class MapTest : TestBase
                 props.Add(obj);
                 break;
             }
+        }
+        for (int i = 0; i < tempTile.Length; i++)
+        {
+            tempTile[i].ExistType = Tile.TileExistType.prop;
         }
     }
 
