@@ -28,7 +28,16 @@ public enum ItemCode// 밑의 ItemData 배열과 같은 순서를 유지해야 알맞은 프리팹을
     Enhancable_Sword,
     TwoHandAxe,
     TwoHandSword,
-    Wand
+    Wand,
+    BlueCrystal,
+    DarkCrystal,
+    EmeraldCrystal,
+    Green_Crystal,
+    Pink_Crystal,
+    Purple_Crystal,
+    Red_Crystal,
+    Unknown_Crystal,
+    Yellow_Crystal
 }
 public enum ItemType
 {

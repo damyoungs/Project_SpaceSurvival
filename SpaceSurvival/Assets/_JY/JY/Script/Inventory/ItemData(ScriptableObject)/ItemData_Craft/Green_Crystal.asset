@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ceb22d601c6195445b654ca66909ef60, type: 3}
   m_Name: Green_Crystal
   m_EditorClassIdentifier: 
-  ItemType: 0
-  code: 0
-  itemName: "\uC544\uC774\uD15C"
-  modelPrefab: {fileID: 0}
+  ItemType: 4
+  code: 28
+  itemName: Green_Crystal
+  modelPrefab: {fileID: 1060798243747592077, guid: a080cd8fd00b0e642b23086fefa4cfbc, type: 3}
   itemIcon: {fileID: 0}
-  price: 0
+  price: 50000
   maxStackCount: 1
   itemDescription: "\uC124\uBA85"
-  CraftType: 0
+  CraftType: 3
   successRate: 0

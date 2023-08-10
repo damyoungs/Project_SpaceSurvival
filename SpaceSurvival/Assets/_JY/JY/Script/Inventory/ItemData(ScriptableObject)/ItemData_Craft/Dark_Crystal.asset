@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ceb22d601c6195445b654ca66909ef60, type: 3}
   m_Name: Dark_Crystal
   m_EditorClassIdentifier: 
-  ItemType: 0
-  code: 0
-  itemName: "\uC544\uC774\uD15C"
-  modelPrefab: {fileID: 0}
+  ItemType: 4
+  code: 26
+  itemName: Dark_Crystal
+  modelPrefab: {fileID: 2198443058366256209, guid: 210d52d0b121b1d4dbc04ac2b92ac4d6, type: 3}
   itemIcon: {fileID: 0}
-  price: 0
-  maxStackCount: 1
+  price: 50000
+  maxStackCount: 20
   itemDescription: "\uC124\uBA85"
-  CraftType: 0
+  CraftType: 1
   successRate: 0
