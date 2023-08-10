@@ -9,7 +9,6 @@ public class ItemData_Enhancable : ItemData_Equip, IEnhancable
     public byte itemLevel;
     public EnhanceType enhanceType;
 
-    
     byte priviousLevel;
     public byte Itemlevel
     {

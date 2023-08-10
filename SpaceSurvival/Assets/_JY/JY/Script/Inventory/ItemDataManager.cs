@@ -50,6 +50,18 @@ public enum ItemSortBy
     Name,  
     Price, 
 }
+public enum CraftType
+{
+    Blue_Crystal = 0,
+    Dark_Crystal,
+    Emerald_Crystal,
+    Green_Crystal,
+    Pink_Crystal,
+    Purple_Crystal,
+    Red_Crystal,
+    Unknown_Crystal,
+    Yellow_Crystal
+}
 
 public class ItemDataManager : MonoBehaviour
 {
