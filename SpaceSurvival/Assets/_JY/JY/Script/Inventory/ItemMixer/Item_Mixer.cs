@@ -70,7 +70,7 @@ public class Item_Mixer : MonoBehaviour
     {
         if (leftSlotData != null && middleSlotData != null)//두 슬롯 모두 셋팅 되었다면 
         {
-            if (leftSlotData.ItemType == middleSlotData.ItemType)//두슬롯 아이템의 타입이 같다면 
+            if (leftSlotData.itemName == middleSlotData.itemName)//두슬롯 아이템의 타입이 같다면 
             {
                 MiddleSlotData = null;
             }
@@ -102,7 +102,8 @@ public class Item_Mixer : MonoBehaviour
                     onOpen?.Invoke();
                     break;
                 case ItemMixerState.SetItem:
-                //    onSetItem?.Invoke(ItemData);
+                    //    onSetItem?.Invoke(ItemData);
+                    Debug.Log("SetItem");
                     break;
                 case ItemMixerState.Confirm:
                     //if (ItemData != null)
