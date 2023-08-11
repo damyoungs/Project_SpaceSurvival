@@ -19,6 +19,6 @@ MonoBehaviour:
   itemIcon: {fileID: 21300000, guid: e4f0090e0558a074ead661f9555260ee, type: 3}
   price: 50000
   maxStackCount: 20
-  itemDescription: "\uC124\uBA85"
+  itemDescription: "\uBABD\uD658\uC801\uC778 \uB290\uB08C\uC758 \uD06C\uB9AC\uC2A4\uD0C8\uC774\uB2E4."
   CraftType: 5
   successRate: 0

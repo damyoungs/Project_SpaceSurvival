@@ -12,8 +12,6 @@ public class MixerDescription : MonoBehaviour
 
     public Image itemIcon;
     public TextMeshProUGUI itemName;
-    public TextMeshProUGUI attackPointText;
-    public TextMeshProUGUI defencePointText;
     public CanvasGroup canvasGroup;
     public TextMeshProUGUI itemDescription;
 
@@ -37,27 +35,24 @@ public class MixerDescription : MonoBehaviour
     //pause, open, close,
     private void Start()
     {
-
         Mixer_Slot_Left leftSlot;
         Mixer_Slot_Middle middleSlot;
         leftSlot = GameManager.Mixer.MixerUI.Left_Slot;
         middleSlot = GameManager.Mixer.MixerUI.Middle_Slot;
 
-       // leftSlot.onPointerEnter += Open_LeftSlot_Description;
-       // middleSlot.onPointerEnter += Open_MiddleSlot_Description;
+        leftSlot.onPointerEnter += Open_LeftSlot_Description;
+        middleSlot.onPointerEnter += Open_MiddleSlot_Description;
         leftSlot.onPointerExit += Close;
         middleSlot.onPointerExit += Close;
         leftSlot.onPointerMove += MovePosition;
         middleSlot.onPointerMove += MovePosition;
     }
-    public void Open_LeftSlot_Description(ItemData_Enhancable data)
+    public void Open_LeftSlot_Description(ItemData data)
     {
         if (!isPause && data != null)
         {
             itemIcon.sprite = data.itemIcon;
             itemName.text = data.itemName;
-            attackPointText.text = $"{data.attackPoint}";
-            defencePointText.text = $"{data.defencePoint}";
             itemDescription.text = $"{data.itemDescription}";
             StopAllCoroutines();
             StartCoroutine(FadeIn());
@@ -65,16 +60,12 @@ public class MixerDescription : MonoBehaviour
             MovePosition(Mouse.current.position.ReadValue());
         }
     }
-    public void Open_MiddleSlot_Description(ItemData_Enhancable data)
+    public void Open_MiddleSlot_Description(ItemData data)
     {
-        data.Calculate_LevelUp_Result_Value(out uint resultAttackPoint, out uint resultDefencePoint, out string itemname);
-
         if (!isPause && data != null)
         {
             itemIcon.sprite = data.itemIcon;
-            itemName.text = itemname;
-            attackPointText.text = $"{resultAttackPoint}";
-            defencePointText.text = $"{resultDefencePoint}";
+            itemName.text = data.itemName;
             itemDescription.text = $"{data.itemDescription}";
             StopAllCoroutines();
             StartCoroutine(FadeIn());

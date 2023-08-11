@@ -8,11 +8,11 @@ public class ItemData : ScriptableObject
     [Header("아이템 기본 데이터")]
     public ItemType ItemType;
     public ItemCode code;                      
-    public string itemName = "아이템";         
+    public string itemName;         
     public GameObject modelPrefab;            
     public Sprite itemIcon;                   
     public uint price = 0;                    
     public uint maxStackCount = 1;            
-    public string itemDescription = "설명";
+    public string itemDescription;
  
 }
