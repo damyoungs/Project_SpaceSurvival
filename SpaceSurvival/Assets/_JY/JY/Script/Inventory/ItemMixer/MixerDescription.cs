@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,14 +8,14 @@ using UnityEngine.UI;
 
 public class MixerDescription : MonoBehaviour
 {
- 
+
 
     public Image itemIcon;
     public TextMeshProUGUI itemName;
-    public TextMeshProUGUI itemLevel;
     public TextMeshProUGUI attackPointText;
     public TextMeshProUGUI defencePointText;
     public CanvasGroup canvasGroup;
+    public TextMeshProUGUI itemDescription;
 
     bool isPause = false;
 
@@ -37,44 +38,44 @@ public class MixerDescription : MonoBehaviour
     private void Start()
     {
 
-        Enhancer_Slot_Before beforeSlot;
-        Enhancer_Slot_After afterSlot;
-        beforeSlot = GameManager.Enhancer.EnhancerUI.BeforeSlot;
-        afterSlot = GameManager.Enhancer.EnhancerUI.AfterSlot;
+        Mixer_Slot_Left leftSlot;
+        Mixer_Slot_Middle middleSlot;
+        leftSlot = GameManager.Mixer.MixerUI.Left_Slot;
+        middleSlot = GameManager.Mixer.MixerUI.Middle_Slot;
 
-        beforeSlot.onPointerEnter += Open_BeforeSlotDescription;
-        afterSlot.onPointerEnter += Open_AfterSlotDescription;
-        beforeSlot.onPointerExit += Close;
-        afterSlot.onPointerExit += Close;
-        beforeSlot.onPointerMove += MovePosition;
-        afterSlot.onPointerMove += MovePosition;
+       // leftSlot.onPointerEnter += Open_LeftSlot_Description;
+       // middleSlot.onPointerEnter += Open_MiddleSlot_Description;
+        leftSlot.onPointerExit += Close;
+        middleSlot.onPointerExit += Close;
+        leftSlot.onPointerMove += MovePosition;
+        middleSlot.onPointerMove += MovePosition;
     }
-    public void Open_BeforeSlotDescription(ItemData_Enhancable data)
+    public void Open_LeftSlot_Description(ItemData_Enhancable data)
     {
         if (!isPause && data != null)
         {
             itemIcon.sprite = data.itemIcon;
             itemName.text = data.itemName;
-            itemLevel.text = $"{data.itemLevel}";
             attackPointText.text = $"{data.attackPoint}";
             defencePointText.text = $"{data.defencePoint}";
+            itemDescription.text = $"{data.itemDescription}";
             StopAllCoroutines();
             StartCoroutine(FadeIn());
 
             MovePosition(Mouse.current.position.ReadValue());
-        }       
+        }
     }
-    public void Open_AfterSlotDescription(ItemData_Enhancable data)
+    public void Open_MiddleSlot_Description(ItemData_Enhancable data)
     {
         data.Calculate_LevelUp_Result_Value(out uint resultAttackPoint, out uint resultDefencePoint, out string itemname);
-    
+
         if (!isPause && data != null)
         {
             itemIcon.sprite = data.itemIcon;
             itemName.text = itemname;
-            itemLevel.text = $"{data.itemLevel + 1}";
             attackPointText.text = $"{resultAttackPoint}";
             defencePointText.text = $"{resultDefencePoint}";
+            itemDescription.text = $"{data.itemDescription}";
             StopAllCoroutines();
             StartCoroutine(FadeIn());
 
@@ -97,11 +98,11 @@ public class MixerDescription : MonoBehaviour
 
             transform.position = screenPos;
         }
-        
+
     }
     IEnumerator FadeIn()
     {
-        while(canvasGroup.alpha < 1.0f)
+        while (canvasGroup.alpha < 1.0f)
         {
             canvasGroup.alpha += Time.deltaTime * alphaChangeSpeed;
             yield return null;
@@ -118,6 +119,6 @@ public class MixerDescription : MonoBehaviour
         }
         canvasGroup.alpha = 0.0f;
         yield break;
-     
+
     }
 }

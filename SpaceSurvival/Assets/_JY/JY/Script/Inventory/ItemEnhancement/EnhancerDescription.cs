@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class EnhancerDescription : MonoBehaviour
 {
- 
+
 
     public Image itemIcon;
     public TextMeshProUGUI itemName;
@@ -62,12 +62,12 @@ public class EnhancerDescription : MonoBehaviour
             StartCoroutine(FadeIn());
 
             MovePosition(Mouse.current.position.ReadValue());
-        }       
+        }
     }
     public void Open_AfterSlotDescription(ItemData_Enhancable data)
     {
         data.Calculate_LevelUp_Result_Value(out uint resultAttackPoint, out uint resultDefencePoint, out string itemname);
-    
+
         if (!isPause && data != null)
         {
             itemIcon.sprite = data.itemIcon;
@@ -97,11 +97,11 @@ public class EnhancerDescription : MonoBehaviour
 
             transform.position = screenPos;
         }
-        
+
     }
     IEnumerator FadeIn()
     {
-        while(canvasGroup.alpha < 1.0f)
+        while (canvasGroup.alpha < 1.0f)
         {
             canvasGroup.alpha += Time.deltaTime * alphaChangeSpeed;
             yield return null;
@@ -118,6 +118,6 @@ public class EnhancerDescription : MonoBehaviour
         }
         canvasGroup.alpha = 0.0f;
         yield break;
-     
+
     }
 }
