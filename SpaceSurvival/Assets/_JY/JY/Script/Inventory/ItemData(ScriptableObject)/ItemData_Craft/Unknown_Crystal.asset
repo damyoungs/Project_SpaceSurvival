@@ -15,8 +15,8 @@ MonoBehaviour:
   ItemType: 4
   code: 32
   itemName: Unknown_Crystal
-  modelPrefab: {fileID: 8547921423628049635, guid: 82d08bade9e641941af54c23b29a635c, type: 3}
-  itemIcon: {fileID: 0}
+  modelPrefab: {fileID: 8096881631137310666, guid: 82d08bade9e641941af54c23b29a635c, type: 3}
+  itemIcon: {fileID: 21300000, guid: bce4d03b5168af846aa6e763bf2fdaa1, type: 3}
   price: 50000
   maxStackCount: 20
   itemDescription: "\uC124\uBA85"

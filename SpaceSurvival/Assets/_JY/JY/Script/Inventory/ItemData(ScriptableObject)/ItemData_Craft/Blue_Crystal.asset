@@ -15,8 +15,8 @@ MonoBehaviour:
   ItemType: 4
   code: 25
   itemName: Blue_Crystal
-  modelPrefab: {fileID: 5270564487184040980, guid: 8a527af320ea8324d826c32782091083, type: 3}
-  itemIcon: {fileID: 0}
+  modelPrefab: {fileID: 6873021976996181778, guid: 8a527af320ea8324d826c32782091083, type: 3}
+  itemIcon: {fileID: 21300000, guid: b5f167dd4bf49384b897db5388f1b04d, type: 3}
   price: 50000
   maxStackCount: 20
   itemDescription: "\uC124\uBA85"

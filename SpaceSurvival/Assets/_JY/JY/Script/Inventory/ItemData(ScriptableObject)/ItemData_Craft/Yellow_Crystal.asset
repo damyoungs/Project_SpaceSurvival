@@ -15,8 +15,8 @@ MonoBehaviour:
   ItemType: 4
   code: 33
   itemName: Yellow_Crystal
-  modelPrefab: {fileID: 3804049515708461396, guid: 89d6174da7ce2df48a8d14494ed410dc, type: 3}
-  itemIcon: {fileID: 0}
+  modelPrefab: {fileID: 2684661518406936468, guid: 89d6174da7ce2df48a8d14494ed410dc, type: 3}
+  itemIcon: {fileID: 21300000, guid: 9905b439cfdab734381a48991d7488f1, type: 3}
   price: 50000
   maxStackCount: 20
   itemDescription: "\uC124\uBA85"

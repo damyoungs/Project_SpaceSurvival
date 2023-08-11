@@ -15,8 +15,8 @@ MonoBehaviour:
   ItemType: 4
   code: 29
   itemName: Pink_Crystal
-  modelPrefab: {fileID: 8315220198390217956, guid: 1592c4f3221168a4e88755af5aed6229, type: 3}
-  itemIcon: {fileID: 0}
+  modelPrefab: {fileID: 3014423659470748107, guid: 1592c4f3221168a4e88755af5aed6229, type: 3}
+  itemIcon: {fileID: 21300000, guid: a67ac5c05b4131044a33e706c2cca4d5, type: 3}
   price: 50000
   maxStackCount: 20
   itemDescription: "\uC124\uBA85"

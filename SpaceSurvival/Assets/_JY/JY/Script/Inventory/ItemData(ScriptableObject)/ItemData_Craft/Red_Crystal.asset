@@ -15,8 +15,8 @@ MonoBehaviour:
   ItemType: 4
   code: 31
   itemName: Red_Crystal
-  modelPrefab: {fileID: 501703933728366958, guid: c41a2280566e1ac4191d0f251fc78011, type: 3}
-  itemIcon: {fileID: 0}
+  modelPrefab: {fileID: 4056250787380624432, guid: c41a2280566e1ac4191d0f251fc78011, type: 3}
+  itemIcon: {fileID: 21300000, guid: f6e834b8e0f64c94b86c04a9a2eb7f90, type: 3}
   price: 50000
   maxStackCount: 20
   itemDescription: "\uC124\uBA85"

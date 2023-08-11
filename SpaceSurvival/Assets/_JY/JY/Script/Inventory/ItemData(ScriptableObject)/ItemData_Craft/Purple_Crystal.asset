@@ -15,8 +15,8 @@ MonoBehaviour:
   ItemType: 4
   code: 30
   itemName: Purple_Crystal
-  modelPrefab: {fileID: 2236524216280513323, guid: 9bed7a942c212a2419178025f5111c00, type: 3}
-  itemIcon: {fileID: 0}
+  modelPrefab: {fileID: 3299021114884497837, guid: 9bed7a942c212a2419178025f5111c00, type: 3}
+  itemIcon: {fileID: 21300000, guid: e4f0090e0558a074ead661f9555260ee, type: 3}
   price: 50000
   maxStackCount: 20
   itemDescription: "\uC124\uBA85"

@@ -15,8 +15,8 @@ MonoBehaviour:
   ItemType: 4
   code: 26
   itemName: Dark_Crystal
-  modelPrefab: {fileID: 2198443058366256209, guid: 210d52d0b121b1d4dbc04ac2b92ac4d6, type: 3}
-  itemIcon: {fileID: 0}
+  modelPrefab: {fileID: 6908865126937266999, guid: 210d52d0b121b1d4dbc04ac2b92ac4d6, type: 3}
+  itemIcon: {fileID: 21300000, guid: 980510ec89aa59d48a25c395e4bb5ecb, type: 3}
   price: 50000
   maxStackCount: 20
   itemDescription: "\uC124\uBA85"
