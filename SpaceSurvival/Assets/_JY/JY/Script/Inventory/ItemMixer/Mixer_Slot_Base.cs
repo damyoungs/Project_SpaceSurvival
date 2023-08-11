@@ -97,7 +97,7 @@ public class Mixer_Slot_Base : MonoBehaviour,IPointerEnterHandler,IPointerMoveHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        mixerSlotState = Mixer_SlotState.PointerEnter;
+        SlotState = Mixer_SlotState.PointerEnter;
     }
 
     public void OnPointerMove(PointerEventData eventData)
