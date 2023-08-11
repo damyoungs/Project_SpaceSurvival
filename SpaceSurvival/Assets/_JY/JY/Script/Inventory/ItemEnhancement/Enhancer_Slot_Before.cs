@@ -1,11 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class Enhancer_Slot_Before : Enhancer_Slot_Base
+public class Enhancer_Slot_Before : Enhancer_Slot_Base,IPointerClickHandler
 {
-    private void Start()
+  
+    public void OnPointerClick(PointerEventData eventData)
     {
-        GameManager.SlotManager.setEnhanceItem += (itemData) => ItemData = itemData;
+        item_Enhancer.EnhancerState = EnhancerState.ClearItem;
     }
+
+
 }

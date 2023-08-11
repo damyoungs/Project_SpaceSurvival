@@ -92,12 +92,8 @@
  *      SetItemData 함수 내 획득한 아이템의 아이템 타입에 따라 어떤 탭에, 몇번째 슬롯에 저장할 것인지, 이미 보유중인 아이템인지, 중복소지 가능한 아이템인지,
  *      저장 후 ItemName 을 파라미터로 해당Slot에 Update Slot함수 호출// 완료
  *      
- *               
- *       *  할일목록 
- *        
- *          Slot에서 ItemBase 대신 ItemData를 받고 변경될때 프로퍼티에서 델리게이트 신호 보내기
- *          슬롯메니저에서 슬롯찍어내면서 슬롯에 인덱스 부여
- *      
+ *      ItemData_Enhance - ItemData, IEnhancable 상속받고 
+ *      Enhancer_Description, SuccessRateText, Warning PopUp, ItemLevelText, 슬롯 애니메이션, 성공실패 파티클, 
  *      
  *      
  *      

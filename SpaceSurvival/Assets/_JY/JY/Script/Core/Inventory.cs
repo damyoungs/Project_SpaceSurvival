@@ -20,7 +20,8 @@ public class Inventory : MonoBehaviour
     public GameObject Consume_Inven;
     public GameObject Etc_Inven;
     public GameObject Craft_Inven;
-    public GameObject ItemEnhancer;
+    public Item_Enhancer ItemEnhancer;
+    Item_Mixer mixer;
 
     GameObject ItemDescription;
 
@@ -33,6 +34,7 @@ public class Inventory : MonoBehaviour
     Button craft_Button;
     Button sort_Button;
     Button enhance_Button;
+    Button mixer_Button;
 
     Image equipButtonColor;
     Image consumeButtonColor;
@@ -40,7 +42,6 @@ public class Inventory : MonoBehaviour
     Image craftButtonColor;
 
     bool is_Inventory_Open = false;
-    public bool is_Initialized;
 
     public delegate void Inventory_State_Changed(Current_Inventory_State state); //state가 바뀌면 setter가 호출할 delegate
     Inventory_State_Changed inventory_changed;
@@ -59,25 +60,6 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public Action onEnHancerOpen;
-    public Action onEnHancerClose;
-    bool enhancerOpen = false;
-    public bool EnhancerOpen
-    {
-        get => enhancerOpen;
-        set
-        {
-            enhancerOpen = value;
-            if (enhancerOpen)
-            {
-                onEnHancerOpen?.Invoke();
-            }
-            else
-            {
-                onEnHancerClose?.Invoke();
-            }
-        }
-    }
     private void Awake()
     {
         toolBar = transform.GetChild(0);
@@ -85,6 +67,8 @@ public class Inventory : MonoBehaviour
         add_Button = toolBar.GetChild(1).GetComponent<Button>();
         sort_Button = transform.GetChild(0).GetChild(2).GetComponent<Button>();
         enhance_Button = toolBar.GetChild(3).GetComponent<Button>();
+        mixer_Button = transform.GetChild(0).GetChild(4).GetComponent<Button>();
+
         equip_Button = transform.GetChild(1).GetComponent<Button>();
         consume_Button = transform.GetChild(2).GetComponent<Button>();
         etc_Button = transform.GetChild(3).GetComponent<Button>();
@@ -99,7 +83,9 @@ public class Inventory : MonoBehaviour
         sort_Button.onClick.AddListener(SlotSorting);
         close_Button.onClick.AddListener(Open_Inventory);
         add_Button.onClick.AddListener(GameManager.SlotManager.Make_Slot);
-        enhance_Button.onClick.AddListener(Change_EnhancerOpen_Property);
+        mixer_Button.onClick.AddListener(Open_Mixer);
+
+
         equip_Button.onClick.AddListener(SwitchTab_To_Equip);
         consume_Button.onClick.AddListener(SwitchTab_To_Consume);
         etc_Button.onClick.AddListener(SwitchTab_To_Etc);
@@ -112,13 +98,11 @@ public class Inventory : MonoBehaviour
     {
         GameManager.SlotManager.SlotSorting(ItemSortBy.Price, true);
     }
-    public void Change_EnhancerOpen_Property()
-    {
-        EnhancerOpen = !EnhancerOpen;
-    }
+ 
     private void OnEnable()
     {
         inventory_changed += Update_State;
+    
     }
     private void OnDisable()
     {
@@ -127,7 +111,18 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         GameManager.SlotManager.Initialize();
+        enhance_Button.onClick.AddListener(Open_Enhancer);//enable, Awake에서는 안됨
+        mixer = GameManager.Mixer;
     }
+    void Open_Enhancer()
+    {
+        GameManager.Enhancer.EnhancerState = EnhancerState.Open;
+    }
+    void Open_Mixer()
+    {
+        mixer.MixerState = ItemMixerState.Open;
+    }
+
     void Update_State(Current_Inventory_State state)
     {
         equipButtonColor.color = Color.white;

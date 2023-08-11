@@ -23,13 +23,22 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     public Transform etc_Below;
     public Transform craft_Below;
 
-    public Action<ItemData> setEnhanceItem;
+   
     RectTransform beforeSlotRectTransform;
+    RectTransform enhancerUIRectTransform;
+
+    RectTransform mixer_Left_slot_Transform;
+    RectTransform mixer_Middle_Slot_Transform;
+
     public ItemSplitter spliter;
     bool isShiftPress = false;
 
     public Dictionary<Current_Inventory_State, List<Slot>> slots;
     private Dictionary<Current_Inventory_State, int> slotCount; //슬롯 생성후 번호를 부여하기위한 Dic
+
+ 
+    public byte IndexForEnhancer { get; set; }
+  
 
     private void Awake()
     {
@@ -57,8 +66,12 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         spliter.onCancel += () => itemDescription.IsPause = false;   // 캔슬버턴 누르면 상세정보창 일시정지 해제
         spliter.Close();
         spliter.onOkClick += OnSpliterOk;
-        beforeSlotRectTransform = GameManager.Item_Enhancer.EnhancerUI.BeforeSlot.GetComponent<RectTransform>();
 
+        beforeSlotRectTransform = GameManager.Enhancer.EnhancerUI.BeforeSlot.GetComponent<RectTransform>();
+        enhancerUIRectTransform = GameManager.Enhancer.EnhancerUI.AfterSlot.GetComponent<RectTransform>();
+   
+        mixer_Left_slot_Transform = GameManager.Mixer.MixerUI.Left_Slot.GetComponent<RectTransform>();
+        mixer_Middle_Slot_Transform = GameManager.Mixer.MixerUI.Middle_Slot.GetComponent<RectTransform>();
 
         slots = new Dictionary<Current_Inventory_State, List<Slot>>
         {
@@ -123,6 +136,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     }
     private void OnItemMoveBegin(ItemData data, uint index)
     {
+        IndexForEnhancer = (byte)index;
         MoveItem(data ,index, tempSlot.Index);    // 시작 슬롯에서 임시 슬롯으로 아이템 옮기기
         TempSlot.Open();                          // 임시 슬롯 열기
     }
@@ -215,18 +229,51 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     /// 마우스 클릭이 떨어졌을 때 실행되는 함수(아이템 드랍용)
     /// </summary>
     private void OnItemDrop(InputAction.CallbackContext _)
-    {    
+    {
+        if (tempSlot == null)
+            return;
         if (!tempSlot.IsEmpty)
         {
+            //레이를 쏘기 전에 레이의 좌표를 스크린좌표로 바꿔줘야함 그러나 굳이 위치를 비교하는 것 보다 레이를 쏴서 비교할 이유는 없다.
+            //Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+            //if (Physics.Raycast(ray, out RaycastHit ground, 1000.0f, LayerMask.GetMask("BeforeSlot")))
+            //{
+            //    Debug.Log("BeforeSlot감지");
+            //}
+            //else if ((Physics.Raycast(ray, out RaycastHit beforeSlot, 1000.0f, LayerMask.GetMask("Ground"))))
+            //{
+            //    Debug.Log("Ground");
+            //}
             Vector2 screenPos = Mouse.current.position.ReadValue();
-            Vector2 distance_BetweenMouse_Inven = screenPos - (Vector2)inventoryRectTransform.position;//inventoryRectTransform.position의 피봇을 기준으로 거리 계산
-            Vector2 distance_BetweenMouse_BeforeSlot = screenPos - (Vector2)beforeSlotRectTransform.position;
-            if (beforeSlotRectTransform.rect.Contains(distance_BetweenMouse_BeforeSlot))
+            Vector2 distance_Between_Mouse_Inven = screenPos - (Vector2)inventoryRectTransform.position;//inventoryRectTransform.position의 피봇을 기준으로 떨어진거리 계산
+            Vector2 distance_Between_Mouse_BeforeSlot = screenPos - (Vector2)beforeSlotRectTransform.position;
+            Vector2 distance_Between_Mouse_enhancerUI = screenPos - (Vector2)enhancerUIRectTransform.position;
+            Vector2 distance_Between_Mouse_Left_Slot = screenPos - (Vector2)mixer_Left_slot_Transform.position;
+            Vector2 distance_Between_Mouse_Middle_Slot = screenPos - (Vector2)mixer_Middle_Slot_Transform.position;
+
+            if (beforeSlotRectTransform.rect.Contains(distance_Between_Mouse_BeforeSlot))//강화 슬롯의 위치이면서 강화ㅑ 가능한 아이템 일 때
             {
-                setEnhanceItem?.Invoke(tempSlot.ItemData);
+                ItemData_Enhancable enhancable = TempSlot.ItemData as ItemData_Enhancable;
+                if (enhancable != null)
+                {
+                    GameManager.Enhancer.ItemData = enhancable;
+                   // IndexForEnhancer =  애초에 장비탭의 Slot 이 TempSlot으로 옮겨갈때 인덱스 저장이 필요함
+                }
             }
-            else if (!inventoryRectTransform.rect.Contains(distance_BetweenMouse_Inven))// 그 거리의 크기가 rect 의 크기보다 작으면 인벤토리 안쪽
+            else if (mixer_Left_slot_Transform.rect.Contains(distance_Between_Mouse_Left_Slot))
             {
+                GameManager.Mixer.LeftSLotData = TempSlot.ItemData;
+            }
+            else if (mixer_Middle_Slot_Transform.rect.Contains(distance_Between_Mouse_Middle_Slot))
+            {
+                GameManager.Mixer.MiddleSlotData = TempSlot.ItemData;
+            }
+            else if (!inventoryRectTransform.rect.Contains(distance_Between_Mouse_Inven))// 거리의 크기가 rect 의 크기보다 작으면 인벤토리 안쪽
+            {
+                if (enhancerUIRectTransform.rect.Contains(distance_Between_Mouse_enhancerUI) && GameManager.Enhancer.EnhancerState == EnhancerState.Open)//inhancerUI열려있으면 return
+                {
+                    return;
+                }
                 // 인벤토리 영역 밖이면
                 TempSlot.OnDrop(screenPos);
             }
@@ -286,6 +333,23 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             }
         }
 
+        return result;
+    }
+    public bool AddItem(ItemData_Enhancable data)
+    {
+        bool result = false;
+        // 같은 종류의 아이템이 없다.
+        Slot emptySlot = FindEmptySlot(data);
+        if (emptySlot != null)
+        {
+            emptySlot.AssignSlotItem(data); // 빈슬롯이 있으면 아이템 하나 할당
+            result = true;
+        }
+        else
+        {
+            // 비어있는 슬롯이 없다.
+            //Debug.Log("아이템 추가 실패 : 인벤토리가 가득 차있습니다.");
+        }
         return result;
     }
     public void RemoveItem(ItemData data, uint slotIndex, uint decreaseCount = 1)

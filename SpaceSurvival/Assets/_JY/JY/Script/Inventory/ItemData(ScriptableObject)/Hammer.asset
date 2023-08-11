@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Hammer
   m_EditorClassIdentifier: 
   ItemType: 1
-  code: 10
+  code: 11
   itemName: Hammer
   modelPrefab: {fileID: 2207241666092872364, guid: 6cec7ba257f61d341b0df7b6c621d319, type: 3}
-  itemIcon: {fileID: 1448009267, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
+  itemIcon: {fileID: -748972457, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
   price: 0
   maxStackCount: 1
   itemDescription: "\uB9DD\uCE58"

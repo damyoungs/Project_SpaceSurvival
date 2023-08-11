@@ -18,7 +18,7 @@ public class Tile : MonoBehaviour
     /// <summary>
     /// 이 타일 위에 놓여져 있는 물체의 타입
     /// </summary>
-    public enum ExistType
+    public enum TileExistType
     {
         None = 0,
         monster,
@@ -38,8 +38,8 @@ public class Tile : MonoBehaviour
     }
 
     // 타일 위 몬스터, 아이템 등 타입 존재 여부
-    public ExistType existType = 0;
-    public ExistType ExistTypes
+    public TileExistType existType = 0;
+    public TileExistType ExistType
     {
         get => existType;
         set

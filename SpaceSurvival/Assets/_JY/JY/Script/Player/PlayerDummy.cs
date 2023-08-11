@@ -7,7 +7,7 @@ using Unity.VisualScripting;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-public class PlayerDummy : MonoBehaviour
+public class PlayerDummy : MonoBehaviour, IHealth
 {
     InputKeyMouse inputActions;
     Vector3 root2 = Vector3.zero;
@@ -17,9 +17,18 @@ public class PlayerDummy : MonoBehaviour
 
     public float moveSpeed = 0.0f;
     public float rotateSpeed = 0.0f;
-
     public float pickupRange = 3.0f;
 
+    uint darkForce = 100;
+    public uint DarkForce
+    {
+        get => darkForce;
+        set
+        {
+            darkForce = value;
+
+        }
+    }
     int money = 0;
     public int Money
     {
@@ -62,7 +71,14 @@ public class PlayerDummy : MonoBehaviour
             }  
         }
     }
-
+    public void RecoveryHP_ByTick()
+    {
+        StartCoroutine(RecoveryHP_ByTick_Coroutine());
+    }
+    IEnumerator RecoveryHP_ByTick_Coroutine()
+    {
+        yield return null;
+    }
     private void Update()
     {
         Move();
@@ -77,7 +93,6 @@ public class PlayerDummy : MonoBehaviour
          transform.LookAt(transform.position + dir);
 
     }
-
     private void ChangeVectorDir(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
         dir = context.ReadValue<Vector3>();        

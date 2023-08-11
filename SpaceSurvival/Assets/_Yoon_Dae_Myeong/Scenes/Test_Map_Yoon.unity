@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0036790755, g: 0.0051774327, b: 0.0072589843, a: 1}
+  m_IndirectSpecularColor: {r: 0.003683969, g: 0.005182284, b: 0.0071928063, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -372,76 +372,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4710655937772738257, guid: ea1d848a20585473a8e754b50fa02f04, type: 3}
   m_PrefabInstance: {fileID: 1528723068}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &754348694
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1400756928}
-    m_Modifications:
-    - target: {fileID: 1767559188, guid: 660452c59be2869428b277d636bd720b, type: 3}
-      propertyPath: target
-      value: 
-      objectReference: {fileID: 545458403}
-    - target: {fileID: 4770894709539036589, guid: 660452c59be2869428b277d636bd720b, type: 3}
-      propertyPath: brain
-      value: 
-      objectReference: {fileID: 1052770512}
-    - target: {fileID: 4770894710439428129, guid: 660452c59be2869428b277d636bd720b, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4770894710439428129, guid: 660452c59be2869428b277d636bd720b, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4770894710439428129, guid: 660452c59be2869428b277d636bd720b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4770894710439428129, guid: 660452c59be2869428b277d636bd720b, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4770894710439428129, guid: 660452c59be2869428b277d636bd720b, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4770894710439428129, guid: 660452c59be2869428b277d636bd720b, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4770894710439428129, guid: 660452c59be2869428b277d636bd720b, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4770894710439428129, guid: 660452c59be2869428b277d636bd720b, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4770894710439428129, guid: 660452c59be2869428b277d636bd720b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4770894710439428129, guid: 660452c59be2869428b277d636bd720b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4770894710439428129, guid: 660452c59be2869428b277d636bd720b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4770894710439428142, guid: 660452c59be2869428b277d636bd720b, type: 3}
-      propertyPath: m_Name
-      value: CameraMove
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 660452c59be2869428b277d636bd720b, type: 3}
---- !u!65 &792068154 stripped
-BoxCollider:
-  m_CorrespondingSourceObject: {fileID: 4770894711422183342, guid: 660452c59be2869428b277d636bd720b, type: 3}
-  m_PrefabInstance: {fileID: 754348694}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &872303222
 GameObject:
   m_ObjectHideFlags: 0
@@ -641,8 +571,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1052770507}
-  m_LocalRotation: {x: 0.3826835, y: 0.000000015896624, z: -0.000000006584597, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 0.5, z: -0.5}
+  m_LocalRotation: {x: -0.3601054, y: 0.009993553, z: -0.00346814, w: -0.9328517}
+  m_LocalPosition: {x: 0.17761934, y: 7.391111, z: -8.144934}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -716,11 +646,6 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!4 &1341093202 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4770894710439428129, guid: 660452c59be2869428b277d636bd720b, type: 3}
-  m_PrefabInstance: {fileID: 754348694}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1400756926
 GameObject:
   m_ObjectHideFlags: 0
@@ -749,8 +674,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1341093202}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -776,7 +700,6 @@ MonoBehaviour:
   tileCount: 0
   player: {fileID: 545458403}
   material: {fileID: 2100000, guid: 6205a7363db3a834b93abb789a92cb31, type: 2}
-  blockCamera: {fileID: 792068154}
 --- !u!1 &1488183193
 GameObject:
   m_ObjectHideFlags: 0
@@ -916,6 +839,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 545458410, guid: ea1d848a20585473a8e754b50fa02f04, type: 3}
+      propertyPath: bulletProjectilePrefab
+      value: 
+      objectReference: {fileID: 7858710621172566663, guid: 5c43df6fcf61b4546b33015441d70fb2, type: 3}
     - target: {fileID: 4704479901468517709, guid: ea1d848a20585473a8e754b50fa02f04, type: 3}
       propertyPath: m_Name
       value: PlayerYoon
@@ -1321,7 +1248,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5783893322396245380, guid: 1c88bce6a6c7e45cea489225c22d0137, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.17761935
+      value: 0.17761934
       objectReference: {fileID: 0}
     - target: {fileID: 5783893322396245380, guid: 1c88bce6a6c7e45cea489225c22d0137, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1329,7 +1256,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5783893322396245380, guid: 1c88bce6a6c7e45cea489225c22d0137, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -8.144933
+      value: -8.144934
       objectReference: {fileID: 0}
     - target: {fileID: 5783893322396245380, guid: 1c88bce6a6c7e45cea489225c22d0137, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1366,10 +1293,6 @@ PrefabInstance:
     - target: {fileID: 5783893322396245382, guid: 1c88bce6a6c7e45cea489225c22d0137, type: 3}
       propertyPath: m_Name
       value: yoonVirtualCam1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5783893322396245382, guid: 1c88bce6a6c7e45cea489225c22d0137, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5783893322396245387, guid: 1c88bce6a6c7e45cea489225c22d0137, type: 3}
       propertyPath: player
