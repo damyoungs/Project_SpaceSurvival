@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2907677540437903567}
-  - component: {fileID: 3313708370954443240}
-  - component: {fileID: 6815939251550354714}
-  m_Layer: 7
+  - component: {fileID: 2907677540437903566}
+  - component: {fileID: 1602708574442905557}
+  m_Layer: 0
   m_Name: SpellBook
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34,7 +34,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3313708370954443240
+--- !u!95 &2907677540437903566
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2907677540437903552}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e096de952668e944abaf8192325250cb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1602708574442905557
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,22 +64,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2907677540437903552}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a28a419ec8afe6249818d94357bca294, type: 3}
+  m_Script: {fileID: 11500000, guid: f8c4e65d88b30ea439234fc23b7dd760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &6815939251550354714
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2907677540437903552}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.3, y: 0.4, z: 0.2}
-  m_Center: {x: 0, y: 0.2, z: 0}
+  itemDescription: 
 --- !u!1 &6808049262820564145
 GameObject:
   m_ObjectHideFlags: 0
@@ -70,8 +79,8 @@ GameObject:
   - component: {fileID: 6138648285486237195}
   - component: {fileID: 7106406993005955502}
   - component: {fileID: 5006860169001844068}
+  - component: {fileID: 7106406993005955503}
   - component: {fileID: 2907677540777034014}
-  - component: {fileID: 6268202348863904194}
   m_Layer: 0
   m_Name: PP_Theme_04_Spellbook_003
   m_TagString: Untagged
@@ -144,6 +153,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &7106406993005955503
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6808049262820564145}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!114 &2907677540777034014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17670,19 +17693,3 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
---- !u!114 &6268202348863904194
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6808049262820564145}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f3f7eb9918db43419be145a7b6dad57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minY: 0.5
-  maxY: 1.5
-  rotateSpeed: 90
-  moveSpeed: 2

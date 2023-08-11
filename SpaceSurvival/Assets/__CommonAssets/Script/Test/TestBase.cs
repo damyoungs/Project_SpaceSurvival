@@ -23,16 +23,7 @@ public class TestBase : MonoBehaviour
         inputKeyMouse.Test.Test7.performed += Test7;
         inputKeyMouse.Test.Test8.performed += Test8;
         inputKeyMouse.Test.Test9.performed += Test9;
-        inputKeyMouse.Test.TestClick.performed += TestClick;
-        inputKeyMouse.Test.PressI.performed += OpenInven;
     }
-
- 
-    protected virtual void OpenInven(UnityEngine.InputSystem.InputAction.CallbackContext _)
-    {
-       
-    }
-
     private void OnDisable()
     {
         inputKeyMouse.Test.Test5.performed -= Test5;
@@ -46,10 +37,11 @@ public class TestBase : MonoBehaviour
         inputKeyMouse.Test.Test9.performed -= Test9;
         inputKeyMouse.Test.Disable();
     }
-    protected virtual void TestClick(UnityEngine.InputSystem.InputAction.CallbackContext context)
-    {
 
-    }
+
+
+
+    
     protected virtual void Test1(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
     }

@@ -62,15 +62,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""ItemPickUp"",
-                    ""type"": ""Button"",
-                    ""id"": ""b05c263e-df4c-4eea-9892-fcd3efd12ec1"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -183,28 +174,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""action"": ""RightRotate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""4f4fef8c-4c00-434b-91fd-2bc19161f564"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""ItemPickUp"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""7f631461-747c-4088-bdef-3dadcfc7bdbc"",
-                    ""path"": ""<Keyboard>/z"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""ItemPickUp"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -225,15 +194,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""name"": ""TestClick"",
                     ""type"": ""PassThrough"",
                     ""id"": ""64a0994d-d4f9-4dab-af61-a0b4c5c39d16"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""MouseClickRight"",
-                    ""type"": ""Button"",
-                    ""id"": ""afb07fd5-ebed-4f3c-a778-9e2e4b9a4089"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -260,17 +220,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""TestClick"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""73933102-520f-4c03-ba39-951ed265350a"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyMouse"",
-                    ""action"": ""MouseClickRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -451,21 +400,12 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""TestClick"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""ce03a7e5-86f4-43b8-a1c4-421ea1dd879d"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""PressI"",
-                    ""type"": ""Button"",
-                    ""id"": ""e4740a9e-fab4-441c-8c5d-83e11ee83885"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -530,7 +470,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""KeyMouse"",
                     ""action"": ""TestClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -578,124 +518,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""action"": ""Test9"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""31c4790e-6369-44dd-bfab-16ba15c36d90"",
-                    ""path"": ""<Keyboard>/i"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""PressI"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
-        },
-        {
-            ""name"": ""UI"",
-            ""id"": ""60105a31-2baa-4a4a-a6e1-de88fe1fcdb9"",
-            ""actions"": [
-                {
-                    ""name"": ""Click"",
-                    ""type"": ""Button"",
-                    ""id"": ""8abfd317-8e81-489c-a229-9ae255004d07"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Shift"",
-                    ""type"": ""Button"",
-                    ""id"": ""4a88eb60-c7c6-4cfc-82fa-2104f1652ed3"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""8c1eaa1a-1035-461f-98d1-5b848099ce11"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Click"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""52d8b9ee-103c-4c9f-bc09-9401c3bcc2f1"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Click"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""c541439f-abcb-4970-88e8-0f6b3865bb85"",
-                    ""path"": ""<Keyboard>/shift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Shift"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
-        },
-        {
-            ""name"": ""Camera"",
-            ""id"": ""0c04e0dc-59e0-4a25-a0d2-0f78bde0d4c5"",
-            ""actions"": [
-                {
-                    ""name"": ""RightRotate"",
-                    ""type"": ""Button"",
-                    ""id"": ""b1ff20a7-071a-4977-a13b-a30e670b5dbc"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""LeftRotate"",
-                    ""type"": ""Button"",
-                    ""id"": ""6a51fb97-32f0-461b-a5ca-abb04484fe91"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""10b9e187-3357-4e90-b1cb-0cd0ddf71203"",
-                    ""path"": ""<Keyboard>/q"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyMouse"",
-                    ""action"": ""LeftRotate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""4938f774-f587-4710-831f-357baa60df75"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyMouse"",
-                    ""action"": ""RightRotate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -725,12 +547,10 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_LeftRotate = m_Player.FindAction("LeftRotate", throwIfNotFound: true);
         m_Player_RightRotate = m_Player.FindAction("RightRotate", throwIfNotFound: true);
-        m_Player_ItemPickUp = m_Player.FindAction("ItemPickUp", throwIfNotFound: true);
         // Mouse
         m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
         m_Mouse_MouseClick = m_Mouse.FindAction("MouseClick", throwIfNotFound: true);
         m_Mouse_TestClick = m_Mouse.FindAction("TestClick", throwIfNotFound: true);
-        m_Mouse_MouseClickRight = m_Mouse.FindAction("MouseClickRight", throwIfNotFound: true);
         // KeyBoard
         m_KeyBoard = asset.FindActionMap("KeyBoard", throwIfNotFound: true);
         m_KeyBoard_InvenKey = m_KeyBoard.FindAction("InvenKey", throwIfNotFound: true);
@@ -749,15 +569,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         m_Test_Test8 = m_Test.FindAction("Test8", throwIfNotFound: true);
         m_Test_Test9 = m_Test.FindAction("Test9", throwIfNotFound: true);
         m_Test_TestClick = m_Test.FindAction("TestClick", throwIfNotFound: true);
-        m_Test_PressI = m_Test.FindAction("PressI", throwIfNotFound: true);
-        // UI
-        m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
-        m_UI_Click = m_UI.FindAction("Click", throwIfNotFound: true);
-        m_UI_Shift = m_UI.FindAction("Shift", throwIfNotFound: true);
-        // Camera
-        m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
-        m_Camera_RightRotate = m_Camera.FindAction("RightRotate", throwIfNotFound: true);
-        m_Camera_LeftRotate = m_Camera.FindAction("LeftRotate", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -823,7 +634,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_LeftRotate;
     private readonly InputAction m_Player_RightRotate;
-    private readonly InputAction m_Player_ItemPickUp;
     public struct PlayerActions
     {
         private @InputKeyMouse m_Wrapper;
@@ -832,7 +642,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @LeftRotate => m_Wrapper.m_Player_LeftRotate;
         public InputAction @RightRotate => m_Wrapper.m_Player_RightRotate;
-        public InputAction @ItemPickUp => m_Wrapper.m_Player_ItemPickUp;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -854,9 +663,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @RightRotate.started += instance.OnRightRotate;
             @RightRotate.performed += instance.OnRightRotate;
             @RightRotate.canceled += instance.OnRightRotate;
-            @ItemPickUp.started += instance.OnItemPickUp;
-            @ItemPickUp.performed += instance.OnItemPickUp;
-            @ItemPickUp.canceled += instance.OnItemPickUp;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -873,9 +679,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @RightRotate.started -= instance.OnRightRotate;
             @RightRotate.performed -= instance.OnRightRotate;
             @RightRotate.canceled -= instance.OnRightRotate;
-            @ItemPickUp.started -= instance.OnItemPickUp;
-            @ItemPickUp.performed -= instance.OnItemPickUp;
-            @ItemPickUp.canceled -= instance.OnItemPickUp;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -899,14 +702,12 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     private List<IMouseActions> m_MouseActionsCallbackInterfaces = new List<IMouseActions>();
     private readonly InputAction m_Mouse_MouseClick;
     private readonly InputAction m_Mouse_TestClick;
-    private readonly InputAction m_Mouse_MouseClickRight;
     public struct MouseActions
     {
         private @InputKeyMouse m_Wrapper;
         public MouseActions(@InputKeyMouse wrapper) { m_Wrapper = wrapper; }
         public InputAction @MouseClick => m_Wrapper.m_Mouse_MouseClick;
         public InputAction @TestClick => m_Wrapper.m_Mouse_TestClick;
-        public InputAction @MouseClickRight => m_Wrapper.m_Mouse_MouseClickRight;
         public InputActionMap Get() { return m_Wrapper.m_Mouse; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -922,9 +723,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @TestClick.started += instance.OnTestClick;
             @TestClick.performed += instance.OnTestClick;
             @TestClick.canceled += instance.OnTestClick;
-            @MouseClickRight.started += instance.OnMouseClickRight;
-            @MouseClickRight.performed += instance.OnMouseClickRight;
-            @MouseClickRight.canceled += instance.OnMouseClickRight;
         }
 
         private void UnregisterCallbacks(IMouseActions instance)
@@ -935,9 +733,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @TestClick.started -= instance.OnTestClick;
             @TestClick.performed -= instance.OnTestClick;
             @TestClick.canceled -= instance.OnTestClick;
-            @MouseClickRight.started -= instance.OnMouseClickRight;
-            @MouseClickRight.performed -= instance.OnMouseClickRight;
-            @MouseClickRight.canceled -= instance.OnMouseClickRight;
         }
 
         public void RemoveCallbacks(IMouseActions instance)
@@ -1039,7 +834,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     private readonly InputAction m_Test_Test8;
     private readonly InputAction m_Test_Test9;
     private readonly InputAction m_Test_TestClick;
-    private readonly InputAction m_Test_PressI;
     public struct TestActions
     {
         private @InputKeyMouse m_Wrapper;
@@ -1054,7 +848,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         public InputAction @Test8 => m_Wrapper.m_Test_Test8;
         public InputAction @Test9 => m_Wrapper.m_Test_Test9;
         public InputAction @TestClick => m_Wrapper.m_Test_TestClick;
-        public InputAction @PressI => m_Wrapper.m_Test_PressI;
         public InputActionMap Get() { return m_Wrapper.m_Test; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1094,9 +887,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @TestClick.started += instance.OnTestClick;
             @TestClick.performed += instance.OnTestClick;
             @TestClick.canceled += instance.OnTestClick;
-            @PressI.started += instance.OnPressI;
-            @PressI.performed += instance.OnPressI;
-            @PressI.canceled += instance.OnPressI;
         }
 
         private void UnregisterCallbacks(ITestActions instance)
@@ -1131,9 +921,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @TestClick.started -= instance.OnTestClick;
             @TestClick.performed -= instance.OnTestClick;
             @TestClick.canceled -= instance.OnTestClick;
-            @PressI.started -= instance.OnPressI;
-            @PressI.performed -= instance.OnPressI;
-            @PressI.canceled -= instance.OnPressI;
         }
 
         public void RemoveCallbacks(ITestActions instance)
@@ -1151,114 +938,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         }
     }
     public TestActions @Test => new TestActions(this);
-
-    // UI
-    private readonly InputActionMap m_UI;
-    private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
-    private readonly InputAction m_UI_Click;
-    private readonly InputAction m_UI_Shift;
-    public struct UIActions
-    {
-        private @InputKeyMouse m_Wrapper;
-        public UIActions(@InputKeyMouse wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Click => m_Wrapper.m_UI_Click;
-        public InputAction @Shift => m_Wrapper.m_UI_Shift;
-        public InputActionMap Get() { return m_Wrapper.m_UI; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
-        public void AddCallbacks(IUIActions instance)
-        {
-            if (instance == null || m_Wrapper.m_UIActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_UIActionsCallbackInterfaces.Add(instance);
-            @Click.started += instance.OnClick;
-            @Click.performed += instance.OnClick;
-            @Click.canceled += instance.OnClick;
-            @Shift.started += instance.OnShift;
-            @Shift.performed += instance.OnShift;
-            @Shift.canceled += instance.OnShift;
-        }
-
-        private void UnregisterCallbacks(IUIActions instance)
-        {
-            @Click.started -= instance.OnClick;
-            @Click.performed -= instance.OnClick;
-            @Click.canceled -= instance.OnClick;
-            @Shift.started -= instance.OnShift;
-            @Shift.performed -= instance.OnShift;
-            @Shift.canceled -= instance.OnShift;
-        }
-
-        public void RemoveCallbacks(IUIActions instance)
-        {
-            if (m_Wrapper.m_UIActionsCallbackInterfaces.Remove(instance))
-                UnregisterCallbacks(instance);
-        }
-
-        public void SetCallbacks(IUIActions instance)
-        {
-            foreach (var item in m_Wrapper.m_UIActionsCallbackInterfaces)
-                UnregisterCallbacks(item);
-            m_Wrapper.m_UIActionsCallbackInterfaces.Clear();
-            AddCallbacks(instance);
-        }
-    }
-    public UIActions @UI => new UIActions(this);
-
-    // Camera
-    private readonly InputActionMap m_Camera;
-    private List<ICameraActions> m_CameraActionsCallbackInterfaces = new List<ICameraActions>();
-    private readonly InputAction m_Camera_RightRotate;
-    private readonly InputAction m_Camera_LeftRotate;
-    public struct CameraActions
-    {
-        private @InputKeyMouse m_Wrapper;
-        public CameraActions(@InputKeyMouse wrapper) { m_Wrapper = wrapper; }
-        public InputAction @RightRotate => m_Wrapper.m_Camera_RightRotate;
-        public InputAction @LeftRotate => m_Wrapper.m_Camera_LeftRotate;
-        public InputActionMap Get() { return m_Wrapper.m_Camera; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(CameraActions set) { return set.Get(); }
-        public void AddCallbacks(ICameraActions instance)
-        {
-            if (instance == null || m_Wrapper.m_CameraActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_CameraActionsCallbackInterfaces.Add(instance);
-            @RightRotate.started += instance.OnRightRotate;
-            @RightRotate.performed += instance.OnRightRotate;
-            @RightRotate.canceled += instance.OnRightRotate;
-            @LeftRotate.started += instance.OnLeftRotate;
-            @LeftRotate.performed += instance.OnLeftRotate;
-            @LeftRotate.canceled += instance.OnLeftRotate;
-        }
-
-        private void UnregisterCallbacks(ICameraActions instance)
-        {
-            @RightRotate.started -= instance.OnRightRotate;
-            @RightRotate.performed -= instance.OnRightRotate;
-            @RightRotate.canceled -= instance.OnRightRotate;
-            @LeftRotate.started -= instance.OnLeftRotate;
-            @LeftRotate.performed -= instance.OnLeftRotate;
-            @LeftRotate.canceled -= instance.OnLeftRotate;
-        }
-
-        public void RemoveCallbacks(ICameraActions instance)
-        {
-            if (m_Wrapper.m_CameraActionsCallbackInterfaces.Remove(instance))
-                UnregisterCallbacks(instance);
-        }
-
-        public void SetCallbacks(ICameraActions instance)
-        {
-            foreach (var item in m_Wrapper.m_CameraActionsCallbackInterfaces)
-                UnregisterCallbacks(item);
-            m_Wrapper.m_CameraActionsCallbackInterfaces.Clear();
-            AddCallbacks(instance);
-        }
-    }
-    public CameraActions @Camera => new CameraActions(this);
     private int m_KeyMouseSchemeIndex = -1;
     public InputControlScheme KeyMouseScheme
     {
@@ -1274,13 +953,11 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnLeftRotate(InputAction.CallbackContext context);
         void OnRightRotate(InputAction.CallbackContext context);
-        void OnItemPickUp(InputAction.CallbackContext context);
     }
     public interface IMouseActions
     {
         void OnMouseClick(InputAction.CallbackContext context);
         void OnTestClick(InputAction.CallbackContext context);
-        void OnMouseClickRight(InputAction.CallbackContext context);
     }
     public interface IKeyBoardActions
     {
@@ -1301,16 +978,5 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         void OnTest8(InputAction.CallbackContext context);
         void OnTest9(InputAction.CallbackContext context);
         void OnTestClick(InputAction.CallbackContext context);
-        void OnPressI(InputAction.CallbackContext context);
-    }
-    public interface IUIActions
-    {
-        void OnClick(InputAction.CallbackContext context);
-        void OnShift(InputAction.CallbackContext context);
-    }
-    public interface ICameraActions
-    {
-        void OnRightRotate(InputAction.CallbackContext context);
-        void OnLeftRotate(InputAction.CallbackContext context);
     }
 }

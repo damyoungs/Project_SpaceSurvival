@@ -66,34 +66,19 @@ public class ChoClickTest : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 회전 부드럽게 전환
-    /// </summary>
-    /// <param name="_"></param>
     private void onLeftRotate(InputAction.CallbackContext _)
     {
-        if (!isRotate)
-        {
-            StartCoroutine(TestCourutine(-90.0f));
+        Quaternion rotate = Quaternion.Slerp(transform.rotation, Quaternion.AngleAxis(-90.0f, Vector3.up), 1.0f);
 
-        }
-        //Quaternion rotate = Quaternion.Slerp(transform.rotation, Quaternion.AngleAxis(-90.0f, Vector3.up), 10.0f);
-
-        //transform.rotation *= rotate;
-
+        transform.rotation *= rotate;
+        
     }
-    /// <summary>
-    /// 회전 부드럽게 전환
-    /// </summary>
+
     private void onRightRotate(InputAction.CallbackContext _)
     {
-        if (!isRotate)
-        {
-            StartCoroutine(TestCourutine(90.0f));
-        }
-        //Quaternion rotate = Quaternion.Slerp(transform.rotation, Quaternion.AngleAxis(90.0f, Vector3.up), 10.0f);
+        Quaternion rotate = Quaternion.Slerp(transform.rotation, Quaternion.AngleAxis(90.0f, Vector3.up), 1.0f);
 
-        //transform.rotation *= rotate;
+        transform.rotation *= rotate;
     }
 
     private void Start()
@@ -106,63 +91,7 @@ public class ChoClickTest : MonoBehaviour
         // 타겟이 널포인트가 아니고 타겟이 도착하지 않았을 시 이동
         if (target != null && (target.gameObject.transform.position - transform.position).sqrMagnitude > 0.01f)
         {
-            transform.Translate(Time.fixedDeltaTime * speed * (target.gameObject.transform.position - transform.position).normalized ,Space.World);
-        }
-    }
-
-
-
-
-
-
-
-
-
-    [SerializeField]
-    float rotateSpeed = 100.0f;
-
-    bool isRotate = false;
-
-    /// <summary>
-    /// 회전방향에따라 천천히 회전시키기
-    /// </summary>
-    /// <param name="rotateValue">회전 방향및 각도(90,-90)</param>
-    /// <returns></returns>
-    IEnumerator TestCourutine(float rotateValue)
-    {
-        isRotate = true;//회전끝날때까지 입력들어와도 막는용
-        bool isLeft = rotateValue > 0; //-값 + 값  왼쪽 오른쪽 체크
-        //Debug.Log(transform.rotation.eulerAngles.y);
-        float time = transform.rotation.eulerAngles.y; //시작값 셋팅
-        rotateValue += time; //도착값 셋팅
-        while (CheckValue(ref time, rotateValue, isLeft))//체킹
-        {
-            transform.rotation = Quaternion.Euler(transform.rotation.x, time, transform.rotation.z);
-            yield return null;
-        }
-        transform.rotation = Quaternion.Euler(transform.rotation.x, rotateValue, transform.rotation.z);
-        isRotate = false;//회전끝난것을 체크
-    }
-
-    /// <summary>
-    /// 회전방향에따라 회전 다됬는지 체크
-    /// </summary>
-    /// <param name="checkValue">현재 회전값</param>
-    /// <param name="rotateValue">목표 회전값</param>
-    /// <param name="isLeft">왼쪽회전인지 오른쪽회전인지 체크할값 - 면왼쪽 +면 오른쪽</param>
-    /// <returns></returns>
-    private bool CheckValue(ref float checkValue, float rotateValue, bool isLeft)
-    {
-        //Debug.Log($"{checkValue}  ====  {rotateValue} ");
-        if (isLeft) //+값이 들어오면 값을 +해서 체크 
-        {
-            checkValue += Time.deltaTime * rotateSpeed;
-            return checkValue < rotateValue; //오른쪽회전
-        }
-        else // - 값이 들어오면 -해서 체크
-        {
-            checkValue -= Time.deltaTime * rotateSpeed;
-            return checkValue > rotateValue; //왼쪽회전
+            transform.Translate(Time.fixedDeltaTime * speed * (target.gameObject.transform.position - transform.position).normalized);
         }
     }
 }
