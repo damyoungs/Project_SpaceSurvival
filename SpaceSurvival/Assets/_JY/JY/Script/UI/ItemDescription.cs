@@ -51,7 +51,7 @@ public class ItemDescription : MonoBehaviour
             }
             else
             {
-                itemDetail.text = $"È¿°ú : {data.itemDescription}";
+                itemDetail.text = $"{data.itemDescription}";
             }
             itemIcon.sprite = data.itemIcon;
             itemName.text = data.itemName;
