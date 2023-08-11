@@ -75,7 +75,6 @@ public class Mixer_Slot_Base : MonoBehaviour,IPointerEnterHandler,IPointerMoveHa
     protected virtual void Start()
     {
         item_Mixer = GameManager.Mixer;
-        item_Mixer.onSetItem += (itemData) => ItemData = itemData;
         Refresh();
     }
 

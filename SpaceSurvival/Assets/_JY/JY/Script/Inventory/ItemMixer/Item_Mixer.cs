@@ -21,7 +21,7 @@ public class Item_Mixer : MonoBehaviour
     public Item_Mixer_UI MixerUI => item_Mixer_UI;
 
     public Action onOpen;
-    public Action<ItemData> onSetItem;
+    public Action<ItemData, ItemData> onSetItem;
     public Action onWaitforResult;
     public Action onSuccess;
     public Action onFail;
@@ -102,8 +102,7 @@ public class Item_Mixer : MonoBehaviour
                     onOpen?.Invoke();
                     break;
                 case ItemMixerState.SetItem:
-                    //    onSetItem?.Invoke(ItemData);
-                    Debug.Log("SetItem");
+                    onSetItem?.Invoke(leftSlotData, middleSlotData);
                     break;
                 case ItemMixerState.Confirm:
                     //if (ItemData != null)
