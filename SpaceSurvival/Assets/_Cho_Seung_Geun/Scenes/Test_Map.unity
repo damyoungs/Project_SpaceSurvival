@@ -208,6 +208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 640504958}
+<<<<<<< HEAD
 --- !u!1 &166048446
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,6 +308,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+=======
+>>>>>>> Cho2
 --- !u!1 &301441076
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,6 +559,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ac0b8d7f64f946f8882b2aa8845d4e8, type: 3}
+<<<<<<< HEAD
 --- !u!1 &794588655
 GameObject:
   m_ObjectHideFlags: 0
@@ -753,6 +757,8 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000013475}
   m_Mesh: {fileID: 4300004, guid: 120950bb537cf48439472859df7e61ba, type: 3}
+=======
+>>>>>>> Cho2
 --- !u!1 &1002084203
 GameObject:
   m_ObjectHideFlags: 0
@@ -828,6 +834,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1002084203}
   m_CullTransparentMesh: 1
+<<<<<<< HEAD
 --- !u!1 &1046824689
 GameObject:
   m_ObjectHideFlags: 0
@@ -926,6 +933,8 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1046824689}
   m_Mesh: {fileID: 4300004, guid: aecf44febe9d2df48bc13cff0aa09900, type: 3}
+=======
+>>>>>>> Cho2
 --- !u!1 &1052770507
 GameObject:
   m_ObjectHideFlags: 0
@@ -1045,6 +1054,7 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+<<<<<<< HEAD
 --- !u!1 &1090592685
 GameObject:
   m_ObjectHideFlags: 0
@@ -1144,6 +1154,8 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1090592685}
   m_Mesh: {fileID: 4300002, guid: aecf44febe9d2df48bc13cff0aa09900, type: 3}
+=======
+>>>>>>> Cho2
 --- !u!1 &1178754752
 GameObject:
   m_ObjectHideFlags: 0
@@ -1220,6 +1232,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1178754752}
   m_CullTransparentMesh: 1
+<<<<<<< HEAD
 --- !u!1 &1268752221
 GameObject:
   m_ObjectHideFlags: 0
@@ -1319,6 +1332,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
+=======
+>>>>>>> Cho2
 --- !u!1 &1363235646
 GameObject:
   m_ObjectHideFlags: 3
@@ -1463,16 +1478,28 @@ MonoBehaviour:
   sizeY: 0
   tileCount: 0
   singleProps:
+<<<<<<< HEAD
   - {fileID: 1924222987677693166, guid: ea77e1b8efc6d4c49b04a9ac35d5df57, type: 3}
   - {fileID: 2614401600842785439, guid: 7f0a0f80af5d6f84cae44f53e07c56be, type: 3}
   - {fileID: 4294027081456828740, guid: bae07ae45dc20424ca98a0c53f55f9e8, type: 3}
   - {fileID: 1465890701412962632, guid: 55ee351d54302124aa4cb15610a38a2b, type: 3}
+=======
+  - {fileID: 7331864366529929573, guid: 6be64b26c3ac138469fc5233c673a403, type: 3}
+  - {fileID: 1723097997803876383, guid: 2a6e1d0f0c459a44da3071c39b08b6e9, type: 3}
+  - {fileID: 2453086310233776787, guid: 8892c43e3a93aac45b5b00ffc38f4ff0, type: 3}
+  - {fileID: 7420743818871765513, guid: 89e8f47784af91f4ea4ed10722150059, type: 3}
+>>>>>>> Cho2
   multiProps:
   - {fileID: 5663864822742416159, guid: 13d8aba209d1bc84da144d6deea0e6c3, type: 3}
   - {fileID: 5889687962844712451, guid: 1e2124824dad67541a53674a9b95f0dc, type: 3}
   - {fileID: 8590172969027705528, guid: e8cf6724cc984b14f96556a2de1ab5df, type: 3}
   - {fileID: 5110462701517106519, guid: 4f0bc96dca3acb84ab10b5d61e991989, type: 3}
   - {fileID: 2560189862556437691, guid: 087d3070348688542b8efc48a5520cb7, type: 3}
+<<<<<<< HEAD
+=======
+  - {fileID: 6111132884342771104, guid: b64a3b0a21e42fa47ab9ac801de7b611, type: 3}
+  - {fileID: 91425800058563941, guid: 5428ababdf143a24b8dfeb6020337863, type: 3}
+>>>>>>> Cho2
 --- !u!1 &1488183193
 GameObject:
   m_ObjectHideFlags: 0
@@ -1649,6 +1676,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< HEAD
 --- !u!1 &1623235332
 GameObject:
   m_ObjectHideFlags: 0
@@ -1928,6 +1956,8 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1738615276}
   m_Mesh: {fileID: 4300002, guid: f765cbb95e4157b4785fb74257ecdd5f, type: 3}
+=======
+>>>>>>> Cho2
 --- !u!1 &1964491307
 GameObject:
   m_ObjectHideFlags: 0
@@ -2022,6 +2052,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+<<<<<<< HEAD
 --- !u!1 &1988659361
 GameObject:
   m_ObjectHideFlags: 0
@@ -2251,3 +2282,5 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4f0bc96dca3acb84ab10b5d61e991989, type: 3}
+=======
+>>>>>>> Cho2
