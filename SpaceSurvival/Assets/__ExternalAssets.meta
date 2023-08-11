@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:SpaceSurvival/Assets/__ExternalAssets.meta
 guid: 33c2d611941854b41ae0e9c660847b61
+========
+guid: 78a988831ea343645847558b22fad815
+>>>>>>>> main:SpaceSurvival/Assets/_JY.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

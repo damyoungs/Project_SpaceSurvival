@@ -3,39 +3,84 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.U2D;
 using UnityEngine.UI;
 
-public class SlotManager : MonoBehaviour
+public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = Slot,     Inventory, InventoryUI = SlotManager
 {
+    InputKeyMouse input;
+
     public GameObject slot;
+    public TempSlot tempSlot;
+    public ItemDescription itemDescription;
+    public RectTransform inventoryRectTransform;
+
+    public TempSlot TempSlot => tempSlot;
+
     public Transform equip_Below;
     public Transform consume_Below;
     public Transform etc_Below;
     public Transform craft_Below;
 
-    Slot selectedSlot;// 처음 클릭한 슬롯을 저장하기 위한 변수
-    Image firstClickImage; //첫번째 클릭한 슬롯 하위의 아이템 이미지
-    RectTransform imageTransform; 
+   
+    RectTransform beforeSlotRectTransform;
+    RectTransform enhancerUIRectTransform;
 
-    Vector2 firstSlotPosition;
-    Vector2 secondSlotPosition;
+    RectTransform mixer_Left_slot_Transform;
+    RectTransform mixer_Middle_Slot_Transform;
 
-    public delegate void IsMovingChange();
-    public IsMovingChange isMovingChange;
+    public ItemSplitter spliter;
+    bool isShiftPress = false;
 
-    public Dictionary<Current_Inventory_State, List<GameObject>> slots;
+    public Dictionary<Current_Inventory_State, List<Slot>> slots;
     private Dictionary<Current_Inventory_State, int> slotCount; //슬롯 생성후 번호를 부여하기위한 Dic
-    public void Initialize()
+
+ 
+    public byte IndexForEnhancer { get; set; }
+  
+
+    private void Awake()
     {
-        slots = new Dictionary<Current_Inventory_State, List<GameObject>>
+        input = new InputKeyMouse();
+    }
+    private void OnEnable()
+    {
+        input.UI.Enable();
+        input.UI.Click.canceled += OnItemDrop;
+        input.UI.Shift.performed += OnShiftPress;
+        input.UI.Shift.canceled += OnShiftPress;
+    }
+    private void OnDisable()
+    {
+        input.UI.Click.canceled -= OnItemDrop;
+        input.UI.Shift.performed -= OnShiftPress;
+        input.UI.Shift.canceled -= OnShiftPress;
+        input.UI.Disable();
+    }
+    public void Initialize()//Inventory에서 호출
+    {
+        itemDescription.Close();
+        TempSlot.InitializeSlot(TempSlot);
+        TempSlot.onTempSlotOpenClose += OnDetailPause; // TempSlot이 Open할때 true로 호출하고 Close할때 false로 호출
+        spliter.onCancel += () => itemDescription.IsPause = false;   // 캔슬버턴 누르면 상세정보창 일시정지 해제
+        spliter.Close();
+        spliter.onOkClick += OnSpliterOk;
+
+        beforeSlotRectTransform = GameManager.Enhancer.EnhancerUI.BeforeSlot.GetComponent<RectTransform>();
+        enhancerUIRectTransform = GameManager.Enhancer.EnhancerUI.AfterSlot.GetComponent<RectTransform>();
+   
+        mixer_Left_slot_Transform = GameManager.Mixer.MixerUI.Left_Slot.GetComponent<RectTransform>();
+        mixer_Middle_Slot_Transform = GameManager.Mixer.MixerUI.Middle_Slot.GetComponent<RectTransform>();
+
+        slots = new Dictionary<Current_Inventory_State, List<Slot>>
         {
-            { Current_Inventory_State.Equip, new List<GameObject>() },
-            { Current_Inventory_State.Consume, new List<GameObject>() },
-            { Current_Inventory_State.Etc, new List<GameObject>() },
-            { Current_Inventory_State.Craft, new List<GameObject>() }
+            { Current_Inventory_State.Equip, new List<Slot>() },
+            { Current_Inventory_State.Consume, new List<Slot>() },
+            { Current_Inventory_State.Etc, new List<Slot>() },
+            { Current_Inventory_State.Craft, new List<Slot>() }
         };
-        slotCount = new Dictionary<Current_Inventory_State, int>
+        slotCount = new Dictionary<Current_Inventory_State, int> // 슬롯 오브젝트에 번호를 부여하기 위한 Dic
         {
             { Current_Inventory_State.Equip, 0 },
             { Current_Inventory_State.Consume, 0},
@@ -69,6 +114,174 @@ public class SlotManager : MonoBehaviour
     public void Make_Slot()
     {
         GameObject newSlot = Instantiate(slot);
+        Slot slotComp = newSlot.GetComponent<Slot>();
+        Transform parentTransform = GetParentTransform();
+        if (parentTransform != null)
+        {
+            slotCount[GameManager.Inventory.State]++;
+            newSlot.name = $"{GameManager.Inventory.State}_{slotCount[GameManager.Inventory.State]}";           
+            newSlot.transform.SetParent(parentTransform.transform, true);
+            slots[GameManager.Inventory.State].Add(slotComp);
+
+        
+            slotComp.InitializeSlot(slotComp);
+            slotComp.onDragBegin += OnItemMoveBegin;
+            slotComp.onDragEnd += OnItemMoveEnd;
+            slotComp.onClick += OnSlotClick;
+            slotComp.onPointerEnter += OnItemDetailOn;
+            slotComp.onPointerExit += OnItemDetailOff;
+            slotComp.onPointerMove += OnSlotPointerMove;
+            slotComp.Index = (uint)slots[GameManager.Inventory.State].Count - 1;  
+        }
+    }
+    private void OnItemMoveBegin(ItemData data, uint index)
+    {
+        IndexForEnhancer = (byte)index;
+        MoveItem(data ,index, tempSlot.Index);    // 시작 슬롯에서 임시 슬롯으로 아이템 옮기기
+        TempSlot.Open();                          // 임시 슬롯 열기
+    }
+    private void OnItemMoveEnd(ItemData data, uint index, bool isSuccess)
+    {
+        MoveItem(data, tempSlot.Index, index);    // 임시 슬롯에서 도착 슬롯으로 아이템 옮기기
+        if (tempSlot.IsEmpty)          // 비었다면(같은 종류의 아이템일 때 일부만 들어가는 경우가 있을 수 있으므로)
+        {
+            TempSlot.Close();                     // 임시 슬롯 닫기
+        }
+
+        if (isSuccess)
+        {
+            List<Slot> slots = GetItemTab();
+            itemDescription.Open(slots[(int)index].ItemData);     // 드래그가 성공적으로 끝났으면 상세 정보창도 열기
+        }
+    }
+    private void OnSlotClick(ItemData data, uint index)
+    {
+        if (TempSlot.IsEmpty)
+        {
+            if (isShiftPress)
+            {
+                OnSpliterOpen(index);   // 임시 슬롯에 아이템이 없는데 쉬프트가 눌러진체로 슬롯을 클릭했을 때 아이템 분리창을 열어라
+            }
+            //else
+            //{
+            //    // 아이템 사용, 장비 등등
+            //}
+        }
+        else
+        {
+            // 임시 슬롯에 아이템이 있을 때 클릭이 되었으면
+            OnItemMoveEnd(data, index, true); // 클릭된 슬롯으로 아이템 이동
+        }
+    }
+    private void OnItemDetailOn( ItemData data, uint index)
+    {
+        List<Slot> slots = GetItemTab(data); //빈슬롯 위에 Pointer Enter시 data가 null 이되서 리스트를 가져올때 터짐
+
+        itemDescription.Open(slots[(int)index].ItemData); // 상세정보창 열기
+    }
+    private void OnItemDetailOff(uint index)
+    {
+        itemDescription.Close(); // 상세정보창 닫기
+    }
+    private void OnSlotPointerMove(Vector2 screenPos)//마우스 움직일때마다 호출
+    {
+        itemDescription.MovePosition(screenPos);
+    }
+    private void OnDetailPause(bool isPause)
+    {
+        itemDescription.IsPause = isPause;
+    }
+    /// <summary>
+    /// 아이템 분리창을 여는 함수
+    /// </summary>
+    /// <param name="index">아이템을 분리할 슬롯의 인덱스</param>
+    private void OnSpliterOpen(uint index)
+    {
+        List<Slot> slots = GetItemTab();
+        Slot target = slots[(int)index];
+        spliter.transform.position = target.transform.position + Vector3.up * 100;
+        spliter.Open(target);
+        itemDescription.IsPause = true;
+    }
+
+    /// <summary>
+    /// 아이템 분리창에서 OK 버튼이 눌러졌을 때 실행될 함수
+    /// </summary>
+    /// <param name="index">아이템이 분리될 슬롯</param>
+    /// <param name="count">분리된 개수</param>
+    private void OnSpliterOk(uint index, uint count)
+    {
+        SplitItem(index, count);
+        TempSlot.Open();
+    }
+
+    /// <summary>
+    /// 쉬프트키가 눌려지거나 때졌을 때 실행될 함수
+    /// </summary>
+    /// <param name="context"></param>
+    private void OnShiftPress(InputAction.CallbackContext context)
+    {
+        isShiftPress = !context.canceled;   // 쉬프트키 상황 기록
+    }
+
+
+    /// <summary>
+    /// 마우스 클릭이 떨어졌을 때 실행되는 함수(아이템 드랍용)
+    /// </summary>
+    private void OnItemDrop(InputAction.CallbackContext _)
+    {
+        if (tempSlot == null)
+            return;
+        if (!tempSlot.IsEmpty)
+        {
+            //레이를 쏘기 전에 레이의 좌표를 스크린좌표로 바꿔줘야함 그러나 굳이 위치를 비교하는 것 보다 레이를 쏴서 비교할 이유는 없다.
+            //Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+            //if (Physics.Raycast(ray, out RaycastHit ground, 1000.0f, LayerMask.GetMask("BeforeSlot")))
+            //{
+            //    Debug.Log("BeforeSlot감지");
+            //}
+            //else if ((Physics.Raycast(ray, out RaycastHit beforeSlot, 1000.0f, LayerMask.GetMask("Ground"))))
+            //{
+            //    Debug.Log("Ground");
+            //}
+            Vector2 screenPos = Mouse.current.position.ReadValue();
+            Vector2 distance_Between_Mouse_Inven = screenPos - (Vector2)inventoryRectTransform.position;//inventoryRectTransform.position의 피봇을 기준으로 떨어진거리 계산
+            Vector2 distance_Between_Mouse_BeforeSlot = screenPos - (Vector2)beforeSlotRectTransform.position;
+            Vector2 distance_Between_Mouse_enhancerUI = screenPos - (Vector2)enhancerUIRectTransform.position;
+            Vector2 distance_Between_Mouse_Left_Slot = screenPos - (Vector2)mixer_Left_slot_Transform.position;
+            Vector2 distance_Between_Mouse_Middle_Slot = screenPos - (Vector2)mixer_Middle_Slot_Transform.position;
+
+            if (beforeSlotRectTransform.rect.Contains(distance_Between_Mouse_BeforeSlot))//강화 슬롯의 위치이면서 강화ㅑ 가능한 아이템 일 때
+            {
+                ItemData_Enhancable enhancable = TempSlot.ItemData as ItemData_Enhancable;
+                if (enhancable != null)
+                {
+                    GameManager.Enhancer.ItemData = enhancable;
+                   // IndexForEnhancer =  애초에 장비탭의 Slot 이 TempSlot으로 옮겨갈때 인덱스 저장이 필요함
+                }
+            }
+            else if (mixer_Left_slot_Transform.rect.Contains(distance_Between_Mouse_Left_Slot))
+            {
+                GameManager.Mixer.LeftSLotData = TempSlot.ItemData;
+            }
+            else if (mixer_Middle_Slot_Transform.rect.Contains(distance_Between_Mouse_Middle_Slot))
+            {
+                GameManager.Mixer.MiddleSlotData = TempSlot.ItemData;
+            }
+            else if (!inventoryRectTransform.rect.Contains(distance_Between_Mouse_Inven))// 거리의 크기가 rect 의 크기보다 작으면 인벤토리 안쪽
+            {
+                if (enhancerUIRectTransform.rect.Contains(distance_Between_Mouse_enhancerUI) && GameManager.Enhancer.EnhancerState == EnhancerState.Open)//inhancerUI열려있으면 return
+                {
+                    return;
+                }
+                // 인벤토리 영역 밖이면
+                TempSlot.OnDrop(screenPos);
+            }
+        }
+  
+    }
+    private Transform GetParentTransform()
+    {
         Transform parentTransform;
         switch (GameManager.Inventory.State)
         {
@@ -88,188 +301,319 @@ public class SlotManager : MonoBehaviour
                 parentTransform = null;
                 break;
         }
-        if (parentTransform != null)
-        {
-            slotCount[GameManager.Inventory.State]++;
-            newSlot.name = $"{GameManager.Inventory.State}_{slotCount[ GameManager.Inventory.State]}";
-            newSlot.transform.SetParent(parentTransform, false);
-            slots[GameManager.Inventory.State].Add(newSlot);
-        } 
-    }
-  
-    public void GetItem(ItemBase item)
-    {
-        // itemType에 따른 리스트를 가져오기
-        List<GameObject> slotList = GetItemTab(item);//item.itemtype에 따른 리스트(장비, 소비, 기타 중 어느곳에 연결된 리스트인지) 연결하기
-        UpdateSlot(item, slotList);
-    }
-    private void UpdateSlot(ItemBase item, List<GameObject> slotList)
-    {
-        if (item.IsStackable)//한 칸에 여러개 소지 가능한 아이템일 경우 
-        {
-            foreach(GameObject slotObject in slotList) //리스트를 순회하면서 같은 아이템이 있으면 Count만 증가시키고 return;
-            {
-                Slot slot = slotObject.GetComponent<Slot>();
-                if (item.name == slot.CurrentItem)
-                {
-                    slot.ItemCount++;
-                    return;
-                }
-            }
-        }
-        foreach (GameObject slotObject in slotList)
-        {
-            Slot slot = slotObject.GetComponent<Slot>();
-            if (slot.IsEmpty)
-            {
-                Image slotImage = slotObject.transform.GetChild(0).GetComponent<Image>();
-                string spriteName = Enum.GetName(typeof(ItemImagePath), item.ItemImagePath);
-                Sprite[] sprite = Resources.LoadAll<Sprite>($"ItemImage/Items");
-                foreach (Sprite s in sprite)
-                {
-                    if (s.name == spriteName)
-                    {
-                        slotImage.sprite = s;
-                        slot.Item = item;
-                        break;
-                    }
-                }
-                slot.IsEmpty = false;
-                slot.CurrentItem = item.name;
-                break;
-            }
-        }
-    }
-    private List<GameObject> GetItemTab(ItemBase item)
-    {
-        List<GameObject> slotList;
-        switch (item.ItemType)
-        {
-            case ItemType.Equip:
-                slotList = slots[Current_Inventory_State.Equip];
-                break;
-            case ItemType.Consume:
-                slotList = slots[Current_Inventory_State.Consume];
-                break;
-            case ItemType.Etc:
-                slotList = slots[Current_Inventory_State.Etc];
-                break;
-            case ItemType.Craft:
-                slotList = slots[Current_Inventory_State.Craft];
-                break;
-            default:
-                slotList = null;
-                break;
-        }
-        return slotList;
+        return parentTransform;
     }
 
-    public void OnSlotClicked(Slot clickedSlot)
+
+    public bool AddItem(ItemCode code)
     {
-        isMovingChange?.Invoke();
-        // 첫 클릭: 선택한 슬롯 저장
-        if (selectedSlot == null)
+        bool result = false;
+        ItemData data = GameManager.Itemdata[code];
+
+        Slot sameDataSlot = FindSameItem(data);
+        if (sameDataSlot != null)
         {
-            if (!clickedSlot.IsEmpty)
-            {
-                selectedSlot = clickedSlot;
-                firstClickImage = clickedSlot.transform.GetChild(0).GetComponent<Image>(); //이미지의 알파값을 바꾸기 위한 이미지 컴포넌트
-                firstClickImage.raycastTarget = false;
-                firstSlotPosition = clickedSlot.transform.position;
-                imageTransform = clickedSlot.transform.GetChild(0).GetComponent<RectTransform>();
-
-                StartCoroutine(ImageMovingCoroutine());
-            }
+            // 같은 종류의 아이템이 있다.
+            // 아이템 개수 1 증가시키기고 결과 받기
+            result = sameDataSlot.IncreaseSlotItem(out _);  // 넘치는 개수가 의미 없어서 따로 받지 않음
         }
-
-        // 두 번째 클릭: 아이템 교환하고 선택한 슬롯 초기화
         else
         {
-            //만약 클릭 지점이 인벤토리의 범위를 벗어나면 아이템 필드에 드롭 if(slot.itemcount > 1) 몇개버릴지 숫자입력창 팝업
-            RectTransform inventoryRectTransform = GameManager.Inventory.GetComponent<RectTransform>();
-
-            Vector2 localMousePosition;
-
-            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(inventoryRectTransform, Input.mousePosition, null, out localMousePosition))
+            // 같은 종류의 아이템이 없다.
+            Slot emptySlot = FindEmptySlot(data);
+            if (emptySlot != null)
             {
-                if (inventoryRectTransform.rect.Contains(localMousePosition))
-                {
-                    Debug.Log("인벤토리 내부");
-                    // 마우스 클릭 위치가 인벤토리 내부
-                    secondSlotPosition = clickedSlot.transform.position;
+                emptySlot.AssignSlotItem(data); // 빈슬롯이 있으면 아이템 하나 할당
+                result = true;
+            }
+            else
+            {
+                // 비어있는 슬롯이 없다.
+                //Debug.Log("아이템 추가 실패 : 인벤토리가 가득 차있습니다.");
+            }
+        }
 
-                    ResetImageAlpha(); // 이동중인 첫번째 슬롯 알파값 원상복구
-                    SwapItems(selectedSlot, clickedSlot);
-                    selectedSlot = null;
+        return result;
+    }
+    public bool AddItem(ItemData_Enhancable data)
+    {
+        bool result = false;
+        // 같은 종류의 아이템이 없다.
+        Slot emptySlot = FindEmptySlot(data);
+        if (emptySlot != null)
+        {
+            emptySlot.AssignSlotItem(data); // 빈슬롯이 있으면 아이템 하나 할당
+            result = true;
+        }
+        else
+        {
+            // 비어있는 슬롯이 없다.
+            //Debug.Log("아이템 추가 실패 : 인벤토리가 가득 차있습니다.");
+        }
+        return result;
+    }
+    public void RemoveItem(ItemData data, uint slotIndex, uint decreaseCount = 1)
+    {
+        List<Slot> slots = GetItemTab(data);
+        if (IsValidIndex(slotIndex, data))
+        {
+            Slot invenSlot = slots[(int)slotIndex];
+            invenSlot.DecreaseSlotItem(decreaseCount);
+        }
+        else
+        {
+            //Debug.Log($"아이템 감소 실패 : {slotIndex}는 없는 인덱스입니다.");
+        }
+    }
+    public void ClearSlot(ItemData data, uint slotIndex)
+    {
+        List<Slot> slots = GetItemTab(data);
+        if (IsValidIndex(slotIndex, data))
+        {
+            Slot invenSlot = slots[(int)slotIndex];
+            invenSlot.ClearSlotItem();
+        }
+        else
+        {
+            //Debug.Log($"아이템 삭제 실패 : {slotIndex}는 없는 인덱스입니다.");
+        }
+    }
+    public void ClearInventory()
+    {
+        List<Slot> slots = GetItemTab();
+        foreach (var slot in slots)
+        {
+            slot.ClearSlotItem();
+        }
+    }
+    public void MoveItem(ItemData data, uint from, uint to)
+    {
+        if (data == null)
+        {
+            data = TempSlot.ItemData;
+        }
+        List<Slot> slots = GetItemTab(data);
+        // from지점과 to지점이 다르고 from과 to가 모두 valid해야 한다.
+        if ((from != to) && IsValidIndex(from, data) && IsValidIndex(to, data))
+        {
+            Slot fromSlot = (from == tempSlot.Index) ? tempSlot : slots[(int)from];  // 임시 슬롯을 감안해서 삼항연산자로 처리
+            if (!fromSlot.IsEmpty)
+            {
+                Slot toSlot = (to == tempSlot.Index) ? TempSlot : slots[(int)to];
+                if (fromSlot.ItemData == toSlot.ItemData)  // 같은 종류의 아이템이면
+                {
+                    toSlot.IncreaseSlotItem(out uint overCount, fromSlot.ItemCount);    // 일단 from이 가진 개수만큼 to 감소 시도
+                    fromSlot.DecreaseSlotItem(fromSlot.ItemCount - overCount);          // from에서 실제로 넘어간 숫자만큼 from 감소
+                    //Debug.Log($"{from}번 슬롯에서 {to}번 슬롯으로 아이템 합치기");
                 }
                 else
                 {
-                    Debug.Log("인벤토리 외부");
-                    // 마우스 클릭 위치가 인벤토리 외부
-                    // 코드 이하 생략...
+                    // 다른 종류의 아이템이면 서로 스왑
+                    ItemData tempData = fromSlot.ItemData;
+                    uint tempCount = fromSlot.ItemCount;
+                    fromSlot.AssignSlotItem(toSlot.ItemData, toSlot.ItemCount);
+                    toSlot.AssignSlotItem(tempData, tempCount);
+                    //Debug.Log($"{from}번 슬롯과 {to}번 슬롯의 아이템 교체");
                 }
-   
             }
         }
     }
-    void ResetImageAlpha()// 이미지 알파값 초기화 
+
+    /// <summary>
+    /// 인벤토리 특정 슬롯에서 아이템을 일정량 덜어내어 임시 슬롯으로 보내는 함수
+    /// </summary>
+    /// <param name="slotIndex">아이템을 덜어낼 슬롯</param>
+    /// <param name="count">덜어낼 개수</param>
+    public void SplitItem(uint slotIndex, uint count) // 스플릿할때는 굳이 
     {
-        if (firstClickImage != null)
+        if (IsValidIndex(slotIndex))
         {
-            var color = firstClickImage.color;
-            color.a = 1.0f;
-            firstClickImage.color = color;
+            List<Slot> slots = GetItemTab();
+            Slot slot = slots[(int)slotIndex];
+            tempSlot.AssignSlotItem(slot.ItemData, count);  // 임시 슬롯에 할당하기
+            slot.DecreaseSlotItem(count);                   // 슬롯에서 덜어내고
         }
     }
-    void SwapItems(Slot firstSlot, Slot secondSlot)
-    {
-        // 두 슬롯이 속한 리스트 가져오기
-        List<GameObject> SlotList = null;
 
-        foreach (var slotList in slots)
+    /// <summary>
+    /// 인벤토리를 정렬하는 함수 
+    /// </summary>
+    /// <param name="sortBy">정렬 기준</param>
+    /// <param name="isAcending">true면 오름차순, false면 내림차순</param>
+    public void SlotSorting(ItemSortBy sortBy, bool isAcending = true)
+    {
+        List<Slot> slots = GetItemTab();
+        List<Slot> beforeSlots = new List<Slot>(slots);   // slots 배열을 이용해서 리스트 만들기
+
+        switch (sortBy) // 정렬 기준에 따라 다르게 처리하기(Sort 함수의 파라메터로 들어갈 람다함수를 다르게 작성)
         {
-            if (slotList.Value.Contains(firstSlot.gameObject))
+            case ItemSortBy.Code:
+                beforeSlots.Sort((x, y) =>  // x, y는 서로 비교할 2개(beforeSlots에 들어있는 2개)
+                {
+                    if (x.ItemData == null) // itemData는 비어있을 수 있으니 비어있으면 비어있는 것이 뒤쪽으로 설정
+                        return 1;
+                    if (y.ItemData == null)
+                        return -1;
+                    if (isAcending)
+                    {
+                        return x.ItemData.code.CompareTo(y.ItemData.code);  // enum이 가지는 CompareTo 함수로 비교(오름차순일 때)
+                    }
+                    else
+                    {
+                        return y.ItemData.code.CompareTo(x.ItemData.code);  // enum이 가지는 CompareTo 함수로 비교(내림차순일 때)
+                    }
+                });
+                break;
+            case ItemSortBy.Name:
+                beforeSlots.Sort((x, y) =>
+                {
+                    if (x.ItemData == null)
+                        return 1;
+                    if (y.ItemData == null)
+                        return -1;
+                    if (isAcending)
+                    {
+                        return x.ItemData.itemName.CompareTo(y.ItemData.itemName);
+                    }
+                    else
+                    {
+                        return y.ItemData.itemName.CompareTo(x.ItemData.itemName);
+                    }
+                });
+                break;
+            case ItemSortBy.Price:
+                beforeSlots.Sort((x, y) =>
+                {
+                    if (x.ItemData == null)
+                        return 1;
+                    if (y.ItemData == null)
+                        return -1;
+                    if (isAcending)
+                    {
+                        return x.ItemData.price.CompareTo(y.ItemData.price);
+                    }
+                    else
+                    {
+                        return y.ItemData.price.CompareTo(x.ItemData.price);
+                    }
+                });
+                break;
+        }
+        // beforeSlots은 정해진 기준에 따라 정렬 완료
+
+        // 아이템 종류와 개수를 따로 저장하기
+        List<(ItemData, uint)> sortedData = new List<(ItemData, uint)>(slots.Count);
+        foreach (var slot in beforeSlots)
+        {
+            sortedData.Add((slot.ItemData, slot.ItemCount));
+        }
+
+        // 슬롯에 아이템 종류와 개수를 순서대로 할당하기
+        int index = 0;
+        foreach (var data in sortedData)
+        {
+            slots[index].AssignSlotItem(data.Item1, data.Item2);
+            index++;
+        }//수동 복사부분
+
+        // 정렬 완료된 것을 다시 배열로 만들기
+       // slots = beforeSlots;
+        RefreshInventory();
+    }
+
+    /// <summary>
+    /// 모든 슬롯이 변경되었음을 알리는 함수
+    /// </summary>
+    void RefreshInventory()
+    {
+        List<Slot> slots = GetItemTab();
+        foreach (var slot in slots)
+        {
+            slot.onValueChange?.Invoke();
+        }
+    }
+    Slot FindSameItem(ItemData data)
+    {
+        List<Slot> slots = GetItemTab(data);
+        Slot findSlot = null;
+        foreach (var slot in slots)  // 모든 슬롯을 다 돌면서
+        {
+            if (slot.ItemData == data && slot.ItemCount < slot.ItemData.maxStackCount)  // itemData가 같고 여유 공간이 있으면 그 슬롯을 리턴한다
             {
-                SlotList = slotList.Value;
+                findSlot = slot;
+                break;
             }
         }
 
-        if (SlotList == null)
-        {
-            Debug.LogError("Slot lists not found.");
-            return;
-        }
-
-        // 각 슬롯의 인덱스를 찾기.
-        int firstSlotIndex = SlotList.IndexOf(firstSlot.gameObject);
-        int secondSlotIndex = SlotList.IndexOf(secondSlot.gameObject);
-
-        // 슬롯을 잠시 저장하고 리스트에서 삭제
-        GameObject tempFirstSlot = SlotList[firstSlotIndex];
-        GameObject tempSecondSlot = SlotList[secondSlotIndex];
-
-        firstSlot.gameObject.transform.position = secondSlotPosition;
-        secondSlot.transform.position = firstSlotPosition;
-
-
-        SlotList.RemoveAt(firstSlotIndex);
-        SlotList.Insert(firstSlotIndex, tempSecondSlot);
-        SlotList.RemoveAt(secondSlotIndex);
-        SlotList.Insert(secondSlotIndex, tempFirstSlot);
-        // 삭제한 위치에 다른 슬롯을 추가하여 위치를 바꿈
+        return findSlot;
     }
-    IEnumerator ImageMovingCoroutine()
-    {
-        var color = firstClickImage.color;
-        color.a = 0.5f;//로컬변수 color의 알파값을 변경하는건 가능하지만  clickedItemImage.color.a = 0.5f; 이렇게 직접 값을 변경하는건 읽기전용이라 안된다
-        firstClickImage.color = color;
-        while (selectedSlot != null)
-        {
-            imageTransform.position = Input.mousePosition;
-            yield return null;
-        }
-        imageTransform.anchoredPosition = Vector2.zero;
 
-        yield break;
+    /// <summary>
+    /// 인벤토리에서 비어있는 슬롯을 찾는 함수
+    /// </summary>
+    /// <returns>비어있는 슬롯(첫번째)</returns>
+    Slot FindEmptySlot(ItemData data)
+    {
+        Slot findSlot = null;
+        List<Slot> slots = GetItemTab(data);
+        foreach (var slot in slots)     // 모든 슬롯을 다 돌면서
+        {
+            if (slot.IsEmpty)            // 비어있는 슬롯이 있으면 찾았다.// Slot의 IsEmpty가 초기 false인 문제  ItemData가 null 인데 왜 false인지 잘 모르겠다.
+            {
+                findSlot = slot;
+                break;
+            }
+        }
+
+        return findSlot;
+    }
+
+    /// 적절한 인덱스인지 확인하는 함수
+    bool IsValidIndex(uint index, ItemData data = null)
+    {
+        List<Slot> slots = GetItemTab(data);
+        if (index < slots.Count || index == tempSlot.Index)
+        {
+            return true;
+        }
+        return false;
+    } 
+
+    private List<Slot> GetItemTab(ItemData item = null)
+    {
+        List<Slot> slotList;
+        if (item != null) // 이 함수를 호출할 때 itemdata가 null 이면  인벤토리에 현재 선택된 탭의 리스트를 리턴한다.
+        {
+            switch (item.ItemType) // null 이 아니면 Inventory 클래스에서 현재 어떤 탭이 선택되었든 관계없이 item의 itemType에 따라 리스트를 결정 한다.
+            {
+                case ItemType.Equip:
+                    return slotList = slots[Current_Inventory_State.Equip];
+                case ItemType.Consume:
+                    return slotList = slots[Current_Inventory_State.Consume];
+                case ItemType.Etc:
+                    return slotList = slots[Current_Inventory_State.Etc];
+                case ItemType.Craft:
+                    return slotList = slots[Current_Inventory_State.Craft];
+                default:
+                    break;
+            }
+        }
+        else
+        {      
+            switch (GameManager.Inventory.State)
+            {
+                case Current_Inventory_State.Equip:
+                    return slotList = slots[Current_Inventory_State.Equip];
+                case Current_Inventory_State.Consume:
+                    return slotList = slots[Current_Inventory_State.Consume];
+                case Current_Inventory_State.Etc:
+                    return slotList = slots[Current_Inventory_State.Etc];
+                case Current_Inventory_State.Craft:
+                    return slotList = slots[Current_Inventory_State.Craft];
+                default:
+                    break;
+            }
+        }
+        return null;
     }
 }

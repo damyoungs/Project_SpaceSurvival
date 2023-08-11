@@ -92,18 +92,11 @@
  *      SetItemData 함수 내 획득한 아이템의 아이템 타입에 따라 어떤 탭에, 몇번째 슬롯에 저장할 것인지, 이미 보유중인 아이템인지, 중복소지 가능한 아이템인지,
  *      저장 후 ItemName 을 파라미터로 해당Slot에 Update Slot함수 호출// 완료
  *      
- *               
- *       *  할일목록 
- *        
- *      Slot 생성할때 슬롯 상위에 빈오브젝트 생성 addComponent<Image> 붙히고 EmptySlot 부여 
- *      
- *      클릭시 이미지 대신 슬롯자체를 옮기고 이동중일 때 rayCastTarget 끄기
+ *      ItemData_Enhance - ItemData, IEnhancable 상속받고 
+ *      Enhancer_Description, SuccessRateText, Warning PopUp, ItemLevelText, 슬롯 애니메이션, 성공실패 파티클, 
  *      
  *      
  *      
- *      
- *       Optional - state에 맞게 어떤 탭을 선택했는지 시각적으로 보이도록 버튼색상변경
- 
  *      
  *      
  *      

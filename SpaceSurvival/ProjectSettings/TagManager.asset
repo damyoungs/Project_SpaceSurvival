@@ -3,18 +3,24 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Tile
+  - SaveList
+  - IOPopupWindow
+  - WindowList
+  - DataFactory
+  - TitleButton
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - MousePlane
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - Units
+  - Item
+  - Ground
+  - Enhancer_Before
   - 
   - 
   - 

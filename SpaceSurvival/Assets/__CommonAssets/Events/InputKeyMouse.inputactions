@@ -40,6 +40,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ItemPickUp",
+                    "type": "Button",
+                    "id": "b05c263e-df4c-4eea-9892-fcd3efd12ec1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -152,6 +161,28 @@
                     "action": "RightRotate",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4f4fef8c-4c00-434b-91fd-2bc19161f564",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ItemPickUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7f631461-747c-4088-bdef-3dadcfc7bdbc",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ItemPickUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -172,6 +203,15 @@
                     "name": "TestClick",
                     "type": "PassThrough",
                     "id": "64a0994d-d4f9-4dab-af61-a0b4c5c39d16",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MouseClickRight",
+                    "type": "Button",
+                    "id": "afb07fd5-ebed-4f3c-a778-9e2e4b9a4089",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -198,6 +238,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "TestClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "73933102-520f-4c03-ba39-951ed265350a",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyMouse",
+                    "action": "MouseClickRight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -378,7 +429,7 @@
                 },
                 {
                     "name": "TestClick",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "ce03a7e5-86f4-43b8-a1c4-421ea1dd879d",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -448,7 +499,7 @@
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "KeyMouse",
+                    "groups": "",
                     "action": "TestClick",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -494,6 +545,113 @@
                     "processors": "",
                     "groups": "KeyMouse",
                     "action": "Test9",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "UI",
+            "id": "60105a31-2baa-4a4a-a6e1-de88fe1fcdb9",
+            "actions": [
+                {
+                    "name": "Click",
+                    "type": "Button",
+                    "id": "8abfd317-8e81-489c-a229-9ae255004d07",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Shift",
+                    "type": "Button",
+                    "id": "4a88eb60-c7c6-4cfc-82fa-2104f1652ed3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "8c1eaa1a-1035-461f-98d1-5b848099ce11",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "52d8b9ee-103c-4c9f-bc09-9401c3bcc2f1",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c541439f-abcb-4970-88e8-0f6b3865bb85",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shift",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Camera",
+            "id": "0c04e0dc-59e0-4a25-a0d2-0f78bde0d4c5",
+            "actions": [
+                {
+                    "name": "RightRotate",
+                    "type": "Button",
+                    "id": "b1ff20a7-071a-4977-a13b-a30e670b5dbc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "LeftRotate",
+                    "type": "Button",
+                    "id": "6a51fb97-32f0-461b-a5ca-abb04484fe91",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "10b9e187-3357-4e90-b1cb-0cd0ddf71203",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyMouse",
+                    "action": "LeftRotate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4938f774-f587-4710-831f-357baa60df75",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyMouse",
+                    "action": "RightRotate",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

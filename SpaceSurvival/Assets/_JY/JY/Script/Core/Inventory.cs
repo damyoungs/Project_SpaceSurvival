@@ -20,6 +20,10 @@ public class Inventory : MonoBehaviour
     public GameObject Consume_Inven;
     public GameObject Etc_Inven;
     public GameObject Craft_Inven;
+    public Item_Enhancer ItemEnhancer;
+    Item_Mixer mixer;
+
+    GameObject ItemDescription;
 
     Transform toolBar;
     Button close_Button;
@@ -28,6 +32,9 @@ public class Inventory : MonoBehaviour
     Button consume_Button;
     Button etc_Button;
     Button craft_Button;
+    Button sort_Button;
+    Button enhance_Button;
+    Button mixer_Button;
 
     Image equipButtonColor;
     Image consumeButtonColor;
@@ -35,7 +42,6 @@ public class Inventory : MonoBehaviour
     Image craftButtonColor;
 
     bool is_Inventory_Open = false;
-    public bool is_Initialized;
 
     public delegate void Inventory_State_Changed(Current_Inventory_State state); //state가 바뀌면 setter가 호출할 delegate
     Inventory_State_Changed inventory_changed;
@@ -53,31 +59,50 @@ public class Inventory : MonoBehaviour
             }
         }
     }
+
     private void Awake()
     {
         toolBar = transform.GetChild(0);
         close_Button = toolBar.GetChild(0).GetComponent<Button>();
         add_Button = toolBar.GetChild(1).GetComponent<Button>();
+        sort_Button = transform.GetChild(0).GetChild(2).GetComponent<Button>();
+        enhance_Button = toolBar.GetChild(3).GetComponent<Button>();
+        mixer_Button = transform.GetChild(0).GetChild(4).GetComponent<Button>();
+
         equip_Button = transform.GetChild(1).GetComponent<Button>();
         consume_Button = transform.GetChild(2).GetComponent<Button>();
         etc_Button = transform.GetChild(3).GetComponent<Button>();
         craft_Button = transform.GetChild(4).GetComponent<Button>();
+
 
         equipButtonColor = equip_Button.GetComponent<Image>();
         consumeButtonColor = consume_Button.GetComponent<Image>();
         etcButtonColor = etc_Button.GetComponent<Image>();
         craftButtonColor = craft_Button.GetComponent<Image>();
 
+        sort_Button.onClick.AddListener(SlotSorting);
         close_Button.onClick.AddListener(Open_Inventory);
         add_Button.onClick.AddListener(GameManager.SlotManager.Make_Slot);
+        mixer_Button.onClick.AddListener(Open_Mixer);
+
+
         equip_Button.onClick.AddListener(SwitchTab_To_Equip);
         consume_Button.onClick.AddListener(SwitchTab_To_Consume);
         etc_Button.onClick.AddListener(SwitchTab_To_Etc);
         craft_Button.onClick.AddListener(SwitchTab_To_Craft);
+
+        ItemDescription = transform.GetChild(9).gameObject;
+        ItemDescription.SetActive(true);
     }
+    void SlotSorting() //addListener 로 매개변수필요한 함수 바로 등록이 안되서 우회접근
+    {
+        GameManager.SlotManager.SlotSorting(ItemSortBy.Price, true);
+    }
+ 
     private void OnEnable()
     {
         inventory_changed += Update_State;
+    
     }
     private void OnDisable()
     {
@@ -86,9 +111,18 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         GameManager.SlotManager.Initialize();
-
-
+        enhance_Button.onClick.AddListener(Open_Enhancer);//enable, Awake에서는 안됨
+        mixer = GameManager.Mixer;
     }
+    void Open_Enhancer()
+    {
+        GameManager.Enhancer.EnhancerState = EnhancerState.Open;
+    }
+    void Open_Mixer()
+    {
+        mixer.MixerState = ItemMixerState.Open;
+    }
+
     void Update_State(Current_Inventory_State state)
     {
         equipButtonColor.color = Color.white;
