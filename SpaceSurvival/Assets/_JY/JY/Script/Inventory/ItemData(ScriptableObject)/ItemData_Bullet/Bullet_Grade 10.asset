@@ -17,7 +17,7 @@ MonoBehaviour:
   itemName: Bullet_Grade10
   modelPrefab: {fileID: 6704084586641728052, guid: 489344fe8204e02469a1d9c8607ad920, type: 3}
   itemIcon: {fileID: 21300000, guid: e11327c5d99ff1c47bd285f27e5bdfe3, type: 3}
-  price: 90000
-  maxStackCount: 1
-  itemDescription: 
+  price: 100000
+  maxStackCount: 500
+  itemDescription: 10
   attckPoint: 20

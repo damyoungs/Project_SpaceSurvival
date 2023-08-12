@@ -18,6 +18,6 @@ MonoBehaviour:
   modelPrefab: {fileID: 4568180518578603003, guid: 1275b36f78ce0624fbaa38fb0eddab0c, type: 3}
   itemIcon: {fileID: 21300000, guid: 2402edd7033c34c4eb394ba0f218962a, type: 3}
   price: 80000
-  maxStackCount: 800
-  itemDescription: 
+  maxStackCount: 500
+  itemDescription: 11
   attckPoint: 18
