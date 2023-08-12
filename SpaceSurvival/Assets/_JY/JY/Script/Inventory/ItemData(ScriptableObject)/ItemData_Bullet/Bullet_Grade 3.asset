@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95f833ed0944c0a4cb234ca11d12a563, type: 3}
   m_Name: Bullet_Grade 3
   m_EditorClassIdentifier: 
-  ItemType: 0
-  code: 0
-  itemName: 
-  modelPrefab: {fileID: 0}
-  itemIcon: {fileID: 0}
-  price: 0
-  maxStackCount: 1
+  ItemType: 2
+  code: 37
+  itemName: Bullet_Grade3
+  modelPrefab: {fileID: 7251655066739527978, guid: 1d4aebc6850eab240bb6c4422065a15e, type: 3}
+  itemIcon: {fileID: 21300000, guid: f7624fcb10157d64b9353944ab0c8807, type: 3}
+  price: 180000
+  maxStackCount: 2000
   itemDescription: 
-  attckPoint: 0
+  attckPoint: 40
