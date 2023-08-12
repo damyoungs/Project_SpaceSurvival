@@ -37,7 +37,21 @@ public enum ItemCode// 밑의 ItemData 배열과 같은 순서를 유지해야 알맞은 프리팹을
     Purple_Crystal,
     Red_Crystal,
     Unknown_Crystal,
-    Yellow_Crystal
+    Yellow_Crystal,
+    Bullet_Default,
+    Bullet_Grade1,
+    Bullet_Grade2,
+    Bullet_Grade3,
+    Bullet_Grade4,
+    Bullet_Grade5,
+    Bullet_Grade6,
+    Bullet_Grade7,
+    Bullet_Grade8,
+    Bullet_Grade9,
+    Bullet_Grade10,
+    Bullet_Grade11,
+    Bullet_Grade12,
+    Bullet_Grade13
 }
 public enum ItemType
 {
