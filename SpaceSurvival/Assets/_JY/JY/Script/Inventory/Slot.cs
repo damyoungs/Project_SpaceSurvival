@@ -137,12 +137,18 @@ public class Slot : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandle
         {
             // 마우스 위치에 어떤 오브젝트가 있다.
             Slot endSlot = obj.GetComponent<Slot>();  // 마우스 위치에 있는 오브젝트가 슬롯UI인지 확인
+            //Mixer_Slot_Left leftSlot = obj.GetComponent<Mixer_Slot_Left>();
+            //Mixer_Slot_Middle middleSlot = obj.GetComponent <Mixer_Slot_Middle>();
             if (endSlot != null)
             {
                 // 슬롯UI다.
                 Debug.Log($"드래그 종료 : {endSlot.Index}번 슬롯");
                 onDragEnd?.Invoke(GameManager.SlotManager.TempSlot.ItemData, endSlot.Index, true); // 끝난지점에 있는 슬롯의 인덱스와 정상적으로 끝났다고 알람 보내기
             }
+            //else if (leftSlot != null || middleSlot != null)
+            //{
+            //    //카운트를 줄여야하는데 이미 null이라서 줄일수가 없음
+            //}
             else
             {
                 // 슬롯UI가 아니다.

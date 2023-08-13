@@ -17,7 +17,7 @@ using UnityEngine;
 public class Item_Mixer : MonoBehaviour
 {
     Item_Mixer_UI item_Mixer_UI;
-
+    SlotManager slot_Manager;
     public Item_Mixer_UI MixerUI => item_Mixer_UI;
 
     public Action onOpen;
@@ -35,23 +35,43 @@ public class Item_Mixer : MonoBehaviour
 
     ItemData leftSlotData = null;
     ItemData middleSlotData = null;
+    ItemData tempData = null;// 아이템 제거하기 전 slot에 추가할 아이템을 미리 복사해놓는 용도
 
-    public Action<ItemData> onLeftSlotDataChange;
-    public Action<ItemData> onMiddleSlotDataChange;
+    public Action<ItemData> onLeftSlotDataSet;
+    public Action<ItemData> onMiddleSlotDataSet;
 
     //일단 먼저 할당을 한 후 비교해서 다르면 삭제해야함. 추가할 때부터 비교를해서 하려면 초기에 아이템이 추가가 안되는 문제가 있음
-    public ItemData LeftSLotData
+    public ItemData LeftSlotData
     {
         get => leftSlotData;
         set
         {
             if (leftSlotData != value) 
             {
+                tempData = leftSlotData;
                 leftSlotData = value;
                 CheckBothSlot();
-                onLeftSlotDataChange?.Invoke(leftSlotData);
+                onLeftSlotDataSet?.Invoke(leftSlotData);// 슬롯메니저에서 이 델리게이트를 받아서 아이템의 카운트를 더하고 빼줘야한다.null이면 더하고  아니면 빼주고
+                if (leftSlotData != null)
+                {
+                    StartCoroutine(LeftSlotDelay());
+                }
+                else
+                {
+                    slot_Manager.AddItem(tempData.code);
+                }
             }
         }
+    }
+    IEnumerator LeftSlotDelay()
+    {
+        yield return new WaitForSeconds(0.01f);
+        slot_Manager.RemoveItem(leftSlotData, slot_Manager.Index_JustChange_Slot);
+    }
+    IEnumerator MiddleSlotDelay()
+    {
+        yield return new WaitForSeconds(0.01f);
+        slot_Manager.RemoveItem(middleSlotData, slot_Manager.Index_JustChange_Slot);
     }
     public ItemData MiddleSlotData
     {
@@ -60,9 +80,19 @@ public class Item_Mixer : MonoBehaviour
         {
             if (middleSlotData != value)
             {
+                tempData = middleSlotData;// 데이터가 null 이 되면 인벤토리 슬롯에 아이템을 추가해야하기때문에 null이 되기 전 임시저장
+
                 middleSlotData = value;
                 CheckBothSlot();
-                onMiddleSlotDataChange?.Invoke(middleSlotData);
+                onMiddleSlotDataSet?.Invoke(middleSlotData);
+                if (middleSlotData != null)
+                {
+                    StartCoroutine(MiddleSlotDelay());
+                }
+                else
+                {
+                    slot_Manager.AddItem(tempData.code);
+                }
             }
         }
     }
@@ -131,10 +161,13 @@ public class Item_Mixer : MonoBehaviour
         middle_Slot = GetComponentInChildren<Mixer_Slot_Middle>();
         result_Slot = GetComponentInChildren<Mixer_Slot_Result>();
 
-        left_Slot.onClearLeftSlot += () => LeftSLotData = null;
+        left_Slot.onClearLeftSlot += () => LeftSlotData = null;
         middle_Slot.onClearMiddleSlot += () => MiddleSlotData = null;
     }
-
+    private void Start()
+    {
+        slot_Manager = GameManager.SlotManager;
+    }
 
     //
 }

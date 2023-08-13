@@ -117,8 +117,8 @@ public class Item_Mixer_UI : MonoBehaviour
         canvasGroup.blocksRaycasts = false;
         DarkForceCount = 0;
       //  mixer.ItemData = null;
-        left_Slot.ItemData = null;
-        middle_Slot.ItemData = null;
+        mixer.LeftSlotData= null;
+        mixer.MiddleSlotData = null;
         result_Slot.ItemData = null;
         successRateText.text = "0";
     }

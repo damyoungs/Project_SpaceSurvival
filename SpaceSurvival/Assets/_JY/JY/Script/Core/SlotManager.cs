@@ -37,7 +37,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     private Dictionary<Current_Inventory_State, int> slotCount; //슬롯 생성후 번호를 부여하기위한 Dic
 
  
-    public byte IndexForEnhancer { get; set; }
+    public byte Index_JustChange_Slot { get; set; }
   
 
     private void Awake()
@@ -58,7 +58,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         input.UI.Shift.canceled -= OnShiftPress;
         input.UI.Disable();
     }
-    public void Initialize()//Inventory에서 호출
+    public void Initialize()//Inventory에서 Start타이밍에 호출
     {
         itemDescription.Close();
         TempSlot.InitializeSlot(TempSlot);
@@ -136,7 +136,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     }
     private void OnItemMoveBegin(ItemData data, uint index)
     {
-        IndexForEnhancer = (byte)index;
+        Index_JustChange_Slot = (byte)index;
         MoveItem(data ,index, tempSlot.Index);    // 시작 슬롯에서 임시 슬롯으로 아이템 옮기기
         TempSlot.Open();                          // 임시 슬롯 열기
     }
@@ -262,11 +262,13 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             }
             else if (mixer_Left_slot_Transform.rect.Contains(distance_Between_Mouse_Left_Slot))
             {
-                GameManager.Mixer.LeftSLotData = TempSlot.ItemData;
+                GameManager.Mixer.LeftSlotData = TempSlot.ItemData;
+                RemoveItem(TempSlot.ItemData, Index_JustChange_Slot);
             }
             else if (mixer_Middle_Slot_Transform.rect.Contains(distance_Between_Mouse_Middle_Slot))
             {
                 GameManager.Mixer.MiddleSlotData = TempSlot.ItemData;
+                RemoveItem(TempSlot.ItemData, Index_JustChange_Slot);
             }
             else if (!inventoryRectTransform.rect.Contains(distance_Between_Mouse_Inven))// 거리의 크기가 rect 의 크기보다 작으면 인벤토리 안쪽
             {
@@ -411,7 +413,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                     // 다른 종류의 아이템이면 서로 스왑
                     ItemData tempData = fromSlot.ItemData;
                     uint tempCount = fromSlot.ItemCount;
-                    fromSlot.AssignSlotItem(toSlot.ItemData, toSlot.ItemCount);
+                    fromSlot.AssignSlotItem(toSlot.ItemData, toSlot.ItemCount);// 이때 슬롯의 데이터가 null이 된다.
                     toSlot.AssignSlotItem(tempData, tempCount);
                     //Debug.Log($"{from}번 슬롯과 {to}번 슬롯의 아이템 교체");
                 }
@@ -538,10 +540,17 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         Slot findSlot = null;
         foreach (var slot in slots)  // 모든 슬롯을 다 돌면서
         {
-            if (slot.ItemData == data && slot.ItemCount < slot.ItemData.maxStackCount)  // itemData가 같고 여유 공간이 있으면 그 슬롯을 리턴한다
+            if (slot.ItemData != null)
             {
-                findSlot = slot;
-                break;
+                if (slot.ItemData.code == data.code && slot.ItemCount < slot.ItemData.maxStackCount)  // itemData가 같고 여유 공간이 있으면 그 슬롯을 리턴한다
+                {
+                    findSlot = slot;
+                    break;
+                }
+            }
+            else
+            {
+                continue;
             }
         }
 
