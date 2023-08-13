@@ -26,7 +26,7 @@ public class Item_Mixer : MonoBehaviour
 
     public Action onOpen;
     public Action<ItemData> onSetItem;
-   // public Action onSetItemCsnceled;
+    public Action onSetItemCanceled;
     public Action onWaitforResult;
     public Action onSuccess;
     public Action onFail;
@@ -139,6 +139,7 @@ public class Item_Mixer : MonoBehaviour
                     break;
                 case ItemMixerState.SetItemCanceled:
                     result_Slot.ItemData = null;
+                    onSetItemCanceled?.Invoke();
                     break;
                 case ItemMixerState.Confirm:
                     //if (ItemData != null)

@@ -98,6 +98,7 @@ public class Item_Mixer_UI : MonoBehaviour
         mixer.onFail += () => StartCoroutine(PopUp_ProceedBox(false));
 
         mixer.onSetItem += RefreshMixerUI;
+        mixer.onSetItemCanceled += InitializeUIElements;
         Mixing_Table = GameManager.Mixing_Table;
 
 
@@ -138,15 +139,21 @@ public class Item_Mixer_UI : MonoBehaviour
     private void ClearEnhancerUI()
     {
         //이미지, 성공률 text
+        InitializeUIElements();
+        left_Slot.ItemData = null;
+        middle_Slot.ItemData = null;
+        result_Slot.ItemData = null;
+        // mixer.ItemData = null;
+    }
+
+    private void InitializeUIElements()
+    {
         amountSlider.maxValue = 0.0f;
         amountSlider.value = 0;
         amountText.text = "0";
         successRateText.text = $"{0}";
-        left_Slot.ItemData = null;
-        middle_Slot.ItemData = null;
-        result_Slot.ItemData = null;
-       // mixer.ItemData = null;
     }
+
     void BlockInteractable()//Enhancer에서 신호 받음 
     {
         left_Slot.imageComp.raycastTarget = false;
