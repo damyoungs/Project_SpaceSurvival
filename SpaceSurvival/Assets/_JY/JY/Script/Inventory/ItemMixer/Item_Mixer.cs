@@ -69,15 +69,8 @@ public class Item_Mixer : MonoBehaviour
     void CheckBothSlot()
     {
         if (leftSlotData != null && middleSlotData != null)//두 슬롯 모두 셋팅 되었다면 
-        {
-            if (leftSlotData.itemName == middleSlotData.itemName)//두슬롯 아이템의 타입이 같다면 
-            {
-                MiddleSlotData = null;
-            }
-            else
-            {
-                MixerState = ItemMixerState.SetItem;
-            }
+        {// 조합목록에 있는지 확인 하는 조건 추가해야함
+            MixerState = ItemMixerState.SetItem;
         }
     }
     //bool CompareSlotData()

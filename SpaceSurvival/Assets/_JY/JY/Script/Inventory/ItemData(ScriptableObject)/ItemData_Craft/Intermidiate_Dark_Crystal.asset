@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb22d601c6195445b654ca66909ef60, type: 3}
-  m_Name: Pink_Crystal
+  m_Name: Intermidiate_Dark_Crystal
   m_EditorClassIdentifier: 
   ItemType: 4
-  code: 35
-  itemName: Pink_Crystal
-  modelPrefab: {fileID: 3014423659470748107, guid: 1592c4f3221168a4e88755af5aed6229, type: 3}
-  itemIcon: {fileID: 21300000, guid: a67ac5c05b4131044a33e706c2cca4d5, type: 3}
+  code: 30
+  itemName: Intermidiate_Dark_Crystal
+  modelPrefab: {fileID: 6908865126937266999, guid: 210d52d0b121b1d4dbc04ac2b92ac4d6, type: 3}
+  itemIcon: {fileID: 21300000, guid: 8d0c36fc158fd4440867c4b8ada24ca0, type: 3}
   price: 50000
   maxStackCount: 20
-  itemDescription: "\uD551\uD06C\uBE5B \uBCF4\uC11D\uC774\uB2E4. \uAF64 \uBE44\uC300
-    \uAC83 \uAC19\uB2E4."
-  CraftType: 4
+  itemDescription: "\uC54C \uC218 \uC5C6\uB294 \uAE30\uC6B4\uC774 \uB290\uAEF4\uC9C0\uB294
+    \uBCF4\uC11D\uC774\uB2E4.,"
+  CraftType: 1
   successRate: 0
