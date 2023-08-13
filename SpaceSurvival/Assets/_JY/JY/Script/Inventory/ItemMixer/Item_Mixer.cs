@@ -16,6 +16,8 @@ using UnityEngine;
 }
 public class Item_Mixer : MonoBehaviour
 {
+    Item_Mixing_Table mixing_table;
+
     Item_Mixer_UI item_Mixer_UI;
     SlotManager slot_Manager;
     public Item_Mixer_UI MixerUI => item_Mixer_UI;
@@ -125,7 +127,8 @@ public class Item_Mixer : MonoBehaviour
                     onOpen?.Invoke();
                     break;
                 case ItemMixerState.SetItem:
-                    onSetItem?.Invoke(leftSlotData, middleSlotData);
+                    //onSetItem?.Invoke(leftSlotData, middleSlotData);
+                    SetResultSlot();
                     break;
                 case ItemMixerState.Confirm:
                     //if (ItemData != null)
@@ -167,7 +170,18 @@ public class Item_Mixer : MonoBehaviour
     private void Start()
     {
         slot_Manager = GameManager.SlotManager;
+        mixing_table = GameManager.Mixing_Table;
     }
 
-    //
+    void SetResultSlot()
+    {
+        if (mixing_table.ValidData(leftSlotData.code, middleSlotData.code, out ItemCode resultCode))
+        {
+            result_Slot.ItemData = GameManager.Itemdata[resultCode];
+        }
+        else
+        {
+            Debug.Log("불가능한 조합입니다.");
+        }
+    }
 }

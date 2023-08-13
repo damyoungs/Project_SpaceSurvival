@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public ItemSpawner itemSpawner;
     public Item_Enhancer enhancer;
     public Item_Mixer mixer;
+    public Item_Mixing_Table mixingTable;
 
     ItemDataManager itemDataManager;
     
@@ -23,6 +24,8 @@ public class GameManager : MonoBehaviour
     public static PlayerDummy playerDummy { get { return Inst.player; } }
     public static Item_Enhancer Enhancer { get { return Inst.enhancer; } }
     public static Item_Mixer Mixer { get { return Inst.mixer; } }
+    public static Item_Mixing_Table Mixing_Table { get { return Inst.mixingTable; } }
+
 
     private void Awake()
     {
