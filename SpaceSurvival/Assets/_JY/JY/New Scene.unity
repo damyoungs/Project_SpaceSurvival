@@ -5901,6 +5901,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1764702105}
     - target: {fileID: 4970949364816093331, guid: e30040716f477e14aaf383c423214e52, type: 3}
+      propertyPath: mixingTable
+      value: 
+      objectReference: {fileID: 1841061668}
+    - target: {fileID: 4970949364816093331, guid: e30040716f477e14aaf383c423214e52, type: 3}
       propertyPath: slotManager
       value: 
       objectReference: {fileID: 460590360}
@@ -5915,31 +5919,31 @@ PrefabInstance:
     - target: {fileID: 5938913832177739167, guid: e30040716f477e14aaf383c423214e52, type: 3}
       propertyPath: itemDatas.Array.data[25]
       value: 
-      objectReference: {fileID: 11400000, guid: 80306554d5235e744a05369b46eaf16f, type: 2}
+      objectReference: {fileID: 11400000, guid: 37bd5ce007855d54e90ea017f9a5db6a, type: 2}
     - target: {fileID: 5938913832177739167, guid: e30040716f477e14aaf383c423214e52, type: 3}
       propertyPath: itemDatas.Array.data[26]
       value: 
-      objectReference: {fileID: 11400000, guid: 3a65b9d4ee5b4514182bf1ea2992c1d3, type: 2}
+      objectReference: {fileID: 11400000, guid: 80306554d5235e744a05369b46eaf16f, type: 2}
     - target: {fileID: 5938913832177739167, guid: e30040716f477e14aaf383c423214e52, type: 3}
       propertyPath: itemDatas.Array.data[27]
       value: 
-      objectReference: {fileID: 11400000, guid: 3fbb7c5be99b0fd41b7a50d61969b655, type: 2}
+      objectReference: {fileID: 11400000, guid: 3a65b9d4ee5b4514182bf1ea2992c1d3, type: 2}
     - target: {fileID: 5938913832177739167, guid: e30040716f477e14aaf383c423214e52, type: 3}
       propertyPath: itemDatas.Array.data[28]
       value: 
-      objectReference: {fileID: 11400000, guid: 4936271fbf5c9c243a44b830772bc29c, type: 2}
+      objectReference: {fileID: 11400000, guid: 3fbb7c5be99b0fd41b7a50d61969b655, type: 2}
     - target: {fileID: 5938913832177739167, guid: e30040716f477e14aaf383c423214e52, type: 3}
       propertyPath: itemDatas.Array.data[29]
       value: 
-      objectReference: {fileID: 11400000, guid: aed38016918177b47a65ef9ee7041b3d, type: 2}
+      objectReference: {fileID: 11400000, guid: 4936271fbf5c9c243a44b830772bc29c, type: 2}
     - target: {fileID: 5938913832177739167, guid: e30040716f477e14aaf383c423214e52, type: 3}
       propertyPath: itemDatas.Array.data[30]
       value: 
-      objectReference: {fileID: 11400000, guid: 8e10747bae9e9644bbc543eb4bd62e40, type: 2}
+      objectReference: {fileID: 11400000, guid: aed38016918177b47a65ef9ee7041b3d, type: 2}
     - target: {fileID: 5938913832177739167, guid: e30040716f477e14aaf383c423214e52, type: 3}
       propertyPath: itemDatas.Array.data[31]
       value: 
-      objectReference: {fileID: 11400000, guid: 37bd5ce007855d54e90ea017f9a5db6a, type: 2}
+      objectReference: {fileID: 11400000, guid: 8e10747bae9e9644bbc543eb4bd62e40, type: 2}
     - target: {fileID: 5938913832177739167, guid: e30040716f477e14aaf383c423214e52, type: 3}
       propertyPath: itemDatas.Array.data[32]
       value: 
@@ -7862,6 +7866,50 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1841061667
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1841061669}
+  - component: {fileID: 1841061668}
+  m_Layer: 0
+  m_Name: Item_Mixing_Table
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1841061668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1841061667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 712064a040574974f8941d8458d542b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1841061669
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1841061667}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.72993743, y: 0.6977562, z: -0.07490444}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1928691833
 GameObject:
   m_ObjectHideFlags: 0
