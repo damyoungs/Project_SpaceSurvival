@@ -54,7 +54,7 @@ public class ItemData_Enhancable : ItemData_Equip, IEnhancable
         priviousLevel = itemLevel;
         Itemlevel++;
 
-        GameManager.SlotManager.RemoveItem(this, GameManager.SlotManager.IndexForEnhancer);
+        GameManager.SlotManager.RemoveItem(this, GameManager.SlotManager.Index_JustChange_Slot);
         GameManager.SlotManager.AddItem(this);
         Debug.Log("값 변경 완료");
        // Debug.Log(GameManager.SlotManager.slots[Current_Inventory_State.Equip][GameManager.SlotManager.IndexForEnhancer].ItemData);

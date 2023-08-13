@@ -11,7 +11,7 @@ public class Mixer_Slot_Middle : Mixer_Slot_Base, IPointerClickHandler
     protected override void Awake()
     {
         base.Awake();
-        GameManager.Mixer.onMiddleSlotDataChange += (itemData) => this.ItemData = itemData;
+        GameManager.Mixer.onMiddleSlotDataSet += (itemData) => this.ItemData = itemData;
     }
 
     public void OnPointerClick(PointerEventData eventData)

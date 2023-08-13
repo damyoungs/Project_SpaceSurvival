@@ -17,8 +17,13 @@ public class Mixer_Slot_Result : Mixer_Slot_Base
         base.Awake();
         left_Slot = transform.parent.GetChild(1).GetComponent<Mixer_Slot_Left>();
         middle_Slot = transform.parent.GetChild(2).GetComponent<Mixer_Slot_Middle>();
-
     }
+    protected override void Start()
+    {
+        base.Start();
+        //item_Mixer.onSetItem
+    }
+
 
 
 

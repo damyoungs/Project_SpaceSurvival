@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SwordLaser
   m_EditorClassIdentifier: 
   ItemType: 1
-  code: 17
+  code: 19
   itemName: SwordLaser
   modelPrefab: {fileID: 8864133513662259206, guid: 905409765e78f4d4fbf71bf8dfbdd350, type: 3}
   itemIcon: {fileID: -156128772, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}

@@ -13,7 +13,7 @@ public class BattleActionButtonBase : MonoBehaviour ,IPointerEnterHandler,IPoint
     Button bt;
     //컨트롤러도 하나만존재
     protected BattleActionUIController uiController;
-    private void Awake()
+    protected virtual void Awake()
     {
         Transform parent = transform.parent;
         uiController = parent.GetComponentInChildren<BattleActionUIController>(true);

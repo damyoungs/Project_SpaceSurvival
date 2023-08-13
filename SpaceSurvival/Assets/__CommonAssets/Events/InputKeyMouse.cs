@@ -457,6 +457,15 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""PressI"",
+                    ""type"": ""Button"",
+                    ""id"": ""973cbb08-9319-4e02-a6eb-fe2296d35cf5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -567,6 +576,17 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""KeyMouse"",
                     ""action"": ""Test9"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0f7b9012-2815-4be2-84fd-6c69d3a75520"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyMouse"",
+                    ""action"": ""PressI"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -729,6 +749,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         m_Test_Test8 = m_Test.FindAction("Test8", throwIfNotFound: true);
         m_Test_Test9 = m_Test.FindAction("Test9", throwIfNotFound: true);
         m_Test_TestClick = m_Test.FindAction("TestClick", throwIfNotFound: true);
+        m_Test_PressI = m_Test.FindAction("PressI", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Click = m_UI.FindAction("Click", throwIfNotFound: true);
@@ -1018,6 +1039,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     private readonly InputAction m_Test_Test8;
     private readonly InputAction m_Test_Test9;
     private readonly InputAction m_Test_TestClick;
+    private readonly InputAction m_Test_PressI;
     public struct TestActions
     {
         private @InputKeyMouse m_Wrapper;
@@ -1032,6 +1054,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         public InputAction @Test8 => m_Wrapper.m_Test_Test8;
         public InputAction @Test9 => m_Wrapper.m_Test_Test9;
         public InputAction @TestClick => m_Wrapper.m_Test_TestClick;
+        public InputAction @PressI => m_Wrapper.m_Test_PressI;
         public InputActionMap Get() { return m_Wrapper.m_Test; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1071,6 +1094,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @TestClick.started += instance.OnTestClick;
             @TestClick.performed += instance.OnTestClick;
             @TestClick.canceled += instance.OnTestClick;
+            @PressI.started += instance.OnPressI;
+            @PressI.performed += instance.OnPressI;
+            @PressI.canceled += instance.OnPressI;
         }
 
         private void UnregisterCallbacks(ITestActions instance)
@@ -1105,6 +1131,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @TestClick.started -= instance.OnTestClick;
             @TestClick.performed -= instance.OnTestClick;
             @TestClick.canceled -= instance.OnTestClick;
+            @PressI.started -= instance.OnPressI;
+            @PressI.performed -= instance.OnPressI;
+            @PressI.canceled -= instance.OnPressI;
         }
 
         public void RemoveCallbacks(ITestActions instance)
@@ -1272,6 +1301,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         void OnTest8(InputAction.CallbackContext context);
         void OnTest9(InputAction.CallbackContext context);
         void OnTestClick(InputAction.CallbackContext context);
+        void OnPressI(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

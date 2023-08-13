@@ -130,17 +130,17 @@ public class ItemSpawner : TestBase
     {
         ItemFactory.MakeItem(itemCode);
     }
-    protected override void Test1(InputAction.CallbackContext _)
+    protected override void Test7(InputAction.CallbackContext _)
     {
        
         SpawnItemPrefab();
     }
-    protected override void Test2(InputAction.CallbackContext context)
+    protected override void Test8(InputAction.CallbackContext context)
     {
         GetItem();
         // GetItemHpPotion();
     }
-    protected  void OpenInven(InputAction.CallbackContext _)
+    protected override void OpenInven(InputAction.CallbackContext _)
     {
         GameManager.Inventory.Open_Inventory();
     }

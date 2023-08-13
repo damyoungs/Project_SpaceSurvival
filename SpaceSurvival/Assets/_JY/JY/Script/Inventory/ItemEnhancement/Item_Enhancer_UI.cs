@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-public class Item_Enhancer_UI : MonoBehaviour
+public class Item_Enhancer_UI : PopupWindowBase, IPopupSortWindow, IPointerDownHandler
 { 
     CanvasGroup canvasGroup;
     Item_Enhancer itemEnhancer;
@@ -48,8 +49,11 @@ public class Item_Enhancer_UI : MonoBehaviour
     public Enhancer_Slot_Before BeforeSlot => beforeSlot;
     public Enhancer_Slot_After AfterSlot => afterSlot;
 
-    private void Awake()
+    public Action<IPopupSortWindow> PopupSorting { get ; set ; }
+
+    protected override void Awake()
     {
+        base.Awake();
         itemEnhancer = GetComponent<Item_Enhancer>();
         canvasGroup = GetComponent<CanvasGroup>();
         beforeSlot = GetComponentInChildren<Enhancer_Slot_Before>();
@@ -211,4 +215,22 @@ public class Item_Enhancer_UI : MonoBehaviour
         OpenInteractable();
     }
 
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        PopupSorting(this);
+    }
+
+    public void OpenWindow()
+    {
+        canvasGroup.interactable = true;
+        canvasGroup.blocksRaycasts = true;
+        canvasGroup.alpha = 1.0f;
+    }
+
+    public void CloseWindow()
+    {
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
+        canvasGroup.alpha = 0.0f;
+    }
 }

@@ -62,8 +62,10 @@ public class SaveWindowManager : PopupWindowBase ,IPopupSortWindow ,IPointerDown
     int lastPageIndex = -1;
     public int LastPageIndex => lastPageIndex;
 
-    Action<IPopupSortWindow> popupEventHandle;
-    public Action<IPopupSortWindow> PopupSorting { set => popupEventHandle += value; }
+    /// <summary>
+    /// 팝업창 순서 정렬하기용으로 클릭이밴트 드리븐
+    /// </summary>
+    public Action<IPopupSortWindow> PopupSorting { get; set; }
 
     /// <summary>
     /// 마지막페이지에 보일 저장파일 오브젝트 갯수
@@ -489,6 +491,16 @@ public class SaveWindowManager : PopupWindowBase ,IPopupSortWindow ,IPointerDown
     /// <param name="eventData">사용안함</param>
     public void OnPointerDown(PointerEventData _)
     {
-        popupEventHandle(this);
+        PopupSorting(this);
+    }
+
+    public void OpenWindow()
+    {
+        this.gameObject.SetActive(true);
+    }
+
+    public void CloseWindow()
+    {
+        this.gameObject.SetActive(false);
     }
 }

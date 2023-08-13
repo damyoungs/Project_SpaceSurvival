@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-public class Item_Mixer_UI : MonoBehaviour
+public class Item_Mixer_UI : PopupWindowBase,IPopupSortWindow, IPointerDownHandler
 { 
     CanvasGroup canvasGroup;
     Item_Mixer mixer;
@@ -48,8 +49,11 @@ public class Item_Mixer_UI : MonoBehaviour
     public Mixer_Slot_Middle Middle_Slot => middle_Slot;
     public Mixer_Slot_Result Result_Slot => result_Slot;
 
-    private void Awake()
+    public Action<IPopupSortWindow> PopupSorting { get ; set ; }
+
+    protected override void Awake()
     {
+        base.Awake();
         mixer = GetComponent<Item_Mixer>();
         canvasGroup = GetComponent<CanvasGroup>();
 
@@ -117,8 +121,8 @@ public class Item_Mixer_UI : MonoBehaviour
         canvasGroup.blocksRaycasts = false;
         DarkForceCount = 0;
       //  mixer.ItemData = null;
-        left_Slot.ItemData = null;
-        middle_Slot.ItemData = null;
+        mixer.LeftSlotData= null;
+        mixer.MiddleSlotData = null;
         result_Slot.ItemData = null;
         successRateText.text = "0";
     }
@@ -211,4 +215,23 @@ public class Item_Mixer_UI : MonoBehaviour
         OpenInteractable();
     }
 
+    
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        PopupSorting(this);
+    }
+    public void OpenWindow()
+    {
+        canvasGroup.interactable = true;
+        canvasGroup.blocksRaycasts = true;
+        canvasGroup.alpha = 1.0f;
+    }
+
+    public void CloseWindow()
+    {
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
+        canvasGroup.alpha = 0.0f;
+    }
 }

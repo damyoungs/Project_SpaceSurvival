@@ -12,7 +12,7 @@ public class Mixer_Slot_Left : Mixer_Slot_Base, IPointerClickHandler
     protected override void Awake()
     {
         base.Awake();
-        GameManager.Mixer.onLeftSlotDataChange += (itemData) => this.ItemData = itemData;
+        GameManager.Mixer.onLeftSlotDataSet += (itemData) => this.ItemData = itemData;
     }
     public void OnPointerClick(PointerEventData eventData)
     {

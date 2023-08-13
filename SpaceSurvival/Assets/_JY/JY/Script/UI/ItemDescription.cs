@@ -41,6 +41,7 @@ public class ItemDescription : MonoBehaviour
         {
             ItemData_Equip equipItem = data as ItemData_Equip;
             ItemData_Enhancable enhancableItem = data as ItemData_Enhancable;
+            ItemData_Bullet bullet = data as ItemData_Bullet;
             if (enhancableItem != null)
             {
                 itemDetail.text = $"공격력 : {equipItem.attackPoint} \n방어력 : {equipItem.defencePoint}\n아이템 레벨 : {enhancableItem.itemLevel}";
@@ -49,9 +50,13 @@ public class ItemDescription : MonoBehaviour
             {
                 itemDetail.text = $"공격력 : {equipItem.attackPoint} \n방어력 : {equipItem.defencePoint}";
             }
+            else if (bullet != null)
+            {
+                itemDetail.text = $"공격력 : {bullet.attckPoint}\n{bullet.itemDescription}";
+            }
             else
             {
-                itemDetail.text = $"효과 : {data.itemDescription}";
+                itemDetail.text = $"{data.itemDescription}";
             }
             itemIcon.sprite = data.itemIcon;
             itemName.text = data.itemName;
