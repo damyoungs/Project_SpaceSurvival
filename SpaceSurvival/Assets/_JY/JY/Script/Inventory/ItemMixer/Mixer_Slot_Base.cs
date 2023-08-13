@@ -70,12 +70,10 @@ public class Mixer_Slot_Base : MonoBehaviour,IPointerEnterHandler,IPointerMoveHa
     {
         itemIcon = transform.GetChild(0).GetComponent<Image>();
         imageComp = GetComponent<Image>();
-        itemNameText = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
     }
     protected virtual void Start()
     {
         item_Mixer = GameManager.Mixer;
-        item_Mixer.onSetItem += (itemData) => ItemData = itemData;
         Refresh();
     }
 
@@ -97,7 +95,7 @@ public class Mixer_Slot_Base : MonoBehaviour,IPointerEnterHandler,IPointerMoveHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        mixerSlotState = Mixer_SlotState.PointerEnter;
+        SlotState = Mixer_SlotState.PointerEnter;
     }
 
     public void OnPointerMove(PointerEventData eventData)
@@ -107,6 +105,6 @@ public class Mixer_Slot_Base : MonoBehaviour,IPointerEnterHandler,IPointerMoveHa
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        mixerSlotState = Mixer_SlotState.PointerExit;
+        SlotState = Mixer_SlotState.PointerExit;
     }
 }

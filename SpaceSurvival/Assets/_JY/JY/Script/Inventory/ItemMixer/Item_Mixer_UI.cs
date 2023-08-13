@@ -41,12 +41,13 @@ public class Item_Mixer_UI : MonoBehaviour
             darkForceCount = Math.Clamp(value, MinDarkForceCount, (uint)GameManager.playerDummy.DarkForce);
             amountText.text = darkForceCount.ToString();    // 인풋 필드에 적용
             amountSlider.value = darkForceCount;
-          //  onDarkForceValueChange?.Invoke(mixer.ItemData);
+            onDarkForceValueChange?.Invoke(Result_Slot.ItemData);
         }
     }
     public Mixer_Slot_Left Left_Slot => left_Slot;
     public Mixer_Slot_Middle Middle_Slot => middle_Slot;
     public Mixer_Slot_Result Result_Slot => result_Slot;
+    Item_Mixing_Table Mixing_Table;
 
     private void Awake()
     {
@@ -96,6 +97,9 @@ public class Item_Mixer_UI : MonoBehaviour
         mixer.onSuccess += () => StartCoroutine(PopUp_ProceedBox(true)); //WaitForResult에서 호출
         mixer.onFail += () => StartCoroutine(PopUp_ProceedBox(false));
 
+        mixer.onSetItem += RefreshMixerUI;
+        Mixing_Table = GameManager.Mixing_Table;
+
 
 
         Close();
@@ -117,17 +121,17 @@ public class Item_Mixer_UI : MonoBehaviour
         canvasGroup.blocksRaycasts = false;
         DarkForceCount = 0;
       //  mixer.ItemData = null;
-        left_Slot.ItemData = null;
-        middle_Slot.ItemData = null;
+        mixer.LeftSlotData= null;
+        mixer.MiddleSlotData = null;
         result_Slot.ItemData = null;
         successRateText.text = "0";
     }
-    void RefreshEnhancerUI(ItemData itemData)
+    void RefreshMixerUI(ItemData resultData)
     {
-        if (itemData != null)
+        if (resultData != null)
         {
             amountSlider.maxValue = GameManager.playerDummy.DarkForce;
-            UpdateSuccessRate(itemData);
+            UpdateSuccessRate(resultData);
         }
     }
 
@@ -175,12 +179,7 @@ public class Item_Mixer_UI : MonoBehaviour
         {
             return;
         }
-          
-        ItemData_Enhancable enhancable = item as ItemData_Enhancable;
-        if (enhancable != null)
-        {
-            successRateText.text = enhancable.CalculateSuccessRate(DarkForceCount).ToString("f1");
-        }
+        successRateText.text = Mixing_Table.CalculateSuccessRate(result_Slot.ItemData, darkForceCount).ToString();
     }
     //void WaitForResult()
     //{
