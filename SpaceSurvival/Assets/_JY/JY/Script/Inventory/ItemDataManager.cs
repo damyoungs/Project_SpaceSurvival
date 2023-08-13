@@ -102,7 +102,22 @@ public class ItemDataManager : MonoBehaviour
 
     public ItemData[] itemDatas = null;
 
-    public ItemData this[ItemCode code] => Instantiate(itemDatas[(int)code]);
+    public ItemData this[ItemCode code]
+    {
+        get
+        {
+            ItemData itemdata = itemDatas[(int)code];
+            ItemData_Enhancable enhancable_Item = itemdata as ItemData_Enhancable;
+            if (enhancable_Item != null)// 강화가 가능한 아이템이면 클론을 찍어서 리턴하고 강화가 불가능한 아이템이면 참조만 리턴함
+            {
+                return Instantiate(itemDatas[(int)code]);
+            }
+            else
+            {
+                return itemDatas[(int)code];
+            }
+        }
+    }
  
 
     public int length => itemDatas.Length;
