@@ -6,25 +6,47 @@ using UnityEngine.InputSystem;
 
 public class CameraOriginTarget : MonoBehaviour
 {
+    /// <summary>
+    /// 키입력 처리할 것들
+    /// </summary>
     InputKeyMouse inputAction;
+    /// <summary>
+    /// 회전속도
+    /// </summary>
     [SerializeField]
     float rotateSpeed = 100.0f;
 
+    /// <summary>
+    /// 키입력 막기용
+    /// </summary>
     bool isRotate = false;
 
+    /// <summary>
+    ///  테스트용  해당씬에서만 쓸지 아님 다른곳에서도 쓸지 결정한뒤 접근방법을 바꿀예정
+    /// </summary>
     [SerializeField]
     Transform target;
     public Transform Target 
     {
         set => target = value;
     }
-    Vector3 screenHalfPosition = Vector3.zero;
-    public Action<Transform> onCameraOriginMove;
 
-    Vector3 offSet = Vector3.zero;
+    /// <summary>
+    /// 화면사이즈(픽셀단위)의 중간 위치값 가져오기 
+    /// </summary>
+    Vector3 screenHalfPosition = Vector3.zero;
+
+    /// <summary>
+    /// 신호받으면 움직이는 코루틴 연결할때 사용 할 델리게이트
+    /// </summary>
+    //public Action<Transform> onCameraOriginMove;
+
+    /// <summary>
+    /// 카메라 이동속도
+    /// </summary>
     [SerializeField]
     float followSpeed = 3.0f;
-
+    
     private void Awake()
     {
         inputAction = new();
@@ -35,8 +57,8 @@ public class CameraOriginTarget : MonoBehaviour
 
     private void LateUpdate()
     {
-        offSet = target.position;
-        transform.position = Vector3.Lerp(transform.position,offSet,followSpeed * Time.deltaTime);
+        ///문제가 있을거같지만 일단 동작은 잘하네..?
+        transform.position = Vector3.Lerp(transform.position,target.position, followSpeed * Time.deltaTime); // 시작위치가 항상바뀜으로 시간누적 뺏다.
         //transform.Translate(target.transform.position ,Space.World);
     }
 
@@ -49,7 +71,6 @@ public class CameraOriginTarget : MonoBehaviour
     
     private void OnDisable()
     {
-        
         inputAction.Camera.LeftRotate.performed -= OnLeftRotate;
         inputAction.Camera.RightRotate.performed -= OnRightRotate;
         inputAction.Camera.Disable();

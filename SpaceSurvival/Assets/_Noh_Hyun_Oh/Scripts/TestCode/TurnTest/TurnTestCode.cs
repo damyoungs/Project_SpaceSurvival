@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,10 +24,9 @@ public class TurnTestCode : TestBase
     /// <param name="context"></param>
     protected override void Test1(InputAction.CallbackContext context)
     {
-        GameObject obj = MultipleObjectsFactory.Instance.GetObject(EnumList.MultipleFactoryObjectList.BATTLEMAP_UNIT_POOL); //가져오고
+        GameObject obj = MultipleObjectsFactory.Instance.GetObject(EnumList.MultipleFactoryObjectList.BATTLEMAP_ENEMY_POOL); //가져오고
         TurnBaseObject tbo = obj?.GetComponent<TurnBaseObject>(); //찾고
         tbo.UnitBattleIndex = turnManager.BattleIndex; //인덱스 설정하고
-        tbo.InitUI(); //UI 초기화 시키고
         RectTransform rt = obj.GetComponent<RectTransform>(); //랜덤으로 위치 뿌려주기위해 위치값정보가져오고
         rt = rt == null ? obj.AddComponent<RectTransform>() : rt; // 없으면 추가하고 
         GameObject parentObj = Instantiate(unit); // 테스트용 캐릭터 생성하고
@@ -35,7 +35,6 @@ public class TurnTestCode : TestBase
                                         0.0f,
                                         UnityEngine.Random.Range(-10.0f, 0.0f)
                                         );//랜덤위치로 뿌리고
-        tbo.TurnAddValue = UnityEngine.Random.Range(0.0f, 0.1f); //턴진행시마다 증가되는 행동력값 랜덤 설정 -테스트
         tbo.TurnActionValue = UnityEngine.Random.Range(0.0f, 8.0f); // -테스트값 설정
         obj.transform.SetParent(parentObj.transform);//부모위치 옮기고 - 부모가 활성화 상태가 아닐경우 문제발생여부존재함
         rt.anchoredPosition3D = new Vector3(0.0f, 2.0f, 0.0f);// UI기본위치 살짝위로 옮기고 
@@ -118,18 +117,9 @@ public class TurnTestCode : TestBase
     protected override void Test7(InputAction.CallbackContext context)
     {
         TurnBaseObject tbo =  (TurnBaseObject)turnManager.RandomGetNode();
-        tbo.BattleUI.AddOfStatus(EnumList.StateType.Poison);//상태이상 추가해보기 
+        //tbo.BattleUI.AddOfStatus(EnumList.StateType.Poison);//상태이상 추가해보기 
     }
     
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="context"></param>
-    protected override void Test8(InputAction.CallbackContext context)
-    {
-        
-    }
-
-
+    
 
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 /// 저장화면에 보이는 파일 정보 
 /// 이오브젝트 클릭시 파일인덱스를 넘겨야한다.
 /// </summary>
-public class SaveDataObject : SaveDataIsPool
+public class SaveDataObject : SaveData_PoolObj
 {
 
     /// <summary>
@@ -108,6 +108,10 @@ public class SaveDataObject : SaveDataIsPool
         proccessManager = WindowList.Instance.IOPopupWindow; //저장화면 처리하는클래스가져오기
     }
 
+    protected override void OnEnable()
+    {
+        ///위치초기화로직 실행안시키기위해 호출만 오버라이드
+    }
     public void InFocusObject() 
     {
         if (proccessManager.NewIndex != fileIndex) //같은 오브젝트 클릭했는지 체크

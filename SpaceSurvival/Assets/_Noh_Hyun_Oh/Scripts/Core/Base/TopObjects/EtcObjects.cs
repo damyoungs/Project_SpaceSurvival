@@ -7,23 +7,22 @@ using UnityEngine;
 /// </summary>
 public class EtcObjects : Singleton<EtcObjects>
 {
-    //[SerializeField]
-    
-    //int getHash = -1;
-    //[SerializeField]
-    //bool check = false;
-    //protected override void Awake()
-    //{
-    //    base.Awake();
-    //    getHash = GetHashCode();
-    //}
-
-    //private void Update()
-    //{
-    //    if (check) 
-    //    {
-    //        getHash = GetHashCode();
-    //        Debug.Log(getHash);
-    //    }
-    //}
+    UICamera[] teamCharcterView;
+    public UICamera TeamCharcterView => cameraQueue.Dequeue();
+    Queue<UICamera> cameraQueue;
+    protected override void Awake()
+    {
+        base.Awake();
+        teamCharcterView = GetComponentsInChildren<UICamera>(true);
+        cameraQueue = new Queue<UICamera>(teamCharcterView.Length);
+        foreach (UICamera camera in teamCharcterView) 
+        {
+            cameraQueue.Enqueue(camera);
+            camera.resetData = () => 
+            {
+                cameraQueue.Enqueue(camera);
+                Debug.Log(camera.GetHashCode());
+            };
+        }
+    }
 }

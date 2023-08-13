@@ -394,7 +394,7 @@ public class SaveWindowManager : PopupWindowBase ,IPopupSortWindow ,IPointerDown
 
         for (int i = 0; i < pagingMaxObject; i++) { //한페이지 다시돌면서 셋팅한다
             PageNumRectSetting(saveWindowPageObject.transform.GetChild(i).GetComponent<RectTransform>(),i, arithmeticValue, pagingMaxObject);
-            saveWindowPageObject.transform.GetChild(i).GetComponent<SavePageButtonIsPool>().PageIndex = startIndex + i; //페이지 인덱스값 표시
+            saveWindowPageObject.transform.GetChild(i).GetComponent<SavePageButton_PoolObj>().PageIndex = startIndex + i; //페이지 인덱스값 표시
         }
         ResetSaveFocusing();//페이지이동시 초기화
         SetPoolBug(saveWindowPageObject.transform, pagingMaxObject);
