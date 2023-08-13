@@ -70,7 +70,6 @@ public class Mixer_Slot_Base : MonoBehaviour,IPointerEnterHandler,IPointerMoveHa
     {
         itemIcon = transform.GetChild(0).GetComponent<Image>();
         imageComp = GetComponent<Image>();
-        itemNameText = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
     }
     protected virtual void Start()
     {

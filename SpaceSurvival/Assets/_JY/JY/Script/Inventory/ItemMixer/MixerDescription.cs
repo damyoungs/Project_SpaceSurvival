@@ -37,17 +37,23 @@ public class MixerDescription : MonoBehaviour
     {
         Mixer_Slot_Left leftSlot;
         Mixer_Slot_Middle middleSlot;
+        Mixer_Slot_Result resultSlot;
         leftSlot = GameManager.Mixer.MixerUI.Left_Slot;
         middleSlot = GameManager.Mixer.MixerUI.Middle_Slot;
+        resultSlot = GameManager.Mixer.MixerUI.Result_Slot;
 
-        leftSlot.onPointerEnter += Open_LeftSlot_Description;
-        middleSlot.onPointerEnter += Open_MiddleSlot_Description;
+        leftSlot.onPointerEnter += Open_Description;
+        middleSlot.onPointerEnter += Open_Description;
+        resultSlot.onPointerEnter += Open_Description;
+
         leftSlot.onPointerExit += Close;
         middleSlot.onPointerExit += Close;
+        resultSlot.onPointerExit += Close;
         leftSlot.onPointerMove += MovePosition;
         middleSlot.onPointerMove += MovePosition;
+        resultSlot.onPointerMove += MovePosition;
     }
-    public void Open_LeftSlot_Description(ItemData data)
+    public void Open_Description(ItemData data)
     {
         if (!isPause && data != null)
         {
@@ -60,19 +66,7 @@ public class MixerDescription : MonoBehaviour
             MovePosition(Mouse.current.position.ReadValue());
         }
     }
-    public void Open_MiddleSlot_Description(ItemData data)
-    {
-        if (!isPause && data != null)
-        {
-            itemIcon.sprite = data.itemIcon;
-            itemName.text = data.itemName;
-            itemDescription.text = $"{data.itemDescription}";
-            StopAllCoroutines();
-            StartCoroutine(FadeIn());
 
-            MovePosition(Mouse.current.position.ReadValue());
-        }
-    }
     public void Close()
     {
         StopAllCoroutines();

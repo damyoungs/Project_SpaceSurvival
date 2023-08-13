@@ -22,4 +22,4 @@ MonoBehaviour:
   itemDescription: "\uC54C \uC218 \uC5C6\uB294 \uAE30\uC6B4\uC774 \uB290\uAEF4\uC9C0\uB294
     \uBCF4\uC11D\uC774\uB2E4.,"
   CraftType: 1
-  successRate: 0
+  successRate: 10

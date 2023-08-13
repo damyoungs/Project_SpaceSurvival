@@ -7,4 +7,5 @@ public class ItemData_Bullet : ItemData
 {
     [Header("Bullet 전용 데이터")]
     public byte attckPoint;
+    public byte successRate;
 }

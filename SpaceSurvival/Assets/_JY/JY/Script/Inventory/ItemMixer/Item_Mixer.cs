@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
  public enum ItemMixerState// 강화도중 창 닫기 비활성화
 {
     Open,
     SetItem,
+    SetItemCanceled,
     Confirm,
     WaitforResult,
     Success,
@@ -23,7 +25,8 @@ public class Item_Mixer : MonoBehaviour
     public Item_Mixer_UI MixerUI => item_Mixer_UI;
 
     public Action onOpen;
-    public Action<ItemData, ItemData> onSetItem;
+    public Action<ItemData> onSetItem;
+   // public Action onSetItemCsnceled;
     public Action onWaitforResult;
     public Action onSuccess;
     public Action onFail;
@@ -104,6 +107,10 @@ public class Item_Mixer : MonoBehaviour
         {// 조합목록에 있는지 확인 하는 조건 추가해야함
             MixerState = ItemMixerState.SetItem;
         }
+        else
+        {
+            MixerState = ItemMixerState.SetItemCanceled;
+        }
     }
     //bool CompareSlotData()
     //{
@@ -127,8 +134,11 @@ public class Item_Mixer : MonoBehaviour
                     onOpen?.Invoke();
                     break;
                 case ItemMixerState.SetItem:
-                    //onSetItem?.Invoke(leftSlotData, middleSlotData);
                     SetResultSlot();
+                    onSetItem?.Invoke(result_Slot.ItemData);
+                    break;
+                case ItemMixerState.SetItemCanceled:
+                    result_Slot.ItemData = null;
                     break;
                 case ItemMixerState.Confirm:
                     //if (ItemData != null)

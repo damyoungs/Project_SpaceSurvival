@@ -21,4 +21,4 @@ MonoBehaviour:
   maxStackCount: 20
   itemDescription: "\uC124\uBA85"
   CraftType: 7
-  successRate: 0
+  successRate: 30

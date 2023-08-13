@@ -21,3 +21,4 @@ MonoBehaviour:
   maxStackCount: 1000
   itemDescription: 5
   attckPoint: 40
+  successRate: 50

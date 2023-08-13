@@ -12,11 +12,18 @@ public class Item_Mixing_Table : MonoBehaviour
     {
         Init();
     }
-    void Init()
+    void Init()//조합테이블 생성
     {
         combinationTable.Add(ItemCode.Intermidiate_Blue_Crystal, new ItemCode[2] { ItemCode.BlueCrystal, ItemCode.BlueCrystal });
         combinationTable.Add(ItemCode.Intermidiate_Dark_Crystal, new ItemCode[2] { ItemCode.DarkCrystal, ItemCode.DarkCrystal });
         combinationTable.Add(ItemCode.Intermidiate_Green_Crystal, new ItemCode[2] { ItemCode.Green_Crystal, ItemCode.Green_Crystal});
+        combinationTable.Add(ItemCode.Intermidiate_Red_Crystal, new ItemCode[2] { ItemCode.Red_Crystal, ItemCode.Red_Crystal });
+        combinationTable.Add(ItemCode.Intermidiate_Unknown_Crystal, new ItemCode[2] { ItemCode.Unknown_Crystal, ItemCode.Unknown_Crystal });
+        combinationTable.Add(ItemCode.Advanced_Blue_Crystal, new ItemCode[2] { ItemCode.Intermidiate_Blue_Crystal, ItemCode.Intermidiate_Blue_Crystal });
+        combinationTable.Add(ItemCode.Advanced_Red_Crystal, new ItemCode[2] { ItemCode.Intermidiate_Red_Crystal, ItemCode.Intermidiate_Red_Crystal });
+        combinationTable.Add(ItemCode.Advanced_Dark_Crystal, new ItemCode[2] { ItemCode.Intermidiate_Dark_Crystal, ItemCode.Intermidiate_Dark_Crystal });
+        combinationTable.Add(ItemCode.Advanced_Green_Crystal, new ItemCode[2] { ItemCode.Intermidiate_Green_Crystal, ItemCode.Intermidiate_Green_Crystal });
+        combinationTable.Add(ItemCode.Advanced_Unknown_Crystal, new ItemCode[2] { ItemCode.Intermidiate_Unknown_Crystal, ItemCode.Intermidiate_Unknown_Crystal });
     }
     public bool ValidData(ItemCode leftCode, ItemCode middleCode, out ItemCode resultCode)
     {
@@ -35,5 +42,26 @@ public class Item_Mixing_Table : MonoBehaviour
             }
         }
         return result;
+    }
+    public float CalculateSuccessRate(ItemData item,uint darkForceCount)
+    {
+        float baseRate = 0.0f;
+        ItemData_Craft crystal = item as ItemData_Craft;
+        ItemData_Bullet bullet = item as ItemData_Bullet;
+        if (crystal != null)
+        {
+            baseRate = crystal.successRate;
+        }
+        else if (bullet != null)
+        {
+            baseRate = bullet.successRate;
+        }
+        float forceBoost = darkForceCount * 0.2f;
+        float finalSuccessRate = baseRate + forceBoost;
+   
+
+        finalSuccessRate = Mathf.Clamp(finalSuccessRate, 0.0f, 100.0f);
+
+        return finalSuccessRate;
     }
 }
