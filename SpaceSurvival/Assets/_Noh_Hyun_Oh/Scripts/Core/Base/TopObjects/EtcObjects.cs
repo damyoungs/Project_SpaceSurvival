@@ -7,21 +7,21 @@ using UnityEngine;
 /// </summary>
 public class EtcObjects : Singleton<EtcObjects>
 {
-    UICamera[] teamCharcterView;
-    public UICamera TeamCharcterView => cameraQueue.Dequeue();
-    Queue<UICamera> cameraQueue;
+    UICamera[] teamCharcterView; //캐릭터 상시상태쪽에 보일카메라 3개
+    public UICamera TeamCharcterView => cameraQueue.Dequeue(); //카메라 줄땐 큐에서 꺼내서준다.
+    Queue<UICamera> cameraQueue; //카메라 관리할 큐
     protected override void Awake()
     {
         base.Awake();
-        teamCharcterView = GetComponentsInChildren<UICamera>(true);
-        cameraQueue = new Queue<UICamera>(teamCharcterView.Length);
-        foreach (UICamera camera in teamCharcterView) 
+        teamCharcterView = GetComponentsInChildren<UICamera>(true); //EtcObject 밑에는 항시 3개만 존재 위치바껴도찾기위해 걍 이렇게 찾는다.
+        cameraQueue = new Queue<UICamera>(teamCharcterView.Length); //찾은 갯수로 큐만들어두고 
+        foreach (UICamera camera in teamCharcterView) //돌면서
         {
-            cameraQueue.Enqueue(camera);
-            camera.resetData = () => 
+            cameraQueue.Enqueue(camera); //큐에 하나씩 집어넣고
+            camera.resetData = () =>  //리셋될때 
             {
-                cameraQueue.Enqueue(camera);
-                Debug.Log(camera.GetHashCode());
+                cameraQueue.Enqueue(camera);//다시 들어갈수있게 연결해준다.
+                //Debug.Log(camera.GetHashCode()); //camera 변수명에 들어있는값이 제대로 순번대로 들어간다 확인완료 
             };
         }
     }

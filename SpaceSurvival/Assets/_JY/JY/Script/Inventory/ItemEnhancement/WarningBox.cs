@@ -48,13 +48,16 @@ public class WarningBox : PopupWindowBase, IPopupSortWindow,IPointerDownHandler
         canvasGroup.alpha = 0;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
-        switch (item_Enhancer.EnhancerState)//강화중이면 신호를 보내지 마라(신호가 보내지면 UI의 모든 interactable이 true가 됨)
+        if (item_Enhancer != null) 
         {
-            case EnhancerState.Success:
-            case EnhancerState.Fail:
-                return;
-            default:
-                break;
+            switch (item_Enhancer.EnhancerState)//강화중이면 신호를 보내지 마라(신호가 보내지면 UI의 모든 interactable이 true가 됨)
+            {
+                case EnhancerState.Success:
+                case EnhancerState.Fail:
+                    return;
+                default:
+                    break;
+            }
         }
         onWarningBoxClose?.Invoke();
     }
