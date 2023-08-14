@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
- public enum ItemMixerState// 강화도중 창 닫기 비활성화
+public enum ItemMixerState// 강화도중 창 닫기 비활성화
 {
     Open,
     SetItem,
@@ -14,7 +15,7 @@ using UnityEngine;
     ClearItem,
     Close
 }
-public class Item_Mixer : MonoBehaviour
+public class Item_Mixer : MonoBehaviour 
 {
     Item_Mixer_UI item_Mixer_UI;
     SlotManager slot_Manager;
@@ -153,6 +154,9 @@ public class Item_Mixer : MonoBehaviour
             }
         }
     }
+
+
+
     private void Awake()
     {
         item_Mixer_UI = GetComponent<Item_Mixer_UI>();
@@ -169,5 +173,6 @@ public class Item_Mixer : MonoBehaviour
         slot_Manager = GameManager.SlotManager;
     }
 
+   
     //
 }

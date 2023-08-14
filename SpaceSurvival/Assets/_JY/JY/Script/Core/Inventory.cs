@@ -71,7 +71,7 @@ public class Inventory : PopupWindowBase, IPopupSortWindow ,IPointerDownHandler
         add_Button = toolBar.GetChild(1).GetComponent<Button>();
         sort_Button = transform.GetChild(0).GetChild(2).GetComponent<Button>();
         enhance_Button = toolBar.GetChild(3).GetComponent<Button>();
-        mixer_Button = transform.GetChild(0).GetChild(4).GetComponent<Button>();
+        mixer_Button = toolBar.GetChild(4).GetComponent<Button>();
 
         equip_Button = transform.GetChild(1).GetComponent<Button>();
         consume_Button = transform.GetChild(2).GetComponent<Button>();
@@ -88,6 +88,7 @@ public class Inventory : PopupWindowBase, IPopupSortWindow ,IPointerDownHandler
         close_Button.onClick.AddListener(Open_Inventory);
         add_Button.onClick.AddListener(GameManager.SlotManager.Make_Slot);
         mixer_Button.onClick.AddListener(Open_Mixer);
+        enhance_Button.onClick.AddListener(Open_Enhancer);//enable, Awake¿¡¼­´Â ¾ÈµÊ
 
 
         equip_Button.onClick.AddListener(SwitchTab_To_Equip);
@@ -115,12 +116,12 @@ public class Inventory : PopupWindowBase, IPopupSortWindow ,IPointerDownHandler
     private void Start()
     {
         GameManager.SlotManager.Initialize();
-        enhance_Button.onClick.AddListener(Open_Enhancer);//enable, Awake¿¡¼­´Â ¾ÈµÊ
         mixer = GameManager.Mixer;
     }
     void Open_Enhancer()
     {
         GameManager.Enhancer.EnhancerState = EnhancerState.Open;
+        
     }
     void Open_Mixer()
     {

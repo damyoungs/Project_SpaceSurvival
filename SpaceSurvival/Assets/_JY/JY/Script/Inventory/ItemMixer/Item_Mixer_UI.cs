@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-public class Item_Mixer_UI : PopupWindowBase,IPopupSortWindow, IPointerDownHandler
+public class Item_Mixer_UI : PopupWindowBase, IPopupSortWindow, IPointerDownHandler
 { 
     CanvasGroup canvasGroup;
     Item_Mixer mixer;
@@ -50,7 +50,6 @@ public class Item_Mixer_UI : PopupWindowBase,IPopupSortWindow, IPointerDownHandl
     public Mixer_Slot_Result Result_Slot => result_Slot;
 
     public Action<IPopupSortWindow> PopupSorting { get ; set ; }
-
     protected override void Awake()
     {
         base.Awake();
@@ -113,6 +112,7 @@ public class Item_Mixer_UI : PopupWindowBase,IPopupSortWindow, IPointerDownHandl
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
         ClearEnhancerUI();
+        PopupSorting(this);
     }
     public void Close()
     {
@@ -215,23 +215,21 @@ public class Item_Mixer_UI : PopupWindowBase,IPopupSortWindow, IPointerDownHandl
         OpenInteractable();
     }
 
-    
+    public void OpenWindow()
+    {
+        Open();
+    }
+
+    public void CloseWindow()
+    {
+        Close();
+    }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         PopupSorting(this);
     }
-    public void OpenWindow()
-    {
-        canvasGroup.interactable = true;
-        canvasGroup.blocksRaycasts = true;
-        canvasGroup.alpha = 1.0f;
-    }
 
-    public void CloseWindow()
-    {
-        canvasGroup.interactable = false;
-        canvasGroup.blocksRaycasts = false;
-        canvasGroup.alpha = 0.0f;
-    }
+
+
 }

@@ -222,15 +222,11 @@ public class Item_Enhancer_UI : PopupWindowBase, IPopupSortWindow, IPointerDownH
 
     public void OpenWindow()
     {
-        canvasGroup.interactable = true;
-        canvasGroup.blocksRaycasts = true;
-        canvasGroup.alpha = 1.0f;
+        Open();
     }
 
     public void CloseWindow()
     {
-        canvasGroup.interactable = false;
-        canvasGroup.blocksRaycasts = false;
-        canvasGroup.alpha = 0.0f;
+        Close();
     }
 }

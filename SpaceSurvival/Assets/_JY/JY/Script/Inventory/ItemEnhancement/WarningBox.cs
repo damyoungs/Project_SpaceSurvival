@@ -41,6 +41,7 @@ public class WarningBox : PopupWindowBase, IPopupSortWindow,IPointerDownHandler
         canvasGroup.alpha = 1;
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
+        PopupSorting(this); //팝업창 맨앞으로 보이게 하는함수
     }
     void Close()
     {
@@ -60,19 +61,18 @@ public class WarningBox : PopupWindowBase, IPopupSortWindow,IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        PopupSorting(this);
+        PopupSorting(this); //팝업창 맨앞으로 보이게 하는함수
     }
     public void OpenWindow()
     {
-        canvasGroup.interactable = true;
-        canvasGroup.blocksRaycasts = true;
-        canvasGroup.alpha = 1.0f;
+        Open();
     }
 
+    /// <summary>
+    /// 팝업창이 맨앞에있을때 esc 누르면 해당함수를 실행한다. 
+    /// </summary>
     public void CloseWindow()
     {
-        canvasGroup.interactable = false;
-        canvasGroup.blocksRaycasts = false;
-        canvasGroup.alpha = 0.0f;
+        Close();
     }
 }
