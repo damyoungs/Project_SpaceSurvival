@@ -64,4 +64,29 @@ public class Item_Mixing_Table : MonoBehaviour
 
         return finalSuccessRate;
     }
+    public bool LevelUp(ItemData item, uint darkForceCount, out bool critical)
+    {
+        bool result = false;
+
+        float successRate = CalculateSuccessRate(item, darkForceCount);
+        float criticalRate = successRate * 0.3f;
+
+        if (UnityEngine.Random.Range(0,100) < criticalRate)
+        {
+            critical = true;
+            result = true;
+        }
+        else if (UnityEngine.Random.Range(0, 100) < successRate)
+        {
+            critical = false;
+            result = true;
+        }
+        else
+        {
+            critical = false;
+            result = false;
+        }
+
+        return result;
+    }
 }

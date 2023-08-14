@@ -19,6 +19,7 @@ using UnityEngine.UIElements;
 public class Item_Mixer : MonoBehaviour
 {
     Item_Mixing_Table mixing_table;
+    public Item_Mixing_Table Mixing_Table => mixing_table;
 
     Item_Mixer_UI item_Mixer_UI;
     SlotManager slot_Manager;
@@ -37,6 +38,7 @@ public class Item_Mixer : MonoBehaviour
     Mixer_Slot_Left left_Slot;
     Mixer_Slot_Middle middle_Slot;
     Mixer_Slot_Result result_Slot;
+    public Mixer_Slot_Result ResultSlot => result_Slot;
 
     ItemData leftSlotData = null;
     ItemData middleSlotData = null;
@@ -142,7 +144,8 @@ public class Item_Mixer : MonoBehaviour
                     onSetItemCanceled?.Invoke();
                     break;
                 case ItemMixerState.Confirm:
-                    
+                    if (result_Slot.ItemData != null)//아이템이 셋팅된 경우만 팝업
+                    onConfirmButtonClick?.Invoke();
                     break;
                 case ItemMixerState.WaitforResult:
                     onWaitforResult?.Invoke();

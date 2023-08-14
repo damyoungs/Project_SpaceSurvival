@@ -12,6 +12,8 @@ public class Item_Enhancer_UI : MonoBehaviour
     CanvasGroup canvasGroup;
     Item_Enhancer itemEnhancer;
 
+    public bool IsOpen => canvasGroup.alpha == 1.0f;
+
     public UnityEngine.UI.Button closeButton;
     public UnityEngine.UI.Button cancelButton;
     public UnityEngine.UI.Button plusButton;

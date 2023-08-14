@@ -31,7 +31,11 @@ public class WarningBox : MonoBehaviour
         item_Enhancer.onWaitforResult += Close;
         confirmButton.onClick.AddListener(() => item_Enhancer.EnhancerState = EnhancerState.WaitforResult);
 
+
         item_Mixer = GameManager.Mixer;
+        item_Mixer.onConfirmButtonClick += Open;
+        item_Mixer.onWaitforResult += Close;
+        confirmButton.onClick.AddListener(() => item_Mixer.MixerState = ItemMixerState.WaitforResult);
     }
 
     void Open()

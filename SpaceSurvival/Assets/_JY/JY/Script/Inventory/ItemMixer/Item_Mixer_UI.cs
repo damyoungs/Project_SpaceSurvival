@@ -32,7 +32,9 @@ public class Item_Mixer_UI : MonoBehaviour
 
     const uint MinDarkForceCount = 0;
     uint darkForceCount = MinDarkForceCount;
-    byte itemLevel = 0;
+
+    bool isCritical = false; // 조합 크리티컬이 터졌는지 확인용
+    public bool IsOpen => canvasGroup.alpha == 1.0f;
     public uint DarkForceCount
     {
         get => darkForceCount;
@@ -99,6 +101,7 @@ public class Item_Mixer_UI : MonoBehaviour
 
         mixer.onSetItem += RefreshMixerUI;
         mixer.onSetItemCanceled += InitializeUIElements;
+        mixer.onWaitforResult += WaitForResult;
         Mixing_Table = GameManager.Mixing_Table;
 
 
@@ -188,17 +191,20 @@ public class Item_Mixer_UI : MonoBehaviour
         }
         successRateText.text = Mixing_Table.CalculateSuccessRate(result_Slot.ItemData, darkForceCount).ToString();
     }
-    //void WaitForResult()
-    //{
-    //    if (mixer.ItemData.LevelUp(DarkForceCount))//
-    //    {
-    //        itemEnhancer.EnhancerState = EnhancerState.Success;
-    //    }
-    //    else
-    //    {
-    //        itemEnhancer.EnhancerState = EnhancerState.Fail;
-    //    }
-    //}
+    void WaitForResult()
+    {
+        if (mixer.Mixing_Table.LevelUp(mixer.ResultSlot.ItemData, DarkForceCount, out bool critical))//
+        {
+            isCritical = critical;
+            mixer.MixerState = ItemMixerState.Success;
+            Debug.Log($"{isCritical} : 성공");
+        }
+        else
+        {
+            mixer.MixerState = ItemMixerState.Fail;
+            Debug.Log("실패");
+        }
+    }
     IEnumerator PopUp_ProceedBox(bool levelUp)
     {
         if (levelUp)

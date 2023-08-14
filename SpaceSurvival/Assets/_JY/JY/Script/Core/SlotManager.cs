@@ -251,7 +251,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             Vector2 distance_Between_Mouse_Left_Slot = screenPos - (Vector2)mixer_Left_slot_Transform.position;
             Vector2 distance_Between_Mouse_Middle_Slot = screenPos - (Vector2)mixer_Middle_Slot_Transform.position;
 
-            if (beforeSlotRectTransform.rect.Contains(distance_Between_Mouse_BeforeSlot))//강화 슬롯의 위치이면서 강화ㅑ 가능한 아이템 일 때
+            if (beforeSlotRectTransform.rect.Contains(distance_Between_Mouse_BeforeSlot) && GameManager.Enhancer.EnhancerUI.IsOpen)//강화 슬롯의 위치이면서 강화ㅑ 가능한 아이템 일 때
             {
                 ItemData_Enhancable enhancable = TempSlot.ItemData as ItemData_Enhancable;
                 if (enhancable != null)
@@ -260,12 +260,12 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                    // IndexForEnhancer =  애초에 장비탭의 Slot 이 TempSlot으로 옮겨갈때 인덱스 저장이 필요함
                 }
             }
-            else if (mixer_Left_slot_Transform.rect.Contains(distance_Between_Mouse_Left_Slot))
+            else if (mixer_Left_slot_Transform.rect.Contains(distance_Between_Mouse_Left_Slot) && GameManager.Mixer.MixerUI.IsOpen)
             {
                 GameManager.Mixer.LeftSlotData = TempSlot.ItemData;
                 RemoveItem(TempSlot.ItemData, Index_JustChange_Slot);
             }
-            else if (mixer_Middle_Slot_Transform.rect.Contains(distance_Between_Mouse_Middle_Slot))
+            else if (mixer_Middle_Slot_Transform.rect.Contains(distance_Between_Mouse_Middle_Slot) && GameManager.Mixer.MixerUI.IsOpen)
             {
                 GameManager.Mixer.MiddleSlotData = TempSlot.ItemData;
                 RemoveItem(TempSlot.ItemData, Index_JustChange_Slot);
