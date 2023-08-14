@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class WarningBox : MonoBehaviour
 {
     Item_Enhancer item_Enhancer;
+    Item_Mixer item_Mixer;
 
     CanvasGroup canvasGroup;
     Button confirmButton;
@@ -29,6 +30,8 @@ public class WarningBox : MonoBehaviour
         item_Enhancer.onConfirmButtonClick += Open;
         item_Enhancer.onWaitforResult += Close;
         confirmButton.onClick.AddListener(() => item_Enhancer.EnhancerState = EnhancerState.WaitforResult);
+
+        item_Mixer = GameManager.Mixer;
     }
 
     void Open()

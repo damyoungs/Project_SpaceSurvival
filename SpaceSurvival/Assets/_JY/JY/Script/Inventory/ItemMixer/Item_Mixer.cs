@@ -142,10 +142,7 @@ public class Item_Mixer : MonoBehaviour
                     onSetItemCanceled?.Invoke();
                     break;
                 case ItemMixerState.Confirm:
-                    //if (ItemData != null)
-                    //{
-                    //    onConfirmButtonClick?.Invoke();
-                    //}
+                    
                     break;
                 case ItemMixerState.WaitforResult:
                     onWaitforResult?.Invoke();
