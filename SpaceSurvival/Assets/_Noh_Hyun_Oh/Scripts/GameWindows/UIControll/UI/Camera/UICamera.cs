@@ -70,7 +70,7 @@ public class UICamera : MonoBehaviour ,ICameraBase
         //gameObject.layer = LayerMask.NameToLayer("UI");///설정한 레이어 검색해서 번호 가져오기
         //gameObject.tag = "Respawn"; //태그 변경시키기
         actionCam = GetComponent<Camera>();
-        actionCam.targetTexture = new RenderTexture(512,512,16,RenderTextureFormat.ARGB32); //렌더러 택스쳐 기본값
+        actionCam.targetTexture = new RenderTexture(512,512,16,RenderTextureFormat.ARGB32);
     }
 
 
@@ -86,7 +86,10 @@ public class UICamera : MonoBehaviour ,ICameraBase
     
     private void OnEnable()
     {
-        StartCoroutine(MoveCamera());
+        if (target != null) 
+        {
+            StartCoroutine(MoveCamera());
+        }
     }
 
     private void OnDisable()

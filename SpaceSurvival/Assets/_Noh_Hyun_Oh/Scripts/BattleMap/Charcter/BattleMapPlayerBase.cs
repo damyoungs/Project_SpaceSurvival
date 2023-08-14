@@ -28,7 +28,7 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj , ICharcterBase
     private void Start()
     {
         battleUICanvas = WindowList.Instance.transform.GetChild(0).GetChild(0);  // TrackingUI 담을 캔버스위치
-        InitUI();
+        InitUI();//맨처음 
     }
 
     protected override void OnEnable()

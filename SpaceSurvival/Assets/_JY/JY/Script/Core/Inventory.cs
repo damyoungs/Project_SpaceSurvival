@@ -121,7 +121,7 @@ public class Inventory : PopupWindowBase, IPopupSortWindow ,IPointerDownHandler
     void Open_Enhancer()
     {
         GameManager.Enhancer.EnhancerState = EnhancerState.Open;
-        
+
     }
     void Open_Mixer()
     {

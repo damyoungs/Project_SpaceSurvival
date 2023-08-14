@@ -111,6 +111,7 @@ public class Item_Enhancer_UI : PopupWindowBase, IPopupSortWindow, IPointerDownH
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
         ClearEnhancerUI();
+        PopupSorting(this);
     }
     public void Close()
     {
