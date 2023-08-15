@@ -11,6 +11,7 @@ public class Item_Mixer_UI : MonoBehaviour
 { 
     CanvasGroup canvasGroup;
     Item_Mixer mixer;
+    Mixer_Anim mixer_Anim;
 
     public UnityEngine.UI.Button closeButton;
     public UnityEngine.UI.Button cancelButton;
@@ -18,7 +19,6 @@ public class Item_Mixer_UI : MonoBehaviour
     public UnityEngine.UI.Button minusButton;
     public UnityEngine.UI.Button confirmButton;
     public TextMeshProUGUI successRateText;
-    public Animator mixerAnim;
 
     public TMP_InputField amountText;
     public UnityEngine.UI.Slider amountSlider;
@@ -91,7 +91,7 @@ public class Item_Mixer_UI : MonoBehaviour
         mixer.onOpen += Open;
         mixer.onClose += Close;
         //mixer.onSetItem += RefreshEnhancerUI; //tempSlot의 아이템을 드롭했을 때
-        mixer.onClearItem += ClearEnhancerUI; // beforeSlot을 클릭했을 때
+        mixer.onClearItem += ClearMixerUI; // beforeSlot을 클릭했을 때
         mixer.onConfirmButtonClick += BlockInteractable;// enhancerUI창의 체크버튼 클맀했을 때
         onDarkForceValueChange += UpdateSuccessRate; // InputField의 Darkforce의 값이 바뀔때
         //mixer.onWaitforResult += WaitForResult; // warningBox의 체크버튼을 누를 때 
@@ -99,22 +99,32 @@ public class Item_Mixer_UI : MonoBehaviour
 
         mixer.onSetItem += RefreshMixerUI;
         mixer.onSetItemCanceled += InitializeUIElements;
+
         mixer.onWaitforResult += WaitForResult;
+        mixer.onWaitforResult += BlockInteractable;
         Mixing_Table = GameManager.Mixing_Table;
+        mixer_Anim = mixer.Mixer_Anim;
 
 
-
+        mixer_Anim.done_With_Success_Anim += EndSession;
+        mixer_Anim.done_With_Fail_Anim += EndSession;
         Close();
 
         WarningBox warningBox = FindObjectOfType<WarningBox>();
         warningBox.onWarningBoxClose += OpenInteractable;
+    }
+    void EndSession()
+    {
+        mixer.Return_To_Inventory = false;
+        OpenInteractable();
+        ClearMixerUI();
     }
     public void Open()
     {
         canvasGroup.alpha = 1.0f;
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
-        ClearEnhancerUI();
+        ClearMixerUI();
     }
     public void Close()
     {
@@ -137,13 +147,13 @@ public class Item_Mixer_UI : MonoBehaviour
         }
     }
 
-    private void ClearEnhancerUI()
+    private void ClearMixerUI()
     {
         //이미지, 성공률 text
         InitializeUIElements();
-        left_Slot.ItemData = null;
-        middle_Slot.ItemData = null;
-        result_Slot.ItemData = null;
+        mixer.LeftSlotData = null;// 직접 수정하는 대신 Mixer의 프로퍼티를 null로 만들면 강화 시도 후 실패한 것이 아니라 올렸다가 취소한 것으로 간주해서 다시 인벤토리에 추가시킴
+        mixer.MiddleSlotData = null;
+        mixer.ResultSlot.ItemData = null;
         // mixer.ItemData = null;
     }
 

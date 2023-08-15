@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -19,6 +20,9 @@ public class Mixer_Anim : MonoBehaviour
     public Image result_Fail_Image;
     Image fail_Left_Image;
     Image fail_Middle_Image;
+
+    public Action done_With_Success_Anim;
+    public Action done_With_Fail_Anim;
     private void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
@@ -59,14 +63,14 @@ public class Mixer_Anim : MonoBehaviour
             SetFailure_Image();
             anim.SetTrigger("Fail");
             yield return new WaitForSeconds(8.0f);//대기시간이 없으면 버튼 활성화가 너무 빨리된다.
+            done_With_Fail_Anim?.Invoke();
             SetActive(false);
         }
       //  OpenInteractable();
     }
-    void SetResult_Image()//애니메이터에서 호출
-    {
-        result_Success_Image.sprite = mixer.ResultSlot.ItemData.itemIcon;
-    }
+    
+
+
     void SetSuccess_Image()
     {
         result_Success_Image.sprite = mixer.MiddleSlotData.itemIcon;
@@ -79,12 +83,10 @@ public class Mixer_Anim : MonoBehaviour
         fail_Left_Image.sprite = mixer.MiddleSlotData.itemIcon;
         fail_Middle_Image.sprite = mixer.MiddleSlotData.itemIcon;
     }
-    public void Set_Fail_image_To_Middle()
-    {
-        result_Fail_Image.sprite = mixer.MiddleSlotData.itemIcon;
-    }
+
     void Confirm()
     {
+        done_With_Success_Anim?.Invoke();
         SetActive(false);
         anim.SetBool("Confirm", true);
     }

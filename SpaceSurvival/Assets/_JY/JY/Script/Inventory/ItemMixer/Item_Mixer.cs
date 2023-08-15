@@ -18,6 +18,8 @@ using UnityEngine.UIElements;
 }
 public class Item_Mixer : MonoBehaviour
 {
+    Mixer_Anim mixer_Anim;
+    public Mixer_Anim Mixer_Anim => mixer_Anim;
     Item_Mixing_Table mixing_table;
     public Item_Mixing_Table Mixing_Table => mixing_table;
 
@@ -44,6 +46,16 @@ public class Item_Mixer : MonoBehaviour
     ItemData middleSlotData = null;
     ItemData tempData = null;// 아이템 제거하기 전 slot에 추가할 아이템을 미리 복사해놓는 용도
 
+    bool return_To_Inventory = true;
+    public bool Return_To_Inventory
+    {
+        get => return_To_Inventory;
+        set
+        {
+            return_To_Inventory = value;
+        }
+    }
+
     public Action<ItemData> onLeftSlotDataSet;
     public Action<ItemData> onMiddleSlotDataSet;
 
@@ -53,7 +65,7 @@ public class Item_Mixer : MonoBehaviour
         get => leftSlotData;
         set
         {
-            if (leftSlotData != value) 
+            if (leftSlotData != value)
             {
                 tempData = leftSlotData;
                 leftSlotData = value;
@@ -65,6 +77,7 @@ public class Item_Mixer : MonoBehaviour
                 }
                 else
                 {
+                    if (return_To_Inventory)
                     slot_Manager.AddItem(tempData.code);
                 }
             }
@@ -98,6 +111,7 @@ public class Item_Mixer : MonoBehaviour
                 }
                 else
                 {
+                    if (return_To_Inventory)
                     slot_Manager.AddItem(tempData.code);
                 }
             }
@@ -175,16 +189,25 @@ public class Item_Mixer : MonoBehaviour
         middle_Slot = GetComponentInChildren<Mixer_Slot_Middle>();
         result_Slot = GetComponentInChildren<Mixer_Slot_Result>();
 
-        left_Slot.onClearLeftSlot += () => LeftSlotData = null;
-        middle_Slot.onClearMiddleSlot += () => MiddleSlotData = null;
+        left_Slot.onClearLeftSlot += LeftSlot_Canceled;
+        middle_Slot.onClearMiddleSlot += MiddleSlot_Canceled;
     }
     private void Start()
     {
         slot_Manager = GameManager.SlotManager;
         mixing_table = GameManager.Mixing_Table;
-     
+        mixer_Anim = FindObjectOfType<Mixer_Anim>();
     }
-
+    void LeftSlot_Canceled()//조합 실패할 경우가 아니라 그냥 클릭해서 취소한 경우
+    {
+        Return_To_Inventory = true;
+        LeftSlotData = null;
+    }
+    void MiddleSlot_Canceled()
+    {
+        Return_To_Inventory = true;
+        MiddleSlotData = null;
+    }
     void SetResultSlot()
     {
         if (mixing_table.ValidData(leftSlotData.code, middleSlotData.code, out ItemCode resultCode))

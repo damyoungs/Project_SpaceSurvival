@@ -49,14 +49,14 @@ public class WarningBox : MonoBehaviour
         canvasGroup.alpha = 0;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
-        switch (item_Enhancer.EnhancerState)//강화중이면 신호를 보내지 마라(신호가 보내지면 UI의 모든 interactable이 true가 됨)
+        switch (item_Mixer.MixerState)//강화중이면 신호를 보내지 마라(신호가 보내지면 UI의 모든 interactable이 true가 됨)
         {
-            case EnhancerState.Success:
-            case EnhancerState.Fail:
+            case ItemMixerState.Success:
+            case ItemMixerState.Fail:
                 return;
             default:
                 break;
         }
-        onWarningBoxClose?.Invoke();
+        onWarningBoxClose?.Invoke();//
     }
 }
