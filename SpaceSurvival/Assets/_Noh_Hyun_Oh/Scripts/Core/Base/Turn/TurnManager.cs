@@ -416,14 +416,14 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
             battleUnitIndex = i;// 일단 체크용 변수 입력
             if (i == 0)
             {
-                obj= MultipleObjectsFactory.Instance.GetObject(EnumList.MultipleFactoryObjectList.BATTLEMAP_PLAYER_POOL); //
+                obj= Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.BATTLEMAP_PLAYER_POOL); //
                 tbo = obj.GetComponent<PlayerTurnObject>(); //찾고new PlayerTurnObject();
                 obj.name = $"PL_Charcter  _{i}";
                 player = tbo;
             }
             else 
             {
-                obj= MultipleObjectsFactory.Instance.GetObject(EnumList.MultipleFactoryObjectList.BATTLEMAP_ENEMY_POOL); //가져오고
+                obj= Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.BATTLEMAP_ENEMY_POOL); //가져오고
                 tbo = obj.GetComponent<EnemyTurnObject>();
                 obj.name = $"ENEMY_Charcter _{i}";
             }

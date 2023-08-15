@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Assertions.Must;
 using UnityEngine.InputSystem;
 
-public class TestCode : TestBase
+public class Sort_TestCode : TestBase
 {
 
 

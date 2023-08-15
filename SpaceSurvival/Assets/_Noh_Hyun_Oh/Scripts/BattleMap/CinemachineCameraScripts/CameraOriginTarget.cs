@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+///  시네머신 버츄얼 카메라가 타겟으로 잡을 오브젝트 
+///  키입력시 화면 회전할때 사용한다.
+/// </summary>
 public class CameraOriginTarget : MonoBehaviour
 {
     /// <summary>

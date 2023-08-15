@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pool_SavePageButton : Pool_MultipleObject<SavePageButton_PoolObj>
+public class Pool_SavePageButton : Base_Pool_Multiple<SavePageButton_PoolObj>
 {
     /// <summary>
     /// 풀이 생성될 부모위치를 바꾸기위해 추가함

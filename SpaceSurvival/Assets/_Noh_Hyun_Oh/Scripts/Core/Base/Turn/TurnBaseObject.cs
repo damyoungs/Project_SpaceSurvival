@@ -159,7 +159,7 @@ public class TurnBaseObject : BattleMapTurnUnit_PoolObj, ITurnBaseData
     /// </summary>
     private void TurnGaugeInit()
     {
-        GameObject obj = MultipleObjectsFactory.Instance.
+        GameObject obj = Multiple_Factory.Instance.
            GetObject(EnumList.MultipleFactoryObjectList.TURN_GAUGE_UNIT_POOL);// 풀에서 데이터 가져온다.
         obj.gameObject.name = $"{this.name} _ TurnGauge "; //오브젝트에 이름 넣어둔다 제대로됬는지 확인하기쉽게.
         obj.transform.SetParent(turnGaugeCanvas); //부모위치 설정 

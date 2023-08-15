@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// 풀에서 생성될때 자동으로 데이터까지 초기화하도록 고쳤다.
 /// </summary>
-public class SavePageButton_PoolObj : PoolObjBase
+public class SavePageButton_PoolObj : Base_PoolObj
 {
     /// <summary>
     /// 화면에 보여줄 페이징번호 

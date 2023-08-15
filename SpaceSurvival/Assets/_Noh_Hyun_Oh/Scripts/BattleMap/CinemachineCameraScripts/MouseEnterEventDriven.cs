@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 /// <summary>
+/// 마우스를 스크린 맨끝에 위치시키면 카메라를 이동시키는 로직
+/// 시네머신용 
 /// 카메라 이동 감지 체크용 
 /// </summary>
 public class MouseEnterEventDriven : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler

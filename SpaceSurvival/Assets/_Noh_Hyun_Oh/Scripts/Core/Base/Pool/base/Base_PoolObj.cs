@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// 풀에들어갈 기본 클래스
 /// </summary>
-public class PoolObjBase : MonoBehaviour
+public class Base_PoolObj : MonoBehaviour
 {
     /// <summary>
     /// 활설화 하기전에 처리할 로직 (데이터 초기값 셋팅용)

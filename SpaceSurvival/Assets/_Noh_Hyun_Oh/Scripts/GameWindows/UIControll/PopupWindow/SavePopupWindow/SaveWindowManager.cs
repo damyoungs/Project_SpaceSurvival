@@ -248,7 +248,7 @@ public class SaveWindowManager : PopupWindowBase ,IPopupSortWindow ,IPointerDown
 
         for (int i = 0; i < proccessLength; i++) //필요한만큼 추가로 생성한다 
         {
-            MultipleObjectsFactory.Instance.GetObject(type);//오브젝트 추가해서 강제로 풀의사이즈를늘린다.
+            Multiple_Factory.Instance.GetObject(type);//오브젝트 추가해서 강제로 풀의사이즈를늘린다.
         }
         SetPoolBug(position, proccessLength);//필요없는 오브젝트를 비활성화 하는 함수
     }
@@ -357,7 +357,7 @@ public class SaveWindowManager : PopupWindowBase ,IPopupSortWindow ,IPointerDown
         }
         int viewObjectNumber = GetGameObjectIndex(fileIndex); //페이지별 오브젝트 위치찾기
 
-        SaveDataObject sd = saveWindowObject.transform.GetChild(viewObjectNumber).GetComponent<SaveDataObject>(); //수정된 오브젝트 가져온다.
+        SaveGameObject sd = saveWindowObject.transform.GetChild(viewObjectNumber).GetComponent<SaveGameObject>(); //수정된 오브젝트 가져온다.
 
         sd.ObjectIndex = viewObjectNumber; //오브젝트 넘버링을 해준다 
 

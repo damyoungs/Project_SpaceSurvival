@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 /// 기본적으로 복수로 생성되는 객체 정의
 /// EnumList.MultipleFactoryObjectList 이곳에 객체추가될내용 같이추가하시면됩니다.
 /// </summary>
-public class MultipleObjectsFactory : ChildComponentSingeton<MultipleObjectsFactory>
+public class Multiple_Factory : ChildComponentSingeton<Multiple_Factory>
 {
     /// <summary>
     /// 저장화면에 보여질 오브젝트풀

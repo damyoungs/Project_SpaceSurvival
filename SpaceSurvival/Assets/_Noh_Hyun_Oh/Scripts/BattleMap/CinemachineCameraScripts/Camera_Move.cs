@@ -6,7 +6,7 @@ using System.ComponentModel;
 using UnityEngine;
 
 /// <summary>
-///  배틀맵 카메라 이동 클래스
+///  배틀맵  시네머신 버츄얼 카메라 이동 클래스
 /// </summary>
 public class Camera_Move : MonoBehaviour
 {

@@ -572,17 +572,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5710969024274006033}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ee757335dafa4647b8b1de773e269d0, type: 3}
+  m_Script: {fileID: 11500000, guid: 2186bc521e7d45e47bd3a6cda5fae4ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectIndex: -1
-  fileIndex: -1
-  saveFileNumber: {fileID: 8062400702448613796}
-  sceanNameObject: {fileID: 3684166186172911732}
-  createTimeObj: {fileID: 3981651720521398457}
-  charcterLevelObj: {fileID: 5402779108606749936}
-  charcterMoneyObj: {fileID: 1037922610229039391}
-  etcObj: {fileID: 5003687020933012446}
 --- !u!114 &-8303464936323268840
 MonoBehaviour:
   m_ObjectHideFlags: 0

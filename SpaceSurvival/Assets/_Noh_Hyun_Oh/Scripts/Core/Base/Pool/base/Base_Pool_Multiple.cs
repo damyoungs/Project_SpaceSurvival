@@ -8,7 +8,7 @@ using UnityEngine;
 /// 해당클래스를 상속받아서 사용 
 /// </summary>
 /// <typeparam name="T">ObjectIsPool을 상속받은 클래스</typeparam>
-public class Pool_MultipleObject<T> : MonoBehaviour where T : PoolObjBase
+public class Base_Pool_Multiple<T> : MonoBehaviour where T : Base_PoolObj
 {
     /// <summary>
     /// 풀에 담아 놓을 오브젝트의 프리팹

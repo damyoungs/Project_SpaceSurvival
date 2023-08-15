@@ -24,7 +24,7 @@ public class TurnTestCode : TestBase
     /// <param name="context"></param>
     protected override void Test1(InputAction.CallbackContext context)
     {
-        GameObject obj = MultipleObjectsFactory.Instance.GetObject(EnumList.MultipleFactoryObjectList.BATTLEMAP_ENEMY_POOL); //가져오고
+        GameObject obj = Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.BATTLEMAP_ENEMY_POOL); //가져오고
         TurnBaseObject tbo = obj?.GetComponent<TurnBaseObject>(); //찾고
         tbo.UnitBattleIndex = turnManager.BattleIndex; //인덱스 설정하고
         RectTransform rt = obj.GetComponent<RectTransform>(); //랜덤으로 위치 뿌려주기위해 위치값정보가져오고

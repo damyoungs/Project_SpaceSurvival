@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pool_TrackingBattleUI : Pool_MultipleObject<TrackingBattleUIObject_PoolObj>
+public class Pool_TrackingBattleUI : Base_Pool_Multiple<TrackingBattleUIObject_PoolObj>
 {
   
 }

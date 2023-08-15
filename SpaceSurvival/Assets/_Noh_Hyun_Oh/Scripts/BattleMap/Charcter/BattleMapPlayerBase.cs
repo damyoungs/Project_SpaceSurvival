@@ -50,7 +50,7 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj , ICharcterBase
         }
         else //추적형 UI가 셋팅안되있으면 셋팅한다
         {
-            GameObject obj = MultipleObjectsFactory.Instance.
+            GameObject obj = Multiple_Factory.Instance.
                 GetObject(EnumList.MultipleFactoryObjectList.TRACKING_BATTLE_UI_POOL); // 제일처음 초기화할때 배틀 UI 셋팅하고 
             obj.gameObject.name = $"{name} _ Tracking"; //이름확인용
             obj.transform.SetParent(battleUICanvas);//풀은 캔버스 밑에없기때문에 배틀맵UI만 관리할 캔버스 위치 밑으로 이동시킨다.

@@ -5,7 +5,7 @@ using UnityEngine;
 /// 저장화면에 보이는 파일 정보 
 /// 이오브젝트 클릭시 파일인덱스를 넘겨야한다.
 /// </summary>
-public class SaveDataObject : SaveData_PoolObj
+public class SaveGameObject : SaveData_PoolObj
 {
 
     /// <summary>

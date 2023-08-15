@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LoadedSceanMove : MonoBehaviour
+public class DataLoad_SceanMove : MonoBehaviour
 {
     private void Start()
     {
