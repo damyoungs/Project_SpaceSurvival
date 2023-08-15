@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class WarningBox : MonoBehaviour
 {
     Item_Enhancer item_Enhancer;
+    Item_Mixer item_Mixer;
 
     CanvasGroup canvasGroup;
     Button confirmButton;
@@ -29,6 +30,12 @@ public class WarningBox : MonoBehaviour
         item_Enhancer.onConfirmButtonClick += Open;
         item_Enhancer.onWaitforResult += Close;
         confirmButton.onClick.AddListener(() => item_Enhancer.EnhancerState = EnhancerState.WaitforResult);
+
+
+        item_Mixer = GameManager.Mixer;
+        item_Mixer.onConfirmButtonClick += Open;
+        item_Mixer.onWaitforResult += Close;
+        confirmButton.onClick.AddListener(() => item_Mixer.MixerState = ItemMixerState.WaitforResult);
     }
 
     void Open()
@@ -42,14 +49,14 @@ public class WarningBox : MonoBehaviour
         canvasGroup.alpha = 0;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
-        switch (item_Enhancer.EnhancerState)//강화중이면 신호를 보내지 마라(신호가 보내지면 UI의 모든 interactable이 true가 됨)
+        switch (item_Mixer.MixerState)//강화중이면 신호를 보내지 마라(신호가 보내지면 UI의 모든 interactable이 true가 됨)
         {
-            case EnhancerState.Success:
-            case EnhancerState.Fail:
+            case ItemMixerState.Success:
+            case ItemMixerState.Fail:
                 return;
             default:
                 break;
         }
-        onWarningBoxClose?.Invoke();
+        onWarningBoxClose?.Invoke();//
     }
 }

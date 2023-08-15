@@ -11,6 +11,7 @@ public class Item_Mixer_UI : MonoBehaviour
 { 
     CanvasGroup canvasGroup;
     Item_Mixer mixer;
+    Mixer_Anim mixer_Anim;
 
     public UnityEngine.UI.Button closeButton;
     public UnityEngine.UI.Button cancelButton;
@@ -18,7 +19,6 @@ public class Item_Mixer_UI : MonoBehaviour
     public UnityEngine.UI.Button minusButton;
     public UnityEngine.UI.Button confirmButton;
     public TextMeshProUGUI successRateText;
-    public Animator proceedAnim;
 
     public TMP_InputField amountText;
     public UnityEngine.UI.Slider amountSlider;
@@ -32,7 +32,9 @@ public class Item_Mixer_UI : MonoBehaviour
 
     const uint MinDarkForceCount = 0;
     uint darkForceCount = MinDarkForceCount;
-    byte itemLevel = 0;
+
+    bool isCritical = false; // 조합 크리티컬이 터졌는지 확인용
+    public bool IsOpen => canvasGroup.alpha == 1.0f;
     public uint DarkForceCount
     {
         get => darkForceCount;
@@ -89,31 +91,40 @@ public class Item_Mixer_UI : MonoBehaviour
         mixer.onOpen += Open;
         mixer.onClose += Close;
         //mixer.onSetItem += RefreshEnhancerUI; //tempSlot의 아이템을 드롭했을 때
-        mixer.onClearItem += ClearEnhancerUI; // beforeSlot을 클릭했을 때
+        mixer.onClearItem += ClearMixerUI; // beforeSlot을 클릭했을 때
         mixer.onConfirmButtonClick += BlockInteractable;// enhancerUI창의 체크버튼 클맀했을 때
         onDarkForceValueChange += UpdateSuccessRate; // InputField의 Darkforce의 값이 바뀔때
         //mixer.onWaitforResult += WaitForResult; // warningBox의 체크버튼을 누를 때 
        // itemEnhancer.onWaitforResult += BlockInteractable;
-        mixer.onSuccess += () => StartCoroutine(PopUp_ProceedBox(true)); //WaitForResult에서 호출
-        mixer.onFail += () => StartCoroutine(PopUp_ProceedBox(false));
 
         mixer.onSetItem += RefreshMixerUI;
         mixer.onSetItemCanceled += InitializeUIElements;
+
+        mixer.onWaitforResult += WaitForResult;
+        mixer.onWaitforResult += BlockInteractable;
         Mixing_Table = GameManager.Mixing_Table;
+        mixer_Anim = mixer.Mixer_Anim;
 
 
-
+        mixer_Anim.done_With_Success_Anim += EndSession;
+        mixer_Anim.done_With_Fail_Anim += EndSession;
         Close();
 
         WarningBox warningBox = FindObjectOfType<WarningBox>();
         warningBox.onWarningBoxClose += OpenInteractable;
+    }
+    void EndSession()
+    {
+        mixer.Return_To_Inventory = false;
+        OpenInteractable();
+        ClearMixerUI();
     }
     public void Open()
     {
         canvasGroup.alpha = 1.0f;
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
-        ClearEnhancerUI();
+        ClearMixerUI();
     }
     public void Close()
     {
@@ -136,13 +147,13 @@ public class Item_Mixer_UI : MonoBehaviour
         }
     }
 
-    private void ClearEnhancerUI()
+    private void ClearMixerUI()
     {
         //이미지, 성공률 text
         InitializeUIElements();
-        left_Slot.ItemData = null;
-        middle_Slot.ItemData = null;
-        result_Slot.ItemData = null;
+        mixer.LeftSlotData = null;// 직접 수정하는 대신 Mixer의 프로퍼티를 null로 만들면 강화 시도 후 실패한 것이 아니라 올렸다가 취소한 것으로 간주해서 다시 인벤토리에 추가시킴
+        mixer.MiddleSlotData = null;
+        mixer.ResultSlot.ItemData = null;
         // mixer.ItemData = null;
     }
 
@@ -188,33 +199,20 @@ public class Item_Mixer_UI : MonoBehaviour
         }
         successRateText.text = Mixing_Table.CalculateSuccessRate(result_Slot.ItemData, darkForceCount).ToString();
     }
-    //void WaitForResult()
-    //{
-    //    if (mixer.ItemData.LevelUp(DarkForceCount))//
-    //    {
-    //        itemEnhancer.EnhancerState = EnhancerState.Success;
-    //    }
-    //    else
-    //    {
-    //        itemEnhancer.EnhancerState = EnhancerState.Fail;
-    //    }
-    //}
-    IEnumerator PopUp_ProceedBox(bool levelUp)
+    void WaitForResult()
     {
-        if (levelUp)
+        if (mixer.Mixing_Table.LevelUp(mixer.ResultSlot.ItemData, DarkForceCount, out bool critical))//
         {
-            proceedAnim.SetTrigger("Success");
-            yield return new WaitForSeconds(3.0f);// Success clip의 재생시간을 고려한 딜레이
-            onTriggerLevelUp?.Invoke();
-            mixer.MixerState = ItemMixerState.ClearItem;
-            Debug.Log("State 변경 ");
+            isCritical = critical;
+            mixer.MixerState = ItemMixerState.Success;
+            Debug.Log($"{isCritical} : 성공");
         }
         else
         {
-            proceedAnim.SetTrigger("Fail");
-            yield return new WaitForSeconds(3.0f);//대기시간이 없으면 버튼 활성화가 너무 빨리된다.
+            mixer.MixerState = ItemMixerState.Fail;
+            Debug.Log("실패");
         }
-        OpenInteractable();
     }
+
 
 }

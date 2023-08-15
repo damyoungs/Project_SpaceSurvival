@@ -38,6 +38,9 @@ public class MixerDescription : MonoBehaviour
         Mixer_Slot_Left leftSlot;
         Mixer_Slot_Middle middleSlot;
         Mixer_Slot_Result resultSlot;
+        Result_Success result_Success;
+
+        result_Success = FindObjectOfType<Result_Success>();
         leftSlot = GameManager.Mixer.MixerUI.Left_Slot;
         middleSlot = GameManager.Mixer.MixerUI.Middle_Slot;
         resultSlot = GameManager.Mixer.MixerUI.Result_Slot;
@@ -45,13 +48,17 @@ public class MixerDescription : MonoBehaviour
         leftSlot.onPointerEnter += Open_Description;
         middleSlot.onPointerEnter += Open_Description;
         resultSlot.onPointerEnter += Open_Description;
+        result_Success.onPointerEnter += Open_Description;
 
         leftSlot.onPointerExit += Close;
         middleSlot.onPointerExit += Close;
         resultSlot.onPointerExit += Close;
+        result_Success.onPointerExit += Close;
+
         leftSlot.onPointerMove += MovePosition;
         middleSlot.onPointerMove += MovePosition;
         resultSlot.onPointerMove += MovePosition;
+        result_Success.onPointerMove += MovePosition; 
     }
     public void Open_Description(ItemData data)
     {

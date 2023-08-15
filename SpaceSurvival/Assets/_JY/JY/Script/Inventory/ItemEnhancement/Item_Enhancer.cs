@@ -80,6 +80,7 @@ public class Item_Enhancer : MonoBehaviour
                     }
                     break;
                 case EnhancerState.WaitforResult:
+                    if (itemData != null)
                     onWaitforResult?.Invoke();
                     break;
                 case EnhancerState.Success:

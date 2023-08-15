@@ -29,6 +29,8 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
 
     RectTransform mixer_Left_slot_Transform;
     RectTransform mixer_Middle_Slot_Transform;
+    RectTransform mixerUI_Transform;
+    Item_Mixer_UI mixer_UI;
 
     public ItemSplitter spliter;
     bool isShiftPress = false;
@@ -72,6 +74,8 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
    
         mixer_Left_slot_Transform = GameManager.Mixer.MixerUI.Left_Slot.GetComponent<RectTransform>();
         mixer_Middle_Slot_Transform = GameManager.Mixer.MixerUI.Middle_Slot.GetComponent<RectTransform>();
+        mixerUI_Transform = GameManager.Mixer.GetComponent<RectTransform>();
+        mixer_UI = GameManager.Mixer.MixerUI;
 
         slots = new Dictionary<Current_Inventory_State, List<Slot>>
         {
@@ -250,8 +254,9 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             Vector2 distance_Between_Mouse_enhancerUI = screenPos - (Vector2)enhancerUIRectTransform.position;
             Vector2 distance_Between_Mouse_Left_Slot = screenPos - (Vector2)mixer_Left_slot_Transform.position;
             Vector2 distance_Between_Mouse_Middle_Slot = screenPos - (Vector2)mixer_Middle_Slot_Transform.position;
+            Vector2 distance_Between_Mouse_MixerUI = screenPos - (Vector2)mixerUI_Transform.position;
 
-            if (beforeSlotRectTransform.rect.Contains(distance_Between_Mouse_BeforeSlot))//강화 슬롯의 위치이면서 강화ㅑ 가능한 아이템 일 때
+            if (beforeSlotRectTransform.rect.Contains(distance_Between_Mouse_BeforeSlot) && mixer_UI.IsOpen)//강화 슬롯의 위치이면서 강화ㅑ 가능한 아이템 일 때
             {
                 ItemData_Enhancable enhancable = TempSlot.ItemData as ItemData_Enhancable;
                 if (enhancable != null)
@@ -260,15 +265,19 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                    // IndexForEnhancer =  애초에 장비탭의 Slot 이 TempSlot으로 옮겨갈때 인덱스 저장이 필요함
                 }
             }
-            else if (mixer_Left_slot_Transform.rect.Contains(distance_Between_Mouse_Left_Slot))
+            else if (mixer_Left_slot_Transform.rect.Contains(distance_Between_Mouse_Left_Slot) && mixer_UI.IsOpen)
             {
                 GameManager.Mixer.LeftSlotData = TempSlot.ItemData;
                 RemoveItem(TempSlot.ItemData, Index_JustChange_Slot);
             }
-            else if (mixer_Middle_Slot_Transform.rect.Contains(distance_Between_Mouse_Middle_Slot))
+            else if (mixer_Middle_Slot_Transform.rect.Contains(distance_Between_Mouse_Middle_Slot) && mixer_UI.IsOpen)
             {
                 GameManager.Mixer.MiddleSlotData = TempSlot.ItemData;
                 RemoveItem(TempSlot.ItemData, Index_JustChange_Slot);
+            }
+            else if (mixerUI_Transform.rect.Contains(distance_Between_Mouse_MixerUI) && mixer_UI.IsOpen)
+            {
+                return;
             }
             else if (!inventoryRectTransform.rect.Contains(distance_Between_Mouse_Inven))// 거리의 크기가 rect 의 크기보다 작으면 인벤토리 안쪽
             {
