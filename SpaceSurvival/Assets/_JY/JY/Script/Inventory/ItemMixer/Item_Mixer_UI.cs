@@ -18,7 +18,7 @@ public class Item_Mixer_UI : MonoBehaviour
     public UnityEngine.UI.Button minusButton;
     public UnityEngine.UI.Button confirmButton;
     public TextMeshProUGUI successRateText;
-    public Animator proceedAnim;
+    public Animator mixerAnim;
 
     public TMP_InputField amountText;
     public UnityEngine.UI.Slider amountSlider;
@@ -96,8 +96,6 @@ public class Item_Mixer_UI : MonoBehaviour
         onDarkForceValueChange += UpdateSuccessRate; // InputField의 Darkforce의 값이 바뀔때
         //mixer.onWaitforResult += WaitForResult; // warningBox의 체크버튼을 누를 때 
        // itemEnhancer.onWaitforResult += BlockInteractable;
-        mixer.onSuccess += () => StartCoroutine(PopUp_ProceedBox(true)); //WaitForResult에서 호출
-        mixer.onFail += () => StartCoroutine(PopUp_ProceedBox(false));
 
         mixer.onSetItem += RefreshMixerUI;
         mixer.onSetItemCanceled += InitializeUIElements;
@@ -205,22 +203,6 @@ public class Item_Mixer_UI : MonoBehaviour
             Debug.Log("실패");
         }
     }
-    IEnumerator PopUp_ProceedBox(bool levelUp)
-    {
-        if (levelUp)
-        {
-            proceedAnim.SetTrigger("Success");
-            yield return new WaitForSeconds(3.0f);// Success clip의 재생시간을 고려한 딜레이
-            onTriggerLevelUp?.Invoke();
-            mixer.MixerState = ItemMixerState.ClearItem;
-            Debug.Log("State 변경 ");
-        }
-        else
-        {
-            proceedAnim.SetTrigger("Fail");
-            yield return new WaitForSeconds(3.0f);//대기시간이 없으면 버튼 활성화가 너무 빨리된다.
-        }
-        OpenInteractable();
-    }
+
 
 }

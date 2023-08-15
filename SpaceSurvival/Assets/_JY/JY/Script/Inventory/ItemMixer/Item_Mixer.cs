@@ -182,6 +182,7 @@ public class Item_Mixer : MonoBehaviour
     {
         slot_Manager = GameManager.SlotManager;
         mixing_table = GameManager.Mixing_Table;
+     
     }
 
     void SetResultSlot()
