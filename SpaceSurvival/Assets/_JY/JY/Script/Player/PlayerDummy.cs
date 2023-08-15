@@ -19,7 +19,7 @@ public class PlayerDummy : MonoBehaviour, IHealth
     public float rotateSpeed = 0.0f;
     public float pickupRange = 3.0f;
 
-    uint darkForce = 200;
+    uint darkForce = 500;
     public uint DarkForce
     {
         get => darkForce;

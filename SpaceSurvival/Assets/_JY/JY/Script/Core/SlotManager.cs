@@ -256,7 +256,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             Vector2 distance_Between_Mouse_Middle_Slot = screenPos - (Vector2)mixer_Middle_Slot_Transform.position;
             Vector2 distance_Between_Mouse_MixerUI = screenPos - (Vector2)mixerUI_Transform.position;
 
-            if (beforeSlotRectTransform.rect.Contains(distance_Between_Mouse_BeforeSlot) && mixer_UI.IsOpen)//강화 슬롯의 위치이면서 강화ㅑ 가능한 아이템 일 때
+            if (beforeSlotRectTransform.rect.Contains(distance_Between_Mouse_BeforeSlot) && GameManager.Enhancer.EnhancerUI.IsOpen)//강화 슬롯의 위치이면서 강화ㅑ 가능한 아이템 일 때
             {
                 ItemData_Enhancable enhancable = TempSlot.ItemData as ItemData_Enhancable;
                 if (enhancable != null)
