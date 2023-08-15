@@ -16,7 +16,7 @@ public class Mixer_Anim : MonoBehaviour
     Image success_Middle_Image;
     Button confirm_Button;
 
-    Image result_Fail_Image;
+    public Image result_Fail_Image;
     Image fail_Left_Image;
     Image fail_Middle_Image;
     private void Awake()
@@ -30,7 +30,7 @@ public class Mixer_Anim : MonoBehaviour
 
         confirm_Button.onClick.AddListener(Confirm);
 
-        result_Fail_Image = transform.GetChild(1).GetComponent<Image>();
+      //  result_Fail_Image = transform.GetChild(1).GetComponent<Image>();
         fail_Left_Image = transform.GetChild(1).GetChild(2).GetComponent<Image>();
         fail_Middle_Image = transform.GetChild(1).GetChild(3).GetComponent<Image>();
     }
@@ -75,6 +75,7 @@ public class Mixer_Anim : MonoBehaviour
     }
     void SetFailure_Image()
     {
+        result_Fail_Image.sprite = mixer.MiddleSlotData.itemIcon;
         fail_Left_Image.sprite = mixer.MiddleSlotData.itemIcon;
         fail_Middle_Image.sprite = mixer.MiddleSlotData.itemIcon;
     }

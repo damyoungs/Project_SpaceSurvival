@@ -315,6 +315,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fail_Sprite: {fileID: 21300000, guid: a5b35f25f9a8ebf4c995e545c84f1081, type: 3}
+  result_Fail_Image: {fileID: 2009766003}
 --- !u!225 &37167748
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -4024,7 +4025,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3ba425b9a18c1754abf7ac7e4e13b254, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a5b35f25f9a8ebf4c995e545c84f1081, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9022,7 +9023,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: a5b35f25f9a8ebf4c995e545c84f1081, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
