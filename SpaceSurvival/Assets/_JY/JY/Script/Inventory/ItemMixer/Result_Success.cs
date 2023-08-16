@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Result_Success : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandler, IPointerExitHandler
 {
     public Action<ItemData> onPointerEnter;
     public Action<Vector2> onPointerMove;
     public Action onPointerExit;
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         onPointerEnter?.Invoke(GameManager.Mixer.ResultSlot.ItemData);

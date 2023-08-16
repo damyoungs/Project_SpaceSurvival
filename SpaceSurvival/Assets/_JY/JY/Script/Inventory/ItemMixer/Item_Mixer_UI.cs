@@ -28,6 +28,7 @@ public class Item_Mixer_UI : MonoBehaviour
     Mixer_Slot_Result result_Slot;
 
     public Action<ItemData> onDarkForceValueChange;
+    public Action<ItemData> onEndSession_Success;
     public Action onTriggerLevelUp;
 
     const uint MinDarkForceCount = 0;
@@ -106,12 +107,17 @@ public class Item_Mixer_UI : MonoBehaviour
         mixer_Anim = mixer.Mixer_Anim;
 
 
-        mixer_Anim.done_With_Success_Anim += EndSession;
+        mixer_Anim.done_With_Success_Anim += EndSession_Success;//성공시 EndSession 실행 전 resultSlot의 데이터를 인벤토리에 넣어줘야함
         mixer_Anim.done_With_Fail_Anim += EndSession;
         Close();
 
         WarningBox warningBox = FindObjectOfType<WarningBox>();
         warningBox.onWarningBoxClose += OpenInteractable;
+    }
+    void EndSession_Success()
+    {
+        onEndSession_Success?.Invoke(Result_Slot.ItemData);
+        EndSession();
     }
     void EndSession()
     {

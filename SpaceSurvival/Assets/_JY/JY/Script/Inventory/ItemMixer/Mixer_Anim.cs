@@ -16,6 +16,8 @@ public class Mixer_Anim : MonoBehaviour
     Image success_Left_Image;
     Image success_Middle_Image;
     Button confirm_Button;
+    public Button ConfirmButton => confirm_Button;
+
 
     public Image result_Fail_Image;
     Image fail_Left_Image;
@@ -52,7 +54,7 @@ public class Mixer_Anim : MonoBehaviour
             anim.SetBool("Confirm", false);
             SetSuccess_Image();
             anim.SetTrigger("Success");
-            yield return new WaitForSeconds(7.0f);// Success clip의 재생시간을 고려한 딜레이
+            yield return new WaitForSeconds(6.0f);// Success clip의 재생시간을 고려한 딜레이
             result_Success_Image.sprite = mixer.ResultSlot.ItemData.itemIcon;
             //   onTriggerLevelUp?.Invoke();
             // mixer.MixerState = ItemMixerState.ClearItem;

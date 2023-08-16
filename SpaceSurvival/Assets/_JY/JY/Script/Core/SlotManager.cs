@@ -77,6 +77,8 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         mixerUI_Transform = GameManager.Mixer.GetComponent<RectTransform>();
         mixer_UI = GameManager.Mixer.MixerUI;
 
+        mixer_UI.onEndSession_Success += Add_Reward_Item;
+
         slots = new Dictionary<Current_Inventory_State, List<Slot>>
         {
             { Current_Inventory_State.Equip, new List<Slot>() },
@@ -315,7 +317,10 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         return parentTransform;
     }
 
-
+    void Add_Reward_Item(ItemData item)
+    {
+        AddItem(item.code);
+    }
     public bool AddItem(ItemCode code)
     {
         bool result = false;
