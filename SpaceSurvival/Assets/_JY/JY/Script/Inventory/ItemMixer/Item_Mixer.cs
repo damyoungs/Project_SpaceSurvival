@@ -55,7 +55,7 @@ public class Item_Mixer : MonoBehaviour
             return_To_Inventory = value;
         }
     }
-
+    
     public Action<ItemData> onLeftSlotDataSet;
     public Action<ItemData> onMiddleSlotDataSet;
 

@@ -69,7 +69,6 @@ public class Item_Mixer_UI : MonoBehaviour
         plusButton.onClick.AddListener(() => DarkForceCount++);
         minusButton.onClick.AddListener(() => DarkForceCount--);
 
-
         amountText.onValueChanged.AddListener((text) =>
         {
             if (uint.TryParse(text, out uint result))
