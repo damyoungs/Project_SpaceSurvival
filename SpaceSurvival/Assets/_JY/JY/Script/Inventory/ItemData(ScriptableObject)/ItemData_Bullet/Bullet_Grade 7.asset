@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bullet_Grade 7
   m_EditorClassIdentifier: 
   ItemType: 2
-  code: 41
+  code: 51
   itemName: Bullet_Grade7
   modelPrefab: {fileID: 3194760328272540784, guid: d023920f37299404bbc46c5f7f8cddf4, type: 3}
   itemIcon: {fileID: 21300000, guid: aa494d30b896acb40a916c56a50ee4b0, type: 3}

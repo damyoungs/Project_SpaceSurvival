@@ -75,14 +75,14 @@ public class Mixer_Anim : MonoBehaviour
 
     void SetSuccess_Image()
     {
-        result_Success_Image.sprite = mixer.MiddleSlotData.itemIcon;
-        success_Left_Image.sprite = mixer.MiddleSlotData.itemIcon;
+        result_Success_Image.sprite = mixer.ResultSlot.ItemData.itemIcon;
+        success_Left_Image.sprite = mixer.LeftSlotData.itemIcon;
         success_Middle_Image.sprite = mixer.MiddleSlotData.itemIcon;
     }
     void SetFailure_Image()
     {
-        result_Fail_Image.sprite = mixer.MiddleSlotData.itemIcon;
-        fail_Left_Image.sprite = mixer.MiddleSlotData.itemIcon;
+        result_Fail_Image.sprite = mixer.ResultSlot.ItemData.itemIcon;
+        fail_Left_Image.sprite = mixer.LeftSlotData.itemIcon;
         fail_Middle_Image.sprite = mixer.MiddleSlotData.itemIcon;
     }
 

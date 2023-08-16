@@ -24,6 +24,7 @@ public class Item_Mixing_Table : MonoBehaviour
         combinationTable.Add(ItemCode.Advanced_Dark_Crystal, new ItemCode[2] { ItemCode.Intermidiate_Dark_Crystal, ItemCode.Intermidiate_Dark_Crystal });
         combinationTable.Add(ItemCode.Advanced_Green_Crystal, new ItemCode[2] { ItemCode.Intermidiate_Green_Crystal, ItemCode.Intermidiate_Green_Crystal });
         combinationTable.Add(ItemCode.Advanced_Unknown_Crystal, new ItemCode[2] { ItemCode.Intermidiate_Unknown_Crystal, ItemCode.Intermidiate_Unknown_Crystal });
+        combinationTable.Add(ItemCode.Bullet_Grade13, new ItemCode[2] { ItemCode.Bullet_Default, ItemCode.Unknown_Crystal });
     }
     public bool ValidData(ItemCode leftCode, ItemCode middleCode, out ItemCode resultCode)
     {
