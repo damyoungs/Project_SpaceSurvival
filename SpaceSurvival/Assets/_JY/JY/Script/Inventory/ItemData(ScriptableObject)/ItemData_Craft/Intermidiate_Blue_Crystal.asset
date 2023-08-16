@@ -23,3 +23,4 @@ MonoBehaviour:
     \uB290\uAEF4\uC9C0\uB294 \uBCF4\uC11D\uC774\uB2E4."
   CraftType: 0
   successRate: 30
+  Critical_Success_Item: {fileID: 11400000, guid: 3fbb7c5be99b0fd41b7a50d61969b655, type: 2}

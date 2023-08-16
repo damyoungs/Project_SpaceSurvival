@@ -31,7 +31,7 @@ public class Item_Mixer : MonoBehaviour
     public Action<ItemData> onSetItem;
     public Action onSetItemCanceled;
     public Action onWaitforResult;
-    public Action onSuccess;
+    public Action<bool> onSuccess;
     public Action onFail;
     public Action onClearItem;
     public Action onClose;
@@ -46,6 +46,7 @@ public class Item_Mixer : MonoBehaviour
     ItemData middleSlotData = null;
     ItemData tempData = null;// 아이템 제거하기 전 slot에 추가할 아이템을 미리 복사해놓는 용도
 
+    public bool IsCritical { get; set; }
     bool return_To_Inventory = true;
     public bool Return_To_Inventory
     {
@@ -165,7 +166,7 @@ public class Item_Mixer : MonoBehaviour
                     onWaitforResult?.Invoke();
                     break;
                 case ItemMixerState.Success:
-                    onSuccess?.Invoke(); // inventory에 Itemdata 리턴하고 EnhancerUI Clear
+                    onSuccess?.Invoke(IsCritical); // inventory에 Itemdata 리턴하고 EnhancerUI Clear
                     break;
                 case ItemMixerState.Fail:
                     onFail?.Invoke(); // inventory에 Itemdata 리턴하고 EnhancerUI Clear

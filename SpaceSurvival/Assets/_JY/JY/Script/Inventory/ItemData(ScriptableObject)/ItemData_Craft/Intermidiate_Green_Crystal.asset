@@ -22,3 +22,4 @@ MonoBehaviour:
   itemDescription: "\uCD08\uB85D\uBE5B\uC758 \uBCF4\uC11D\uC774\uB2E4."
   CraftType: 3
   successRate: 30
+  Critical_Success_Item: {fileID: 11400000, guid: 1da14c0e2647411429768fb3af00fdea, type: 2}

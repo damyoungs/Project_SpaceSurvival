@@ -22,3 +22,4 @@ MonoBehaviour:
   itemDescription: "\uC124\uBA85"
   CraftType: 7
   successRate: 30
+  Critical_Success_Item: {fileID: 11400000, guid: bee35df54dad0834bb2094ab23ad1877, type: 2}

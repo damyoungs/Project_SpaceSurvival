@@ -23,8 +23,9 @@ public class Mixer_Anim : MonoBehaviour
     Image fail_Left_Image;
     Image fail_Middle_Image;
 
-    public Action done_With_Success_Anim;
+    public Action<bool> done_With_Success_Anim;
     public Action done_With_Fail_Anim;
+    bool critical_ = false;
     private void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
@@ -43,22 +44,26 @@ public class Mixer_Anim : MonoBehaviour
     private void Start()
     {
         mixer = GameManager.Mixer;
-        mixer.onSuccess += () => StartCoroutine(PopUp_Anim(true));
-        mixer.onFail += () => StartCoroutine(PopUp_Anim(false));
+        mixer.onSuccess += (critical) => StartCoroutine(PopUp_Anim(true, critical));
+        mixer.onFail += () => StartCoroutine(PopUp_Anim(false, false));
     }
-    IEnumerator PopUp_Anim(bool success)
+    IEnumerator PopUp_Anim(bool success, bool critical)
     {
         SetActive(true);
+        critical_ = critical;
         if (success)
         {
             anim.SetBool("Confirm", false);
-            SetSuccess_Image();
+            if (critical_ == true)
+            {
+                Set_Critical_Image();
+            }
+            else
+            {
+                SetSuccess_Image();
+            }
             anim.SetTrigger("Success");
             yield return new WaitForSeconds(6.0f);// Success clip의 재생시간을 고려한 딜레이
-            result_Success_Image.sprite = mixer.ResultSlot.ItemData.itemIcon;
-            //   onTriggerLevelUp?.Invoke();
-            // mixer.MixerState = ItemMixerState.ClearItem;
-
         }
         else
         {
@@ -70,8 +75,14 @@ public class Mixer_Anim : MonoBehaviour
         }
       //  OpenInteractable();
     }
-    
 
+    void Set_Critical_Image()
+    {
+        ItemData_Craft craftable = mixer.ResultSlot.ItemData as ItemData_Craft;
+        result_Success_Image.sprite = craftable.Critical_Success_Item.itemIcon;
+        success_Left_Image.sprite = mixer.LeftSlotData.itemIcon;
+        success_Middle_Image.sprite = mixer.MiddleSlotData.itemIcon;
+    }
 
     void SetSuccess_Image()
     {
@@ -88,7 +99,7 @@ public class Mixer_Anim : MonoBehaviour
 
     void Confirm()
     {
-        done_With_Success_Anim?.Invoke();
+        done_With_Success_Anim?.Invoke(critical_);
         SetActive(false);
         anim.SetBool("Confirm", true);
     }

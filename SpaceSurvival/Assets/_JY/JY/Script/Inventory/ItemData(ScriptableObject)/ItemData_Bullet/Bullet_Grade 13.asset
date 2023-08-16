@@ -20,5 +20,7 @@ MonoBehaviour:
   price: 30000
   maxStackCount: 1500
   itemDescription: 13
-  attckPoint: 13
+  CraftType: 0
   successRate: 90
+  Critical_Success_Item: {fileID: 11400000, guid: e4bd693ca157e1a4787b32e36aa413ce, type: 2}
+  attckPoint: 13

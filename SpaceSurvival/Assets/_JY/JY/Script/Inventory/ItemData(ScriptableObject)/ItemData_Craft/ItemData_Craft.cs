@@ -8,5 +8,5 @@ public class ItemData_Craft : ItemData
     [Header("조합 전용 데이터")]
     public CraftType CraftType;
     public float successRate;
-
+    public ItemData Critical_Success_Item;
 }

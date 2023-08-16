@@ -34,7 +34,6 @@ public class Item_Mixer_UI : MonoBehaviour
     const uint MinDarkForceCount = 0;
     uint darkForceCount = MinDarkForceCount;
 
-    bool isCritical = false; // 조합 크리티컬이 터졌는지 확인용
     public bool IsOpen => canvasGroup.alpha == 1.0f;
     public uint DarkForceCount
     {
@@ -113,9 +112,18 @@ public class Item_Mixer_UI : MonoBehaviour
         WarningBox warningBox = FindObjectOfType<WarningBox>();
         warningBox.onWarningBoxClose += OpenInteractable;
     }
-    void EndSession_Success()
+    void EndSession_Success(bool critical)
     {
-        onEndSession_Success?.Invoke(Result_Slot.ItemData);
+        if (critical == false)
+        {
+            onEndSession_Success?.Invoke(Result_Slot.ItemData);
+        }
+        else
+        {
+            ItemData_Craft craftable = result_Slot.ItemData as ItemData_Craft;
+            onEndSession_Success?.Invoke(craftable.Critical_Success_Item);
+        }
+
         EndSession();
     }
     void EndSession()
@@ -208,9 +216,8 @@ public class Item_Mixer_UI : MonoBehaviour
     {
         if (mixer.Mixing_Table.LevelUp(mixer.ResultSlot.ItemData, DarkForceCount, out bool critical))//
         {
-            isCritical = critical;
             mixer.MixerState = ItemMixerState.Success;
-            Debug.Log($"{isCritical} : 성공");
+            mixer.IsCritical = critical;
         }
         else
         {

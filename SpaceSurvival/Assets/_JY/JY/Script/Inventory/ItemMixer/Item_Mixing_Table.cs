@@ -70,7 +70,7 @@ public class Item_Mixing_Table : MonoBehaviour
         bool result = false;
 
         float successRate = CalculateSuccessRate(item, darkForceCount);
-        float criticalRate = successRate * 0.3f;
+        float criticalRate = successRate * 1.0f;
 
         if (UnityEngine.Random.Range(0,100) < criticalRate)
         {
