@@ -42,6 +42,30 @@ public class PlayerDummy : MonoBehaviour, IHealth
             }
         }
     }
+    int hp = 200;
+    public int HP
+    {
+        get => hp;
+        private set
+        {
+            if (hp != value)
+            {
+                hp = value;
+            }
+        }
+    }
+    int mp = 150;
+    public int MP
+    {
+        get => mp;
+        private set
+        {
+            if (mp != value)
+            {
+                mp = value;
+            }
+        }
+    }
     private void Awake()
     {
         inputActions = new InputKeyMouse();
@@ -79,9 +103,13 @@ public class PlayerDummy : MonoBehaviour, IHealth
     }
     public void RecoveryHP_ByTick()
     {
-        StartCoroutine(RecoveryHP_ByTick_Coroutine());
+        StartCoroutine(RecoveryHP());
     }
-    IEnumerator RecoveryHP_ByTick_Coroutine()
+    IEnumerator RecoveryHP()
+    {
+        yield return null;
+    }
+    IEnumerator RecoveryMP()
     {
         yield return null;
     }
