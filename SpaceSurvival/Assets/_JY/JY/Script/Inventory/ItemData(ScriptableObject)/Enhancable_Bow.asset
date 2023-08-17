@@ -16,7 +16,7 @@ MonoBehaviour:
   code: 9
   itemName: Bow
   modelPrefab: {fileID: 5040603382300954309, guid: e4d5c01c14072554bb12dfd9e508a80a, type: 3}
-  itemIcon: {fileID: -454410441, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
+  itemIcon: {fileID: -1685962536, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
   price: 0
   maxStackCount: 1
   itemDescription: "\uC124\uBA85"

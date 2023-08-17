@@ -41,7 +41,7 @@ public class Inventory : MonoBehaviour
     Image etcButtonColor;
     Image craftButtonColor;
 
-    bool is_Inventory_Open = false;
+    CanvasGroup canvasGroup;
 
     public delegate void Inventory_State_Changed(Current_Inventory_State state); //state가 바뀌면 setter가 호출할 delegate
     Inventory_State_Changed inventory_changed;
@@ -93,6 +93,8 @@ public class Inventory : MonoBehaviour
 
         ItemDescription = transform.GetChild(9).gameObject;
         ItemDescription.SetActive(true);
+
+        canvasGroup = GetComponent<CanvasGroup>();
     }
     void SlotSorting() //addListener 로 매개변수필요한 함수 바로 등록이 안되서 우회접근
     {
@@ -113,8 +115,8 @@ public class Inventory : MonoBehaviour
         GameManager.SlotManager.Initialize();
         enhance_Button.onClick.AddListener(Open_Enhancer);//enable, Awake에서는 안됨
         mixer = GameManager.Mixer;
-        //PlayerDummy player = GameManager.playerDummy;
-        //player.onOpenInven += Open_Inventory;
+        PlayerDummy player = GameManager.playerDummy;
+        player.onOpenInven += Open_Inventory;
     }
     void Open_Enhancer()
     {
@@ -173,15 +175,17 @@ public class Inventory : MonoBehaviour
     public void SwitchTab_To_Craft() { State = Current_Inventory_State.Craft;}
     public void Open_Inventory()
     {
-        if (!is_Inventory_Open)
+        if (canvasGroup.alpha < 1.0f)
         {
-            this.gameObject.SetActive(true);
-            is_Inventory_Open = true;
+            canvasGroup.alpha = 1.0f;
+            canvasGroup.interactable = true;
+            canvasGroup.blocksRaycasts = true;
         }
         else
         {
-            this.gameObject.SetActive(false);
-            is_Inventory_Open = false;
+            canvasGroup.alpha = 0.0f;
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
         }
     }
     public void RefreshOrder()

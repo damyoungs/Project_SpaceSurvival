@@ -27,7 +27,6 @@ public class GameManager : MonoBehaviour
     public static Item_Mixing_Table Mixing_Table { get { return Inst.mixingTable; } }
 
 
-    bool invenOpen = false;
     private void Awake()
     {
         Init();
@@ -48,23 +47,6 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(go);
             instance = go.GetComponent<GameManager>();
     
-        }
-    }
-    private void Start()
-    {
-        player.onOpenInven += OpenInven;
-    }
-    void OpenInven()
-    {
-        if (!invenOpen)
-        {
-            inventory.gameObject.SetActive(true);
-            invenOpen = true;
-        }
-        else
-        {
-            inventory.gameObject.SetActive(false);
-            invenOpen = false;
         }
     }
 }

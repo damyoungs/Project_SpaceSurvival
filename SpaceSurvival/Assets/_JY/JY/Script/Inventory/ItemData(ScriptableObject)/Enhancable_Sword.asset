@@ -16,7 +16,7 @@ MonoBehaviour:
   code: 21
   itemName: Sword
   modelPrefab: {fileID: 3899290549971835656, guid: f36d72115875ba241aeb735c6ddfb8ee, type: 3}
-  itemIcon: {fileID: 21300000, guid: cd482a9199b006e42878a2ffac6737d6, type: 3}
+  itemIcon: {fileID: 1151783381, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
   price: 3000
   maxStackCount: 1
   itemDescription: "\uC124\uBA85"
