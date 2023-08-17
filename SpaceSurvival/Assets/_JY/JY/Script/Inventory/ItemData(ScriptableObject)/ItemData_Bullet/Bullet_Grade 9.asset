@@ -22,5 +22,5 @@ MonoBehaviour:
   itemDescription: 9
   CraftType: 0
   successRate: 70
-  Critical_Success_Item: {fileID: 11400000, guid: b0b9aeb4b88530542ba3dd495a5ef1d3, type: 2}
+  Critical_Success_Item: {fileID: 0}
   attckPoint: 25

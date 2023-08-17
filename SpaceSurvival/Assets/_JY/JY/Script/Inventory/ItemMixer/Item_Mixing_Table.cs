@@ -25,6 +25,17 @@ public class Item_Mixing_Table : MonoBehaviour
         combinationTable.Add(ItemCode.Advanced_Green_Crystal, new ItemCode[2] { ItemCode.Intermidiate_Green_Crystal, ItemCode.Intermidiate_Green_Crystal });
         combinationTable.Add(ItemCode.Advanced_Unknown_Crystal, new ItemCode[2] { ItemCode.Intermidiate_Unknown_Crystal, ItemCode.Intermidiate_Unknown_Crystal });
         combinationTable.Add(ItemCode.Bullet_Grade13, new ItemCode[2] { ItemCode.Bullet_Default, ItemCode.Unknown_Crystal });
+        combinationTable.Add(ItemCode.Bullet_Grade11, new ItemCode[2] { ItemCode.Bullet_Default, ItemCode.Red_Crystal });
+        combinationTable.Add(ItemCode.Bullet_Grade10, new ItemCode[2] { ItemCode.Bullet_Default, ItemCode.BlueCrystal });
+        combinationTable.Add(ItemCode.Bullet_Grade9, new ItemCode[2] { ItemCode.Bullet_Default, ItemCode.Intermidiate_Unknown_Crystal });
+        combinationTable.Add(ItemCode.Bullet_Grade8, new ItemCode[2] { ItemCode.Bullet_Default, ItemCode.Green_Crystal });
+        combinationTable.Add(ItemCode.Bullet_Grade7, new ItemCode[2] { ItemCode.Bullet_Default, ItemCode.Intermidiate_Red_Crystal });
+        combinationTable.Add(ItemCode.Bullet_Grade6, new ItemCode[2] { ItemCode.Bullet_Default, ItemCode.Intermidiate_Blue_Crystal });
+        combinationTable.Add(ItemCode.Bullet_Grade5, new ItemCode[2] { ItemCode.Bullet_Default, ItemCode.Intermidiate_Green_Crystal });
+        combinationTable.Add(ItemCode.Bullet_Grade4, new ItemCode[2] { ItemCode.Bullet_Default, ItemCode.Advanced_Green_Crystal });
+        combinationTable.Add(ItemCode.Bullet_Grade3, new ItemCode[2] { ItemCode.Bullet_Default, ItemCode.Advanced_Red_Crystal });
+        combinationTable.Add(ItemCode.Bullet_Grade2, new ItemCode[2] { ItemCode.Bullet_Default, ItemCode.Advanced_Blue_Crystal });
+        combinationTable.Add(ItemCode.Bullet_Grade1, new ItemCode[2] { ItemCode.Bullet_Default, ItemCode.Advanced_Dark_Crystal });
     }
     public bool ValidData(ItemCode leftCode, ItemCode middleCode, out ItemCode resultCode)
     {
