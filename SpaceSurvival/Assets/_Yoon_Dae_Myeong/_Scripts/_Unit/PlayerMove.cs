@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,36 +9,85 @@ using UnityEngine.InputSystem;
 
 public class PlayerMove : MonoBehaviour
 {
+	enum MoveState
+	{
+		Town,
+		Field
+	}
+	MoveState state = MoveState.Field;
+	MoveState State
+	{
+		get => state;
+		set
+		{
+			if (state != value)
+			{
+				state = value;
+				switch (state)
+				{
+					case MoveState.Town:
+						Move = MoveByKeyBoard;
+						break;
+					case MoveState.Field:
+						Move = UnitOnMove;
+                        break;
+					default:
+						break;
+				}
+			}
+		}
+	}
+	Action Move;
 	public Animator unitAnimator;
 	Camera mainCamera;
-	
+
+	Vector3 moveDirection;
+	Quaternion lookDir;
+
 	float moveSpeed = 4.0f;
 	float rotateSpeed = 10.0f;
 	BoxCollider target = null;
 	
-	InputKeyMouse inputClick;
+	InputKeyMouse inputAction;
 
 	protected AudioSource audioSource;
 
 	private void Awake()
 	{
-		inputClick = new InputKeyMouse();
+		inputAction = new InputKeyMouse();
 		audioSource = GetComponent<AudioSource>();
 	}
 	private void OnEnable()
 	{
-		inputClick.Mouse.Enable();
-		inputClick.Mouse.MouseClick.performed += onClick;
-		inputClick.Mouse.MouseClickRight.performed += onClickRight;
+		inputAction.Mouse.Enable();
+		inputAction.Mouse.MouseClick.performed += onClick;
+		inputAction.Mouse.MouseClickRight.performed += onClickRight;
+		inputAction.Player.Enable();
+        inputAction.Player.Move.performed += OnMove;
+		inputAction.Player.Move.canceled += OnMove;
 		//inputClick.Test.Test3.performed += onUnitDie;
+		
 	}
 
-	private void OnDisable()
+    private void Start()
+    {
+        mainCamera = Camera.main;
+		Move = MoveByKeyBoard ;
+    }
+    private void OnMove(InputAction.CallbackContext context)
+    {
+		Vector3 dir = context.ReadValue<Vector3>();
+		moveDirection = dir;
+		if (dir != Vector3.zero)
+		lookDir = Quaternion.LookRotation(dir);
+    }
+
+    private void OnDisable()
 	{
 		//inputClick.Test.Test3.performed -= onUnitDie;
-		inputClick.Mouse.MouseClickRight.performed -= onClickRight;
-		inputClick.Mouse.MouseClick.performed -= onClick;
-		inputClick.Mouse.Disable();
+		inputAction.Mouse.MouseClickRight.performed -= onClickRight;
+		inputAction.Mouse.MouseClick.performed -= onClick;
+		inputAction.Mouse.Disable();
 	}
 
 	
@@ -57,17 +107,17 @@ public class PlayerMove : MonoBehaviour
 		}
 	}
 
-	private void Start()
-	{
-		mainCamera = Camera.main;         
-	}
 
 	private void FixedUpdate()
 	{
-		UnitOnMove();
-		
+		//UnitOnMove();
+		Move();
 	}
-
+	void MoveByKeyBoard()
+	{
+        transform.Translate(Time.fixedDeltaTime * moveSpeed * moveDirection, Space.World);
+		transform.rotation = Quaternion.Slerp(transform.rotation, lookDir, Time.fixedDeltaTime * rotateSpeed);
+    }
 	private void UnitOnMove()
 	{
 		if (target != null && (target.gameObject.transform.position - transform.position).sqrMagnitude > 0.1f)
@@ -82,7 +132,6 @@ public class PlayerMove : MonoBehaviour
 		{
 			unitAnimator.SetBool("IsWalking", false);
 		}
-	
 	}
 
 	protected virtual void onClickRight(InputAction.CallbackContext context)

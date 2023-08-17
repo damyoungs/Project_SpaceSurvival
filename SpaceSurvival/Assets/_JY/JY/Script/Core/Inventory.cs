@@ -113,6 +113,8 @@ public class Inventory : MonoBehaviour
         GameManager.SlotManager.Initialize();
         enhance_Button.onClick.AddListener(Open_Enhancer);//enable, Awake¿¡¼­´Â ¾ÈµÊ
         mixer = GameManager.Mixer;
+        //PlayerDummy player = GameManager.playerDummy;
+        //player.onOpenInven += Open_Inventory;
     }
     void Open_Enhancer()
     {

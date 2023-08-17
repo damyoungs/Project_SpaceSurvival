@@ -10,10 +10,9 @@ using UnityEditor;
 public class PlayerDummy : MonoBehaviour, IHealth
 {
     InputKeyMouse inputActions;
-    Vector3 root2 = Vector3.zero;
 
 
-    Vector3 dir = Vector3.zero;
+    public Action onOpenInven;
 
     public float moveSpeed = 0.0f;
     public float rotateSpeed = 0.0f;
@@ -49,8 +48,14 @@ public class PlayerDummy : MonoBehaviour, IHealth
     private void OnEnable()
     {
         inputActions.Player.Enable();
-        inputActions.Player.Move.performed += ChangeVectorDir;
         inputActions.Player.ItemPickUp.performed += ItemPickUp;
+        inputActions.KeyBoard.Enable();
+        inputActions.KeyBoard.InvenKey.performed += OpenInven;
+    }
+
+    private void OpenInven(InputAction.CallbackContext _)
+    {
+        onOpenInven?.Invoke();
     }
 
     private void ItemPickUp(InputAction.CallbackContext _)
@@ -79,24 +84,8 @@ public class PlayerDummy : MonoBehaviour, IHealth
     {
         yield return null;
     }
-    private void Update()
-    {
-        Move();
-        Rotate();
-    }
-    void Move()
-    {
-        transform.Translate(Time.deltaTime * moveSpeed * dir, Space.World);
-    }
-    void Rotate()
-    {
-         transform.LookAt(transform.position + dir);
 
-    }
-    private void ChangeVectorDir(UnityEngine.InputSystem.InputAction.CallbackContext context)
-    {
-        dir = context.ReadValue<Vector3>();        
-    }
+
 
 
 #if UNITY_EDITOR
