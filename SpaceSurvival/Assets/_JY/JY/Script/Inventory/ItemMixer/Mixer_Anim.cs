@@ -79,7 +79,10 @@ public class Mixer_Anim : MonoBehaviour
     void Set_Critical_Image()
     {
         ItemData_Craft craftable = mixer.ResultSlot.ItemData as ItemData_Craft;
-        result_Success_Image.sprite = craftable.Critical_Success_Item.itemIcon;
+        if (craftable.Critical_Success_Item != null)
+        {
+            result_Success_Image.sprite = craftable.Critical_Success_Item.itemIcon;
+        }
         success_Left_Image.sprite = mixer.LeftSlotData.itemIcon;
         success_Middle_Image.sprite = mixer.MiddleSlotData.itemIcon;
     }

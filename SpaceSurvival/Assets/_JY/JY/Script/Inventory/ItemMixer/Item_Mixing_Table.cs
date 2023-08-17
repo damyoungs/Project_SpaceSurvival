@@ -83,10 +83,24 @@ public class Item_Mixing_Table : MonoBehaviour
         float successRate = CalculateSuccessRate(item, darkForceCount);
         float criticalRate = successRate * 1.0f;
 
-        if (UnityEngine.Random.Range(0,100) < criticalRate)
+        ItemData_Craft craftable = item as ItemData_Craft;
+        if (craftable.Critical_Success_Item != null)
         {
-            critical = true;
-            result = true;
+            if (UnityEngine.Random.Range(0, 100) < criticalRate)
+            {
+                critical = true;
+                result = true;
+            }
+            else if (UnityEngine.Random.Range(0, 100) < successRate)
+            {
+                critical = false;
+                result = true;
+            }
+            else
+            {
+                critical = false;
+                result = false;
+            }
         }
         else if (UnityEngine.Random.Range(0, 100) < successRate)
         {
