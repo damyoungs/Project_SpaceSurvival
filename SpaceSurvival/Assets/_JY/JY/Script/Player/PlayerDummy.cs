@@ -11,6 +11,7 @@ public class PlayerDummy : MonoBehaviour, IHealth
 {
     InputKeyMouse inputActions;
 
+    public Transform EquipParent;
 
     public Action onOpenInven;
 
@@ -84,8 +85,23 @@ public class PlayerDummy : MonoBehaviour, IHealth
     {
         yield return null;
     }
+    bool IsEquipped()
+    {
+        return false;
+    }
+    void EquipItem()
+    {
+        while(EquipParent.childCount > 0)
+        {
+            Transform child = EquipParent.GetChild(0);
+            Destroy(child.gameObject);
+        }
+       
+    }
+    void UnEquipItem()
+    {
 
-
+    }
 
 
 #if UNITY_EDITOR
