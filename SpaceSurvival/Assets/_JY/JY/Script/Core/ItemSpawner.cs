@@ -147,7 +147,7 @@ public class ItemSpawner : TestBase
     protected override void Test3(InputAction.CallbackContext context)
     {
 
-        GameManager.playerDummy.RecoveryHP_(100, 3);
+        GameManager.playerDummy.RecoveryHP_(300, 0.5f);
     }
     //protected override void Test4(InputAction.CallbackContext context)
     //{

@@ -108,11 +108,12 @@ public class PlayerDummy : MonoBehaviour, IHealth
     }
     IEnumerator RecoveryHP(int recoveryValue, float duration)
     {
+        float regenPerSecond = recoveryValue / duration;
         float time = 0.0f;
         while (time < duration)
         {
             time += Time.deltaTime;
-            HP += (recoveryValue / duration);
+            HP += regenPerSecond * Time.deltaTime;
             yield return null;
         }
     }
