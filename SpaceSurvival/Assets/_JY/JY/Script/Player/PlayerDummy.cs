@@ -42,8 +42,8 @@ public class PlayerDummy : MonoBehaviour, IHealth
             }
         }
     }
-    int hp = 200;
-    public int HP
+    float hp = 200;
+    public float HP
     {
         get => hp;
         private set
@@ -51,11 +51,12 @@ public class PlayerDummy : MonoBehaviour, IHealth
             if (hp != value)
             {
                 hp = value;
+                Debug.Log($"플레이어 HP : {hp:f0}");
             }
         }
     }
-    int mp = 150;
-    public int MP
+    float mp = 150;
+    public float MP
     {
         get => mp;
         private set
@@ -101,13 +102,19 @@ public class PlayerDummy : MonoBehaviour, IHealth
             }  
         }
     }
-    public void RecoveryHP_ByTick()
+    public void RecoveryHP_(int recoveryValue, float duration)
     {
-        StartCoroutine(RecoveryHP());
+        StartCoroutine(RecoveryHP(recoveryValue, duration));
     }
-    IEnumerator RecoveryHP()
+    IEnumerator RecoveryHP(int recoveryValue, float duration)
     {
-        yield return null;
+        float time = 0.0f;
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            HP += (recoveryValue / duration);
+            yield return null;
+        }
     }
     IEnumerator RecoveryMP()
     {

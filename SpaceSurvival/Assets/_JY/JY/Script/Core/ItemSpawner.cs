@@ -144,11 +144,11 @@ public class ItemSpawner : TestBase
     {
         GameManager.Inventory.Open_Inventory();
     }
-    //protected override void Test3(InputAction.CallbackContext context)
-    //{
+    protected override void Test3(InputAction.CallbackContext context)
+    {
 
-    //    GetItemMpPotion();
-    //}
+        GameManager.playerDummy.RecoveryHP_(100, 3);
+    }
     //protected override void Test4(InputAction.CallbackContext context)
     //{
     //    GetItemBow();
