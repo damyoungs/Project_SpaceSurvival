@@ -162,7 +162,13 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     }
     private void OnSlotClick(ItemData data, uint index)
     {
-        if (TempSlot.IsEmpty)
+        ItemData_Potion potion = data as ItemData_Potion;
+        if (potion != null)
+        {
+            potion.Consume(GameManager.playerDummy);
+            RemoveItem(data, index);
+        }
+        else if (TempSlot.IsEmpty)
         {
             if (isShiftPress)
             {
@@ -317,7 +323,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         return parentTransform;
     }
 
-    void Add_Reward_Item(ItemData item)
+    void Add_Reward_Item(ItemData item)//조합성공시 아이템 추가
     {
         AddItem(item.code);
     }
