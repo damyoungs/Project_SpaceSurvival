@@ -9,6 +9,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMove : MonoBehaviour
 {
+	int isWalkingHash = Animator.StringToHash("IsWalking");
 	enum MoveState
 	{
 		Town,
@@ -79,7 +80,14 @@ public class PlayerMove : MonoBehaviour
 		Vector3 dir = context.ReadValue<Vector3>();
 		moveDirection = dir;
 		if (dir != Vector3.zero)
-		lookDir = Quaternion.LookRotation(dir);
+		{
+			lookDir = Quaternion.LookRotation(dir);
+			unitAnimator.SetBool(isWalkingHash, true);
+        }
+		else
+		{
+            unitAnimator.SetBool(isWalkingHash, false);
+        }
     }
 
     private void OnDisable()
@@ -126,11 +134,11 @@ public class PlayerMove : MonoBehaviour
 			transform.position += moveDirection * moveSpeed * Time.fixedDeltaTime;
 			transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
 			//transform.Translate(Time.fixedDeltaTime * speed * (target.gameObject.transform.position - transform.position).normalized);
-			unitAnimator.SetBool("IsWalking", true);
+			unitAnimator.SetBool(isWalkingHash, true);
 		}
 		else
 		{
-			unitAnimator.SetBool("IsWalking", false);
+			unitAnimator.SetBool(isWalkingHash, false);
 		}
 	}
 
