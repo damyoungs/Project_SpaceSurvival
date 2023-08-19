@@ -35,7 +35,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     public ItemSplitter spliter;
     bool isShiftPress = false;
 
-    public Action<Vector2, ItemData> onDetectQuickSlot;
+    public Action<ItemData, uint> onDetectQuickSlot;
 
     public Dictionary<Current_Inventory_State, List<Slot>> slots;
     private Dictionary<Current_Inventory_State, int> slotCount; //슬롯 생성후 번호를 부여하기위한 Dic
@@ -265,7 +265,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             Vector2 distance_Between_Mouse_Left_Slot = screenPos - (Vector2)mixer_Left_slot_Transform.position;
             Vector2 distance_Between_Mouse_Middle_Slot = screenPos - (Vector2)mixer_Middle_Slot_Transform.position;
             Vector2 distance_Between_Mouse_MixerUI = screenPos - (Vector2)mixerUI_Transform.position;
-            Vector2 distance_Between_Mouse_QuickSlot_Box = screenPos - (Vector2)GameManager.QuickSlot_Box.RectTransform.position;
+            Vector2 distance_Between_Mouse_QuickSlot_Box = screenPos - (Vector2)GameManager.QuickSlot_Box.QuickSlotBox_RectTransform.position;
 
             if (beforeSlotRectTransform.rect.Contains(distance_Between_Mouse_BeforeSlot) && GameManager.Enhancer.EnhancerUI.IsOpen)//강화 슬롯의 위치이면서 강화ㅑ 가능한 아이템 일 때
             {
@@ -276,10 +276,14 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                    // IndexForEnhancer =  애초에 장비탭의 Slot 이 TempSlot으로 옮겨갈때 인덱스 저장이 필요함
                 }
             }
-            else if (GameManager.QuickSlot_Box.RectTransform.rect.Contains(distance_Between_Mouse_QuickSlot_Box))
+            else if (GameManager.QuickSlot_Box.QuickSlotBox_RectTransform.rect.Contains(distance_Between_Mouse_QuickSlot_Box))
             {
                 //스킬이나 포션만 등록
-                onDetectQuickSlot?.Invoke(distance_Between_Mouse_QuickSlot_Box, TempSlot.ItemData);
+                ItemData_Potion potion = TempSlot.ItemData as ItemData_Potion;
+                if (potion != null)
+                {
+                    onDetectQuickSlot?.Invoke(TempSlot.ItemData, TempSlot.ItemCount);
+                }
             }
             else if (mixer_Left_slot_Transform.rect.Contains(distance_Between_Mouse_Left_Slot) && mixer_UI.IsOpen)//조합창의 왼쪽슬롯
             {

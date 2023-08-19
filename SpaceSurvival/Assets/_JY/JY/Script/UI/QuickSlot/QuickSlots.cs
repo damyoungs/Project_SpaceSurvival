@@ -25,7 +25,7 @@ public class QuickSlots : MonoBehaviour
 
 
     RectTransform rectTransform;
-    public RectTransform RectTransform => rectTransform;
+    public RectTransform QuickSlotBox_RectTransform => rectTransform;
     InputKeyMouse inputAction;
     QuickSlot[] quickSlots = null;
 
@@ -63,11 +63,35 @@ public class QuickSlots : MonoBehaviour
     {
         Init();
         buttonText.text = open;
+        GameManager.SlotManager.onDetectQuickSlot += Set_ItemDataTo_QuickSlot;
     }
     private void Insert_performed(InputAction.CallbackContext context)
     {
     }
-  
+    void Set_ItemDataTo_QuickSlot(ItemData data, uint itemcount)
+    {
+        QuickSlot slot = FindQuickSlot();
+        if (slot != null)
+        {
+            Debug.Log(slot);
+        }
+    }
+    QuickSlot FindQuickSlot()
+    {
+        QuickSlot slot = null;
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+        foreach(var targetSlot in quickSlots)
+        {
+            RectTransform rectTransform = targetSlot.GetComponent<RectTransform>();
+            Vector2 distance = mousePos - (Vector2)rectTransform.position;
+            if (rectTransform.rect.Contains(distance))
+            {
+                slot = targetSlot;
+                break;
+            }
+        }
+        return slot;
+    }
     IEnumerator PopUpCoroutine()
     {
         if (isOpen)

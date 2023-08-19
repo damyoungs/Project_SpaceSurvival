@@ -7453,7 +7453,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 106816639, guid: e30040716f477e14aaf383c423214e52, type: 3}
       propertyPath: itemCode
-      value: 40
+      value: 58
       objectReference: {fileID: 0}
     - target: {fileID: 106816639, guid: e30040716f477e14aaf383c423214e52, type: 3}
       propertyPath: prefabs.Array.size
@@ -7667,6 +7667,10 @@ PrefabInstance:
       propertyPath: slotManager
       value: 
       objectReference: {fileID: 460590360}
+    - target: {fileID: 4970949364816093331, guid: e30040716f477e14aaf383c423214e52, type: 3}
+      propertyPath: quickSlot_Box
+      value: 
+      objectReference: {fileID: 1431444013}
     - target: {fileID: 4970949364816093332, guid: e30040716f477e14aaf383c423214e52, type: 3}
       propertyPath: m_Name
       value: '@GameManager'
