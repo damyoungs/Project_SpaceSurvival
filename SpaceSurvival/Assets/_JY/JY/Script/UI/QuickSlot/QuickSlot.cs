@@ -1,15 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class QuickSlot : MonoBehaviour
+public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerMoveHandler
 {
     Image itemIcon;
     TextMeshProUGUI quickSlotText;
     ItemData_Potion itemData = null;
 
+    public Action<ItemData> onPointerEnter;
+    public Action<Vector2> onPointerMove;
     uint itemCount = 0;
     public uint ItemCount
     {
@@ -85,5 +89,19 @@ public class QuickSlot : MonoBehaviour
     void Clear()
     {
 
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        onPointerEnter?.Invoke(this.itemData);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+    }
+
+    public void OnPointerMove(PointerEventData eventData)
+    {
+        onPointerMove?.Invoke(eventData.position);
     }
 }

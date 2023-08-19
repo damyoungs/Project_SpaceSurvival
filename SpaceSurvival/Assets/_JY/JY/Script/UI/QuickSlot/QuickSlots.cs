@@ -167,6 +167,9 @@ public class QuickSlots : MonoBehaviour
             quickSlots[i] = transform.GetChild(i).GetComponent<QuickSlot>();
             quickSlots[i].Index = i;
             quickSlots[i].QuickSlot_Key_Value = Enum.GetName(typeof(QuickSlotList), i);//i번째 인덱스를 문자열로 바꿔서 변수에 할당
+
+            quickSlots[i].onPointerEnter += GameManager.SlotManager.itemDescription.Open;
+            quickSlots[i].onPointerMove += GameManager.SlotManager.itemDescription.MovePosition;
         }
     }
 }
