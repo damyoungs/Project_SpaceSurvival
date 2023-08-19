@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public enum QuickSlotList
 {
@@ -16,17 +18,32 @@ public enum QuickSlotList
 }
 public class QuickSlots : MonoBehaviour
 {
+    Button popupButton;
+    TextMeshProUGUI buttonText;
+    string open = "¡ã¡ã";
+    string close = "¡å¡å";
+
+
+    RectTransform rectTransform;
     InputKeyMouse inputAction;
     QuickSlot[] quickSlots = null;
 
     Vector2 hidePos = Vector2.zero;
-    public float popUpSpeed = 3.0f;
+    public float popUpSpeed = 7.0f;
     bool isOpen = false;
+
     public QuickSlot this[QuickSlotList number] => quickSlots[(int) number];
     private void Awake()
     {
         inputAction = new InputKeyMouse();
         hidePos = new Vector2(0, -280.0f);
+        rectTransform = GetComponent<RectTransform>();
+
+        popupButton = transform.GetChild(8).GetComponent<Button>();
+        buttonText = transform.GetChild(8).GetComponentInChildren<TextMeshProUGUI>();
+
+        popupButton.onClick.AddListener(PopUp);
+
     }
     private void OnEnable()
     {
@@ -44,35 +61,46 @@ public class QuickSlots : MonoBehaviour
     private void Start()
     {
         Init();
+        buttonText.text = open;
     }
     private void Insert_performed(InputAction.CallbackContext context)
     {
     }
-    IEnumerator HideCoroutine()
-    {
-        while(transform.position.y > hidePos.y)
-        {
-            transform.position += Time.deltaTime * popUpSpeed * -Vector3.up;
-            yield return null;
-        }
-        isOpen = true;
-    }
+  
     IEnumerator PopUpCoroutine()
     {
-        while (transform.position.y < 0.0f)
+        if (isOpen)
         {
-            transform.position += Time.deltaTime * popUpSpeed * -Vector3.up;
-            yield return null;
+            while (transform.position.y > hidePos.y)
+            {
+                transform.position +=  popUpSpeed * -Vector3.up;
+                yield return null;
+            }
+            isOpen = false;
+            buttonText.text = open;
         }
-        isOpen = true;
+        else
+        {
+            while (transform.position.y < 0.0f)
+            {
+                transform.position +=  popUpSpeed * Vector3.up;
+                yield return null;
+            }
+            isOpen = true;
+            buttonText.text = close;
+        }
+     
     }
-    private void QuickSlot_PopUp(InputAction.CallbackContext context)
+    void PopUp()
+    {
+        StartCoroutine(PopUpCoroutine());
+    }
+    private void QuickSlot_PopUp(InputAction.CallbackContext _)
     {
         StartCoroutine(PopUpCoroutine());
     }
     private void Space_performed(InputAction.CallbackContext context)
     {
-        HideCoroutine();
     }
 
     private void Alt_performed(InputAction.CallbackContext context)
