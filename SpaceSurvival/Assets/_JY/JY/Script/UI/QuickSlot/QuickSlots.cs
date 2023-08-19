@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -20,18 +21,20 @@ public class QuickSlots : MonoBehaviour
 {
     Button popupButton;
     TextMeshProUGUI buttonText;
+    InputKeyMouse inputAction;
     string open = "▲▲";
     string close = "▼▼";
 
 
     RectTransform rectTransform;
     public RectTransform QuickSlotBox_RectTransform => rectTransform;
-    InputKeyMouse inputAction;
     QuickSlot[] quickSlots = null;
 
     Vector2 hidePos = Vector2.zero;
     public float popUpSpeed = 7.0f;
     bool isOpen = false;
+
+    public Action<ItemData_Potion, uint> onSetData;
 
     public QuickSlot this[QuickSlotList number] => quickSlots[(int) number];
     private void Awake()
@@ -68,15 +71,16 @@ public class QuickSlots : MonoBehaviour
     private void Insert_performed(InputAction.CallbackContext context)
     {
     }
-    void Set_ItemDataTo_QuickSlot(ItemData data, uint itemcount)
+    void Set_ItemDataTo_QuickSlot(ItemData_Potion data, uint itemcount)
     {
-        QuickSlot slot = FindQuickSlot();
+        QuickSlot slot = Find_Clicked_Slot();
         if (slot != null)
         {
-            Debug.Log(slot);
+            slot.ItemData = data;
+            slot.ItemCount = itemcount;
         }
     }
-    QuickSlot FindQuickSlot()
+    QuickSlot Find_Clicked_Slot()
     {
         QuickSlot slot = null;
         Vector2 mousePos = Mouse.current.position.ReadValue();
@@ -157,10 +161,12 @@ public class QuickSlots : MonoBehaviour
   
     void Init()
     {
-        quickSlots = new QuickSlot[transform.childCount];
+        quickSlots = new QuickSlot[8];
         for (int i = 0; i < quickSlots.Length; i++)
         {
             quickSlots[i] = transform.GetChild(i).GetComponent<QuickSlot>();
+            quickSlots[i].Index = i;
+            quickSlots[i].QuickSlot_Key_Value = Enum.GetName(typeof(QuickSlotList), i);//i번째 인덱스를 문자열로 바꿔서 변수에 할당
         }
     }
 }

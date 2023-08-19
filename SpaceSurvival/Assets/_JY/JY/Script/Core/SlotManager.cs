@@ -35,7 +35,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     public ItemSplitter spliter;
     bool isShiftPress = false;
 
-    public Action<ItemData, uint> onDetectQuickSlot;
+    public Action<ItemData_Potion, uint> onDetectQuickSlot;
 
     public Dictionary<Current_Inventory_State, List<Slot>> slots;
     private Dictionary<Current_Inventory_State, int> slotCount; //슬롯 생성후 번호를 부여하기위한 Dic
@@ -282,7 +282,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                 ItemData_Potion potion = TempSlot.ItemData as ItemData_Potion;
                 if (potion != null)
                 {
-                    onDetectQuickSlot?.Invoke(TempSlot.ItemData, TempSlot.ItemCount);
+                    onDetectQuickSlot?.Invoke(potion, TempSlot.ItemCount);
                 }
             }
             else if (mixer_Left_slot_Transform.rect.Contains(distance_Between_Mouse_Left_Slot) && mixer_UI.IsOpen)//조합창의 왼쪽슬롯
