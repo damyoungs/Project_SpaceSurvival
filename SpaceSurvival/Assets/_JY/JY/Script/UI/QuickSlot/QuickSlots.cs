@@ -25,6 +25,7 @@ public class QuickSlots : MonoBehaviour
 
 
     RectTransform rectTransform;
+    public RectTransform RectTransform => rectTransform;
     InputKeyMouse inputAction;
     QuickSlot[] quickSlots = null;
 
