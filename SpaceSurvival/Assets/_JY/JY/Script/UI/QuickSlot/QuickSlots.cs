@@ -9,9 +9,9 @@ using UnityEngine.UI;
 public enum QuickSlotList
 {
     Shift = 0,
-    Eight,
-    Nine,
-    Zero,
+    _8,
+    _9,
+    _0,
     Ctrl,
     Alt,
     Space,
@@ -219,6 +219,8 @@ public class QuickSlots : MonoBehaviour
             quickSlots[i].onBeginDrag += (_,_) => itemDescription.Toggle_IsPause();
             quickSlots[i].onEndDrag += () => itemDescription.Toggle_IsPause();
             quickSlots[i].onBeginDrag += tempSlot_Base.StartDrag;
+            quickSlots[i].onEndDrag += tempSlot_Base.EndDrag;
+            tempSlot_Base.onEndDrag += Set_ItemDataTo_QuickSlot;
 
 
         }

@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -13,6 +15,8 @@ public class TempSlot_For_QuickSlot_Base : MonoBehaviour
 
     IEnumerator Moving_Coroutine;
     ItemData_Potion itemData;
+
+    public Action<ItemData_Potion, uint> onEndDrag;
     public ItemData_Potion ItemData
     {
         get => itemData;
@@ -33,6 +37,15 @@ public class TempSlot_For_QuickSlot_Base : MonoBehaviour
         }
     }
     uint itemCount = 0;
+    uint ItemCount
+    {
+        get => itemCount;
+        set
+        {
+            itemCount = value;
+            countText.text = itemCount.ToString();
+        }
+    }
     public bool IsOpen => canvasGroup.alpha == 1.0f;
     private void Awake()
     {
@@ -61,10 +74,11 @@ public class TempSlot_For_QuickSlot_Base : MonoBehaviour
     public void StartDrag(ItemData_Potion itemData, uint count)
     {
         ItemData = itemData;
-        itemCount = count;
+        ItemCount = count;
     }
     public void EndDrag()
     {
+        onEndDrag?.Invoke(ItemData, itemCount);
         ItemData = null;
     }
     IEnumerator Moving()

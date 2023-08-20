@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandler, IPointerExitHandler,IDragHandler,IBeginDragHandler,IEndDragHandler
+public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandler, IPointerExitHandler, IBeginDragHandler,IEndDragHandler, IDragHandler
 {
     Image itemIcon;
     TextMeshProUGUI quickSlotText;
@@ -101,6 +101,7 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
         ItemCount = 0; //ItemData가 null이면 CountText는 자동으로 Default값으로 세팅
     }
 
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         onPointerEnter?.Invoke(this.itemData);
@@ -127,7 +128,6 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
 
     public void OnDrag(PointerEventData eventData)
     {
-        throw new NotImplementedException();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
