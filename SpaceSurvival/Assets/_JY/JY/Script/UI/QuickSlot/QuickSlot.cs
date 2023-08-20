@@ -13,10 +13,15 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
     TextMeshProUGUI quickSlotText;
     ItemData_Potion itemData = null;
 
+    //---------------------------------------------- description ÆË¾÷ °ü·Ã
     public Action<ItemData> onPointerEnter;
     public Action onPointerExit;
     public Action<Vector2> onPointerMove;
-    public Action<ItemData> onPointerClick;
+    //----------------------------------------------
+    public Action<ItemData_Potion, uint> onBeginDrag;
+    public Action onEndDrag;
+
+
 
     uint itemCount = 0;
     public uint ItemCount
@@ -103,8 +108,8 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        onPointerClick?.Invoke(itemData);
-        Clear();
+      // onPointerClick?.Invoke(itemData);
+      // Clear();
     }
 
     public void OnPointerMove(PointerEventData eventData)
@@ -127,11 +132,12 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        throw new NotImplementedException();
+        onBeginDrag?.Invoke(itemData, itemCount);
+        Clear();
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        throw new NotImplementedException();
+        onEndDrag?.Invoke();
     }
 }

@@ -203,6 +203,8 @@ public class QuickSlots : MonoBehaviour
     void Init()
     {
         ItemDescription itemDescription = GameManager.SlotManager.itemDescription;
+        TempSlot_For_QuickSlot_Base tempSlot_Base = FindObjectOfType<TempSlot_For_QuickSlot_Base>();
+
         quickSlots = new QuickSlot[8];
         for (int i = 0; i < quickSlots.Length; i++)
         {
@@ -213,8 +215,10 @@ public class QuickSlots : MonoBehaviour
             quickSlots[i].onPointerEnter += itemDescription.Open;
             quickSlots[i].onPointerMove += itemDescription.MovePosition;
             quickSlots[i].onPointerExit += itemDescription.Close;
-            quickSlots[i].onPointerClick += (_) => itemDescription.Toggle_IsPause();
 
+            quickSlots[i].onBeginDrag += (_,_) => itemDescription.Toggle_IsPause();
+            quickSlots[i].onEndDrag += () => itemDescription.Toggle_IsPause();
+            quickSlots[i].onBeginDrag += tempSlot_Base.StartDrag;
 
 
         }
