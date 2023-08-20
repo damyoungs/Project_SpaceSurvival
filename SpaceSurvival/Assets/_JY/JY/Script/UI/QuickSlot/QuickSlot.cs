@@ -17,6 +17,7 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerClickHandl
     public Action onPointerExit;
     public Action<Vector2> onPointerMove;
     public Action<ItemData> onPointerClick;
+
     uint itemCount = 0;
     public uint ItemCount
     {
@@ -82,7 +83,7 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerClickHandl
     {
         if (itemData != null)
         {
-            quickSlotText.text = Mathf.Clamp(count, 0, itemData.maxStackCount).ToString();
+            quickSlotText.text = Mathf.Max(count, 0).ToString();
         }
         else
         {

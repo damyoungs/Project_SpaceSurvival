@@ -172,7 +172,7 @@ public class QuickSlots : MonoBehaviour
             quickSlots[i].onPointerEnter += itemDescription.Open;
             quickSlots[i].onPointerMove += itemDescription.MovePosition;
             quickSlots[i].onPointerExit += itemDescription.Close;
-            quickSlots[i].onPointerClick += (_) => itemDescription.ToggleIsPause();
+            quickSlots[i].onPointerClick += (_) => itemDescription.Toggle_IsPause();
 
 
 

@@ -146,8 +146,13 @@ public class ItemSpawner : TestBase
     }
     protected override void Test3(InputAction.CallbackContext context)
     {
-
-        GameManager.playerDummy.RecoveryHP_(300, 0.5f);
+        int i = 0;
+        while(i < 200)
+        {
+            GetItem();
+            i++;
+        }
+       // GameManager.playerDummy.RecoveryHP_(300, 0.5f);
     }
     public QuickSlot slot;
     protected override void Test4(InputAction.CallbackContext context)

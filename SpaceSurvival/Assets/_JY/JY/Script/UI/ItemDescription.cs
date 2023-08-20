@@ -71,7 +71,7 @@ public class ItemDescription : MonoBehaviour
         }
         
     }
-    public void ToggleIsPause()
+    public void Toggle_IsPause()
     {
         IsPause = !IsPause;
     }

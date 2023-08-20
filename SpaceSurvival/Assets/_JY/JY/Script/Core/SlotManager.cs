@@ -282,7 +282,9 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                 ItemData_Potion potion = TempSlot.ItemData as ItemData_Potion;
                 if (potion != null)
                 {
-                    onDetectQuickSlot?.Invoke(potion, TempSlot.ItemCount);
+                    uint newCount = GetTotalAmount(tempSlot.ItemData);
+
+                    onDetectQuickSlot?.Invoke(potion, newCount + TempSlot.ItemCount);
                 }
             }
             else if (mixer_Left_slot_Transform.rect.Contains(distance_Between_Mouse_Left_Slot) && mixer_UI.IsOpen)//Á¶ÇÕÃ¢ÀÇ ¿ÞÂÊ½½·Ô
@@ -311,6 +313,21 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         }
   
     }
+
+    private uint GetTotalAmount(ItemData itemData)
+    {
+        uint newCount = 0;
+        List<Slot> consumeTab = slots[Current_Inventory_State.Consume];
+        foreach (Slot slot in consumeTab)
+        {
+            if (slot.ItemData == itemData)
+            {
+                newCount += slot.ItemCount;
+            }
+        }
+        return newCount;
+    }
+
     private Transform GetParentTransform()
     {
         Transform parentTransform;
