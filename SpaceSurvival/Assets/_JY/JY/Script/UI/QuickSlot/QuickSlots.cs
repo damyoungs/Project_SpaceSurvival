@@ -34,7 +34,7 @@ public class QuickSlots : MonoBehaviour
 
     RectTransform rectTransform;
     public RectTransform QuickSlotBox_RectTransform => rectTransform;
-    QuickSlot[] quickSlots = null;
+    public QuickSlot[] quickSlots;
 
     Vector2 hidePos = Vector2.zero;
     public float popUpSpeed = 7.0f;
@@ -105,21 +105,25 @@ public class QuickSlots : MonoBehaviour
     {
         Init();
         buttonText.text = open;
-        GameManager.SlotManager.onDetectQuickSlot += Set_ItemDataTo_QuickSlot;
+       // GameManager.SlotManager.onDetectQuickSlot += Set_ItemDataTo_QuickSlot;
     }
     private void Insert_performed(InputAction.CallbackContext context)
     {
     }
-    void Set_ItemDataTo_QuickSlot(ItemData_Potion data, uint itemcount)
+    public bool Set_ItemDataTo_QuickSlot(ItemData_Potion data, uint itemcount, out QuickSlot targetSlot)
     {
-       // ItemData = data;
-        //State = QuickSlot_State.Set;
+        bool result = false;
+        targetSlot = null;
+
         QuickSlot slot = Find_Clicked_Slot();
         if (slot != null)
         {
             slot.ItemData = data;
             slot.ItemCount = itemcount;
+            targetSlot = slot;
+            result = true;
         }
+        return result;
     }
     QuickSlot Find_Clicked_Slot()
     {
@@ -205,7 +209,7 @@ public class QuickSlots : MonoBehaviour
         ItemDescription itemDescription = GameManager.SlotManager.itemDescription;
         TempSlot_For_QuickSlot_Base tempSlot_Base = FindObjectOfType<TempSlot_For_QuickSlot_Base>();
 
-        quickSlots = new QuickSlot[8];
+       // quickSlots = new QuickSlot[8];
         for (int i = 0; i < quickSlots.Length; i++)
         {
             quickSlots[i] = transform.GetChild(i).GetComponent<QuickSlot>();
@@ -220,7 +224,15 @@ public class QuickSlots : MonoBehaviour
             quickSlots[i].onEndDrag += () => itemDescription.Toggle_IsPause();
             quickSlots[i].onBeginDrag += tempSlot_Base.StartDrag;
             quickSlots[i].onEndDrag += tempSlot_Base.EndDrag;
-            tempSlot_Base.onEndDrag += Set_ItemDataTo_QuickSlot;
+            tempSlot_Base.onEndDrag += (itemData, count) =>
+            {
+                QuickSlot slot = Find_Clicked_Slot();
+                if (slot != null)
+                {
+                    slot.ItemData = itemData;
+                    slot.ItemCount = count;
+                }
+            };
 
 
         }
