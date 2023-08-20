@@ -161,6 +161,7 @@ public class QuickSlots : MonoBehaviour
   
     void Init()
     {
+        ItemDescription itemDescription = GameManager.SlotManager.itemDescription;
         quickSlots = new QuickSlot[8];
         for (int i = 0; i < quickSlots.Length; i++)
         {
@@ -168,8 +169,13 @@ public class QuickSlots : MonoBehaviour
             quickSlots[i].Index = i;
             quickSlots[i].QuickSlot_Key_Value = Enum.GetName(typeof(QuickSlotList), i);//i번째 인덱스를 문자열로 바꿔서 변수에 할당
 
-            quickSlots[i].onPointerEnter += GameManager.SlotManager.itemDescription.Open;
-            quickSlots[i].onPointerMove += GameManager.SlotManager.itemDescription.MovePosition;
+            quickSlots[i].onPointerEnter += itemDescription.Open;
+            quickSlots[i].onPointerMove += itemDescription.MovePosition;
+            quickSlots[i].onPointerExit += itemDescription.Close;
+            quickSlots[i].onPointerClick += (_) => itemDescription.ToggleIsPause();
+
+
+
         }
     }
 }

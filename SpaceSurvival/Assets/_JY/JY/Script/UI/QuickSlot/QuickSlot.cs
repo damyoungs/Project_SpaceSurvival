@@ -2,18 +2,21 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerMoveHandler
+public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerMoveHandler, IPointerExitHandler
 {
     Image itemIcon;
     TextMeshProUGUI quickSlotText;
     ItemData_Potion itemData = null;
 
     public Action<ItemData> onPointerEnter;
+    public Action onPointerExit;
     public Action<Vector2> onPointerMove;
+    public Action<ItemData> onPointerClick;
     uint itemCount = 0;
     public uint ItemCount
     {
@@ -88,7 +91,8 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerClickHandl
     }
     void Clear()
     {
-
+        ItemData = null;
+        ItemCount = 0; //ItemData가 null이면 CountText는 자동으로 Default값으로 세팅
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -98,10 +102,20 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerClickHandl
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        onPointerClick?.Invoke(itemData);
+        Clear();
     }
 
     public void OnPointerMove(PointerEventData eventData)
     {
-        onPointerMove?.Invoke(eventData.position);
+        if (itemData != null)
+        {
+            onPointerMove?.Invoke(eventData.position);
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        onPointerExit?.Invoke();
     }
 }

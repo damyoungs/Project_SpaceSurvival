@@ -5129,12 +5129,12 @@ RectTransform:
   - {fileID: 1182117505}
   - {fileID: 92572832}
   - {fileID: 154430356}
-  m_Father: {fileID: 1419479391}
-  m_RootOrder: 10
+  m_Father: {fileID: 2054279955}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -852, y: 593}
+  m_AnchoredPosition: {x: -431, y: 140}
   m_SizeDelta: {x: 500, y: 350}
   m_Pivot: {x: 0, y: 1}
 --- !u!225 &908656589
@@ -5146,8 +5146,8 @@ CanvasGroup:
   m_GameObject: {fileID: 778607091}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &908656590
 MonoBehaviour:
@@ -6888,7 +6888,7 @@ RectTransform:
   - {fileID: 312968574}
   - {fileID: 975153098}
   m_Father: {fileID: 1419479391}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -7995,7 +7995,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 106816639, guid: e30040716f477e14aaf383c423214e52, type: 3}
       propertyPath: prefabs.Array.size
-      value: 59
+      value: 61
       objectReference: {fileID: 0}
     - target: {fileID: 106816639, guid: e30040716f477e14aaf383c423214e52, type: 3}
       propertyPath: prefabs.Array.data[25]
@@ -8133,6 +8133,14 @@ PrefabInstance:
       propertyPath: prefabs.Array.data[58]
       value: 
       objectReference: {fileID: 3534490304491141583, guid: 9c2eea78ad466bc48abfe285fbfab1ed, type: 3}
+    - target: {fileID: 106816639, guid: e30040716f477e14aaf383c423214e52, type: 3}
+      propertyPath: prefabs.Array.data[59]
+      value: 
+      objectReference: {fileID: 1921507159427551103, guid: d7b998cd95a00fd409f544c76e35916d, type: 3}
+    - target: {fileID: 106816639, guid: e30040716f477e14aaf383c423214e52, type: 3}
+      propertyPath: prefabs.Array.data[60]
+      value: 
+      objectReference: {fileID: 6918749472348258530, guid: 72c838e69161a8a4f9f0e4c49d9e1462, type: 3}
     - target: {fileID: 4970949364816093330, guid: e30040716f477e14aaf383c423214e52, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -8215,7 +8223,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5938913832177739167, guid: e30040716f477e14aaf383c423214e52, type: 3}
       propertyPath: itemDatas.Array.size
-      value: 59
+      value: 61
       objectReference: {fileID: 0}
     - target: {fileID: 5938913832177739167, guid: e30040716f477e14aaf383c423214e52, type: 3}
       propertyPath: itemDatas.Array.data[25]
@@ -8356,7 +8364,11 @@ PrefabInstance:
     - target: {fileID: 5938913832177739167, guid: e30040716f477e14aaf383c423214e52, type: 3}
       propertyPath: itemDatas.Array.data[59]
       value: 
-      objectReference: {fileID: 11400000, guid: a351e407d9f83394b9eae202980503c1, type: 2}
+      objectReference: {fileID: 11400000, guid: d28025a2ba8db5548a5e799de26201b9, type: 2}
+    - target: {fileID: 5938913832177739167, guid: e30040716f477e14aaf383c423214e52, type: 3}
+      propertyPath: itemDatas.Array.data[60]
+      value: 
+      objectReference: {fileID: 11400000, guid: 39077af701e70604caa9649e04de4239, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e30040716f477e14aaf383c423214e52, type: 3}
 --- !u!1 &1378741702
@@ -8549,7 +8561,6 @@ RectTransform:
   - {fileID: 1707280805}
   - {fileID: 481749942}
   - {fileID: 6098924357449724326}
-  - {fileID: 908656588}
   - {fileID: 1177087511}
   m_Father: {fileID: 2054279955}
   m_RootOrder: 0
@@ -11265,9 +11276,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1798343702}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &1798343705
 MonoBehaviour:
@@ -12628,6 +12639,7 @@ RectTransform:
   - {fileID: 7222397487093980071}
   - {fileID: 37167744}
   - {fileID: 1431444009}
+  - {fileID: 908656588}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -12821,9 +12833,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2099431812}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &2099431815
 MonoBehaviour:
