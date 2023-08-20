@@ -17,6 +17,12 @@ public enum QuickSlotList
     Space,
     Insert
 }
+public enum QuickSlot_State
+{
+    None,
+    Set,
+    Moving
+}
 public class QuickSlots : MonoBehaviour
 {
     Button popupButton;
@@ -35,7 +41,40 @@ public class QuickSlots : MonoBehaviour
     bool isOpen = false;
 
     public Action<ItemData_Potion, uint> onSetData;
+    ItemData_Potion itemData;
+    public ItemData_Potion ItemData
+    {
+        get => itemData;
+        set
+        {
+            if (itemData != value)
+            {
+                itemData = value;
+            }
+        }
+    }
 
+    //QuickSlot_State state = QuickSlot_State.None;
+    //public QuickSlot_State State
+    //{
+    //    get => state;
+    //    set
+    //    {
+    //        if (state != value)
+    //        {
+    //            state = value;
+    //            switch (state)
+    //            {
+    //                case QuickSlot_State.Set:
+    //                    break;
+    //                case QuickSlot_State.Moving:
+    //                    break;
+    //                default:
+    //                    break;
+    //            }
+    //        }
+    //    }
+    //}
     public QuickSlot this[QuickSlotList number] => quickSlots[(int) number];
     private void Awake()
     {
@@ -73,6 +112,8 @@ public class QuickSlots : MonoBehaviour
     }
     void Set_ItemDataTo_QuickSlot(ItemData_Potion data, uint itemcount)
     {
+       // ItemData = data;
+        //State = QuickSlot_State.Set;
         QuickSlot slot = Find_Clicked_Slot();
         if (slot != null)
         {

@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerMoveHandler, IPointerExitHandler
+public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandler, IPointerExitHandler,IDragHandler,IBeginDragHandler,IEndDragHandler
 {
     Image itemIcon;
     TextMeshProUGUI quickSlotText;
@@ -118,5 +118,20 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerClickHandl
     public void OnPointerExit(PointerEventData eventData)
     {
         onPointerExit?.Invoke();
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        throw new NotImplementedException();
     }
 }
