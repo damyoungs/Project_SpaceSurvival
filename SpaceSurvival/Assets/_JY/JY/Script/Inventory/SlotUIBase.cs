@@ -12,6 +12,7 @@ public class SlotUI_Base : MonoBehaviour
 
     TextMeshProUGUI itemCountText;
 
+    public Action<uint> onItemCountChange;
     public Action onValueChange;
     public bool IsEmpty => ItemData == null;//SlotManager에서  빈 슬롯인지 확인할때 쓰일 프로퍼티// 초기 
     private ItemData itemData = null;
@@ -37,6 +38,9 @@ public class SlotUI_Base : MonoBehaviour
             {
                 itemCount = value;
                 onValueChange?.Invoke();
+                onItemCountChange?.Invoke(itemCount);
+
+
             }
         }
     }
