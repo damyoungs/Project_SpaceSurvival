@@ -287,6 +287,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                 ItemData_Potion potion = TempSlot.ItemData as ItemData_Potion;
                 if (potion != null)
                 {
+                    slots[Current_Inventory_State.Consume][Index_JustChange_Slot].ItemData = potion;//이것을 생략하면 드래그한 슬롯의 ItemData가 null 이 되서 리스트에 추가되지 않는 문제가 있다.
                     uint newCount = GetTotalAmount(tempSlot.ItemData, out List<Slot> sameItemSlots);//out으로 같은 아이템을가진 슬롯의 List 받기
 
                     if (GameManager.QuickSlot_Box.Set_ItemDataTo_QuickSlot(potion, newCount + TempSlot.ItemCount, out QuickSlot targetSlot))
@@ -297,7 +298,6 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                             linkedSlots[targetSlot].Add(sameItemSlots[i]);
                             i++;
                         }
-                        //linkedSlots에 등록되지 않은 슬롯을 어떻게든 linkedSlots에 추가로 바운딩 해줘야한다.
                     }
                 }
             }
