@@ -30,7 +30,7 @@ public class EnemyTurnObject : TurnBaseObject
         {
             for (int i = 0; i < 3; i++)//캐릭터들 생성해서 셋팅 
             {
-                GameObject go = Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.CHARCTER_ENEMY_POOL);
+                GameObject go = Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.CHARCTER_ENEMY_POOL).gameObject;
                 charcterList.Add(go.GetComponent<ICharcterBase>());
                 go.name = $"Enemy_{i}";
                 go.SetActive(true);

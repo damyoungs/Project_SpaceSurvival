@@ -41,19 +41,18 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
     /// </summary>
     public void InitUI()
     {
-        if (BattleUI != null) //값이 있으면
+        if (battleUI != null) //값이 있으면
         {
-            BattleUI.gameObject.SetActive(true); //활성화만 시킨다
+            battleUI.gameObject.SetActive(true); //활성화만 시킨다
         }
         else //추적형 UI가 셋팅안되있으면 셋팅한다
         {
-            GameObject obj = Multiple_Factory.Instance.
+            battleUI = (TrackingBattleUI)Multiple_Factory.Instance.
                 GetObject(EnumList.MultipleFactoryObjectList.TRACKING_BATTLE_UI_POOL); // 제일처음 초기화할때 배틀 UI 셋팅하고 
-            obj.gameObject.name = $"{name} _ Tracking"; //이름확인용
-            obj.transform.SetParent(battleUICanvas);//풀은 캔버스 밑에없기때문에 배틀맵UI만 관리할 캔버스 위치 밑으로 이동시킨다.
-            obj.gameObject.SetActive(true); //활성화 시킨다.
-            BattleUI = obj.GetComponent<TrackingBattleUI>(); //UI 컴퍼넌트 찾아온다.
-            BattleUI.Player = transform.GetChild(0);     //UI 는 유닛과 1:1 매치가 되있어야 됨으로 담아둔다.
+            battleUI.gameObject.name = $"{name} _ Tracking"; //이름확인용
+            battleUI.transform.SetParent(battleUICanvas);//풀은 캔버스 밑에없기때문에 배틀맵UI만 관리할 캔버스 위치 밑으로 이동시킨다.
+            battleUI.gameObject.SetActive(true); //활성화 시킨다.
+            battleUI.Player = transform.GetChild(0);     //UI 는 유닛과 1:1 매치가 되있어야 됨으로 담아둔다.
         }
     }
 
@@ -63,10 +62,10 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
     /// </summary>
     public void ResetData()
     {
-        if (BattleUI != null) //배틀 UI가 셋팅되있으면 
+        if (battleUI != null) //배틀 UI가 셋팅되있으면 
         {
-            BattleUI.ResetData();// 추적형 UI 초기화 
-            BattleUI = null; // 비우기
+            battleUI.ResetData();// 추적형 UI 초기화 
+            battleUI = null; // 비우기
         }
         //턴 오브젝트 초기화
         transform.SetParent(poolTransform); //풀로 돌린다

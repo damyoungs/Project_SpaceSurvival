@@ -83,7 +83,7 @@ namespace EnumList
         BATTLEMAP_ENEMY_POOL,
         CHARCTER_PLAYER_POOL,
         CHARCTER_ENEMY_POOL,
-
+        TILE_POOL,
     }
 
 

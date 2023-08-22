@@ -320,8 +320,7 @@ public class TrackingBattleUI : TrackingBattleUIObject_PoolObj
     /// <returns>상태이상의 정보를 생성해서 반환</returns>
     private IStateData SettingStateUI(EnumList.StateType type)
     {
-        GameObject obj = Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.STATE_POOL); //풀에서 꺼내고
-        StateObject_PoolObj poolObj = obj.GetComponent<StateObject_PoolObj>(); //컴포넌트 내용읽어와서 
+        StateObject_PoolObj poolObj = (StateObject_PoolObj)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.STATE_POOL); //풀에서 꺼내고
         poolObj.transform.SetParent(stateGroup);// 부모 셋팅하고 
 
         ///밑에는 이미지 셋팅 

@@ -24,11 +24,10 @@ public class TurnTestCode : TestBase
     /// <param name="context"></param>
     protected override void Test1(InputAction.CallbackContext context)
     {
-        GameObject obj = Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.BATTLEMAP_ENEMY_POOL); //가져오고
-        TurnBaseObject tbo = obj?.GetComponent<TurnBaseObject>(); //찾고
+        TurnBaseObject tbo = (TurnBaseObject)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.BATTLEMAP_ENEMY_POOL); //가져오고
         tbo.UnitBattleIndex = turnManager.BattleIndex; //인덱스 설정하고
-        RectTransform rt = obj.GetComponent<RectTransform>(); //랜덤으로 위치 뿌려주기위해 위치값정보가져오고
-        rt = rt == null ? obj.AddComponent<RectTransform>() : rt; // 없으면 추가하고 
+        RectTransform rt = tbo.gameObject.GetComponent<RectTransform>(); //랜덤으로 위치 뿌려주기위해 위치값정보가져오고
+        rt = rt == null ? tbo.gameObject.AddComponent<RectTransform>() : rt; // 없으면 추가하고 
         GameObject parentObj = Instantiate(unit); // 테스트용 캐릭터 생성하고
         parentObj.transform.position = new Vector3(
                                         UnityEngine.Random.Range(-10.0f, 10.0f),
@@ -36,7 +35,7 @@ public class TurnTestCode : TestBase
                                         UnityEngine.Random.Range(-10.0f, 0.0f)
                                         );//랜덤위치로 뿌리고
         tbo.TurnActionValue = UnityEngine.Random.Range(0.0f, 8.0f); // -테스트값 설정
-        obj.transform.SetParent(parentObj.transform);//부모위치 옮기고 - 부모가 활성화 상태가 아닐경우 문제발생여부존재함
+        tbo.transform.SetParent(parentObj.transform);//부모위치 옮기고 - 부모가 활성화 상태가 아닐경우 문제발생여부존재함
         rt.anchoredPosition3D = new Vector3(0.0f, 2.0f, 0.0f);// UI기본위치 살짝위로 옮기고 
 
         turnManager.TurnListAddObject(tbo); //턴리스트에 추가 

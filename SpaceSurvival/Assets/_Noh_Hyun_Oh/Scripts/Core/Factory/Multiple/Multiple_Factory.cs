@@ -50,6 +50,7 @@ public class Multiple_Factory : ChildComponentSingeton<Multiple_Factory>
     Pool_PlayerUnit playerUnitPool;
     Pool_EnemyUnit enemyUnitPool;
 
+    TileMapPool tileMapPool;
     /// <summary>
     /// 팩토리 생성시 초기화 함수
     /// </summary>
@@ -72,6 +73,8 @@ public class Multiple_Factory : ChildComponentSingeton<Multiple_Factory>
         playerUnitPool.Initialize();
         enemyUnitPool.Initialize();
 
+        tileMapPool = GetComponentInChildren<TileMapPool>(true);
+        tileMapPool.Initialize();
 
         Pool_BattleMapTurnUnit[] battleTurns = GetComponentsInChildren<Pool_BattleMapTurnUnit>(true);
         
@@ -88,37 +91,40 @@ public class Multiple_Factory : ChildComponentSingeton<Multiple_Factory>
     /// </summary>
     /// <param name="type">객체종류</param>
     /// <returns>생성된 객체</returns>
-    public GameObject GetObject(EnumList.MultipleFactoryObjectList type)
+    public Base_PoolObj GetObject(EnumList.MultipleFactoryObjectList type)
     {
-        GameObject obj = null;
+        Base_PoolObj obj = null;
         switch (type)
         {
             case EnumList.MultipleFactoryObjectList.SAVE_DATA_POOL:
-                obj = saveDataPool?.GetObject()?.gameObject;
+                obj = saveDataPool?.GetObject();
                 break;
             case EnumList.MultipleFactoryObjectList.SAVE_PAGE_BUTTON_POOL:
-                obj = savePageButtonPool?.GetObject()?.gameObject;
+                obj = savePageButtonPool?.GetObject();
                 break;
             case EnumList.MultipleFactoryObjectList.TURN_GAUGE_UNIT_POOL:
-                obj = turnGaugeUnitPool?.GetObject()?.gameObject;
+                obj = turnGaugeUnitPool?.GetObject();
                 break;
             case EnumList.MultipleFactoryObjectList.TRACKING_BATTLE_UI_POOL:
-                obj = trackingBattleUIPool?.GetObject()?.gameObject;
+                obj = trackingBattleUIPool?.GetObject();
                 break;
             case EnumList.MultipleFactoryObjectList.STATE_POOL:
-                obj = statePool?.GetObject()?.gameObject;
+                obj = statePool?.GetObject();
                 break;
             case EnumList.MultipleFactoryObjectList.BATTLEMAP_PLAYER_POOL:
-                obj = battleMapPlayerPool?.GetObject()?.gameObject;
+                obj = battleMapPlayerPool?.GetObject();
                 break;
             case EnumList.MultipleFactoryObjectList.BATTLEMAP_ENEMY_POOL:
-                obj = battleMapEnemyPool?.GetObject()?.gameObject;
+                obj = battleMapEnemyPool?.GetObject();
                 break;
             case EnumList.MultipleFactoryObjectList.CHARCTER_PLAYER_POOL:
-                obj = playerUnitPool?.GetObject()?.gameObject;
+                obj = playerUnitPool?.GetObject();
                 break;
             case EnumList.MultipleFactoryObjectList.CHARCTER_ENEMY_POOL:
-                obj = enemyUnitPool?.GetObject()?.gameObject;
+                obj = enemyUnitPool?.GetObject();
+                break;
+            case EnumList.MultipleFactoryObjectList.TILE_POOL:
+                obj = tileMapPool?.GetObject();
                 break;
             default:
 

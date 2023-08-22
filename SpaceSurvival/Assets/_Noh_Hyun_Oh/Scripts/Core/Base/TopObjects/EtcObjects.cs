@@ -15,15 +15,20 @@ public class EtcObjects : Singleton<EtcObjects>
     {
         base.Awake();
         WindowList windowList = FindObjectOfType<WindowList>();
-        TeamBorderManager teamBorderManager = windowList.GetComponentInChildren<TeamBorderManager>(true);
-        RawImage[] rawImages =  teamBorderManager.GetComponentsInChildren<RawImage>(true);
         //Debug.Log($"{windowList}{teamBorderManager}{rawImages.Length}");
         teamCharcterView = GetComponentsInChildren<UICamera>(true); //EtcObject 밑에는 항시 3개만 존재 위치바껴도찾기위해 걍 이렇게 찾는다.
         cameraQueue = new Queue<UICamera>(teamCharcterView.Length); //찾은 갯수로 큐만들어두고 
+        
+        
+    }
+    private void Start()
+    {
+        TeamBorderManager teamBorderManager = WindowList.Instance.GetComponentInChildren<TeamBorderManager>(true);
+        RawImage[] rawImages = teamBorderManager.GetComponentsInChildren<RawImage>(true);
         int i = 0;
         foreach (UICamera camera in teamCharcterView) //돌면서
         {
-            rawImages[i].texture =  camera.FollowCamera.activeTexture; //택스쳐 집어넣기
+            rawImages[i].texture = camera.FollowCamera.activeTexture; //택스쳐 집어넣기
             camera.resetData = () =>  //리셋될때 
             {
                 cameraQueue.Enqueue(camera);//다시 들어갈수있게 연결해준다.
@@ -33,5 +38,4 @@ public class EtcObjects : Singleton<EtcObjects>
             camera.gameObject.SetActive(false);
         }
     }
-
 }

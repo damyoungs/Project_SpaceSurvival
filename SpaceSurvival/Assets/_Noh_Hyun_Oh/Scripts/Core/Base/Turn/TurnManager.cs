@@ -412,31 +412,27 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
         ITurnBaseData tbo;
         for (int i = 0; i < initSize; i++)
         {
-            GameObject obj;
             battleUnitIndex = i;// 일단 체크용 변수 입력
             if (i == 0)
             {
-                obj= Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.BATTLEMAP_PLAYER_POOL); //
-                tbo = obj.GetComponent<PlayerTurnObject>(); //찾고new PlayerTurnObject();
-                obj.name = $"PL_Charcter  _{i}";
-                player = tbo;
+                player = (PlayerTurnObject)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.BATTLEMAP_PLAYER_POOL); //
+                player.gameObject.name = $"PL_Charcter  _{i}";
+                tbo = player;
             }
             else 
             {
-                obj= Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.BATTLEMAP_ENEMY_POOL); //가져오고
-                tbo = obj.GetComponent<EnemyTurnObject>();
-                obj.name = $"ENEMY_Charcter _{i}";
+                tbo = (EnemyTurnObject)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.BATTLEMAP_ENEMY_POOL); //가져오고
+                tbo.gameObject.name = $"ENEMY_Charcter _{i}";
             }
-            Debug.Log(tbo);
-            InitTurnObject(i,obj, tbo);
+            InitTurnObject(i, tbo);
         }
 
     }
-    private void InitTurnObject(int index ,GameObject obj, ITurnBaseData tbo) 
+    private void InitTurnObject(int index , ITurnBaseData tbo) 
     {
        
         tbo.TurnActionValue = UnityEngine.Random.Range(0.0f, 8.0f); // -테스트값 설정
-        obj.transform.position = new Vector3(
+        tbo.transform.position = new Vector3(
                                         UnityEngine.Random.Range(-10.0f, 10.0f),
                                         0.0f,
                                         UnityEngine.Random.Range(-10.0f, 0.0f)
