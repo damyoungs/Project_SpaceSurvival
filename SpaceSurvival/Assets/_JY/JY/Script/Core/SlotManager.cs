@@ -318,6 +318,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                         foreach (Slot slot in sameItemSlots)
                         {
                             slot.onItemCountChange += Throw_NewCount_To_QuickSlot;
+                            slot.BindingSlot = targetSlot;
                         }
                     }
                 }
@@ -350,9 +351,10 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     void Throw_NewCount_To_QuickSlot(QuickSlot targetSlot)
     {
         List<Slot> slots = linkedSlots[targetSlot];
-        Get_Total_ItemCount(ref slots);
+        uint newCount = Get_Total_ItemCount(slots);
+        targetSlot.ItemCount = newCount;
     }
-    uint Get_Total_ItemCount(ref List<Slot> slots)
+    uint Get_Total_ItemCount(List<Slot> slots)
     {
         uint newCount = 0;
         foreach(Slot slot in slots)
