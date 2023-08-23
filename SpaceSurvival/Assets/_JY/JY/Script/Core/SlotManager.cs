@@ -12,8 +12,9 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     InputKeyMouse input;
 
     public GameObject slot;
-    public TempSlot tempSlot;
-    public ItemDescription itemDescription;
+    TempSlot tempSlot;
+    ItemDescription itemDescription;
+    public ItemDescription ItemDescription => itemDescription;
     public RectTransform inventoryRectTransform;
 
     public TempSlot TempSlot => tempSlot;
@@ -34,7 +35,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     RectTransform mixerUI_Transform;
     Item_Mixer_UI mixer_UI;
 
-    public ItemSplitter spliter;
+    ItemSplitter spliter;
     bool isShiftPress = false;
 
     public Action<ItemData_Potion, uint> onDetectQuickSlot;
@@ -49,6 +50,14 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     private void Awake()
     {
         input = new InputKeyMouse();
+        tempSlot = FindObjectOfType<TempSlot>(true);
+        itemDescription = FindObjectOfType<ItemDescription>();
+    }
+    private void Start()
+    {
+        spliter = FindObjectOfType<ItemSplitter>(true);
+        Initialize();
+
     }
     private void OnEnable()
     {

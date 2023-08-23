@@ -206,7 +206,7 @@ public class QuickSlots : MonoBehaviour
   
     void Init()
     {
-        ItemDescription itemDescription = GameManager.SlotManager.itemDescription;
+        ItemDescription itemDescription = GameManager.SlotManager.ItemDescription;
         TempSlot_For_QuickSlot_Base tempSlot_Base = FindObjectOfType<TempSlot_For_QuickSlot_Base>();
 
        // quickSlots = new QuickSlot[8];

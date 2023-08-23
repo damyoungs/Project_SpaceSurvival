@@ -32,7 +32,14 @@ public class GameManager : MonoBehaviour
     {
         Init();
         itemDataManager = GetComponent<ItemDataManager>();
-
+        player = FindObjectOfType<PlayerDummy>();
+        inventory = FindObjectOfType<Inventory>();
+        slotManager = FindObjectOfType<SlotManager>();
+        itemSpawner = FindObjectOfType<ItemSpawner>();
+        enhancer = FindObjectOfType<Item_Enhancer>();
+        mixer = FindObjectOfType<Item_Mixer>();
+        mixingTable = FindObjectOfType<Item_Mixing_Table>();
+        quickSlot_Box = FindObjectOfType<QuickSlots>();
     }
     static void Init()
     {
@@ -50,15 +57,5 @@ public class GameManager : MonoBehaviour
     
         }
     }
-    private void Start()
-    {
-        player = FindObjectOfType<PlayerDummy>();
-        inventory = FindObjectOfType<Inventory>();
-        slotManager = FindObjectOfType<SlotManager>();
-        itemSpawner = FindObjectOfType<ItemSpawner>();
-        enhancer = FindObjectOfType<Item_Enhancer>();
-        mixer = FindObjectOfType<Item_Mixer>();
-        mixingTable = FindObjectOfType<Item_Mixing_Table>();
-        quickSlot_Box = FindObjectOfType<QuickSlots>();
-    }
+
 }

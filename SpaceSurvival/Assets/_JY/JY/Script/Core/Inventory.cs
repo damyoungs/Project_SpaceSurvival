@@ -82,9 +82,7 @@ public class Inventory : MonoBehaviour
 
         sort_Button.onClick.AddListener(SlotSorting);
         close_Button.onClick.AddListener(Open_Inventory);
-        add_Button.onClick.AddListener(GameManager.SlotManager.Make_Slot);
         mixer_Button.onClick.AddListener(Open_Mixer);
-
 
         equip_Button.onClick.AddListener(SwitchTab_To_Equip);
         consume_Button.onClick.AddListener(SwitchTab_To_Consume);
@@ -112,7 +110,10 @@ public class Inventory : MonoBehaviour
     }
     private void Start()
     {
-        GameManager.SlotManager.Initialize();
+        //GameManager.SlotManager.Initialize();
+        add_Button.onClick.AddListener(GameManager.SlotManager.Make_Slot);
+
+
         enhance_Button.onClick.AddListener(Open_Enhancer);//enable, Awake¿¡¼­´Â ¾ÈµÊ
         mixer = GameManager.Mixer;
         PlayerDummy player = GameManager.playerDummy;

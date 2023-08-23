@@ -9,9 +9,10 @@ using UnityEngine.UI;
 public class Mixer_Slot_Left : Mixer_Slot_Base, IPointerClickHandler
 {
     public Action onClearLeftSlot;
-    protected override void Awake()
+
+    protected override void Start()
     {
-        base.Awake();
+        base.Start();
         GameManager.Mixer.onLeftSlotDataSet += (itemData) => this.ItemData = itemData;
     }
     public void OnPointerClick(PointerEventData eventData)
