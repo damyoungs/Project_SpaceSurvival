@@ -7,15 +7,14 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     public static GameManager Inst { get { Init(); return instance; } }
 
-    public PlayerDummy player;
-    public Inventory inventory;
-    public SlotManager slotManager;
-    public ItemSpawner itemSpawner;
-    public Item_Enhancer enhancer;
-    public Item_Mixer mixer;
-    public Item_Mixing_Table mixingTable;
-    public QuickSlots quickSlot_Box;
-
+    PlayerDummy player;
+    Inventory inventory;
+    SlotManager slotManager;
+    ItemSpawner itemSpawner;
+    Item_Enhancer enhancer;
+    Item_Mixer mixer;
+    Item_Mixing_Table mixingTable;
+    QuickSlots quickSlot_Box;
     ItemDataManager itemDataManager;
     
     public static ItemDataManager Itemdata { get { return Inst.itemDataManager; } }
@@ -50,5 +49,16 @@ public class GameManager : MonoBehaviour
             instance = go.GetComponent<GameManager>();
     
         }
+    }
+    private void Start()
+    {
+        player = FindObjectOfType<PlayerDummy>();
+        inventory = FindObjectOfType<Inventory>();
+        slotManager = FindObjectOfType<SlotManager>();
+        itemSpawner = FindObjectOfType<ItemSpawner>();
+        enhancer = FindObjectOfType<Item_Enhancer>();
+        mixer = FindObjectOfType<Item_Mixer>();
+        mixingTable = FindObjectOfType<Item_Mixing_Table>();
+        quickSlot_Box = FindObjectOfType<QuickSlots>();
     }
 }
