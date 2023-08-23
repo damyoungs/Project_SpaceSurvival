@@ -16,11 +16,11 @@ public enum Current_Inventory_State
 
 public class Inventory : MonoBehaviour
 {
-    public GameObject Equip_Inven;
-    public GameObject Consume_Inven;
-    public GameObject Etc_Inven;
-    public GameObject Craft_Inven;
-    public Item_Enhancer ItemEnhancer;
+    GameObject Equip_Inven;
+    GameObject Consume_Inven;
+    GameObject Etc_Inven;
+    GameObject Craft_Inven;
+    Item_Enhancer ItemEnhancer;
     Item_Mixer mixer;
 
     GameObject ItemDescription;
@@ -110,14 +110,19 @@ public class Inventory : MonoBehaviour
     }
     private void Start()
     {
-        //GameManager.SlotManager.Initialize();
-        add_Button.onClick.AddListener(GameManager.SlotManager.Make_Slot);
-
-
-        enhance_Button.onClick.AddListener(Open_Enhancer);//enable, Awake¿¡¼­´Â ¾ÈµÊ
+        Equip_Inven = transform.GetChild(0).gameObject;
+        Consume_Inven = transform.GetChild(1).gameObject;
+        Etc_Inven = transform.GetChild(2).gameObject;
+        Craft_Inven = transform.GetChild(3).gameObject;
+        ItemEnhancer = GameManager.Enhancer;
         mixer = GameManager.Mixer;
         PlayerDummy player = GameManager.playerDummy;
+
+
+        add_Button.onClick.AddListener(GameManager.SlotManager.Make_Slot);
+        enhance_Button.onClick.AddListener(Open_Enhancer);//enable, Awake¿¡¼­´Â ¾ÈµÊ
         player.onOpenInven += Open_Inventory;
+        GameManager.SlotManager.Initialize();
     }
     void Open_Enhancer()
     {

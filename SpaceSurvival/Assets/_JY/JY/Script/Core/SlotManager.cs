@@ -15,14 +15,15 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     TempSlot tempSlot;
     ItemDescription itemDescription;
     public ItemDescription ItemDescription => itemDescription;
-    public RectTransform inventoryRectTransform;
+    RectTransform inventoryRectTransform;
 
     public TempSlot TempSlot => tempSlot;
 
-    public Transform equip_Below;
-    public Transform consume_Below;
-    public Transform etc_Below;
-    public Transform craft_Below;
+    Inventory inven; 
+    Transform equip_Below;
+    Transform consume_Below;
+    Transform etc_Below;
+    Transform craft_Below;
 
     QuickSlots quickSlotBox;
 
@@ -56,8 +57,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     private void Start()
     {
         spliter = FindObjectOfType<ItemSplitter>(true);
-        Initialize();
-
+      //  Initialize();
     }
     private void OnEnable()
     {
@@ -75,13 +75,6 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     }
     public void Initialize()//Inventory에서 Start타이밍에 호출
     {
-        itemDescription.Close();
-        TempSlot.InitializeSlot(TempSlot);
-        TempSlot.onTempSlotOpenClose += OnDetailPause; // TempSlot이 Open할때 true로 호출하고 Close할때 false로 호출
-        spliter.onCancel += () => itemDescription.IsPause = false;   // 캔슬버턴 누르면 상세정보창 일시정지 해제
-        spliter.Close();
-        spliter.onOkClick += OnSpliterOk;
-
         beforeSlotRectTransform = GameManager.Enhancer.EnhancerUI.BeforeSlot.GetComponent<RectTransform>();
         enhancerUIRectTransform = GameManager.Enhancer.EnhancerUI.AfterSlot.GetComponent<RectTransform>();
    
@@ -90,6 +83,21 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         mixerUI_Transform = GameManager.Mixer.GetComponent<RectTransform>();
         mixer_UI = GameManager.Mixer.MixerUI;
         quickSlotBox = GameManager.QuickSlot_Box;
+
+        inven = GameManager.Inventory;
+        equip_Below = inven.transform.GetChild(0).GetChild(0).GetChild(0);
+        consume_Below = inven.transform.GetChild(1).GetChild(0).GetChild(0);
+        etc_Below = inven.transform.GetChild(2).GetChild(0).GetChild(0);
+        craft_Below = inven.transform.GetChild(3).GetChild(0).GetChild(0);
+        inventoryRectTransform = inven.GetComponent<RectTransform>();
+
+        itemDescription.Close();
+        TempSlot.InitializeSlot(TempSlot);
+        TempSlot.onTempSlotOpenClose += OnDetailPause; // TempSlot이 Open할때 true로 호출하고 Close할때 false로 호출
+        spliter.onCancel += () => itemDescription.IsPause = false;   // 캔슬버턴 누르면 상세정보창 일시정지 해제
+        spliter.Close();
+        spliter.onOkClick += OnSpliterOk;
+
 
         mixer_UI.onEndSession_Success += Add_Reward_Item;
 
