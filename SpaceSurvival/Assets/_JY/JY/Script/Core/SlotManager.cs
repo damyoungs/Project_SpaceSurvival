@@ -198,21 +198,17 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     private void OnSlotClick(ItemData data, uint index)
     {
         ItemData_Potion potion = data as ItemData_Potion;
-        if (potion != null)
+        if (isShiftPress)
+        {
+            if (tempSlot.IsEmpty)
+            {
+                OnSpliterOpen(index);
+            }
+        }
+        else if (potion != null)
         {
             potion.Consume(GameManager.playerDummy);
             RemoveItem(data, index);
-        }
-        else if (TempSlot.IsEmpty)
-        {
-            if (isShiftPress)
-            {
-                OnSpliterOpen(index);   // 임시 슬롯에 아이템이 없는데 쉬프트가 눌러진체로 슬롯을 클릭했을 때 아이템 분리창을 열어라
-            }
-            //else
-            //{
-            //    // 아이템 사용, 장비 등등
-            //}
         }
         else
         {
