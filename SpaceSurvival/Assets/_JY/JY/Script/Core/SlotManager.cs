@@ -315,6 +315,10 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                             linkedSlots[targetSlot].Add(sameItemSlots[i]);
                             i++;
                         }
+                        foreach (Slot slot in sameItemSlots)
+                        {
+                            slot.onItemCountChange += Throw_NewCount_To_QuickSlot;
+                        }
                     }
                 }
             }
@@ -342,9 +346,21 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                 TempSlot.OnDrop(screenPos);
             }
         }
-  
     }
-
+    void Throw_NewCount_To_QuickSlot(QuickSlot targetSlot)
+    {
+        List<Slot> slots = linkedSlots[targetSlot];
+        Get_Total_ItemCount(ref slots);
+    }
+    uint Get_Total_ItemCount(ref List<Slot> slots)
+    {
+        uint newCount = 0;
+        foreach(Slot slot in slots)
+        {
+            newCount += slot.ItemCount;
+        }
+        return newCount;
+    }
     private uint GetTotalAmount(ItemData itemData, out List<Slot> sameItemSlots)
     {
         uint newCount = 0;

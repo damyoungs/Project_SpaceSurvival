@@ -13,6 +13,7 @@ public class Slot : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandle
     RectTransform itemDescriptionTransform;
     TextMeshProUGUI itemDescription_Text;
     Animator anim;
+
     int popUpHash = Animator.StringToHash("PopUp");
 
     public Action<ItemData, uint> onDragBegin;
@@ -23,6 +24,7 @@ public class Slot : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandle
     public Action<Vector2> onPointerMove;
     public bool IsMoving { get; set; } = false; //이동중 description 팝업을 방지하기 위한 변수 
     bool isEquipped = false;
+
     public bool IsEquipped
     {
         get => isEquipped;
