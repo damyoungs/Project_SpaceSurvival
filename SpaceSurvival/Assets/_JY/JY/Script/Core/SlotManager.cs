@@ -352,11 +352,14 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             }
         }
     }
-    void Connect_To_Slot(QuickSlot quickSlot)
+    void Connect_To_Slot(ItemData_Potion itemData, QuickSlot quickSlot)
     {
-        List<Slot> slotArr = Get_Binding_Slots(quickSlot);
+        List<Slot> slotArr = Get_Binding_Slots(itemData);//연결할 때는 quickSlot이 아니라 ItemData로 찾아야함
+        if (slotArr == null) return;
         foreach(Slot slot in slotArr)
         {
+            slot.BindingSlot = quickSlot;// 타겟을 바꿔줘야 한다.
+            slot.onItemCountChange = null;// 처음 연결할 때 이미 추가되어있는 상황에 대비해서 중복 추가 방지용
             slot.onItemCountChange += Throw_NewCount_To_QuickSlot;
         }
     }
@@ -372,6 +375,21 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     {
         List<Slot> slotArr = null;
         slotArr = linkedSlots[quickSlot];
+        return slotArr;
+    }
+    List<Slot> Get_Binding_Slots(ItemData_Potion itemData)
+    {
+        List<Slot> slotArr = null;
+        foreach(List<Slot> slots in linkedSlots.Values)
+        {
+            foreach (Slot slot in slots)
+            {
+                if (slot.ItemData == itemData)
+                {
+                    return slotArr = slots;
+                }
+            }
+        }
         return slotArr;
     }
     QuickSlot Get_Binding_QuickSlot(Slot slot)
