@@ -21,6 +21,8 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
     public Action<ItemData_Potion, uint> onBeginDrag;
     public Action onEndDrag;
 
+    public Action<QuickSlot> disconnect_To_Binding_Slot;
+    public Action<QuickSlot> connect_To_Binding_Slot;
 
 
     uint itemCount = 0;
@@ -45,10 +47,24 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
             {
                 itemData = value;
                 Refresh_Icon(itemData);
+                if (itemData == null)
+                {
+                    disconnect_To_Binding_Slot?.Invoke(this);
+                    firstSetting = true;
+                }
+                else
+                {
+                    if (!firstSetting)
+                    {
+                        connect_To_Binding_Slot?.Invoke(this); // 아직 바인딩이 안된 상태에서 ItemData가 셋팅됐을 때 
+                    }
+                    firstSetting = false;
+                }
             }
         }
     }
     public bool IsEmpty => itemData == null;
+    bool firstSetting = true;
 
     ISkill skill = null;
 

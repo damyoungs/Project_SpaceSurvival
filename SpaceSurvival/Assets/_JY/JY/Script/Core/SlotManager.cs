@@ -84,6 +84,12 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         mixer_UI = GameManager.Mixer.MixerUI;
         quickSlotBox = GameManager.QuickSlot_Box;
 
+        foreach (QuickSlot quickSlot in quickSlotBox.quickSlots)
+        {
+            quickSlot.connect_To_Binding_Slot += Connect_To_Slot;
+            quickSlot.disconnect_To_Binding_Slot += Disconnect_to_Slot;
+        }
+
         inven = GameManager.Inventory;
         equip_Below = inven.transform.GetChild(0).GetChild(0).GetChild(0);
         consume_Below = inven.transform.GetChild(1).GetChild(0).GetChild(0);
@@ -97,6 +103,8 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         spliter.onCancel += () => itemDescription.IsPause = false;   // 캔슬버턴 누르면 상세정보창 일시정지 해제
         spliter.Close();
         spliter.onOkClick += OnSpliterOk;
+
+        
 
 
         mixer_UI.onEndSession_Success += Add_Reward_Item;
@@ -344,13 +352,39 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             }
         }
     }
+    void Connect_To_Slot(QuickSlot quickSlot)
+    {
+        List<Slot> slotArr = Get_Binding_Slots(quickSlot);
+        foreach(Slot slot in slotArr)
+        {
+            slot.onItemCountChange += Throw_NewCount_To_QuickSlot;
+        }
+    }
+    void Disconnect_to_Slot(QuickSlot quickSlot)
+    {
+        List<Slot> slotArr = Get_Binding_Slots(quickSlot);
+        foreach(Slot slot in slotArr)
+        {
+            slot.onItemCountChange = null;
+        }
+    }
+    List<Slot> Get_Binding_Slots(QuickSlot quickSlot)
+    {
+        List<Slot> slotArr = null;
+        slotArr = linkedSlots[quickSlot];
+        return slotArr;
+    }
+    QuickSlot Get_Binding_QuickSlot(Slot slot)
+    {
+        return null;
+    }
     void Throw_NewCount_To_QuickSlot(QuickSlot targetSlot)
     {
         List<Slot> slots = linkedSlots[targetSlot];
         uint newCount = Get_Total_ItemCount(slots);
-        targetSlot.ItemCount = newCount;
+        targetSlot.ItemCount = newCount;//참조를 받아왔기 때문에 바로 수정 가능
     }
-    uint Get_Total_ItemCount(List<Slot> slots)
+    uint Get_Total_ItemCount(List<Slot> slots)//같은 아이템 갯수의 합을 리턴하는 함수 퀵슬롯에 할당 후 델리게이트가 연결된 상태에서 수량이 변경될 때마다 실행
     {
         uint newCount = 0;
         foreach(Slot slot in slots)
@@ -359,7 +393,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         }
         return newCount;
     }
-    private uint GetTotalAmount(ItemData itemData, out List<Slot> sameItemSlots)
+    private uint GetTotalAmount(ItemData itemData, out List<Slot> sameItemSlots)//같은 아이템을 가진 슬롯List와 Total카운트를 구해주는 함수//처음 퀵슬롯에 할당할때 호출
     {
         uint newCount = 0;
         List<Slot> consumeTab = slots[Current_Inventory_State.Consume];
@@ -517,11 +551,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         }
     }
 
-    /// <summary>
-    /// 인벤토리 특정 슬롯에서 아이템을 일정량 덜어내어 임시 슬롯으로 보내는 함수
-    /// </summary>
-    /// <param name="slotIndex">아이템을 덜어낼 슬롯</param>
-    /// <param name="count">덜어낼 개수</param>
+
     public void SplitItem(uint slotIndex, uint count) // 스플릿할때는 굳이 
     {
         if (IsValidIndex(slotIndex))
