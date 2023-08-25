@@ -7,14 +7,14 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     public static GameManager Inst { get { Init(); return instance; } }
 
-    public PlayerDummy player;
-    public Inventory inventory;
-    public SlotManager slotManager;
-    public ItemSpawner itemSpawner;
-    public Item_Enhancer enhancer;
-    public Item_Mixer mixer;
-    public Item_Mixing_Table mixingTable;
-
+    PlayerDummy player;
+    Inventory inventory;
+    SlotManager slotManager;
+    ItemSpawner itemSpawner;
+    Item_Enhancer enhancer;
+    Item_Mixer mixer;
+    Item_Mixing_Table mixingTable;
+    QuickSlots quickSlot_Box;
     ItemDataManager itemDataManager;
     
     public static ItemDataManager Itemdata { get { return Inst.itemDataManager; } }
@@ -25,13 +25,21 @@ public class GameManager : MonoBehaviour
     public static Item_Enhancer Enhancer { get { return Inst.enhancer; } }
     public static Item_Mixer Mixer { get { return Inst.mixer; } }
     public static Item_Mixing_Table Mixing_Table { get { return Inst.mixingTable; } }
+    public static QuickSlots QuickSlot_Box { get { return Inst.quickSlot_Box; } }
 
 
     private void Awake()
     {
         Init();
         itemDataManager = GetComponent<ItemDataManager>();
-
+        player = FindObjectOfType<PlayerDummy>();
+        inventory = FindObjectOfType<Inventory>();
+        slotManager = FindObjectOfType<SlotManager>();
+        itemSpawner = FindObjectOfType<ItemSpawner>();
+        enhancer = FindObjectOfType<Item_Enhancer>();
+        mixer = FindObjectOfType<Item_Mixer>();
+        mixingTable = FindObjectOfType<Item_Mixing_Table>();
+        quickSlot_Box = FindObjectOfType<QuickSlots>();
     }
     static void Init()
     {
@@ -49,4 +57,5 @@ public class GameManager : MonoBehaviour
     
         }
     }
+
 }

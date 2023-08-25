@@ -9,6 +9,8 @@ using UnityEngine.UI;
 
 public class ItemSplitter : MonoBehaviour
 {
+    CanvasGroup canvasGroup;
+
     /// <summary>
     /// 아이템을 덜어낼 슬롯
     /// </summary>
@@ -19,9 +21,7 @@ public class ItemSplitter : MonoBehaviour
     /// </summary>
     const uint MinItemCount = 1;
 
-    /// <summary>
-    /// 덜어낼 아이템 개수
-    /// </summary>
+
     uint itemSplitCount = MinItemCount;
 
     /// <summary>
@@ -62,6 +62,7 @@ public class ItemSplitter : MonoBehaviour
 
     private void Awake()
     {
+        canvasGroup = GetComponent<CanvasGroup>();
         itemIcon = transform.GetChild(0).GetChild(0).GetComponent<Image>();
         Button minus = transform.GetChild(1).GetComponent<Button>();
         Button plus = transform.GetChild(2).GetComponent<Button>();
@@ -142,7 +143,9 @@ public class ItemSplitter : MonoBehaviour
             slider.minValue = MinItemCount;                 // 슬라이더 최소/최대 수정
             slider.maxValue = targetSlot.ItemCount - 1;
             ItemSplitCount = MinItemCount;                  // 분리할 개수를 최소값으로 설정
-            gameObject.SetActive(true);                     // 활성화해서 보여주기
+            canvasGroup.alpha = 1.0f;
+            canvasGroup.interactable = true;
+            canvasGroup.blocksRaycasts = true;
         }
     }
 
@@ -151,7 +154,9 @@ public class ItemSplitter : MonoBehaviour
     /// </summary>
     public void Close()
     {
-        gameObject.SetActive(false);    // 비활성화해서 안보여주기
+        canvasGroup.alpha = 0;
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
     }
 
     /// <summary>

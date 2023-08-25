@@ -10,10 +10,10 @@ using UnityEditor;
 public class PlayerDummy : MonoBehaviour, IHealth
 {
     InputKeyMouse inputActions;
-    Vector3 root2 = Vector3.zero;
 
+    public Transform EquipParent;
 
-    Vector3 dir = Vector3.zero;
+    public Action onOpenInven;
 
     public float moveSpeed = 0.0f;
     public float rotateSpeed = 0.0f;
@@ -42,6 +42,31 @@ public class PlayerDummy : MonoBehaviour, IHealth
             }
         }
     }
+    float hp = 200;
+    public float HP
+    {
+        get => hp;
+        private set
+        {
+            if (hp != value)
+            {
+                hp = value;
+                Debug.Log($"플레이어 HP : {hp:f0}");
+            }
+        }
+    }
+    float mp = 150;
+    public float MP
+    {
+        get => mp;
+        private set
+        {
+            if (mp != value)
+            {
+                mp = value;
+            }
+        }
+    }
     private void Awake()
     {
         inputActions = new InputKeyMouse();
@@ -49,8 +74,14 @@ public class PlayerDummy : MonoBehaviour, IHealth
     private void OnEnable()
     {
         inputActions.Player.Enable();
-        inputActions.Player.Move.performed += ChangeVectorDir;
         inputActions.Player.ItemPickUp.performed += ItemPickUp;
+        inputActions.KeyBoard.Enable();
+        inputActions.KeyBoard.InvenKey.performed += OpenInven;
+    }
+
+    private void OpenInven(InputAction.CallbackContext _)
+    {
+        onOpenInven?.Invoke();
     }
 
     private void ItemPickUp(InputAction.CallbackContext _)
@@ -59,43 +90,53 @@ public class PlayerDummy : MonoBehaviour, IHealth
         foreach(var collider in itemColliders)
         {
             ItemObject itemObj = collider.GetComponent<ItemObject>();
-            IConsumable consumable = itemObj.ItemData as IConsumable;
-            if (consumable != null)
-            {
-                consumable.Consume(this.gameObject);
-                Destroy(itemObj.gameObject);
-            }
-            else if (GameManager.SlotManager.AddItem(itemObj.ItemData.code))
+            //IConsumable consumable = itemObj.ItemData as IConsumable;
+            //if (consumable != null)
+            //{
+            //    consumable.Consume(this.gameObject);
+            //    Destroy(itemObj.gameObject);
+            //}
+            if (GameManager.SlotManager.AddItem(itemObj.ItemData.code))
             {
                 Destroy(itemObj.gameObject);
             }  
         }
     }
-    public void RecoveryHP_ByTick()
+    public void RecoveryHP_(int recoveryValue, float duration)
     {
-        StartCoroutine(RecoveryHP_ByTick_Coroutine());
+        StartCoroutine(RecoveryHP(recoveryValue, duration));
     }
-    IEnumerator RecoveryHP_ByTick_Coroutine()
+    IEnumerator RecoveryHP(int recoveryValue, float duration)
+    {
+        float regenPerSecond = recoveryValue / duration;
+        float time = 0.0f;
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            HP += regenPerSecond * Time.deltaTime;
+            yield return null;
+        }
+    }
+    IEnumerator RecoveryMP()
     {
         yield return null;
     }
-    private void Update()
+    bool IsEquipped()
     {
-        Move();
-        Rotate();
+        return false;
     }
-    void Move()
+    void EquipItem()
     {
-        transform.Translate(Time.deltaTime * moveSpeed * dir, Space.World);
+        while(EquipParent.childCount > 0)
+        {
+            Transform child = EquipParent.GetChild(0);
+            Destroy(child.gameObject);
+        }
+       
     }
-    void Rotate()
+    void UnEquipItem()
     {
-         transform.LookAt(transform.position + dir);
 
-    }
-    private void ChangeVectorDir(UnityEngine.InputSystem.InputAction.CallbackContext context)
-    {
-        dir = context.ReadValue<Vector3>();        
     }
 
 

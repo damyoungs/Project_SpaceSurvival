@@ -26,13 +26,13 @@ public class WarningBox : MonoBehaviour
     void Start()
     {
 
-        item_Enhancer = GameManager.Enhancer;
+        item_Enhancer = FindObjectOfType<Item_Enhancer>();
         item_Enhancer.onConfirmButtonClick += Open;
         item_Enhancer.onWaitforResult += Close;
         confirmButton.onClick.AddListener(() => item_Enhancer.EnhancerState = EnhancerState.WaitforResult);
 
 
-        item_Mixer = GameManager.Mixer;
+        item_Mixer = FindObjectOfType<Item_Mixer>();
         item_Mixer.onConfirmButtonClick += Open;
         item_Mixer.onWaitforResult += Close;
         confirmButton.onClick.AddListener(() => item_Mixer.MixerState = ItemMixerState.WaitforResult);

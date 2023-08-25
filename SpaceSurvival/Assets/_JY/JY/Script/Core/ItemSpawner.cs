@@ -144,23 +144,30 @@ public class ItemSpawner : TestBase
     {
         GameManager.Inventory.Open_Inventory();
     }
-    //protected override void Test3(InputAction.CallbackContext context)
-    //{
+    protected override void Test3(InputAction.CallbackContext context)
+    {
+        int i = 0;
+        while(i < 200)
+        {
+            GetItem();
+            i++;
+        }
+       // GameManager.playerDummy.RecoveryHP_(300, 0.5f);
+    }
+    public QuickSlot slot;
+    protected override void Test4(InputAction.CallbackContext context)
+    {
+        slot.ItemCount--;
+    }
 
-    //    GetItemMpPotion();
-    //}
-    //protected override void Test4(InputAction.CallbackContext context)
-    //{
-    //    GetItemBow();
-    //}
-    //protected override void Test5(InputAction.CallbackContext context)
-    //{
-    //    GetItemHpPotion();
-    //}
-    //protected override void Test6(InputAction.CallbackContext context)
-    //{
-    //    RemoveItem();
-    //}
+    protected override void Test5(InputAction.CallbackContext context)
+    {
+        slot.ItemCount++;
+    }
+    protected override void Test6(InputAction.CallbackContext context)
+    {
+        slot.ItemData = null;
+    }
     //protected override void Test7(InputAction.CallbackContext context)
     //{
     //    ClearSlot();

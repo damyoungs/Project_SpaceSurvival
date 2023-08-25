@@ -61,7 +61,10 @@ public enum ItemCode// 밑의 ItemData 배열과 같은 순서를 유지해야 알맞은 프리팹을
     Bullet_Grade10,
     Bullet_Grade11,
     Bullet_Grade12,
-    Bullet_Grade13
+    Bullet_Grade13,
+    HP_Potion,
+    MP_Potion,
+    Elixir
 }
 
 public enum ItemType

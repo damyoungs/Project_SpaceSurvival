@@ -13,6 +13,8 @@ public class ItemDescription : MonoBehaviour
     TextMeshProUGUI itemDetail;
     CanvasGroup canvasGroup;
 
+    Vector2 fixedPos = Vector2.zero;//퀵슬롯 전용 y값 보정용
+
     bool isPause = false;
 
     public float alphaChangeSpeed = 10.0f;
@@ -69,23 +71,36 @@ public class ItemDescription : MonoBehaviour
         }
         
     }
+    public void Toggle_IsPause()
+    {
+        IsPause = !IsPause;
+    }
     public void Close()
     {
         StopAllCoroutines();
         StartCoroutine(FadeOut());
     }
-    public void MovePosition(Vector2 screenPos)
+    public void MovePosition(Vector2 mousePos)
     {
+        //(rectTransform.sizeDelta.x + screenPos.x) 내 사이즈와 마우스좌표를 더한 후 스크린의 크기를 뺀 결과가 양수면 화면을 넘어갔다 판단.
         if (canvasGroup.alpha > 0.0f)
         {
             RectTransform rectTransform = (RectTransform)transform;
-            int overX = (int)(rectTransform.sizeDelta.x + screenPos.x) - Screen.width;
+            int overX = (int)(rectTransform.sizeDelta.x + mousePos.x) - Screen.width;
             overX = Mathf.Max(0, overX);
-            screenPos.x -= overX;
+            mousePos.x -= overX;
 
-            transform.position = screenPos;
+            transform.position = mousePos;
+            if (rectTransform.anchoredPosition.y < -180.0f)
+            {
+                fixedPos.x = rectTransform.anchoredPosition.x;
+                fixedPos.y = -180.0f;
+
+                rectTransform.anchoredPosition = fixedPos;
+            }
+
         }
-        
+
     }
     IEnumerator FadeIn()
     {

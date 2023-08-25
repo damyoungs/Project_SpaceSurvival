@@ -12,16 +12,20 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     InputKeyMouse input;
 
     public GameObject slot;
-    public TempSlot tempSlot;
-    public ItemDescription itemDescription;
-    public RectTransform inventoryRectTransform;
+    TempSlot tempSlot;
+    ItemDescription itemDescription;
+    public ItemDescription ItemDescription => itemDescription;
+    RectTransform inventoryRectTransform;
 
     public TempSlot TempSlot => tempSlot;
 
-    public Transform equip_Below;
-    public Transform consume_Below;
-    public Transform etc_Below;
-    public Transform craft_Below;
+    Inventory inven; 
+    Transform equip_Below;
+    Transform consume_Below;
+    Transform etc_Below;
+    Transform craft_Below;
+
+    QuickSlots quickSlotBox;
 
    
     RectTransform beforeSlotRectTransform;
@@ -32,12 +36,14 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     RectTransform mixerUI_Transform;
     Item_Mixer_UI mixer_UI;
 
-    public ItemSplitter spliter;
+    ItemSplitter spliter;
     bool isShiftPress = false;
+
+    public Action<ItemData_Potion, uint> onDetectQuickSlot;
 
     public Dictionary<Current_Inventory_State, List<Slot>> slots;
     private Dictionary<Current_Inventory_State, int> slotCount; //슬롯 생성후 번호를 부여하기위한 Dic
-
+    private Dictionary<QuickSlot, List<Slot>> linkedSlots;
  
     public byte Index_JustChange_Slot { get; set; }
   
@@ -45,6 +51,13 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     private void Awake()
     {
         input = new InputKeyMouse();
+        tempSlot = FindObjectOfType<TempSlot>(true);
+        itemDescription = FindObjectOfType<ItemDescription>();
+    }
+    private void Start()
+    {
+        spliter = FindObjectOfType<ItemSplitter>(true);
+      //  Initialize();
     }
     private void OnEnable()
     {
@@ -62,13 +75,6 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     }
     public void Initialize()//Inventory에서 Start타이밍에 호출
     {
-        itemDescription.Close();
-        TempSlot.InitializeSlot(TempSlot);
-        TempSlot.onTempSlotOpenClose += OnDetailPause; // TempSlot이 Open할때 true로 호출하고 Close할때 false로 호출
-        spliter.onCancel += () => itemDescription.IsPause = false;   // 캔슬버턴 누르면 상세정보창 일시정지 해제
-        spliter.Close();
-        spliter.onOkClick += OnSpliterOk;
-
         beforeSlotRectTransform = GameManager.Enhancer.EnhancerUI.BeforeSlot.GetComponent<RectTransform>();
         enhancerUIRectTransform = GameManager.Enhancer.EnhancerUI.AfterSlot.GetComponent<RectTransform>();
    
@@ -76,6 +82,30 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         mixer_Middle_Slot_Transform = GameManager.Mixer.MixerUI.Middle_Slot.GetComponent<RectTransform>();
         mixerUI_Transform = GameManager.Mixer.GetComponent<RectTransform>();
         mixer_UI = GameManager.Mixer.MixerUI;
+        quickSlotBox = GameManager.QuickSlot_Box;
+
+        foreach (QuickSlot quickSlot in quickSlotBox.quickSlots)
+        {
+            quickSlot.connect_To_Binding_Slot += Connect_To_Slot;
+            quickSlot.disconnect_To_Binding_Slot += Disconnect_to_Slot;
+        }
+
+        inven = GameManager.Inventory;
+        equip_Below = inven.transform.GetChild(0).GetChild(0).GetChild(0);
+        consume_Below = inven.transform.GetChild(1).GetChild(0).GetChild(0);
+        etc_Below = inven.transform.GetChild(2).GetChild(0).GetChild(0);
+        craft_Below = inven.transform.GetChild(3).GetChild(0).GetChild(0);
+        inventoryRectTransform = inven.GetComponent<RectTransform>();
+
+        itemDescription.Close();
+        TempSlot.InitializeSlot(TempSlot);
+        TempSlot.onTempSlotOpenClose += OnDetailPause; // TempSlot이 Open할때 true로 호출하고 Close할때 false로 호출
+        spliter.onCancel += () => itemDescription.IsPause = false;   // 캔슬버턴 누르면 상세정보창 일시정지 해제
+        spliter.Close();
+        spliter.onOkClick += OnSpliterOk;
+
+        
+
 
         mixer_UI.onEndSession_Success += Add_Reward_Item;
 
@@ -92,6 +122,19 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             { Current_Inventory_State.Consume, 0},
             { Current_Inventory_State.Etc, 0},
             { Current_Inventory_State.Craft, 0}
+        };
+
+        linkedSlots = new Dictionary<QuickSlot, List<Slot>>
+        {
+            {quickSlotBox[QuickSlotList.Shift], new List<Slot>() },
+            {quickSlotBox[QuickSlotList._8], new List<Slot>() },
+            {quickSlotBox[QuickSlotList._9], new List<Slot>() },
+            {quickSlotBox[QuickSlotList._0], new List<Slot>() },
+            {quickSlotBox[QuickSlotList.Ctrl], new List<Slot>() },
+            {quickSlotBox[QuickSlotList.Alt], new List<Slot>() },
+            {quickSlotBox[QuickSlotList.Space], new List<Slot>() },
+            {quickSlotBox[QuickSlotList.Insert], new List<Slot>() },
+
         };
         GameManager.Inventory.State = Current_Inventory_State.Equip;
         for (int i = 0; i < 4; i++)
@@ -162,16 +205,18 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     }
     private void OnSlotClick(ItemData data, uint index)
     {
-        if (TempSlot.IsEmpty)
+        ItemData_Potion potion = data as ItemData_Potion;
+        if (isShiftPress)
         {
-            if (isShiftPress)
+            if (tempSlot.IsEmpty)
             {
-                OnSpliterOpen(index);   // 임시 슬롯에 아이템이 없는데 쉬프트가 눌러진체로 슬롯을 클릭했을 때 아이템 분리창을 열어라
+                OnSpliterOpen(index);
             }
-            //else
-            //{
-            //    // 아이템 사용, 장비 등등
-            //}
+        }
+        else if (potion != null)
+        {
+            potion.Consume(GameManager.playerDummy);
+            RemoveItem(data, index);
         }
         else
         {
@@ -240,16 +285,6 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             return;
         if (!tempSlot.IsEmpty)
         {
-            //레이를 쏘기 전에 레이의 좌표를 스크린좌표로 바꿔줘야함 그러나 굳이 위치를 비교하는 것 보다 레이를 쏴서 비교할 이유는 없다.
-            //Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-            //if (Physics.Raycast(ray, out RaycastHit ground, 1000.0f, LayerMask.GetMask("BeforeSlot")))
-            //{
-            //    Debug.Log("BeforeSlot감지");
-            //}
-            //else if ((Physics.Raycast(ray, out RaycastHit beforeSlot, 1000.0f, LayerMask.GetMask("Ground"))))
-            //{
-            //    Debug.Log("Ground");
-            //}
             Vector2 screenPos = Mouse.current.position.ReadValue();
             Vector2 distance_Between_Mouse_Inven = screenPos - (Vector2)inventoryRectTransform.position;//inventoryRectTransform.position의 피봇을 기준으로 떨어진거리 계산
             Vector2 distance_Between_Mouse_BeforeSlot = screenPos - (Vector2)beforeSlotRectTransform.position;
@@ -257,6 +292,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             Vector2 distance_Between_Mouse_Left_Slot = screenPos - (Vector2)mixer_Left_slot_Transform.position;
             Vector2 distance_Between_Mouse_Middle_Slot = screenPos - (Vector2)mixer_Middle_Slot_Transform.position;
             Vector2 distance_Between_Mouse_MixerUI = screenPos - (Vector2)mixerUI_Transform.position;
+            Vector2 distance_Between_Mouse_QuickSlot_Box = screenPos - (Vector2)GameManager.QuickSlot_Box.QuickSlotBox_RectTransform.position;
 
             if (beforeSlotRectTransform.rect.Contains(distance_Between_Mouse_BeforeSlot) && GameManager.Enhancer.EnhancerUI.IsOpen)//강화 슬롯의 위치이면서 강화ㅑ 가능한 아이템 일 때
             {
@@ -264,10 +300,34 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                 if (enhancable != null)
                 {
                     GameManager.Enhancer.ItemData = enhancable;
-                   // IndexForEnhancer =  애초에 장비탭의 Slot 이 TempSlot으로 옮겨갈때 인덱스 저장이 필요함
                 }
             }
-            else if (mixer_Left_slot_Transform.rect.Contains(distance_Between_Mouse_Left_Slot) && mixer_UI.IsOpen)
+            else if (GameManager.QuickSlot_Box.QuickSlotBox_RectTransform.rect.Contains(distance_Between_Mouse_QuickSlot_Box))
+            {
+                //스킬이나 포션만 등록
+                ItemData_Potion potion = TempSlot.ItemData as ItemData_Potion;
+                if (potion != null)
+                {
+                    slots[Current_Inventory_State.Consume][Index_JustChange_Slot].ItemData = potion;//이것을 생략하면 드래그한 슬롯의 ItemData가 null 이 되서 리스트에 추가되지 않는 문제가 있다.
+                    uint newCount = GetTotalAmount(tempSlot.ItemData, out List<Slot> sameItemSlots);//out으로 같은 아이템을가진 슬롯의 List 받기
+
+                    if (GameManager.QuickSlot_Box.Set_ItemDataTo_QuickSlot(potion, newCount + TempSlot.ItemCount, out QuickSlot targetSlot))
+                    {
+                        int i = 0;
+                        while (i < sameItemSlots.Count)
+                        {
+                            linkedSlots[targetSlot].Add(sameItemSlots[i]);
+                            i++;
+                        }
+                        foreach (Slot slot in sameItemSlots)
+                        {
+                            slot.onItemCountChange += Throw_NewCount_To_QuickSlot;
+                            slot.BindingSlot = targetSlot;
+                        }
+                    }
+                }
+            }
+            else if (mixer_Left_slot_Transform.rect.Contains(distance_Between_Mouse_Left_Slot) && mixer_UI.IsOpen)//조합창의 왼쪽슬롯
             {
                 GameManager.Mixer.LeftSlotData = TempSlot.ItemData;
                 RemoveItem(TempSlot.ItemData, Index_JustChange_Slot);
@@ -291,8 +351,82 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                 TempSlot.OnDrop(screenPos);
             }
         }
-  
     }
+    void Connect_To_Slot(ItemData_Potion itemData, QuickSlot quickSlot)
+    {
+        List<Slot> slotArr = Get_Binding_Slots(itemData);//연결할 때는 quickSlot이 아니라 ItemData로 찾아야함
+        if (slotArr == null) return;
+        foreach(Slot slot in slotArr)
+        {
+            slot.BindingSlot = quickSlot;// 타겟을 바꿔줘야 한다.
+            slot.onItemCountChange = null;// 처음 연결할 때 이미 추가되어있는 상황에 대비해서 중복 추가 방지용
+            slot.onItemCountChange += Throw_NewCount_To_QuickSlot;
+        }
+    }
+    void Disconnect_to_Slot(QuickSlot quickSlot)
+    {
+        List<Slot> slotArr = Get_Binding_Slots(quickSlot);
+        foreach(Slot slot in slotArr)
+        {
+            slot.onItemCountChange = null;
+        }
+    }
+    List<Slot> Get_Binding_Slots(QuickSlot quickSlot)
+    {
+        List<Slot> slotArr = null;
+        slotArr = linkedSlots[quickSlot];
+        return slotArr;
+    }
+    List<Slot> Get_Binding_Slots(ItemData_Potion itemData)
+    {
+        List<Slot> slotArr = null;
+        foreach(List<Slot> slots in linkedSlots.Values)
+        {
+            foreach (Slot slot in slots)
+            {
+                if (slot.ItemData == itemData)
+                {
+                    return slotArr = slots;
+                }
+            }
+        }
+        return slotArr;
+    }
+    QuickSlot Get_Binding_QuickSlot(Slot slot)
+    {
+        return null;
+    }
+    void Throw_NewCount_To_QuickSlot(QuickSlot targetSlot)
+    {
+        List<Slot> slots = linkedSlots[targetSlot];
+        uint newCount = Get_Total_ItemCount(slots);
+        targetSlot.ItemCount = newCount;//참조를 받아왔기 때문에 바로 수정 가능
+    }
+    uint Get_Total_ItemCount(List<Slot> slots)//같은 아이템 갯수의 합을 리턴하는 함수 퀵슬롯에 할당 후 델리게이트가 연결된 상태에서 수량이 변경될 때마다 실행
+    {
+        uint newCount = 0;
+        foreach(Slot slot in slots)
+        {
+            newCount += slot.ItemCount;
+        }
+        return newCount;
+    }
+    private uint GetTotalAmount(ItemData itemData, out List<Slot> sameItemSlots)//같은 아이템을 가진 슬롯List와 Total카운트를 구해주는 함수//처음 퀵슬롯에 할당할때 호출
+    {
+        uint newCount = 0;
+        List<Slot> consumeTab = slots[Current_Inventory_State.Consume];
+        sameItemSlots = new List<Slot>();
+        foreach (Slot slot in consumeTab)
+        {
+            if (slot.ItemData == itemData)
+            {
+                newCount += slot.ItemCount;
+                sameItemSlots.Add(slot);
+            }
+        }
+        return newCount;
+    }
+
     private Transform GetParentTransform()
     {
         Transform parentTransform;
@@ -317,7 +451,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         return parentTransform;
     }
 
-    void Add_Reward_Item(ItemData item)
+    void Add_Reward_Item(ItemData item)//조합성공시 아이템 추가
     {
         AddItem(item.code);
     }
@@ -435,11 +569,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         }
     }
 
-    /// <summary>
-    /// 인벤토리 특정 슬롯에서 아이템을 일정량 덜어내어 임시 슬롯으로 보내는 함수
-    /// </summary>
-    /// <param name="slotIndex">아이템을 덜어낼 슬롯</param>
-    /// <param name="count">덜어낼 개수</param>
+
     public void SplitItem(uint slotIndex, uint count) // 스플릿할때는 굳이 
     {
         if (IsValidIndex(slotIndex))

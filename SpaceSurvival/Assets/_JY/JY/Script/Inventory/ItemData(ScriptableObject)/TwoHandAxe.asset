@@ -16,7 +16,7 @@ MonoBehaviour:
   code: 22
   itemName: TwoHandAxe
   modelPrefab: {fileID: 6996946570097063785, guid: d939efd865307cd4f98fc9adf91261fe, type: 3}
-  itemIcon: {fileID: 2110030719, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
+  itemIcon: {fileID: 1063982460, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
   price: 0
   maxStackCount: 1
   itemDescription: "\uB450\uC190\uB3C4\uB07C"

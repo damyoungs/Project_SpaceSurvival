@@ -16,11 +16,11 @@ public enum Current_Inventory_State
 
 public class Inventory : MonoBehaviour
 {
-    public GameObject Equip_Inven;
-    public GameObject Consume_Inven;
-    public GameObject Etc_Inven;
-    public GameObject Craft_Inven;
-    public Item_Enhancer ItemEnhancer;
+    GameObject Equip_Inven;
+    GameObject Consume_Inven;
+    GameObject Etc_Inven;
+    GameObject Craft_Inven;
+    Item_Enhancer ItemEnhancer;
     Item_Mixer mixer;
 
     GameObject ItemDescription;
@@ -41,7 +41,7 @@ public class Inventory : MonoBehaviour
     Image etcButtonColor;
     Image craftButtonColor;
 
-    bool is_Inventory_Open = false;
+    CanvasGroup canvasGroup;
 
     public delegate void Inventory_State_Changed(Current_Inventory_State state); //state가 바뀌면 setter가 호출할 delegate
     Inventory_State_Changed inventory_changed;
@@ -62,17 +62,17 @@ public class Inventory : MonoBehaviour
 
     private void Awake()
     {
-        toolBar = transform.GetChild(0);
+        toolBar = transform.GetChild(4);
         close_Button = toolBar.GetChild(0).GetComponent<Button>();
         add_Button = toolBar.GetChild(1).GetComponent<Button>();
-        sort_Button = transform.GetChild(0).GetChild(2).GetComponent<Button>();
+        sort_Button = toolBar.GetChild(2).GetComponent<Button>();
         enhance_Button = toolBar.GetChild(3).GetComponent<Button>();
-        mixer_Button = transform.GetChild(0).GetChild(4).GetComponent<Button>();
+        mixer_Button = toolBar.GetChild(4).GetComponent<Button>();
 
-        equip_Button = transform.GetChild(1).GetComponent<Button>();
-        consume_Button = transform.GetChild(2).GetComponent<Button>();
-        etc_Button = transform.GetChild(3).GetComponent<Button>();
-        craft_Button = transform.GetChild(4).GetComponent<Button>();
+        equip_Button = transform.GetChild(5).GetComponent<Button>();
+        consume_Button = transform.GetChild(6).GetComponent<Button>();
+        etc_Button = transform.GetChild(7).GetComponent<Button>();
+        craft_Button = transform.GetChild(8).GetComponent<Button>();
 
 
         equipButtonColor = equip_Button.GetComponent<Image>();
@@ -82,9 +82,7 @@ public class Inventory : MonoBehaviour
 
         sort_Button.onClick.AddListener(SlotSorting);
         close_Button.onClick.AddListener(Open_Inventory);
-        add_Button.onClick.AddListener(GameManager.SlotManager.Make_Slot);
         mixer_Button.onClick.AddListener(Open_Mixer);
-
 
         equip_Button.onClick.AddListener(SwitchTab_To_Equip);
         consume_Button.onClick.AddListener(SwitchTab_To_Consume);
@@ -93,6 +91,8 @@ public class Inventory : MonoBehaviour
 
         ItemDescription = transform.GetChild(9).gameObject;
         ItemDescription.SetActive(true);
+
+        canvasGroup = GetComponent<CanvasGroup>();
     }
     void SlotSorting() //addListener 로 매개변수필요한 함수 바로 등록이 안되서 우회접근
     {
@@ -110,9 +110,19 @@ public class Inventory : MonoBehaviour
     }
     private void Start()
     {
-        GameManager.SlotManager.Initialize();
-        enhance_Button.onClick.AddListener(Open_Enhancer);//enable, Awake에서는 안됨
+        Equip_Inven = transform.GetChild(0).gameObject;
+        Consume_Inven = transform.GetChild(1).gameObject;
+        Etc_Inven = transform.GetChild(2).gameObject;
+        Craft_Inven = transform.GetChild(3).gameObject;
+        ItemEnhancer = GameManager.Enhancer;
         mixer = GameManager.Mixer;
+        PlayerDummy player = GameManager.playerDummy;
+
+
+        add_Button.onClick.AddListener(GameManager.SlotManager.Make_Slot);
+        enhance_Button.onClick.AddListener(Open_Enhancer);//enable, Awake에서는 안됨
+        player.onOpenInven += Open_Inventory;
+        GameManager.SlotManager.Initialize();
     }
     void Open_Enhancer()
     {
@@ -171,15 +181,17 @@ public class Inventory : MonoBehaviour
     public void SwitchTab_To_Craft() { State = Current_Inventory_State.Craft;}
     public void Open_Inventory()
     {
-        if (!is_Inventory_Open)
+        if (canvasGroup.alpha < 1.0f)
         {
-            this.gameObject.SetActive(true);
-            is_Inventory_Open = true;
+            canvasGroup.alpha = 1.0f;
+            canvasGroup.interactable = true;
+            canvasGroup.blocksRaycasts = true;
         }
         else
         {
-            this.gameObject.SetActive(false);
-            is_Inventory_Open = false;
+            canvasGroup.alpha = 0.0f;
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
         }
     }
     public void RefreshOrder()
