@@ -309,9 +309,9 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                 if (potion != null)
                 {
                     slots[Current_Inventory_State.Consume][Index_JustChange_Slot].ItemData = potion;//이것을 생략하면 드래그한 슬롯의 ItemData가 null 이 되서 리스트에 추가되지 않는 문제가 있다.
-                    uint newCount = GetTotalAmount(tempSlot.ItemData, out List<Slot> sameItemSlots);//out으로 같은 아이템을가진 슬롯의 List 받기
+                    uint newCount = GetTotalAmount(tempSlot.ItemData, out List<Slot> sameItemSlots) + tempSlot.ItemCount;//out으로 같은 아이템을가진 슬롯의 List 받기
 
-                    if (GameManager.QuickSlot_Box.Set_ItemDataTo_QuickSlot(potion, newCount + TempSlot.ItemCount, out QuickSlot targetSlot))
+                    if (GameManager.QuickSlot_Box.Set_ItemDataTo_QuickSlot(potion, newCount, out QuickSlot targetSlot))
                     {
                         int i = 0;
                         while (i < sameItemSlots.Count)
@@ -321,6 +321,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                         }
                         foreach (Slot slot in sameItemSlots)
                         {
+                            slot.onItemCountChange = null;
                             slot.onItemCountChange += Throw_NewCount_To_QuickSlot;
                             slot.BindingSlot = targetSlot;
                         }
@@ -356,11 +357,14 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     {
         List<Slot> slotArr = Get_Binding_Slots(itemData);//연결할 때는 quickSlot이 아니라 ItemData로 찾아야함
         if (slotArr == null) return;
+
+       
         foreach(Slot slot in slotArr)
         {
             slot.BindingSlot = quickSlot;// 타겟을 바꿔줘야 한다.
             slot.onItemCountChange = null;// 처음 연결할 때 이미 추가되어있는 상황에 대비해서 중복 추가 방지용
             slot.onItemCountChange += Throw_NewCount_To_QuickSlot;
+            linkedSlots[quickSlot].Add(slot); // 딕셔너리 추가
         }
     }
     void Disconnect_to_Slot(QuickSlot quickSlot)
@@ -370,6 +374,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         {
             slot.onItemCountChange = null;
         }
+        linkedSlots[quickSlot].Clear(); // 클리어 해주지 않으면 여전히 남아있음
     }
     List<Slot> Get_Binding_Slots(QuickSlot quickSlot)
     {
@@ -379,16 +384,15 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     }
     List<Slot> Get_Binding_Slots(ItemData_Potion itemData)
     {
-        List<Slot> slotArr = null;
-        foreach(List<Slot> slots in linkedSlots.Values)
+        List<Slot> slotArr = new List<Slot>();
+        //이 시점에선 linkedSlots이 이미 Clear된 상태라서 Inventory의 아이템을 비교해서 찾아야한다.
+        foreach (Slot slot in slots[Current_Inventory_State.Consume])
         {
-            foreach (Slot slot in slots)
+            if (slot.ItemData == itemData)
             {
-                if (slot.ItemData == itemData)
-                {
-                    return slotArr = slots;
-                }
+                slotArr.Add(slot);
             }
+            
         }
         return slotArr;
     }
