@@ -120,9 +120,9 @@ public class PopupWindowBase : MonoBehaviour,
             closeBtn.onClick.AddListener(OnCloseButtonClick); // 닫기이벤트 연결  - 버튼 오브젝트에 이러면 스크립트 추가안해도된다.
             SetContentWindowSize();//컨텐츠창 위치랑 크기 조절 , 컴파일단계에서 이미 값들이 다 설정된것만 사용하기때문에 문제없음.
 
-        }catch (Exception _) 
+        }catch (Exception ex) 
         {
-            Debug.LogWarning($"{this.name} 팝업창은 크기조절이 안됩니다.");
+            Debug.LogWarning($"{this.name} 팝업창은 크기조절이 안됩니다.{ex.Message}");
         }
     }
 

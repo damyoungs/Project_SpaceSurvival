@@ -31,7 +31,7 @@ public class MapTileBase : MonoBehaviour, ITileBase
 
     public Action OnInitData { get; set; }
     public Action OnResetData { get; set; }
-    public Action<Vector3> OnClick { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public Action<int> OnClick { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
     /// <summary>
     /// ≈∏¿œ «¡∏Æ∆’ 
@@ -69,7 +69,7 @@ public class MapTileBase : MonoBehaviour, ITileBase
 
     }
 
-    void ITileBase.OnInitData(Vector3Int grid3DPos, CurrentTileState tileState)
+    void ITileBase.OnInitData(int index, Vector3Int grid3DPos, CurrentTileState tileState)
     {
         throw new NotImplementedException();
     }

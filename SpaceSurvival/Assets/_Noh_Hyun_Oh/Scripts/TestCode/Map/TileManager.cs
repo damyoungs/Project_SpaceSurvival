@@ -103,7 +103,11 @@ public class TileManager : MonoBehaviour
     /// </summary>
     int[] obstaclesIndexArray;
     public int[] ObstacleIndexArray => obstaclesIndexArray;
-    
+
+    private void Awake()
+    {
+        AstarProccess.onTileCreate += AddTileGroup; //타일생성 로직 연결
+    }
     /// <summary>
     /// 
     /// </summary>
@@ -250,28 +254,43 @@ public class TileManager : MonoBehaviour
                             //int groupCellIndex = (gridGroupIndex * groupCellSize) + tempGroupCellIndexCount; //셀의인덱스 
                             groupCellIndex = (horizontalGroupLength * cellY) + cellX; //셀의인덱스 
 
-                            mapTiles[groupCellIndex] = (Base_TileCell)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.TILE_POOL);
+                            mapTiles[groupCellIndex] = (ITileBase)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.TILE_POOL);
                             //mapTiles[groupCellIndex] =  Instantiate(tilePrefab); //팩토리 연결 필요 
 
                             mapTiles[groupCellIndex].OnInitData(
+                                    groupCellIndex,
                                     new Vector3Int(  cellX,  
                                                      cellY, 
                                                     tempGroupCellIndexZ), //위치값 셋팅 
                                     CurrentTileState.None       //기본값 이동가능하게 셋팅
                                     ); //위치값 및 상태 초기화 
-                            mapTiles[groupCellIndex].OnClick += (pos) => { Debug.Log(pos); };
+                            mapTiles[groupCellIndex].OnClick += TileOnClick;
                         }
                     }
 
                 }
                 gridGroupIndex++; //그룹 인덱스값
 
-
             }
         }
     }
 
-    
+    public void AddTileGroup(Astar_Node addNode) 
+    {
+        int groupCellIndex = (horizontalGroupLength * addNode.Y) + addNode.X; //셀의인덱스 
+
+        mapTiles[groupCellIndex] = (ITileBase)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.TILE_POOL);
+        //mapTiles[groupCellIndex] =  Instantiate(tilePrefab); //팩토리 연결 필요 
+
+        mapTiles[groupCellIndex].OnInitData(
+                groupCellIndex,
+                new Vector3Int(addNode.X,
+                                 addNode.Y,
+                                1), //위치값 셋팅 
+                CurrentTileState.None       //기본값 이동가능하게 셋팅
+                ); //위치값 및 상태 초기화 
+        mapTiles[groupCellIndex].OnClick += TileOnClick;
+    }
 
     /// <summary>
     /// 배열을 섞는 함수 
@@ -292,5 +311,14 @@ public class TileManager : MonoBehaviour
         }
     }
 
+    private void TileOnClick(int index) 
+    {
+        
+    }
 
+    public void TileLineCheck(int startIndex , int endindex) 
+    {
+        
+        
+    }
 }

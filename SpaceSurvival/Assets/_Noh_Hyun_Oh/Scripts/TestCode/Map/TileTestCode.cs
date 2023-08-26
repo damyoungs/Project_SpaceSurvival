@@ -7,9 +7,7 @@ public class TileTestCode : TestBase
 {
     [SerializeField]
     TileManager tileManager;
-
-    [SerializeField]
-    AstarProccess astar;
+   
     [SerializeField]
     int startIndex = 0;
     [SerializeField]
@@ -25,8 +23,8 @@ public class TileTestCode : TestBase
     protected override void Awake()
     {
         base.Awake();
-        astar = new AstarProccess();
         pathLine = GetComponent<PathLine>();
+        
     }
     protected override void Test1(InputAction.CallbackContext context)
     {
@@ -37,6 +35,7 @@ public class TileTestCode : TestBase
         }
 
         tileManager.GenerateTileMap();
+        
     }
     protected override void Test2(InputAction.CallbackContext context)
     {
@@ -45,10 +44,10 @@ public class TileTestCode : TestBase
             if (tile == null) continue;
             tile.CurruntTileState = CurrentTileState.None;
         }
-
-        Astar_Node tempNode = astar.GetNode(startIndex);
-        if (tempNode == null) return;
-        List<Astar_Node> tempList = astar.SetMoveSize(tempNode, moveSize);
+        Astar_Node nodeTemp = AstarProccess.GetNode(startIndex);
+        if (nodeTemp == null) return;
+        List<Astar_Node> tempList = AstarProccess.SetMoveSize(nodeTemp, moveSize);
+        if (tempList == null) return;
         List<Vector3Int> lineTemp = new List<Vector3Int>();
         foreach (Astar_Node node in tempList)
         {
@@ -62,21 +61,21 @@ public class TileTestCode : TestBase
     }
     protected override void Test3(InputAction.CallbackContext context)
     {
-        astar.InitData(tileManager.HorizontalGroupLength, tileManager.VerticalGroupLength, tileManager.ObstacleIndexArray);
+         AstarProccess.InitData(tileManager.HorizontalGroupLength, tileManager.VerticalGroupLength, tileManager.ObstacleIndexArray);
     }
     protected override void Test4(InputAction.CallbackContext context)
     {
-        temp_node = astar.GetShortPath(startIndex, endIndex);
+        temp_node = AstarProccess.GetShortPath(startIndex, endIndex);
         Debug.Log(temp_node);
     }
     protected override void Test5(InputAction.CallbackContext context)
     {
-        List<Vector3Int> tempList = astar.GetPath(temp_node);
+        List<Vector3Int> tempList = AstarProccess.GetPath(temp_node);
 
-        for(int i = 0; i< tempList.Count; i++)
+        for (int i = 0; i < tempList.Count; i++)
         {
             Vector3Int temp = tempList[i];
-            temp.z += 2;
+            temp.z += 1;
             tempList[i] = temp;
         }
         if (tempList.Count > 0) pathLine.DrawPath(tempList);
@@ -84,6 +83,9 @@ public class TileTestCode : TestBase
 
     protected override void Test6(InputAction.CallbackContext context)
     {
-        astar.TestGLog();
+        temp_node = AstarProccess.FindLineCheck(
+   
+                            startIndex, 
+                            endIndex);
     }
 }

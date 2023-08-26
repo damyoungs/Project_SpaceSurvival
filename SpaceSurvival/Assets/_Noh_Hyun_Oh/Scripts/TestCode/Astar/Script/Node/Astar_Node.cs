@@ -9,6 +9,18 @@ using UnityEngine;
 /// </summary>
 public class Astar_Node : IComparable<Astar_Node>
 {
+    /// <summary>
+    /// 주변노드가 갈수있는지역있지 아닌지 체크
+    /// </summary>
+    private AstarProccess.Four_Way_Access_Area_Check fourWayCheck = AstarProccess.Four_Way_Access_Area_Check.NONE;
+    public AstarProccess.Four_Way_Access_Area_Check FourWayCheck
+    {
+        get => fourWayCheck;
+        set 
+        {
+            fourWayCheck = value;
+        }
+    }
     private int nodeIndex = -1;
     public int NodeIndex => nodeIndex;
     /// <summary>
@@ -20,10 +32,7 @@ public class Astar_Node : IComparable<Astar_Node>
         get => state;
         set 
         {
-            if (state == AstarProccess.NodeState.None) // 셋팅이 안되있을때만  
-            {
-                state = value; //셋팅 된다.
-            }
+            state = value; //셋팅 된다.
         }
     }
     /// <summary>
@@ -43,19 +52,19 @@ public class Astar_Node : IComparable<Astar_Node>
     /// 해당노드가 포함하고있는 세로 사이즈값 (시작좌표와 끝의좌표간의 사이값).
     /// 타일간의 간격을 이값으로 설정한다.
     /// </summary>
-    float nodeHorizontalSize = 1.0f;
+    //float nodeHorizontalSize = 1.0f;
 
     /// <summary>
     /// 해당노드가 포함하고있는 가로 사이즈값 (시작좌표와 끝의좌표간의 사이값).
     /// 타일간의 간격을 이값으로 설정한다.
     /// </summary>
-    float nodeVerticalSize = 1.0f;
+    //float nodeVerticalSize = 1.0f;
 
     /// <summary>
     /// 해당노드가 포함하고있는 높이 사이즈값 (시작좌표와 끝의좌표간의 사이값).
     /// 타일간의 간격을 이값으로 설정한다.
     /// </summary>
-    float nodeDepthSize = 1.0f;
+    //float nodeDepthSize = 1.0f;
 
 
     /// <summary>
@@ -70,13 +79,13 @@ public class Astar_Node : IComparable<Astar_Node>
 
 
 
-    public float G;
+    public float G = float.MaxValue;
     /// <summary>
     /// 출발 지점에서 현재지점까지 온거리
     /// </summary>
 
 
-    public float H;
+    public float H  = float.MaxValue;
 
     /// <summary>
     /// 현재지점에서 도착지점까지 남은 거리(추정)
@@ -134,7 +143,19 @@ public class Astar_Node : IComparable<Astar_Node>
         PrevNode = null;
     }
 
-   
+    /// <summary>
+    /// 모든데이터 리셋 함수
+    /// </summary>
+    public void ResetValue() 
+    {
+        AstarDataReset();
+        nodeIndex = -1;
+        x = int.MinValue;
+        y = int.MinValue;
+        z = int.MinValue;
+        state = AstarProccess.NodeState.Nomal;
+    }
+
     /// <summary>
     /// 이동범위 체크하기전용 리셋함수 
     /// </summary>
@@ -144,6 +165,13 @@ public class Astar_Node : IComparable<Astar_Node>
         G = float.MaxValue;
     }
 
+    /// <summary>
+    /// 타일의 상태(이동가능여부)를 초기화 하는 함수 
+    /// </summary>
+    public void ReverseState() 
+    {
+        state = AstarProccess.NodeState.Nomal;
+    }
 
     /// <summary>
     /// 같은 타입 간의 크기 비교를 하는 함수
