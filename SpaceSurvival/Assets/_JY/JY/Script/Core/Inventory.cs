@@ -117,6 +117,7 @@ public class Inventory : PopupWindowBase, IPopupSortWindow ,IPointerDownHandler
     {
         GameManager.SlotManager.Initialize();
         mixer = GameManager.Mixer;
+        gameObject.SetActive(false);
     }
     void Open_Enhancer()
     {
