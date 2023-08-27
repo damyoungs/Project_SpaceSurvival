@@ -35,7 +35,7 @@ public class TempSlot : Slot, IPointerUpHandler,IPointerClickHandler,IPointerDow
     private void Start()
     {
         Close();
-        Refresh();
+        Refresh(ItemData);
         Index = 9898989;
     }
 
