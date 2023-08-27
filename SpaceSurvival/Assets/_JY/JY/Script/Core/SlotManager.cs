@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -124,18 +125,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             { Current_Inventory_State.Craft, 0}
         };
 
-        //linkedSlots = new Dictionary<QuickSlot, List<Slot>>
-        //{
-        //    {quickSlot_Manager[QuickSlotList.Shift], new List<Slot>() },
-        //    {quickSlot_Manager[QuickSlotList._8], new List<Slot>() },
-        //    {quickSlot_Manager[QuickSlotList._9], new List<Slot>() },
-        //    {quickSlot_Manager[QuickSlotList._0], new List<Slot>() },
-        //    {quickSlot_Manager[QuickSlotList.Ctrl], new List<Slot>() },
-        //    {quickSlot_Manager[QuickSlotList.Alt], new List<Slot>() },
-        //    {quickSlot_Manager[QuickSlotList.Space], new List<Slot>() },
-        //    {quickSlot_Manager[QuickSlotList.Insert], new List<Slot>() },
-
-        //};
+        
         GameManager.Inventory.State = Current_Inventory_State.Equip;
         for (int i = 0; i < 4; i++)
         {
@@ -172,8 +162,12 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             newSlot.transform.SetParent(parentTransform.transform, true);
             slots[GameManager.Inventory.State].Add(slotComp);
 
-        
+            
             slotComp.InitializeSlot(slotComp);
+            if (GameManager.Inventory.State == Current_Inventory_State.Consume)
+            {
+                slotComp.onItemDataChange += BindingCheck;
+            }
             slotComp.onDragBegin += OnItemMoveBegin;
             slotComp.onDragEnd += OnItemMoveEnd;
             slotComp.onClick += OnSlotClick;
@@ -183,6 +177,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             slotComp.Index = (uint)slots[GameManager.Inventory.State].Count - 1;  
         }
     }
+ 
     private void OnItemMoveBegin(ItemData data, uint index)
     {
         Index_JustChange_Slot = (byte)index;
@@ -309,8 +304,6 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                 slots[Current_Inventory_State.Consume][Index_JustChange_Slot].ItemData = potion;//생략시 slot의 ItemData가 null 이라 델리게이트 추가가 안됨
                 if (potion != null)
                 {
-                    //uint newCount = GetTotalAmount(tempSlot.ItemData, out List<Slot> sameItemSlots) + tempSlot.ItemCount;//out으로 같은 아이템을가진 슬롯의 List 받기
-
                     if (quickSlot_Manager.Find_Slot(out QuickSlot targetSlot))
                     {
                         quickSlot_Manager.Set_ItemDataTo_QuickSlot(potion);
@@ -345,8 +338,19 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         }
     }
 
-
-    void Binding_Slots(ItemData_Potion itemData, QuickSlot targetSlot)
+    void BindingCheck(ItemData itemData)
+    {
+        List<QuickSlot> quickSlots = quickSlot_Manager.quickSlots.ToList();
+        foreach (QuickSlot slot in quickSlots)
+        {
+            if (slot.ItemData == itemData)
+            {
+                Binding_Slots(itemData as ItemData_Potion, slot);
+                return;
+            }
+        }
+    }
+    void Binding_Slots(ItemData_Potion itemData, QuickSlot targetSlot)//퀵슬롯에 ItemData가 셋팅 됐을떄 호출
     {
         //이 시점에선 linkedSlots이 이미 Clear된 상태라서 Inventory의 아이템을 비교해서 찾아야한다.
         foreach (Slot slot in slots[Current_Inventory_State.Consume])//소비창 순회
@@ -366,7 +370,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         uint newCount = GetTotalAmount(itemData);
         targetSlot.ItemCount = newCount;//참조를 받아왔기 때문에 바로 수정 가능
     }
-    private uint GetTotalAmount(ItemData itemData)//같은 아이템을 가진 슬롯List와 Total카운트를 구해주는 함수//처음 퀵슬롯에 할당할때 호출
+    private uint GetTotalAmount(ItemData itemData)//같은 아이템을가진 슬롯들의 카운트를 모두 더해 리턴하는 함수
     {
         uint newCount = 0;
         List<Slot> consumeTab = slots[Current_Inventory_State.Consume];
@@ -379,15 +383,6 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         }
         return newCount;
     }
-    //uint Get_Total_ItemCount(List<Slot> slots)//같은 아이템 갯수의 합을 리턴하는 함수 퀵슬롯에 할당 후 델리게이트가 연결된 상태에서 수량이 변경될 때마다 실행
-    //{
-    //    uint newCount = 0;
-    //    foreach(Slot slot in slots)
-    //    {
-    //        newCount += slot.ItemCount;
-    //    }
-    //    return newCount;
-    //}
 
     private Transform GetParentTransform()
     {
