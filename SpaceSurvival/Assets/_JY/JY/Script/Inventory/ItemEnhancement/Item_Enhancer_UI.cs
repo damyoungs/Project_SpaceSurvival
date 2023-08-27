@@ -52,6 +52,9 @@ public class Item_Enhancer_UI : MonoBehaviour
 
     private void Awake()
     {
+        WarningBox warningBox = FindObjectOfType<WarningBox>();
+        warningBox.onWarningBoxClose += OpenInteractable;
+
         itemEnhancer = GetComponent<Item_Enhancer>();
         canvasGroup = GetComponent<CanvasGroup>();
         beforeSlot = GetComponentInChildren<Enhancer_Slot_Before>();
@@ -100,8 +103,6 @@ public class Item_Enhancer_UI : MonoBehaviour
 
         Close();
 
-        WarningBox warningBox = FindObjectOfType<WarningBox>();
-        warningBox.onWarningBoxClose += OpenInteractable;
     }
     public void Open()
     {
