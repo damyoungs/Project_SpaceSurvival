@@ -23,13 +23,13 @@ public enum QuickSlot_State
     Set,
     Moving
 }
-public class QuickSlots : MonoBehaviour
+public class QuickSlot_Manager : MonoBehaviour
 {
     Button popupButton;
     TextMeshProUGUI buttonText;
     InputKeyMouse inputAction;
-    string open = "▲▲";
-    string close = "▼▼";
+    string open = "▲";
+    string close = "▼";
 
 
     RectTransform rectTransform;
@@ -40,41 +40,24 @@ public class QuickSlots : MonoBehaviour
     public float popUpSpeed = 7.0f;
     bool isOpen = false;
 
-    public Action<ItemData_Potion, uint> onSetData;
     ItemData_Potion itemData;
     public ItemData_Potion ItemData
     {
         get => itemData;
         set
         {
-            if (itemData != value)
-            {
-                itemData = value;
-            }
+            itemData = value;
         }
     }
-
-    //QuickSlot_State state = QuickSlot_State.None;
-    //public QuickSlot_State State
-    //{
-    //    get => state;
-    //    set
-    //    {
-    //        if (state != value)
-    //        {
-    //            state = value;
-    //            switch (state)
-    //            {
-    //                case QuickSlot_State.Set:
-    //                    break;
-    //                case QuickSlot_State.Moving:
-    //                    break;
-    //                default:
-    //                    break;
-    //            }
-    //        }
-    //    }
-    //}
+    uint itemCount;
+    public uint ItemCount
+    {
+        get => itemCount;
+        set
+        {
+            itemCount = value;
+        }
+    }
     public QuickSlot this[QuickSlotList number] => quickSlots[(int) number];
     private void Awake()
     {
@@ -110,36 +93,31 @@ public class QuickSlots : MonoBehaviour
     private void Insert_performed(InputAction.CallbackContext context)
     {
     }
-    public bool Set_ItemDataTo_QuickSlot(ItemData_Potion data, uint itemcount, out QuickSlot targetSlot)
+    public void Set_ItemDataTo_QuickSlot(ItemData_Potion data)
     {
-        bool result = false;
-        targetSlot = null;
-
-        QuickSlot slot = Find_Clicked_Slot();
-        if (slot != null)
+        Find_Slot(out QuickSlot targetSlot);
+        if (targetSlot != null)
         {
-            slot.ItemData = data;
-            slot.ItemCount = itemcount;
-            targetSlot = slot;
-            result = true;
+            targetSlot.ItemData = data;
         }
-        return result;
     }
-    QuickSlot Find_Clicked_Slot()
+    public bool Find_Slot(out QuickSlot findSlot)
     {
-        QuickSlot slot = null;
         Vector2 mousePos = Mouse.current.position.ReadValue();
+        findSlot = null;
+        bool result = false;
         foreach(var targetSlot in quickSlots)
         {
             RectTransform rectTransform = targetSlot.GetComponent<RectTransform>();
             Vector2 distance = mousePos - (Vector2)rectTransform.position;
             if (rectTransform.rect.Contains(distance))
             {
-                slot = targetSlot;
+                findSlot = targetSlot;
+                result = true;
                 break;
             }
         }
-        return slot;
+        return result;
     }
     IEnumerator PopUpCoroutine()
     {
@@ -226,7 +204,7 @@ public class QuickSlots : MonoBehaviour
             quickSlots[i].onEndDrag += tempSlot_Base.EndDrag;
             tempSlot_Base.onEndDrag += (itemData, count) =>
             {
-                QuickSlot slot = Find_Clicked_Slot();
+                Find_Slot(out QuickSlot slot);//현재 마우스위치의 퀵슬롯 가져오기
                 if (slot != null)
                 {
                     slot.ItemData = itemData;

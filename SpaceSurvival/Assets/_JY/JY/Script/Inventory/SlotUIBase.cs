@@ -13,8 +13,8 @@ public class SlotUI_Base : MonoBehaviour
     TextMeshProUGUI itemCountText;
 
     public QuickSlot BindingSlot { get; set; }
-    public Action<QuickSlot> onItemCountChange;
-    public Action onValueChange;
+    public Action<QuickSlot, ItemData> onItemCountChange;
+    public Action<ItemData> onItemDataChange;
     public bool IsEmpty => ItemData == null;//SlotManager에서  빈 슬롯인지 확인할때 쓰일 프로퍼티// 초기 
     private ItemData itemData = null;
     public ItemData ItemData//SlotManager의  GetItem 함수가 실행될때 Item의 정보를 받아오기위한 프로퍼티
@@ -25,7 +25,7 @@ public class SlotUI_Base : MonoBehaviour
             if (itemData != value)
             {
                 itemData = value;
-                onValueChange?.Invoke();
+                onItemDataChange?.Invoke(itemData);
             }
         }
     }
@@ -38,10 +38,10 @@ public class SlotUI_Base : MonoBehaviour
             if (itemCount != value)
             {
                 itemCount = value;
-                onValueChange?.Invoke();
+                onItemDataChange?.Invoke(itemData);
                 if (BindingSlot != null)
                 {
-                    onItemCountChange?.Invoke(BindingSlot);
+                    onItemCountChange?.Invoke(BindingSlot, itemData);
                 }
             }
         }
@@ -62,15 +62,15 @@ public class SlotUI_Base : MonoBehaviour
     public virtual void InitializeSlot(Slot slot)
     {
         this.slotComp = slot;                       // 슬롯 저장
-        onValueChange = Refresh;   // 슬롯에 변화가 있을 때 실행될 함수 등록
+        onItemDataChange = Refresh;   // 슬롯에 변화가 있을 때 실행될 함수 등록
         ItemData = null;
-        Refresh();                              // 초기 모습 갱신
+        Refresh(itemData);                              // 초기 모습 갱신
     }
 
     /// <summary>
     /// 슬롯이 보이는 모습을 갱신하는 함수
     /// </summary>
-    protected virtual void Refresh()
+    protected virtual void Refresh(ItemData itemData)
     {
         if (IsEmpty)
         {
