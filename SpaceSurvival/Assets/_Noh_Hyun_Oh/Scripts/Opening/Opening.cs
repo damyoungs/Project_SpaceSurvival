@@ -30,11 +30,16 @@ public class Opening : MonoBehaviour
     /// </summary>
     const float textHeight = 5.0f;
 
+    /// <summary>
+    /// 줄간격 + 면 아래에서 위로  - 면 위에서 아래로 정렬
+    /// </summary>
+    [SerializeField]
+    float textPadding = -10.0f;
     
     /// <summary>
     /// 카메라 기본 위치
     /// </summary>
-    Vector3 cameraPosition = new Vector3(0.0f,20.0f,-80.0f);
+    Vector3 cameraPosition = new Vector3(0.0f,20.0f,0.0f);
 
     /// <summary>
     /// 카메라 기본 각도
@@ -99,11 +104,13 @@ public class Opening : MonoBehaviour
     /// <param name="endValue">도착할 위치값</param>
     IEnumerator OpeningCameraMove(int endValue) 
     {
+        //음악 재생 추가 필요 
+
         float checkValue = mainCamera.transform.position.z;
-        float checkEnd = endValue * 10.0f + 50.0f;
-        while (checkValue < checkEnd) 
+        float checkEnd = endValue * textPadding - 100.0f;
+        while (checkValue > checkEnd) 
         {
-            checkValue += Time.deltaTime * elaspadSpeed;
+            checkValue -= Time.deltaTime * elaspadSpeed;
             mainCamera.transform.position = new Vector3(
                                                 0,
                                                 20,
@@ -138,7 +145,7 @@ public class Opening : MonoBehaviour
                 textLineLength = fileText[i].Length; //글자 길이 수정 
                 textObject.text = fileText[i]; //내용 담고 
                 rt = textObject.GetComponent<RectTransform>(); //위치 조절할 렉트 찾아오고 
-                rt.anchoredPosition3D = new Vector3(0, 0, lineCount * 10.0f); //위치 조절하고 
+                rt.anchoredPosition3D = new Vector3(0, 0, lineCount * textPadding); //위치 조절하고 
                 lineCount++;
             }
             else //한줄에 보여줄 길이 안넘어가면 다시 추가하고 
