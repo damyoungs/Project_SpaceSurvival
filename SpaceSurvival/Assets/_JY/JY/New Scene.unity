@@ -4543,8 +4543,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 674446217}
+  - component: {fileID: 674446218}
   m_Layer: 5
-  m_Name: Suit_Slot
+  m_Name: Body_Slot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4572,6 +4573,18 @@ RectTransform:
   m_AnchoredPosition: {x: -100, y: -150}
   m_SizeDelta: {x: 135, y: 135}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &674446218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 674446216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e25fa4a5c19eab4da0f8cf07cd5f5b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &674611024
 GameObject:
   m_ObjectHideFlags: 0
@@ -6827,8 +6840,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1031306901}
+  - component: {fileID: 1031306902}
   m_Layer: 5
-  m_Name: Hat_Slot (3)
+  m_Name: Jewel_Slot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6856,6 +6870,18 @@ RectTransform:
   m_AnchoredPosition: {x: 100, y: -150}
   m_SizeDelta: {x: 135, y: 135}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1031306902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031306900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e25fa4a5c19eab4da0f8cf07cd5f5b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1077381217
 GameObject:
   m_ObjectHideFlags: 0
@@ -8885,6 +8911,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1418142624}
     - target: {fileID: 106816639, guid: e30040716f477e14aaf383c423214e52, type: 3}
+      propertyPath: hatSlot
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 106816639, guid: e30040716f477e14aaf383c423214e52, type: 3}
       propertyPath: itemCode
       value: 58
       objectReference: {fileID: 0}
@@ -9714,7 +9744,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Hat
+  m_text: Body
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -10321,6 +10351,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1596426961}
+  - component: {fileID: 1596426962}
   m_Layer: 5
   m_Name: Weapon_Slot
   m_TagString: Untagged
@@ -10350,6 +10381,18 @@ RectTransform:
   m_AnchoredPosition: {x: 100, y: 70}
   m_SizeDelta: {x: 135, y: 135}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1596426962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1596426960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e25fa4a5c19eab4da0f8cf07cd5f5b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1611264271
 GameObject:
   m_ObjectHideFlags: 0
@@ -11267,6 +11310,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1692929095}
+  - component: {fileID: 1692929096}
   m_Layer: 5
   m_Name: Hat_Slot
   m_TagString: Untagged
@@ -11296,6 +11340,18 @@ RectTransform:
   m_AnchoredPosition: {x: -100, y: 70}
   m_SizeDelta: {x: 135, y: 135}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1692929096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1692929094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e25fa4a5c19eab4da0f8cf07cd5f5b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1698931542
 GameObject:
   m_ObjectHideFlags: 0
@@ -12902,7 +12958,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Hat
+  m_text: Weapon
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -13891,7 +13947,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Hat
+  m_text: Jewel
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

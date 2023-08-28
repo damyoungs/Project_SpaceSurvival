@@ -75,8 +75,14 @@ public class PlayerDummy : MonoBehaviour, IHealth
     {
         inputActions.Player.Enable();
         inputActions.Player.ItemPickUp.performed += ItemPickUp;
+        inputActions.Player.Equip_Item.performed += On_Equip_Item;
         inputActions.KeyBoard.Enable();
         inputActions.KeyBoard.InvenKey.performed += OpenInven;
+    }
+
+    private void On_Equip_Item(InputAction.CallbackContext _)
+    {
+        Debug.Log("°¨Áö");
     }
 
     private void OpenInven(InputAction.CallbackContext _)

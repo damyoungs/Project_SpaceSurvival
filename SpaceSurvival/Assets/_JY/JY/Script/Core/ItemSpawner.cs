@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 
 public class ItemSpawner : TestBase
 {
-    int value;
     public GameObject[] prefabs;
   //  public float dropRate;
     private Dictionary<ItemCode, GameObject> prefabDict = new Dictionary<ItemCode, GameObject>();
@@ -154,19 +153,15 @@ public class ItemSpawner : TestBase
         }
        // GameManager.playerDummy.RecoveryHP_(300, 0.5f);
     }
-    public QuickSlot slot;
     protected override void Test4(InputAction.CallbackContext context)
     {
-        slot.ItemCount--;
     }
 
     protected override void Test5(InputAction.CallbackContext context)
     {
-        slot.ItemCount++;
     }
     protected override void Test6(InputAction.CallbackContext context)
     {
-        slot.ItemData = null;
     }
     //protected override void Test7(InputAction.CallbackContext context)
     //{
