@@ -16,7 +16,7 @@ MonoBehaviour:
   code: 7
   itemName: Bat
   modelPrefab: {fileID: 472039736912630700, guid: 4f7771338ebcd034b82ab30a1b6fbcc2, type: 3}
-  itemIcon: {fileID: 1100685551, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
+  itemIcon: {fileID: 257012698, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
   price: 0
   maxStackCount: 1
   itemDescription: "\uC57C\uAD6C \uBC29\uB9DD\uC774"

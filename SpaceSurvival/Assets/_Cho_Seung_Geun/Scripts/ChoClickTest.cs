@@ -61,7 +61,7 @@ public class ChoClickTest : MonoBehaviour
             {
                 target = (BoxCollider)hitInfo.collider;                         // 타겟의 박스콜라이더 반환
                 Tile tile = target.gameObject.GetComponent<Tile>();             // 아래의 디버그를 위한 타일 반환(디버그 안 할시 없어도 됨)
-                Debug.Log($"타일 위치 : {tile.Width}, {tile.Length}");
+                //Debug.Log($"타일 위치 : {tile.Width}, {tile.Length}");
             }
         }
     }

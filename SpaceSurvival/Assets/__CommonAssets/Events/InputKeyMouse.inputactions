@@ -435,6 +435,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "PressI",
+                    "type": "Button",
+                    "id": "973cbb08-9319-4e02-a6eb-fe2296d35cf5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -545,6 +554,17 @@
                     "processors": "",
                     "groups": "KeyMouse",
                     "action": "Test9",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0f7b9012-2815-4be2-84fd-6c69d3a75520",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyMouse",
+                    "action": "PressI",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
