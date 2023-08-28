@@ -32,6 +32,7 @@ public class CameraOriginTarget : MonoBehaviour
     Transform target;
     public Transform Target 
     {
+        get => target;
         set => target = value;
     }
 
@@ -50,7 +51,12 @@ public class CameraOriginTarget : MonoBehaviour
     /// </summary>
     [SerializeField]
     float followSpeed = 3.0f;
-    
+
+    /// <summary>
+    /// wasd 로 움직일때 회전방향을 전달해줄 델리게이트
+    /// </summary>
+    public Action<Quaternion> cameraRotation;
+
     private void Awake()
     {
         inputAction = new();
@@ -104,41 +110,40 @@ public class CameraOriginTarget : MonoBehaviour
     IEnumerator RotateCourutine(float rotateValue) 
     {
         isRotate = true;//회전끝날때까지 입력들어와도 막는용
-        bool isLeft = rotateValue > 0; //-값 + 값  왼쪽 오른쪽 체크
+
         //Debug.Log(transform.rotation.eulerAngles.y);
         float time = transform.rotation.eulerAngles.y; //시작값 셋팅
         rotateValue += time; //도착값 셋팅
-        while (CheckValue(ref time, rotateValue, isLeft))//체킹
+        if (rotateValue > time)//-값 + 값  왼쪽 오른쪽 체크
         {
-            transform.rotation = Quaternion.Euler(transform.rotation.x, time, transform.rotation.z);
-            yield return null;
+            while (time < rotateValue)//체킹
+            {
+                time += Time.deltaTime * rotateSpeed;
+                transform.rotation = Quaternion.Euler(0, time, 0);
+                cameraRotation?.Invoke(transform.rotation);
+                yield return null;
+            }
+            transform.rotation = Quaternion.Euler(0, rotateValue, 0);
+            cameraRotation?.Invoke(transform.rotation);
+            isRotate = false;//회전끝난것을 체크
         }
-        transform.rotation = Quaternion.Euler(transform.rotation.x, rotateValue, transform.rotation.z);
-        isRotate = false;//회전끝난것을 체크
-        
-       
+        else 
+        {
+            while (time > rotateValue)//체킹
+            {
+                time -= Time.deltaTime * rotateSpeed;
+                transform.rotation = Quaternion.Euler(0, time, 0);
+                cameraRotation?.Invoke(transform.rotation);
+                yield return null;
+            }
+            transform.rotation = Quaternion.Euler(0, rotateValue, 0);
+            cameraRotation?.Invoke(transform.rotation);
+            isRotate = false;//회전끝난것을 체크
+
+        }
+
+
     }
 
-    /// <summary>
-    /// 회전방향에따라 회전 다됬는지 체크
-    /// </summary>
-    /// <param name="checkValue">현재 회전값</param>
-    /// <param name="rotateValue">목표 회전값</param>
-    /// <param name="isLeft">왼쪽회전인지 오른쪽회전인지 체크할값 - 면왼쪽 +면 오른쪽</param>
-    /// <returns></returns>
-    private bool CheckValue(ref float checkValue, float rotateValue, bool isLeft)
-    {
-        //Debug.Log($"{checkValue}  ====  {rotateValue} ");
-        if (isLeft) //+값이 들어오면 값을 +해서 체크 
-        {
-            checkValue += Time.deltaTime * rotateSpeed;
-            return checkValue < rotateValue; //오른쪽회전
-        }
-        else // - 값이 들어오면 -해서 체크
-        {
-            checkValue -= Time.deltaTime * rotateSpeed;
-            return checkValue > rotateValue; //왼쪽회전
-        }
-    }
 }
 
