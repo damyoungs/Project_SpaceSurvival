@@ -1,14 +1,7 @@
-//using System;
-using System.CodeDom.Compiler;
-using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Tilemaps;
-using UnityEngine.UIElements;
 
 public class MapTest : TestBase
 {
@@ -36,7 +29,7 @@ public class MapTest : TestBase
     Vector3 sideTileSize = Vector3.zero;    // 사이드 타일 사이즈
     Vector3 vertexTileSize = Vector3.zero;  // 꼭지점 타일 사이즈
 
-    GameObject[] mapTiles;                  // 타일 오브젝트 객체를 담을 배열
+    Tile[] mapTiles;                        // 타일 오브젝트 객체를 담을 배열
     List<GameObject> props;                 // 지형 지물을 담을 배열
 
     GameObject[] lights;                    // 조명
@@ -113,7 +106,7 @@ public class MapTest : TestBase
     private void MapInstantiate()
     {
 
-        mapTiles = new GameObject[tileCount];   // 배열 동적 생성
+        mapTiles = new Tile[tileCount];   // 배열 동적 생성
         GameObject wallObject;          // 벽 오브젝트
 
         for (int i = 0; i < tileCount; i++)
@@ -213,10 +206,16 @@ public class MapTest : TestBase
     /// <param name="width">가로 인덱스</param>
     /// <param name="length">세로 인덱스</param>
     /// <returns></returns>
-    private Tile GetTile(int width, int length)
+    public Tile GetTile(int width, int length)
     {
         int index = sizeX * length + width;
-        return mapTiles[index].GetComponent<Tile>();
+        return mapTiles[index];
+    }
+
+    public Tile GetTile(Vector2Int pos)
+    {
+        int index = sizeX * pos.y + pos.x;
+        return mapTiles[index];
     }
 
     /// <summary>
@@ -229,10 +228,10 @@ public class MapTest : TestBase
     /// <param name="length">타일의 세로 인덱스</param>
     private void TileInstantiate(int i, GameObject type, Tile.MapTileType tileType, int width, int length)
     {
-        mapTiles[i] = Instantiate(type, gameObject.transform);                  // type에 따른 타일 생성
-        mapTiles[i].GetComponent<Tile>().TileType = tileType;              // 타일 스크립트에 타입 저장
-        mapTiles[i].GetComponent<Tile>().Width = width;                         // 타일 가로 인덱스 저정
-        mapTiles[i].GetComponent<Tile>().Length = length;                       // 타일 세로 인덱스 저정
+        mapTiles[i] = Instantiate(type, gameObject.transform).GetComponent<Tile>();      // type에 따른 타일 생성
+        mapTiles[i].GetComponent<Tile>().TileType = tileType;                            // 타일 스크립트에 타입 저장
+        mapTiles[i].GetComponent<Tile>().Width = width;                                  // 타일 가로 인덱스 저정
+        mapTiles[i].GetComponent<Tile>().Length = length;                                // 타일 세로 인덱스 저정
         mapTiles[i].GetComponent<Tile>().Index = i;
     }
 
@@ -494,6 +493,17 @@ public class MapTest : TestBase
         for (int i = 0; i < standardPos.Length; i++)
         {
             standardPos[i].ExistType = Tile.TileExistType.prop;     // 기둥이 있는 타일은 다시 Prop으로 변경
+        }
+    }
+
+    /// <summary>
+    /// 맵 전체 타일 중 A*에 대한 부분 초기화
+    /// </summary>
+    public void ClearTile()
+    {
+        for (int i = 0; i < mapTiles.Length; i++)
+        {
+            mapTiles[i].Clear();
         }
     }
 }

@@ -71,4 +71,22 @@ public class Tile : MonoBehaviour
     }
 
     public int Index = 0;
+
+    public float G;
+
+    public float H;
+
+    public float F => G + H;
+
+    public Tile parent;
+
+    /// <summary>
+    /// A*에 관한 변수 초기화
+    /// </summary>
+    public void Clear()
+    {
+        G = float.MaxValue;
+        H = float.MaxValue;
+        parent = null;
+    }
 }
