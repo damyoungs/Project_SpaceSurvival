@@ -55,11 +55,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         input = new InputKeyMouse();
         tempSlot = FindObjectOfType<TempSlot>(true);
         itemDescription = FindObjectOfType<ItemDescription>();
-    }
-    private void Start()
-    {
         spliter = FindObjectOfType<ItemSplitter>(true);
-      //  Initialize();
     }
     private void OnEnable()
     {

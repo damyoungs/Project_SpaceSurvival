@@ -180,7 +180,7 @@ public class WindowList : Singleton<WindowList> {
         {
             if (context.performed)
             {
-                popupOnOff(invenWindow);
+                invenWindow.Open_Inventory();
             }
 
         }

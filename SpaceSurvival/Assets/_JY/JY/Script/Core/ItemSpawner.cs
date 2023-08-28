@@ -132,7 +132,7 @@ public class ItemSpawner : TestBase
     }
     protected override void Test1(InputAction.CallbackContext _)
     {
-       
+
         SpawnItemPrefab();
     }
     protected override void Test2(InputAction.CallbackContext context)
@@ -140,34 +140,34 @@ public class ItemSpawner : TestBase
         GetItem();
         // GetItemHpPotion();
     }
-    protected  void OpenInven(InputAction.CallbackContext _)
+    protected override void OpenInven(InputAction.CallbackContext _)
     {
         GameManager.Inventory.Open_Inventory();
     }
-    protected override void Test3(InputAction.CallbackContext context)
-    {
-        int i = 0;
-        while(i < 200)
-        {
-            GetItem();
-            i++;
-        }
-       // GameManager.playerDummy.RecoveryHP_(300, 0.5f);
-    }
-    public QuickSlot slot;
-    protected override void Test4(InputAction.CallbackContext context)
-    {
-        slot.ItemCount--;
-    }
+    //protected override void Test3(InputAction.CallbackContext context)
+    //{
+    //    int i = 0;
+    //    while(i < 200)
+    //    {
+    //        GetItem();
+    //        i++;
+    //    }
+    //   // GameManager.playerDummy.RecoveryHP_(300, 0.5f);
+    //}
+    //public QuickSlot slot;
+    //protected override void Test4(InputAction.CallbackContext context)
+    //{
+    //    slot.ItemCount--;
+    //}
 
-    protected override void Test5(InputAction.CallbackContext context)
-    {
-        slot.ItemCount++;
-    }
-    protected override void Test6(InputAction.CallbackContext context)
-    {
-        slot.ItemData = null;
-    }
+    //protected override void Test5(InputAction.CallbackContext context)
+    //{
+    //    slot.ItemCount++;
+    //}
+    //protected override void Test6(InputAction.CallbackContext context)
+    //{
+    //    slot.ItemData = null;
+    //}
     //protected override void Test7(InputAction.CallbackContext context)
     //{
     //    ClearSlot();

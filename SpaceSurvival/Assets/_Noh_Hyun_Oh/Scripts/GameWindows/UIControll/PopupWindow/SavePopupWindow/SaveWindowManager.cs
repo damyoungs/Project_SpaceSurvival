@@ -308,6 +308,7 @@ public class SaveWindowManager : PopupWindowBase ,IPopupSortWindow ,IPointerDown
         for (int i = startIndex; i < lastIndex; i++)
         { //데이터를 한페이지만큼만 확인한다.
             SetGameObject(saveDataList[i], i); // 데이터를 셋팅하자 
+            
         }
         int visibleEndIndex = lastIndex - startIndex; //페이지의 마지막 인덱스값을 준다.
         SetPoolBug(saveWindowObject.transform, visibleEndIndex);//풀은 오브젝트를 2배씩늘리는데 사용안하는것들은 비활성화작업이필요해서 추가했다.
@@ -358,7 +359,6 @@ public class SaveWindowManager : PopupWindowBase ,IPopupSortWindow ,IPointerDown
         int viewObjectNumber = GetGameObjectIndex(fileIndex); //페이지별 오브젝트 위치찾기
 
         SaveGameObject sd = saveWindowObject.transform.GetChild(viewObjectNumber).GetComponent<SaveGameObject>(); //수정된 오브젝트 가져온다.
-
         sd.ObjectIndex = viewObjectNumber; //오브젝트 넘버링을 해준다 
 
         if (saveData != null) { //저장데이터가 있는지 체크

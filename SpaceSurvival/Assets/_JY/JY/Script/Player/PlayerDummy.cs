@@ -81,7 +81,7 @@ public class PlayerDummy : MonoBehaviour, IHealth
 
     private void OpenInven(InputAction.CallbackContext _)
     {
-        onOpenInven?.Invoke();
+        //onOpenInven?.Invoke();
     }
 
     private void ItemPickUp(InputAction.CallbackContext _)

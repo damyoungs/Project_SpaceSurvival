@@ -82,36 +82,46 @@ public class SaveGameObject : SaveData_PoolObj
             sceanNameObject.text = $" Map :{sceanName}";
         }
     }
+
+
     /// <summary>
     /// 오브젝트밑에 텍스트 오브젝트들 
     /// </summary>
-    [SerializeField]
     TextMeshProUGUI saveFileNumber; // 파일이름? 
-    [SerializeField]
     TextMeshProUGUI sceanNameObject; // 캐릭터이름 , 저장위치 , 돈 , 레벨 정도?
-    [SerializeField]
     TextMeshProUGUI createTimeObj;   // 저장시간 보여주기
-    [SerializeField]
     TextMeshProUGUI charcterLevelObj; // 파일이름? 
-    [SerializeField]
     TextMeshProUGUI charcterMoneyObj; // 캐릭터이름 , 저장위치 , 돈 , 레벨 정도?
-    [SerializeField]
     TextMeshProUGUI etcObj;   // 저장시간 보여주기
 
 
 
     SaveLoadPopupWindow proccessManager;
-
-
+    protected override void Awake()
+    {
+        base.Awake();
+        Transform child = transform.GetChild(0);
+        saveFileNumber      = child.GetComponent<TextMeshProUGUI>();
+        child = transform.GetChild(1);
+        sceanNameObject     = child.GetComponent<TextMeshProUGUI>();
+        child = transform.GetChild(2);
+        createTimeObj       = child.GetComponent<TextMeshProUGUI>();
+        child = transform.GetChild(3);
+        charcterLevelObj    = child.GetComponent<TextMeshProUGUI>();
+        child = transform.GetChild(4);
+        charcterMoneyObj    = child.GetComponent<TextMeshProUGUI>();
+        child = transform.GetChild(5);
+        etcObj              = child.GetComponent<TextMeshProUGUI>();
+    }
+    protected override void OnEnable()
+    {
+        
+    }
     private void Start()
     {
         proccessManager = WindowList.Instance.IOPopupWindow; //저장화면 처리하는클래스가져오기
     }
 
-    protected override void OnEnable()
-    {
-        ///위치초기화로직 실행안시키기위해 호출만 오버라이드
-    }
     public void InFocusObject() 
     {
         if (proccessManager.NewIndex != fileIndex) //같은 오브젝트 클릭했는지 체크

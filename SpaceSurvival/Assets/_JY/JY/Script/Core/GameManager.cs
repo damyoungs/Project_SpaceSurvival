@@ -52,7 +52,6 @@ public class GameManager : MonoBehaviour
                 go = new GameObject { name = $"@GameManager" };
                 go.AddComponent<GameManager>();
             }
-            DontDestroyOnLoad(go);
             instance = go.GetComponent<GameManager>();
     
         }

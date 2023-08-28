@@ -11,7 +11,7 @@ public class ItemActionButton : BattleActionButtonBase
     }
     protected override void OnClick()
     {
-        inven.OpenWindow();
+        inven.Open_Inventory();
     }
 
 }
