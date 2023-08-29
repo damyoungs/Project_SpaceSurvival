@@ -61,6 +61,7 @@ public class PlayerMove : MonoBehaviour
 
 	protected AudioSource audioSource;
 
+	public Transform targetObj;
 
 	private void Awake()
 	{
@@ -164,7 +165,10 @@ public class PlayerMove : MonoBehaviour
 	{
         transform.Translate(Time.fixedDeltaTime * moveSpeed * moveDirection, Space.World);
 		transform.rotation = Quaternion.Slerp(transform.rotation, moveDir, Time.fixedDeltaTime * rotateSpeed);
-    }
+		//transform.rotation = Quaternion.Slerp(transform.rotation,  Quaternion.LookRotation(targetObj.position - transform.position), Time.fixedDeltaTime * rotateSpeed);
+
+
+	}
 	private void UnitOnMove()
 	{
 		if (target != null && (target.gameObject.transform.position - transform.position).sqrMagnitude > 0.1f)

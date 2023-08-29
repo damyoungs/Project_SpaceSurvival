@@ -1,6 +1,7 @@
 using EnumList;
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -21,7 +22,7 @@ public class CameraManager : TestBase
     /// <summary>
     /// 컨트롤할 카메라
     /// </summary>
-    protected Camera actionCam = null;
+    public Camera actionCam = null;
 
     [Header("카메라가 보여줄 타입")]
     /// <summary>
@@ -78,13 +79,13 @@ public class CameraManager : TestBase
     /// 추적당할 오브젝트 의 트랜스폼
     /// </summary>
     protected Transform target = null;
-    public Transform Target
-    {
-        set
-        {
-            target = value;
-        }
-    }
+
+    [SerializeField]
+    /// <summary>
+    /// 추적당할 오브젝트가 공격할 객체위치
+    /// </summary>
+    protected Transform attackTarget = null;
+   
 
 
     /// <summary>
@@ -160,7 +161,10 @@ public class CameraManager : TestBase
         base.Awake();
         //gameObject.layer = LayerMask.NameToLayer("UI");///설정한 레이어 검색해서 번호 가져오기
         //gameObject.tag = "Respawn"; //태그 변경시키기
-        actionCam = GetComponent<Camera>();
+        if (actionCam == null) 
+        {
+            actionCam = GetComponent<Camera>();
+        }
         cameraTexture = new(256 ,256,16,RenderTextureFormat.ARGB32); //텍스쳐 기본값 으로 만들기 
         cameraTexture.name = $"{gameObject.name}_Texture";           //이름이없어서 햇갈려서 일단 넣어놨다.
         cameraMoveCoroutine = CustomCamera();
@@ -188,8 +192,8 @@ public class CameraManager : TestBase
         {
             while (cameraFollowType == CameraFollowType.Custom)
             {
-                transform.position = target.position + CustomCameraPos;
-                transform.rotation = target.rotation * CustomCameraRotate;
+                actionCam.transform.position = target.position + CustomCameraPos;
+                actionCam.transform.rotation = target.rotation * CustomCameraRotate;
 
                 yield return fixedWait;
             }
@@ -207,8 +211,8 @@ public class CameraManager : TestBase
         {
             while (cameraFollowType == CameraFollowType.MiniMap)
             {
-                transform.position = CustomCameraPos + target.position;
-                transform.rotation = CustomCameraRotate;
+                actionCam.transform.position = CustomCameraPos + target.position;
+                actionCam.transform.rotation = CustomCameraRotate;
 
                 yield return fixedWait;
             }
@@ -229,10 +233,10 @@ public class CameraManager : TestBase
 
             while (cameraFollowType == CameraFollowType.UITexture)
             {
-                transform.position = target.position // 목표 지점에서 
+                actionCam.transform.position = target.position // 목표 지점에서 
                                     - (target.forward * CustomCameraPos.z); // 바라보는 방향 반대쪽으로 일정거리 떨어진값을 카메라위치로한다.
 
-                transform.rotation = Quaternion.LookRotation(target.position - transform.position, target.up); //방향백터로 바라보게 만들기 y축기준으로 돌린다.
+                actionCam.transform.rotation = Quaternion.LookRotation(target.position - actionCam.transform.position, target.up); //방향백터로 바라보게 만들기 y축기준으로 돌린다.
                 yield return fixedWait;
             }
         }
@@ -253,10 +257,10 @@ public class CameraManager : TestBase
                 //Quaternion.Euler 함수는 x y z  축 을 기준으로 어느정도 회전했는지에대한 결과값을 반환하는 함수이다.
                 //target.eulerAngles 의 값을 사용하면 해당 target 이 어느축으로 어느정도 회전했는지 결과값을 구할수있다 이값은 바로 rotation 값으로 적용이 가능하다
                 Quaternion rotation = Quaternion.Euler(0, target.eulerAngles.y, 0);  // y 축으로 타겟이 어느정도 회전했는지에대한 값을 받아온다 
-                transform.position = target.position + (rotation * CustomCameraPos); //회전방향에 거리를 곱해서 쿼터뷰 처럼보이게 위치를 잡는다
+                actionCam.transform.position = target.position + (rotation * CustomCameraPos); //회전방향에 거리를 곱해서 쿼터뷰 처럼보이게 위치를 잡는다
 
                 // 타겟의 방향을 바라보도록 카메라 회전
-                transform.rotation = Quaternion.LookRotation(target.position - transform.position);
+                actionCam.transform.rotation = Quaternion.LookRotation(target.position - actionCam.transform.position);
                 yield return null; // 픽시드 업데이트에서 발동하도록 걸어준다.
             }
         }
@@ -276,27 +280,46 @@ public class CameraManager : TestBase
     /// <summary>
     /// 줌인 줌아웃을 하기위해 타겟의 회전방향을 기준으로 pos 값만큼위치로 부드럽게 움직이기위한 로직
     /// </summary>
-    /// <param name="pos">타겟과의 떨어진위치</param>
+    /// <param name="originPos">타겟과의 떨어진위치</param>
     /// <returns></returns>
-    IEnumerator ZoomInOut(Vector3 pos)
+    IEnumerator ZoomInOut(Vector3 originPos, Transform attackTarget = null)
     {
         
         if (target != null)
         {
             float timeElapsed = 0.0f;
-            Vector3 endPos = GetZoomPos(pos);
-            while ((endPos - transform.position).sqrMagnitude > 0.2f) //도착할때까지 체크하고 돌린다
+            Vector3 tempPos;
+            Vector3 endPos = GetZoomPos(originPos); // 내가 target 과의 같은방향으로 유지하고 오리진 포스 위치로 이동시킨다.
+            if (attackTarget != null)
+            {
+                tempPos = attackTarget.position;
+                //줌인 할 타겟 
+            }
+            else
+            {
+                tempPos = target.position;    
+            }
+            Debug.Log($"카메라위치 :  {endPos}");
+            Debug.Log($"바라볼타겟위치 : {tempPos}");
+            Debug.Log($"바라볼방향 : {tempPos - actionCam.transform.position}");
+
+            //캐릭터가 항상 좌측 하단에 위치하고 타겟은 중앙에 위치할수있도록 계산식 필요 
+
+
+            while ((endPos - actionCam.transform.position).sqrMagnitude > 0.2f) //도착할때까지 체크하고 돌린다
             {
                 timeElapsed += Time.deltaTime * followSpeed; // 카메라 위치 이동시간 조절용 
                 //Debug.Log($"{(endPos - gameObject.transform.position).sqrMagnitude} _ {endPos} _ {gameObject.transform.position}");
-                transform.position = Vector3.Lerp(transform.position, endPos ,timeElapsed); //카메라 보간으로 부드럽게 적용
+                actionCam.transform.position = Vector3.Lerp(actionCam.transform.position, endPos ,timeElapsed); //카메라 보간으로 부드럽게 적용
 
-                Debug.Log(target.position - transform.position);
-                Debug.Log(target.position + zoomFocusPos - transform.position);
-                transform.rotation = Quaternion.LookRotation(target.position + zoomFocusPos - transform.position); //항상 타겟바라보기
+                //Debug.Log(target.position - actionCam.transform.position);
+                //Debug.Log(target.position + zoomFocusPos - actionCam.transform.position);
+                actionCam.transform.rotation = Quaternion.Slerp(actionCam.transform.rotation ,Quaternion.LookRotation(tempPos - actionCam.transform.position),timeElapsed) ; //항상 타겟바라보기
        
                  yield return fixedWait;
             }
+            actionCam.transform.rotation = Quaternion.LookRotation(tempPos - actionCam.transform.position); //반복문에서 싱크가안맞기때문에 맞추기
+
             //Debug.Log("끝나긴하냐?");
         }
     }
@@ -360,7 +383,7 @@ public class CameraManager : TestBase
     protected override void Test2(InputAction.CallbackContext context)
     {
         StopCoroutine(cameraMoveCoroutine);
-        StartCoroutine(ZoomInOut(zoomInPos));
+        StartCoroutine(ZoomInOut(zoomInPos,attackTarget.transform));
     }
     protected override void Test3(InputAction.CallbackContext context)
     {

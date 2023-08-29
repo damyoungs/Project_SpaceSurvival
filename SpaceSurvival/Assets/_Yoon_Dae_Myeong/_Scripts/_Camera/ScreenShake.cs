@@ -39,6 +39,7 @@ public class ScreenShake : MonoBehaviour
 
 	public void Shake(float intensity = 1f)
 	{
+		Debug.Log("xptmxm");
 		cinemachineImpulseSource.GenerateImpulse(intensity);
 	}
 	

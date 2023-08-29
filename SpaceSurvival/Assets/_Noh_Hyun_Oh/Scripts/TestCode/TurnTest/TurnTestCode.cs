@@ -15,7 +15,7 @@ public class TurnTestCode : TestBase
     }
     private void Start()
     {
-        turnManager = TurnManager.Instance;
+        //turnManager = TurnManager.Instance;
     }
 
     /// <summary>
