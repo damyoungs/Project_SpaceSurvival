@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class MapTest : TestBase
 {
-    public GameObject player;               // 플레이어
+    public ChoClickTest player;             // 플레이어
     public Material material;               // 필요없을 것 같아 아마 지울 예정
 
     public GameObject centerTile;           // 중앙에 사용할 타일
@@ -59,8 +59,7 @@ public class MapTest : TestBase
 
             MapInstantiate();                       // 메인 맵 생성
 
-            player.transform.position = GetTile(sizeX / 2, sizeY / 3).transform.position;         // 플레이어 위치 이동(임시)
-            GetTile(sizeX / 2, sizeY / 3).ExistType = Tile.TileExistType.monster;
+            player.CurrentPos = GetTile(sizeX / 2, sizeY / 3);     // 플레이어 위치 이동(임시)
 
             LightInstantiate();                     // 조명 및 기둥 생성
             //MiniMapInstantiate();                 // 미니맵 판자 생성(필요없을 것 같아 나중에 지울 예정)
@@ -98,7 +97,6 @@ public class MapTest : TestBase
             isPropExist = false;
         }
     }
-
 
     /// <summary>
     /// 메인 맵 생성하는 함수
@@ -188,7 +186,7 @@ public class MapTest : TestBase
     {
         for (int i = 0; i < tileCount; i++)
         {
-            Destroy(mapTiles[i]);
+            Destroy(mapTiles[i].gameObject);
         }
 
         for (int i = 0; i < 4; i++)
@@ -497,7 +495,7 @@ public class MapTest : TestBase
     }
 
     /// <summary>
-    /// 맵 전체 타일 중 A*에 대한 부분 초기화
+    /// A*에 대한 부분 초기화
     /// </summary>
     public void ClearTile()
     {
@@ -505,5 +503,10 @@ public class MapTest : TestBase
         {
             mapTiles[i].Clear();
         }
+    }
+
+    public bool IsWall(int x, int y)
+    {
+        return GetTile(x, y).ExistType != Tile.TileExistType.None;
     }
 }
