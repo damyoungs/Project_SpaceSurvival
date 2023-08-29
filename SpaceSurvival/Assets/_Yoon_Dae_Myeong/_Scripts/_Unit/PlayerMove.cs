@@ -43,8 +43,16 @@ public class PlayerMove : MonoBehaviour
 	Camera mainCamera;
 
 	Vector3 moveDirection;
-	Quaternion lookDir;
-
+	/// <summary>
+	/// 외부에서 수정할값
+	/// </summary>
+	Quaternion lookDir = Quaternion.identity;
+	/// <summary>
+	/// 이동할 값 
+	/// </summary>
+	Quaternion moveDir = Quaternion.identity;
+	[SerializeField]
+	float defaultMoveSpeed = 4.0f;
 	float moveSpeed = 4.0f;
 	float rotateSpeed = 10.0f;
 	BoxCollider target = null;
@@ -52,6 +60,7 @@ public class PlayerMove : MonoBehaviour
 	InputKeyMouse inputAction;
 
 	protected AudioSource audioSource;
+
 
 	private void Awake()
 	{
@@ -63,12 +72,41 @@ public class PlayerMove : MonoBehaviour
 		inputAction.Mouse.Enable();
 		inputAction.Mouse.MouseClick.performed += onClick;
 		inputAction.Mouse.MouseClickRight.performed += onClickRight;
+
 		inputAction.Player.Enable();
         inputAction.Player.Move.performed += OnMove;
 		inputAction.Player.Move.canceled += OnMove;
-		//inputClick.Test.Test3.performed += onUnitDie;
-		
-	}
+        //inputClick.Test.Test3.performed += onUnitDie;
+        CameraOriginTarget battleFollowCamer = FindObjectOfType<CameraOriginTarget>(true); //회전값 받아오기위해 찾기 
+        if (battleFollowCamer != null)
+        {
+            battleFollowCamer.cameraRotation += SetCameraRotaion; //회전값받아오기위해 연결
+        }
+    }
+    private void OnDisable()
+    {
+        CameraOriginTarget battleFollowCamer = FindObjectOfType<CameraOriginTarget>(true); //회전값 받아오기위해 찾기
+        if (battleFollowCamer != null)
+        {
+            battleFollowCamer.cameraRotation -= SetCameraRotaion;//회전값받아오기위해 연결
+        }
+        inputAction.Player.Move.performed -= OnMove;
+        inputAction.Player.Move.canceled -= OnMove;
+        inputAction.Player.Disable();
+        //inputClick.Test.Test3.performed -= onUnitDie;
+        inputAction.Mouse.MouseClickRight.performed -= onClickRight;
+        inputAction.Mouse.MouseClick.performed -= onClick;
+        inputAction.Mouse.Disable();
+    }
+    /// <summary>
+    /// 배틀맵에서 카메라 돌아가면 캐릭터 방향도 같이 수정한다.
+    /// </summary>
+    /// <param name="quaternion">카메라 회전방향 </param>
+    private void SetCameraRotaion(Quaternion quaternion)
+    {
+		lookDir = quaternion;
+		Debug.Log($"카메라가 움직였네 값은: {quaternion}");
+    }
 
     private void Start()
     {
@@ -77,29 +115,30 @@ public class PlayerMove : MonoBehaviour
     }
     private void OnMove(InputAction.CallbackContext context)
     {
-		Vector3 dir = context.ReadValue<Vector3>();
-		moveDirection = dir;
-		if (dir != Vector3.zero)
+		Vector3 dir = context.ReadValue<Vector2>();
+        dir.z = dir.y;
+        dir.y = 0.0f;
+		if (!context.canceled)
 		{
-			lookDir = Quaternion.LookRotation(dir);
-			unitAnimator.SetBool(isWalkingHash, true);
+			moveDirection = lookDir * dir; //이동방향설정
+			//Debug.Log(moveDirection);
+			moveSpeed = defaultMoveSpeed; //이동속도 설정
+            moveDir = Quaternion.LookRotation(lookDir * dir); //카메라 방향에 맞춰서 방향을 결정한다.
+			//Debug.Log(lookDir);
+            unitAnimator.SetBool(isWalkingHash, true);
         }
 		else
 		{
+			moveSpeed = 0.0f;
             unitAnimator.SetBool(isWalkingHash, false);
         }
+
     }
 
-    private void OnDisable()
-	{
-		//inputClick.Test.Test3.performed -= onUnitDie;
-		inputAction.Mouse.MouseClickRight.performed -= onClickRight;
-		inputAction.Mouse.MouseClick.performed -= onClick;
-		inputAction.Mouse.Disable();
-	}
 
-	
-	private void onClick(InputAction.CallbackContext context)
+
+
+    private void onClick(InputAction.CallbackContext context)
 	{
 		Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());     
 		Debug.DrawRay(ray.origin, ray.direction * 20.0f, Color.red, 1.0f);           
@@ -124,7 +163,7 @@ public class PlayerMove : MonoBehaviour
 	void MoveByKeyBoard()
 	{
         transform.Translate(Time.fixedDeltaTime * moveSpeed * moveDirection, Space.World);
-		transform.rotation = Quaternion.Slerp(transform.rotation, lookDir, Time.fixedDeltaTime * rotateSpeed);
+		transform.rotation = Quaternion.Slerp(transform.rotation, moveDir, Time.fixedDeltaTime * rotateSpeed);
     }
 	private void UnitOnMove()
 	{
@@ -149,4 +188,16 @@ public class PlayerMove : MonoBehaviour
 	//protected virtual void onUnitDie(InputAction.CallbackContext context)
 	//{
 	//}
+
+
+
+
+
+
+
+
+
+	CameraOriginTarget followCamera;
+
+
 }
