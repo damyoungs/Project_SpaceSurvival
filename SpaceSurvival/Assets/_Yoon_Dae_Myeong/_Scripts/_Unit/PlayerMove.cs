@@ -80,7 +80,7 @@ public class PlayerMove : MonoBehaviour
         CameraOriginTarget battleFollowCamer = FindObjectOfType<CameraOriginTarget>(true); //회전값 받아오기위해 찾기 
         if (battleFollowCamer != null)
         {
-            battleFollowCamer.cameraRotation += SetCameraRotaion; //회전값받아오기위해 연결
+           // battleFollowCamer.cameraRotation += SetCameraRotaion; //회전값받아오기위해 연결
         }
     }
     private void OnDisable()
@@ -88,7 +88,7 @@ public class PlayerMove : MonoBehaviour
         CameraOriginTarget battleFollowCamer = FindObjectOfType<CameraOriginTarget>(true); //회전값 받아오기위해 찾기
         if (battleFollowCamer != null)
         {
-            battleFollowCamer.cameraRotation -= SetCameraRotaion;//회전값받아오기위해 연결
+           // battleFollowCamer.cameraRotation -= SetCameraRotaion;//회전값받아오기위해 연결
         }
         inputAction.Player.Move.performed -= OnMove;
         inputAction.Player.Move.canceled -= OnMove;
