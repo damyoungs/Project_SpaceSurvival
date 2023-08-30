@@ -30,7 +30,6 @@ public static class AStar
             current = open[0];
             open.RemoveAt(0);
 
-
             if (current != end)
             {
                 close.Add(current);

@@ -462,6 +462,10 @@ PrefabInstance:
       propertyPath: m_ReceiveShadows
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4117360141260848166, guid: 2ac0b8d7f64f946f8882b2aa8845d4e8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4117638824604251994, guid: 2ac0b8d7f64f946f8882b2aa8845d4e8, type: 3}
       propertyPath: m_Name
       value: Player
