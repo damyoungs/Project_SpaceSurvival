@@ -7,7 +7,9 @@ public class EquipBox_Slot : MonoBehaviour
 {
     Image itemIcon;
     ItemData itemData;
-    
+    public EquipSlot_Type slotType;
+
+
     public ItemData ItemData
     {
         get => itemData;

@@ -25,6 +25,7 @@ public class EquipBox : MonoBehaviour
         for (int i = 1; i < transform.childCount; i++)
         {
             equipBox_Slots[i - 1] = transform.GetChild(i).GetComponent<EquipBox_Slot>();
+          //  equipBox_Slots[i - 1].slotType = 
         }
     }
 
@@ -35,8 +36,28 @@ public class EquipBox : MonoBehaviour
     public void Set_ItemData(ItemData itemData)
     {
         //itemdata 가 hat, Weapon, Suit, Jewel 인지 확인하고 슬롯의 타입과 맞지 않으면 리턴시키기
+        ItemData_Armor armor = itemData as ItemData_Armor;
+        ItemData_Hat hat = itemData as ItemData_Hat;
+        ItemData_Craft jewel = itemData as ItemData_Craft;
+        if (armor != null)
+        {
 
+        }
+        else if (hat != null)
+        {
+
+        }
+        else if (jewel != null)
+        {
+
+        }
+        else if (itemData.ItemType == ItemType.Equip)
+        {
+
+        }
         EquipBox_Slot slot = FindSlot();
+
+
 
     }
     EquipBox_Slot FindSlot()
