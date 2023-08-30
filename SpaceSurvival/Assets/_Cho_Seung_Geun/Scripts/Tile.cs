@@ -22,9 +22,9 @@ public class Tile : MonoBehaviour, IComparable<Tile>
     public enum TileExistType
     {
         None = 0,
-        monster,
-        item,
-        prop
+        Monster,
+        Item,
+        Prop
     }
 
     // 타일 타입

@@ -39,7 +39,8 @@ public static class AStar
                 {
                     for (int x = -1; x < 2; x++)
                     {
-                        if (current.Width + x < 0 || current.Width + x > map.sizeX || current.Length + y < 0 || current.Length + y > map.sizeY)
+                        if (current.Width + x < 0 || current.Width + x > map.sizeX - 1 ||
+                            current.Length + y < 0 || current.Length + y > map.sizeY - 1)
                             continue;
 
                         adjoinTile = map.GetTile(current.Width + x, current.Length + y);    // 인접한 타일 가져오기

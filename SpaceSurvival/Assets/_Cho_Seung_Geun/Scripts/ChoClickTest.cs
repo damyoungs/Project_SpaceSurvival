@@ -43,7 +43,7 @@ public class ChoClickTest : MonoBehaviour
                     transform.position = value.transform.position;
                 }
                 currentPos = value;
-                currentPos.ExistType = Tile.TileExistType.monster;
+                currentPos.ExistType = Tile.TileExistType.Monster;
             }
         }
     }
@@ -86,7 +86,7 @@ public class ChoClickTest : MonoBehaviour
             {
                 target = (BoxCollider)hitInfo.collider;                         // 타겟의 박스콜라이더 반환
                 Tile tile = target.gameObject.GetComponent<Tile>();
-                if (tile.ExistType != Tile.TileExistType.prop)
+                if (tile.ExistType == Tile.TileExistType.None)
                 {
                     path = AStar.PathFind(map, CurrentPos, tile);
                 }
@@ -109,7 +109,7 @@ public class ChoClickTest : MonoBehaviour
         //    transform.Translate(Time.fixedDeltaTime * speed * (target.gameObject.transform.position - transform.position).normalized);
         //}
 
-        if (path != null && path.Count > 0 )
+        if (path.Count > 0 )
         {
             Tile destPath = path[0];
         
