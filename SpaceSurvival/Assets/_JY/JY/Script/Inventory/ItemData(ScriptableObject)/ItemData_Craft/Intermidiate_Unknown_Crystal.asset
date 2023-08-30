@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Intermidiate_Unknown_Crystal
   m_EditorClassIdentifier: 
   ItemType: 4
-  code: 41
+  code: 29
   itemName: Intermidiate_Unknown_Crystal
   modelPrefab: {fileID: 8096881631137310666, guid: 82d08bade9e641941af54c23b29a635c, type: 3}
   itemIcon: {fileID: 21300000, guid: 4505d5e23e12a6e4893f628b19fd371b, type: 3}

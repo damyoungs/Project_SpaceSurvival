@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Captain's_Hat
   m_EditorClassIdentifier: 
   ItemType: 1
-  code: 9
-  itemName: 
-  modelPrefab: {fileID: 0}
+  code: 46
+  itemName: "\uCEA1\uD2F4\uC758 \uBAA8\uC790"
+  modelPrefab: {fileID: 2480855363001810257, guid: 03558334d09836541acdf8c346e2e0ef, type: 3}
   itemIcon: {fileID: 0}
-  price: 0
+  price: 10000
   maxStackCount: 1
-  itemDescription: 
-  EquipType: 0
+  itemDescription: "\uCEA1\uD2F4\uC758 \uBAA8\uC790"
+  EquipType: 1

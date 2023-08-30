@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474120e3fa2b50647815d8a4712d0669, type: 3}
   m_Name: Crew's_Hat
   m_EditorClassIdentifier: 
-  ItemType: 0
-  code: 0
-  itemName: 
-  modelPrefab: {fileID: 0}
+  ItemType: 1
+  code: 47
+  itemName: "\uC120\uC6D0\uC758 \uBAA8\uC790"
+  modelPrefab: {fileID: 5723156827907725018, guid: 3483a8efb79b11f43925cd189b96ab41, type: 3}
   itemIcon: {fileID: 0}
-  price: 0
+  price: 5000
   maxStackCount: 1
-  itemDescription: 
-  EquipType: 0
+  itemDescription: "\uC120\uC6D0\uC758 \uBAA8\uC790"
+  EquipType: 1

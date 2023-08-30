@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08131fe686a0b4c409bda97836ec1d27, type: 3}
   m_Name: Space_Armor
   m_EditorClassIdentifier: 
-  ItemType: 0
-  code: 0
-  itemName: 
-  modelPrefab: {fileID: 0}
+  ItemType: 1
+  code: 50
+  itemName: Space_Armor
+  modelPrefab: {fileID: 250185068433443445, guid: 6c601df49ef23414591b7bbc47808f64, type: 3}
   itemIcon: {fileID: 0}
-  price: 0
+  price: 80000
   maxStackCount: 1
-  itemDescription: 
-  EquipType: 0
+  itemDescription: "\uD2BC\uD2BC\uD574 \uBCF4\uC774\uB294 \uAC11\uC637\uC774\uB2E4."
+  EquipType: 3

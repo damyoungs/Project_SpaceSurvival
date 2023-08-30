@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474120e3fa2b50647815d8a4712d0669, type: 3}
   m_Name: Junnker's Helmet
   m_EditorClassIdentifier: 
-  ItemType: 0
-  code: 0
-  itemName: 
-  modelPrefab: {fileID: 0}
+  ItemType: 1
+  code: 48
+  itemName: Junnker's Helmet
+  modelPrefab: {fileID: 4151599991074558520, guid: 65714c5b75cd6d3448b01413b1639477, type: 3}
   itemIcon: {fileID: 0}
-  price: 0
+  price: 10000
   maxStackCount: 1
-  itemDescription: 
-  EquipType: 0
+  itemDescription: Junnker's Helmet
+  EquipType: 1

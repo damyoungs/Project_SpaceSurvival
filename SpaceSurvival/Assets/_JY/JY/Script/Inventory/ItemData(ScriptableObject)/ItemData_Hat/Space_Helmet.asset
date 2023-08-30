@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474120e3fa2b50647815d8a4712d0669, type: 3}
   m_Name: Space_Helmet
   m_EditorClassIdentifier: 
-  ItemType: 0
-  code: 0
-  itemName: 
-  modelPrefab: {fileID: 0}
+  ItemType: 1
+  code: 49
+  itemName: SpaceHelm
+  modelPrefab: {fileID: 5798576363139874498, guid: 1d2cb7c3db0255942a5be75177b6c0ca, type: 3}
   itemIcon: {fileID: 0}
-  price: 0
+  price: 20000
   maxStackCount: 1
-  itemDescription: 
-  EquipType: 0
+  itemDescription: SpaceHelm
+  EquipType: 1

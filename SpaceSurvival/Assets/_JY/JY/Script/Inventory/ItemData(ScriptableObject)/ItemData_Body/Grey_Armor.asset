@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08131fe686a0b4c409bda97836ec1d27, type: 3}
   m_Name: Grey_Armor
   m_EditorClassIdentifier: 
-  ItemType: 0
-  code: 0
-  itemName: 
-  modelPrefab: {fileID: 0}
+  ItemType: 1
+  code: 53
+  itemName: Grey_Armor
+  modelPrefab: {fileID: 567646534157002328, guid: 97d6900ae4c2acf45809c2479cea457f, type: 3}
   itemIcon: {fileID: 0}
-  price: 0
+  price: 100000
   maxStackCount: 1
-  itemDescription: 
-  EquipType: 0
+  itemDescription: Grey_Armor
+  EquipType: 3

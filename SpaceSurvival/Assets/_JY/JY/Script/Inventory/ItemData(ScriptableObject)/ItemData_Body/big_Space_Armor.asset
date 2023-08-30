@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: big_Space_Armor
   m_EditorClassIdentifier: 
   ItemType: 1
-  code: 66
-  itemName: 
-  modelPrefab: {fileID: 0}
+  code: 51
+  itemName: "\uD2BC\uD2BC\uD55C \uAC11\uC637"
+  modelPrefab: {fileID: 5855008442964821017, guid: 0043dbb66767f8245a28a6945e1c283e, type: 3}
   itemIcon: {fileID: 0}
-  price: 0
+  price: 100000
   maxStackCount: 1
-  itemDescription: 
-  EquipType: 0
+  itemDescription: "\uB9E4\uC6B0 \uACAC\uACE0\uD574 \uBCF4\uC774\uB294 \uAC11\uC637\uC774\uB2E4.  "
+  EquipType: 3
