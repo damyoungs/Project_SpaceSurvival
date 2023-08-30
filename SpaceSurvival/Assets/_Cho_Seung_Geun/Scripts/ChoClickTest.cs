@@ -40,6 +40,8 @@ public class ChoClickTest : MonoBehaviour
                 }
                 else
                 {
+                    // 승근씨거 충돌나니깐 승근씨 스크립트 연결해서 사용하지마시고 
+                    // 복사해서 이름바꿔서 사용하도록하세요 픽스버전이아니라 머지할때마다 에러날수가있어요 
                     transform.position = value.transform.position;
                 }
                 currentPos = value;
