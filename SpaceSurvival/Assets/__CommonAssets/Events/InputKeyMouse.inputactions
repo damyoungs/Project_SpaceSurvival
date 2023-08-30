@@ -58,6 +58,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "MoveMode_Change",
+                    "type": "Button",
+                    "id": "58cce24f-25c0-4dd8-9748-c832251e369b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -179,6 +188,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Equip_Item",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "53feca87-2df9-4191-926e-2cb081f00873",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "MultiTap(tapDelay=0.4)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveMode_Change",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

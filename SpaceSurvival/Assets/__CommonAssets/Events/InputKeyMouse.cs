@@ -80,6 +80,15 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MoveMode_Change"",
+                    ""type"": ""Button"",
+                    ""id"": ""58cce24f-25c0-4dd8-9748-c832251e369b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -201,6 +210,17 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Equip_Item"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""53feca87-2df9-4191-926e-2cb081f00873"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": ""MultiTap(tapDelay=0.4)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveMode_Change"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -893,6 +913,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         m_Player_RightRotate = m_Player.FindAction("RightRotate", throwIfNotFound: true);
         m_Player_ItemPickUp = m_Player.FindAction("ItemPickUp", throwIfNotFound: true);
         m_Player_Equip_Item = m_Player.FindAction("Equip_Item", throwIfNotFound: true);
+        m_Player_MoveMode_Change = m_Player.FindAction("MoveMode_Change", throwIfNotFound: true);
         // Mouse
         m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
         m_Mouse_MouseClick = m_Mouse.FindAction("MouseClick", throwIfNotFound: true);
@@ -1002,6 +1023,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_RightRotate;
     private readonly InputAction m_Player_ItemPickUp;
     private readonly InputAction m_Player_Equip_Item;
+    private readonly InputAction m_Player_MoveMode_Change;
     public struct PlayerActions
     {
         private @InputKeyMouse m_Wrapper;
@@ -1012,6 +1034,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         public InputAction @RightRotate => m_Wrapper.m_Player_RightRotate;
         public InputAction @ItemPickUp => m_Wrapper.m_Player_ItemPickUp;
         public InputAction @Equip_Item => m_Wrapper.m_Player_Equip_Item;
+        public InputAction @MoveMode_Change => m_Wrapper.m_Player_MoveMode_Change;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1039,6 +1062,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @Equip_Item.started += instance.OnEquip_Item;
             @Equip_Item.performed += instance.OnEquip_Item;
             @Equip_Item.canceled += instance.OnEquip_Item;
+            @MoveMode_Change.started += instance.OnMoveMode_Change;
+            @MoveMode_Change.performed += instance.OnMoveMode_Change;
+            @MoveMode_Change.canceled += instance.OnMoveMode_Change;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1061,6 +1087,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @Equip_Item.started -= instance.OnEquip_Item;
             @Equip_Item.performed -= instance.OnEquip_Item;
             @Equip_Item.canceled -= instance.OnEquip_Item;
+            @MoveMode_Change.started -= instance.OnMoveMode_Change;
+            @MoveMode_Change.performed -= instance.OnMoveMode_Change;
+            @MoveMode_Change.canceled -= instance.OnMoveMode_Change;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1563,6 +1592,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         void OnRightRotate(InputAction.CallbackContext context);
         void OnItemPickUp(InputAction.CallbackContext context);
         void OnEquip_Item(InputAction.CallbackContext context);
+        void OnMoveMode_Change(InputAction.CallbackContext context);
     }
     public interface IMouseActions
     {
