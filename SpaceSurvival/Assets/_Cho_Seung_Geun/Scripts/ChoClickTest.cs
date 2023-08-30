@@ -23,6 +23,30 @@ public class ChoClickTest : MonoBehaviour
     /// </summary>
     InputKeyMouse inputClick;
 
+    MapTest map;
+    List<Tile> path = null;
+
+    Tile currentPos = null;
+    public Tile CurrentPos
+    {
+        get => currentPos;
+        set
+        {
+            if (currentPos != value)
+            {
+                if (currentPos != null)
+                {
+                    currentPos.ExistType = Tile.TileExistType.None;
+                }
+                else
+                {
+                    transform.position = value.transform.position;
+                }
+                currentPos = value;
+                currentPos.ExistType = Tile.TileExistType.Monster;
+            }
+        }
+    }
 
     private void Awake()
     {
@@ -32,18 +56,19 @@ public class ChoClickTest : MonoBehaviour
     {
         inputClick.Mouse.Enable();
         inputClick.Mouse.MouseClick.performed += onClick;
-        inputClick.Player.Enable();
-        inputClick.Player.LeftRotate.performed += onLeftRotate;
-        inputClick.Player.RightRotate.performed += onRightRotate;
+
+        map = FindObjectOfType<MapTest>();
+        path = new List<Tile>();
     }
 
     private void OnDisable()
     {
-        inputClick.Player.RightRotate.performed -= onRightRotate;
-        inputClick.Player.LeftRotate.performed -= onLeftRotate;
-        inputClick.Player.Disable();
         inputClick.Mouse.MouseClick.performed -= onClick;
         inputClick.Mouse.Disable();
+
+        if (path != null )
+            path.Clear();
+        path = null;
     }
 
     /// <summary>
@@ -60,25 +85,15 @@ public class ChoClickTest : MonoBehaviour
             if (hitInfo.transform.gameObject.CompareTag("Tile"))                // 태그 "타일"과 충돌하면
             {
                 target = (BoxCollider)hitInfo.collider;                         // 타겟의 박스콜라이더 반환
-                Tile tile = target.gameObject.GetComponent<Tile>();             // 아래의 디버그를 위한 타일 반환(디버그 안 할시 없어도 됨)
+                Tile tile = target.gameObject.GetComponent<Tile>();
+                if (tile.ExistType == Tile.TileExistType.None)
+                {
+                    path = AStar.PathFind(map, CurrentPos, tile);
+                }
+                //CurrentPos = tile;
                 Debug.Log($"타일 위치 : {tile.Width}, {tile.Length}");
             }
         }
-    }
-
-    private void onLeftRotate(InputAction.CallbackContext _)
-    {
-        Quaternion rotate = Quaternion.Slerp(transform.rotation, Quaternion.AngleAxis(-90.0f, Vector3.up), 1.0f);
-
-        transform.rotation *= rotate;
-        
-    }
-
-    private void onRightRotate(InputAction.CallbackContext _)
-    {
-        Quaternion rotate = Quaternion.Slerp(transform.rotation, Quaternion.AngleAxis(90.0f, Vector3.up), 1.0f);
-
-        transform.rotation *= rotate;
     }
 
     private void Start()
@@ -89,9 +104,28 @@ public class ChoClickTest : MonoBehaviour
     private void FixedUpdate()
     {
         // 타겟이 널포인트가 아니고 타겟이 도착하지 않았을 시 이동
-        if (target != null && (target.gameObject.transform.position - transform.position).sqrMagnitude > 0.01f)
+        //if (target != null && (target.gameObject.transform.position - transform.position).sqrMagnitude > 0.01f)
+        //{
+        //    transform.Translate(Time.fixedDeltaTime * speed * (target.gameObject.transform.position - transform.position).normalized);
+        //}
+
+        if (path.Count > 0 )
         {
-            transform.Translate(Time.fixedDeltaTime * speed * (target.gameObject.transform.position - transform.position).normalized);
+            Tile destPath = path[0];
+        
+            Vector3 dir = destPath.transform.position - transform.position;
+        
+            if (dir.sqrMagnitude < 0.01f )
+            {
+                transform.position = destPath.transform.position;
+                CurrentPos = destPath;
+                path.RemoveAt(0);
+            }
+            else
+            {
+                transform.Translate(Time.fixedDeltaTime * speed * dir.normalized);
+            }
         }
+
     }
 }

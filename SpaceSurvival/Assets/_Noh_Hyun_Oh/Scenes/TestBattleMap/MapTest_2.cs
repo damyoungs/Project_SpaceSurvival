@@ -77,7 +77,7 @@ public class MapTest_2 : TestBase
             MapInstantiate();                       // 메인 맵 생성
 
             player.transform.position = GetTile(sizeX / 2, sizeY / 3).transform.position;         // 플레이어 위치 이동(임시)
-            GetTile(sizeX / 2, sizeY / 3).ExistType = Tile.TileExistType.monster;
+            GetTile(sizeX / 2, sizeY / 3).ExistType = Tile.TileExistType.Monster;
 
             LightInstantiate();                     // 조명 및 기둥 생성
             //MiniMapInstantiate();                 // 미니맵 판자 생성(필요없을 것 같아 나중에 지울 예정)
@@ -262,7 +262,7 @@ public class MapTest_2 : TestBase
 
         for (int i = 0; i < 4; i++)
         {
-            standardPos[i].GetComponent<Tile>().ExistType = Tile.TileExistType.prop;                                 // 기둥이 있는 타일의 타입 지정
+            standardPos[i].GetComponent<Tile>().ExistType = Tile.TileExistType.Prop;                                 // 기둥이 있는 타일의 타입 지정
 
             pillars[i] = Instantiate(pillar, gameObject.transform);                                               // 기둥 생성
             pillars[i].transform.position = standardPos[i].transform.position;                                    // 기둥 이동
@@ -366,7 +366,7 @@ public class MapTest_2 : TestBase
             }
             obj.transform.position = tile.transform.position;       // 구조물을 타일의 위치로 이동
             obj.transform.GetChild(0).rotation = Quaternion.Euler(0.0f, 90.0f * Random.Range(0, 4), 0.0f);  // 구조물 회전시켜 주기
-            tile.ExistType = Tile.TileExistType.prop;               // 구조물이 있는 타일 구조물이 있다고 표시
+            tile.ExistType = Tile.TileExistType.Prop;               // 구조물이 있는 타일 구조물이 있다고 표시
             break;                  // 무한 루프 탈출
         }
         
@@ -406,7 +406,7 @@ public class MapTest_2 : TestBase
                         switch (randomRotation)         // 회전 정도에 따라 체크해야할 타일의 인덱스가 달라지기 때문에 각자 맞춰 계산하도록 돌림
                         {
                             case 0:         // 회전이 0도일 때
-                                if (GetTile(tile.Width + i, tile.Length + j).ExistType == Tile.TileExistType.prop ||    // 타일에 구조물이 놓여있거나
+                                if (GetTile(tile.Width + i, tile.Length + j).ExistType == Tile.TileExistType.Prop ||    // 타일에 구조물이 놓여있거나
                                     GetTile(tile.Width + i, tile.Length + j).TileType == Tile.MapTileType.sideTile ||   // 타일이 사이드 타일이거나
                                     GetTile(tile.Width + i, tile.Length + j).TileType == Tile.MapTileType.vertexTile)   // 꼭지점 타일인 경우
                                 {
@@ -418,7 +418,7 @@ public class MapTest_2 : TestBase
                                 tileCount++;                                                           // 몇 개의 타일을 체크했는지 확인하기 위해 타일 카운트 증가
                                 break;                                                                 // switch문 탈출
                             case 1:         // 회전이 90도 일 때
-                                if (GetTile(tile.Width + j, tile.Length - i).ExistType == Tile.TileExistType.prop ||        // 위와 동일
+                                if (GetTile(tile.Width + j, tile.Length - i).ExistType == Tile.TileExistType.Prop ||        // 위와 동일
                                     GetTile(tile.Width + j, tile.Length - i).TileType == Tile.MapTileType.sideTile ||
                                     GetTile(tile.Width + j, tile.Length - i).TileType == Tile.MapTileType.vertexTile)
                                 {
@@ -430,7 +430,7 @@ public class MapTest_2 : TestBase
                                 tileCount++;
                                 break;
                             case 2:         // 회전이 180도 일 때
-                                if (GetTile(tile.Width - i, tile.Length - j).ExistType == Tile.TileExistType.prop ||        // 위와 동일
+                                if (GetTile(tile.Width - i, tile.Length - j).ExistType == Tile.TileExistType.Prop ||        // 위와 동일
                                     GetTile(tile.Width - i, tile.Length - j).TileType == Tile.MapTileType.sideTile ||
                                     GetTile(tile.Width - i, tile.Length - j).TileType == Tile.MapTileType.vertexTile)
                                 {
@@ -442,7 +442,7 @@ public class MapTest_2 : TestBase
                                 tileCount++;
                                 break;
                             case 3:         // 회전이 270도 일 때
-                                if (GetTile(tile.Width - j, tile.Length + i).ExistType == Tile.TileExistType.prop ||        // 위와 동일
+                                if (GetTile(tile.Width - j, tile.Length + i).ExistType == Tile.TileExistType.Prop ||        // 위와 동일
                                     GetTile(tile.Width - j, tile.Length + i).TileType == Tile.MapTileType.sideTile ||
                                     GetTile(tile.Width - j, tile.Length + i).TileType == Tile.MapTileType.vertexTile)
                                 {
@@ -477,7 +477,7 @@ public class MapTest_2 : TestBase
 
         for (int i = 0; i < tempTile.Length; i++)           // 필요한 타일을 담아놓은 배열을 순환시키며
         {
-            tempTile[i].ExistType = Tile.TileExistType.prop;        // 그 타일은 구조물이 있음을 표시
+            tempTile[i].ExistType = Tile.TileExistType.Prop;        // 그 타일은 구조물이 있음을 표시
         }
     }
 
@@ -503,7 +503,7 @@ public class MapTest_2 : TestBase
 
         for (int i = 0; i < standardPos.Length; i++)
         {
-            standardPos[i].ExistType = Tile.TileExistType.prop;     // 기둥이 있는 타일은 다시 Prop으로 변경
+            standardPos[i].ExistType = Tile.TileExistType.Prop;     // 기둥이 있는 타일은 다시 Prop으로 변경
         }
     }
 
@@ -538,7 +538,7 @@ public class MapTest_2 : TestBase
             MapInstantiate();                       // 메인 맵 생성
 
             player.transform.position = GetTile(sizeX / 2, sizeY / 3).transform.position;         // 플레이어 위치 이동(임시)
-            GetTile(sizeX / 2, sizeY / 3).ExistType = Tile.TileExistType.monster;
+            GetTile(sizeX / 2, sizeY / 3).ExistType = Tile.TileExistType.Monster;
 
             LightInstantiate();                     // 조명 및 기둥 생성
             //MiniMapInstantiate();                 // 미니맵 판자 생성(필요없을 것 같아 나중에 지울 예정)
