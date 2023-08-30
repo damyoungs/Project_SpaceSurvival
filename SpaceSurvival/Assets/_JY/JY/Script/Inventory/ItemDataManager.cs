@@ -4,7 +4,6 @@ using UnityEngine;
 
 public enum ItemCode// 밑의 ItemData 배열과 같은 순서를 유지해야 알맞은 프리팹을 소환한다.
 {
-    //지울 목록 : Bat, Bow, Pistol, Rifle, Scythe, ShotGun, SwordLaser, TwoHandAxe,, Wand,Hammer, 
     Cash,
     HpPotion,
     MpPotion,
@@ -12,12 +11,24 @@ public enum ItemCode// 밑의 ItemData 배열과 같은 순서를 유지해야 알맞은 프리팹을
     SpellBook,
     Shield,
     Shield_Extended,
+    Bat,
+    Bow,
     Enhancable_Bow,
     Dagger,
+    Hammer,
+    Pistol,
     Enhancable_Pistol,
+    Rifle,
     Enhancable_Rifle,
+    Scythe,
+    ShotGun,
     Enhancable_shotGun,
+    SwordLaser,
+    SwordLaser_Advanced,
     Enhancable_Sword,
+    TwoHandAxe,
+    TwoHandSword,
+    Wand,
     AquaCrystal,
     BlueCrystal,
     Intermidiate_Blue_Crystal,
@@ -51,14 +62,9 @@ public enum ItemCode// 밑의 ItemData 배열과 같은 순서를 유지해야 알맞은 프리팹을
     Bullet_Grade11,
     Bullet_Grade12,
     Bullet_Grade13,
-    Captains_Hat,
-    Crews_Hat,
-    Junnkers_Helm,
-    Space_Helm,
-    Space_Armor,
-    Big_Space_Armor,
-    Blue_Armor,
-    Grey_Armor
+    HP_Potion,
+    MP_Potion,
+    Elixir
 }
 
 public enum ItemType

@@ -13,14 +13,12 @@ MonoBehaviour:
   m_Name: Bullet_Grade 8
   m_EditorClassIdentifier: 
   ItemType: 2
-  code: 40
+  code: 52
   itemName: Bullet_Grade8
   modelPrefab: {fileID: 123226352606093276, guid: 2ab2f7b376a4e9746a3514609be62b66, type: 3}
   itemIcon: {fileID: 21300000, guid: 3e38ed9c64d69344698c1025fdca2a91, type: 3}
   price: 120000
   maxStackCount: 1000
   itemDescription: 8
-  CraftType: 0
-  successRate: 65
-  Critical_Success_Item: {fileID: 0}
   attckPoint: 30
+  successRate: 65

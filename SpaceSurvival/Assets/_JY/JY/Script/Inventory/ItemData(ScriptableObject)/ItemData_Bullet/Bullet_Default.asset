@@ -13,14 +13,12 @@ MonoBehaviour:
   m_Name: Bullet_Default
   m_EditorClassIdentifier: 
   ItemType: 2
-  code: 32
+  code: 44
   itemName: Default_Bullet
   modelPrefab: {fileID: 1158153570276950552, guid: 50b8a763c0c7f254ba3a3ea6a4531f89, type: 3}
   itemIcon: {fileID: 21300000, guid: 83c3352c727d25344bcf9ee98c56033d, type: 3}
   price: 0
   maxStackCount: 500
   itemDescription: Default
-  CraftType: 0
-  successRate: 0
-  Critical_Success_Item: {fileID: 0}
   attckPoint: 10
+  successRate: 0

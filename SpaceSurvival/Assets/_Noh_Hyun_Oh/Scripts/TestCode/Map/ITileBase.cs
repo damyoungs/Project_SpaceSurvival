@@ -33,7 +33,7 @@ public interface ITileBase
     /// <param name="index">셀의 인덱스값</param>
     /// <param name="grid3DPos">셀의 좌표값</param>
     /// <param name="tileState">셀의 상태값</param>
-    void OnInitData(int index , Vector3Int grid3DPos, CurrentTileState tileState);
+    void OnInitData(int index, Vector3Int grid3DPos, CurrentTileState tileState);
 
     /// <summary>
     /// 데이터 초기값으로 돌리기용으로 사용될 함수

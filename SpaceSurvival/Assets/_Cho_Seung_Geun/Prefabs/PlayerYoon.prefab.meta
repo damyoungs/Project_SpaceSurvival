@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:SpaceSurvival/Assets/_Cho_Seung_Geun/Prefabs/PlayerYoon.prefab.meta
 guid: 45edfd4c57d371b4490c5f1120ea5a77
+========
+guid: 6be64b26c3ac138469fc5233c673a403
+>>>>>>>> Noh:SpaceSurvival/Assets/_Cho_Seung_Geun/Prefabs/Props/SM_Prop_Crate_Ammo_02.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 

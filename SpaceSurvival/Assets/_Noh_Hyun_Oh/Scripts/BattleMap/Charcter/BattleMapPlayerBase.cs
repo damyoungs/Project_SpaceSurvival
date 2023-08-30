@@ -8,7 +8,12 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj , ICharcterBase
     /// 추적형 UI 
     /// </summary>
     private TrackingBattleUI battleUI = null;
-    public TrackingBattleUI BattleUI => battleUI;
+    public TrackingBattleUI BattleUI
+    {
+        get => battleUI;
+        set => battleUI = value;
+
+    }
 
     /// <summary>
     /// 추적형 UI 가 있는 캔버스 위치
@@ -23,7 +28,7 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj , ICharcterBase
     private void Start()
     {
         battleUICanvas = WindowList.Instance.transform.GetChild(0).GetChild(0);  // TrackingUI 담을 캔버스위치
-        InitUI();
+        InitUI();//맨처음 
     }
 
     protected override void OnEnable()
@@ -45,8 +50,8 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj , ICharcterBase
         }
         else //추적형 UI가 셋팅안되있으면 셋팅한다
         {
-            battleUI = (TrackingBattleUI)MultipleObjectsFactory.Instance.
-                   GetObject(EnumList.MultipleFactoryObjectList.TRACKING_BATTLE_UI_POOL); // 제일처음 초기화할때 배틀 UI 셋팅하고 
+            battleUI = (TrackingBattleUI)Multiple_Factory.Instance.
+                GetObject(EnumList.MultipleFactoryObjectList.TRACKING_BATTLE_UI_POOL); // 제일처음 초기화할때 배틀 UI 셋팅하고 
             battleUI.gameObject.name = $"{name} _ Tracking"; //이름확인용
             battleUI.transform.SetParent(battleUICanvas);//풀은 캔버스 밑에없기때문에 배틀맵UI만 관리할 캔버스 위치 밑으로 이동시킨다.
             battleUI.gameObject.SetActive(true); //활성화 시킨다.
@@ -67,10 +72,10 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj , ICharcterBase
     /// </summary>
     public void ResetData()
     {
-        if (battleUI != null) //배틀 UI가 셋팅되있으면 
+        if (BattleUI != null) //배틀 UI가 셋팅되있으면 
         {
-            battleUI.ResetData();// 추적형 UI 초기화 
-            battleUI = null; // 비우기
+            BattleUI.ResetData();// 추적형 UI 초기화 
+            BattleUI = null; // 비우기
         }
         if (viewPlayerCamera != null)
         {

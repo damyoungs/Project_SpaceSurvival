@@ -254,7 +254,7 @@ public class TileManager : MonoBehaviour
                             //int groupCellIndex = (gridGroupIndex * groupCellSize) + tempGroupCellIndexCount; //ºø¿«¿Œµ¶Ω∫ 
                             groupCellIndex = (horizontalGroupLength * cellY) + cellX; //ºø¿«¿Œµ¶Ω∫ 
 
-                            mapTiles[groupCellIndex] = (ITileBase)MultipleObjectsFactory.Instance.GetObject(EnumList.MultipleFactoryObjectList.TILE_POOL);
+                            mapTiles[groupCellIndex] = (ITileBase)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.TILE_POOL);
                             //mapTiles[groupCellIndex] =  Instantiate(tilePrefab); //∆—≈‰∏Æ ø¨∞· « ø‰ 
 
                             mapTiles[groupCellIndex].OnInitData(
@@ -279,7 +279,7 @@ public class TileManager : MonoBehaviour
     {
         int groupCellIndex = (horizontalGroupLength * addNode.Y) + addNode.X; //ºø¿«¿Œµ¶Ω∫ 
 
-        mapTiles[groupCellIndex] = (ITileBase)MultipleObjectsFactory.Instance.GetObject(EnumList.MultipleFactoryObjectList.TILE_POOL);
+        mapTiles[groupCellIndex] = (ITileBase)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.TILE_POOL);
         //mapTiles[groupCellIndex] =  Instantiate(tilePrefab); //∆—≈‰∏Æ ø¨∞· « ø‰ 
 
         mapTiles[groupCellIndex].OnInitData(

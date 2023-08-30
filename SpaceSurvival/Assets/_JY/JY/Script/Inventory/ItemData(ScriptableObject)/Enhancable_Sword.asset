@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Enhancable_Sword
   m_EditorClassIdentifier: 
   ItemType: 1
-  code: 12
+  code: 21
   itemName: Sword
   modelPrefab: {fileID: 3899290549971835656, guid: f36d72115875ba241aeb735c6ddfb8ee, type: 3}
   itemIcon: {fileID: 1151783381, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}

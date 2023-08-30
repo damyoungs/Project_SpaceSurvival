@@ -409,29 +409,30 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
                 uiParent.GetChild(i).GetChild(j).gameObject.SetActive(true);
             }
         }
+        ITurnBaseData tbo;
         for (int i = 0; i < initSize; i++)
         {
             battleUnitIndex = i;// 일단 체크용 변수 입력
             if (i == 0)
             {
-                player = (PlayerTurnObject)MultipleObjectsFactory.Instance.GetObject(EnumList.MultipleFactoryObjectList.BATTLEMAP_PLAYER_POOL); //
+                player = (PlayerTurnObject)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.BATTLEMAP_PLAYER_POOL); //
                 player.gameObject.name = $"PL_Charcter  _{i}";
+                tbo = player;
             }
             else 
             {
-                TurnBaseObject obj = (EnemyTurnObject)MultipleObjectsFactory.Instance.GetObject(EnumList.MultipleFactoryObjectList.BATTLEMAP_ENEMY_POOL); //가져오고
-                obj.name = $"ENEMY_Charcter _{i}";
+                tbo = (EnemyTurnObject)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.BATTLEMAP_ENEMY_POOL); //가져오고
+                tbo.gameObject.name = $"ENEMY_Charcter _{i}";
             }
-            //Debug.Log(tbo);
-            //InitTurnObject(i,obj, tbo);
+            InitTurnObject(i, tbo);
         }
 
     }
-    private void InitTurnObject(int index ,GameObject obj, ITurnBaseData tbo) 
+    private void InitTurnObject(int index , ITurnBaseData tbo) 
     {
        
         tbo.TurnActionValue = UnityEngine.Random.Range(0.0f, 8.0f); // -테스트값 설정
-        obj.transform.position = new Vector3(
+        tbo.transform.position = new Vector3(
                                         UnityEngine.Random.Range(-10.0f, 10.0f),
                                         0.0f,
                                         UnityEngine.Random.Range(-10.0f, 0.0f)

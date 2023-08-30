@@ -159,12 +159,11 @@ public class TurnBaseObject : BattleMapTurnUnit_PoolObj, ITurnBaseData
     /// </summary>
     private void TurnGaugeInit()
     {
-        //GameObject obj = MultipleObjectsFactory.Instance.
-        //   GetObject(EnumList.MultipleFactoryObjectList.TURN_GAUGE_UNIT_POOL);// 풀에서 데이터 가져온다.
-        //obj.gameObject.name = $"{this.name} _ TurnGauge "; //오브젝트에 이름 넣어둔다 제대로됬는지 확인하기쉽게.
-        //obj.transform.SetParent(turnGaugeCanvas); //부모위치 설정 
-        //obj.gameObject.SetActive(true); //활성화 시킨다.
-        //gaugeUnit = obj.GetComponent<TurnGaugeUnit>(); //턴 유닛에 게이지 유닛 캐싱 
-        //gaugeUnit.ProgressValue = TurnActionValue; //초기값 셋팅
+        gaugeUnit = (TurnGaugeUnit)Multiple_Factory.Instance.
+           GetObject(EnumList.MultipleFactoryObjectList.TURN_GAUGE_UNIT_POOL);// 풀에서 데이터 가져온다.
+        gaugeUnit.gameObject.name = $"{this.name} _ TurnGauge "; //오브젝트에 이름 넣어둔다 제대로됬는지 확인하기쉽게.
+        gaugeUnit.transform.SetParent(turnGaugeCanvas); //부모위치 설정 
+        gaugeUnit.gameObject.SetActive(true); //활성화 시킨다.
+        gaugeUnit.ProgressValue = TurnActionValue; //초기값 셋팅
     }
 }

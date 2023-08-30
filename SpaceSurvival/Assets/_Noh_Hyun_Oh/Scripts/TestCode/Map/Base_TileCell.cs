@@ -10,7 +10,7 @@ using UnityEngine.UIElements;
 /// <summary>
 /// 타일 기본정보 
 /// </summary>
-public class Base_TileCell : PoolObjBase ,ITileBase  ,IPointerUpHandler  ,IPointerDownHandler 
+public class Base_TileCell : Base_PoolObj, ITileBase, IPointerUpHandler, IPointerDownHandler
 {
     int index = -1;
     /// <summary>
@@ -47,10 +47,11 @@ public class Base_TileCell : PoolObjBase ,ITileBase  ,IPointerUpHandler  ,IPoint
         set
         {
             //현재 상태가 장애물이거나 , 갈수없는지역일때 는
-            if (currentTileState ==  CurrentTileState.Prop || currentTileState == CurrentTileState.InaccessibleArea) 
+            if (currentTileState == CurrentTileState.Prop || currentTileState == CurrentTileState.InaccessibleArea)
             {
                 return;//셋팅안한다.
-            }else if (currentTileState != value) //다른값이 들어올경우만  
+            }
+            else if (currentTileState != value) //다른값이 들어올경우만  
             {
                 lr.enabled = false;
                 currentTileState = value; //값셋팅하고 
@@ -71,15 +72,15 @@ public class Base_TileCell : PoolObjBase ,ITileBase  ,IPointerUpHandler  ,IPoint
     }
 
     Vector3[] defaultLinePos;
-    
+
     public Action<int> OnClick { get; set; }
 
-    protected override  void Awake()
+    protected override void Awake()
     {
         base.Awake();
         lr = GetComponent<LineRenderer>();
         lr.enabled = false;
-        
+
         defaultLinePos = new Vector3[lr.positionCount]; //인스팩터 설정한갯수만큼 잡고 
         for (int i = 0; i < lr.positionCount; i++)
         {
@@ -88,10 +89,10 @@ public class Base_TileCell : PoolObjBase ,ITileBase  ,IPointerUpHandler  ,IPoint
 
     }
 
-   
-    public void OnInitData(int index , Vector3Int gridPos, CurrentTileState currentTileState)
+
+    public void OnInitData(int index, Vector3Int gridPos, CurrentTileState currentTileState)
     {
-        this.index  = index;
+        this.index = index;
         lr.enabled = false;
         Vector3 tempPos = Vector3.zero;
         // 위치값과 타일사이즈를 이용해서 제대로된 위치 잡기
@@ -102,19 +103,19 @@ public class Base_TileCell : PoolObjBase ,ITileBase  ,IPointerUpHandler  ,IPoint
         // 라인렌더러 위치 잡기 
         for (int i = 0; i < lr.positionCount; i++)
         {
-            tempPos =  lr.GetPosition(i);
+            tempPos = lr.GetPosition(i);
             tempPos = defaultLinePos[i]; //최초로 설정한 기본값으로 초기화 
             tempPos.x += tempX;
             tempPos.y += tempZ;
             tempPos.z += tempY;
             lr.SetPosition(i, tempPos);
-        } 
+        }
 
         tile3DPosIndex = gridPos; //인덱스 정보 담기
-        
+
         this.currentTileState = currentTileState;
         //Debug.Log($"{gridPos} _ {currentTileState}");
-        transform.position = new Vector3(tempX,tempZ,tempY);
+        transform.position = new Vector3(tempX, tempZ, tempY);
     }
 
 

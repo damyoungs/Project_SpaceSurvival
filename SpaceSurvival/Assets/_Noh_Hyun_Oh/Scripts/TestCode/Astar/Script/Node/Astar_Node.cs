@@ -52,19 +52,19 @@ public class Astar_Node : IComparable<Astar_Node>
     /// 해당노드가 포함하고있는 세로 사이즈값 (시작좌표와 끝의좌표간의 사이값).
     /// 타일간의 간격을 이값으로 설정한다.
     /// </summary>
-    float nodeHorizontalSize = 1.0f;
+    //float nodeHorizontalSize = 1.0f;
 
     /// <summary>
     /// 해당노드가 포함하고있는 가로 사이즈값 (시작좌표와 끝의좌표간의 사이값).
     /// 타일간의 간격을 이값으로 설정한다.
     /// </summary>
-    float nodeVerticalSize = 1.0f;
+    //float nodeVerticalSize = 1.0f;
 
     /// <summary>
     /// 해당노드가 포함하고있는 높이 사이즈값 (시작좌표와 끝의좌표간의 사이값).
     /// 타일간의 간격을 이값으로 설정한다.
     /// </summary>
-    float nodeDepthSize = 1.0f;
+    //float nodeDepthSize = 1.0f;
 
 
     /// <summary>

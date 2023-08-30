@@ -16,8 +16,6 @@ public class ToolBar : MonoBehaviour, IPointerDownHandler,IDragHandler,IPointerU
     private void Awake()
     {
         parentTransform = transform.parent.GetComponent<RectTransform>();
-
-        //아래 min, max 값은 DragEnd시 화면밖을 벗어날 경우 될돌릴 좌료의 값
         minX = parentTransform.sizeDelta.x * 0.5f;
         maxX = Screen.width - (parentTransform.sizeDelta.x * 0.5f);
         minY = parentTransform.sizeDelta.y * 0.5f;

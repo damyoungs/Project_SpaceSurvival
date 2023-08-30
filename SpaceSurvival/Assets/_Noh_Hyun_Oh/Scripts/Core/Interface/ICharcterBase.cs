@@ -8,7 +8,7 @@ public interface ICharcterBase
     /// <summary>
     /// 추적형 UI 캐싱용 프로퍼티
     /// </summary>
-    TrackingBattleUI BattleUI { get; }
+    TrackingBattleUI BattleUI { get; set; }
 
     /// <summary>
     /// 추적형 UI 가 있는 캔버스 위치

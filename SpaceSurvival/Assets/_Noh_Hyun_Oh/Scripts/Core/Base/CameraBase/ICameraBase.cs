@@ -7,7 +7,7 @@ public interface ICameraBase
     /// <summary>
     /// 움직일 카메라
     /// </summary>
-    Camera FollowCamera { set; }
+    Camera FollowCamera { get; }
     /// <summary>
     /// 카메라가 따라다닐 목표
     /// </summary>
@@ -16,7 +16,7 @@ public interface ICameraBase
     /// <summary>
     /// 따라다니는 목표의 타입
     /// </summary>
-    EnumList.CameraTargetType TargetType { get; set; }
+    EnumList.CameraFollowType TargetType { get; set; }
 
     /// <summary>
     /// 따라다닐 거리

@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class ItemSpawner : TestBase
 {
+    int value;
     public GameObject[] prefabs;
   //  public float dropRate;
     private Dictionary<ItemCode, GameObject> prefabDict = new Dictionary<ItemCode, GameObject>();
@@ -49,14 +50,16 @@ public class ItemSpawner : TestBase
         // Initialize the enemy drop table
         enemyDropTable.Add(typeof(Enemy1), new List<(ItemCode, float)>
             {
-                (ItemCode.Enhancable_shotGun, 0.9f),
-                (ItemCode.Enhancable_Rifle, 0.99f),
+                (ItemCode.ShotGun, 0.9f),
+                (ItemCode.Rifle, 0.99f),
           
             });
 
         enemyDropTable.Add(typeof(Enemy2), new List<(ItemCode, float)>
             {
-                (ItemCode.Enhancable_Bow, 0.9f),
+                (ItemCode.Bow, 0.9f),
+                (ItemCode.TwoHandAxe, 0.9f),
+                (ItemCode.TwoHandSword,0.9f)
             });
     }
     public void SpawnItem(EnemyBase enemy)//큰 범위에서 분류가 아니라 정확히 어떤 적인지 알아야한다
@@ -87,6 +90,7 @@ public class ItemSpawner : TestBase
     }
     public void GetItemBow()
     {
+        GameManager.SlotManager.AddItem(ItemCode.Bow);
     }
     public void GetItemHpPotion()
     {
@@ -128,7 +132,7 @@ public class ItemSpawner : TestBase
     }
     protected override void Test1(InputAction.CallbackContext _)
     {
-       
+
         SpawnItemPrefab();
     }
     protected override void Test2(InputAction.CallbackContext context)
@@ -136,33 +140,34 @@ public class ItemSpawner : TestBase
         GetItem();
         // GetItemHpPotion();
     }
-    protected  void OpenInven(InputAction.CallbackContext _)
+    protected override void OpenInven(InputAction.CallbackContext _)
     {
         GameManager.Inventory.Open_Inventory();
     }
-    protected override void Test3(InputAction.CallbackContext context)
-    {
-        int i = 0;
-        while(i < 200)
-        {
-            GetItem();
-            i++;
-        }
-       // GameManager.playerDummy.RecoveryHP_(300, 0.5f);
-    }
+    //protected override void Test3(InputAction.CallbackContext context)
+    //{
+    //    int i = 0;
+    //    while(i < 200)
+    //    {
+    //        GetItem();
+    //        i++;
+    //    }
+    //   // GameManager.playerDummy.RecoveryHP_(300, 0.5f);
+    //}
+    //public QuickSlot slot;
+    //protected override void Test4(InputAction.CallbackContext context)
+    //{
+    //    slot.ItemCount--;
+    //}
 
-    public EquipBox equipBox;
-    protected override void Test4(InputAction.CallbackContext context)
-    {
-        equipBox.Set_ItemData(GameManager.Itemdata[ItemCode.HpPotion]);
-    }
-
-    protected override void Test5(InputAction.CallbackContext context)
-    {
-    }
-    protected override void Test6(InputAction.CallbackContext context)
-    {
-    }
+    //protected override void Test5(InputAction.CallbackContext context)
+    //{
+    //    slot.ItemCount++;
+    //}
+    //protected override void Test6(InputAction.CallbackContext context)
+    //{
+    //    slot.ItemData = null;
+    //}
     //protected override void Test7(InputAction.CallbackContext context)
     //{
     //    ClearSlot();

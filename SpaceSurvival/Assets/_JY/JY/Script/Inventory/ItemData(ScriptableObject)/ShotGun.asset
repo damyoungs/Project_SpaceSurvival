@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: ShotGun
   m_EditorClassIdentifier: 
   ItemType: 1
-  code: 11
+  code: 17
   itemName: ShotGun
   modelPrefab: {fileID: 6257848267304291299, guid: b84ca53ea6de92b4aa493245acb1e5c2, type: 3}
-  itemIcon: {fileID: -1998648044, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
+  itemIcon: {fileID: 2032578360, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
   price: 0
   maxStackCount: 1
   itemDescription: "\uC0BF\uAC74"

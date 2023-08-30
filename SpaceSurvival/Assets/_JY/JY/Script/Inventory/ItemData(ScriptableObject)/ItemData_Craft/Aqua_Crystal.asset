@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Aqua_Crystal
   m_EditorClassIdentifier: 
   ItemType: 4
-  code: 13
+  code: 25
   itemName: Aqua_Crystal
   modelPrefab: {fileID: 411110780455625731, guid: 856137be654663449a68bc755016da33, type: 3}
   itemIcon: {fileID: 21300000, guid: 95f5da73d2e27934589e6f9e1c8137ab, type: 3}
@@ -23,4 +23,3 @@ MonoBehaviour:
     \uC544\uCFE0\uC544\uB9C8\uB9B0 \uBCF4\uC11D\uC774\uB2E4."
   CraftType: 2
   successRate: 0
-  Critical_Success_Item: {fileID: 0}
