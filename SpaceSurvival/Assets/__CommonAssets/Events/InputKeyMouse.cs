@@ -71,24 +71,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Equip_Item"",
-                    ""type"": ""Button"",
-                    ""id"": ""76aa3019-e59a-448e-9b43-ed44f0e446d2"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""MoveMode_Change"",
-                    ""type"": ""Button"",
-                    ""id"": ""58cce24f-25c0-4dd8-9748-c832251e369b"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -199,28 +181,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ItemPickUp"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""66d88ca4-cb5b-4eda-9b55-f8de612e258b"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": ""MultiTap(tapDelay=0.4)"",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Equip_Item"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""53feca87-2df9-4191-926e-2cb081f00873"",
-                    ""path"": ""<Keyboard>/tab"",
-                    ""interactions"": ""MultiTap(tapDelay=0.4)"",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MoveMode_Change"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -475,6 +435,15 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""PressI"",
+                    ""type"": ""Button"",
+                    ""id"": ""973cbb08-9319-4e02-a6eb-fe2296d35cf5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -585,6 +554,17 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""KeyMouse"",
                     ""action"": ""Test9"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0f7b9012-2815-4be2-84fd-6c69d3a75520"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyMouse"",
+                    ""action"": ""PressI"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -912,8 +892,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         m_Player_LeftRotate = m_Player.FindAction("LeftRotate", throwIfNotFound: true);
         m_Player_RightRotate = m_Player.FindAction("RightRotate", throwIfNotFound: true);
         m_Player_ItemPickUp = m_Player.FindAction("ItemPickUp", throwIfNotFound: true);
-        m_Player_Equip_Item = m_Player.FindAction("Equip_Item", throwIfNotFound: true);
-        m_Player_MoveMode_Change = m_Player.FindAction("MoveMode_Change", throwIfNotFound: true);
         // Mouse
         m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
         m_Mouse_MouseClick = m_Mouse.FindAction("MouseClick", throwIfNotFound: true);
@@ -937,6 +915,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         m_Test_Test8 = m_Test.FindAction("Test8", throwIfNotFound: true);
         m_Test_Test9 = m_Test.FindAction("Test9", throwIfNotFound: true);
         m_Test_TestClick = m_Test.FindAction("TestClick", throwIfNotFound: true);
+        m_Test_PressI = m_Test.FindAction("PressI", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Click = m_UI.FindAction("Click", throwIfNotFound: true);
@@ -1022,8 +1001,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_LeftRotate;
     private readonly InputAction m_Player_RightRotate;
     private readonly InputAction m_Player_ItemPickUp;
-    private readonly InputAction m_Player_Equip_Item;
-    private readonly InputAction m_Player_MoveMode_Change;
     public struct PlayerActions
     {
         private @InputKeyMouse m_Wrapper;
@@ -1033,8 +1010,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         public InputAction @LeftRotate => m_Wrapper.m_Player_LeftRotate;
         public InputAction @RightRotate => m_Wrapper.m_Player_RightRotate;
         public InputAction @ItemPickUp => m_Wrapper.m_Player_ItemPickUp;
-        public InputAction @Equip_Item => m_Wrapper.m_Player_Equip_Item;
-        public InputAction @MoveMode_Change => m_Wrapper.m_Player_MoveMode_Change;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1059,12 +1034,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @ItemPickUp.started += instance.OnItemPickUp;
             @ItemPickUp.performed += instance.OnItemPickUp;
             @ItemPickUp.canceled += instance.OnItemPickUp;
-            @Equip_Item.started += instance.OnEquip_Item;
-            @Equip_Item.performed += instance.OnEquip_Item;
-            @Equip_Item.canceled += instance.OnEquip_Item;
-            @MoveMode_Change.started += instance.OnMoveMode_Change;
-            @MoveMode_Change.performed += instance.OnMoveMode_Change;
-            @MoveMode_Change.canceled += instance.OnMoveMode_Change;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1084,12 +1053,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @ItemPickUp.started -= instance.OnItemPickUp;
             @ItemPickUp.performed -= instance.OnItemPickUp;
             @ItemPickUp.canceled -= instance.OnItemPickUp;
-            @Equip_Item.started -= instance.OnEquip_Item;
-            @Equip_Item.performed -= instance.OnEquip_Item;
-            @Equip_Item.canceled -= instance.OnEquip_Item;
-            @MoveMode_Change.started -= instance.OnMoveMode_Change;
-            @MoveMode_Change.performed -= instance.OnMoveMode_Change;
-            @MoveMode_Change.canceled -= instance.OnMoveMode_Change;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1253,6 +1216,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     private readonly InputAction m_Test_Test8;
     private readonly InputAction m_Test_Test9;
     private readonly InputAction m_Test_TestClick;
+    private readonly InputAction m_Test_PressI;
     public struct TestActions
     {
         private @InputKeyMouse m_Wrapper;
@@ -1267,6 +1231,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         public InputAction @Test8 => m_Wrapper.m_Test_Test8;
         public InputAction @Test9 => m_Wrapper.m_Test_Test9;
         public InputAction @TestClick => m_Wrapper.m_Test_TestClick;
+        public InputAction @PressI => m_Wrapper.m_Test_PressI;
         public InputActionMap Get() { return m_Wrapper.m_Test; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1306,6 +1271,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @TestClick.started += instance.OnTestClick;
             @TestClick.performed += instance.OnTestClick;
             @TestClick.canceled += instance.OnTestClick;
+            @PressI.started += instance.OnPressI;
+            @PressI.performed += instance.OnPressI;
+            @PressI.canceled += instance.OnPressI;
         }
 
         private void UnregisterCallbacks(ITestActions instance)
@@ -1340,6 +1308,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @TestClick.started -= instance.OnTestClick;
             @TestClick.performed -= instance.OnTestClick;
             @TestClick.canceled -= instance.OnTestClick;
+            @PressI.started -= instance.OnPressI;
+            @PressI.performed -= instance.OnPressI;
+            @PressI.canceled -= instance.OnPressI;
         }
 
         public void RemoveCallbacks(ITestActions instance)
@@ -1591,8 +1562,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         void OnLeftRotate(InputAction.CallbackContext context);
         void OnRightRotate(InputAction.CallbackContext context);
         void OnItemPickUp(InputAction.CallbackContext context);
-        void OnEquip_Item(InputAction.CallbackContext context);
-        void OnMoveMode_Change(InputAction.CallbackContext context);
     }
     public interface IMouseActions
     {
@@ -1619,6 +1588,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         void OnTest8(InputAction.CallbackContext context);
         void OnTest9(InputAction.CallbackContext context);
         void OnTestClick(InputAction.CallbackContext context);
+        void OnPressI(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

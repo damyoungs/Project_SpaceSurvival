@@ -65,38 +65,38 @@ public class MapTest_2 : TestBase
     /// <summary>
     /// 타일 랜덤 생성
     /// </summary>
-    protected override void Test1(InputAction.CallbackContext _)
-    {
+    //protected override void Test1(InputAction.CallbackContext _)
+    //{
 
-        if (!isExist)                   // 타일이 존재하지 않을 경우에만 생성
-        {
-            sizeX = Random.Range(20, 31);       // 타일 가로 갯수 랜덤 생성
-            sizeY = Random.Range(20, 31);       // 타일 세로 갯수 랜덤 생성
-            tileCount = sizeX * sizeY;          // 총 타일 갯수
+    //    if (!isExist)                   // 타일이 존재하지 않을 경우에만 생성
+    //    {
+    //        sizeX = Random.Range(20, 31);       // 타일 가로 갯수 랜덤 생성
+    //        sizeY = Random.Range(20, 31);       // 타일 세로 갯수 랜덤 생성
+    //        tileCount = sizeX * sizeY;          // 총 타일 갯수
 
-            MapInstantiate();                       // 메인 맵 생성
+    //        MapInstantiate();                       // 메인 맵 생성
 
-            player.transform.position = GetTile(sizeX / 2, sizeY / 3).transform.position;         // 플레이어 위치 이동(임시)
-            GetTile(sizeX / 2, sizeY / 3).ExistType = Tile.TileExistType.Monster;
+    //        player.transform.position = GetTile(sizeX / 2, sizeY / 3).transform.position;         // 플레이어 위치 이동(임시)
+    //        GetTile(sizeX / 2, sizeY / 3).ExistType = Tile.TileExistType.monster;
 
-            LightInstantiate();                     // 조명 및 기둥 생성
-            //MiniMapInstantiate();                 // 미니맵 판자 생성(필요없을 것 같아 나중에 지울 예정)
+    //        LightInstantiate();                     // 조명 및 기둥 생성
+    //        //MiniMapInstantiate();                 // 미니맵 판자 생성(필요없을 것 같아 나중에 지울 예정)
 
-            isExist = true;         // 중복 맵 생성 방지
+    //        isExist = true;         // 중복 맵 생성 방지
 
-        }
-    }
+    //    }
+    //}
 
-    /// <summary>
-    /// 타일 제거
-    /// </summary>
-    protected override void Test2(InputAction.CallbackContext _)
-    {
-        if (isExist && !isPropExist)
-        {
-            MapDestroy();
-        }
-    }
+    ///// <summary>
+    ///// 타일 제거
+    ///// </summary>
+    //protected override void Test2(InputAction.CallbackContext _)
+    //{
+    //    if (isExist && !isPropExist)
+    //    {
+    //        MapDestroy();
+    //    }
+    //}
 
     protected override void Test3(InputAction.CallbackContext _)
     {
@@ -262,7 +262,7 @@ public class MapTest_2 : TestBase
 
         for (int i = 0; i < 4; i++)
         {
-            standardPos[i].GetComponent<Tile>().ExistType = Tile.TileExistType.Prop;                                 // 기둥이 있는 타일의 타입 지정
+            standardPos[i].GetComponent<Tile>().ExistType = Tile.TileExistType.prop;                                 // 기둥이 있는 타일의 타입 지정
 
             pillars[i] = Instantiate(pillar, gameObject.transform);                                               // 기둥 생성
             pillars[i].transform.position = standardPos[i].transform.position;                                    // 기둥 이동
@@ -366,7 +366,7 @@ public class MapTest_2 : TestBase
             }
             obj.transform.position = tile.transform.position;       // 구조물을 타일의 위치로 이동
             obj.transform.GetChild(0).rotation = Quaternion.Euler(0.0f, 90.0f * Random.Range(0, 4), 0.0f);  // 구조물 회전시켜 주기
-            tile.ExistType = Tile.TileExistType.Prop;               // 구조물이 있는 타일 구조물이 있다고 표시
+            tile.ExistType = Tile.TileExistType.prop;               // 구조물이 있는 타일 구조물이 있다고 표시
             break;                  // 무한 루프 탈출
         }
         
@@ -406,7 +406,7 @@ public class MapTest_2 : TestBase
                         switch (randomRotation)         // 회전 정도에 따라 체크해야할 타일의 인덱스가 달라지기 때문에 각자 맞춰 계산하도록 돌림
                         {
                             case 0:         // 회전이 0도일 때
-                                if (GetTile(tile.Width + i, tile.Length + j).ExistType == Tile.TileExistType.Prop ||    // 타일에 구조물이 놓여있거나
+                                if (GetTile(tile.Width + i, tile.Length + j).ExistType == Tile.TileExistType.prop ||    // 타일에 구조물이 놓여있거나
                                     GetTile(tile.Width + i, tile.Length + j).TileType == Tile.MapTileType.sideTile ||   // 타일이 사이드 타일이거나
                                     GetTile(tile.Width + i, tile.Length + j).TileType == Tile.MapTileType.vertexTile)   // 꼭지점 타일인 경우
                                 {
@@ -418,7 +418,7 @@ public class MapTest_2 : TestBase
                                 tileCount++;                                                           // 몇 개의 타일을 체크했는지 확인하기 위해 타일 카운트 증가
                                 break;                                                                 // switch문 탈출
                             case 1:         // 회전이 90도 일 때
-                                if (GetTile(tile.Width + j, tile.Length - i).ExistType == Tile.TileExistType.Prop ||        // 위와 동일
+                                if (GetTile(tile.Width + j, tile.Length - i).ExistType == Tile.TileExistType.prop ||        // 위와 동일
                                     GetTile(tile.Width + j, tile.Length - i).TileType == Tile.MapTileType.sideTile ||
                                     GetTile(tile.Width + j, tile.Length - i).TileType == Tile.MapTileType.vertexTile)
                                 {
@@ -430,7 +430,7 @@ public class MapTest_2 : TestBase
                                 tileCount++;
                                 break;
                             case 2:         // 회전이 180도 일 때
-                                if (GetTile(tile.Width - i, tile.Length - j).ExistType == Tile.TileExistType.Prop ||        // 위와 동일
+                                if (GetTile(tile.Width - i, tile.Length - j).ExistType == Tile.TileExistType.prop ||        // 위와 동일
                                     GetTile(tile.Width - i, tile.Length - j).TileType == Tile.MapTileType.sideTile ||
                                     GetTile(tile.Width - i, tile.Length - j).TileType == Tile.MapTileType.vertexTile)
                                 {
@@ -442,7 +442,7 @@ public class MapTest_2 : TestBase
                                 tileCount++;
                                 break;
                             case 3:         // 회전이 270도 일 때
-                                if (GetTile(tile.Width - j, tile.Length + i).ExistType == Tile.TileExistType.Prop ||        // 위와 동일
+                                if (GetTile(tile.Width - j, tile.Length + i).ExistType == Tile.TileExistType.prop ||        // 위와 동일
                                     GetTile(tile.Width - j, tile.Length + i).TileType == Tile.MapTileType.sideTile ||
                                     GetTile(tile.Width - j, tile.Length + i).TileType == Tile.MapTileType.vertexTile)
                                 {
@@ -477,7 +477,7 @@ public class MapTest_2 : TestBase
 
         for (int i = 0; i < tempTile.Length; i++)           // 필요한 타일을 담아놓은 배열을 순환시키며
         {
-            tempTile[i].ExistType = Tile.TileExistType.Prop;        // 그 타일은 구조물이 있음을 표시
+            tempTile[i].ExistType = Tile.TileExistType.prop;        // 그 타일은 구조물이 있음을 표시
         }
     }
 
@@ -503,7 +503,7 @@ public class MapTest_2 : TestBase
 
         for (int i = 0; i < standardPos.Length; i++)
         {
-            standardPos[i].ExistType = Tile.TileExistType.Prop;     // 기둥이 있는 타일은 다시 Prop으로 변경
+            standardPos[i].ExistType = Tile.TileExistType.prop;     // 기둥이 있는 타일은 다시 Prop으로 변경
         }
     }
 
@@ -538,7 +538,7 @@ public class MapTest_2 : TestBase
             MapInstantiate();                       // 메인 맵 생성
 
             player.transform.position = GetTile(sizeX / 2, sizeY / 3).transform.position;         // 플레이어 위치 이동(임시)
-            GetTile(sizeX / 2, sizeY / 3).ExistType = Tile.TileExistType.Monster;
+            GetTile(sizeX / 2, sizeY / 3).ExistType = Tile.TileExistType.monster;
 
             LightInstantiate();                     // 조명 및 기둥 생성
             //MiniMapInstantiate();                 // 미니맵 판자 생성(필요없을 것 같아 나중에 지울 예정)
@@ -613,7 +613,10 @@ public class MapTest_2 : TestBase
     protected override void Test8(InputAction.CallbackContext context)
     {
         TurnBaseObject tbo = (TurnBaseObject)turnManager.RandomGetNode();
-        tbo.BattleUI.AddOfStatus(EnumList.StateType.Poison);//상태이상 추가해보기 
+        foreach (ICharcterBase charcter in tbo.CharcterList) 
+        {
+            charcter.BattleUI.AddOfStatus(EnumList.StateType.Poison);//상태이상 추가해보기 
+        }         
     }
 
 
@@ -681,17 +684,20 @@ public class MapTest_2 : TestBase
     CinemachineBrain brain;
     private void InitTotalData()
     {
+        turnManager.TestInit(); //테스트 데이터 생성하고 
         turnManager.InitTurnData();//초기데이터 셋팅 
-        player = turnManager.GetNode().gameObject;
-        miniMap.player = player.transform.GetChild(player.transform.childCount - 1);
-        cameraOrigin.Target = player.transform.GetChild(0);
+        player = turnManager.GetPlayerCharcter().gameObject;
+        ITurnBaseData temp = player.GetComponent<ITurnBaseData>();
+        List<ICharcterBase> listC = temp.CharcterList;
+        Transform tf = listC[0].transform;
+        listC[0].transform.gameObject.SetActive(true);
+        miniMap.player = tf.GetChild(1);
+        cameraOrigin.Target = tf.GetChild(0);
         moveCam.Brain = brain;
         miniMap.gameObject.SetActive(true);
         cameraOrigin.gameObject.SetActive(true);
         moveCam.gameObject.SetActive(true);
     }
-
-
 
 
 

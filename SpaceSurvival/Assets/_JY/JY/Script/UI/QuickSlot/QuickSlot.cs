@@ -134,7 +134,7 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        onBeginDrag?.Invoke(itemData, itemCount);//tempSlot으로 아이템 이전
+        onBeginDrag?.Invoke(itemData, itemCount);
         Clear();
     }
 

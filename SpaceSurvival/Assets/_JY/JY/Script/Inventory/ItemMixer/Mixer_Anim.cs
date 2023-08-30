@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Mixer_Anim : MonoBehaviour
+public class Mixer_Anim : MonoBehaviour ,IPopupSortWindow,IPointerDownHandler
 {
     public Sprite fail_Sprite;
     Item_Mixer mixer;
@@ -18,6 +19,7 @@ public class Mixer_Anim : MonoBehaviour
     Button confirm_Button;
     public Button ConfirmButton => confirm_Button;
 
+    public Action<IPopupSortWindow> PopupSorting { get; set ; }
 
     public Image result_Fail_Image;
     Image fail_Left_Image;
@@ -121,5 +123,21 @@ public class Mixer_Anim : MonoBehaviour
             canvasGroup.interactable = false;
             anim.SetTrigger("Confirm");
         }
+    }
+
+    public void OpenWindow()
+    {
+        PopupSorting?.Invoke(this);
+        SetActive(true);
+    }
+
+    public void CloseWindow()
+    {
+        SetActive(false);
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        PopupSorting?.Invoke(this);
     }
 }

@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Sword_Laser_Advanced
   m_EditorClassIdentifier: 
   ItemType: 1
-  code: 12
+  code: 20
   itemName: Sword_Laser_Advanced
   modelPrefab: {fileID: 3899290549971835656, guid: f36d72115875ba241aeb735c6ddfb8ee, type: 3}
-  itemIcon: {fileID: 1151783381, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
+  itemIcon: {fileID: -8669742, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
   price: 0
   maxStackCount: 1
   itemDescription: "\uAD11\uC120\uAC80 (\uAC15\uD654)"

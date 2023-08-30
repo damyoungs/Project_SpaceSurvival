@@ -2,9 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class WarningBox : MonoBehaviour
+public class WarningBox : MonoBehaviour ,IPopupSortWindow ,IPointerDownHandler
 {
     Item_Enhancer item_Enhancer;
     Item_Mixer item_Mixer;
@@ -14,6 +15,9 @@ public class WarningBox : MonoBehaviour
     Button cancelButton;
 
     public Action onWarningBoxClose;
+
+    public Action<IPopupSortWindow> PopupSorting { get; set; }
+
     private void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
@@ -58,5 +62,21 @@ public class WarningBox : MonoBehaviour
                 break;
         }
         onWarningBoxClose?.Invoke();//
+    }
+
+    public void OpenWindow()
+    {
+        PopupSorting?.Invoke(this);
+        Open();
+    }
+
+    public void CloseWindow()
+    {
+        Close();
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        PopupSorting?.Invoke(this);
     }
 }

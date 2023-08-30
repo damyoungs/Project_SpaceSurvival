@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Advanced_Red_Crystal
   m_EditorClassIdentifier: 
   ItemType: 4
-  code: 27
+  code: 39
   itemName: Advanced_Red_Crystal
   modelPrefab: {fileID: 4056250787380624432, guid: c41a2280566e1ac4191d0f251fc78011, type: 3}
   itemIcon: {fileID: 21300000, guid: 3ba425b9a18c1754abf7ac7e4e13b254, type: 3}
@@ -23,4 +23,3 @@ MonoBehaviour:
     \uD06C\uB9AC\uC2A4\uD0C8\uC774\uB2E4. \uC5B4\uB514\uC5D0 \uC4F0\uC774\uB294 \uBB3C\uAC74\uC77C\uAE4C?"
   CraftType: 6
   successRate: 10
-  Critical_Success_Item: {fileID: 0}

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Intermidiate_Blue_Crystal
   m_EditorClassIdentifier: 
   ItemType: 4
-  code: 15
+  code: 27
   itemName: Intermidiate_Blue_Crystal
   modelPrefab: {fileID: 6873021976996181778, guid: 8a527af320ea8324d826c32782091083, type: 3}
   itemIcon: {fileID: 21300000, guid: 2beec1c3abc3c9740873320038562ea7, type: 3}

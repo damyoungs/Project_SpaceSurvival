@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Intermidiate_Red_Crystal
   m_EditorClassIdentifier: 
   ItemType: 4
-  code: 26
+  code: 38
   itemName: Intermidiate_Red_Crystal
   modelPrefab: {fileID: 4056250787380624432, guid: c41a2280566e1ac4191d0f251fc78011, type: 3}
   itemIcon: {fileID: 21300000, guid: 55bd245da67ad5e4ba12da5068d38161, type: 3}

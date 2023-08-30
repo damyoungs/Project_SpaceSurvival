@@ -8,12 +8,13 @@ using UnityEngine.UI;
 public class Mixer_Slot_Middle : Mixer_Slot_Base, IPointerClickHandler
 {
     public Action onClearMiddleSlot;
-    protected override void Awake()
+ 
+    protected override  void Start()
     {
-        base.Awake();
+        base.Start();   
         GameManager.Mixer.onMiddleSlotDataSet += (itemData) => this.ItemData = itemData;
+        
     }
-
     public void OnPointerClick(PointerEventData eventData)
     {
         if (ItemData != null)

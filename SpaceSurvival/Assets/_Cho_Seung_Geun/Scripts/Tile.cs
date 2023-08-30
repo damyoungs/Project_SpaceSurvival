@@ -1,10 +1,9 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [SelectionBase]                         // 오브젝트 클릭 시 자식 오브젝트가 아닌 이 클래스가 들어있는 오브젝트가 클릭되도록 만드는 어트리뷰트
-public class Tile : MonoBehaviour, IComparable<Tile>
+public class Tile : MonoBehaviour
 {
     /// <summary>
     /// 타일의 타입
@@ -22,9 +21,9 @@ public class Tile : MonoBehaviour, IComparable<Tile>
     public enum TileExistType
     {
         None = 0,
-        Monster,
-        Item,
-        Prop
+        monster,
+        item,
+        prop
     }
 
     // 타일 타입
@@ -72,29 +71,4 @@ public class Tile : MonoBehaviour, IComparable<Tile>
     }
 
     public int Index = 0;
-
-    public float G;
-
-    public float H;
-
-    public float F => G + H;
-
-    public Tile parent;
-
-    /// <summary>
-    /// A*에 관한 변수 초기화
-    /// </summary>
-    public void Clear()
-    {
-        G = float.MaxValue;
-        H = float.MaxValue;
-        parent = null;
-    }
-
-    public int CompareTo(Tile other)
-    {
-        if (other == null)
-            return 1;
-        return F.CompareTo(other.F);
-    }
 }

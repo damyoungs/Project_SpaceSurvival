@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: HP_Potion
   m_EditorClassIdentifier: 
   ItemType: 2
-  code: 1
+  code: 58
   itemName: "\uCCB4\uB825\uD3EC\uC158"
   modelPrefab: {fileID: 3534490304491141583, guid: 9c2eea78ad466bc48abfe285fbfab1ed, type: 3}
   itemIcon: {fileID: -1742498291, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
   price: 1000
   maxStackCount: 200
-  itemDescription: "HP\uB97C 100\uB9CC\uD07C \uD68C\uBCF5\uC2DC\uD0A4\uB294 \uD3EC\uC158\uC774\uB2E4."
+  itemDescription: 
   duration: 0.5
   recoveryValue: 100
