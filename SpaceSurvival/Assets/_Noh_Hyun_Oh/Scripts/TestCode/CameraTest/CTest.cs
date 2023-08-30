@@ -5,16 +5,10 @@ using UnityEngine;
 
 public class CTest : MonoBehaviour
 {
-    public CinemachineVirtualCamera vcam;
-    public CinemachineBrain brain;
-    private void Awake()
+    [SerializeField]
+    Transform target;
+    private void Update()
     {
-    }
-
-    private void Start()
-    {
-        Debug.Log(brain);
-        Debug.Log(vcam);
-    
+        transform.rotation = Quaternion.LookRotation(target.position - transform.position);
     }
 }

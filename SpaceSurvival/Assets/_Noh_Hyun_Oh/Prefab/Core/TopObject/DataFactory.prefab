@@ -418,7 +418,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58a40ae82151a7545ba93405ade72b8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  origianlPrefab: {fileID: 4117638824604251994, guid: 2ac0b8d7f64f946f8882b2aa8845d4e8, type: 3}
+  origianlPrefab: {fileID: 4117638824604251994, guid: a9fa1ef523515e64ca830898526d4240, type: 3}
   poolSize: 8
 --- !u!1 &4448403842156363915
 GameObject:
@@ -558,7 +558,7 @@ MonoBehaviour:
   isViewGauge: 0
   isAscending: 1
   turnStartValue: 1
-  initSize: 5
+  initSize: 1
 --- !u!1 &4448403842976144009
 GameObject:
   m_ObjectHideFlags: 0
@@ -603,7 +603,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92c86bb833cca4e43a66d4a2bb70439e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  origianlPrefab: {fileID: 3539306005636628286, guid: c6d3c8e0fcdf9e342b6bfcc7f8d6d593, type: 3}
+  origianlPrefab: {fileID: 2958273194949555751, guid: ddca3c67046c56d45a84255d43ef85e5, type: 3}
   poolSize: 8
 --- !u!1 &4550168752674352822
 GameObject:
