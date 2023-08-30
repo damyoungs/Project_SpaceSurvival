@@ -24,7 +24,8 @@ public class Tile : MonoBehaviour, IComparable<Tile>
         None = 0,
         Monster,
         Item,
-        Prop
+        Prop,
+        Move
     }
 
     // 타일 타입

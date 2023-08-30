@@ -8,6 +8,8 @@ using UnityEngine;
 /// </summary>
 public class PlayerTurnObject : TurnBaseObject
 {
+    [SerializeField]
+    int playerLength = 1;
     public Func<ICharcterBase[]> initPlayer;
     UICamera cam;
     protected override void Awake()
@@ -37,7 +39,7 @@ public class PlayerTurnObject : TurnBaseObject
             if (playerList == null || playerList.Length == 0) //캐릭터 초기화가 안되있으면  
             {
                 //테스트 데이터 생성
-                for (int i = 0; i < 3; i++)//캐릭터들 생성해서 셋팅 
+                for (int i = 0; i < playerLength; i++)//캐릭터들 생성해서 셋팅 
                 {
                     GameObject go = Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.CHARCTER_PLAYER_POOL).gameObject;
                     charcterList.Add(go.GetComponent<ICharcterBase>());

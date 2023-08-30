@@ -159,6 +159,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitAnimator: {fileID: 1501470495851161371}
+  defaultMoveSpeed: 4
+  targetObj: {fileID: 0}
 --- !u!114 &6109472352484812130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,6 +174,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitAnimator: {fileID: 1501470495851161371}
+  defaultMoveSpeed: 4
+  targetObj: {fileID: 0}
   bulletProjectilePrefab: {fileID: 1822355521190178300, guid: 9daa372118a39448a9a6c3ef57db0a08, type: 3}
   shootPointTransform: {fileID: 6109472352999024928}
 --- !u!114 &6109472352484812131
@@ -5717,6 +5721,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2958273194949555750}
   - component: {fileID: 3859426271428372530}
+  - component: {fileID: 6662613589569860341}
   m_Layer: 0
   m_Name: PlayerTest
   m_TagString: Untagged
@@ -5753,6 +5758,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d518b108b2d3f314db1a40a3d47cdbb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6662613589569860341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2958273194949555751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b0cd03f0b654fd4596ece34b4e4be11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSize: 3
 --- !u!1 &3672726700722319645
 GameObject:
   m_ObjectHideFlags: 0

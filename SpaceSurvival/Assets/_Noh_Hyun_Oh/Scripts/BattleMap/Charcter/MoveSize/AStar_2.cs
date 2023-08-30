@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class AStar
+public static class AStar_2
 {
-    public static List<Tile> PathFind(MapTest map, Tile start, Tile end)
+    public static List<Tile> PathFind(MapTest_2 map, Tile start, Tile end)
     {
         const float sideDistance = 1.0f;
         const float diagonalDistance = 1.414f;
@@ -15,7 +15,7 @@ public static class AStar
         List<Tile> close = new List<Tile>();
 
         map.ClearTile();
-
+        Debug.Log(start);
         Tile current = start;
         current.G = 0;
         current.H = GetHeuristic(current, end);

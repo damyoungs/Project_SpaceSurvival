@@ -1,19 +1,13 @@
-//using System;
 using Cinemachine;
-using System.CodeDom.Compiler;
-using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Tilemaps;
-using UnityEngine.UIElements;
+using UnityEngine.Rendering;
 
 public class MapTest_2 : TestBase
 {
-    public GameObject player;               // 플레이어
+    public CharcterMoveSizeCheck player;             // 플레이어
     public Material material;               // 필요없을 것 같아 아마 지울 예정
 
     public GameObject centerTile;           // 중앙에 사용할 타일
@@ -37,85 +31,17 @@ public class MapTest_2 : TestBase
     Vector3 sideTileSize = Vector3.zero;    // 사이드 타일 사이즈
     Vector3 vertexTileSize = Vector3.zero;  // 꼭지점 타일 사이즈
 
-    GameObject[] mapTiles;                  // 타일 오브젝트 객체를 담을 배열
+    Tile[] mapTiles;                        // 타일 오브젝트 객체를 담을 배열
+    public Tile[] MapTiles => mapTiles;
     List<GameObject> props;                 // 지형 지물을 담을 배열
 
     GameObject[] lights;                    // 조명
     GameObject[] pillars;                   // 기둥
     Tile[] standardPos;                // 기준 위치(조명과 기둥이 있을 위치)
 
-    private void Start()
-    {
-        // 중앙 타일 사이즈 반환     - 밑의 두 타일과 사이즈 같음(혹시 몰라 밑에도 구했지만 필요없으면 지울 예정)
-        mainTileSize = centerTile.GetComponentInChildren<BoxCollider>().size;
-        // 사이드 타일 사이즈 반환
-        sideTileSize = sideTile.GetComponentInChildren<BoxCollider>().size;      
-        // 꼭지점 타일 사이즈 반환
-        vertexTileSize = vertexTile.GetComponentInChildren<BoxCollider>().size;
+  
 
-
-        ///nohyunoh 추가 
-        turnManager = WindowList.Instance.TurnManager;
-        miniMap = FindObjectOfType<MiniMapCamera>(true);
-        cameraOrigin = FindObjectOfType<CameraOriginTarget>(true);
-        moveCam = FindObjectOfType<Camera_Move>(true);
-        brain = FindObjectOfType<CinemachineBrain>(true);
-    }
-
-    /// <summary>
-    /// 타일 랜덤 생성
-    /// </summary>
-    //protected override void Test1(InputAction.CallbackContext _)
-    //{
-
-    //    if (!isExist)                   // 타일이 존재하지 않을 경우에만 생성
-    //    {
-    //        sizeX = Random.Range(20, 31);       // 타일 가로 갯수 랜덤 생성
-    //        sizeY = Random.Range(20, 31);       // 타일 세로 갯수 랜덤 생성
-    //        tileCount = sizeX * sizeY;          // 총 타일 갯수
-
-    //        MapInstantiate();                       // 메인 맵 생성
-
-    //        player.transform.position = GetTile(sizeX / 2, sizeY / 3).transform.position;         // 플레이어 위치 이동(임시)
-    //        GetTile(sizeX / 2, sizeY / 3).ExistType = Tile.TileExistType.monster;
-
-    //        LightInstantiate();                     // 조명 및 기둥 생성
-    //        //MiniMapInstantiate();                 // 미니맵 판자 생성(필요없을 것 같아 나중에 지울 예정)
-
-    //        isExist = true;         // 중복 맵 생성 방지
-
-    //    }
-    //}
-
-    ///// <summary>
-    ///// 타일 제거
-    ///// </summary>
-    //protected override void Test2(InputAction.CallbackContext _)
-    //{
-    //    if (isExist && !isPropExist)
-    //    {
-    //        MapDestroy();
-    //    }
-    //}
-
-    protected override void Test3(InputAction.CallbackContext _)
-    {
-        if (isExist)
-        {
-            PropInstantiate();
-            isPropExist = true;
-        }
-    }
-
-    protected override void Test4(InputAction.CallbackContext context)
-    {
-        if (isPropExist)
-        {
-            PropDestroy();
-            isPropExist = false;
-        }
-    }
-
+    
 
     /// <summary>
     /// 메인 맵 생성하는 함수
@@ -123,7 +49,7 @@ public class MapTest_2 : TestBase
     private void MapInstantiate()
     {
 
-        mapTiles = new GameObject[tileCount];   // 배열 동적 생성
+        mapTiles = new Tile[tileCount];   // 배열 동적 생성
         GameObject wallObject;          // 벽 오브젝트
 
         for (int i = 0; i < tileCount; i++)
@@ -205,7 +131,7 @@ public class MapTest_2 : TestBase
     {
         for (int i = 0; i < tileCount; i++)
         {
-            Destroy(mapTiles[i]);
+            Destroy(mapTiles[i].gameObject);
         }
 
         for (int i = 0; i < 4; i++)
@@ -223,10 +149,16 @@ public class MapTest_2 : TestBase
     /// <param name="width">가로 인덱스</param>
     /// <param name="length">세로 인덱스</param>
     /// <returns></returns>
-    private Tile GetTile(int width, int length)
+    public Tile GetTile(int width, int length)
     {
         int index = sizeX * length + width;
-        return mapTiles[index].GetComponent<Tile>();
+        return mapTiles[index];
+    }
+
+    public Tile GetTile(Vector2Int pos)
+    {
+        int index = sizeX * pos.y + pos.x;
+        return mapTiles[index];
     }
 
     /// <summary>
@@ -239,10 +171,10 @@ public class MapTest_2 : TestBase
     /// <param name="length">타일의 세로 인덱스</param>
     private void TileInstantiate(int i, GameObject type, Tile.MapTileType tileType, int width, int length)
     {
-        mapTiles[i] = Instantiate(type, gameObject.transform);                  // type에 따른 타일 생성
-        mapTiles[i].GetComponent<Tile>().TileType = tileType;              // 타일 스크립트에 타입 저장
-        mapTiles[i].GetComponent<Tile>().Width = width;                         // 타일 가로 인덱스 저정
-        mapTiles[i].GetComponent<Tile>().Length = length;                       // 타일 세로 인덱스 저정
+        mapTiles[i] = Instantiate(type, gameObject.transform).GetComponent<Tile>();      // type에 따른 타일 생성
+        mapTiles[i].GetComponent<Tile>().TileType = tileType;                            // 타일 스크립트에 타입 저장
+        mapTiles[i].GetComponent<Tile>().Width = width;                                  // 타일 가로 인덱스 저정
+        mapTiles[i].GetComponent<Tile>().Length = length;                                // 타일 세로 인덱스 저정
         mapTiles[i].GetComponent<Tile>().Index = i;
     }
 
@@ -332,11 +264,11 @@ public class MapTest_2 : TestBase
             {
                 // 가로 혹은 세로가 2 이상의 길이를 가진 구조물 생성
                 chooseProp = Random.Range(0, multiProps.Count);
-                PropMultiMaking(chooseProp, tempArrayX[i], tempArrayX[i + 1], tempArrayY[j], tempArrayY[j + 1]);    
+                PropMultiMaking(chooseProp, tempArrayX[i], tempArrayX[i + 1], tempArrayY[j], tempArrayY[j + 1]);
                 if (i == 1 && j == 1)
                 {
                     // 조금 더 빽빽하게 해주기 위해 중앙에 하나 더 생성
-                    PropMultiMaking(chooseProp, tempArrayX[i], tempArrayX[i + 1], tempArrayY[j], tempArrayY[j + 1]);    
+                    PropMultiMaking(chooseProp, tempArrayX[i], tempArrayX[i + 1], tempArrayY[j], tempArrayY[j + 1]);
                 }
             }
         }
@@ -369,7 +301,7 @@ public class MapTest_2 : TestBase
             tile.ExistType = Tile.TileExistType.Prop;               // 구조물이 있는 타일 구조물이 있다고 표시
             break;                  // 무한 루프 탈출
         }
-        
+
         props.Add(obj);             // 구조물 배열에 추가
 
     }
@@ -507,21 +439,75 @@ public class MapTest_2 : TestBase
         }
     }
 
+    /// <summary>
+    /// A*에 대한 부분 초기화
+    /// </summary>
+    public void ClearTile()
+    {
+        for (int i = 0; i < mapTiles.Length; i++)
+        {
+            mapTiles[i].Clear();
+        }
+    }
+
+    public bool IsWall(int x, int y)
+    {
+        return GetTile(x, y).ExistType != Tile.TileExistType.None;
+    }
 
 
 
+    /// <summary>
+    /// 타일 랜덤 생성
+    /// </summary>
+    protected override void Test1(InputAction.CallbackContext _)
+    {
+        if (!isExist)                   // 타일이 존재하지 않을 경우에만 생성
+        {
+            sizeX = Random.Range(20, 31);       // 타일 가로 갯수 랜덤 생성
+            sizeY = Random.Range(20, 31);       // 타일 세로 갯수 랜덤 생성
+            tileCount = sizeX * sizeY;          // 총 타일 갯수
 
+            MapInstantiate();                       // 메인 맵 생성
 
+            player.CurrentPos = GetTile(sizeX / 2, sizeY / 3);     // 플레이어 위치 이동(임시)
 
+            LightInstantiate();                     // 조명 및 기둥 생성
+            //MiniMapInstantiate();                 // 미니맵 판자 생성(필요없을 것 같아 나중에 지울 예정)
 
+            isExist = true;         // 중복 맵 생성 방지
 
+        }
+    }
 
+    /// <summary>
+    /// 타일 제거
+    /// </summary>
+    protected override void Test2(InputAction.CallbackContext _)
+    {
+        if (isExist && !isPropExist)
+        {
+            MapDestroy();
+        }
+    }
 
+    protected override void Test3(InputAction.CallbackContext _)
+    {
+        if (isExist)
+        {
+            PropInstantiate();
+            isPropExist = true;
+        }
+    }
 
-
-
-
-
+    protected override void Test4(InputAction.CallbackContext context)
+    {
+        if (isPropExist)
+        {
+            PropDestroy();
+            isPropExist = false;
+        }
+    }
 
     //밑에는 nohyunoh 코드 새로추가
 
@@ -537,13 +523,13 @@ public class MapTest_2 : TestBase
 
             MapInstantiate();                       // 메인 맵 생성
 
-            player.transform.position = GetTile(sizeX / 2, sizeY / 3).transform.position;         // 플레이어 위치 이동(임시)
-            GetTile(sizeX / 2, sizeY / 3).ExistType = Tile.TileExistType.Monster;
+            player.CurrentPos = GetTile(sizeX / 2, sizeY / 3);     // 플레이어 위치 이동(임시)
 
             LightInstantiate();                     // 조명 및 기둥 생성
             //MiniMapInstantiate();                 // 미니맵 판자 생성(필요없을 것 같아 나중에 지울 예정)
 
             isExist = true;         // 중복 맵 생성 방지
+
 
         }
         SetBlock();
@@ -557,11 +543,11 @@ public class MapTest_2 : TestBase
 
             turnManager.ResetBattleData(); //리셋후
 
-            TurnBaseObject[] ps = GameObject.FindObjectsOfType<TurnBaseObject>(); //대충만든 오브젝트 찾기
-            foreach (TurnBaseObject p in ps)
-            {
-                GameObject.Destroy(p.gameObject); //오브젝트 삭제
-            }
+            //TurnBaseObject[] ps = GameObject.FindObjectsOfType<TurnBaseObject>(); //대충만든 오브젝트 찾기
+            //foreach (TurnBaseObject p in ps)
+            //{
+            //    GameObject.Destroy(p.gameObject); //오브젝트 삭제
+            //}
 
             InitTotalData();
             if (!isExist)                   // 타일이 존재하지 않을 경우에만 생성
@@ -571,11 +557,11 @@ public class MapTest_2 : TestBase
                 tileCount = sizeX * sizeY;          // 총 타일 갯수
 
                 MapInstantiate();                       // 메인 맵 생성
+
+                player.CurrentPos = GetTile(sizeX / 2, sizeY / 3);     // 플레이어 위치 이동(임시)
+
                 LightInstantiate();                     // 조명 및 기둥 생성
                                                         //MiniMapInstantiate();                 // 미니맵 판자 생성(필요없을 것 같아 나중에 지울 예정)
-
-                //player.transform.position = GetTile(sizeX / 2, sizeY).transform.position;                     // 플레이어 위치 이동
-                player.transform.position = GetTile(sizeX / 2, sizeY / 3).transform.position;         // 플레이어 위치 이동(임시)
 
                 isExist = true;         // 중복 맵 생성 방지
 
@@ -622,6 +608,11 @@ public class MapTest_2 : TestBase
 
 
 
+    protected override void Test9(InputAction.CallbackContext context)
+    {
+        player.MoveSize();
+    }
+
 
     /// <summary>
     /// 카메라가 벗어나지않게 설정해주는 박스 컬라이더  
@@ -651,7 +642,7 @@ public class MapTest_2 : TestBase
         }
 
     }
-
+    
     /// <summary>
     /// 카메라가 벗어나지않게 설정해주는 박스 컬라이더 
     /// 피봇 위치 Z 중앙 셋팅값 
@@ -672,7 +663,20 @@ public class MapTest_2 : TestBase
 
     }
 
-
+    private void Start()
+    {
+        // 중앙 타일 사이즈 반환     - 밑의 두 타일과 사이즈 같음(혹시 몰라 밑에도 구했지만 필요없으면 지울 예정)
+        mainTileSize = centerTile.GetComponentInChildren<BoxCollider>().size;
+        // 사이드 타일 사이즈 반환
+        sideTileSize = sideTile.GetComponentInChildren<BoxCollider>().size;
+        // 꼭지점 타일 사이즈 반환
+        vertexTileSize = vertexTile.GetComponentInChildren<BoxCollider>().size;
+        turnManager = WindowList.Instance.TurnManager;
+        miniMap = FindObjectOfType<MiniMapCamera>(true);
+        cameraOrigin = FindObjectOfType<CameraOriginTarget>(true);
+        moveCam = FindObjectOfType<Camera_Move>(true);
+        brain = FindObjectOfType<CinemachineBrain>(true);
+    }
 
     [Header("턴 관련 테스트 변수")]
     TurnManager turnManager;
@@ -686,10 +690,10 @@ public class MapTest_2 : TestBase
     {
         turnManager.TestInit(); //테스트 데이터 생성하고 
         turnManager.InitTurnData();//초기데이터 셋팅 
-        player = turnManager.GetPlayerCharcter().gameObject;
-        ITurnBaseData temp = player.GetComponent<ITurnBaseData>();
+        ITurnBaseData temp = turnManager.GetPlayerCharcter();
         List<ICharcterBase> listC = temp.CharcterList;
-        Transform tf = listC[0].transform;
+        player = listC[0].transform.GetComponent<CharcterMoveSizeCheck>();
+        Transform tf = player.transform;
         listC[0].transform.gameObject.SetActive(true);
         miniMap.player = tf.GetChild(1);
         cameraOrigin.Target = tf.GetChild(0);
