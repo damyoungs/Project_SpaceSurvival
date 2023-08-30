@@ -433,7 +433,7 @@ GameObject:
   - component: {fileID: 570484610598823378}
   - component: {fileID: 482422206252462784}
   m_Layer: 0
-  m_Name: GraySuit
+  m_Name: Gray_Armor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

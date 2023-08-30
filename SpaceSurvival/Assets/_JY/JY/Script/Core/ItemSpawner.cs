@@ -49,16 +49,14 @@ public class ItemSpawner : TestBase
         // Initialize the enemy drop table
         enemyDropTable.Add(typeof(Enemy1), new List<(ItemCode, float)>
             {
-                (ItemCode.ShotGun, 0.9f),
-                (ItemCode.Rifle, 0.99f),
+                (ItemCode.Enhancable_shotGun, 0.9f),
+                (ItemCode.Enhancable_Rifle, 0.99f),
           
             });
 
         enemyDropTable.Add(typeof(Enemy2), new List<(ItemCode, float)>
             {
-                (ItemCode.Bow, 0.9f),
-                (ItemCode.TwoHandAxe, 0.9f),
-                (ItemCode.TwoHandSword,0.9f)
+                (ItemCode.Enhancable_Bow, 0.9f),
             });
     }
     public void SpawnItem(EnemyBase enemy)//큰 범위에서 분류가 아니라 정확히 어떤 적인지 알아야한다
@@ -89,7 +87,6 @@ public class ItemSpawner : TestBase
     }
     public void GetItemBow()
     {
-        GameManager.SlotManager.AddItem(ItemCode.Bow);
     }
     public void GetItemHpPotion()
     {
