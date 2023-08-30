@@ -45,7 +45,24 @@ public class EquipBox_Slot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHa
             itemIcon.color = Color.white;
         }
     }
-
+    public void SetItemData(ItemData data)
+    {
+        if (itemData == null)//장비창 슬롯이 비어있던 경우
+        {
+            ItemData = data;
+        }
+        else//이미 아이템이 장착되어있던 경우
+        {
+            if (GameManager.SlotManager.Taking_Item_From_EquipBox(itemData))//해당아이템에 맞는 인벤토리 탭의 빈 공간이 있으면 
+            {
+                ItemData = data;
+            }
+            else
+            {
+                Debug.Log("인벤토리에 빈 슬롯이 없습니다.");
+            }
+        }
+    }
     public void OnPointerEnter(PointerEventData eventData)
     {
         onPointerEnter?.Invoke(itemData);

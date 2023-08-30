@@ -50,28 +50,28 @@ public class EquipBox : MonoBehaviour
             {
                 if (slot.slotType == EquipSlot_Type.Body)
                 {
-                    slot.ItemData = armor;
+                    slot.SetItemData(armor);
                 }
             }
             else if (hat != null)
             {
                 if (slot.slotType == EquipSlot_Type.Hat)
                 {
-                    slot.ItemData = hat;
+                    slot.SetItemData(hat);
                 }
             }
             else if (jewel != null)
             {
                 if (slot.slotType == EquipSlot_Type.Jewel)
                 {
-                    slot.ItemData = jewel;
+                    slot.SetItemData(jewel);
                 }
             }
             else if (itemData.ItemType == ItemType.Equip)
             {
                 if (slot.slotType == EquipSlot_Type.Weapon)
                 {
-                    slot.ItemData = itemData;
+                    slot.SetItemData(itemData);
                 }
             }
         }
