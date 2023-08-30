@@ -14,17 +14,22 @@ public enum EquipSlot_Type
 public class EquipBox : MonoBehaviour
 {
     EquipBox_Slot[] equipBox_Slots;
+  
     public EquipBox_Slot this[EquipSlot_Type type] => equipBox_Slots[(int) type];
 
     CanvasGroup canvasGroup;
     public bool IsOpen => canvasGroup.alpha > 0.9f;
     private void Awake()
     {
+        EquipBox_Description description = GetComponentInChildren<EquipBox_Description>();
         canvasGroup = GetComponent<CanvasGroup>();
         equipBox_Slots = new EquipBox_Slot[4];
-        for (int i = 1; i < transform.childCount; i++)
+        for (int i = 1; i < transform.childCount - 1; i++)
         {
             equipBox_Slots[i - 1] = transform.GetChild(i).GetComponent<EquipBox_Slot>();
+            equipBox_Slots[i - 1].onPointerEnter += description.Open;
+            equipBox_Slots[i - 1].onPointerMove += description.MovePosition;
+            equipBox_Slots[i - 1].onPointerExit += description.Close;
         }
     }
 

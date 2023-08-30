@@ -28,6 +28,8 @@ public class ItemDescription : MonoBehaviour
                 Close();
         }
     }
+    ItemData itemData = null;
+    public ItemData ItemData => itemData;
     private void Awake()
     {
         itemIcon = transform.GetChild(0).GetChild(0).GetComponent<Image>();

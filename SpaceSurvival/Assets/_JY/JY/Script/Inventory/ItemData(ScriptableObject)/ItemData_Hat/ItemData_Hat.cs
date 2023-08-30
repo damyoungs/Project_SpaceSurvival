@@ -7,4 +7,6 @@ public class ItemData_Hat : ItemData
 {
     [Header("장비 아이템 분류")]
     public EquipType EquipType;
+    public uint defence_Point;
+    public uint attack_Point;
 }

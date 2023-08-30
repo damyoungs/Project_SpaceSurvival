@@ -1,14 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class EquipBox_Slot : MonoBehaviour
+public class EquipBox_Slot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandler, IPointerExitHandler
 {
     Image itemIcon;
     ItemData itemData;
     public EquipSlot_Type slotType;
 
+    public Action<ItemData> onPointerEnter;
+    public Action<Vector2> onPointerMove;
+    public Action onPointerExit;
 
     public ItemData ItemData
     {
@@ -38,5 +44,20 @@ public class EquipBox_Slot : MonoBehaviour
             itemIcon.sprite = itemData.itemIcon;
             itemIcon.color = Color.white;
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        onPointerEnter?.Invoke(itemData);
+    }
+
+    public void OnPointerMove(PointerEventData eventData)
+    {
+        onPointerMove?.Invoke(Mouse.current.position.ReadValue());
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        onPointerExit?.Invoke();
     }
 }

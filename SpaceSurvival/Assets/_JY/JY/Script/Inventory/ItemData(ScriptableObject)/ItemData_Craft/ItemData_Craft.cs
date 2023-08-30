@@ -9,4 +9,6 @@ public class ItemData_Craft : ItemData
     public CraftType CraftType;
     public float successRate;
     public ItemData Critical_Success_Item;
+    public uint attack_Point;
+    public uint defence_Point;
 }
