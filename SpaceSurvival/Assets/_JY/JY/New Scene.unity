@@ -9558,7 +9558,7 @@ PrefabInstance:
       objectReference: {fileID: 5834443540801048557}
     - target: {fileID: 106816639, guid: e30040716f477e14aaf383c423214e52, type: 3}
       propertyPath: itemCode
-      value: 29
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 106816639, guid: e30040716f477e14aaf383c423214e52, type: 3}
       propertyPath: prefabs.Array.size
