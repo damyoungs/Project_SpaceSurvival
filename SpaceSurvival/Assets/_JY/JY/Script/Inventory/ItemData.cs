@@ -2,6 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EquipType
+{
+    None,
+    Hat,
+    Weapon,
+    Body,
+    Jewel
+}
+
 [CreateAssetMenu(fileName = "New Item Data", menuName = "Scriptable Object/Item Data/Item Data", order = 1)]
 public class ItemData : ScriptableObject
 {

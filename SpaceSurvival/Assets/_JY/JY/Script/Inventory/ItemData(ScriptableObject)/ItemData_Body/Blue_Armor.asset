@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08131fe686a0b4c409bda97836ec1d27, type: 3}
+  m_Name: Blue_Armor
+  m_EditorClassIdentifier: 
+  ItemType: 1
+  code: 52
+  itemName: Blue_Armor
+  modelPrefab: {fileID: 4822236090517046316, guid: 22dc6ca8aa844924f8a9436ba594b693, type: 3}
+  itemIcon: {fileID: 0}
+  price: 100000
+  maxStackCount: 1
+  itemDescription: Blue_Armor
+  EquipType: 3

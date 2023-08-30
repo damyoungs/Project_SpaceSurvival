@@ -77,19 +77,36 @@ public class PlayerMove : MonoBehaviour
 		inputAction.Player.Enable();
         inputAction.Player.Move.performed += OnMove;
 		inputAction.Player.Move.canceled += OnMove;
+        inputAction.Player.MoveMode_Change.performed += On_MoveMode_Change;
         //inputClick.Test.Test3.performed += onUnitDie;
         CameraOriginTarget battleFollowCamer = FindObjectOfType<CameraOriginTarget>(true); //회전값 받아오기위해 찾기 
         if (battleFollowCamer != null)
         {
-            battleFollowCamer.cameraRotation += SetCameraRotaion; //회전값받아오기위해 연결
+           // battleFollowCamer.cameraRotation += SetCameraRotaion; //회전값받아오기위해 연결
         }
     }
+
+    private void On_MoveMode_Change(InputAction.CallbackContext _)
+    {
+		switch (state)
+		{
+			case MoveState.Town:
+				State = MoveState.Field;
+				break;
+			case MoveState.Field:
+				State = MoveState.Town;
+				break;
+			default:
+				break;
+		}
+    }
+
     private void OnDisable()
     {
         CameraOriginTarget battleFollowCamer = FindObjectOfType<CameraOriginTarget>(true); //회전값 받아오기위해 찾기
         if (battleFollowCamer != null)
         {
-            battleFollowCamer.cameraRotation -= SetCameraRotaion;//회전값받아오기위해 연결
+           // battleFollowCamer.cameraRotation -= SetCameraRotaion;//회전값받아오기위해 연결
         }
         inputAction.Player.Move.performed -= OnMove;
         inputAction.Player.Move.canceled -= OnMove;

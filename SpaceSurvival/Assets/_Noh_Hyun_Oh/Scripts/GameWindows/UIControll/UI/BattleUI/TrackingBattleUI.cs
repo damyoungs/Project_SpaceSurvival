@@ -8,7 +8,7 @@ using UnityEngine.UI;
 /// 추적형 UI 기능 클래스 
 /// 상태이상 과 체력 관련 UI 기능 들어있는 컴퍼넌트
 /// </summary>
-public class TrackingBattleUI : TrackingBattleUIObject_PoolObj 
+public class TrackingBattleUI : TrackingBattleUIObjectIsPool 
 {
 #if UNITY_EDITOR
     public bool isDebug = false; //디버그 표시해줄 체크박스 에디터에 추가하자
@@ -154,9 +154,8 @@ public class TrackingBattleUI : TrackingBattleUIObject_PoolObj
     /// <summary>
     /// 초기값들을 셋팅해둔다 나중에 거리에따른 사이즈조절에 사용할값
     /// </summary>
-    protected override  void Awake()
+    private void Awake()
     {
-        base.Awake();
         stateGroup = transform.GetChild(0);
         glg = stateGroup.GetComponent<GridLayoutGroup>();
         rtTop = stateGroup.GetComponent<RectTransform>();
@@ -177,6 +176,7 @@ public class TrackingBattleUI : TrackingBattleUIObject_PoolObj
 
         states = new IStateData[stateSize]; // 상태이상의 배열크기를 잡아둔다.
         
+        isPositionReset = false; //위치값 초기화 막기
     }
 
     /// <summary>
@@ -184,6 +184,7 @@ public class TrackingBattleUI : TrackingBattleUIObject_PoolObj
     /// </summary>
     protected override void OnEnable()
     {
+        base.OnEnable();
         InitTracking();
     }
    
@@ -320,7 +321,8 @@ public class TrackingBattleUI : TrackingBattleUIObject_PoolObj
     /// <returns>상태이상의 정보를 생성해서 반환</returns>
     private IStateData SettingStateUI(EnumList.StateType type)
     {
-        StateObject_PoolObj poolObj = (StateObject_PoolObj)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.STATE_POOL); //풀에서 꺼내고
+        GameObject obj = MultipleObjectsFactory.Instance.GetObject(EnumList.MultipleFactoryObjectList.STATE_POOL); //풀에서 꺼내고
+        StateObjectIsPool poolObj = obj.GetComponent<StateObjectIsPool>(); //컴포넌트 내용읽어와서 
         poolObj.transform.SetParent(stateGroup);// 부모 셋팅하고 
 
         ///밑에는 이미지 셋팅 

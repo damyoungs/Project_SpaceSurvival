@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-public class Item_Mixer_UI : MonoBehaviour,IPopupSortWindow ,IPointerDownHandler
+public class Item_Mixer_UI : MonoBehaviour
 { 
     CanvasGroup canvasGroup;
     Item_Mixer mixer;
@@ -50,9 +49,6 @@ public class Item_Mixer_UI : MonoBehaviour,IPopupSortWindow ,IPointerDownHandler
     public Mixer_Slot_Left Left_Slot => left_Slot;
     public Mixer_Slot_Middle Middle_Slot => middle_Slot;
     public Mixer_Slot_Result Result_Slot => result_Slot;
-
-    public Action<IPopupSortWindow> PopupSorting { get; set ; }
-
     Item_Mixing_Table Mixing_Table;
 
     private void Awake()
@@ -230,19 +226,5 @@ public class Item_Mixer_UI : MonoBehaviour,IPopupSortWindow ,IPointerDownHandler
         }
     }
 
-    public void OpenWindow()
-    {
-        PopupSorting?.Invoke(this);
-        Open();
-    }
 
-    public void CloseWindow()
-    {
-        Close();
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        PopupSorting?.Invoke(this);
-    }
 }

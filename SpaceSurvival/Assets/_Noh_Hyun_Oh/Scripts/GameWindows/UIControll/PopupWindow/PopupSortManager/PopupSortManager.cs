@@ -48,7 +48,7 @@ public class PopupSortManager : MonoBehaviour
     public void PopupOpen(IPopupSortWindow target) 
     {
         //팝업창을 빼서 맨뒤로 넣고 오브젝트정렬시킨다 그러면 맨앞에보인다.
-        target.OpenWindow();
+        target.gameObject.SetActive(true);
         popupLList.Remove(target); 
         popupLList.AddFirst(target);
         PopupObjectChange();
@@ -61,7 +61,7 @@ public class PopupSortManager : MonoBehaviour
     public void PopupClose(IPopupSortWindow target) 
     {
         popupLList.Remove(target);
-        target.CloseWindow();
+        target.gameObject.SetActive(false);
 
     }
 
@@ -72,7 +72,7 @@ public class PopupSortManager : MonoBehaviour
     {
         if (popupLList.Count > 0) // 열린 팝업창이 있는경우 
         {
-            popupLList.First.Value.CloseWindow(); //감추고 
+            popupLList.First.Value.gameObject.SetActive(false); //감추고 
             popupLList.RemoveFirst(); //리스트에서 제거 
         }
     }
@@ -84,7 +84,7 @@ public class PopupSortManager : MonoBehaviour
     {
         foreach (IPopupSortWindow go in popupArray) //관리할팝업등록된 갯수만큼 전부 닫는다 
         {
-            go.CloseWindow();
+            go.gameObject.SetActive(false);
             popupLList.Remove(go);
         }
     }

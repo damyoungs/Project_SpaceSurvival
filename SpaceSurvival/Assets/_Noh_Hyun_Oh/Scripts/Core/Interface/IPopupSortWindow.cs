@@ -19,14 +19,5 @@ public interface IPopupSortWindow
     /// <summary>
     /// 팝업창 클릭시 신호를 받아오기위해 추가 
     /// </summary>
-    public Action<IPopupSortWindow> PopupSorting { get; set; }
-
-    /// <summary>
-    /// 팝업창 여는 방법이 전부 틀리니 함수로빼자
-    /// </summary>
-    public void OpenWindow();
-    /// <summary>
-    /// 팝업창 닫는 방법이 전부 틀리니 함수로 따로 빼자
-    /// </summary>
-    public void CloseWindow();
+    public Action<IPopupSortWindow> PopupSorting { set; }
 }

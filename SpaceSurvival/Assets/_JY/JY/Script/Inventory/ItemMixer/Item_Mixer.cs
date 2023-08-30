@@ -189,7 +189,6 @@ public class Item_Mixer : MonoBehaviour
         left_Slot = GetComponentInChildren<Mixer_Slot_Left>();
         middle_Slot = GetComponentInChildren<Mixer_Slot_Middle>();
         result_Slot = GetComponentInChildren<Mixer_Slot_Result>();
-        mixer_Anim = FindObjectOfType<Mixer_Anim>();
 
         left_Slot.onClearLeftSlot += LeftSlot_Canceled;
         middle_Slot.onClearMiddleSlot += MiddleSlot_Canceled;
@@ -198,6 +197,7 @@ public class Item_Mixer : MonoBehaviour
     {
         slot_Manager = GameManager.SlotManager;
         mixing_table = GameManager.Mixing_Table;
+        mixer_Anim = FindObjectOfType<Mixer_Anim>();
     }
     void LeftSlot_Canceled()//조합 실패할 경우가 아니라 그냥 클릭해서 취소한 경우
     {

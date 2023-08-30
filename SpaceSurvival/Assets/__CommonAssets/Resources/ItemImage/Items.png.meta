@@ -129,7 +129,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: _Bat
+      name: Bat
       rect:
         serializedVersion: 2
         x: 0
@@ -143,17 +143,17 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 787895691d39b964ea071a5b66c11485
-      internalID: 257012698
+      spriteID: d48d3585accf33243b7db91bb07a5ff6
+      internalID: 1100685551
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _Bow
+      name: Bow
       rect:
         serializedVersion: 2
-        x: 128
+        x: 129
         y: 896
         width: 128
         height: 128
@@ -164,17 +164,17 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eb2778cd7360e844c9767424af6f1426
-      internalID: -454410441
+      spriteID: d4175cdd0f2f69a4d9ceb48b02939b56
+      internalID: -1685962536
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _Dagger
+      name: Dagger
       rect:
         serializedVersion: 2
-        x: 256
+        x: 258
         y: 896
         width: 128
         height: 128
@@ -185,17 +185,17 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e2a877cd4aead7a4482eb567934e1ab9
-      internalID: 1673833295
+      spriteID: 98f7c6f2095b7df4eb6e25cf5a1804d6
+      internalID: 1544897590
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _Hammer
+      name: Hammer
       rect:
         serializedVersion: 2
-        x: 384
+        x: 387
         y: 896
         width: 128
         height: 128
@@ -206,17 +206,17 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b698023e942bf1046af7a32af722cea8
-      internalID: -748972457
+      spriteID: aa546d45c2b6b6645b70288e41102d6c
+      internalID: 1448009267
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _HpPotion
+      name: HpPotion
       rect:
         serializedVersion: 2
-        x: 512
+        x: 516
         y: 896
         width: 128
         height: 128
@@ -227,17 +227,17 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a960f706e7301af40bb9a9436eb761c0
-      internalID: 732527482
+      spriteID: 1eda9551f43a8d3418ddc8092f3358e0
+      internalID: -1742498291
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _MpPotion
+      name: MpPotion
       rect:
         serializedVersion: 2
-        x: 640
+        x: 645
         y: 896
         width: 128
         height: 128
@@ -248,8 +248,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ded5048652c7bd845b4305295f356088
-      internalID: -1159402496
+      spriteID: 5adcb19bd8d858e44bda5a30e404d3da
+      internalID: 1604917094
       vertices: []
       indices: 
       edges: []
@@ -258,7 +258,7 @@ TextureImporter:
       name: Pistol
       rect:
         serializedVersion: 2
-        x: 768
+        x: 774
         y: 896
         width: 128
         height: 128
@@ -269,18 +269,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d53d648f9258fe444b5570c17b3979c1
-      internalID: 235373987
+      spriteID: 1d9fb7fba28678b41b2de92869929c3c
+      internalID: -109127132
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _Scythe
+      name: Scythe
       rect:
         serializedVersion: 2
         x: 0
-        y: 768
+        y: 767
         width: 128
         height: 128
       alignment: 0
@@ -290,18 +290,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2a00877410f1aea4a88c74653cd56977
-      internalID: -793793742
+      spriteID: 3603522b380332e4eb1135d3bc86e040
+      internalID: 1718116553
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Secret_Potion
+      name: SecretPotion
       rect:
         serializedVersion: 2
-        x: 128
-        y: 768
+        x: 129
+        y: 767
         width: 128
         height: 128
       alignment: 0
@@ -311,8 +311,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 55c331f5ea681b8419591489393233c9
-      internalID: -244715415
+      spriteID: c6e6380552fd4094f899bf1ed0e9049a
+      internalID: 994234639
       vertices: []
       indices: 
       edges: []
@@ -321,8 +321,8 @@ TextureImporter:
       name: Shield
       rect:
         serializedVersion: 2
-        x: 256
-        y: 768
+        x: 258
+        y: 767
         width: 128
         height: 128
       alignment: 0
@@ -332,18 +332,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d6f923d7edf43984197d8ebe12e2f38e
-      internalID: -1843661677
+      spriteID: 464880fe1367a0544abcdfa1aa58cd5d
+      internalID: 1725925163
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _ShotGun
+      name: Rifle
       rect:
         serializedVersion: 2
-        x: 384
-        y: 768
+        x: 387
+        y: 767
         width: 128
         height: 128
       alignment: 0
@@ -353,18 +353,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f97cc2039c5d9304e91e1aa84a73839f
-      internalID: 2032578360
+      spriteID: 7fa288076948a8d4c9c077388b7dc84a
+      internalID: 1809714329
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _SpellBook
+      name: SpellBook
       rect:
         serializedVersion: 2
-        x: 512
-        y: 768
+        x: 516
+        y: 767
         width: 128
         height: 128
       alignment: 0
@@ -374,18 +374,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7c3a30c807222344cacba4410fae2693
-      internalID: 1060863383
+      spriteID: 717dc5cb8efad0044b0a1e4c34c77e7b
+      internalID: 1202215156
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sword_Laser
+      name: SwordLaser
       rect:
         serializedVersion: 2
-        x: 640
-        y: 768
+        x: 645
+        y: 767
         width: 128
         height: 128
       alignment: 0
@@ -395,18 +395,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 997de3c5f4ebe7a48b479127e07aa176
-      internalID: -156128772
+      spriteID: 36b4b2cab7df052408951e8b3b9ac19e
+      internalID: -1439841681
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _TwoHandAxe
+      name: TwoHandAxe
       rect:
         serializedVersion: 2
-        x: 768
-        y: 768
+        x: 774
+        y: 767
         width: 128
         height: 128
       alignment: 0
@@ -416,18 +416,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1fb4835f9488cf84c9bd47147eaa8930
-      internalID: 2110030719
+      spriteID: eea2b495f15c4594b84a4337a13d0a45
+      internalID: 1063982460
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _Wand
+      name: Wand
       rect:
         serializedVersion: 2
         x: 0
-        y: 640
+        y: 638
         width: 128
         height: 128
       alignment: 0
@@ -437,18 +437,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ddb0a4942d4d08942a7b265cfcabdfd1
-      internalID: -488295770
+      spriteID: e916a0b554144434495001748fd0c91b
+      internalID: -1520374609
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TwoHandSword_Extended
+      name: SwordLaserAdvanced
       rect:
         serializedVersion: 2
-        x: 128
-        y: 640
+        x: 129
+        y: 638
         width: 128
         height: 128
       alignment: 0
@@ -458,18 +458,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5fe1ce024a1870b469cd8c509c4fb7a0
-      internalID: -8669742
+      spriteID: ecdb720933b75b7439c1749efb9614ee
+      internalID: 1151783381
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _Shield_Extended
+      name: ShieldExtended
       rect:
         serializedVersion: 2
-        x: 256
-        y: 640
+        x: 258
+        y: 638
         width: 128
         height: 128
       alignment: 0
@@ -479,18 +479,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8d65d78405f1f98428c910e4f33eb23a
-      internalID: 1281231293
+      spriteID: 7991b265688d66541939af414c255cbd
+      internalID: -1250176964
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _Rifle
+      name: ShotGun
       rect:
         serializedVersion: 2
-        x: 384
-        y: 640
+        x: 387
+        y: 638
         width: 128
         height: 128
       alignment: 0
@@ -500,18 +500,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b0c6a9ecc8a26c04799405d99e2ab861
-      internalID: 1552380185
+      spriteID: 17fd36b89d7118847a8d830a30cf8e72
+      internalID: -1998648044
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TwoHand_Sword
+      name: TwoHandSword
       rect:
         serializedVersion: 2
-        x: 512
-        y: 640
+        x: 516
+        y: 638
         width: 128
         height: 128
       alignment: 0
@@ -521,14 +521,56 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f8e8db8f332f0344b9c798f7dc269723
-      internalID: 1664508130
+      spriteID: 0f8dc8a51119a0243aacb9ea48c23a76
+      internalID: 43337394
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: _Empty_Slot
+      name: Items_19
+      rect:
+        serializedVersion: 2
+        x: 691
+        y: 445
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7eb709b1cdbb93e4e9582b07e9af2e5b
+      internalID: -1221742977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Items_20
+      rect:
+        serializedVersion: 2
+        x: 855
+        y: 537
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7df0547c450cfd64889c7149241c4f71
+      internalID: 945975869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EmptySlot
       rect:
         serializedVersion: 2
         x: 411
@@ -542,18 +584,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9fb6b1e9e52df87408bbc0571a11a5a9
-      internalID: 471635474
+      spriteID: 37472f3f61a683c41af3a6226e54c510
+      internalID: 114732954
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enhancable_ShotGun
+      name: Items_22
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
+        x: 643
+        y: 314
         width: 128
         height: 128
       alignment: 0
@@ -563,29 +605,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3a1157612c0a3294d86cde9a9a0c6d61
-      internalID: 1241880437
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Enhancable_Pistol
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 87c80a4614ce0cc4f8a098a5d728c7a2
-      internalID: 67720831
+      spriteID: 34a8344d85dd5b4479be788183214512
+      internalID: 1435167596
       vertices: []
       indices: 
       edges: []
@@ -593,7 +614,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 21acd7accea46654486918b025e5a3ad
+    spriteID: cecd1a2720cdf8540af6fce3fb31b536
     internalID: 0
     vertices: []
     indices: 
@@ -601,31 +622,30 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Enhancable_Pistol: 67720831
-      Enhancable_ShotGun: 1241880437
-      Items_19: -1252681784
-      Items_21: 1214946172
-      Items_22: -743731823
-      Pistol: 235373987
-      Secret_Potion: -244715415
-      Shield: -1843661677
-      Sword_Laser: -156128772
-      TwoHandSword_Extended: -8669742
-      TwoHand_Sword: 1664508130
-      _Bat: 257012698
-      _Bow: -454410441
-      _Dagger: 1673833295
-      _Empty_Slot: 471635474
-      _Hammer: -748972457
-      _HpPotion: 732527482
-      _MpPotion: -1159402496
-      _Rifle: 1552380185
-      _Scythe: -793793742
-      _Shield_Extended: 1281231293
-      _ShotGun: 2032578360
-      _SpellBook: 1060863383
-      _TwoHandAxe: 2110030719
-      _Wand: -488295770
+      Bat: 1100685551
+      Bow: -1685962536
+      Dagger: 1544897590
+      EmptySlot: 114732954
+      Hammer: 1448009267
+      HpPotion: -1742498291
+      Items_0: -604942382
+      Items_19: -1221742977
+      Items_20: 945975869
+      Items_22: 1435167596
+      MpPotion: 1604917094
+      Pistol: -109127132
+      Rifle: 1809714329
+      Scythe: 1718116553
+      SecretPotion: 994234639
+      Shield: 1725925163
+      ShieldExtended: -1250176964
+      ShotGun: -1998648044
+      SpellBook: 1202215156
+      SwordLaser: -1439841681
+      SwordLaserAdvanced: 1151783381
+      TwoHandAxe: 1063982460
+      TwoHandSword: 43337394
+      Wand: -1520374609
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

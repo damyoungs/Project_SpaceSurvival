@@ -91,39 +91,33 @@ public class PopupWindowBase : MonoBehaviour,
     /// <summary>
     /// 팝업창 닫기버튼 이벤트연결용
     /// </summary>
-    protected Button closeBtn;
+    Button closeBtn;
 
     /// <summary>
     /// 컨텐츠패널 위치값과 사이즈값 찾아오기
     /// </summary>
-    protected RectTransform contentPanel;
+    RectTransform contentPanel;
 
     /// <summary>
     /// 탑 패널 위치와 사이즈값 가져오기
     /// </summary>
-    protected RectTransform topPanel;
+    RectTransform topPanel;
 
     protected virtual void Awake()
     {
         //Debug.Log("awake 테스트");
         rectTransform = GetComponent<RectTransform>(); //팝업창 크기조절용으로 가져온다
-
-        try //위치 틀려서 무조건에러나는것들이 존재한다.
-        {
-            contentPanel = transform.GetChild(0).GetChild(0).GetComponent<RectTransform>(); //컨텐츠패널 RectTransform 가져온다
+     
+        contentPanel = transform.GetChild(0).GetChild(0).GetComponent<RectTransform>(); //컨텐츠패널 RectTransform 가져온다
         
-            topPanel = transform.GetChild(1).GetComponent<RectTransform>(); // 탑패널 RectTransform 가져온다
+        topPanel = transform.GetChild(1).GetComponent<RectTransform>(); // 탑패널 RectTransform 가져온다
 
 
-            int childCount = transform.GetChild(1).childCount - 1; //닫기버튼은 항상 마지막 자식으로 가있어야한다.
-            closeBtn = transform.GetChild(1).GetChild(childCount).GetComponent<Button>(); //닫기버튼 가져와서 
-            closeBtn.onClick.AddListener(OnCloseButtonClick); // 닫기이벤트 연결  - 버튼 오브젝트에 이러면 스크립트 추가안해도된다.
-            SetContentWindowSize();//컨텐츠창 위치랑 크기 조절 , 컴파일단계에서 이미 값들이 다 설정된것만 사용하기때문에 문제없음.
+        int childCount = transform.GetChild(1).childCount - 1; //닫기버튼은 항상 마지막 자식으로 가있어야한다.
+        closeBtn = transform.GetChild(1).GetChild(childCount).GetComponent<Button>(); //닫기버튼 가져와서 
+        closeBtn.onClick.AddListener(OnCloseButtonClick); // 닫기이벤트 연결  - 버튼 오브젝트에 이러면 스크립트 추가안해도된다.
 
-        }catch (Exception ex) 
-        {
-            Debug.LogWarning($"{this.name} 팝업창은 크기조절이 안됩니다.{ex.Message}");
-        }
+        SetContentWindowSize();//컨텐츠창 위치랑 크기 조절 , 컴파일단계에서 이미 값들이 다 설정된것만 사용하기때문에 문제없음.
     }
 
     
@@ -255,7 +249,7 @@ public class PopupWindowBase : MonoBehaviour,
         //컨텐츠 창 위치 조절 
         arithmeticValue = contentPanel.anchoredPosition;    //컨텐츠 앵커기준 위치값 가져오고
 
-        arithmeticValue.y = -topPanel.sizeDelta.y;           //컨텐츠 y좌표를 설정하고 
+        arithmeticValue.y = -topPanel.sizeDelta.y;           //컨텐츠 y좌표를 성정하고 
 
         contentPanel.anchoredPosition = arithmeticValue;    //컨텐츠 에 적용
 

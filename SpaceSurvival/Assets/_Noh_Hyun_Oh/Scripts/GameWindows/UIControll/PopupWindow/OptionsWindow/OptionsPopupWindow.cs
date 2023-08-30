@@ -4,22 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class OptionsPopupWindow : PopupWindowBase, IPopupSortWindow, IPointerDownHandler
+public class OptionsPopupWindow : PopupWindowBase, IPopupSortWindow, IPointerClickHandler
 {
-    public Action<IPopupSortWindow> PopupSorting { get; set; }
+    Action<IPopupSortWindow> popupEventHandle;
+    public Action<IPopupSortWindow> PopupSorting { set => popupEventHandle += value; }
 
-    public void OnPointerDown(PointerEventData eventData)
+    public void OnPointerClick(PointerEventData eventData)
     {
-        PopupSorting(this);
-    }
-
-    public void OpenWindow()
-    {
-        this.gameObject.SetActive(true);
-    }
-
-    public void CloseWindow()
-    {
-        this.gameObject.SetActive(false);
+        popupEventHandle(this);
     }
 }

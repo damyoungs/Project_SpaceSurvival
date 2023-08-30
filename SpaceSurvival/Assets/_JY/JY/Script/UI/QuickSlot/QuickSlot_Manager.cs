@@ -23,7 +23,7 @@ public enum QuickSlot_State
     Set,
     Moving
 }
-public class QuickSlot_Manager : MonoBehaviour 
+public class QuickSlot_Manager : MonoBehaviour
 {
     Button popupButton;
     TextMeshProUGUI buttonText;
@@ -89,7 +89,6 @@ public class QuickSlot_Manager : MonoBehaviour
         Init();
         buttonText.text = open;
        // GameManager.SlotManager.onDetectQuickSlot += Set_ItemDataTo_QuickSlot;
-       //gameObject.SetActive(false); //항상들고 다녀야해서 껏다 켰다 기능이 필요합니다 추가부탁드려요
     }
     private void Insert_performed(InputAction.CallbackContext context)
     {

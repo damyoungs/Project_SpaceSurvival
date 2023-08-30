@@ -65,38 +65,38 @@ public class MapTest_2 : TestBase
     /// <summary>
     /// 타일 랜덤 생성
     /// </summary>
-    //protected override void Test1(InputAction.CallbackContext _)
-    //{
+    protected override void Test1(InputAction.CallbackContext _)
+    {
 
-    //    if (!isExist)                   // 타일이 존재하지 않을 경우에만 생성
-    //    {
-    //        sizeX = Random.Range(20, 31);       // 타일 가로 갯수 랜덤 생성
-    //        sizeY = Random.Range(20, 31);       // 타일 세로 갯수 랜덤 생성
-    //        tileCount = sizeX * sizeY;          // 총 타일 갯수
+        if (!isExist)                   // 타일이 존재하지 않을 경우에만 생성
+        {
+            sizeX = Random.Range(20, 31);       // 타일 가로 갯수 랜덤 생성
+            sizeY = Random.Range(20, 31);       // 타일 세로 갯수 랜덤 생성
+            tileCount = sizeX * sizeY;          // 총 타일 갯수
 
-    //        MapInstantiate();                       // 메인 맵 생성
+            MapInstantiate();                       // 메인 맵 생성
 
-    //        player.transform.position = GetTile(sizeX / 2, sizeY / 3).transform.position;         // 플레이어 위치 이동(임시)
-    //        GetTile(sizeX / 2, sizeY / 3).ExistType = Tile.TileExistType.monster;
+            player.transform.position = GetTile(sizeX / 2, sizeY / 3).transform.position;         // 플레이어 위치 이동(임시)
+            GetTile(sizeX / 2, sizeY / 3).ExistType = Tile.TileExistType.monster;
 
-    //        LightInstantiate();                     // 조명 및 기둥 생성
-    //        //MiniMapInstantiate();                 // 미니맵 판자 생성(필요없을 것 같아 나중에 지울 예정)
+            LightInstantiate();                     // 조명 및 기둥 생성
+            //MiniMapInstantiate();                 // 미니맵 판자 생성(필요없을 것 같아 나중에 지울 예정)
 
-    //        isExist = true;         // 중복 맵 생성 방지
+            isExist = true;         // 중복 맵 생성 방지
 
-    //    }
-    //}
+        }
+    }
 
-    ///// <summary>
-    ///// 타일 제거
-    ///// </summary>
-    //protected override void Test2(InputAction.CallbackContext _)
-    //{
-    //    if (isExist && !isPropExist)
-    //    {
-    //        MapDestroy();
-    //    }
-    //}
+    /// <summary>
+    /// 타일 제거
+    /// </summary>
+    protected override void Test2(InputAction.CallbackContext _)
+    {
+        if (isExist && !isPropExist)
+        {
+            MapDestroy();
+        }
+    }
 
     protected override void Test3(InputAction.CallbackContext _)
     {
@@ -613,10 +613,7 @@ public class MapTest_2 : TestBase
     protected override void Test8(InputAction.CallbackContext context)
     {
         TurnBaseObject tbo = (TurnBaseObject)turnManager.RandomGetNode();
-        foreach (ICharcterBase charcter in tbo.CharcterList) 
-        {
-            charcter.BattleUI.AddOfStatus(EnumList.StateType.Poison);//상태이상 추가해보기 
-        }         
+        tbo.BattleUI.AddOfStatus(EnumList.StateType.Poison);//상태이상 추가해보기 
     }
 
 
@@ -684,20 +681,17 @@ public class MapTest_2 : TestBase
     CinemachineBrain brain;
     private void InitTotalData()
     {
-        turnManager.TestInit(); //테스트 데이터 생성하고 
         turnManager.InitTurnData();//초기데이터 셋팅 
-        player = turnManager.GetPlayerCharcter().gameObject;
-        ITurnBaseData temp = player.GetComponent<ITurnBaseData>();
-        List<ICharcterBase> listC = temp.CharcterList;
-        Transform tf = listC[0].transform;
-        listC[0].transform.gameObject.SetActive(true);
-        miniMap.player = tf.GetChild(1);
-        cameraOrigin.Target = tf.GetChild(0);
+        player = turnManager.GetNode().gameObject;
+        miniMap.player = player.transform.GetChild(player.transform.childCount - 1);
+        cameraOrigin.Target = player.transform.GetChild(0);
         moveCam.Brain = brain;
         miniMap.gameObject.SetActive(true);
         cameraOrigin.gameObject.SetActive(true);
         moveCam.gameObject.SetActive(true);
     }
+
+
 
 
 

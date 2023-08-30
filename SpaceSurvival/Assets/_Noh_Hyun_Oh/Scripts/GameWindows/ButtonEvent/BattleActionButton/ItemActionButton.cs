@@ -4,14 +4,9 @@ using UnityEngine;
 
 public class ItemActionButton : BattleActionButtonBase
 {
-    Inventory inven;
-    private void Start()
-    {
-        inven = WindowList.Instance.InvenWindow;
-    }
     protected override void OnClick()
     {
-        inven.Open_Inventory();
+        Debug.Log("아이템클릭");
     }
 
 }

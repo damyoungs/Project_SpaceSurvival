@@ -21,17 +21,19 @@ public class InventoryWindow : PopupWindowBase , IPopupSortWindow ,IPointerDownH
 
     GameObject contentObj;
 
+    Action<IPopupSortWindow> popupEventHandle;
 
-    public Action<IPopupSortWindow> PopupSorting { get; set; }
+    public Action<IPopupSortWindow> PopupSorting { set => popupEventHandle += value; }
 
     /// <summary>
     /// 화면 정렬용 이벤트함수 추가 
     /// </summary>
     /// <param name="eventData">사용안함</param>
-    public void OnPointerDown(PointerEventData eventData)
+    public void OnPointerDown(PointerEventData _)
     {
-        PopupSorting(this);
+        popupEventHandle(this);
     }
+
     protected override void Awake()
     {
         base.Awake();
@@ -62,15 +64,5 @@ public class InventoryWindow : PopupWindowBase , IPopupSortWindow ,IPointerDownH
 
     }
 
-
-    public void OpenWindow()
-    {
-        this.gameObject.SetActive(true);
-    }
-
-    public void CloseWindow()
-    {
-        //윈도우 닫혔을때 전부닫혀야하지않을까?
-        this.gameObject.SetActive(false);
-    }
+    
 }

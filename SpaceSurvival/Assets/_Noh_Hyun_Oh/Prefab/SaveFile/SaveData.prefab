@@ -31,7 +31,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3079954528896388625}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -374,7 +374,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3079954528896388625}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -489,7 +489,7 @@ GameObject:
   - component: {fileID: 3079954528896388625}
   - component: {fileID: 2827340960005602145}
   - component: {fileID: 6339990865479100913}
-  - component: {fileID: -7591980492471362501}
+  - component: {fileID: 3391857258283337298}
   - component: {fileID: -8303464936323268840}
   m_Layer: 5
   m_Name: SaveData
@@ -512,9 +512,9 @@ RectTransform:
   m_Children:
   - {fileID: 6742966309445532547}
   - {fileID: 325368986605356879}
-  - {fileID: 8596848075604008563}
   - {fileID: 3615263180196049741}
   - {fileID: 5166567575728511869}
+  - {fileID: 8596848075604008563}
   - {fileID: 2706456793425906849}
   - {fileID: 7856309540891949894}
   m_Father: {fileID: 0}
@@ -563,7 +563,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &-7591980492471362501
+--- !u!114 &3391857258283337298
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -572,7 +572,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5710969024274006033}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39916d829b457874f838c31752b03b3d, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ee757335dafa4647b8b1de773e269d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   objectIndex: -1
@@ -627,7 +627,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 3391857258283337298}
         m_TargetAssemblyTypeName: SaveDataObject, Assembly-CSharp
         m_MethodName: InFocusObject
         m_Mode: 1
@@ -940,7 +940,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3079954528896388625}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
