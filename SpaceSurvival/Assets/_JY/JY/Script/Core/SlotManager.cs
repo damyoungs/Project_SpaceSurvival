@@ -29,13 +29,14 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     QuickSlot_Manager quickSlot_Manager;
 
    
+    RectTransform equipboxRectTransform;
     RectTransform beforeSlotRectTransform;
     RectTransform enhancerUIRectTransform;
-
     RectTransform mixer_Left_slot_Transform;
     RectTransform mixer_Middle_Slot_Transform;
     RectTransform mixerUI_Transform;
     Item_Mixer_UI mixer_UI;
+    EquipBox equipBox;
 
     ItemSplitter spliter;
     bool isShiftPress = false;
@@ -77,14 +78,17 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     }
     public void Initialize()//Inventory에서 Start타이밍에 호출
     {
-        beforeSlotRectTransform = GameManager.Enhancer.EnhancerUI.BeforeSlot.GetComponent<RectTransform>();
-        enhancerUIRectTransform = GameManager.Enhancer.EnhancerUI.AfterSlot.GetComponent<RectTransform>();
-   
+        equipBox = GameManager.EquipBox;
+        equipboxRectTransform = equipBox.GetComponent<RectTransform>();
+
         mixer_Left_slot_Transform = GameManager.Mixer.MixerUI.Left_Slot.GetComponent<RectTransform>();
         mixer_Middle_Slot_Transform = GameManager.Mixer.MixerUI.Middle_Slot.GetComponent<RectTransform>();
         mixerUI_Transform = GameManager.Mixer.GetComponent<RectTransform>();
         mixer_UI = GameManager.Mixer.MixerUI;
         quickSlot_Manager = GameManager.QuickSlot_Manager;
+        beforeSlotRectTransform = GameManager.Enhancer.EnhancerUI.BeforeSlot.GetComponent<RectTransform>();
+        enhancerUIRectTransform = GameManager.Enhancer.EnhancerUI.AfterSlot.GetComponent<RectTransform>();
+   
 
         foreach (QuickSlot quickSlot in quickSlot_Manager.quickSlots)
         {
@@ -288,6 +292,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             Vector2 distance_Between_Mouse_Middle_Slot = screenPos - (Vector2)mixer_Middle_Slot_Transform.position;
             Vector2 distance_Between_Mouse_MixerUI = screenPos - (Vector2)mixerUI_Transform.position;
             Vector2 distance_Between_Mouse_QuickSlot_Box = screenPos - (Vector2)GameManager.QuickSlot_Manager.QuickSlotBox_RectTransform.position;
+            Vector2 distance_Between_Mouse_EquipBox = screenPos - (Vector2)equipboxRectTransform.position;
 
             if (beforeSlotRectTransform.rect.Contains(distance_Between_Mouse_BeforeSlot) && GameManager.Enhancer.EnhancerUI.IsOpen)//강화 슬롯의 위치이면서 강화ㅑ 가능한 아이템 일 때
             {
@@ -296,6 +301,10 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                 {
                     GameManager.Enhancer.ItemData = enhancable;
                 }
+            }
+            else if (equipboxRectTransform.rect.Contains(distance_Between_Mouse_EquipBox) && equipBox.IsOpen)//장비창 범위 안에 드롭할 때
+            {
+                equipBox.Set_ItemData(tempSlot.ItemData);
             }
             else if (quickSlot_Manager.QuickSlotBox_RectTransform.rect.Contains(distance_Between_Mouse_QuickSlot_Box))//퀵슬롯박스 안쪽일 때
             {

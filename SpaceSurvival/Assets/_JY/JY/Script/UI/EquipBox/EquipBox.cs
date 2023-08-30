@@ -34,6 +34,9 @@ public class EquipBox : MonoBehaviour
     }
     public void Set_ItemData(ItemData itemData)
     {
+        //itemdata 가 hat, Weapon, Suit, Jewel 인지 확인하고 슬롯의 타입과 맞지 않으면 리턴시키기
+
+        EquipBox_Slot slot = FindSlot();
 
     }
     EquipBox_Slot FindSlot()
@@ -52,6 +55,7 @@ public class EquipBox : MonoBehaviour
                 break;
             }
         }
+        Debug.Log(equipSlot);
         return equipSlot;
     }
     public void Open()

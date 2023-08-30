@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     Item_Mixing_Table mixingTable;
     QuickSlot_Manager quickSlot_Box;
     ItemDataManager itemDataManager;
+    EquipBox equipBox;
     
     public static ItemDataManager Itemdata { get { return Inst.itemDataManager; } }
     public static Inventory Inventory { get { return Inst.inventory; } }
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
     public static Item_Mixer Mixer { get { return Inst.mixer; } }
     public static Item_Mixing_Table Mixing_Table { get { return Inst.mixingTable; } }
     public static QuickSlot_Manager QuickSlot_Manager { get { return Inst.quickSlot_Box; } }
+    public static EquipBox EquipBox { get { return Inst.equipBox; } }
 
 
     private void Awake()
@@ -40,6 +42,7 @@ public class GameManager : MonoBehaviour
         mixer = FindObjectOfType<Item_Mixer>();
         mixingTable = FindObjectOfType<Item_Mixing_Table>();
         quickSlot_Box = FindObjectOfType<QuickSlot_Manager>();
+        equipBox = FindObjectOfType<EquipBox>();
     }
     static void Init()
     {

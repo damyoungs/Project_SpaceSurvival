@@ -150,8 +150,11 @@ public class ItemSpawner : TestBase
         }
        // GameManager.playerDummy.RecoveryHP_(300, 0.5f);
     }
+
+    public EquipBox equipBox;
     protected override void Test4(InputAction.CallbackContext context)
     {
+        equipBox.Set_ItemData(GameManager.Itemdata[ItemCode.HpPotion]);
     }
 
     protected override void Test5(InputAction.CallbackContext context)
