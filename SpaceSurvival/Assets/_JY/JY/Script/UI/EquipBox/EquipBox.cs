@@ -14,22 +14,18 @@ public enum EquipSlot_Type
 public class EquipBox : MonoBehaviour
 {
     EquipBox_Slot[] equipBox_Slots;
-  
     public EquipBox_Slot this[EquipSlot_Type type] => equipBox_Slots[(int) type];
 
     CanvasGroup canvasGroup;
     public bool IsOpen => canvasGroup.alpha > 0.9f;
     private void Awake()
     {
-        EquipBox_Description description = GetComponentInChildren<EquipBox_Description>();
         canvasGroup = GetComponent<CanvasGroup>();
         equipBox_Slots = new EquipBox_Slot[4];
-        for (int i = 1; i < transform.childCount - 1; i++)
+        for (int i = 1; i < transform.childCount; i++)
         {
             equipBox_Slots[i - 1] = transform.GetChild(i).GetComponent<EquipBox_Slot>();
-            equipBox_Slots[i - 1].onPointerEnter += description.Open;
-            equipBox_Slots[i - 1].onPointerMove += description.MovePosition;
-            equipBox_Slots[i - 1].onPointerExit += description.Close;
+          //  equipBox_Slots[i - 1].slotType = 
         }
     }
 
@@ -43,39 +39,25 @@ public class EquipBox : MonoBehaviour
         ItemData_Armor armor = itemData as ItemData_Armor;
         ItemData_Hat hat = itemData as ItemData_Hat;
         ItemData_Craft jewel = itemData as ItemData_Craft;
-        EquipBox_Slot slot = FindSlot();
-        if (slot != null)
+        if (armor != null)
         {
-            if (armor != null)
-            {
-                if (slot.slotType == EquipSlot_Type.Body)
-                {
-                    slot.ItemData = armor;
-                }
-            }
-            else if (hat != null)
-            {
-                if (slot.slotType == EquipSlot_Type.Hat)
-                {
-                    slot.ItemData = hat;
-                }
-            }
-            else if (jewel != null)
-            {
-                if (slot.slotType == EquipSlot_Type.Jewel)
-                {
-                    slot.ItemData = jewel;
-                }
-            }
-            else if (itemData.ItemType == ItemType.Equip)
-            {
-                if (slot.slotType == EquipSlot_Type.Weapon)
-                {
-                    slot.ItemData = itemData;
-                }
-            }
+
         }
-    
+        else if (hat != null)
+        {
+
+        }
+        else if (jewel != null)
+        {
+
+        }
+        else if (itemData.ItemType == ItemType.Equip)
+        {
+
+        }
+        EquipBox_Slot slot = FindSlot();
+
+
 
     }
     EquipBox_Slot FindSlot()
