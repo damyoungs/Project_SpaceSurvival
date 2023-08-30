@@ -16,8 +16,10 @@ MonoBehaviour:
   code: 53
   itemName: Grey_Armor
   modelPrefab: {fileID: 567646534157002328, guid: 97d6900ae4c2acf45809c2479cea457f, type: 3}
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: baa8c076d30d7d54ea9d90dfa2d46cbf, type: 3}
   price: 100000
   maxStackCount: 1
   itemDescription: Grey_Armor
   EquipType: 3
+  attack_Point: 20
+  defence_Point: 3
