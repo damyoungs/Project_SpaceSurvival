@@ -78,18 +78,18 @@ public class PlayerMove : MonoBehaviour
         inputAction.Player.Move.performed += OnMove;
 		inputAction.Player.Move.canceled += OnMove;
         //inputClick.Test.Test3.performed += onUnitDie;
-        CameraOriginTarget battleFollowCamer = FindObjectOfType<CameraOriginTarget>(true); //회전값 받아오기위해 찾기 
-        if (battleFollowCamer != null)
+        CameraOriginTarget battleFollowCamera = FindObjectOfType<CameraOriginTarget>(true); //회전값 받아오기위해 찾기 
+        if (battleFollowCamera != null)
         {
-            battleFollowCamer.cameraRotation += SetCameraRotaion; //회전값받아오기위해 연결
+            battleFollowCamera.cameraRotation += SetCameraRotaion; //회전값받아오기위해 연결
         }
     }
     private void OnDisable()
     {
-        CameraOriginTarget battleFollowCamer = FindObjectOfType<CameraOriginTarget>(true); //회전값 받아오기위해 찾기
-        if (battleFollowCamer != null)
+        CameraOriginTarget battleFollowCamera = FindObjectOfType<CameraOriginTarget>(true); //회전값 받아오기위해 찾기
+        if (battleFollowCamera != null)
         {
-            battleFollowCamer.cameraRotation -= SetCameraRotaion;//회전값받아오기위해 연결
+            battleFollowCamera.cameraRotation -= SetCameraRotaion;//회전값받아오기위해 연결
         }
         inputAction.Player.Move.performed -= OnMove;
         inputAction.Player.Move.canceled -= OnMove;
@@ -164,11 +164,12 @@ public class PlayerMove : MonoBehaviour
 	void MoveByKeyBoard()
 	{
         transform.Translate(Time.fixedDeltaTime * moveSpeed * moveDirection, Space.World);
-		transform.rotation = Quaternion.Slerp(transform.rotation, moveDir, Time.fixedDeltaTime * rotateSpeed);
-		//transform.rotation = Quaternion.Slerp(transform.rotation,  Quaternion.LookRotation(targetObj.position - transform.position), Time.fixedDeltaTime * rotateSpeed);
+		//transform.rotation = Quaternion.Slerp(transform.rotation, moveDir, Time.fixedDeltaTime * rotateSpeed);
+		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetObj.position - transform.position), Time.fixedDeltaTime * rotateSpeed);
 
 
 	}
+
 	private void UnitOnMove()
 	{
 		if (target != null && (target.gameObject.transform.position - transform.position).sqrMagnitude > 0.1f)
