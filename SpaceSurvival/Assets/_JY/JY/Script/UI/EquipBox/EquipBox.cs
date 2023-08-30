@@ -25,7 +25,6 @@ public class EquipBox : MonoBehaviour
         for (int i = 1; i < transform.childCount; i++)
         {
             equipBox_Slots[i - 1] = transform.GetChild(i).GetComponent<EquipBox_Slot>();
-          //  equipBox_Slots[i - 1].slotType = 
         }
     }
 
@@ -39,25 +38,39 @@ public class EquipBox : MonoBehaviour
         ItemData_Armor armor = itemData as ItemData_Armor;
         ItemData_Hat hat = itemData as ItemData_Hat;
         ItemData_Craft jewel = itemData as ItemData_Craft;
-        if (armor != null)
-        {
-
-        }
-        else if (hat != null)
-        {
-
-        }
-        else if (jewel != null)
-        {
-
-        }
-        else if (itemData.ItemType == ItemType.Equip)
-        {
-
-        }
         EquipBox_Slot slot = FindSlot();
-
-
+        if (slot != null)
+        {
+            if (armor != null)
+            {
+                if (slot.slotType == EquipSlot_Type.Body)
+                {
+                    slot.ItemData = armor;
+                }
+            }
+            else if (hat != null)
+            {
+                if (slot.slotType == EquipSlot_Type.Hat)
+                {
+                    slot.ItemData = hat;
+                }
+            }
+            else if (jewel != null)
+            {
+                if (slot.slotType == EquipSlot_Type.Jewel)
+                {
+                    slot.ItemData = jewel;
+                }
+            }
+            else if (itemData.ItemType == ItemType.Equip)
+            {
+                if (slot.slotType == EquipSlot_Type.Weapon)
+                {
+                    slot.ItemData = itemData;
+                }
+            }
+        }
+    
 
     }
     EquipBox_Slot FindSlot()
