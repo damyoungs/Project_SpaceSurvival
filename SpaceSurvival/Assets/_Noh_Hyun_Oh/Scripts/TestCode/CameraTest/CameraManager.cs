@@ -24,8 +24,6 @@ public class CameraManager : TestBase
     /// </summary>
     public Camera actionCam = null;
 
-    CameraBase camBase = null;
-
     [Header("카메라가 보여줄 타입")]
     /// <summary>
     /// 카메라 를 사용할 오브젝트 종류
@@ -33,6 +31,7 @@ public class CameraManager : TestBase
     [SerializeField]
     protected EnumList.CameraFollowType cameraFollowType = EnumList.CameraFollowType.Custom;
 
+   
     /// <summary>
     /// 카메라 타입이 바뀔경우 내부 기본값 셋팅 하기위한 프로퍼티
     /// </summary>
@@ -113,7 +112,7 @@ public class CameraManager : TestBase
     /// 물리연산 끝난뒤 처리하기 위해 필요한 객체 
     /// </summary>
     protected WaitForFixedUpdate fixedWait = new WaitForFixedUpdate();
-    
+   
 
     [Header("사용자가 직접입력해서 수정할때 사용할값")]
     /// <summary>
@@ -162,16 +161,10 @@ public class CameraManager : TestBase
         base.Awake();
         //gameObject.layer = LayerMask.NameToLayer("UI");///설정한 레이어 검색해서 번호 가져오기
         //gameObject.tag = "Respawn"; //태그 변경시키기
-        if (actionCam == null)
+        if (actionCam == null) 
         {
             actionCam = GetComponent<Camera>();
-            camBase = actionCam.GetComponent<CameraBase>();
         }
-        else 
-        {
-            camBase = actionCam.GetComponent<CameraBase>();
-        }
-
         cameraTexture = new(256 ,256,16,RenderTextureFormat.ARGB32); //텍스쳐 기본값 으로 만들기 
         cameraTexture.name = $"{gameObject.name}_Texture";           //이름이없어서 햇갈려서 일단 넣어놨다.
         cameraMoveCoroutine = CustomCamera();
@@ -284,9 +277,68 @@ public class CameraManager : TestBase
     /// </summary>
     private Vector3 tempPos = Vector3.zero;
 
-   
+    /// <summary>
+    /// 줌인 줌아웃을 하기위해 타겟의 회전방향을 기준으로 pos 값만큼위치로 부드럽게 움직이기위한 로직
+    /// </summary>
+    /// <param name="originPos">타겟과의 떨어진위치</param>
+    /// <returns></returns>
+    IEnumerator ZoomInOut(Vector3 originPos, Transform attackTarget = null)
+    {
+        
+        if (target != null)
+        {
+            float timeElapsed = 0.0f;
+            Vector3 tempPos;
+            Vector3 endPos = GetZoomPos(originPos); // 내가 target 과의 같은방향으로 유지하고 오리진 포스 위치로 이동시킨다.
+            if (attackTarget != null)
+            {
+                tempPos = attackTarget.position;
+                //줌인 할 타겟 
+            }
+            else
+            {
+                tempPos = target.position;    
+            }
+            Debug.Log($"카메라위치 :  {endPos}");
+            Debug.Log($"바라볼타겟위치 : {tempPos}");
+            Debug.Log($"바라볼방향 : {tempPos - actionCam.transform.position}");
 
-   
+            //캐릭터가 항상 좌측 하단에 위치하고 타겟은 중앙에 위치할수있도록 계산식 필요 
+
+
+            while ((endPos - actionCam.transform.position).sqrMagnitude > 0.2f) //도착할때까지 체크하고 돌린다
+            {
+                timeElapsed += Time.deltaTime * followSpeed; // 카메라 위치 이동시간 조절용 
+                //Debug.Log($"{(endPos - gameObject.transform.position).sqrMagnitude} _ {endPos} _ {gameObject.transform.position}");
+                actionCam.transform.position = Vector3.Lerp(actionCam.transform.position, endPos ,timeElapsed); //카메라 보간으로 부드럽게 적용
+
+                //Debug.Log(target.position - actionCam.transform.position);
+                //Debug.Log(target.position + zoomFocusPos - actionCam.transform.position);
+                actionCam.transform.rotation = Quaternion.Slerp(actionCam.transform.rotation ,Quaternion.LookRotation(tempPos - actionCam.transform.position),timeElapsed) ; //항상 타겟바라보기
+       
+                 yield return fixedWait;
+            }
+            actionCam.transform.rotation = Quaternion.LookRotation(tempPos - actionCam.transform.position); //반복문에서 싱크가안맞기때문에 맞추기
+
+            //Debug.Log("끝나긴하냐?");
+        }
+    }
+
+   /// <summary>
+   ///  줌인을 하거나 줌아웃을할때 타겟을 기준으로 얼마나 떨어진지 반환하는 함수
+   /// </summary>
+   /// <param name="zoominTarget">줌인 하고있는 타겟</param>
+   /// <param name="originPos">줌인 줌아웃 하기위한 위치값</param>
+    private Vector3 GetZoomPos(Vector3 originPos)
+    {
+        return target.position + //추적 대상 위치에서 
+            (
+                Quaternion.Euler(0, target.eulerAngles.y, 0) // 추적대상의 y축방향의 회전값 을 구하고  
+                *
+                originPos // 회전한 위치 기준으로 내가설정한 거리값만큼 곱해서 타겟의 회전에 상관없이
+                          // 타겟의 회전이 적용되더라도 상대적으로 같은 위치에 갈수있게 값을 구한다.
+            );
+    }
 
    
 
@@ -331,16 +383,11 @@ public class CameraManager : TestBase
     protected override void Test2(InputAction.CallbackContext context)
     {
         StopCoroutine(cameraMoveCoroutine);
-        StartCoroutine(StaticCameraController.ZoomIn(target,actionCam,attackTarget.transform,followSpeed));
+        StartCoroutine(ZoomInOut(zoomInPos,attackTarget.transform));
     }
     protected override void Test3(InputAction.CallbackContext context)
     {
         StopCoroutine (cameraMoveCoroutine);
-        StartCoroutine(StaticCameraController.ZoomOut(target, actionCam, quarterViewPos, followSpeed));
-    }
-    protected override void Test4(InputAction.CallbackContext context)
-    {
-        camBase.FollowTarget = target;
-        camBase.LookTarget  = attackTarget;
+        StartCoroutine(ZoomInOut(quarterViewPos));
     }
 }

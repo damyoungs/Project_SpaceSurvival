@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public enum Current_Inventory_State
@@ -15,7 +14,7 @@ public enum Current_Inventory_State
     Craft
 }
 
-public class Inventory : MonoBehaviour ,IPopupSortWindow ,IPointerDownHandler
+public class Inventory : MonoBehaviour
 {
     GameObject Equip_Inven;
     GameObject Consume_Inven;
@@ -60,8 +59,6 @@ public class Inventory : MonoBehaviour ,IPopupSortWindow ,IPointerDownHandler
             }
         }
     }
-
-    public Action<IPopupSortWindow> PopupSorting { get; set ; }
 
     private void Awake()
     {
@@ -186,7 +183,6 @@ public class Inventory : MonoBehaviour ,IPopupSortWindow ,IPointerDownHandler
     {
         if (canvasGroup.alpha < 1.0f)
         {
-            PopupSorting?.Invoke(this);
             canvasGroup.alpha = 1.0f;
             canvasGroup.interactable = true;
             canvasGroup.blocksRaycasts = true;
@@ -198,29 +194,8 @@ public class Inventory : MonoBehaviour ,IPopupSortWindow ,IPointerDownHandler
             canvasGroup.blocksRaycasts = false;
         }
     }
-
     public void RefreshOrder()
     {
         this.transform.SetAsFirstSibling();
-    }
-
-    public void OpenWindow()
-    {
-        canvasGroup.alpha = 1.0f;
-        canvasGroup.interactable = true;
-        canvasGroup.blocksRaycasts = true;
-        PopupSorting?.Invoke(this);
-    }
-
-    public void CloseWindow()
-    {
-        canvasGroup.alpha = 0.0f;
-        canvasGroup.interactable = false;
-        canvasGroup.blocksRaycasts = false;
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        PopupSorting?.Invoke(this);
     }
 }

@@ -49,6 +49,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Equip_Item",
+                    "type": "Button",
+                    "id": "76aa3019-e59a-448e-9b43-ed44f0e446d2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MoveMode_Change",
+                    "type": "Button",
+                    "id": "58cce24f-25c0-4dd8-9748-c832251e369b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -159,6 +177,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "ItemPickUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "66d88ca4-cb5b-4eda-9b55-f8de612e258b",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "MultiTap(tapDelay=0.4)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Equip_Item",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "53feca87-2df9-4191-926e-2cb081f00873",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "MultiTap(tapDelay=0.4)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveMode_Change",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -413,15 +453,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
-                },
-                {
-                    "name": "PressI",
-                    "type": "Button",
-                    "id": "973cbb08-9319-4e02-a6eb-fe2296d35cf5",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -532,17 +563,6 @@
                     "processors": "",
                     "groups": "KeyMouse",
                     "action": "Test9",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0f7b9012-2815-4be2-84fd-6c69d3a75520",
-                    "path": "<Keyboard>/i",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyMouse",
-                    "action": "PressI",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

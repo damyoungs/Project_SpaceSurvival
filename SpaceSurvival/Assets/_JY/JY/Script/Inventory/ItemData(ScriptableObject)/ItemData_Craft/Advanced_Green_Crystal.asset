@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Advanced_Green_Crystal
   m_EditorClassIdentifier: 
   ItemType: 4
-  code: 34
+  code: 22
   itemName: Advanced_Green_Crystal
   modelPrefab: {fileID: 203005079432002967, guid: a080cd8fd00b0e642b23086fefa4cfbc, type: 3}
   itemIcon: {fileID: 21300000, guid: 5db53fc33b622484abe5e944353ff9e0, type: 3}
@@ -22,3 +22,4 @@ MonoBehaviour:
   itemDescription: "\uCD08\uB85D\uBE5B\uC758 \uBCF4\uC11D\uC774\uB2E4."
   CraftType: 3
   successRate: 10
+  Critical_Success_Item: {fileID: 0}

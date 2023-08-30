@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-public class Item_Enhancer_UI : MonoBehaviour,IPopupSortWindow ,IPointerDownHandler
+public class Item_Enhancer_UI : MonoBehaviour
 { 
     CanvasGroup canvasGroup;
     Item_Enhancer itemEnhancer;
@@ -51,10 +50,11 @@ public class Item_Enhancer_UI : MonoBehaviour,IPopupSortWindow ,IPointerDownHand
     public Enhancer_Slot_Before BeforeSlot => beforeSlot;
     public Enhancer_Slot_After AfterSlot => afterSlot;
 
-    public Action<IPopupSortWindow> PopupSorting { get; set; }
-
     private void Awake()
     {
+        WarningBox warningBox = FindObjectOfType<WarningBox>();
+        warningBox.onWarningBoxClose += OpenInteractable;
+
         itemEnhancer = GetComponent<Item_Enhancer>();
         canvasGroup = GetComponent<CanvasGroup>();
         beforeSlot = GetComponentInChildren<Enhancer_Slot_Before>();
@@ -103,8 +103,6 @@ public class Item_Enhancer_UI : MonoBehaviour,IPopupSortWindow ,IPointerDownHand
 
         Close();
 
-        WarningBox warningBox = FindObjectOfType<WarningBox>();
-        warningBox.onWarningBoxClose += OpenInteractable;
     }
     public void Open()
     {
@@ -216,19 +214,4 @@ public class Item_Enhancer_UI : MonoBehaviour,IPopupSortWindow ,IPointerDownHand
         OpenInteractable();
     }
 
-    public void OpenWindow()
-    {
-        PopupSorting?.Invoke(this);
-        Open();
-    }
-
-    public void CloseWindow()
-    {
-        Close();
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        PopupSorting?.Invoke(this);
-    }
 }

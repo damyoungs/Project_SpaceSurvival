@@ -62,10 +62,8 @@ public class SaveWindowManager : PopupWindowBase ,IPopupSortWindow ,IPointerDown
     int lastPageIndex = -1;
     public int LastPageIndex => lastPageIndex;
 
-    /// <summary>
-    /// 팝업창 순서 정렬하기용으로 클릭이밴트 드리븐
-    /// </summary>
-    public Action<IPopupSortWindow> PopupSorting { get; set; }
+    Action<IPopupSortWindow> popupEventHandle;
+    public Action<IPopupSortWindow> PopupSorting { set => popupEventHandle += value; }
 
     /// <summary>
     /// 마지막페이지에 보일 저장파일 오브젝트 갯수
@@ -248,7 +246,7 @@ public class SaveWindowManager : PopupWindowBase ,IPopupSortWindow ,IPointerDown
 
         for (int i = 0; i < proccessLength; i++) //필요한만큼 추가로 생성한다 
         {
-            Multiple_Factory.Instance.GetObject(type);//오브젝트 추가해서 강제로 풀의사이즈를늘린다.
+            MultipleObjectsFactory.Instance.GetObject(type);//오브젝트 추가해서 강제로 풀의사이즈를늘린다.
         }
         SetPoolBug(position, proccessLength);//필요없는 오브젝트를 비활성화 하는 함수
     }
@@ -308,7 +306,6 @@ public class SaveWindowManager : PopupWindowBase ,IPopupSortWindow ,IPointerDown
         for (int i = startIndex; i < lastIndex; i++)
         { //데이터를 한페이지만큼만 확인한다.
             SetGameObject(saveDataList[i], i); // 데이터를 셋팅하자 
-            
         }
         int visibleEndIndex = lastIndex - startIndex; //페이지의 마지막 인덱스값을 준다.
         SetPoolBug(saveWindowObject.transform, visibleEndIndex);//풀은 오브젝트를 2배씩늘리는데 사용안하는것들은 비활성화작업이필요해서 추가했다.
@@ -358,7 +355,8 @@ public class SaveWindowManager : PopupWindowBase ,IPopupSortWindow ,IPointerDown
         }
         int viewObjectNumber = GetGameObjectIndex(fileIndex); //페이지별 오브젝트 위치찾기
 
-        SaveGameObject sd = saveWindowObject.transform.GetChild(viewObjectNumber).GetComponent<SaveGameObject>(); //수정된 오브젝트 가져온다.
+        SaveDataObject sd = saveWindowObject.transform.GetChild(viewObjectNumber).GetComponent<SaveDataObject>(); //수정된 오브젝트 가져온다.
+
         sd.ObjectIndex = viewObjectNumber; //오브젝트 넘버링을 해준다 
 
         if (saveData != null) { //저장데이터가 있는지 체크
@@ -396,7 +394,7 @@ public class SaveWindowManager : PopupWindowBase ,IPopupSortWindow ,IPointerDown
 
         for (int i = 0; i < pagingMaxObject; i++) { //한페이지 다시돌면서 셋팅한다
             PageNumRectSetting(saveWindowPageObject.transform.GetChild(i).GetComponent<RectTransform>(),i, arithmeticValue, pagingMaxObject);
-            saveWindowPageObject.transform.GetChild(i).GetComponent<SavePageButton_PoolObj>().PageIndex = startIndex + i; //페이지 인덱스값 표시
+            saveWindowPageObject.transform.GetChild(i).GetComponent<SavePageButtonIsPool>().PageIndex = startIndex + i; //페이지 인덱스값 표시
         }
         ResetSaveFocusing();//페이지이동시 초기화
         SetPoolBug(saveWindowPageObject.transform, pagingMaxObject);
@@ -491,16 +489,6 @@ public class SaveWindowManager : PopupWindowBase ,IPopupSortWindow ,IPointerDown
     /// <param name="eventData">사용안함</param>
     public void OnPointerDown(PointerEventData _)
     {
-        PopupSorting(this);
-    }
-
-    public void OpenWindow()
-    {
-        this.gameObject.SetActive(true);
-    }
-
-    public void CloseWindow()
-    {
-        this.gameObject.SetActive(false);
+        popupEventHandle(this);
     }
 }

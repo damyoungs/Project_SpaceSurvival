@@ -1,13 +1,11 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class ItemDescription : MonoBehaviour ,IPopupSortWindow ,IPointerDownHandler
+public class ItemDescription : MonoBehaviour
 {
     Image itemIcon;
     TextMeshProUGUI itemName;
@@ -30,9 +28,6 @@ public class ItemDescription : MonoBehaviour ,IPopupSortWindow ,IPointerDownHand
                 Close();
         }
     }
-
-    public Action<IPopupSortWindow> PopupSorting { get; set; }
-
     private void Awake()
     {
         itemIcon = transform.GetChild(0).GetChild(0).GetComponent<Image>();
@@ -127,20 +122,5 @@ public class ItemDescription : MonoBehaviour ,IPopupSortWindow ,IPointerDownHand
         canvasGroup.alpha = 0.0f;
         yield break;
      
-    }
-
-    public void OpenWindow()
-    {
-        PopupSorting?.Invoke(this);
-    }
-
-    public void CloseWindow()
-    {
-        Close();
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        PopupSorting?.Invoke(this);
     }
 }

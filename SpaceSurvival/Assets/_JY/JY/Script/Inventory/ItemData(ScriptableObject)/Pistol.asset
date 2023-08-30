@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Pistol
   m_EditorClassIdentifier: 
   ItemType: 1
-  code: 12
+  code: 9
   itemName: Pistol
   modelPrefab: {fileID: 1478929842005552467, guid: 8f3ba16da44494748ad4269562998851, type: 3}
-  itemIcon: {fileID: 235373987, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
+  itemIcon: {fileID: -109127132, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
   price: 0
   maxStackCount: 1
   itemDescription: "\uC124\uBA85"
