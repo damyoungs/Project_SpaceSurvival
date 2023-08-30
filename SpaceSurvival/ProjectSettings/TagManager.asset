@@ -10,6 +10,7 @@ TagManager:
   - WindowList
   - DataFactory
   - TitleButton
+  - Npc
   layers:
   - Default
   - TransparentFX
