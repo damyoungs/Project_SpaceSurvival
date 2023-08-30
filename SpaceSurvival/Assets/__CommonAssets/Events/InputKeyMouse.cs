@@ -31,7 +31,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""name"": ""Move"",
                     ""type"": ""Value"",
                     ""id"": ""cea3fd64-0375-4036-a9c7-f16c71e8a4da"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""expectedControlType"": ""Vector3"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -71,31 +71,13 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Equip_Item"",
-                    ""type"": ""Button"",
-                    ""id"": ""76aa3019-e59a-448e-9b43-ed44f0e446d2"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""MoveMode_Change"",
-                    ""type"": ""Button"",
-                    ""id"": ""58cce24f-25c0-4dd8-9748-c832251e369b"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
                 {
-                    ""name"": ""2D Vector"",
-                    ""id"": ""d1542847-2a7b-46b0-b170-656cd38e9d98"",
-                    ""path"": ""2DVector(mode=1)"",
+                    ""name"": ""3D Vector"",
+                    ""id"": ""79f2bcce-1731-470c-b402-56a16e2bf388"",
+                    ""path"": ""3DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -105,44 +87,66 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""up"",
-                    ""id"": ""c4f5ccea-9b87-4783-8aa4-03b2fa6b9216"",
-                    ""path"": ""<Keyboard>/w"",
+                    ""id"": ""138d0a7d-de78-4b81-8e5f-3b4af446f07b"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""KeyMouse"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""down"",
-                    ""id"": ""b450dbef-4b2d-479b-8ba8-522b177c5f1d"",
-                    ""path"": ""<Keyboard>/s"",
+                    ""id"": ""55d7dd7d-cd02-496b-9861-ecaed4f732f2"",
+                    ""path"": ""<Keyboard>/leftAlt"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""KeyMouse"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""left"",
-                    ""id"": ""697f3cc2-99fe-4bd7-a17a-834b7f13e76c"",
+                    ""id"": ""a920428c-bc8b-49ef-bec7-1ed924d60fbe"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""KeyMouse"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""right"",
-                    ""id"": ""304553b5-d31b-450b-bf69-8faa5e0054bb"",
+                    ""id"": ""f3d06f87-3e25-4d1a-8768-9a7acf6dc7ec"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""KeyMouse"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""forward"",
+                    ""id"": ""a6c28e03-a3fc-43db-a144-a3c64a680e22"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyMouse"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""backward"",
+                    ""id"": ""40082fc1-749e-49ad-ae7f-efc040fc5fcb"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyMouse"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -199,28 +203,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ItemPickUp"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""66d88ca4-cb5b-4eda-9b55-f8de612e258b"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": ""MultiTap(tapDelay=0.4)"",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Equip_Item"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""53feca87-2df9-4191-926e-2cb081f00873"",
-                    ""path"": ""<Keyboard>/tab"",
-                    ""interactions"": ""MultiTap(tapDelay=0.4)"",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MoveMode_Change"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -475,6 +457,15 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""PressI"",
+                    ""type"": ""Button"",
+                    ""id"": ""973cbb08-9319-4e02-a6eb-fe2296d35cf5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -587,6 +578,17 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""action"": ""Test9"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0f7b9012-2815-4be2-84fd-6c69d3a75520"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyMouse"",
+                    ""action"": ""PressI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -696,194 +698,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
-        },
-        {
-            ""name"": ""QuickSlot"",
-            ""id"": ""af86c375-5631-440a-ae6f-2fa48dd89f0c"",
-            ""actions"": [
-                {
-                    ""name"": ""PopUp"",
-                    ""type"": ""Button"",
-                    ""id"": ""ca942b57-ce6b-4099-a6c7-02dd1de64112"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Shift"",
-                    ""type"": ""Button"",
-                    ""id"": ""2bae0ceb-f105-4fae-a2d6-33025c50a88e"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Eight"",
-                    ""type"": ""Button"",
-                    ""id"": ""f549c487-e6b5-4a0c-b4c9-87fc1ee00c74"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Nine"",
-                    ""type"": ""Button"",
-                    ""id"": ""e54c0b4d-2ed5-4320-bcea-1cf03702dd49"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Zero"",
-                    ""type"": ""Button"",
-                    ""id"": ""7de91f94-f342-4ea8-8837-705bc5f7d016"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Ctrl"",
-                    ""type"": ""Button"",
-                    ""id"": ""0b2ed126-ade9-4f8a-a921-251dc31ffec3"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Alt"",
-                    ""type"": ""Button"",
-                    ""id"": ""4d4e8752-2091-45be-bfac-f4382f822afb"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Space"",
-                    ""type"": ""Button"",
-                    ""id"": ""113c520c-b01a-4b52-81dd-038dd521282b"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Insert"",
-                    ""type"": ""Button"",
-                    ""id"": ""4719edb9-8c45-4a57-99a6-684b99c92dfa"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""91cae512-e3db-487f-b77c-aa20fc0441d0"",
-                    ""path"": ""<Keyboard>/n"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""PopUp"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""de65eb02-40ad-429b-aeb0-fc844f764e44"",
-                    ""path"": ""<Keyboard>/shift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Shift"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""3801daac-16e8-42c3-944c-ab39a8f23aa2"",
-                    ""path"": ""<Keyboard>/8"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Eight"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""9c641ddf-1ddd-47ca-ba65-0e7af841e657"",
-                    ""path"": ""<Keyboard>/9"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Nine"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""85866115-b48b-4d9d-843c-8d3353b9228e"",
-                    ""path"": ""<Keyboard>/0"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Zero"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""fdb13cef-ff81-413c-9110-e7f93ae194eb"",
-                    ""path"": ""<Keyboard>/ctrl"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Ctrl"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b23e353b-4202-4aeb-8745-3578e4afc967"",
-                    ""path"": ""<Keyboard>/alt"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Alt"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""4fec19cc-9eb1-4f2b-bc23-d86f840fbacc"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Space"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""9e32adbc-9835-47d1-9678-396d867eb022"",
-                    ""path"": ""<Keyboard>/insert"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Insert"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
         }
     ],
     ""controlSchemes"": [
@@ -912,8 +726,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         m_Player_LeftRotate = m_Player.FindAction("LeftRotate", throwIfNotFound: true);
         m_Player_RightRotate = m_Player.FindAction("RightRotate", throwIfNotFound: true);
         m_Player_ItemPickUp = m_Player.FindAction("ItemPickUp", throwIfNotFound: true);
-        m_Player_Equip_Item = m_Player.FindAction("Equip_Item", throwIfNotFound: true);
-        m_Player_MoveMode_Change = m_Player.FindAction("MoveMode_Change", throwIfNotFound: true);
         // Mouse
         m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
         m_Mouse_MouseClick = m_Mouse.FindAction("MouseClick", throwIfNotFound: true);
@@ -937,6 +749,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         m_Test_Test8 = m_Test.FindAction("Test8", throwIfNotFound: true);
         m_Test_Test9 = m_Test.FindAction("Test9", throwIfNotFound: true);
         m_Test_TestClick = m_Test.FindAction("TestClick", throwIfNotFound: true);
+        m_Test_PressI = m_Test.FindAction("PressI", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Click = m_UI.FindAction("Click", throwIfNotFound: true);
@@ -945,17 +758,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_RightRotate = m_Camera.FindAction("RightRotate", throwIfNotFound: true);
         m_Camera_LeftRotate = m_Camera.FindAction("LeftRotate", throwIfNotFound: true);
-        // QuickSlot
-        m_QuickSlot = asset.FindActionMap("QuickSlot", throwIfNotFound: true);
-        m_QuickSlot_PopUp = m_QuickSlot.FindAction("PopUp", throwIfNotFound: true);
-        m_QuickSlot_Shift = m_QuickSlot.FindAction("Shift", throwIfNotFound: true);
-        m_QuickSlot_Eight = m_QuickSlot.FindAction("Eight", throwIfNotFound: true);
-        m_QuickSlot_Nine = m_QuickSlot.FindAction("Nine", throwIfNotFound: true);
-        m_QuickSlot_Zero = m_QuickSlot.FindAction("Zero", throwIfNotFound: true);
-        m_QuickSlot_Ctrl = m_QuickSlot.FindAction("Ctrl", throwIfNotFound: true);
-        m_QuickSlot_Alt = m_QuickSlot.FindAction("Alt", throwIfNotFound: true);
-        m_QuickSlot_Space = m_QuickSlot.FindAction("Space", throwIfNotFound: true);
-        m_QuickSlot_Insert = m_QuickSlot.FindAction("Insert", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1022,8 +824,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_LeftRotate;
     private readonly InputAction m_Player_RightRotate;
     private readonly InputAction m_Player_ItemPickUp;
-    private readonly InputAction m_Player_Equip_Item;
-    private readonly InputAction m_Player_MoveMode_Change;
     public struct PlayerActions
     {
         private @InputKeyMouse m_Wrapper;
@@ -1033,8 +833,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         public InputAction @LeftRotate => m_Wrapper.m_Player_LeftRotate;
         public InputAction @RightRotate => m_Wrapper.m_Player_RightRotate;
         public InputAction @ItemPickUp => m_Wrapper.m_Player_ItemPickUp;
-        public InputAction @Equip_Item => m_Wrapper.m_Player_Equip_Item;
-        public InputAction @MoveMode_Change => m_Wrapper.m_Player_MoveMode_Change;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1059,12 +857,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @ItemPickUp.started += instance.OnItemPickUp;
             @ItemPickUp.performed += instance.OnItemPickUp;
             @ItemPickUp.canceled += instance.OnItemPickUp;
-            @Equip_Item.started += instance.OnEquip_Item;
-            @Equip_Item.performed += instance.OnEquip_Item;
-            @Equip_Item.canceled += instance.OnEquip_Item;
-            @MoveMode_Change.started += instance.OnMoveMode_Change;
-            @MoveMode_Change.performed += instance.OnMoveMode_Change;
-            @MoveMode_Change.canceled += instance.OnMoveMode_Change;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1084,12 +876,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @ItemPickUp.started -= instance.OnItemPickUp;
             @ItemPickUp.performed -= instance.OnItemPickUp;
             @ItemPickUp.canceled -= instance.OnItemPickUp;
-            @Equip_Item.started -= instance.OnEquip_Item;
-            @Equip_Item.performed -= instance.OnEquip_Item;
-            @Equip_Item.canceled -= instance.OnEquip_Item;
-            @MoveMode_Change.started -= instance.OnMoveMode_Change;
-            @MoveMode_Change.performed -= instance.OnMoveMode_Change;
-            @MoveMode_Change.canceled -= instance.OnMoveMode_Change;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1253,6 +1039,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     private readonly InputAction m_Test_Test8;
     private readonly InputAction m_Test_Test9;
     private readonly InputAction m_Test_TestClick;
+    private readonly InputAction m_Test_PressI;
     public struct TestActions
     {
         private @InputKeyMouse m_Wrapper;
@@ -1267,6 +1054,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         public InputAction @Test8 => m_Wrapper.m_Test_Test8;
         public InputAction @Test9 => m_Wrapper.m_Test_Test9;
         public InputAction @TestClick => m_Wrapper.m_Test_TestClick;
+        public InputAction @PressI => m_Wrapper.m_Test_PressI;
         public InputActionMap Get() { return m_Wrapper.m_Test; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1306,6 +1094,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @TestClick.started += instance.OnTestClick;
             @TestClick.performed += instance.OnTestClick;
             @TestClick.canceled += instance.OnTestClick;
+            @PressI.started += instance.OnPressI;
+            @PressI.performed += instance.OnPressI;
+            @PressI.canceled += instance.OnPressI;
         }
 
         private void UnregisterCallbacks(ITestActions instance)
@@ -1340,6 +1131,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @TestClick.started -= instance.OnTestClick;
             @TestClick.performed -= instance.OnTestClick;
             @TestClick.canceled -= instance.OnTestClick;
+            @PressI.started -= instance.OnPressI;
+            @PressI.performed -= instance.OnPressI;
+            @PressI.canceled -= instance.OnPressI;
         }
 
         public void RemoveCallbacks(ITestActions instance)
@@ -1465,116 +1259,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         }
     }
     public CameraActions @Camera => new CameraActions(this);
-
-    // QuickSlot
-    private readonly InputActionMap m_QuickSlot;
-    private List<IQuickSlotActions> m_QuickSlotActionsCallbackInterfaces = new List<IQuickSlotActions>();
-    private readonly InputAction m_QuickSlot_PopUp;
-    private readonly InputAction m_QuickSlot_Shift;
-    private readonly InputAction m_QuickSlot_Eight;
-    private readonly InputAction m_QuickSlot_Nine;
-    private readonly InputAction m_QuickSlot_Zero;
-    private readonly InputAction m_QuickSlot_Ctrl;
-    private readonly InputAction m_QuickSlot_Alt;
-    private readonly InputAction m_QuickSlot_Space;
-    private readonly InputAction m_QuickSlot_Insert;
-    public struct QuickSlotActions
-    {
-        private @InputKeyMouse m_Wrapper;
-        public QuickSlotActions(@InputKeyMouse wrapper) { m_Wrapper = wrapper; }
-        public InputAction @PopUp => m_Wrapper.m_QuickSlot_PopUp;
-        public InputAction @Shift => m_Wrapper.m_QuickSlot_Shift;
-        public InputAction @Eight => m_Wrapper.m_QuickSlot_Eight;
-        public InputAction @Nine => m_Wrapper.m_QuickSlot_Nine;
-        public InputAction @Zero => m_Wrapper.m_QuickSlot_Zero;
-        public InputAction @Ctrl => m_Wrapper.m_QuickSlot_Ctrl;
-        public InputAction @Alt => m_Wrapper.m_QuickSlot_Alt;
-        public InputAction @Space => m_Wrapper.m_QuickSlot_Space;
-        public InputAction @Insert => m_Wrapper.m_QuickSlot_Insert;
-        public InputActionMap Get() { return m_Wrapper.m_QuickSlot; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(QuickSlotActions set) { return set.Get(); }
-        public void AddCallbacks(IQuickSlotActions instance)
-        {
-            if (instance == null || m_Wrapper.m_QuickSlotActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_QuickSlotActionsCallbackInterfaces.Add(instance);
-            @PopUp.started += instance.OnPopUp;
-            @PopUp.performed += instance.OnPopUp;
-            @PopUp.canceled += instance.OnPopUp;
-            @Shift.started += instance.OnShift;
-            @Shift.performed += instance.OnShift;
-            @Shift.canceled += instance.OnShift;
-            @Eight.started += instance.OnEight;
-            @Eight.performed += instance.OnEight;
-            @Eight.canceled += instance.OnEight;
-            @Nine.started += instance.OnNine;
-            @Nine.performed += instance.OnNine;
-            @Nine.canceled += instance.OnNine;
-            @Zero.started += instance.OnZero;
-            @Zero.performed += instance.OnZero;
-            @Zero.canceled += instance.OnZero;
-            @Ctrl.started += instance.OnCtrl;
-            @Ctrl.performed += instance.OnCtrl;
-            @Ctrl.canceled += instance.OnCtrl;
-            @Alt.started += instance.OnAlt;
-            @Alt.performed += instance.OnAlt;
-            @Alt.canceled += instance.OnAlt;
-            @Space.started += instance.OnSpace;
-            @Space.performed += instance.OnSpace;
-            @Space.canceled += instance.OnSpace;
-            @Insert.started += instance.OnInsert;
-            @Insert.performed += instance.OnInsert;
-            @Insert.canceled += instance.OnInsert;
-        }
-
-        private void UnregisterCallbacks(IQuickSlotActions instance)
-        {
-            @PopUp.started -= instance.OnPopUp;
-            @PopUp.performed -= instance.OnPopUp;
-            @PopUp.canceled -= instance.OnPopUp;
-            @Shift.started -= instance.OnShift;
-            @Shift.performed -= instance.OnShift;
-            @Shift.canceled -= instance.OnShift;
-            @Eight.started -= instance.OnEight;
-            @Eight.performed -= instance.OnEight;
-            @Eight.canceled -= instance.OnEight;
-            @Nine.started -= instance.OnNine;
-            @Nine.performed -= instance.OnNine;
-            @Nine.canceled -= instance.OnNine;
-            @Zero.started -= instance.OnZero;
-            @Zero.performed -= instance.OnZero;
-            @Zero.canceled -= instance.OnZero;
-            @Ctrl.started -= instance.OnCtrl;
-            @Ctrl.performed -= instance.OnCtrl;
-            @Ctrl.canceled -= instance.OnCtrl;
-            @Alt.started -= instance.OnAlt;
-            @Alt.performed -= instance.OnAlt;
-            @Alt.canceled -= instance.OnAlt;
-            @Space.started -= instance.OnSpace;
-            @Space.performed -= instance.OnSpace;
-            @Space.canceled -= instance.OnSpace;
-            @Insert.started -= instance.OnInsert;
-            @Insert.performed -= instance.OnInsert;
-            @Insert.canceled -= instance.OnInsert;
-        }
-
-        public void RemoveCallbacks(IQuickSlotActions instance)
-        {
-            if (m_Wrapper.m_QuickSlotActionsCallbackInterfaces.Remove(instance))
-                UnregisterCallbacks(instance);
-        }
-
-        public void SetCallbacks(IQuickSlotActions instance)
-        {
-            foreach (var item in m_Wrapper.m_QuickSlotActionsCallbackInterfaces)
-                UnregisterCallbacks(item);
-            m_Wrapper.m_QuickSlotActionsCallbackInterfaces.Clear();
-            AddCallbacks(instance);
-        }
-    }
-    public QuickSlotActions @QuickSlot => new QuickSlotActions(this);
     private int m_KeyMouseSchemeIndex = -1;
     public InputControlScheme KeyMouseScheme
     {
@@ -1591,8 +1275,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         void OnLeftRotate(InputAction.CallbackContext context);
         void OnRightRotate(InputAction.CallbackContext context);
         void OnItemPickUp(InputAction.CallbackContext context);
-        void OnEquip_Item(InputAction.CallbackContext context);
-        void OnMoveMode_Change(InputAction.CallbackContext context);
     }
     public interface IMouseActions
     {
@@ -1619,6 +1301,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         void OnTest8(InputAction.CallbackContext context);
         void OnTest9(InputAction.CallbackContext context);
         void OnTestClick(InputAction.CallbackContext context);
+        void OnPressI(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
@@ -1629,17 +1312,5 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     {
         void OnRightRotate(InputAction.CallbackContext context);
         void OnLeftRotate(InputAction.CallbackContext context);
-    }
-    public interface IQuickSlotActions
-    {
-        void OnPopUp(InputAction.CallbackContext context);
-        void OnShift(InputAction.CallbackContext context);
-        void OnEight(InputAction.CallbackContext context);
-        void OnNine(InputAction.CallbackContext context);
-        void OnZero(InputAction.CallbackContext context);
-        void OnCtrl(InputAction.CallbackContext context);
-        void OnAlt(InputAction.CallbackContext context);
-        void OnSpace(InputAction.CallbackContext context);
-        void OnInsert(InputAction.CallbackContext context);
     }
 }
