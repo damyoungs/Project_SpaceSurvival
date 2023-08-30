@@ -1,18 +1,11 @@
-//using System;
-using System.CodeDom.Compiler;
-using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Tilemaps;
-using UnityEngine.UIElements;
 
 public class MapTest : TestBase
 {
-    public GameObject player;               // 플레이어
+    public ChoClickTest player;             // 플레이어
     public Material material;               // 필요없을 것 같아 아마 지울 예정
 
     public GameObject centerTile;           // 중앙에 사용할 타일
@@ -36,7 +29,7 @@ public class MapTest : TestBase
     Vector3 sideTileSize = Vector3.zero;    // 사이드 타일 사이즈
     Vector3 vertexTileSize = Vector3.zero;  // 꼭지점 타일 사이즈
 
-    GameObject[] mapTiles;                  // 타일 오브젝트 객체를 담을 배열
+    Tile[] mapTiles;                        // 타일 오브젝트 객체를 담을 배열
     List<GameObject> props;                 // 지형 지물을 담을 배열
 
     GameObject[] lights;                    // 조명
@@ -66,8 +59,7 @@ public class MapTest : TestBase
 
             MapInstantiate();                       // 메인 맵 생성
 
-            player.transform.position = GetTile(sizeX / 2, sizeY / 3).transform.position;         // 플레이어 위치 이동(임시)
-            GetTile(sizeX / 2, sizeY / 3).ExistType = Tile.TileExistType.monster;
+            player.CurrentPos = GetTile(sizeX / 2, sizeY / 3);     // 플레이어 위치 이동(임시)
 
             LightInstantiate();                     // 조명 및 기둥 생성
             //MiniMapInstantiate();                 // 미니맵 판자 생성(필요없을 것 같아 나중에 지울 예정)
@@ -106,14 +98,13 @@ public class MapTest : TestBase
         }
     }
 
-
     /// <summary>
     /// 메인 맵 생성하는 함수
     /// </summary>
     private void MapInstantiate()
     {
 
-        mapTiles = new GameObject[tileCount];   // 배열 동적 생성
+        mapTiles = new Tile[tileCount];   // 배열 동적 생성
         GameObject wallObject;          // 벽 오브젝트
 
         for (int i = 0; i < tileCount; i++)
@@ -195,7 +186,7 @@ public class MapTest : TestBase
     {
         for (int i = 0; i < tileCount; i++)
         {
-            Destroy(mapTiles[i]);
+            Destroy(mapTiles[i].gameObject);
         }
 
         for (int i = 0; i < 4; i++)
@@ -213,10 +204,16 @@ public class MapTest : TestBase
     /// <param name="width">가로 인덱스</param>
     /// <param name="length">세로 인덱스</param>
     /// <returns></returns>
-    private Tile GetTile(int width, int length)
+    public Tile GetTile(int width, int length)
     {
         int index = sizeX * length + width;
-        return mapTiles[index].GetComponent<Tile>();
+        return mapTiles[index];
+    }
+
+    public Tile GetTile(Vector2Int pos)
+    {
+        int index = sizeX * pos.y + pos.x;
+        return mapTiles[index];
     }
 
     /// <summary>
@@ -229,10 +226,10 @@ public class MapTest : TestBase
     /// <param name="length">타일의 세로 인덱스</param>
     private void TileInstantiate(int i, GameObject type, Tile.MapTileType tileType, int width, int length)
     {
-        mapTiles[i] = Instantiate(type, gameObject.transform);                  // type에 따른 타일 생성
-        mapTiles[i].GetComponent<Tile>().TileType = tileType;              // 타일 스크립트에 타입 저장
-        mapTiles[i].GetComponent<Tile>().Width = width;                         // 타일 가로 인덱스 저정
-        mapTiles[i].GetComponent<Tile>().Length = length;                       // 타일 세로 인덱스 저정
+        mapTiles[i] = Instantiate(type, gameObject.transform).GetComponent<Tile>();      // type에 따른 타일 생성
+        mapTiles[i].GetComponent<Tile>().TileType = tileType;                            // 타일 스크립트에 타입 저장
+        mapTiles[i].GetComponent<Tile>().Width = width;                                  // 타일 가로 인덱스 저정
+        mapTiles[i].GetComponent<Tile>().Length = length;                                // 타일 세로 인덱스 저정
         mapTiles[i].GetComponent<Tile>().Index = i;
     }
 
@@ -252,7 +249,7 @@ public class MapTest : TestBase
 
         for (int i = 0; i < 4; i++)
         {
-            standardPos[i].GetComponent<Tile>().ExistType = Tile.TileExistType.prop;                                 // 기둥이 있는 타일의 타입 지정
+            standardPos[i].GetComponent<Tile>().ExistType = Tile.TileExistType.Prop;                                 // 기둥이 있는 타일의 타입 지정
 
             pillars[i] = Instantiate(pillar, gameObject.transform);                                               // 기둥 생성
             pillars[i].transform.position = standardPos[i].transform.position;                                    // 기둥 이동
@@ -356,7 +353,7 @@ public class MapTest : TestBase
             }
             obj.transform.position = tile.transform.position;       // 구조물을 타일의 위치로 이동
             obj.transform.GetChild(0).rotation = Quaternion.Euler(0.0f, 90.0f * Random.Range(0, 4), 0.0f);  // 구조물 회전시켜 주기
-            tile.ExistType = Tile.TileExistType.prop;               // 구조물이 있는 타일 구조물이 있다고 표시
+            tile.ExistType = Tile.TileExistType.Prop;               // 구조물이 있는 타일 구조물이 있다고 표시
             break;                  // 무한 루프 탈출
         }
         
@@ -396,7 +393,7 @@ public class MapTest : TestBase
                         switch (randomRotation)         // 회전 정도에 따라 체크해야할 타일의 인덱스가 달라지기 때문에 각자 맞춰 계산하도록 돌림
                         {
                             case 0:         // 회전이 0도일 때
-                                if (GetTile(tile.Width + i, tile.Length + j).ExistType == Tile.TileExistType.prop ||    // 타일에 구조물이 놓여있거나
+                                if (GetTile(tile.Width + i, tile.Length + j).ExistType == Tile.TileExistType.Prop ||    // 타일에 구조물이 놓여있거나
                                     GetTile(tile.Width + i, tile.Length + j).TileType == Tile.MapTileType.sideTile ||   // 타일이 사이드 타일이거나
                                     GetTile(tile.Width + i, tile.Length + j).TileType == Tile.MapTileType.vertexTile)   // 꼭지점 타일인 경우
                                 {
@@ -408,7 +405,7 @@ public class MapTest : TestBase
                                 tileCount++;                                                           // 몇 개의 타일을 체크했는지 확인하기 위해 타일 카운트 증가
                                 break;                                                                 // switch문 탈출
                             case 1:         // 회전이 90도 일 때
-                                if (GetTile(tile.Width + j, tile.Length - i).ExistType == Tile.TileExistType.prop ||        // 위와 동일
+                                if (GetTile(tile.Width + j, tile.Length - i).ExistType == Tile.TileExistType.Prop ||        // 위와 동일
                                     GetTile(tile.Width + j, tile.Length - i).TileType == Tile.MapTileType.sideTile ||
                                     GetTile(tile.Width + j, tile.Length - i).TileType == Tile.MapTileType.vertexTile)
                                 {
@@ -420,7 +417,7 @@ public class MapTest : TestBase
                                 tileCount++;
                                 break;
                             case 2:         // 회전이 180도 일 때
-                                if (GetTile(tile.Width - i, tile.Length - j).ExistType == Tile.TileExistType.prop ||        // 위와 동일
+                                if (GetTile(tile.Width - i, tile.Length - j).ExistType == Tile.TileExistType.Prop ||        // 위와 동일
                                     GetTile(tile.Width - i, tile.Length - j).TileType == Tile.MapTileType.sideTile ||
                                     GetTile(tile.Width - i, tile.Length - j).TileType == Tile.MapTileType.vertexTile)
                                 {
@@ -432,7 +429,7 @@ public class MapTest : TestBase
                                 tileCount++;
                                 break;
                             case 3:         // 회전이 270도 일 때
-                                if (GetTile(tile.Width - j, tile.Length + i).ExistType == Tile.TileExistType.prop ||        // 위와 동일
+                                if (GetTile(tile.Width - j, tile.Length + i).ExistType == Tile.TileExistType.Prop ||        // 위와 동일
                                     GetTile(tile.Width - j, tile.Length + i).TileType == Tile.MapTileType.sideTile ||
                                     GetTile(tile.Width - j, tile.Length + i).TileType == Tile.MapTileType.vertexTile)
                                 {
@@ -467,7 +464,7 @@ public class MapTest : TestBase
 
         for (int i = 0; i < tempTile.Length; i++)           // 필요한 타일을 담아놓은 배열을 순환시키며
         {
-            tempTile[i].ExistType = Tile.TileExistType.prop;        // 그 타일은 구조물이 있음을 표시
+            tempTile[i].ExistType = Tile.TileExistType.Prop;        // 그 타일은 구조물이 있음을 표시
         }
     }
 
@@ -493,7 +490,23 @@ public class MapTest : TestBase
 
         for (int i = 0; i < standardPos.Length; i++)
         {
-            standardPos[i].ExistType = Tile.TileExistType.prop;     // 기둥이 있는 타일은 다시 Prop으로 변경
+            standardPos[i].ExistType = Tile.TileExistType.Prop;     // 기둥이 있는 타일은 다시 Prop으로 변경
         }
+    }
+
+    /// <summary>
+    /// A*에 대한 부분 초기화
+    /// </summary>
+    public void ClearTile()
+    {
+        for (int i = 0; i < mapTiles.Length; i++)
+        {
+            mapTiles[i].Clear();
+        }
+    }
+
+    public bool IsWall(int x, int y)
+    {
+        return GetTile(x, y).ExistType != Tile.TileExistType.None;
     }
 }
