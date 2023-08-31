@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// 저장화면에 보이는 파일 정보 
@@ -83,7 +84,7 @@ public class SaveGameObject : SaveData_PoolObj
         }
     }
 
-
+   
     /// <summary>
     /// 오브젝트밑에 텍스트 오브젝트들 
     /// </summary>
@@ -94,9 +95,10 @@ public class SaveGameObject : SaveData_PoolObj
     TextMeshProUGUI charcterMoneyObj; // 캐릭터이름 , 저장위치 , 돈 , 레벨 정도?
     TextMeshProUGUI etcObj;   // 저장시간 보여주기
 
-
+    
 
     SaveLoadPopupWindow proccessManager;
+    Image backImg;
     protected override void Awake()
     {
         base.Awake();
@@ -112,6 +114,9 @@ public class SaveGameObject : SaveData_PoolObj
         charcterMoneyObj    = child.GetComponent<TextMeshProUGUI>();
         child = transform.GetChild(5);
         etcObj              = child.GetComponent<TextMeshProUGUI>();
+        Button clickBt = GetComponent<Button>();
+        clickBt.onClick.AddListener(InFocusObject);
+        backImg = GetComponent<Image>();    
     }
     protected override void OnEnable()
     {
@@ -138,6 +143,10 @@ public class SaveGameObject : SaveData_PoolObj
             {
                 proccessManager.NewIndex = fileIndex; //새로클릭했으면 다시 셋팅 
             }
+        }
+        else 
+        {
+            backImg.color = Color.white; //새로 포커싱
         }
         
     }
