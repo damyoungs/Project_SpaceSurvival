@@ -16,8 +16,10 @@ MonoBehaviour:
   code: 52
   itemName: Blue_Armor
   modelPrefab: {fileID: 4822236090517046316, guid: 22dc6ca8aa844924f8a9436ba594b693, type: 3}
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: cbd6ebce9926f094c8f6dfa6cbec9c3f, type: 3}
   price: 100000
   maxStackCount: 1
   itemDescription: Blue_Armor
   EquipType: 3
+  attack_Point: 5
+  defence_Point: 30

@@ -16,8 +16,10 @@ MonoBehaviour:
   code: 48
   itemName: Junnker's Helmet
   modelPrefab: {fileID: 4151599991074558520, guid: 65714c5b75cd6d3448b01413b1639477, type: 3}
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: 58944f1241abb484f9af1360de39315e, type: 3}
   price: 10000
   maxStackCount: 1
   itemDescription: Junnker's Helmet
   EquipType: 1
+  defence_Point: 50
+  attack_Point: 10

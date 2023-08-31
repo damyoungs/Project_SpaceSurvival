@@ -347,6 +347,22 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         }
     }
 
+    public bool Taking_Item_From_EquipBox(ItemData data)
+    {
+        bool result = false;
+
+        List<Slot> slotList = GetItemTab(data);
+        foreach (Slot slot in slotList)
+        {
+            if (slot.IsEmpty)
+            {
+                slot.ItemData = data;
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
     void BindingCheck(ItemData itemData)
     {
         List<QuickSlot> quickSlots = quickSlot_Manager.quickSlots.ToList();
