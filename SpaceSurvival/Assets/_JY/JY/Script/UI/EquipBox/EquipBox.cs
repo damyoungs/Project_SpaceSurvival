@@ -19,7 +19,6 @@ public class EquipBox : MonoBehaviour
     public EquipBox_Slot this[EquipSlot_Type type] => equipBox_Slots[(int) type];
 
     CanvasGroup canvasGroup;
-    public bool swapItem { get; set; }
     public bool IsOpen => canvasGroup.alpha > 0.9f;
     private void Awake()
     {

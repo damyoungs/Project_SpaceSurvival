@@ -370,21 +370,10 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         }
         Debug.Log("인벤토리에 빈 슬롯이 없습니다.");
     }
-    public bool Taking_Item_From_EquipBox(ItemData data)
+    public void Taking_Item_From_EquipBox(ItemData data)
     {
-        bool result = false;
+        just_ChangeSlot.ItemData = data;
 
-        List<Slot> slotList = GetItemTab(data);
-        foreach (Slot slot in slotList)
-        {
-            if (slot.IsEmpty)
-            {
-                slot.ItemData = data;
-                result = true;
-                break;
-            }
-        }
-        return result;
     }
     void BindingCheck(ItemData itemData)
     {
