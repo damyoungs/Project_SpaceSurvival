@@ -43,6 +43,8 @@ public class EquipBox_Description : MonoBehaviour
     {
         if (!isPause && data != null)
         {
+            itemData = data; // 장비창 상호작용을 위한 데이터 셋팅
+
             ItemData_Hat hat = data as ItemData_Hat;
             ItemData_Enhancable enhancableItem = data as ItemData_Enhancable;
             ItemData_Craft jewel = data as ItemData_Craft;
@@ -86,6 +88,7 @@ public class EquipBox_Description : MonoBehaviour
     {
         StopAllCoroutines();
         StartCoroutine(FadeOut());
+        itemData = null;
     }
     public void MovePosition(Vector2 mousePos)
     {

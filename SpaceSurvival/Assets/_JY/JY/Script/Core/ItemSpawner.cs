@@ -154,7 +154,7 @@ public class ItemSpawner : TestBase
     public EquipBox equipBox;
     protected override void Test4(InputAction.CallbackContext context)
     {
-        equipBox.Set_ItemData(GameManager.Itemdata[ItemCode.HpPotion]);
+        equipBox.Set_ItemData_For_Drag(GameManager.Itemdata[ItemCode.HpPotion]);
     }
 
     protected override void Test5(InputAction.CallbackContext context)

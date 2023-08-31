@@ -11,6 +11,8 @@ public class PlayerDummy : MonoBehaviour, IHealth
 {
     InputKeyMouse inputActions;
 
+    ItemDescription itemDescription;
+    EquipBox_Description EquipBox_Description;
     public Transform EquipParent;
 
     public Action onOpenInven;
@@ -18,6 +20,10 @@ public class PlayerDummy : MonoBehaviour, IHealth
     public float moveSpeed = 0.0f;
     public float rotateSpeed = 0.0f;
     public float pickupRange = 3.0f;
+
+    public Action<ItemData> onEquipItem;
+    public Action<ItemData> onUnEquipItem;
+    public Action onClearSlot;
 
     uint darkForce = 500;
     public uint DarkForce
@@ -79,10 +85,21 @@ public class PlayerDummy : MonoBehaviour, IHealth
         inputActions.KeyBoard.Enable();
         inputActions.KeyBoard.InvenKey.performed += OpenInven;
     }
-
+    private void Start()
+    {
+        itemDescription = GameManager.SlotManager.ItemDescription;
+        EquipBox_Description = GameManager.EquipBox.Description;
+    }
     private void On_Equip_Item(InputAction.CallbackContext _)
     {
-        Debug.Log("°¨Áö");
+        if (itemDescription.ItemData != null)
+        {
+            onEquipItem?.Invoke(itemDescription.ItemData);
+        }
+        else if (EquipBox_Description.ItemData != null)
+        {
+            onUnEquipItem?.Invoke(EquipBox_Description.ItemData);
+        }
     }
 
     private void OpenInven(InputAction.CallbackContext _)

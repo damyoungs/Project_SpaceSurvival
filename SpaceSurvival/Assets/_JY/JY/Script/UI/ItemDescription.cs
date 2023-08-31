@@ -43,6 +43,8 @@ public class ItemDescription : MonoBehaviour
     {
         if (!isPause && data != null)
         {
+            itemData = data;//장비창 상호작용 전용
+
             ItemData_Equip equipItem = data as ItemData_Equip;
             ItemData_Enhancable enhancableItem = data as ItemData_Enhancable;
             ItemData_Bullet bullet = data as ItemData_Bullet;
@@ -81,6 +83,7 @@ public class ItemDescription : MonoBehaviour
     {
         StopAllCoroutines();
         StartCoroutine(FadeOut());
+        itemData = null;
     }
     public void MovePosition(Vector2 mousePos)
     {

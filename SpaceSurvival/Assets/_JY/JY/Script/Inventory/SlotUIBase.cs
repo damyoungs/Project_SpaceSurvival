@@ -84,7 +84,11 @@ public class SlotUI_Base : MonoBehaviour
             // 아이템이 들어있으면
             itemIcon.sprite = ItemData.itemIcon;      // 아이콘에 이미지 설정
             itemIcon.color = Color.white;                       // 아이콘이 보이도록 투명도 제거
-            itemCountText.text = ItemCount.ToString();    // 아이템 개수 설정
+            itemCountText.text = ItemCount.ToString(); 
+            if (itemCount < 2)
+            {
+                itemCountText.text = string.Empty;
+            }
         }
 
         OnRefresh();        // 상속받은 클래스에서 개별로 실행하고 싶은 코드 실행
