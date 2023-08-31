@@ -29,15 +29,25 @@ public class WarningBox : MonoBehaviour
         item_Enhancer = FindObjectOfType<Item_Enhancer>();
         item_Enhancer.onConfirmButtonClick += Open;
         item_Enhancer.onWaitforResult += Close;
-        confirmButton.onClick.AddListener(() => item_Enhancer.EnhancerState = EnhancerState.WaitforResult);
+        confirmButton.onClick.AddListener(WaitForResult);
+     
 
 
         item_Mixer = FindObjectOfType<Item_Mixer>();
         item_Mixer.onConfirmButtonClick += Open;
         item_Mixer.onWaitforResult += Close;
-        confirmButton.onClick.AddListener(() => item_Mixer.MixerState = ItemMixerState.WaitforResult);
     }
-
+    void WaitForResult()
+    {
+        if (item_Enhancer.EnhancerUI.AfterSlot.ItemData != null)
+        {
+            item_Enhancer.EnhancerState = EnhancerState.WaitforResult;
+        }
+        else if (item_Mixer.MixerUI.Result_Slot.ItemData != null)
+        {
+            item_Mixer.MixerState = ItemMixerState.WaitforResult;
+        }
+    }
     void Open()
     {
         canvasGroup.alpha = 1;

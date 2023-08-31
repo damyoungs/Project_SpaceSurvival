@@ -2213,6 +2213,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitAnimator: {fileID: 4620552247288110346}
   defaultMoveSpeed: 4
+  targetObj: {fileID: 0}
   bulletProjectilePrefab: {fileID: 1822355521190178300, guid: 9daa372118a39448a9a6c3ef57db0a08, type: 3}
   shootPointTransform: {fileID: 0}
 --- !u!82 &178315124
@@ -2325,6 +2326,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitAnimator: {fileID: 4620552247288110346}
   defaultMoveSpeed: 4
+  targetObj: {fileID: 0}
 --- !u!1 &185816357
 GameObject:
   m_ObjectHideFlags: 0
@@ -9558,7 +9560,7 @@ PrefabInstance:
       objectReference: {fileID: 5834443540801048557}
     - target: {fileID: 106816639, guid: e30040716f477e14aaf383c423214e52, type: 3}
       propertyPath: itemCode
-      value: 50
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 106816639, guid: e30040716f477e14aaf383c423214e52, type: 3}
       propertyPath: prefabs.Array.size

@@ -323,13 +323,19 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             }
             else if (mixer_Left_slot_Transform.rect.Contains(distance_Between_Mouse_Left_Slot) && mixer_UI.IsOpen)//Á¶ÇÕÃ¢ÀÇ ¿ÞÂÊ½½·Ô
             {
-                GameManager.Mixer.LeftSlotData = TempSlot.ItemData;
-                RemoveItem(TempSlot.ItemData, Index_JustChange_Slot);
+                if (GameManager.Mixer.LeftSlotData == null)
+                {
+                    GameManager.Mixer.LeftSlotData = TempSlot.ItemData;
+                    RemoveItem(TempSlot.ItemData, Index_JustChange_Slot);
+                }
             }
             else if (mixer_Middle_Slot_Transform.rect.Contains(distance_Between_Mouse_Middle_Slot) && mixer_UI.IsOpen)
             {
-                GameManager.Mixer.MiddleSlotData = TempSlot.ItemData;
-                RemoveItem(TempSlot.ItemData, Index_JustChange_Slot);
+                if (GameManager.Mixer.MiddleSlotData == null)
+                {
+                    GameManager.Mixer.MiddleSlotData = TempSlot.ItemData;
+                    RemoveItem(TempSlot.ItemData, Index_JustChange_Slot);
+                }
             }
             else if (mixerUI_Transform.rect.Contains(distance_Between_Mouse_MixerUI) && mixer_UI.IsOpen)
             {
