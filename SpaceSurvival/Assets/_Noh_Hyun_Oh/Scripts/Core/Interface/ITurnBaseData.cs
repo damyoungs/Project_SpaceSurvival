@@ -13,6 +13,7 @@ public interface ITurnBaseData
     /// 턴게이지 UI 캐싱용 프로퍼티
     /// </summary>
     TurnGaugeUnit GaugeUnit { get; }
+
     /// <summary>
     /// 컴포넌트에 정의된 함수를 연결
     /// 추적형 UI적용을위해 유닛의 좌표값을 알아야함으로 추가
@@ -21,7 +22,7 @@ public interface ITurnBaseData
     /// <summary>
     /// 전투씬에서 턴관리에 사용할 번호 
     /// </summary>
-    public int UnitBattleIndex { get;}
+    public int UnitBattleIndex { get; set; }
     /// <summary>
     /// 턴종료시 추가될 행동력 
     /// </summary>
@@ -45,6 +46,11 @@ public interface ITurnBaseData
     /// 해당턴오브젝트에서 사용할 캐릭터 리스트
     /// </summary>
     public List<ICharcterBase> CharcterList { get; }
+
+    /// <summary>
+    /// 맵생성시 호출할 데이터 초기화 함수
+    /// </summary>
+    public void InitData();
 
     /// <summary>
     /// 턴시작시 실행할 함수

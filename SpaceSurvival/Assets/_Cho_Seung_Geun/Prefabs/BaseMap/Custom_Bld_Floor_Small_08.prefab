@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2767955689913819478}
   - component: {fileID: 1942869896941833920}
   - component: {fileID: 5480171327469661455}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Bld_Floor_Small_08
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 1680273332306573502}
   - component: {fileID: 2189682967215962669}
   - component: {fileID: 3232014254347536}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Custom_Bld_Floor_Small_08
   m_TagString: Tile
   m_Icon: {fileID: 0}

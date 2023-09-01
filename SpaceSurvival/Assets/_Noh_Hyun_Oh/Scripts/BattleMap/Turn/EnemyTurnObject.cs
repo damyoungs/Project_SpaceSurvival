@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.XR.OpenVR;
@@ -5,36 +6,44 @@ using UnityEngine;
 
 public class EnemyTurnObject : TurnBaseObject
 {
-    protected override void Awake()
+    /// <summary>
+    /// 테스트용 변수 
+    /// </summary>
+    [SerializeField]
+    int testPlayerLength = 5;
+    /// <summary>
+    /// 캐릭터 데이터는 외부에서 셋팅하기때문에 해당 델리게이트 연결해줘야함
+    /// </summary>
+    public Func<ICharcterBase[]> initEnemy;
+  
+    /// <summary>
+    /// 데이터 초기화 함수 
+    /// </summary>
+    public override void InitData()
     {
-        base.Awake();
-        onEnable_InitData += () => 
+        TurnActionValue = 0.0f; // 액션값 초기화 
+
+        ICharcterBase[] enemyList = initEnemy?.Invoke(); //외부에서 몬스터 배열이 들어왔는지 체크
+        if (enemyList == null || enemyList.Length == 0) //몬스터 초기화가 안되있으면 
         {
-            battleIndex = -1;
-            if (TurnManager.Instance != null) 
+            //테스트 데이터 생성
+            for (int i = 0; i < testPlayerLength; i++)//캐릭터들 생성해서 셋팅 
             {
-                //활성화 하기전에 값셋팅을 할 람다 함수
-                //이러면 팩토리에서 get 할때 비활성화에서 -> 초기화 -> 활성화 가 가능하다 
-                battleIndex = TurnManager.Instance.BattleIndex; 
-            }
-        };
-        //최소한으로 초기화해줘야 할맴버들
-        turnAddValue = 0.06f;                       // 한턴당 회복될 수치
-        maxTurnValue = 1.8f;                        // 최대로 회복될 수치
-        TurnActionValue = 0.0f;
-    }
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-        if (UnitBattleIndex > -1) //배틀 인덱스가 셋팅되있으면 배틀맵임으로 배틀맵 일때만  
-        {
-            for (int i = 0; i < 3; i++)//캐릭터들 생성해서 셋팅 
-            {
-                GameObject go = Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.CHARCTER_ENEMY_POOL).gameObject;
-                charcterList.Add(go.GetComponent<ICharcterBase>());
+                BattleMapEnemyBase go = (BattleMapEnemyBase)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.CHARCTER_ENEMY_POOL);
+                
+                charcterList.Add(go);
+                
                 go.name = $"Enemy_{i}";
-                go.SetActive(true);
+                go.gameObject.SetActive(true);
+            }
+        }
+        else // 외부에서 데이터가 들어왔을경우  이경우가 정상적인경우다  내가 데이서 셋팅안할것이기때문에...
+        {
+            foreach (ICharcterBase enemy in enemyList)
+            {
+                charcterList.Add(enemy); //턴관리할 몹 셋팅
             }
         }
     }
+   
 }

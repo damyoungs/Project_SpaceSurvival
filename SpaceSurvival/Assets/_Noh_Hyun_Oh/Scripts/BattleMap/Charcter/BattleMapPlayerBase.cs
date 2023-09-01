@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,9 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj , ICharcterBase
 
     }
 
+    Tile currentTile;
+    public Tile CurrentTile => currentTile;
+    
     /// <summary>
     /// 추적형 UI 가 있는 캔버스 위치
     /// </summary>
@@ -29,6 +33,7 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj , ICharcterBase
     {
         battleUICanvas = WindowList.Instance.transform.GetChild(0).GetChild(0);  // TrackingUI 담을 캔버스위치
         InitUI();//맨처음 
+        unitAnimator = transform.GetChild(0).GetComponent<Animator>();
     }
 
     protected override void OnEnable()
@@ -88,4 +93,52 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj , ICharcterBase
         gameObject.SetActive(false); // 큐를 돌린다.
     }
 
+
+    public void SetTile(Tile currentTile) 
+    {
+        this.currentTile = currentTile;
+    } 
+    public void CharcterMove(Tile currentTile)
+    {
+        List<Tile> path = Cho_BattleMap_AStarDouble.PathFind(
+                                                        SpaceSurvival_GameManager.Instance.BattleMapDoubleArray,
+                                                        this.currentTile,
+                                                        currentTile
+                                                        );
+        StopAllCoroutines();
+        StartCoroutine(CharcterMove(path));
+    }
+    [SerializeField]
+    Animator unitAnimator;
+    int isWalkingHash = Animator.StringToHash("IsWalking");
+    [SerializeField]
+    float moveSpeed = 3.0f;
+    [SerializeField]
+    float rotateSpeed = 10.0f;
+    IEnumerator CharcterMove(List<Tile> path)
+    {
+        Vector3 targetPos = Vector3.zero;
+        unitAnimator.SetBool(isWalkingHash, true);
+        foreach (Tile tile in path) 
+        {
+            float timeElaspad = 0.0f;
+            targetPos = tile.transform.position;
+            
+            while ((targetPos - transform.position).sqrMagnitude > 0.04f) 
+            {
+                timeElaspad += Time.deltaTime * moveSpeed;
+                transform.position = Vector3.Lerp(transform.position, targetPos, timeElaspad);
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(targetPos - transform.position), timeElaspad);
+                yield return null;
+            }
+            
+            this.currentTile.ExistType = Tile.TileExistType.Move;// 기존위치 이동가능하게 바꾸고  
+            this.currentTile = tile;
+            this.currentTile.ExistType = Tile.TileExistType.Monster; //이동한위치 못가게 바꾼다.
+        }
+        transform.position = targetPos;
+        transform.rotation = Quaternion.LookRotation(targetPos - transform.position);
+        transform.GetChild(0).transform.localPosition = Vector3.zero;
+        unitAnimator.SetBool(isWalkingHash, false);
+    }
 }

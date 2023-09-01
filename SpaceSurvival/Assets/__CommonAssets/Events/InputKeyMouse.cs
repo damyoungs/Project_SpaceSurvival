@@ -884,6 +884,34 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""BattleMap_Player"",
+            ""id"": ""6be181be-5035-4140-8f9c-a881b83f29cc"",
+            ""actions"": [
+                {
+                    ""name"": ""UnitMove"",
+                    ""type"": ""Value"",
+                    ""id"": ""a9df35c9-17f8-4152-bd6a-fbebd6441e39"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""7f23fd2f-204a-40c3-b65a-0f1658ae484f"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyMouse"",
+                    ""action"": ""UnitMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -956,6 +984,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         m_QuickSlot_Alt = m_QuickSlot.FindAction("Alt", throwIfNotFound: true);
         m_QuickSlot_Space = m_QuickSlot.FindAction("Space", throwIfNotFound: true);
         m_QuickSlot_Insert = m_QuickSlot.FindAction("Insert", throwIfNotFound: true);
+        // BattleMap_Player
+        m_BattleMap_Player = asset.FindActionMap("BattleMap_Player", throwIfNotFound: true);
+        m_BattleMap_Player_UnitMove = m_BattleMap_Player.FindAction("UnitMove", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1575,6 +1606,52 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         }
     }
     public QuickSlotActions @QuickSlot => new QuickSlotActions(this);
+
+    // BattleMap_Player
+    private readonly InputActionMap m_BattleMap_Player;
+    private List<IBattleMap_PlayerActions> m_BattleMap_PlayerActionsCallbackInterfaces = new List<IBattleMap_PlayerActions>();
+    private readonly InputAction m_BattleMap_Player_UnitMove;
+    public struct BattleMap_PlayerActions
+    {
+        private @InputKeyMouse m_Wrapper;
+        public BattleMap_PlayerActions(@InputKeyMouse wrapper) { m_Wrapper = wrapper; }
+        public InputAction @UnitMove => m_Wrapper.m_BattleMap_Player_UnitMove;
+        public InputActionMap Get() { return m_Wrapper.m_BattleMap_Player; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(BattleMap_PlayerActions set) { return set.Get(); }
+        public void AddCallbacks(IBattleMap_PlayerActions instance)
+        {
+            if (instance == null || m_Wrapper.m_BattleMap_PlayerActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_BattleMap_PlayerActionsCallbackInterfaces.Add(instance);
+            @UnitMove.started += instance.OnUnitMove;
+            @UnitMove.performed += instance.OnUnitMove;
+            @UnitMove.canceled += instance.OnUnitMove;
+        }
+
+        private void UnregisterCallbacks(IBattleMap_PlayerActions instance)
+        {
+            @UnitMove.started -= instance.OnUnitMove;
+            @UnitMove.performed -= instance.OnUnitMove;
+            @UnitMove.canceled -= instance.OnUnitMove;
+        }
+
+        public void RemoveCallbacks(IBattleMap_PlayerActions instance)
+        {
+            if (m_Wrapper.m_BattleMap_PlayerActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IBattleMap_PlayerActions instance)
+        {
+            foreach (var item in m_Wrapper.m_BattleMap_PlayerActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_BattleMap_PlayerActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public BattleMap_PlayerActions @BattleMap_Player => new BattleMap_PlayerActions(this);
     private int m_KeyMouseSchemeIndex = -1;
     public InputControlScheme KeyMouseScheme
     {
@@ -1641,5 +1718,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         void OnAlt(InputAction.CallbackContext context);
         void OnSpace(InputAction.CallbackContext context);
         void OnInsert(InputAction.CallbackContext context);
+    }
+    public interface IBattleMap_PlayerActions
+    {
+        void OnUnitMove(InputAction.CallbackContext context);
     }
 }
