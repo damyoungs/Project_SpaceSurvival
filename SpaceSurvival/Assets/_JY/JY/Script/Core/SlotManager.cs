@@ -358,6 +358,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     }
     void UnEquip_Item(ItemData itemData)// 더블클릭으로 해제 할 때
     {
+        bool result = false;
         List<Slot> slotList = GetItemTab(itemData);
         foreach(Slot slot in slotList)
         {
@@ -365,10 +366,14 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             {
                 on_UnEquip_Item?.Invoke(itemData);
                 slot.ItemData = itemData;
+                result = true;
                 break;
             }
         }
-        Debug.Log("인벤토리에 빈 슬롯이 없습니다.");
+        if (!result)
+        {
+            Debug.Log("인벤토리에 빈 슬롯이 없습니다.");
+        }
     }
     public void Taking_Item_From_EquipBox(ItemData data)
     {
