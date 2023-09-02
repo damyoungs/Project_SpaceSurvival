@@ -6,6 +6,11 @@ using UnityEngine;
 public class BattleMapPlayerBase : PlayerBase_PoolObj , ICharcterBase
 {
     /// <summary>
+    /// 현재 캐릭이 컨트롤할수있는상태인지 체크
+    /// </summary>
+    public bool isControll = false;
+
+    /// <summary>
     /// 추적형 UI 
     /// </summary>
     private TrackingBattleUI battleUI = null;
@@ -15,9 +20,23 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj , ICharcterBase
         set => battleUI = value;
 
     }
-
+    /// <summary>
+    /// 현재 내위치에있는 타일
+    /// </summary>
     Tile currentTile;
-    public Tile CurrentTile => currentTile;
+    public Tile CurrentTile
+    {
+        get
+        {
+            if (currentTile == null)
+            {
+                currentTile = GetCurrentTile?.Invoke();
+            }
+            return currentTile;
+        }
+    }
+
+    public Func<Tile> GetCurrentTile { get; set; }
     
     /// <summary>
     /// 추적형 UI 가 있는 캔버스 위치
@@ -25,7 +44,16 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj , ICharcterBase
     Transform battleUICanvas;
     public Transform BattleUICanvas => battleUICanvas;
 
+    /// <summary>
+    /// 행동력 혹은 이동 거리
+    /// </summary>
+    protected float moveSize = 5.0f;
+    public float MoveSize => moveSize;
 
+
+    /// <summary>
+    /// 좌측상단에있는 캐릭터 상태창
+    /// </summary>
     UICamera viewPlayerCamera;
 
 
@@ -88,6 +116,7 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj , ICharcterBase
             viewPlayerCamera.gameObject.SetActive(false); // 비활성화 시키고 내부적으로 큐로 돌린다.
             viewPlayerCamera = null; //참조 지우기
         }
+        this.currentTile = null; //타일정보 지우기
         //턴 오브젝트 초기화
         transform.SetParent(poolTransform); //풀로 돌린다
         gameObject.SetActive(false); // 큐를 돌린다.
@@ -108,6 +137,7 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj , ICharcterBase
         StopAllCoroutines();
         StartCoroutine(CharcterMove(path));
     }
+
     [SerializeField]
     Animator unitAnimator;
     int isWalkingHash = Animator.StringToHash("IsWalking");
@@ -115,6 +145,11 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj , ICharcterBase
     float moveSpeed = 3.0f;
     [SerializeField]
     float rotateSpeed = 10.0f;
+    /// <summary>
+    /// 승근씨가 짜둔 길찾기 가져오기
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
     IEnumerator CharcterMove(List<Tile> path)
     {
         Vector3 targetPos = Vector3.zero;
@@ -137,7 +172,7 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj , ICharcterBase
             this.currentTile.ExistType = Tile.TileExistType.Monster; //이동한위치 못가게 바꾼다.
         }
         transform.position = targetPos;
-        //transform.GetChild(0).transform.localPosition = Vector3.zero;
+        transform.GetChild(0).transform.localPosition = Vector3.zero;
         unitAnimator.SetBool(isWalkingHash, false);
     }
 }

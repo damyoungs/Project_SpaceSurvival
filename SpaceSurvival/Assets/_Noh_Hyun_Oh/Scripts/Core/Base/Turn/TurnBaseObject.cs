@@ -26,7 +26,10 @@ public class TurnBaseObject : BattleMapTurnUnit_PoolObj, ITurnBaseData
         get => battleIndex;
         set => battleIndex = value;
     }
-
+    /// <summary>
+    /// 해당팀이 턴인지 체크할 변수 
+    /// </summary>
+    protected bool isTurn = false;
     /// <summary>
     /// 배틀 인덱스 가져올 델리게이트
     /// </summary>
@@ -99,7 +102,13 @@ public class TurnBaseObject : BattleMapTurnUnit_PoolObj, ITurnBaseData
     /// </summary>
     TurnGaugeUnit gaugeUnit = null;
     public TurnGaugeUnit GaugeUnit => gaugeUnit;
-   
+
+    /// <summary>
+    /// 현재 컨트롤할 유닛 
+    /// </summary>
+    protected ICharcterBase currentUnit;
+    public ICharcterBase CurrentUnit => currentUnit;
+
     /// <summary>
     /// 턴 UI가 담길 캔버스 위치
     /// </summary>
@@ -114,6 +123,15 @@ public class TurnBaseObject : BattleMapTurnUnit_PoolObj, ITurnBaseData
                             GetChild(WindowList.Instance.transform.GetChild(0).childCount - 1).
                             GetChild(0); // 턴 게이지 담을 캔버스위치
         charcterList = new(); //리스트 초기화 
+        TurnEndAction += (_) =>  //턴종료 됬을땐 
+        {
+            if (isTurn)  // 턴인 오브젝트들은 
+            {
+                Debug.Log($"{name} 오브젝트는 턴이 종료되었다.");
+                isTurn = false; //턴 종료됬다고 설정한다.
+
+            }
+        };
     }
     /// <summary>
     /// 활성화시 턴게이지 셋팅하고 활성화 

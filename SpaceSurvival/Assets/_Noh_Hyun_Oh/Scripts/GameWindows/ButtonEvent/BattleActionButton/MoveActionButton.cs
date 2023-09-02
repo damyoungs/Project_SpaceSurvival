@@ -4,9 +4,19 @@ using UnityEngine;
 
 public class MoveActionButton : BattleActionButtonBase
 {
+
     protected override void OnClick()
     {
-        Debug.Log("이동클릭");
+        ITurnBaseData turnObj = TurnManager.Instance.CurrentTurn;   // 턴 오브젝트찾아서 
+        ICharcterBase curruentUnit = turnObj.CurrentUnit;           // 현재 행동중인 유닛 찾고 
+        if (curruentUnit == null)
+        {
+            Debug.LogWarning("선택한 유닛이없습니다");
+            return;
+        }
+        MoveRange moverange = SpaceSurvival_GameManager.Instance.MoveRange;
+        Debug.Log($"유닛이 : {curruentUnit} , 이동로직이 :{moverange}");
+        moverange.MoveSizeDoubleView(curruentUnit.CurrentTile,curruentUnit.MoveSize);//이동범위표시해주기 
     }
 
     protected override void OnMouseEnter()

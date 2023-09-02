@@ -14,7 +14,6 @@ public class MoveRange : MonoBehaviour
     Tile[] mapTiles;
 
 
-
     /// <summary>
     /// 생성된 타일의 가로 갯수
     /// </summary>
@@ -24,6 +23,12 @@ public class MoveRange : MonoBehaviour
     /// 생성된 타일의 세로 갯수
     /// </summary>
     int tileSizeY;
+
+
+    private void Awake()
+    {
+        SpaceSurvival_GameManager.Instance.GetMoveRangeComp = () => this; //데이터 연결하기 
+    }
 
     /// <summary>
     /// 맵에대한 정보 받아와서 초기화 하기
@@ -373,4 +378,32 @@ public class MoveRange : MonoBehaviour
         }
 
     }
+
+    public Tile GetRandomTile(Tile.TileExistType tileType) 
+    {
+        int x = mapTilesDoubleArray.GetLength(1)-1;
+        int y = mapTilesDoubleArray.GetLength(0)-1;
+        Tile result = null;
+        int maxCount = 100; //최대 100번만돈다.
+        int count = 0;
+        //Debug.Log($"{x},{y}");
+        while (count < maxCount) //무한 루프 방지용 
+        {
+            
+            result = mapTilesDoubleArray[Random.Range(0, y), Random.Range(0, x)];
+            if (result.ExistType == Tile.TileExistType.None)//갈수있는곳이면 
+            {
+                result.ExistType = tileType; //설정되야될 타입으로 바꾼뒤 
+                break;//빠져나간다.
+            }
+            else 
+            {
+                result = null; //못가는 지역이면 초기화 시킨다.   
+            }
+
+            count++; //무한루프 방지용
+        }
+        return result;
+    }
+
 }

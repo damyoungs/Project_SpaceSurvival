@@ -33,6 +33,7 @@ public class InitCharcterSetting : MonoBehaviour
 
 
     CinemachineBrain brainCam;
+
     Camera_Move cameraMoveComp;
 
     private void Awake()

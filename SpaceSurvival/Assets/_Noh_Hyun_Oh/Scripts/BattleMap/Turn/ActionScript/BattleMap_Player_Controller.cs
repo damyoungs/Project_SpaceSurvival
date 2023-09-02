@@ -68,6 +68,7 @@ public class BattleMap_Player_Controller : MonoBehaviour
     /// <param name="context"></param>
     private void OnMove(InputAction.CallbackContext context)
     {
+        Debug.Log($"인풋시스템에서는 클릭한 곳의 오브젝트까지는 못가져온다 그래서 레이로 쏴서 가져와야한다.");
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());      // 화면에서 현재 마우스의 위치로 쏘는 빛
         Debug.DrawRay(ray.origin, ray.direction * ray_Range, Color.red, 1.0f);              // 디버그용 레이저
 

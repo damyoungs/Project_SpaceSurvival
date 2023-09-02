@@ -48,6 +48,11 @@ public interface ITurnBaseData
     public List<ICharcterBase> CharcterList { get; }
 
     /// <summary>
+    /// 현재 컨트롤할 유닛 반환
+    /// </summary>
+    public ICharcterBase CurrentUnit { get; }
+
+    /// <summary>
     /// 맵생성시 호출할 데이터 초기화 함수
     /// </summary>
     public void InitData();
