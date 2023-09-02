@@ -102,7 +102,7 @@ Animator:
   m_GameObject: {fileID: 1549413332896745669}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: c8c20564eb982f84a96a0d4d8e357cc5, type: 3}
-  m_Controller: {fileID: 9100000, guid: ca4ea693c40e645b0bd0ddca144649dc, type: 2}
+  m_Controller: {fileID: 9100000, guid: 99afc04dd5a16fc4980b12f89b20eac5, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -157,9 +157,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b9196038430c4fe9b8c504c6577c4e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitAnimator: {fileID: 1501470495851161371}
-  defaultMoveSpeed: 4
-  targetObj: {fileID: 0}
   bulletProjectilePrefab: {fileID: 1822355521190178300, guid: 9daa372118a39448a9a6c3ef57db0a08, type: 3}
   shootPointTransform: {fileID: 6109472352999024928}
 --- !u!114 &6109472352484812131
