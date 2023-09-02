@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
 using Unity.VisualScripting;
+using Cinemachine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -13,7 +14,7 @@ public class PlayerDummy : MonoBehaviour, IHealth
 
     ItemDescription itemDescription;
     EquipBox_Description EquipBox_Description;
-    public Transform EquipParent;
+    EquipBox equipBox;
 
     public Action onOpenInven;
 
@@ -25,6 +26,9 @@ public class PlayerDummy : MonoBehaviour, IHealth
     public Action<ItemData> onUnEquipItem;
     public Action onClearSlot;
 
+
+
+    
     uint darkForce = 500;
     public uint DarkForce
     {
@@ -73,6 +77,32 @@ public class PlayerDummy : MonoBehaviour, IHealth
             }
         }
     }
+    uint att;
+    public uint ATT
+    {
+        get => att;
+        set
+        {
+            if (att != value)
+            {
+                att = value;
+                Debug.Log($"플레이어 공격력 : {att}");
+            }
+        }
+    }
+    uint dp;
+    public uint DP
+    {
+        get => dp;
+        set
+        {
+            if (dp != value)
+            {
+                dp = value;
+                Debug.Log($"플레이어 방어력 : {dp}");
+            }
+        }
+    }
     private void Awake()
     {
         inputActions = new InputKeyMouse();
@@ -88,8 +118,26 @@ public class PlayerDummy : MonoBehaviour, IHealth
     private void Start()
     {
         itemDescription = GameManager.SlotManager.ItemDescription;
-        EquipBox_Description = GameManager.EquipBox.Description;
+        equipBox = GameManager.EquipBox;
+        EquipBox_Description = equipBox.Description;
+
+        equipBox.on_Update_Status += Update_Status;
     }
+
+    private void Update_Status(ItemData legacyData, ItemData newData)
+    {
+        ItemData_Hat hat = newData as ItemData_Hat;
+        //itemdata_
+        if( legacyData == null )
+        {
+
+        }
+        else
+        {
+
+        }
+    }
+ 
     private void On_Equip_Item(InputAction.CallbackContext _)
     {
         if (itemDescription.ItemData != null)
@@ -101,6 +149,7 @@ public class PlayerDummy : MonoBehaviour, IHealth
             onUnEquipItem?.Invoke(EquipBox_Description.ItemData);
         }
     }
+ 
 
     private void OpenInven(InputAction.CallbackContext _)
     {
@@ -148,19 +197,8 @@ public class PlayerDummy : MonoBehaviour, IHealth
     {
         return false;
     }
-    void EquipItem()
-    {
-        while(EquipParent.childCount > 0)
-        {
-            Transform child = EquipParent.GetChild(0);
-            Destroy(child.gameObject);
-        }
-       
-    }
-    void UnEquipItem()
-    {
 
-    }
+
 
 
 #if UNITY_EDITOR

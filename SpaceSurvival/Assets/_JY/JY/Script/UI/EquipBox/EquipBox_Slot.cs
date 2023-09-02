@@ -10,7 +10,7 @@ public class EquipBox_Slot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHa
 {
     Image itemIcon;
     ItemData itemData;
-    public EquipSlot_Type slotType;
+    public EquipType equip_Type;
 
     public Action<ItemData> onPointerEnter;
     public Action<Vector2> onPointerMove;
