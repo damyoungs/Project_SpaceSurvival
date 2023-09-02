@@ -1,6 +1,10 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+/// <summary>
+/// 배틀맵 관련 초기화 하는 컴퍼넌트
+/// </summary>
 
 public class InitCharcterSetting : MonoBehaviour
 {
@@ -28,10 +32,17 @@ public class InitCharcterSetting : MonoBehaviour
     CameraOriginTarget cameraOriginTarget;
 
 
+    CinemachineBrain brainCam;
+    Camera_Move cameraMoveComp;
+
     private void Awake()
     {
         miniCam = FindObjectOfType<MiniMapCamera>(true);
         cameraOriginTarget = FindObjectOfType<CameraOriginTarget>(true);
+        cameraMoveComp = FindObjectOfType<Camera_Move>(true);
+        brainCam = Camera.main.GetComponent<CinemachineBrain>();//브레인 카메라 찾고 
+        cameraMoveComp.GetCineBrainCam = () => brainCam; //브레인카메라 찾아서 연결해주기
+        cameraMoveComp.gameObject.SetActive(true); //카메라 이동은 배틀맵에서만 사용하기때문에 따로안뺏다.
     }
 
     /// <summary>
@@ -68,7 +79,6 @@ public class InitCharcterSetting : MonoBehaviour
         }
 
         //데이터 초기화끝나면 턴시작 
-        TurnManager.Instance.InitTurnData(teamArray);
 
         Transform battleActionButtons = WindowList.Instance.BattleActionButtons;
         int childCount = battleActionButtons.childCount;
@@ -78,6 +88,9 @@ public class InitCharcterSetting : MonoBehaviour
         }
         miniCam.gameObject.SetActive(true); //미니맵 활성화 수정필요 
         cameraOriginTarget.gameObject.SetActive(true);
+
+
+        TurnManager.Instance.InitTurnData(teamArray);
     }
 
     public void TestReset() 

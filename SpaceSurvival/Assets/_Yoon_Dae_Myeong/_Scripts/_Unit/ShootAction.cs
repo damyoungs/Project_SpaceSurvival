@@ -3,17 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ShootAction : PlayerMove
+public class ShootAction : MonoBehaviour
 {
 	[SerializeField]
 	private Transform bulletProjectilePrefab;
 	[SerializeField]
 	private Transform shootPointTransform;
+    Animator unitAnimator;
+    AudioSource audioSource;
+    InputKeyMouse inputAction;
+    private void Awake()
+    {
+        inputAction = new();
+        audioSource = GetComponent<AudioSource>();
+        unitAnimator = GetComponent<Animator>();
+    }
+    private void OnEnable()
+    {
+        inputAction.Mouse.Enable();
+        inputAction.Mouse.MouseClickRight.performed += onClickRight;
+    }
+    private void OnDisable()
+    {
+        inputAction.Mouse.MouseClickRight.performed += onClickRight;
+        inputAction.Mouse.Disable();
+    }
 
-    //무기 바뀔 때마다 shootPointTransform 수정
-	//총알 생성을 여기서 하는게 맞는건가?
-	//장착까지만
-    protected override void onClickRight(InputAction.CallbackContext context)
+    void onClickRight(InputAction.CallbackContext context)
 	{
 		unitAnimator.SetTrigger("IsFiring");
 		Instantiate(bulletProjectilePrefab, shootPointTransform.position, shootPointTransform.rotation);

@@ -123,12 +123,12 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj , ICharcterBase
         {
             float timeElaspad = 0.0f;
             targetPos = tile.transform.position;
+            transform.rotation = Quaternion.LookRotation(targetPos - transform.position);
             
             while ((targetPos - transform.position).sqrMagnitude > 0.04f) 
             {
                 timeElaspad += Time.deltaTime * moveSpeed;
                 transform.position = Vector3.Lerp(transform.position, targetPos, timeElaspad);
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(targetPos - transform.position), timeElaspad);
                 yield return null;
             }
             
@@ -137,8 +137,7 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj , ICharcterBase
             this.currentTile.ExistType = Tile.TileExistType.Monster; //이동한위치 못가게 바꾼다.
         }
         transform.position = targetPos;
-        transform.rotation = Quaternion.LookRotation(targetPos - transform.position);
-        transform.GetChild(0).transform.localPosition = Vector3.zero;
+        //transform.GetChild(0).transform.localPosition = Vector3.zero;
         unitAnimator.SetBool(isWalkingHash, false);
     }
 }
