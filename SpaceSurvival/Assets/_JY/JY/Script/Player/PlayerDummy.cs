@@ -121,20 +121,99 @@ public class PlayerDummy : MonoBehaviour, IHealth
         equipBox = GameManager.EquipBox;
         EquipBox_Description = equipBox.Description;
 
-        equipBox.on_Update_Status += Update_Status;
+        equipBox.on_Update_Status_For_EquipOrSwap += Update_Status_For_EquipOrSwap;
+        equipBox.on_Update_Status_For_UnEquip += Update_Status_For_UnEquip;
     }
-
-    private void Update_Status(ItemData legacyData, ItemData newData)
+    void Update_Status_For_UnEquip(ItemData legacyData)
+    {
+        ItemData_Hat hat = legacyData as ItemData_Hat;
+        ItemData_Enhancable weapon = legacyData as ItemData_Enhancable;
+        ItemData_Armor armor = legacyData as ItemData_Armor;
+        ItemData_Craft jewel = legacyData as ItemData_Craft;
+        if (hat != null)
+        {
+            ATT -= hat.attack_Point;
+            DP -= hat.defence_Point;
+        }
+        else if (armor != null)
+        {
+            ATT -= armor.attack_Point;
+            DP -= armor.defence_Point;
+        }
+        else if (weapon != null)
+        {
+            ATT -= weapon.attackPoint;
+            DP -= weapon.defencePoint;
+        }
+        else if (jewel != null)
+        {
+            ATT -= jewel.attack_Point;
+            DP -= jewel.defence_Point;
+        }
+    }
+    private void Update_Status_For_EquipOrSwap(ItemData legacyData, ItemData newData)//구조상 인터페이스를 사용했다면 아래와 같이 형변환을 하고 비교하는 과정이 번거롭지는 않았을 것 같다.
     {
         ItemData_Hat hat = newData as ItemData_Hat;
-        //itemdata_
-        if( legacyData == null )
+        ItemData_Enhancable weapon = newData as ItemData_Enhancable;
+        ItemData_Armor armor = newData as ItemData_Armor;
+        ItemData_Craft jewel = newData as ItemData_Craft;
+        if( legacyData == null )//장착이 안되어있을 경우 더해주고 끝
         {
-
+            if (hat != null)
+            {
+                ATT += hat.attack_Point;
+                DP += hat.defence_Point;
+            }
+            else if (armor != null)
+            {
+                ATT += armor.attack_Point;
+                DP += armor.defence_Point;
+            }
+            else if (weapon != null)
+            {
+                ATT += weapon.attackPoint;
+                DP += weapon.defencePoint;
+            }
+            else if (jewel != null)
+            {
+                ATT += jewel.attack_Point;
+                DP += jewel.defence_Point;
+            }
         }
-        else
+        else//이미 장착되어있었을 경우 스테이터스 더하고 빼기
         {
-
+            if (hat != null)
+            {
+                att += hat.attack_Point;
+                dp += hat.defence_Point;
+                hat = legacyData as ItemData_Hat;
+                ATT -= hat.attack_Point;
+                DP -= hat.defence_Point;
+            }
+            else if (armor != null)
+            {
+                att += armor.attack_Point;
+                dp += armor.defence_Point;
+                armor = legacyData as ItemData_Armor;
+                ATT -= armor.attack_Point;
+                DP -= armor.defence_Point;
+            }
+            else if (weapon != null)
+            {
+                att += weapon.attackPoint;
+                dp += weapon.defencePoint;
+                weapon = legacyData as ItemData_Enhancable;
+                ATT -= weapon.attackPoint;
+                DP -= weapon.defencePoint;
+            }
+            else if (jewel != null)
+            {
+                att += jewel.attack_Point;
+                dp += jewel.defence_Point;
+                jewel = legacyData as ItemData_Craft;
+                ATT -= jewel.attack_Point;
+                DP -= jewel.defence_Point;
+            }
         }
     }
  
