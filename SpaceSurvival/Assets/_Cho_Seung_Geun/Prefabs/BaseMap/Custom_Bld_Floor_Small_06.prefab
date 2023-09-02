@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6293882035361574090}
   - component: {fileID: 6946272199594515669}
   - component: {fileID: 3833440520057335507}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Custom_Bld_Floor_Small_06
   m_TagString: Tile
   m_Icon: {fileID: 0}
@@ -179,6 +179,10 @@ PrefabInstance:
     - target: {fileID: 1384731626973088, guid: aa25ca1bf83c745409cdeff0d6cace3a, type: 3}
       propertyPath: m_Name
       value: SM_Bld_Floor_Small_06
+      objectReference: {fileID: 0}
+    - target: {fileID: 1384731626973088, guid: aa25ca1bf83c745409cdeff0d6cace3a, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4823545097293232, guid: aa25ca1bf83c745409cdeff0d6cace3a, type: 3}
       propertyPath: m_RootOrder

@@ -21,6 +21,8 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
     Transform battleUICanvas;
     public Transform BattleUICanvas => battleUICanvas;
 
+    Tile currentTile;
+    public Tile CurrentTile => currentTile;
 
     private void Start()
     {

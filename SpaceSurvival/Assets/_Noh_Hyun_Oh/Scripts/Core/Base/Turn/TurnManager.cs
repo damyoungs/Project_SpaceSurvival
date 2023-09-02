@@ -4,15 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// 정렬방법 오름차순(ASCENDING), 내림차순(DESCENDING)
-/// </summary>
-public enum SortType
-{
-    Ascending = 0, //오름차순
-    Descending     //내림차순
-}
-
-/// <summary>
 /// 턴 순번을 관리해줄 클래스
 /// 
 /// 1.링크드 리스크사용시 Find 를 하기위해선 객체가 생성이되야하는데 
@@ -27,32 +18,34 @@ public enum SortType
 /// 
 /// </summary>
 /// 
-
+/// <summary>
+/// 정렬방법 오름차순(ASCENDING), 내림차순(DESCENDING)
+/// </summary>
+public enum SortType
+{
+    Ascending = 0, //오름차순
+    Descending     //내림차순
+}
 
 public class TurnManager : ChildComponentSingeton<TurnManager>
 {
+
+    /// <summary>
+    /// 현재 턴인 턴유닛
+    /// </summary>
+    ITurnBaseData currentTurn;
+    public ITurnBaseData CurrentTurn => currentTurn;
     /// <summary>
     /// 턴게이지 보여줄지 여부
     /// </summary>
     [SerializeField]
     private bool isViewGauge = false;
     public bool IsViewGauge => isViewGauge;
+
     /// <summary>
     /// 턴관리할 링크드 리스트
     /// </summary>
     LinkedList<ITurnBaseData> turnObjectList = null;
-
-    /// <summary>
-    /// 배틀 유닛의 유니크한 인덱스값을 셋팅하기위해 넘버링 할 변수
-    /// </summary>
-    int battleUnitIndex = -1;
-    public int BattleIndex => battleUnitIndex;
-    /// <summary>
-    /// 화면에 턴진행도 보여줄 UI 위치
-    /// </summary>
-    Transform turnGaugeUI;
-
-
 
     /// <summary>
     /// 전체리스트의 정렬방식을 정한다. 값이 큰것부터 턴이시작되야되면 Descending 작은것부터 시작되야되면 Ascending 을 넣어주면된다
@@ -75,55 +68,21 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
     [Range(0.1f,1.0f)]
     private float turnStartValue = 1.0f;
 
-    /// <summary>
-    /// Battle UI 최상단 위치
-    /// </summary>
-    Transform uiParent;
-
+ 
     /// <summary>
     /// 시간제한이 있을경우 제한턴의 값
     /// </summary>
     //private int maxTurnValue = 0;
 
     /// <summary>
-    /// 씬 이동시 배틀맵인지 체크하는 변수 로드 할때 변경해준다.
-    /// 테스트용 변수
-    /// </summary>
-    bool isBattleMap = false;
-    public bool IsBattleMap
-    {
-        get => isBattleMap;
-        set => isBattleMap = value;
-    }
-    //UICamera[] battleInfoCamArray;
-
-    private void Start()
-    {
-        turnGaugeUI = WindowList.Instance.TurnGaugeUI; //턴게이지 위치 찾기
-
-
-        uiParent = WindowList.Instance.transform.GetChild(0); //Battle UI최상단 가져오기
-    }
-
-
-    /// <summary>
     /// 배틀 맵일경우 데이터 초기화가 이루어진뒤에 호출이 되야된다 .
     /// 캐릭터 데이터가 전부생성이된상태일때 인자값으로받을지 결정한다.
     /// </summary>
-    public void InitTurnData() {
+    public void InitTurnData(ITurnBaseData[] teamList) {
         turnIndex = 0; //턴값 초기화
         
-        ITurnBaseData[] turnListTemp = GameObject.FindObjectsOfType<TurnBaseObject>(); //씬에있는 유닛들 긁어오기 
-        
-        if (turnListTemp == null || turnListTemp.Length == 0)
-        {
-            Debug.LogWarning("배틀맵 유닛이없어 임마");
-            return;
-        }
 
-        Array.Sort(turnListTemp, SortComparison); //정렬
-
-        turnObjectList = new LinkedList<ITurnBaseData>(turnListTemp);//링크드 리스트 초기화
+        turnObjectList = new LinkedList<ITurnBaseData>(teamList);//링크드 리스트 초기화
          
       
         TurnStart();//턴시작
@@ -137,7 +96,7 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
     private void TurnStart() {
         turnIndex++; //턴시작마다 카운트 시킨다.
 
-        ITurnBaseData currentTurn = GetCurrentTurnObject(); //처음 턴유닛을 찾아와서 
+        currentTurn = GetCurrentTurnObject(); //처음 턴유닛을 찾아와서 
 
 
         if (turnStartValue < currentTurn.TurnActionValue) //턴진행 할수있는 값이 됬으면 턴진행
@@ -264,16 +223,7 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
         }
         turnObjectList.Clear();//리스트 비우기 
 
-        //UI 끄기
-        for (int i = 1; i < uiParent.childCount - 1; i++)
-        {
-            for (int j = 0; j < uiParent.GetChild(i).childCount; j++)
-            {
-                uiParent.GetChild(i).GetChild(j).gameObject.SetActive(false); //액션버튼 끄기 
-            }
-        }
-        turnGaugeUI.gameObject.SetActive(false); //턴게이지 끄기
-
+       
     }
 
     /// <summary>
@@ -334,110 +284,5 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
 
     }
 
-    /*======================================== 테스트용 ==================================================*/
-
-
-    /// <summary>
-    /// 턴리스트의 값확인용
-    /// </summary>
-    public void ViewTurnList() {
-        foreach(ITurnBaseData j in turnObjectList) {
-            Debug.Log($"{j} 값 : {j.TurnActionValue}");
-        }
-        Debug.Log(turnObjectList.Count);
-    }
-    /// <summary>
-    /// 현재 진행중인 턴유닛 찾아오기 
-    /// </summary>
-    /// <returns></returns>
-    public ITurnBaseData GetNode() {
-        ITurnBaseData isTurnNode = null;
-        foreach (ITurnBaseData node in turnObjectList) 
-        {
-            if (node.TurnEndAction != null) //현재 턴진행중이면 endAction 이 등록되있다 
-            {
-                Debug.Log(node.transform.name);
-               isTurnNode = node;//진행중인 노드 담아서 
-            }
-        }
-        return isTurnNode;//반환
-    }
-    /// <summary>
-    /// 테스트용 랜덤한 유닛 가져오기 
-    /// </summary>
-    /// <returns></returns>
-    public ITurnBaseData RandomGetNode() 
-    {
-        ITurnBaseData isRandNode = null;
-        int randomIndex = UnityEngine.Random.Range(0,turnObjectList.Count); //리스트의 랜덤한 인덱스 값 가져오기 
-        LinkedListNode<ITurnBaseData> node = turnObjectList.First;
-        for (int i = 0; i < turnObjectList.Count; i++)
-        {
-            if (randomIndex == i) 
-            {
-                isRandNode = node.Value;
-                break;
-            }
-            node = node.Next;
-        }
-        return isRandNode;
-    }
-    public ITurnBaseData GetPlayerCharcter() 
-    {
-        return player;
-    }
-    ITurnBaseData player;
-    [SerializeField]
-    int initSize = 1;
-    /// <summary>
-    /// 테스트 데이터 만드는용
-    /// 기능: 맵에 플레이어 , 엔피씨 , 몬스터  와 같은 턴을사용하는 유닛이 생성된후에 그 리스트로 턴관리해줄 베이스를 생성 
-    ///       팀원 1~3명 은 UI용 카메라를 추가해준다. 
-    ///       
-    /// </summary>
-    public void TestInit() 
-    {
-        if (IsViewGauge) 
-        {
-            turnGaugeUI.gameObject.SetActive(true);
-        }
-        for (int i = 1; i < uiParent.childCount - 1; i++)
-        {
-
-            for (int j = 0; j < uiParent.GetChild(i).childCount; j++)
-            {
-                uiParent.GetChild(i).GetChild(j).gameObject.SetActive(true);
-            }
-        }
-        ITurnBaseData tbo;
-        for (int i = 0; i < initSize; i++)
-        {
-            battleUnitIndex = i;// 일단 체크용 변수 입력
-            if (i == 0)
-            {
-                player = (PlayerTurnObject)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.BATTLEMAP_PLAYER_POOL); //
-                player.gameObject.name = $"PL_Charcter  _{i}";
-                tbo = player;
-            }
-            else 
-            {
-                tbo = (EnemyTurnObject)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.BATTLEMAP_ENEMY_POOL); //가져오고
-                tbo.gameObject.name = $"ENEMY_Charcter _{i}";
-            }
-            InitTurnObject(i, tbo);
-        }
-
-    }
-    private void InitTurnObject(int index , ITurnBaseData tbo) 
-    {
-       
-        tbo.TurnActionValue = UnityEngine.Random.Range(0.0f, 8.0f); // -테스트값 설정
-        tbo.transform.position = new Vector3(
-                                        UnityEngine.Random.Range(-10.0f, 10.0f),
-                                        0.0f,
-                                        UnityEngine.Random.Range(-10.0f, 0.0f)
-                                        );//랜덤위치로 뿌리고
-    }
    
-
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Collections;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using static UnityEditor.Progress;
@@ -20,13 +21,23 @@ public class TurnBaseObject : BattleMapTurnUnit_PoolObj, ITurnBaseData
     /// </summary>
     [SerializeField]
     protected int battleIndex = -1;
-    public int UnitBattleIndex { get => battleIndex; set => battleIndex= value; }
+    public int UnitBattleIndex 
+    {
+        get => battleIndex;
+        set => battleIndex = value;
+    }
+
+    /// <summary>
+    /// 배틀 인덱스 가져올 델리게이트
+    /// </summary>
+    public Func<int> GetBattleIndex;
 
 
     /// <summary>
     /// 턴이경과시 회복될 행동력값 
     /// </summary>
     [SerializeField]
+    [Range(0.01f,0.5f)]
     protected float turnAddValue = 0.50f;
     public float TurnEndActionValue => turnAddValue;
 
@@ -34,12 +45,15 @@ public class TurnBaseObject : BattleMapTurnUnit_PoolObj, ITurnBaseData
     /// 행동력 최대치 (회복상한선)
     /// </summary>
     [SerializeField]
+    [Range(1.0f, 2.0f)]
     protected float maxTurnValue = 1.5f;
 
     /// <summary>
     /// 현재 턴의 진행값 
     /// 이값으로 돌아올순번을 정한다.
     /// </summary>
+    [SerializeField]
+    [ReadOnly]
     float turnWaitingValue = 1.0f;
     public float TurnActionValue
     {
@@ -129,8 +143,9 @@ public class TurnBaseObject : BattleMapTurnUnit_PoolObj, ITurnBaseData
         gaugeUnit.ResetData();// 턴 게이지 UI  초기화 
         gaugeUnit = null; // 턴 게이지 UI 비우기
         TurnEndAction = null; //턴종료 액션도 비우고
+        GetBattleIndex = null; // 델리도 비우고
         TurnRemove = null; //해당턴유닛에서 삭제되는 유닛들도 비우자.
-        UnitBattleIndex = -1;//인덱스 초기화
+        battleIndex = -1;//인덱스 초기화
         foreach (ICharcterBase charcter in charcterList)//캐릭터 셋팅되있으면 
         {
             charcter.ResetData(); //데이터 초기화 실행시키고 
@@ -166,4 +181,9 @@ public class TurnBaseObject : BattleMapTurnUnit_PoolObj, ITurnBaseData
         gaugeUnit.gameObject.SetActive(true); //활성화 시킨다.
         gaugeUnit.ProgressValue = TurnActionValue; //초기값 셋팅
     }
+
+    /// <summary>
+    /// 맵초기에 데이터 생성을위해 연결할 함수
+    /// </summary>
+    public virtual void InitData(){}
 }

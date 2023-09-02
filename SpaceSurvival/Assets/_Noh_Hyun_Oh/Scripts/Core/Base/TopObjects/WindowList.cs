@@ -75,16 +75,23 @@ public class WindowList : Singleton<WindowList> {
     public PopupSortManager PopupSortManager => popupManager;
     
     /// <summary>
-    /// 턴 메니저  
-    /// </summary>
-    TurnManager turnManager;
-    public TurnManager TurnManager => turnManager;
-
-    /// <summary>
     /// 턴 게이지 UI 위치
     /// </summary>
-    Transform turnGaugeUI;
-    public Transform TurnGaugeUI => turnGaugeUI;
+    TurnGaugeOnOff turnGaugeUI;
+    public TurnGaugeOnOff TurnGaugeUI => turnGaugeUI;
+
+    /// <summary>
+    /// 배틀맵 액션 버튼 
+    /// </summary>
+    Transform battleActionButtons;
+    public Transform BattleActionButtons => battleActionButtons;
+    
+    /// <summary>
+    /// 배틀맵에서 캐릭터 상시정보를 보여줄 컴포넌트 위치
+    /// </summary>
+    TeamBorderManager teamBorderManager;
+    public TeamBorderManager TeamBorderManager => teamBorderManager;
+
 
     /// <summary>
     /// 윈도우리스트는 항상가지고다니는것이기때문에 여기에서 이벤트처리를 진행.
@@ -100,8 +107,10 @@ public class WindowList : Singleton<WindowList> {
         mainWindow = transform.GetComponentInChildren<SaveWindowManager>(true);
         popupManager = transform.GetComponentInChildren<PopupSortManager>(true);
         optionsPopupWindow = transform.GetComponentInChildren<OptionsPopupWindow>(true);
-        turnGaugeUI = transform.GetChild(0).GetChild(transform.GetChild(0).childCount-1);
-        turnManager = FindObjectOfType<DataFactory>().transform.GetComponentInChildren<TurnManager>(true);
+        turnGaugeUI = transform.GetComponentInChildren<TurnGaugeOnOff>(true);
+        teamBorderManager = transform.GetComponentInChildren<TeamBorderManager>(true);
+        battleActionButtons = transform.GetChild(0).GetChild(1); //나중에 수정필요 
+
     }
     private void Start()
     {

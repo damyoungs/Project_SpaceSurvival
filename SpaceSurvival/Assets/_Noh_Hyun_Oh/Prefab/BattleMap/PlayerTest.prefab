@@ -44,7 +44,6 @@ GameObject:
   - component: {fileID: 1501470495851161371}
   - component: {fileID: 6109472352484812128}
   - component: {fileID: 6109472352484812129}
-  - component: {fileID: 6109472352484812143}
   - component: {fileID: 6109472352484812130}
   - component: {fileID: 6109472352484812131}
   - component: {fileID: 6109472352484812133}
@@ -146,21 +145,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6109472352484812143
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1549413332896745669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09ad64eed1a5245acaab366ec5ccab4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitAnimator: {fileID: 1501470495851161371}
-  defaultMoveSpeed: 4
-  targetObj: {fileID: 0}
 --- !u!114 &6109472352484812130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5721,7 +5705,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2958273194949555750}
   - component: {fileID: 3859426271428372530}
-  - component: {fileID: 6662613589569860341}
   m_Layer: 0
   m_Name: PlayerTest
   m_TagString: Untagged
@@ -5758,19 +5741,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d518b108b2d3f314db1a40a3d47cdbb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6662613589569860341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2958273194949555751}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b0cd03f0b654fd4596ece34b4e4be11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSize: 3
+  unitAnimator: {fileID: 0}
+  moveSpeed: 1
+  rotateSpeed: 1
 --- !u!1 &3672726700722319645
 GameObject:
   m_ObjectHideFlags: 0

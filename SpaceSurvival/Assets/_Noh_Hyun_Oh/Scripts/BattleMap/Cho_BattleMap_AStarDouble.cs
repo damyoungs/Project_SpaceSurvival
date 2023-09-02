@@ -2,10 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class AStar_2
+/// <summary>
+/// 승근씨 AStar 약간 손본 로직 
+/// 생성된 데이터만 받아서 처리하도록 변경 
+/// 기존 다른 컴포넌트의 로직을 이용해야되서 독립적으로 사용할수가없었어서 수정.
+/// </summary>
+public static class Cho_BattleMap_AStarDouble
 {
-    public static List<Tile> PathFind(MapTest_2 map, Tile start, Tile end)
+    public static List<Tile> PathFind(Tile[,] map, Tile start, Tile end )
     {
+        int sizeX = map.GetLength(0); 
+        int sizeY = map.GetLength(1);
         const float sideDistance = 1.0f;
         const float diagonalDistance = 1.414f;
 
@@ -14,15 +21,20 @@ public static class AStar_2
         List<Tile> open = new List<Tile>();
         List<Tile> close = new List<Tile>();
 
-        map.ClearTile();
-        Debug.Log(start);
+        for (int y = 0; y < sizeX; y++)
+        {
+            for (int x = 0; x < sizeY; x++)
+            {
+                map[y,x].Clear();
+            }
+        }
+
         Tile current = start;
         current.G = 0;
         current.H = GetHeuristic(current, end);
         open.Add(current);
 
         Tile adjoinTile;                            // 인접한 타일의 변수
-
 
         while (open.Count > 0)
         {
@@ -38,23 +50,25 @@ public static class AStar_2
                 {
                     for (int x = -1; x < 2; x++)
                     {
-                        if (current.Width + x < 0 || current.Width + x > map.sizeX - 1 ||
-                            current.Length + y < 0 || current.Length + y > map.sizeY - 1)
+                        if (current.Width + x < 0 || current.Width + x > sizeX - 1 ||
+                            current.Length + y < 0 || current.Length + y > sizeY - 1)
                             continue;
-
-                        adjoinTile = map.GetTile(current.Width + x, current.Length + y);    // 인접한 타일 가져오기
+                        
+                        adjoinTile = map[current.Length + y, current.Width + x];    // 인접한 타일 가져오기
 
                         if (adjoinTile == current)                                          // 인접한 타일이 (0, 0)인 경우
                             continue;
-                        if (adjoinTile.ExistType != Tile.TileExistType.None)                // 인접한 타일이 None이 아닐 때
+                        if (adjoinTile.ExistType != Tile.TileExistType.Move)                // 인접한 타일이 None이 아닐 때
                             continue;
                         if (close.Exists( (inClose) => inClose == adjoinTile ))             // close리스트에 있을 때
                             continue;
 
                         bool isDiagonal = (x * y != 0);                                     // 대각선 유무 확인
                         if (isDiagonal &&                                                   // 대각선이고 현재 타일의 상하좌우가 벽일 때
-                            (map.IsWall(current.Width + x, current.Length) ||
-                            map.IsWall(current.Width, current.Length + y)))
+                            (
+                             map[current.Length, current.Width + x].ExistType == Tile.TileExistType.Prop ||
+                             map[current.Length + y, current.Width].ExistType == Tile.TileExistType.Prop
+                            ))
                             continue;
 
                         float distance;
