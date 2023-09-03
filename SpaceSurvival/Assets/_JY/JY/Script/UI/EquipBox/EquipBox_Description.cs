@@ -43,32 +43,13 @@ public class EquipBox_Description : MonoBehaviour
     {
         if (!isPause && data != null)
         {
-            itemData = data; // 장비창 상호작용을 위한 데이터 셋팅
-
-            ItemData_Hat hat = data as ItemData_Hat;
-            ItemData_Enhancable enhancableItem = data as ItemData_Enhancable;
-            ItemData_Craft jewel = data as ItemData_Craft;
-            ItemData_Armor armor = data as ItemData_Armor;
-            if (enhancableItem != null)
+            IEquippable equip_Item = data as IEquippable;
+            
+            if (equip_Item != null)
             {
-                itemDetail.text = $"공격력 : {enhancableItem.attackPoint} \n방어력 : {enhancableItem.defencePoint}\n아이템 레벨 : {enhancableItem.itemLevel}";
+                itemDetail.text = $"공격력 : {equip_Item.ATT} \n방어력 : {equip_Item.DP}\n{data.itemDescription}";
             }
-            else if (hat != null)
-            {
-                itemDetail.text = $"공격력 : {hat.attack_Point} \n방어력 : {hat.defence_Point}";
-            }
-            else if (jewel != null)
-            {
-                itemDetail.text = $"공격력 : {jewel.attack_Point}\n{jewel.itemDescription}";
-            }
-            else if (armor != null)
-            {
-                itemDetail.text = $"공격력 : {armor.attack_Point} \n방어력 : {armor.defence_Point}";
-            }
-            else
-            {
-                itemDetail.text = $"{data.itemDescription}";
-            }
+    
             itemIcon.sprite = data.itemIcon;
             itemName.text = data.itemName;
             itemPrice.text = data.price.ToString("N0");
@@ -77,8 +58,8 @@ public class EquipBox_Description : MonoBehaviour
             StartCoroutine(FadeIn());
 
             MovePosition(Mouse.current.position.ReadValue());
+            itemData = data;
         }
-        
     }
     public void Toggle_IsPause()
     {

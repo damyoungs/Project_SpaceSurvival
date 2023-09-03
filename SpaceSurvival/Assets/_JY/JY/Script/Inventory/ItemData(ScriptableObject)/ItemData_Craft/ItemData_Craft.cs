@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Item Data - Craft", menuName = "Scriptable Object/Item Data/ItemData - Craft", order = 5)]
-public class ItemData_Craft : ItemData
+public class ItemData_Craft : ItemData, IEquippable
 {
     [Header("조합 전용 데이터")]
     public CraftType CraftType;
@@ -11,4 +11,7 @@ public class ItemData_Craft : ItemData
     public ItemData Critical_Success_Item;
     public uint attack_Point;
     public uint defence_Point;
+
+    uint IEquippable.ATT => attack_Point;
+    uint IEquippable.DP => attack_Point;
 }
