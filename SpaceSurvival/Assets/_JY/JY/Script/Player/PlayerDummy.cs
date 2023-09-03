@@ -10,6 +10,57 @@ using UnityEditor;
 #endif
 public class PlayerDummy : MonoBehaviour, IHealth
 {
+    public enum ArmorType
+    {
+        None,
+        SpaceArmor,
+        BigArmor
+
+    }
+    ArmorType armorType = ArmorType.None;
+     public ArmorType ArmorType_
+    {
+        get => armorType;
+        set
+        { 
+            if (armorType != value)
+            {
+                armorType = value;
+                Active_Correct_Armor();
+            }
+        }
+    }
+    void Active_Correct_Armor()
+    {
+        switch (armorType)
+        {
+            case ArmorType.None:
+                DeActive_Armor();
+                armors[0].gameObject.SetActive(true);
+                break;
+            case ArmorType.SpaceArmor:
+                DeActive_Armor();
+                armors[1].gameObject.SetActive(true);
+                break;
+            case ArmorType.BigArmor:
+                DeActive_Armor();
+                armors[2].gameObject.SetActive(true);
+                break;
+            default:
+                break;
+
+        }
+    }
+    void DeActive_Armor()
+    {
+        for (int i = 0; i < armors.Length; i++)
+        {
+            armors[i].gameObject.SetActive(false);
+        }
+        armors[3].gameObject.SetActive(true);
+    }
+    Transform[] armors;
+
     InputKeyMouse inputActions;
 
     ItemDescription itemDescription;
@@ -123,6 +174,12 @@ public class PlayerDummy : MonoBehaviour, IHealth
 
         equipBox.on_Update_Status_For_EquipOrSwap += Update_Status_For_EquipOrSwap;
         equipBox.on_Update_Status_For_UnEquip += Update_Status_For_UnEquip;
+
+        armors = new Transform[4];
+        armors[0] = transform.GetChild(6).transform;// 기본 Crue 케릭터
+        armors[1] = transform.GetChild(17).transform;// Space Armor
+        armors[2] = transform.GetChild(20).transform;// Big Armor
+        armors[3] = transform.GetChild(19).transform;// 머리
     }
     void Update_Status_For_UnEquip(ItemData legacyData)
     {

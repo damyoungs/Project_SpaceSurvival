@@ -243,7 +243,7 @@ GameObject:
   m_Component:
   - component: {fileID: 248964856066607299}
   m_Layer: 0
-  m_Name: SM_Chr_SpaceSoldier_HelmetArmor_Female_01
+  m_Name: SM_Chr_Female_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

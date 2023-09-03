@@ -104,6 +104,20 @@ public class EquipBox : MonoBehaviour
         EquipBox_Slot slot = Find_Slot_By_Type(itemData);
         slot.ItemData = null;
     }
+    void Remove_Prefab(ItemData data)
+    {
+        Transform parentTransform = GetParentTransform(data);
+        GameObject itemPrefab = parentTransform.GetChild(0).gameObject;
+        if (data.code == ItemCode.Space_Armor)
+        {
+            player.ArmorType_ = PlayerDummy.ArmorType.None;
+        }
+        else if (data.code == ItemCode.Big_Space_Armor)
+        {
+            player.ArmorType_ = PlayerDummy.ArmorType.None;
+        }
+        Destroy(itemPrefab);
+    }
     public void Set_ItemData_For_DoubleClick(ItemData itemData)
     {
         EquipBox_Slot slot = Find_Slot_By_Type(itemData);
@@ -111,16 +125,21 @@ public class EquipBox : MonoBehaviour
         {
             GameManager.SlotManager.Just_ChangeSlot.ItemData = null;
             on_Update_Status_For_EquipOrSwap?.Invoke(slot.ItemData, itemData);//장비중이 아닐 때는 첫번째 파라미터가 null 이 전달 된다. // 플레이어 공격력, 방어력 셋팅
-            Attach_Prefab(itemData);//프리팹 부착
+            if (itemData.code == ItemCode.Space_Armor)
+            {
+                player.ArmorType_ = PlayerDummy.ArmorType.SpaceArmor;// enum 설정시 player 에서 알맞은 갑옷만 활성화하고 다른 갑옷은 비활성화
+            }
+            else if (itemData.code == ItemCode.Big_Space_Armor)
+            {
+                player.ArmorType_ = PlayerDummy.ArmorType.BigArmor;
+            }
+            else
+            {
+                Attach_Prefab(itemData);//프리팹 부착
+            }
             slot.SetItemData(itemData);//장비슬롯 UI업데이트
         }
 
-    }
-    void Remove_Prefab(ItemData data)
-    {
-        Transform parentTransform = GetParentTransform(data);
-        GameObject itemPrefab = parentTransform.GetChild(0).gameObject;
-        Destroy(itemPrefab);
     }
     void Attach_Prefab(ItemData data)
     {
