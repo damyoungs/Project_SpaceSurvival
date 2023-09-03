@@ -86,7 +86,6 @@ public class MoveRange : MonoBehaviour
             LineRenderer lineRenderer = tile.GetComponent<LineRenderer>(); // 타일에다가 해당정보를 미리담아두면 좋은데.. 수정이필요하다.
             lineRenderer.enabled = false;
             tile.ExistType = Tile.TileExistType.None; //초기값으로 셋팅 
-            continue;
         }
     }
 
@@ -115,7 +114,7 @@ public class MoveRange : MonoBehaviour
     /// <param name="tileSizeY">맵타일의 최대 세로갯수</param>
     private void SetMoveSize(Tile currentNode, float moveCheck)
     {
-        activeMoveTiles.Clear(); //내용초기화 
+        
         List<Tile> openList = new List<Tile>();   // 탐색이 필요한 노드 리스트 
         List<Tile> closeList = new List<Tile>();  // 이미 계산이 완료되서 더이상 탐색을 안할 리스트 
 
@@ -223,6 +222,10 @@ public class MoveRange : MonoBehaviour
     /// </summary>
     Tile[,] mapTilesDoubleArray;
     List<Tile> moveTiles;
+    /// <summary>
+    /// 청소 끝나고나서 다시검색할수있게 체크하는변수
+    /// </summary>
+    bool isClear = false;
     public void InitDataSetting(Tile[,] mapTiles, int tileSizeX, int tileSizeY)
     {
         this.mapTilesDoubleArray = mapTiles;
@@ -249,20 +252,32 @@ public class MoveRange : MonoBehaviour
     /// <param name="tileSizeY">맵타일의 최대 세로갯수</param>
     public void MoveSizeDoubleView(Tile currentNode, float moveSize)
     {
-        SetMoveDoubleSize(currentNode, moveSize); //이동 가능 리스트 설정하기
-        OpenDoubleLineRenderer(currentNode);
+        if (!isClear)
+        {
+            SetMoveDoubleSize(currentNode, moveSize); //이동 가능 리스트 설정하기
+            OpenDoubleLineRenderer(currentNode);
+        }
     }
     /// <summary>
     /// 갈수있는지역 초기화 하기 내위치까지 초기화되기때문에 내위치는 남겨둔다.
     /// </summary>
     public void ClearDoubleLineRenderer(Tile currentTile) //기존 라인렌더러 끄기
     {
-        Tile.TileExistType currentTileType  = currentTile.ExistType; //포문에서 매번 체크하지않기위해 따로담고 
-        foreach (Tile tile in activeMoveTiles)
+        if (!isClear) 
         {
-            tile.ExistType = Tile.TileExistType.None;
+            isClear = true;
+            if (activeMoveTiles.Count > 0) //초기화 할 타일이있을때만  
+            {
+                Tile.TileExistType currentTileType = currentTile.ExistType; //포문에서 매번 체크하지않기위해 따로담고 
+                foreach (Tile tile in activeMoveTiles)
+                {
+                    tile.ExistType = Tile.TileExistType.None;
+                }
+                currentTile.ExistType = currentTileType; //수정끝났으면 저장해뒀던 값을 담는다.
+                activeMoveTiles.Clear();//초기화끝낫으면 내용 비우기
+            }
+            isClear = false;
         }
-        currentTile.ExistType = currentTileType; //수정끝났으면 저장해뒀던 값을 담는다.
     }
 
     /// <summary>
@@ -288,7 +303,6 @@ public class MoveRange : MonoBehaviour
     /// <returns>캐릭터가 이동가능한 노드리스트</returns>
     private void SetMoveDoubleSize(Tile currentNode, float moveCheck)
     {
-        activeMoveTiles.Clear();
         List<Tile> openList = new List<Tile>();   // 탐색이 필요한 노드 리스트 
         List<Tile> closeList = new List<Tile>();  // 이미 계산이 완료되서 더이상 탐색을 안할 리스트 
 
