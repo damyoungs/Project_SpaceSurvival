@@ -35,7 +35,12 @@ public interface ITurnBaseData
     /// <summary>
     /// 턴완료시 알려줄 델리게이트
     /// </summary>
-    public Action<ITurnBaseData> TurnEndAction { get; set; }
+    public Action TurnEndAction { get; set; }
+
+    /// <summary>
+    /// 현재 턴을 잡고있는지 체크할 변수
+    /// </summary>
+    public bool IsTurn { get; set; }
 
     /// <summary>
     /// 유닛이 행동중에 특정유닛이 사라질경우 메니져에 신호를 주는 델리게이트

@@ -6,6 +6,11 @@ using UnityEngine;
 public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
 {
     /// <summary>
+    /// 몬스터는 컨트롤할수없으니 형식만 맞춰두자
+    /// </summary>
+    public bool IsControll { get; set; }
+    public bool IsMoveCheck { get; }
+    /// <summary>
     /// 추적형 UI 
     /// </summary>
     private TrackingBattleUI battleUI = null;
@@ -82,6 +87,8 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
         }
     }
 
+    
+
     /// <summary>
     /// 셋팅전의 값으로 돌리기
     /// 값을 초기화 시키고 풀로 돌리고 큐로 돌린다.
@@ -99,5 +106,7 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
         gameObject.SetActive(false); // 큐를 돌린다.
     }
 
-
+    public void CharcterMove(Tile selectedTile)
+    {
+    }
 }

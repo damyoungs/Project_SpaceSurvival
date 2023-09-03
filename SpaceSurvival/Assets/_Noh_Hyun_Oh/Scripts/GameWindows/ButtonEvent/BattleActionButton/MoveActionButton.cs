@@ -14,9 +14,10 @@ public class MoveActionButton : BattleActionButtonBase
             Debug.LogWarning("선택한 유닛이없습니다");
             return;
         }
-        MoveRange moverange = SpaceSurvival_GameManager.Instance.MoveRange;
-        Debug.Log($"유닛이 : {curruentUnit} , 이동로직이 :{moverange}");
-        moverange.MoveSizeDoubleView(curruentUnit.CurrentTile,curruentUnit.MoveSize);//이동범위표시해주기 
+        if (!curruentUnit.IsMoveCheck) //이동중이 아닌경우만  
+        {
+            SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeDoubleView(curruentUnit.CurrentTile,curruentUnit.MoveSize);//이동범위표시해주기 
+        }
     }
 
     protected override void OnMouseEnter()

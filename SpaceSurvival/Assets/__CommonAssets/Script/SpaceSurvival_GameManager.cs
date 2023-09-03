@@ -40,8 +40,7 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
             //    //배틀맵이 아닌경우 델리게이트가 값을 셋팅못하니 null 이 셋팅 될수도있다.
             //}
             battleMapDoubleArray ??= GetBattleMapTilesDataDoubleArray?.Invoke(); //위의 주석과 같은 내용이라고 한다 . (복합형)
-            Debug.Log(battleMapDoubleArray);
-            Debug.Log(battleMapDoubleArray.Length);
+            //Debug.Log(battleMapDoubleArray.Length);
             return battleMapDoubleArray;
 
         }

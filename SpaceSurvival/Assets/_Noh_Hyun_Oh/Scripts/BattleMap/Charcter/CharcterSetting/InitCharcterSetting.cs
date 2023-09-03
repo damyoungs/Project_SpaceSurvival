@@ -51,6 +51,7 @@ public class InitCharcterSetting : MonoBehaviour
     /// </summary>
     public void TestInit()
     {
+        if (teamArray != null) return;
         teamArray = new ITurnBaseData[teamLength]; //배열 크기잡고
         if (TurnManager.Instance.IsViewGauge) // 게이지 보여줄지 체크해서 
         {

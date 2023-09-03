@@ -46,5 +46,9 @@ public class EnemyTurnObject : TurnBaseObject
             }
         }
     }
-   
+    public override void TurnStartAction()
+    {
+        if (TurnActionValue > 1.0f) TurnActionValue -= UnityEngine.Random.Range(0.3f, 1.0f);// 행동력 소모후 테스트 용 
+        TurnEndAction();
+    }
 }
