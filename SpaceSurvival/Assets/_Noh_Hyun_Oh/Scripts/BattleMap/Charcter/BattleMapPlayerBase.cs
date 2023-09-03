@@ -1,10 +1,27 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
-public class BattleMapPlayerBase : PlayerBase_PoolObj , ICharcterBase
+public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
 {
+    /// <summary>
+    /// 현재 캐릭이 컨트롤할수있는상태인지 체크
+    /// </summary>
+    bool isControll = false;
+    public bool IsControll
+    {
+        get => isControll;
+        set => isControll = value;
+    }
+
+    /// <summary>
+    /// 이동버그가 존재해서 체크하는 변수
+    /// </summary>
+    bool isMoveCheck = false;
+    public bool IsMoveCheck => isMoveCheck;
+
     /// <summary>
     /// 추적형 UI 
     /// </summary>
@@ -15,9 +32,23 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj , ICharcterBase
         set => battleUI = value;
 
     }
-
+    /// <summary>
+    /// 현재 내위치에있는 타일
+    /// </summary>
     Tile currentTile;
-    public Tile CurrentTile => currentTile;
+    public Tile CurrentTile
+    {
+        get
+        {
+            if (currentTile == null)
+            {
+                currentTile = GetCurrentTile?.Invoke();
+            }
+            return currentTile;
+        }
+    }
+
+    public Func<Tile> GetCurrentTile { get; set; }
     
     /// <summary>
     /// 추적형 UI 가 있는 캔버스 위치
@@ -25,7 +56,16 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj , ICharcterBase
     Transform battleUICanvas;
     public Transform BattleUICanvas => battleUICanvas;
 
+    /// <summary>
+    /// 행동력 혹은 이동 거리
+    /// </summary>
+    protected float moveSize = 5.0f;
+    public float MoveSize => moveSize;
 
+
+    /// <summary>
+    /// 좌측상단에있는 캐릭터 상태창
+    /// </summary>
     UICamera viewPlayerCamera;
 
 
@@ -34,6 +74,7 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj , ICharcterBase
         battleUICanvas = WindowList.Instance.transform.GetChild(0).GetChild(0);  // TrackingUI 담을 캔버스위치
         InitUI();//맨처음 
         unitAnimator = transform.GetChild(0).GetComponent<Animator>();
+        charcterMove = CharcterMoveCoroutine(null);
     }
 
     protected override void OnEnable()
@@ -88,6 +129,7 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj , ICharcterBase
             viewPlayerCamera.gameObject.SetActive(false); // 비활성화 시키고 내부적으로 큐로 돌린다.
             viewPlayerCamera = null; //참조 지우기
         }
+        this.currentTile = null; //타일정보 지우기
         //턴 오브젝트 초기화
         transform.SetParent(poolTransform); //풀로 돌린다
         gameObject.SetActive(false); // 큐를 돌린다.
@@ -98,16 +140,29 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj , ICharcterBase
     {
         this.currentTile = currentTile;
     } 
+    /// <summary>
+    /// 승근씨 AStar 로직 조금수정한내용 가져와서 사용 하고 
+    /// 데이터있으면 이동시킨다.
+    /// </summary>
+    /// <param name="currentTile"></param>
     public void CharcterMove(Tile currentTile)
     {
-        List<Tile> path = Cho_BattleMap_AStarDouble.PathFind(
-                                                        SpaceSurvival_GameManager.Instance.BattleMapDoubleArray,
-                                                        this.currentTile,
-                                                        currentTile
-                                                        );
-        StopAllCoroutines();
-        StartCoroutine(CharcterMove(path));
+        if (!isMoveCheck) //이동중간에 끊길시 타일버그가 발생해 체크하는로직추가 
+        {
+            List<Tile> path = Cho_BattleMap_AStarDouble.PathFind(
+                                                            SpaceSurvival_GameManager.Instance.BattleMapDoubleArray,
+                                                            this.currentTile,
+                                                            currentTile
+                                                            );
+            //StopAllCoroutines();
+            //StartCoroutine(CharcterMove(path));
+            StopCoroutine(charcterMove);
+            charcterMove = CharcterMoveCoroutine(path);
+            StartCoroutine(charcterMove);
+        }
+        
     }
+
     [SerializeField]
     Animator unitAnimator;
     int isWalkingHash = Animator.StringToHash("IsWalking");
@@ -115,30 +170,43 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj , ICharcterBase
     float moveSpeed = 3.0f;
     [SerializeField]
     float rotateSpeed = 10.0f;
-    IEnumerator CharcterMove(List<Tile> path)
+    IEnumerator charcterMove;
+    /// <summary>
+    /// 승근씨가 짜둔 길찾기 가져오기
+    /// 
+    /// 이동버그 존재함 
+    /// - 어떠한 상황에서 발생하는지는 파악이안되나 타일의 값이 charcter 로 셋팅이안되는 상황이 발생 
+    ///   이동시 해당로직에서 데이터를 바꾸고있기때문에 여기인거같은데 정확하게 파악을 못하고있음.
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    IEnumerator CharcterMoveCoroutine(List<Tile> path)
     {
-        Vector3 targetPos = Vector3.zero;
-        unitAnimator.SetBool(isWalkingHash, true);
-        foreach (Tile tile in path) 
+        isMoveCheck = true; //이동 중인지 체크하기 
+        Vector3 targetPos = currentTile.transform.position;
+        unitAnimator.SetBool(isWalkingHash, true); //이동애니메이션 재생 시작
+        foreach (Tile tile in path)  // 길이있는경우 
         {
             float timeElaspad = 0.0f;
-            targetPos = tile.transform.position;
+            targetPos = tile.transform.position; //새로운 위치잡고 
+            transform.rotation = Quaternion.LookRotation(targetPos - transform.position); //해당방향 바라보고 
+            this.currentTile.ExistType = Tile.TileExistType.Move;// 기존위치 이동가능하게 바꾸고  
+            //Debug.Log($"{this.currentTile.Index}타일 오브젝트 이동중에 타일 데이터일단 move로변경");
+            this.currentTile = tile;
+            //Debug.Log($"{this.currentTile.Index}타일 이 데이터가 변경되야된다 charcter 로 ");
+            tile.ExistType = Tile.TileExistType.Charcter; //이동한위치 못가게 바꾼다.
+            //Debug.Log($"{this.currentTile.Index}타일 이 데이터가 charcter 변경되었다.");
             
-            while ((targetPos - transform.position).sqrMagnitude > 0.04f) 
+            while ((targetPos - transform.position).sqrMagnitude > 0.2f)  //이동시작
             {
                 timeElaspad += Time.deltaTime * moveSpeed;
                 transform.position = Vector3.Lerp(transform.position, targetPos, timeElaspad);
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(targetPos - transform.position), timeElaspad);
                 yield return null;
             }
-            
-            this.currentTile.ExistType = Tile.TileExistType.Move;// 기존위치 이동가능하게 바꾸고  
-            this.currentTile = tile;
-            this.currentTile.ExistType = Tile.TileExistType.Monster; //이동한위치 못가게 바꾼다.
         }
         transform.position = targetPos;
-        transform.rotation = Quaternion.LookRotation(targetPos - transform.position);
         transform.GetChild(0).transform.localPosition = Vector3.zero;
         unitAnimator.SetBool(isWalkingHash, false);
+        isMoveCheck = false; //이동끝낫는지 체크
     }
 }

@@ -47,3 +47,6 @@ MonoBehaviour:
   battleIndex: -1
   turnAddValue: 0.4
   maxTurnValue: 1.8
+  turnWaitingValue: 1
+  testPlayerLength: 3
+  bpc: {fileID: 0}

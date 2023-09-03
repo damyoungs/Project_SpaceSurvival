@@ -40,6 +40,7 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
             //    //배틀맵이 아닌경우 델리게이트가 값을 셋팅못하니 null 이 셋팅 될수도있다.
             //}
             battleMapDoubleArray ??= GetBattleMapTilesDataDoubleArray?.Invoke(); //위의 주석과 같은 내용이라고 한다 . (복합형)
+            //Debug.Log(battleMapDoubleArray.Length);
             return battleMapDoubleArray;
 
         }
@@ -81,10 +82,27 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
     /*
      인벤토리는 하나만 사용할경우 여기에 추가가 필요하다 .
      */
-    protected override void Awake()
-    {
-        base.Awake();
 
+    /// <summary>
+    /// 이동범위 표시하는 컴포넌트 가져온다.
+    /// </summary>
+    MoveRange moveRange;
+    public MoveRange MoveRange 
+    {
+        get 
+        {
+            if (moveRange == null) 
+            {
+                moveRange = GetMoveRangeComp?.Invoke();
+            }
+            return moveRange;
+        }
+    
     }
+    /// <summary>
+    /// 이동 범위표시하는 로직 받아오기위한 델리게이트
+    /// </summary>
+    public Func<MoveRange> GetMoveRangeComp;
+ 
     
 }

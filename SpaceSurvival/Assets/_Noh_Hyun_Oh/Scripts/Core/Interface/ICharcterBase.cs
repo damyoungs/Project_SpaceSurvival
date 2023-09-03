@@ -7,6 +7,15 @@ public interface ICharcterBase
 {
     public Transform transform { get; }
     /// <summary>
+    /// 현재 컨트롤 정보를 가져온다
+    /// </summary>
+    public bool IsControll { get; set; }
+    /// <summary>
+    /// 이동 버그가 있어서 추가 이동 끝낫는지 체크하는 프로퍼티 
+    /// </summary>
+    public bool IsMoveCheck { get;}
+
+    /// <summary>
     /// 추적형 UI 캐싱용 프로퍼티
     /// </summary>
     TrackingBattleUI BattleUI { get; set; }
@@ -21,9 +30,23 @@ public interface ICharcterBase
     /// </summary>
     Tile CurrentTile { get; }
 
-   
+    /// <summary>
+    /// 외부에서 타일 셋팅용
+    /// </summary>
+    Func<Tile> GetCurrentTile { get; set; }
+
+    
+    /// <summary>
+    /// 캐릭터가 이동할수있는 거리 (행동력값을 넘겨줘도됨)
+    /// </summary>
+    float MoveSize { get; }
     /// <summary>
     /// 턴유닛이 사라질때 초기화할 함수
     /// </summary>
     public void ResetData();
+
+    /// <summary>
+    /// 캐릭터의 이동함수
+    /// </summary>
+    public void CharcterMove(Tile selectedTile);
 }

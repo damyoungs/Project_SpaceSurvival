@@ -25,7 +25,22 @@ public class Camera_Move : MonoBehaviour
     /// </summary>
     [SerializeField]
     CinemachineBrain brain;
-    public CinemachineBrain Brain { set => brain = value; }
+    public CinemachineBrain Brain 
+    {
+        get 
+        {
+            if (brain == null) //호출했을경우 없을땐 
+            {
+                brain = GetCineBrainCam?.Invoke(); //한번 찾는다 .
+            }
+            return brain;
+        }
+    }
+    /// <summary>
+    /// 브레인 카메라 찾아오는 델리게이트 
+    /// 초기화 컴퍼넌트 InitCharcterSetting 에서 연결중
+    /// </summary>
+    public Func<CinemachineBrain> GetCineBrainCam;
     /// <summary>
     ///  화면이동할때 우선순위 가져오기위해 높은값을 지정
     /// </summary>
@@ -118,7 +133,7 @@ public class Camera_Move : MonoBehaviour
         }
 
         //기본적으로 같이 움직이기때문에 화면밖으로 벗어나는것을 방지하기위해 브레인을 따라다니게 셋팅한다.
-        moveCam.transform.position = brain.transform.position;
+        moveCam.transform.position = Brain.transform.position;
 
     }
     //이동및 회전 셋팅

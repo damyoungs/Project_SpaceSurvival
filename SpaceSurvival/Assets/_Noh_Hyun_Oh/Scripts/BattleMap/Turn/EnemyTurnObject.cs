@@ -34,7 +34,8 @@ public class EnemyTurnObject : TurnBaseObject
                 charcterList.Add(go);
                 
                 go.name = $"Enemy_{i}";
-                go.gameObject.SetActive(true);
+                go.GetCurrentTile += () => (SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Monster)); //데이터 연결 
+                go.transform.position = go.CurrentTile.transform.position; //셋팅된 타일위치로 이동시킨다.
             }
         }
         else // 외부에서 데이터가 들어왔을경우  이경우가 정상적인경우다  내가 데이서 셋팅안할것이기때문에...
@@ -45,5 +46,9 @@ public class EnemyTurnObject : TurnBaseObject
             }
         }
     }
-   
+    public override void TurnStartAction()
+    {
+        if (TurnActionValue > 1.0f) TurnActionValue -= UnityEngine.Random.Range(0.3f, 1.0f);// 행동력 소모후 테스트 용 
+        TurnEndAction();
+    }
 }

@@ -454,7 +454,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc8a7cc67ac11c649bf3d862aba9c086, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ray_Range: 15
+  tileLayerIndex: 0
+  ray_Range: 20
 --- !u!114 &717264946
 MonoBehaviour:
   m_ObjectHideFlags: 0

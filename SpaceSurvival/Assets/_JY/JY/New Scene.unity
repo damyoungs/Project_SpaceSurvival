@@ -2211,11 +2211,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b9196038430c4fe9b8c504c6577c4e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitAnimator: {fileID: 4620552247288110346}
-  defaultMoveSpeed: 4
-  targetObj: {fileID: 0}
   bulletProjectilePrefab: {fileID: 1822355521190178300, guid: 9daa372118a39448a9a6c3ef57db0a08, type: 3}
-  shootPointTransform: {fileID: 0}
+  shootPointTransform: {fileID: 337067799}
 --- !u!82 &178315124
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2324,8 +2321,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09ad64eed1a5245acaab366ec5ccab4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitAnimator: {fileID: 4620552247288110346}
   defaultMoveSpeed: 4
+  unitAnimator: {fileID: 4620552247288110346}
   targetObj: {fileID: 0}
 --- !u!1 &185816357
 GameObject:

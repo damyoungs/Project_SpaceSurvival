@@ -35,7 +35,12 @@ public interface ITurnBaseData
     /// <summary>
     /// 턴완료시 알려줄 델리게이트
     /// </summary>
-    public Action<ITurnBaseData> TurnEndAction { get; set; }
+    public Action TurnEndAction { get; set; }
+
+    /// <summary>
+    /// 현재 턴을 잡고있는지 체크할 변수
+    /// </summary>
+    public bool IsTurn { get; set; }
 
     /// <summary>
     /// 유닛이 행동중에 특정유닛이 사라질경우 메니져에 신호를 주는 델리게이트
@@ -46,6 +51,11 @@ public interface ITurnBaseData
     /// 해당턴오브젝트에서 사용할 캐릭터 리스트
     /// </summary>
     public List<ICharcterBase> CharcterList { get; }
+
+    /// <summary>
+    /// 현재 컨트롤할 유닛 반환
+    /// </summary>
+    public ICharcterBase CurrentUnit { get; }
 
     /// <summary>
     /// 맵생성시 호출할 데이터 초기화 함수

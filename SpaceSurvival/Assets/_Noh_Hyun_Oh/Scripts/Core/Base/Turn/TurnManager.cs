@@ -94,63 +94,47 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
     /// 턴시작할 오브젝트를 가져와서 시작함수를 호출한다.
     /// </summary>
     private void TurnStart() {
+
         turnIndex++; //턴시작마다 카운트 시킨다.
 
-        currentTurn = GetCurrentTurnObject(); //처음 턴유닛을 찾아와서 
+        currentTurn = turnObjectList.First.Value; //처음 턴유닛을 찾아와서 
 
 
         if (turnStartValue < currentTurn.TurnActionValue) //턴진행 할수있는 값이 됬으면 턴진행
         {
-            currentTurn.TurnEndAction = TurnEnd; //턴종료시 신호를 받을 델리게이트 셋팅하고
-            /*
-             * 적군움직일때 클릭이벤트를 제한 하거나 할때 기능추가 위치
-             */
-
-
+            currentTurn.TurnEndAction = TurnEnd;
             currentTurn.TurnRemove = TurnListDeleteObj; //턴진행중 삭제될 유닛이 있으면 삭제함수를 연결시킨다.
 
             currentTurn.TurnStartAction();  //턴시작을 알린다
+
         }
         else  //아니면 턴을 종료해서 행동력값을 증가시킨다.
         {
-            TurnEnd(currentTurn);
+            
+            TurnEnd();
         }
         
     }
 
-    /// <summary>
-    /// 현재 턴을 진행해야할 오브젝트반환.
-    /// </summary>
-    /// <returns>리스트의 첫번째 목록의 값을 반환</returns>
-    private ITurnBaseData GetCurrentTurnObject()
-    {
-        return turnObjectList.First.Value;   
-
-    }
-
+  
     /// <summary>
     /// 턴종료시 실행할 내용
     /// </summary>
     /// <param name="turnEndObj">턴종료한 유닛</param>
-    private void TurnEnd(ITurnBaseData turnEndObj)
+    private void TurnEnd()
     {
-        turnEndObj.TurnRemove = null;
-        turnEndObj.TurnEndAction = null; // 턴종료가 끝낫으면 델리게이트를 초기화한다
-
+        currentTurn.TurnEndAction = null;
+        currentTurn.TurnRemove = null;
+        currentTurn.IsTurn = false; //턴종료를 설정한다 .
         SetTurnValue();// 턴종료시마다 리스트의 유닛들의 행동력 값을 추가해주는 기능
         
         // TurnSorting(turnEndObj); // 값이 변경된 오브젝트의 정렬기능 실행 -- 턴종료마다 행동력증가폭이 같으면 해당함수가 실행되는의미가있다.
 
         //추가되는 행동력 값이 전부다르다는 전제하에 전체정렬을 재시도 
         SortComponent<ITurnBaseData>.BubbleSortLinkedList(turnObjectList , isAscending); //값이변경이 됬음으로 전체 재정렬
-        
-        
-        /*
-         *  배틀맵에서 승리조건을 체웠을때 기능 추가해야되는 위치
-         */
 
 
-        TurnStart();
+        TurnStart(); // 다음턴 실행
     }
 
     /// <summary>
@@ -191,8 +175,9 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
     /// <param name="addObject">턴이 새롭게 추가된 객체</param>
     public void TurnListAddObject(ITurnBaseData addObject)
     {
-        LinkedListNode<ITurnBaseData> checkNode = turnObjectList.First; //첫번째 노드 가져와서
         if (addObject == null) return; // 추가할값이없으면 리턴 
+
+        LinkedListNode<ITurnBaseData> checkNode = turnObjectList.First; //첫번째 노드 가져와서
 
         for (int i = 0; i < turnObjectList.Count; i++)//리스트 한번돌정도로 포문을돌리고
         {
@@ -223,7 +208,8 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
         }
         turnObjectList.Clear();//리스트 비우기 
 
-       
+        currentTurn = null; // 진행중인 턴유닛도 없애고 
+        turnIndex = 0; //현재 진행된 턴값도 초기화 
     }
 
     /// <summary>

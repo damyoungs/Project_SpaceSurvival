@@ -8,7 +8,7 @@ public class TurnTestCode : TestBase
     [SerializeField]
     float moveSize = 3.0f;
 
-    Tile currentTile ;
+    //Tile currentTile ;
 
     [SerializeField]
     InitCharcterSetting InitCharcterSetting;
@@ -69,20 +69,27 @@ public class TurnTestCode : TestBase
     /// 턴 진행 
     /// </summary>
     /// <param name="context"></param>
+    //protected override void Test2(InputAction.CallbackContext context)
+    //{
+    //    ITurnBaseData node = TurnManager.Instance.CurrentTurn; //원래는 캐릭터 쪽에서 턴완료 버튼 호출해야하는데 캐릭터 가없음으로  테스트코드로 찾아온다.
+    //    if (node == null) 
+    //    {
+    //        Debug.Log("왜못찾냐?");
+    //        return;
+    //    } 
+    //    Debug.Log($"{node.gameObject.name} 옵젝 : 값 :{node.TurnActionValue} 함수가등록되있냐? : {node.TurnEndAction}");
+    //    node.TurnActionValue -= UnityEngine.Random.Range(0.05f, 0.7f); //턴 진행 시 행동력 감소치 대충 때려넣는다.
+
+    //    node.TurnEndAction(node); //턴완료 를 알린다.
+    //}
     protected override void Test2(InputAction.CallbackContext context)
     {
-        ITurnBaseData node = TurnManager.Instance.CurrentTurn; //원래는 캐릭터 쪽에서 턴완료 버튼 호출해야하는데 캐릭터 가없음으로  테스트코드로 찾아온다.
-        if (node == null) 
+        foreach (var charcter in TurnManager.Instance.CurrentTurn.CharcterList) 
         {
-            Debug.Log("왜못찾냐?");
-            return;
-        } 
-        Debug.Log($"{node.gameObject.name} 옵젝 : 값 :{node.TurnActionValue} 함수가등록되있냐? : {node.TurnEndAction}");
-        node.TurnActionValue -= UnityEngine.Random.Range(0.05f, 0.7f); //턴 진행 시 행동력 감소치 대충 때려넣는다.
-
-        node.TurnEndAction(node); //턴완료 를 알린다.
+            Debug.Log($"{charcter.transform.name}의 타일은 :{charcter.CurrentTile.Width},{charcter.CurrentTile.length} "); 
+        }
+            
     }
-
     protected override void Test3(InputAction.CallbackContext context)
     {
         moveRange.MoveSizeDoubleView(TurnManager.Instance.CurrentTurn.CharcterList[0].CurrentTile, moveSize);

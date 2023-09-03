@@ -26,7 +26,15 @@ public class TurnBaseObject : BattleMapTurnUnit_PoolObj, ITurnBaseData
         get => battleIndex;
         set => battleIndex = value;
     }
-
+    /// <summary>
+    /// 해당팀이 턴인지 체크할 변수 
+    /// </summary>
+    protected bool isTurn = false;
+    public bool IsTurn
+    {
+        get => isTurn;
+        set => isTurn = value;
+    } 
     /// <summary>
     /// 배틀 인덱스 가져올 델리게이트
     /// </summary>
@@ -79,7 +87,7 @@ public class TurnBaseObject : BattleMapTurnUnit_PoolObj, ITurnBaseData
     /// <summary>
     /// 턴종료시 실행할 델리게이트
     /// </summary>
-    public Action<ITurnBaseData> TurnEndAction { get; set ; }
+    public Action TurnEndAction { get; set ; }
 
 
     /// <summary>
@@ -99,7 +107,13 @@ public class TurnBaseObject : BattleMapTurnUnit_PoolObj, ITurnBaseData
     /// </summary>
     TurnGaugeUnit gaugeUnit = null;
     public TurnGaugeUnit GaugeUnit => gaugeUnit;
-   
+
+    /// <summary>
+    /// 현재 컨트롤할 유닛 
+    /// </summary>
+    protected ICharcterBase currentUnit;
+    public ICharcterBase CurrentUnit => currentUnit;
+
     /// <summary>
     /// 턴 UI가 담길 캔버스 위치
     /// </summary>
@@ -130,6 +144,7 @@ public class TurnBaseObject : BattleMapTurnUnit_PoolObj, ITurnBaseData
         {
             TurnGaugeInit();//게이지 셋팅
         }
+        
     }
 
     /// <summary>
@@ -159,11 +174,7 @@ public class TurnBaseObject : BattleMapTurnUnit_PoolObj, ITurnBaseData
     /// </summary>
     public virtual void TurnStartAction()
     {
-        /*
-         해당 팀이 턴시작시 처리할 로직 화면에 UI보여준다든가 카메라 이동시킨다든가  등등
-         
-         */
-        if(TurnActionValue > 1.0f)TurnActionValue -= UnityEngine.Random.Range(0.3f, 1.0f);// 행동력 소모후 테스트 용 
+    
     }
 
 

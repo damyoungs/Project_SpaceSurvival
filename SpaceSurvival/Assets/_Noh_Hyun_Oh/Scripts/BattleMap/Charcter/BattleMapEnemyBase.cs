@@ -1,9 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
 {
+    /// <summary>
+    /// 몬스터는 컨트롤할수없으니 형식만 맞춰두자
+    /// </summary>
+    public bool IsControll { get; set; }
+    public bool IsMoveCheck { get; }
     /// <summary>
     /// 추적형 UI 
     /// </summary>
@@ -21,8 +27,31 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
     Transform battleUICanvas;
     public Transform BattleUICanvas => battleUICanvas;
 
+    /// <summary>
+    /// 현재 자신의 위치의 타일
+    /// </summary>
     Tile currentTile;
-    public Tile CurrentTile => currentTile;
+    public Tile CurrentTile
+    {
+        get 
+        {
+            if (currentTile == null) 
+            {
+                currentTile = GetCurrentTile?.Invoke();
+            }
+            return currentTile;
+        }
+    }
+
+
+    public Func<Tile> GetCurrentTile { get; set ; }
+
+    /// <summary>
+    /// 행동력 혹은 이동가능 거리
+    /// </summary>
+    protected float moveSize = 3.0f;
+    public float MoveSize => moveSize;
+
 
     private void Start()
     {
@@ -58,6 +87,8 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
         }
     }
 
+    
+
     /// <summary>
     /// 셋팅전의 값으로 돌리기
     /// 값을 초기화 시키고 풀로 돌리고 큐로 돌린다.
@@ -69,10 +100,13 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
             battleUI.ResetData();// 추적형 UI 초기화 
             battleUI = null; // 비우기
         }
+        currentTile = null; //타일 초기화
         //턴 오브젝트 초기화
         transform.SetParent(poolTransform); //풀로 돌린다
         gameObject.SetActive(false); // 큐를 돌린다.
     }
 
-
+    public void CharcterMove(Tile selectedTile)
+    {
+    }
 }
