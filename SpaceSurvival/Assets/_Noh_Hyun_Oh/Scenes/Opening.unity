@@ -208,6 +208,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 876724566727753186, guid: 81a31707378744f4384ba3de560f6eb4, type: 3}
+      propertyPath: m_Shadows.m_Strength
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 2521414782594703906, guid: 81a31707378744f4384ba3de560f6eb4, type: 3}
       propertyPath: m_IsActive
       value: 1
