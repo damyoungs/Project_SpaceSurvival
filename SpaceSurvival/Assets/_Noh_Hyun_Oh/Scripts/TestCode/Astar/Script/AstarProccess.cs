@@ -199,8 +199,8 @@ public static class AstarProccess
     public static Astar_Node GetShortPath(int startIndex, int endIndex)
     {
         ResetValue();                     // 경로와 G , H 값을 리셋 시킨다.
-        int lastX = nodes.GetLength(0);         //x 좌표의 최대값
-        int lastY = nodes.GetLength(1);         //y 좌표의 최대값
+        int lastX = nodes.GetLength(1);         //x 좌표의 최대값
+        int lastY = nodes.GetLength(0);         //y 좌표의 최대값
 
 
         int startX = startIndex == 0 ? 0 : startIndex % lastX;  //시작위치 의 x좌표값 
@@ -428,8 +428,8 @@ public static class AstarProccess
     /// <param name="currentNode">기준이되는 노드</param>
     private static void OpenListAdd(Astar_Node currentNode)
     {
-        int horizontalSize = nodes.GetLength(0);    //가로 길이 가져오고 (2차원배열의 ? 배열의 길이 [y,?]) 오른쪽 기준이라 햇갈린다.
-        int verticalSize = nodes.GetLength(1);      //세로 길이 가져오고 (2차원배열의 ? 배열의 길이 [?,x])
+        int horizontalSize = nodes.GetLength(1);    //가로 길이 가져오고 (2차원배열의 ? 배열의 길이 [y,?]) 오른쪽 기준이라 햇갈린다.
+        int verticalSize = nodes.GetLength(0);      //세로 길이 가져오고 (2차원배열의 ? 배열의 길이 [?,x])
 
         //범위벗어낫는지 체크하기
         int horizontalStartIndex = currentNode.X - 1; //현재 위치의 왼쪽 값 가져오기

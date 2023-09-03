@@ -11,8 +11,8 @@ public static class Cho_BattleMap_AStarDouble
 {
     public static List<Tile> PathFind(Tile[,] map, Tile start, Tile end )
     {
-        int sizeX = map.GetLength(0); 
-        int sizeY = map.GetLength(1);
+        int sizeX = map.GetLength(1); 
+        int sizeY = map.GetLength(0);
         const float sideDistance = 1.0f;
         const float diagonalDistance = 1.414f;
 
@@ -21,11 +21,11 @@ public static class Cho_BattleMap_AStarDouble
         List<Tile> open = new List<Tile>();
         List<Tile> close = new List<Tile>();
 
-        for (int y = 0; y < sizeX; y++)
+        for (int tileY = 0; tileY < sizeY; tileY++)
         {
-            for (int x = 0; x < sizeY; x++)
+            for (int tileX = 0; tileX < sizeX; tileX++)
             {
-                map[y,x].Clear();
+                map[tileY, tileX].Clear();
             }
         }
 
