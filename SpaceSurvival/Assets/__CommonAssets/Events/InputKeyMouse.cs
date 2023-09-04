@@ -161,7 +161,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""7a6083ef-02ec-46bb-bfb0-be940fdec55e"",
-                    ""path"": ""<Keyboard>/q"",
+                    ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyMouse"",
@@ -172,7 +172,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""74497746-bd9a-4324-a4c0-d8b076d6fa0c"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyMouse"",
