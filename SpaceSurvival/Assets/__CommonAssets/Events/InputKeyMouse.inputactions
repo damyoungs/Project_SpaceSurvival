@@ -862,6 +862,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "BattleMap_Player",
+            "id": "6be181be-5035-4140-8f9c-a881b83f29cc",
+            "actions": [
+                {
+                    "name": "UnitMove",
+                    "type": "Value",
+                    "id": "a9df35c9-17f8-4152-bd6a-fbebd6441e39",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "7f23fd2f-204a-40c3-b65a-0f1658ae484f",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyMouse",
+                    "action": "UnitMove",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

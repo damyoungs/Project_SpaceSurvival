@@ -10,6 +10,7 @@ TagManager:
   - WindowList
   - DataFactory
   - TitleButton
+  - Npc
   layers:
   - Default
   - TransparentFX
@@ -22,10 +23,6 @@ TagManager:
   - Ground
   - Enhancer_Before
   - MixerDescription
-  - red
-  - blue
-  - gren
-  - white
   - 
   - 
   - 
@@ -43,6 +40,10 @@ TagManager:
   - 
   - 
   - 
+  - 
+  - 
+  - 
+  - Floor
   m_SortingLayers:
   - name: Default
     uniqueID: 0

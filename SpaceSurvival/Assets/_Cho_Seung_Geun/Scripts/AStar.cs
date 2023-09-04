@@ -106,4 +106,13 @@ public static class AStar
         return Mathf.Abs(end.Width - current.Width) + Mathf.Abs(end.Length - current.Length);
     }
 
+
+
+
+
+
+
+
+   
+
 }

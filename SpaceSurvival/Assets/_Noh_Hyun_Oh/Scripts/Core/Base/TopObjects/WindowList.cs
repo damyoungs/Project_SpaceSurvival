@@ -52,8 +52,8 @@ public class WindowList : Singleton<WindowList> {
     /// <summary>
     /// 인벤토리 오브젝트
     /// </summary>
-    InventoryWindow invenWindow;
-    public InventoryWindow InvenWindow => invenWindow;
+    Inventory invenWindow;
+    public Inventory InvenWindow => invenWindow;
 
     /// <summary>
     /// 저장 삭제 복사 로드 실행여부 묻는 창 가져오기
@@ -75,16 +75,23 @@ public class WindowList : Singleton<WindowList> {
     public PopupSortManager PopupSortManager => popupManager;
     
     /// <summary>
-    /// 턴 메니저  
-    /// </summary>
-    TurnManager turnManager;
-    public TurnManager TurnManager => turnManager;
-
-    /// <summary>
     /// 턴 게이지 UI 위치
     /// </summary>
-    Transform turnGaugeUI;
-    public Transform TurnGaugeUI => turnGaugeUI;
+    TurnGaugeOnOff turnGaugeUI;
+    public TurnGaugeOnOff TurnGaugeUI => turnGaugeUI;
+
+    /// <summary>
+    /// 배틀맵 액션 버튼 
+    /// </summary>
+    Transform battleActionButtons;
+    public Transform BattleActionButtons => battleActionButtons;
+    
+    /// <summary>
+    /// 배틀맵에서 캐릭터 상시정보를 보여줄 컴포넌트 위치
+    /// </summary>
+    TeamBorderManager teamBorderManager;
+    public TeamBorderManager TeamBorderManager => teamBorderManager;
+
 
     /// <summary>
     /// 윈도우리스트는 항상가지고다니는것이기때문에 여기에서 이벤트처리를 진행.
@@ -95,13 +102,15 @@ public class WindowList : Singleton<WindowList> {
         inputKeyEvent = new InputKeyMouse();
         //오브젝트 순서 계속바껴서 걍무겁더라도 GetComponentInChildren<Type>(true) 으로 찾아둘란다.. 매번 이거때매 고치기귀찮.
         defencePanel = transform.GetComponentInChildren<DefenceEvent>(true); 
-        invenWindow = transform.GetComponentInChildren<InventoryWindow>(true);
+        invenWindow = transform.GetComponentInChildren<Inventory>(true);
         saveLoadPopupWindow = transform.GetComponentInChildren<SaveLoadPopupWindow>(true);
         mainWindow = transform.GetComponentInChildren<SaveWindowManager>(true);
         popupManager = transform.GetComponentInChildren<PopupSortManager>(true);
         optionsPopupWindow = transform.GetComponentInChildren<OptionsPopupWindow>(true);
-        turnGaugeUI = transform.GetChild(0).GetChild(transform.GetChild(0).childCount-1);
-        turnManager = FindObjectOfType<DataFactory>().transform.GetComponentInChildren<TurnManager>(true);
+        turnGaugeUI = transform.GetComponentInChildren<TurnGaugeOnOff>(true);
+        teamBorderManager = transform.GetComponentInChildren<TeamBorderManager>(true);
+        battleActionButtons = transform.GetChild(0).GetChild(1); //나중에 수정필요 
+
     }
     private void Start()
     {
@@ -180,7 +189,7 @@ public class WindowList : Singleton<WindowList> {
         {
             if (context.performed)
             {
-                popupOnOff(invenWindow);
+                invenWindow.Open_Inventory();
             }
 
         }

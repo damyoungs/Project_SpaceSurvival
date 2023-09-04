@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 8548166290674004756}
   - component: {fileID: 8548166290674004747}
   - component: {fileID: 8548166290674004746}
-  - component: {fileID: 8548166290674004745}
+  - component: {fileID: 5965071513278247436}
   m_Layer: 0
   m_Name: SM_Prop_CenterTube_02(Clone)
   m_TagString: Untagged
@@ -133,8 +133,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8548166290674004745
-MeshCollider:
+--- !u!65 &5965071513278247436
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -143,10 +143,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43921741663719122, guid: 5be7f2fe793b0f7419880a805a6b0125, type: 2}
+  serializedVersion: 2
+  m_Size: {x: 3.7839665, y: 0.2, z: 3.7839508}
+  m_Center: {x: 0.00000333786, y: 0.05, z: 0.0000014901161}
 --- !u!1 &8548166291991284573
 GameObject:
   m_ObjectHideFlags: 0

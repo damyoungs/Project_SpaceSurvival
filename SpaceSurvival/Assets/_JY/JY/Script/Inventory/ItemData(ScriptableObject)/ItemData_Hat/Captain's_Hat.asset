@@ -16,8 +16,10 @@ MonoBehaviour:
   code: 46
   itemName: "\uCEA1\uD2F4\uC758 \uBAA8\uC790"
   modelPrefab: {fileID: 2480855363001810257, guid: 03558334d09836541acdf8c346e2e0ef, type: 3}
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: 832ed150ed973b1479cad7ed2bfac743, type: 3}
   price: 10000
   maxStackCount: 1
   itemDescription: "\uCEA1\uD2F4\uC758 \uBAA8\uC790"
   EquipType: 1
+  defence_Point: 30
+  attack_Point: 10
