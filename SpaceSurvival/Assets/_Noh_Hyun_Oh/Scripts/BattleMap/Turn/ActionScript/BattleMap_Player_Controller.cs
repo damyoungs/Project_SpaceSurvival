@@ -107,11 +107,14 @@ public class BattleMap_Player_Controller : MonoBehaviour
     /// </summary>
     private void OnMove(InputAction.CallbackContext _)
     {
-        if (PlayerTurnObject == null || !playerTurnObject.IsTurn) //플레이어가 현재 턴인경우만 실행하도록 체크
+        if (PlayerTurnObject == null) //플레이어가 현재 턴인경우만 실행하도록 체크
         {
-            
             Debug.Log($"{playerTurnObject}플레이어가 셋팅 안되있거나 플레이어가 현재 턴이아닙니다.");
-            Debug.Log($"{playerTurnObject.IsTurn}");
+            return;
+        }
+        else if(!playerTurnObject.IsTurn)
+        {
+            Debug.Log($"턴아니라고 그만클릭해 {playerTurnObject.IsTurn}");
             return;
         }
 

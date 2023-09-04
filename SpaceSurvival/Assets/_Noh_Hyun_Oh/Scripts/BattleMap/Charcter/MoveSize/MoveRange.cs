@@ -217,27 +217,18 @@ public class MoveRange : MonoBehaviour
 
 
 
-    /// <summary>
-    /// 생성된 타일을 담아둘 배열변수
-    /// </summary>
-    Tile[,] mapTilesDoubleArray;
-    List<Tile> moveTiles;
+
     /// <summary>
     /// 청소 끝나고나서 다시검색할수있게 체크하는변수
     /// </summary>
     bool isClear = false;
-    public void InitDataSetting(Tile[,] mapTiles, int tileSizeX, int tileSizeY)
-    {
-        this.mapTilesDoubleArray = mapTiles;
-        this.tileSizeX = tileSizeX;
-        this.tileSizeY = tileSizeY;
-    }
+   
     /// <summary>
     /// 데이터 초기화
     /// </summary>
     public void ResetDoubleData()
     {
-        this.mapTilesDoubleArray = null;
+        this.mapTiles = null;
         this.tileSizeX = 0;
         this.tileSizeY = 0;
     }
@@ -306,7 +297,7 @@ public class MoveRange : MonoBehaviour
         List<Tile> openList = new List<Tile>();   // 탐색이 필요한 노드 리스트 
         List<Tile> closeList = new List<Tile>();  // 이미 계산이 완료되서 더이상 탐색을 안할 리스트 
 
-        foreach (Tile node in mapTilesDoubleArray)
+        foreach (Tile node in mapTiles)
         {
             node.H = 1000.0f; // H 값을 1000로 고정시키고 G 값을 초기화하여 계산 을 G값으로만 할수있게 한다.
             node.G = 1000.0f;
@@ -348,7 +339,7 @@ public class MoveRange : MonoBehaviour
                     currentNode.Length + y < 0 || currentNode.Length + y > tileSizeY - 1) //사이드 검색
                     continue;
 
-                adjoinTile = mapTilesDoubleArray[currentNode.Length + y, currentNode.Width + x];    // 인접한 타일 가져오기
+                adjoinTile = Cho_BattleMap_AStar.GetTile(mapTiles, currentNode.Width + x,currentNode.Length + y,tileSizeX);    // 인접한 타일 가져오기
 
                 if (adjoinTile == currentNode)                                          // 인접한 타일이 (0, 0)인 경우
                     continue;
@@ -359,8 +350,8 @@ public class MoveRange : MonoBehaviour
 
                 bool isDiagonal = (x * y != 0);                                     // 대각선 유무 확인
                 if (isDiagonal &&                                                   // 대각선이고 현재 타일의 상하좌우가 벽일 때
-                    mapTilesDoubleArray[currentNode.Length, currentNode.Width + x].ExistType == Tile.TileExistType.Prop ||
-                    mapTilesDoubleArray[currentNode.Length + y, currentNode.Width].ExistType == Tile.TileExistType.Prop
+                    Cho_BattleMap_AStar.GetTile(mapTiles, currentNode.Width + x, currentNode.Length, tileSizeX).ExistType == Tile.TileExistType.Prop ||
+                    Cho_BattleMap_AStar.GetTile(mapTiles, currentNode.Width, currentNode.Length+ y, tileSizeX).ExistType == Tile.TileExistType.Prop
                     )
                     continue;
 
@@ -391,16 +382,16 @@ public class MoveRange : MonoBehaviour
     /// <returns>추가가능한 타일을반환 하거나 못잡으면 null 반환</returns>
     public Tile GetRandomTile(Tile.TileExistType tileType) 
     {
-        int x = mapTilesDoubleArray.GetLength(1)-1;
-        int y = mapTilesDoubleArray.GetLength(0)-1;
+        int x = SpaceSurvival_GameManager.Instance.MapSizeX;
+        int y = SpaceSurvival_GameManager.Instance.MapSizeY;
         Tile result = null;
         int maxCount = 100; //최대 100번만돈다.
         int count = 0;
         //Debug.Log($"{x},{y}");
+        int index = Random.Range(0, y) * x +  Random.Range(0, x);
         while (count < maxCount) //무한 루프 방지용 
         {
-            
-            result = mapTilesDoubleArray[Random.Range(0, y), Random.Range(0, x)];
+            result = Cho_BattleMap_AStar.GetTile(mapTiles, Random.Range(0, x) + x, Random.Range(0, y), tileSizeX);
             if (result.ExistType == Tile.TileExistType.None)//갈수있는곳이면 
             {
                 result.ExistType = tileType; //설정되야될 타입으로 바꾼뒤 
