@@ -35,6 +35,16 @@ public class TurnBaseObject : BattleMapTurnUnit_PoolObj, ITurnBaseData
         get => isTurn;
         set => isTurn = value;
     } 
+
+    public bool IsMove 
+    {
+        get 
+        {
+            if (currentUnit == null) return false;
+            return currentUnit.IsMoveCheck; 
+        }
+    }
+    
     /// <summary>
     /// 배틀 인덱스 가져올 델리게이트
     /// </summary>
@@ -113,6 +123,7 @@ public class TurnBaseObject : BattleMapTurnUnit_PoolObj, ITurnBaseData
     /// </summary>
     protected ICharcterBase currentUnit;
     public ICharcterBase CurrentUnit => currentUnit;
+
 
     /// <summary>
     /// 턴 UI가 담길 캔버스 위치

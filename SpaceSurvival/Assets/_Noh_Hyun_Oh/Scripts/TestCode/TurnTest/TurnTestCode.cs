@@ -90,10 +90,10 @@ public class TurnTestCode : TestBase
         }
             
     }
-    protected override void Test3(InputAction.CallbackContext context)
-    {
-        moveRange.MoveSizeDoubleView(TurnManager.Instance.CurrentTurn.CharcterList[0].CurrentTile, moveSize);
-    }
+    //protected override void Test3(InputAction.CallbackContext context)
+    //{
+    //    moveRange.MoveSizeDoubleView(TurnManager.Instance.CurrentTurn.CharcterList[0].CurrentTile, moveSize);
+    //}
     /// <summary>
     /// 턴 내용 전부 초기화후 게임화면에있는 캐릭터 오브젝트 지우기
     /// </summary>

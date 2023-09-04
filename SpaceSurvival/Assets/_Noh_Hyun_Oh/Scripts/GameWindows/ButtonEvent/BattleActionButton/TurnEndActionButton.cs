@@ -18,10 +18,14 @@ public class TurnEndActionButton : BattleActionButtonBase
         {
             SpaceSurvival_GameManager.Instance.MoveRange.ClearDoubleLineRenderer(node.CurrentUnit.CurrentTile); //이동범위 리셋시킨다.
         }
-        node.TurnActionValue -= 0.8f;//UnityEngine.Random.Range(0.05f, 0.7f); //턴 진행 시 행동력 감소치 대충 때려넣는다.
-        node.IsTurn = false;
+        if (!node.IsMove) 
+        {
+            node.TurnActionValue -= 0.8f;//UnityEngine.Random.Range(0.05f, 0.7f); //턴 진행 시 행동력 감소치 대충 때려넣는다.
+            node.IsTurn = false;
 
-        node.TurnEndAction(); //턴완료 델리게이트를 실행한다 .
+            node.TurnEndAction(); //턴완료 델리게이트를 실행한다 .
+        
+        }
     }
 
 }
