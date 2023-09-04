@@ -139,7 +139,7 @@ public class PlayerTurnObject : TurnBaseObject
                         if (currentUnit != null) //기존에 컨트롤 중인 유닛이 있을때  
                         {
                             currentUnit.IsControll = false; //기존값은 컨트롤 해제하고 
-                            SpaceSurvival_GameManager.Instance.MoveRange.ClearDoubleLineRenderer(currentUnit.CurrentTile); //이동범위 리셋시킨다.
+                            SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentUnit.CurrentTile); //이동범위 리셋시킨다.
                         }
                         currentUnit = playerUnit; //다른 아군을 담고
                         currentUnit.IsControll = true; //컨트롤 할수있게 설정한다.

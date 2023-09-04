@@ -16,7 +16,7 @@ public class TurnEndActionButton : BattleActionButtonBase
         //테스트코드 
         if (node.CurrentUnit != null) 
         {
-            SpaceSurvival_GameManager.Instance.MoveRange.ClearDoubleLineRenderer(node.CurrentUnit.CurrentTile); //이동범위 리셋시킨다.
+            SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(node.CurrentUnit.CurrentTile); //이동범위 리셋시킨다.
         }
         if (!node.IsMove) 
         {
