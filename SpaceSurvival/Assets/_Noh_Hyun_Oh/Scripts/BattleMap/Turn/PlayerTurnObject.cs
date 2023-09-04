@@ -32,7 +32,7 @@ public class PlayerTurnObject : TurnBaseObject
     /// </summary>
     public Func<ICharcterBase[]> initPlayer;
 
-    
+    MiniMapCamera miniMapCam;
     
     /// <summary>
     /// 데이터 초기화 함수
@@ -42,6 +42,7 @@ public class PlayerTurnObject : TurnBaseObject
         //해당오브젝트는 팩토리에서 생성하지만 
         bpc = FindObjectOfType<BattleMap_Player_Controller>();   // 컨트롤러는 배틀맵에서만 있는 컴포넌트라서 초기화 할때 찾아온다
         cot = FindObjectOfType<CameraOriginTarget>(true);        // 컨트롤러는 배틀맵에서만 있는 컴포넌트라서 초기화 할때 찾아온다
+        miniMapCam = FindObjectOfType<MiniMapCamera>(true);      // 컨트롤러는 배틀맵에서만 있는 컴포넌트라서 초기화 할때 찾아온다
         bpc.onClickPlayer = OnClickPlayer;                       // 타일을 클릭했을때 플레이어 가있는타일(타일속성이 몬스터) 이면 실행될 함수를 연결한다. 
         bpc.onMoveActive = OnUnitMove;                           // 타일을 클릭했을때 플레이어가 움직이도록 로직연결
         bpc.GetPlayerTurnObject = () => this;                    // 초기값 데이터 연결 
@@ -143,6 +144,7 @@ public class PlayerTurnObject : TurnBaseObject
                         currentUnit = playerUnit; //다른 아군을 담고
                         currentUnit.IsControll = true; //컨트롤 할수있게 설정한다.
                         cot.Target = currentUnit.transform; //카메라 포커스 맞추기 
+                        miniMapCam.player = currentUnit.transform;
                         SelectControllUnit();
                         return;
                     }

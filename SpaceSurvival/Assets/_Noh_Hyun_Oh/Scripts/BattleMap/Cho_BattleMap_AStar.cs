@@ -118,7 +118,12 @@ public static class Cho_BattleMap_AStar
 
     public static Tile GetTile(Tile[] map, int width, int length, int sizeX)
     {
+        Debug.Log(width);
+        Debug.Log(length);
+        Debug.Log(sizeX);
         int index = sizeX * length + width;
+        
+        Debug.Log(index);
         return map[index];
     }
 

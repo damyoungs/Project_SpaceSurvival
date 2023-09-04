@@ -388,10 +388,9 @@ public class MoveRange : MonoBehaviour
         int maxCount = 100; //최대 100번만돈다.
         int count = 0;
         //Debug.Log($"{x},{y}");
-        int index = Random.Range(0, y) * x +  Random.Range(0, x);
         while (count < maxCount) //무한 루프 방지용 
         {
-            result = Cho_BattleMap_AStar.GetTile(mapTiles, Random.Range(0, x) + x, Random.Range(0, y), tileSizeX);
+            result = Cho_BattleMap_AStar.GetTile(mapTiles, Random.Range(0, x), Random.Range(0, y), tileSizeX);
             if (result.ExistType == Tile.TileExistType.None)//갈수있는곳이면 
             {
                 result.ExistType = tileType; //설정되야될 타입으로 바꾼뒤 

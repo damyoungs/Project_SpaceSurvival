@@ -676,7 +676,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""10b9e187-3357-4e90-b1cb-0cd0ddf71203"",
-                    ""path"": ""<Keyboard>/q"",
+                    ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyMouse"",
@@ -687,7 +687,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""4938f774-f587-4710-831f-357baa60df75"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyMouse"",
@@ -897,6 +897,15 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""TestClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""93837777-462b-4d72-aa16-3579da24edb0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -908,6 +917,17 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""KeyMouse"",
                     ""action"": ""UnitMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6c637a3e-803d-45c2-993f-b940460262ce"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyMouse"",
+                    ""action"": ""TestClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -987,6 +1007,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         // BattleMap_Player
         m_BattleMap_Player = asset.FindActionMap("BattleMap_Player", throwIfNotFound: true);
         m_BattleMap_Player_UnitMove = m_BattleMap_Player.FindAction("UnitMove", throwIfNotFound: true);
+        m_BattleMap_Player_TestClick = m_BattleMap_Player.FindAction("TestClick", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1611,11 +1632,13 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_BattleMap_Player;
     private List<IBattleMap_PlayerActions> m_BattleMap_PlayerActionsCallbackInterfaces = new List<IBattleMap_PlayerActions>();
     private readonly InputAction m_BattleMap_Player_UnitMove;
+    private readonly InputAction m_BattleMap_Player_TestClick;
     public struct BattleMap_PlayerActions
     {
         private @InputKeyMouse m_Wrapper;
         public BattleMap_PlayerActions(@InputKeyMouse wrapper) { m_Wrapper = wrapper; }
         public InputAction @UnitMove => m_Wrapper.m_BattleMap_Player_UnitMove;
+        public InputAction @TestClick => m_Wrapper.m_BattleMap_Player_TestClick;
         public InputActionMap Get() { return m_Wrapper.m_BattleMap_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1628,6 +1651,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @UnitMove.started += instance.OnUnitMove;
             @UnitMove.performed += instance.OnUnitMove;
             @UnitMove.canceled += instance.OnUnitMove;
+            @TestClick.started += instance.OnTestClick;
+            @TestClick.performed += instance.OnTestClick;
+            @TestClick.canceled += instance.OnTestClick;
         }
 
         private void UnregisterCallbacks(IBattleMap_PlayerActions instance)
@@ -1635,6 +1661,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @UnitMove.started -= instance.OnUnitMove;
             @UnitMove.performed -= instance.OnUnitMove;
             @UnitMove.canceled -= instance.OnUnitMove;
+            @TestClick.started -= instance.OnTestClick;
+            @TestClick.performed -= instance.OnTestClick;
+            @TestClick.canceled -= instance.OnTestClick;
         }
 
         public void RemoveCallbacks(IBattleMap_PlayerActions instance)
@@ -1722,5 +1751,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     public interface IBattleMap_PlayerActions
     {
         void OnUnitMove(InputAction.CallbackContext context);
+        void OnTestClick(InputAction.CallbackContext context);
     }
 }
