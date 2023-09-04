@@ -28,6 +28,8 @@ public class ItemDescription : MonoBehaviour
                 Close();
         }
     }
+    ItemData itemData = null;
+    public ItemData ItemData => itemData;
     private void Awake()
     {
         itemIcon = transform.GetChild(0).GetChild(0).GetComponent<Image>();
@@ -41,20 +43,15 @@ public class ItemDescription : MonoBehaviour
     {
         if (!isPause && data != null)
         {
-            ItemData_Equip equipItem = data as ItemData_Equip;
-            ItemData_Enhancable enhancableItem = data as ItemData_Enhancable;
-            ItemData_Bullet bullet = data as ItemData_Bullet;
-            if (enhancableItem != null)
+            itemData = data;//장비창 상호작용 전용
+
+            IEquippable itemEquippable = data as IEquippable;
+            //ItemData_Equip equipItem = data as ItemData_Equip;
+            //ItemData_Enhancable enhancableItem = data as ItemData_Enhancable;
+            //ItemData_Bullet bullet = data as ItemData_Bullet;
+            if (itemEquippable != null)
             {
-                itemDetail.text = $"공격력 : {equipItem.attackPoint} \n방어력 : {equipItem.defencePoint}\n아이템 레벨 : {enhancableItem.itemLevel}";
-            }
-            else if (equipItem != null)
-            {
-                itemDetail.text = $"공격력 : {equipItem.attackPoint} \n방어력 : {equipItem.defencePoint}";
-            }
-            else if (bullet != null)
-            {
-                itemDetail.text = $"공격력 : {bullet.attckPoint}\n{bullet.itemDescription}";
+                itemDetail.text = $"공격력 : {itemEquippable.ATT} \n방어력 : {itemEquippable.DP}";
             }
             else
             {
@@ -79,6 +76,7 @@ public class ItemDescription : MonoBehaviour
     {
         StopAllCoroutines();
         StartCoroutine(FadeOut());
+        itemData = null;
     }
     public void MovePosition(Vector2 mousePos)
     {

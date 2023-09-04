@@ -40,7 +40,7 @@ public class PopupWindowMoveButton : MonoBehaviour, IBeginDragHandler, IDragHand
     private Vector2 moveOffSet;
     private void Awake()
     {
-        parentWindow = transform.parent.parent.GetComponent<RectTransform>();
+        parentWindow = transform.parent.GetComponent<RectTransform>();
     }
 
     /// <summary>

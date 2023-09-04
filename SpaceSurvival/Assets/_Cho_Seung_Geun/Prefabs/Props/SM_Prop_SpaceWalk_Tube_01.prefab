@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 5110462701870456717}
   - component: {fileID: 5110462701870456716}
   - component: {fileID: 5110462701870456723}
-  - component: {fileID: 5110462701870456722}
+  - component: {fileID: 9050770835642326344}
   m_Layer: 0
   m_Name: SM_Prop_SpaceWalk_Tube_01(Clone)
   m_TagString: Untagged
@@ -132,8 +132,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5110462701870456722
-MeshCollider:
+--- !u!65 &9050770835642326344
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -142,7 +142,6 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43522537683953650, guid: df779bbd2c83c5b48ad81000b0d780c1, type: 2}
+  serializedVersion: 2
+  m_Size: {x: 4.7596, y: 0.2, z: 4.9999995}
+  m_Center: {x: -0.00000011920928, y: -1.9, z: -2.4999998}

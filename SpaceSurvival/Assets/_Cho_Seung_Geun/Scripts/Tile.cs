@@ -24,7 +24,10 @@ public class Tile : MonoBehaviour, IComparable<Tile>
         None = 0,
         Monster,
         Item,
-        Prop
+        Prop,
+        Move,
+        Charcter
+
     }
 
     // 타일 타입
@@ -45,7 +48,30 @@ public class Tile : MonoBehaviour, IComparable<Tile>
         get => existType;
         set
         {
-            existType = value;
+            if (existType != value) 
+            {
+                
+                existType = value;
+                switch (value)
+                {
+                    case TileExistType.None:
+                        lineRenderer.enabled = false;
+                        break;
+                    case TileExistType.Monster:
+                        break;
+                    case TileExistType.Item:
+                        break;
+                    case TileExistType.Prop:
+                        break;
+                    case TileExistType.Move:
+                        lineRenderer.enabled = true;
+                        break;
+                    case TileExistType.Charcter:
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
     }
 
@@ -81,6 +107,13 @@ public class Tile : MonoBehaviour, IComparable<Tile>
 
     public Tile parent;
 
+
+    LineRenderer lineRenderer;
+
+    private void Awake()
+    {
+        lineRenderer = GetComponent<LineRenderer>();
+    }
     /// <summary>
     /// A*에 관한 변수 초기화
     /// </summary>
@@ -97,4 +130,5 @@ public class Tile : MonoBehaviour, IComparable<Tile>
             return 1;
         return F.CompareTo(other.F);
     }
+
 }

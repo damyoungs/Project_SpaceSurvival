@@ -13,6 +13,8 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     InputKeyMouse input;
 
     public GameObject slot;
+    Slot just_ChangeSlot;
+    public Slot Just_ChangeSlot => just_ChangeSlot;
     TempSlot tempSlot;
     ItemDescription itemDescription;
     public ItemDescription ItemDescription => itemDescription;
@@ -41,6 +43,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     ItemSplitter spliter;
     bool isShiftPress = false;
 
+    public Action<ItemData> on_UnEquip_Item;// 장비 해제, 장비창 슬롯을 더블클릭 했을 때 호출
     public Action<ItemData_Potion, uint> onDetectQuickSlot;
 
     public Dictionary<Current_Inventory_State, List<Slot>> slots;
@@ -60,7 +63,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     private void Start()
     {
         spliter = FindObjectOfType<ItemSplitter>(true);
-      //  Initialize();
+        GameManager.playerDummy.onUnEquipItem += UnEquip_Item;
     }
     private void OnEnable()
     {
@@ -178,7 +181,8 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             slotComp.onPointerEnter += OnItemDetailOn;
             slotComp.onPointerExit += OnItemDetailOff;
             slotComp.onPointerMove += OnSlotPointerMove;
-            slotComp.Index = (uint)slots[GameManager.Inventory.State].Count - 1;  
+            slotComp.Index = (uint)slots[GameManager.Inventory.State].Count - 1;
+            slotComp.onSet_Just_ChangeSlot += (slot) => just_ChangeSlot = slot;
         }
     }
  
@@ -304,7 +308,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             }
             else if (equipboxRectTransform.rect.Contains(distance_Between_Mouse_EquipBox) && equipBox.IsOpen)//장비창 범위 안에 드롭할 때
             {
-                equipBox.Set_ItemData(tempSlot.ItemData);
+                equipBox.Set_ItemData_For_Drag(tempSlot.ItemData);
             }
             else if (quickSlot_Manager.QuickSlotBox_RectTransform.rect.Contains(distance_Between_Mouse_QuickSlot_Box))//퀵슬롯박스 안쪽일 때
             {
@@ -323,13 +327,19 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             }
             else if (mixer_Left_slot_Transform.rect.Contains(distance_Between_Mouse_Left_Slot) && mixer_UI.IsOpen)//조합창의 왼쪽슬롯
             {
-                GameManager.Mixer.LeftSlotData = TempSlot.ItemData;
-                RemoveItem(TempSlot.ItemData, Index_JustChange_Slot);
+                if (GameManager.Mixer.LeftSlotData == null)
+                {
+                    GameManager.Mixer.LeftSlotData = TempSlot.ItemData;
+                    RemoveItem(TempSlot.ItemData, Index_JustChange_Slot);
+                }
             }
             else if (mixer_Middle_Slot_Transform.rect.Contains(distance_Between_Mouse_Middle_Slot) && mixer_UI.IsOpen)
             {
-                GameManager.Mixer.MiddleSlotData = TempSlot.ItemData;
-                RemoveItem(TempSlot.ItemData, Index_JustChange_Slot);
+                if (GameManager.Mixer.MiddleSlotData == null)
+                {
+                    GameManager.Mixer.MiddleSlotData = TempSlot.ItemData;
+                    RemoveItem(TempSlot.ItemData, Index_JustChange_Slot);
+                }
             }
             else if (mixerUI_Transform.rect.Contains(distance_Between_Mouse_MixerUI) && mixer_UI.IsOpen)
             {
@@ -346,7 +356,30 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             }
         }
     }
+    void UnEquip_Item(ItemData itemData)// 더블클릭으로 해제 할 때
+    {
+        bool result = false;
+        List<Slot> slotList = GetItemTab(itemData);
+        foreach(Slot slot in slotList)
+        {
+            if (slot.IsEmpty)
+            {
+                on_UnEquip_Item?.Invoke(itemData);
+                slot.ItemData = itemData;
+                result = true;
+                break;
+            }
+        }
+        if (!result)
+        {
+            Debug.Log("인벤토리에 빈 슬롯이 없습니다.");
+        }
+    }
+    public void Taking_Item_From_EquipBox(ItemData data)
+    {
+        just_ChangeSlot.ItemData = data;
 
+    }
     void BindingCheck(ItemData itemData)
     {
         List<QuickSlot> quickSlots = quickSlot_Manager.quickSlots.ToList();

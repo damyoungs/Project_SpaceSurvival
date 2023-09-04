@@ -16,8 +16,10 @@ MonoBehaviour:
   code: 50
   itemName: Space_Armor
   modelPrefab: {fileID: 250185068433443445, guid: 6c601df49ef23414591b7bbc47808f64, type: 3}
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: 507e7e9cdf8426742b48ebdc0a4cdf26, type: 3}
   price: 80000
   maxStackCount: 1
   itemDescription: "\uD2BC\uD2BC\uD574 \uBCF4\uC774\uB294 \uAC11\uC637\uC774\uB2E4."
   EquipType: 3
+  attack_Point: 5
+  defence_Point: 35

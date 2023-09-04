@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 //UI 와 분리되어있었다면 delegate로 신호를 보내야하지만  지금은 그냥 Set함수에서 바로 함수를 호출하도록한다
-public class Slot : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler
+public class Slot : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler, IPointerDownHandler
 {
     RectTransform itemDescriptionTransform;
     TextMeshProUGUI itemDescription_Text;
@@ -22,6 +22,7 @@ public class Slot : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandle
     public Action<ItemData, uint> onPointerEnter;
     public Action<uint> onPointerExit;
     public Action<Vector2> onPointerMove;
+    public Action<Slot> onSet_Just_ChangeSlot;
     public bool IsMoving { get; set; } = false; //이동중 description 팝업을 방지하기 위한 변수 
     bool isEquipped = false;
 
@@ -170,5 +171,10 @@ public class Slot : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandle
     public void OnDrag(PointerEventData eventData)
     {
        
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        onSet_Just_ChangeSlot?.Invoke(this);
     }
 }
