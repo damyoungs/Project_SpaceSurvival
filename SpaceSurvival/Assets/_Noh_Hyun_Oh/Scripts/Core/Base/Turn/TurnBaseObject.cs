@@ -41,6 +41,7 @@ public class TurnBaseObject : BattleMapTurnUnit_PoolObj, ITurnBaseData
         get 
         {
             if (currentUnit == null) return false;
+            
             return currentUnit.IsMoveCheck; 
         }
     }

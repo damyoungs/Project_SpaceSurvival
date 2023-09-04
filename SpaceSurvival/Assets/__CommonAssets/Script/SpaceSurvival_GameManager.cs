@@ -111,6 +111,11 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
     /// 이동 범위표시하는 로직 받아오기위한 델리게이트
     /// </summary>
     public Func<MoveRange> GetMoveRangeComp;
- 
+
+
+    /// <summary>
+    /// 유아이 사용시 마우스 이벤트 막기위한 변수 
+    /// </summary>
+    public bool IsUICheck = false;
     
 }

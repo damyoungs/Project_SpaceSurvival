@@ -26,11 +26,13 @@ public class BattleActionButtonBase : MonoBehaviour, IPointerEnterHandler, IPoin
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
+        SpaceSurvival_GameManager.Instance.IsUICheck = true;
         OnMouseEnter();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        SpaceSurvival_GameManager.Instance.IsUICheck = false;
         OnMouseExit();
     }
 
