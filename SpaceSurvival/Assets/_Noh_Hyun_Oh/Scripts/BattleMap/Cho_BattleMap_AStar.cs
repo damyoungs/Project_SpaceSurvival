@@ -9,17 +9,18 @@ using UnityEngine;
 /// </summary>
 public static class Cho_BattleMap_AStar
 {
-    public static List<Tile> PathFind(Tile[] map, Tile start, Tile end ,int sizeX , int sizeY)
+    public static List<Tile> PathFind(Tile[] map, int sizeX, int sizeY, Tile start, Tile end)
     {
+        int tileLength = sizeX * sizeY;
         const float sideDistance = 1.0f;
         const float diagonalDistance = 1.414f;
 
         List<Tile> path = null;
-        
+
         List<Tile> open = new List<Tile>();
         List<Tile> close = new List<Tile>();
 
-        for (int i = 0; i < map.Length; i++)
+        for (int i = 0; i < tileLength; i++)
         {
             map[i].Clear();
         }
@@ -48,21 +49,21 @@ public static class Cho_BattleMap_AStar
                         if (current.Width + x < 0 || current.Width + x > sizeX - 1 ||
                             current.Length + y < 0 || current.Length + y > sizeY - 1)
                             continue;
-                        
-                        adjoinTile = map[(current.Width + x) * sizeY + current.Length + y];    // 인접한 타일 가져오기
+
+                        adjoinTile = GetTile(map, current.Width + x, current.Length + y,sizeX);    // 인접한 타일 가져오기
 
                         if (adjoinTile == current)                                          // 인접한 타일이 (0, 0)인 경우
                             continue;
-                        if (adjoinTile.ExistType != Tile.TileExistType.None)                // 인접한 타일이 None이 아닐 때
+                        if (adjoinTile.ExistType != Tile.TileExistType.Move)                // 인접한 타일이 None이 아닐 때
                             continue;
-                        if (close.Exists( (inClose) => inClose == adjoinTile ))             // close리스트에 있을 때
+                        if (close.Exists((inClose) => inClose == adjoinTile))             // close리스트에 있을 때
                             continue;
 
                         bool isDiagonal = (x * y != 0);                                     // 대각선 유무 확인
                         if (isDiagonal &&                                                   // 대각선이고 현재 타일의 상하좌우가 벽일 때
                             (
-                             map[(current.Width + x) * sizeY + current.Length].ExistType == Tile.TileExistType.Prop ||
-                             map[(current.Width) * sizeY + current.Length + y].ExistType == Tile.TileExistType.Prop
+                             GetTile(map,current.width + x,current.length,sizeX).ExistType == Tile.TileExistType.Prop ||
+                             GetTile(map, current.width, current.Length + y, sizeX).ExistType == Tile.TileExistType.Prop
                             ))
                             continue;
 
@@ -115,13 +116,14 @@ public static class Cho_BattleMap_AStar
         return Mathf.Abs(end.Width - current.Width) + Mathf.Abs(end.Length - current.Length);
     }
 
+    public static Tile GetTile(Tile[] map, int width, int length, int sizeX)
+    {
+        int index = sizeX * length + width;
+        return map[index];
+    }
 
 
 
 
-
-
-
-   
 
 }

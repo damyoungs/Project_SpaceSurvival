@@ -16,8 +16,8 @@ public class MoveActionButton : BattleActionButtonBase
         }
         if (!curruentUnit.IsMoveCheck) //이동중이 아닌경우만  
         {
-            SpaceSurvival_GameManager.Instance.MoveRange.ClearDoubleLineRenderer(curruentUnit.CurrentTile);
-            SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeDoubleView(curruentUnit.CurrentTile,curruentUnit.MoveSize);//이동범위표시해주기 
+            SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(curruentUnit.CurrentTile);
+            SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(curruentUnit.CurrentTile,curruentUnit.MoveSize);//이동범위표시해주기 
         }
     }
 

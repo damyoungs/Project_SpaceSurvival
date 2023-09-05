@@ -41,6 +41,7 @@ public interface ITurnBaseData
     /// 현재 턴을 잡고있는지 체크할 변수
     /// </summary>
     public bool IsTurn { get; set; }
+    public bool IsMove { get; }
 
     /// <summary>
     /// 유닛이 행동중에 특정유닛이 사라질경우 메니져에 신호를 주는 델리게이트

@@ -27,25 +27,35 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
         }
     }
     /// <summary>
-    /// 배틀맵 시작시 셋팅할 맵의 타일 변수 
+    /// 배틀맵 시작시 셋팅할 맵의 타일 가로갯수 
     /// </summary>
-    Tile[,] battleMapDoubleArray;
-    public Tile[,] BattleMapDoubleArray
+    int mapSizeX = -1;
+    public int MapSizeX
     {
         get
         {
-            //if (battleMapDoubleArray == null) //배틀맵의 값이없으면 
-            //{
-            //    battleMapDoubleArray = GetBattleMapTilesDataDoubleArray?.Invoke(); //델리게이트 요청해 값을 받아오도록한다.
-            //    //배틀맵이 아닌경우 델리게이트가 값을 셋팅못하니 null 이 셋팅 될수도있다.
-            //}
-            battleMapDoubleArray ??= GetBattleMapTilesDataDoubleArray?.Invoke(); //위의 주석과 같은 내용이라고 한다 . (복합형)
-            //Debug.Log(battleMapDoubleArray.Length);
-            return battleMapDoubleArray;
-
+            if (mapSizeX < 0 && GetMapTileX != null) //초기값이면 
+            {
+                mapSizeX = GetMapTileX();
+            }
+            return mapSizeX;
         }
     }
-
+    /// <summary>
+    /// 배틀맵 시작시 셋팅할 맵의 타일 세로갯수 
+    /// </summary>
+    int mapSizeY = -1;
+    public int MapSizeY
+    {
+        get
+        {
+            if (mapSizeY < 0 && GetMapTileY != null) //초기값이면 
+            {
+                mapSizeY = GetMapTileY();
+            }
+            return mapSizeY;
+        }
+    }
 
     /// <summary>
     /// 플레이어의 팀원 목록을 저장해둔다.
@@ -73,11 +83,9 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
     /// 배틀맵 데이터를 받아오기위한 Func 델리게이트
     /// </summary>
     public Func<Tile[]> GetBattleMapTilesData;
+    public Func<int> GetMapTileX;
+    public Func<int> GetMapTileY;
 
-    /// <summary>
-    /// 배틀맵 데이터를 받아오기위한 Func 델리게이트
-    /// </summary>
-    public Func<Tile[,]> GetBattleMapTilesDataDoubleArray;
 
     /*
      인벤토리는 하나만 사용할경우 여기에 추가가 필요하다 .
@@ -103,6 +111,11 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
     /// 이동 범위표시하는 로직 받아오기위한 델리게이트
     /// </summary>
     public Func<MoveRange> GetMoveRangeComp;
- 
+
+
+    /// <summary>
+    /// 유아이 사용시 마우스 이벤트 막기위한 변수 
+    /// </summary>
+    public bool IsUICheck = false;
     
 }

@@ -313,7 +313,7 @@ public class TileManager : MonoBehaviour
 
     private void TileOnClick(int index) 
     {
-        
+        Debug.Log(index);
     }
 
     public void TileLineCheck(int startIndex , int endindex) 

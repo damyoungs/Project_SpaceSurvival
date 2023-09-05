@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battleIndex: -1
-  turnAddValue: 0.1
+  turnAddValue: 0.5
   maxTurnValue: 1.1
+  turnWaitingValue: 1
   testPlayerLength: 5

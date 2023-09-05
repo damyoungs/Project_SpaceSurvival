@@ -149,8 +149,10 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
     {
         if (!isMoveCheck) //이동중간에 끊길시 타일버그가 발생해 체크하는로직추가 
         {
-            List<Tile> path = Cho_BattleMap_AStarDouble.PathFind(
-                                                            SpaceSurvival_GameManager.Instance.BattleMapDoubleArray,
+            List<Tile> path = Cho_BattleMap_AStar.PathFind(
+                                                            SpaceSurvival_GameManager.Instance.BattleMap,
+                                                            SpaceSurvival_GameManager.Instance.MapSizeX,
+                                                            SpaceSurvival_GameManager.Instance.MapSizeY,
                                                             this.currentTile,
                                                             currentTile
                                                             );
