@@ -114,6 +114,7 @@ public class Tile : MonoBehaviour, IComparable<Tile>
     {
         lineRenderer = GetComponent<LineRenderer>();
     }
+
     /// <summary>
     /// A*에 관한 변수 초기화
     /// </summary>
