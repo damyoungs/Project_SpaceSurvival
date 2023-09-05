@@ -31,9 +31,9 @@ public class LoadingScean : MonoBehaviour
     /// 다음씬으로 넘어갈 씬이름
     /// 다음씬이 입력안되면 타이틀로넘어간다.
     /// </summary>
-    static  EnumList.SceanName nextSceanName = EnumList.SceanName.TITLE; 
+    static  EnumList.SceanName nextSceanName = EnumList.SceanName.TITLE;
     //static int nextSceanName = 0; //성능 차이가 미미하게 더빠르다
-
+    static int nextSceanIndex = -1;
      /// <summary>
     /// 로딩 진행도 이미지 종류
     /// EnumList 인터페이스에 정의해놓은 값을 참고한다.
@@ -64,10 +64,18 @@ public class LoadingScean : MonoBehaviour
         if (sceanName != EnumList.SceanName.NONE) { //씬 셋팅이 되어있고
             if (!isLoading) { //로딩이 안됬을경우 
                 isLoading = true;//로딩 시작플래그
-                progressType = type; //프로그래스 타입설정.
-                nextSceanName = sceanName; //씬이름셋팅하고  
-                WindowList.Instance.PopupSortManager.CloseAllWindow(); //화면 전환시 열려있는창 전부닫자.
-                SceneManager.LoadSceneAsync((int)EnumList.SceanName.LOADING);
+                nextSceanIndex = (int)sceanName; //다음씬 인덱스 셋팅하고 
+                WindowList.Instance.PopupSortManager.CloseAllWindow(); //화면 전환시 열려있는창 전부닫자.  
+                if (SceneManager.GetActiveScene().buildIndex != nextSceanIndex) //현재씬이아닌 다른씬갈때는 로딩창을 가도록 수정 
+                {
+                    progressType = type; //프로그래스 타입설정.
+                    SceneManager.LoadSceneAsync((int)EnumList.SceanName.LOADING);
+                }
+                else 
+                {
+                    isLoading = false; //로딩 화면전환이없음으로 바로 끄기
+                } 
+
             }
         }
         
@@ -107,7 +115,7 @@ public class LoadingScean : MonoBehaviour
     IEnumerator LoadSceanProcess()
     {
         //비동기 씬로딩정보를 받기위해 가져오는 변수
-        AsyncOperation op = SceneManager.LoadSceneAsync((int)nextSceanName,LoadSceneMode.Single); //기본 single => 마지막 로딩완료된것만 열린다
+        AsyncOperation op = SceneManager.LoadSceneAsync(nextSceanIndex,LoadSceneMode.Single); //기본 single => 마지막 로딩완료된것만 열린다
                                                                                                   // additive는 여러씬이 같이열린다..
         //AsyncOperation 이 한개가있지만 여러개선언해도 하나를 참조해서 
         //allowSceneActivation 값이 공유된다.; 

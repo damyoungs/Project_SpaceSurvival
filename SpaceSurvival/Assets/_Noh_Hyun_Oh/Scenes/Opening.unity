@@ -394,6 +394,30 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6150599174690605382, guid: 0bc77443c554336438f1c011ea147017, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6150599174690605382, guid: 0bc77443c554336438f1c011ea147017, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6150599174817284586, guid: 0bc77443c554336438f1c011ea147017, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6150599174817284586, guid: 0bc77443c554336438f1c011ea147017, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6150599174817284586, guid: 0bc77443c554336438f1c011ea147017, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7780355062523771712, guid: 0bc77443c554336438f1c011ea147017, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7912396504498853361, guid: 0bc77443c554336438f1c011ea147017, type: 3}
       propertyPath: m_Name
       value: WindowList

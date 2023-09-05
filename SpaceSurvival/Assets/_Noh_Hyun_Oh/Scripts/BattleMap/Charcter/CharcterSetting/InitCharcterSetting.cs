@@ -56,6 +56,7 @@ public class InitCharcterSetting : MonoBehaviour
     /// </summary>
     public void TestInit()
     {
+        SpaceSurvival_GameManager.Instance.GetBattleMapInit = () => this;
         if (teamArray == null) 
         {
             teamArray = new ITurnBaseData[teamLength]; //배열 크기잡고
