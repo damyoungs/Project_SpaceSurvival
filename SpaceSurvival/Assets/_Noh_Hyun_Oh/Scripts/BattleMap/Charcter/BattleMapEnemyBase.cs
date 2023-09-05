@@ -66,7 +66,6 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
             InitUI();//초기화
         }
     }
-
     /// <summary>
     /// 추적형 UI 초기화 함수 셋팅
     /// </summary>
@@ -95,12 +94,14 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
     /// </summary>
     public void ResetData()
     {
-        if (battleUI != null) //배틀 UI가 셋팅되있으면 
+        if (BattleUI != null) //배틀 UI가 셋팅되있으면 
         {
-            battleUI.ResetData();// 추적형 UI 초기화 
-            battleUI = null; // 비우기
+            BattleUI.ResetData();// 추적형 UI 초기화 
+            BattleUI = null; // 비우기
         }
-        currentTile = null; //타일 초기화
+        Debug.Log("몬스터 초기화 ");
+        currentTile.ExistType = Tile.TileExistType.None; // 속성 돌리고 
+        currentTile = null; //타일 참조해제
         //턴 오브젝트 초기화
         transform.SetParent(poolTransform); //풀로 돌린다
         gameObject.SetActive(false); // 큐를 돌린다.

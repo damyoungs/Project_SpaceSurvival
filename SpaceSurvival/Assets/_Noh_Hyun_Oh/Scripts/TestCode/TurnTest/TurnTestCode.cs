@@ -64,7 +64,10 @@ public class TurnTestCode : TestBase
     {
         InitCharcterSetting.TestInit();
     }
-
+    protected override void Test2(InputAction.CallbackContext context)
+    {
+        InitCharcterSetting.TestReset();
+    }
     /// <summary>
     /// 턴 진행 
     /// </summary>
@@ -82,7 +85,8 @@ public class TurnTestCode : TestBase
 
     //    node.TurnEndAction(node); //턴완료 를 알린다.
     //}
-    protected override void Test2(InputAction.CallbackContext context)
+
+    protected override void Test3(InputAction.CallbackContext context)
     {
         foreach (var charcter in TurnManager.Instance.CurrentTurn.CharcterList) 
         {

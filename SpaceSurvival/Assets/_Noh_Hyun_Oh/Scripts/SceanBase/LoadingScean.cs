@@ -63,11 +63,9 @@ public class LoadingScean : MonoBehaviour
     {
         if (sceanName != EnumList.SceanName.NONE) { //씬 셋팅이 되어있고
             if (!isLoading) { //로딩이 안됬을경우 
-
                 isLoading = true;//로딩 시작플래그
                 progressType = type; //프로그래스 타입설정.
                 nextSceanName = sceanName; //씬이름셋팅하고  
-                TurnManager.Instance.ResetBattleData();// 배틀 정보 초기화
                 WindowList.Instance.PopupSortManager.CloseAllWindow(); //화면 전환시 열려있는창 전부닫자.
                 SceneManager.LoadSceneAsync((int)EnumList.SceanName.LOADING);
             }
