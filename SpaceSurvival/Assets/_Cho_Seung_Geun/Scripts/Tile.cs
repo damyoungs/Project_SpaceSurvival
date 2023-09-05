@@ -58,15 +58,18 @@ public class Tile : MonoBehaviour, IComparable<Tile>
                         lineRenderer.enabled = false;
                         break;
                     case TileExistType.Monster:
+                        lineRenderer.enabled = false;
                         break;
                     case TileExistType.Item:
                         break;
                     case TileExistType.Prop:
+                        lineRenderer.enabled = false;
                         break;
                     case TileExistType.Move:
                         lineRenderer.enabled = true;
                         break;
                     case TileExistType.Charcter:
+                        lineRenderer.enabled = false;
                         break;
                     default:
                         break;
@@ -100,6 +103,8 @@ public class Tile : MonoBehaviour, IComparable<Tile>
     public int Index = 0;
 
     public float G;
+
+    public float MoveCheckG;
 
     public float H;
 

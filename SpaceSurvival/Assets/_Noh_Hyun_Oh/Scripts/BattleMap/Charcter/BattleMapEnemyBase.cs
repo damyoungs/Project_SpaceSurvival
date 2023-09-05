@@ -101,6 +101,7 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
         }
         Debug.Log("몬스터 초기화 ");
         currentTile.ExistType = Tile.TileExistType.None; // 속성 돌리고 
+        
         currentTile = null; //타일 참조해제
         //턴 오브젝트 초기화
         transform.SetParent(poolTransform); //풀로 돌린다
