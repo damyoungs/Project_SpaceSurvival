@@ -59,14 +59,12 @@ public class PlayerMove : MonoBehaviour
 	
 	InputKeyMouse inputAction;
 
-	protected AudioSource audioSource;
 
 	public Transform targetObj;
 
 	private void Awake()
 	{
 		inputAction = new InputKeyMouse();
-		audioSource = GetComponent<AudioSource>();
 	}
 	private void OnEnable()
 	{

@@ -6,10 +6,7 @@ using UnityEngine.InputSystem;
 
 public class ShootAction : PlayerMove
 {
-	[SerializeField]
-	private Transform bulletProjectilePrefab;
-	[SerializeField]
-	private Transform shootPointTransform;
+
 
 	public Action onAttack;
     //무기 바뀔 때마다 shootPointTransform 수정
@@ -19,8 +16,6 @@ public class ShootAction : PlayerMove
 	{
 		onAttack?.Invoke();
 
-        unitAnimator.SetTrigger("IsFiring");
-		Instantiate(bulletProjectilePrefab, shootPointTransform.position, shootPointTransform.rotation);
-		audioSource.Play();
+
 	}
 }
