@@ -1,5 +1,7 @@
+using StructList;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 
@@ -25,10 +27,11 @@ public class SaveLoadPopupButton : MonoBehaviour
     /// </summary>
     int oldSelectIndex = -1;
 
+    SlotManager slotManager;
 
     private void Awake()
     {
-        
+        slotManager = FindObjectOfType<SlotManager>(true);
         parentPopupWindow = WindowList.Instance.IOPopupWindow.transform.GetChild(WindowList.Instance.IOPopupWindow.transform.childCount - 1).gameObject; //팝업창 위치 찾기
         proccessClass = WindowList.Instance.MainWindow;//초기화때 필요한 함수불러오기위해 사용  
     }
@@ -70,6 +73,7 @@ public class SaveLoadPopupButton : MonoBehaviour
     }
     public void SaveAcceptCheck() 
     {
+        SetData();
         if (SaveLoadManager.Instance.Json_Save(selectIndex)) { 
             CancelButton(); //창닫기
         }
@@ -100,6 +104,76 @@ public class SaveLoadPopupButton : MonoBehaviour
             Debug.Log($"oldSelectIndex = {oldSelectIndex} 값설정안됨");    
         } 
         CancelButton(); //창닫기
+    }
+
+    private void SetData() 
+    {
+        JsonGameData saveData = new JsonGameData();
+        
+        List<Slot> temp = slotManager.slots[Current_Inventory_State.Equip];
+        List<CharcterItems> tempList = new();
+        
+        CharcterItems tempData = new CharcterItems();
+        foreach (Slot slot in temp)
+        {
+            if (slot.ItemData != null) 
+            {
+
+                tempData.ItemIndex = slot.ItemData.code;
+                tempData.Values = slot.ItemCount;
+                tempData.SlotNumber = slot.Index;
+                tempList.Add(tempData);
+            }
+        }
+        saveData.EquipData = tempList.ToArray();
+        tempList.Clear();
+   
+        temp = slotManager.slots[Current_Inventory_State.Consume];
+        foreach (Slot slot in temp)
+        {
+            if (slot.ItemData != null)
+            {
+
+                tempData.ItemIndex = slot.ItemData.code;
+                tempData.Values = slot.ItemCount;
+                tempData.SlotNumber = slot.Index;
+                tempList.Add(tempData);
+            }
+        }
+        saveData.ConsumeData = tempList.ToArray();
+        tempList.Clear();
+
+        temp = slotManager.slots[Current_Inventory_State.Etc];
+        foreach (Slot slot in temp)
+        {
+            if (slot.ItemData != null)
+            {
+
+                tempData.ItemIndex = slot.ItemData.code;
+                tempData.Values = slot.ItemCount;
+                tempData.SlotNumber = slot.Index;
+                tempList.Add(tempData);
+            }
+        }
+        saveData.EtcData = tempList.ToArray();
+        tempList.Clear();
+
+        
+        temp = slotManager.slots[Current_Inventory_State.Craft];
+        foreach (Slot slot in temp)
+        {
+            if (slot.ItemData != null)
+            {
+
+                tempData.ItemIndex = slot.ItemData.code;
+                tempData.Values = slot.ItemCount;
+                tempData.SlotNumber = slot.Index;
+                tempList.Add(tempData);
+            }
+        }
+        saveData.CraftData = tempList.ToArray();
+
+        SaveLoadManager.Instance.GameSaveData = saveData;
     }
 }
 

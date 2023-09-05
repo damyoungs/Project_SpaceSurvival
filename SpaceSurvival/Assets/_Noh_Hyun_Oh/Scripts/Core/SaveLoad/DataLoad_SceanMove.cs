@@ -5,11 +5,15 @@ using UnityEngine;
 
 public class DataLoad_SceanMove : MonoBehaviour
 {
+    SlotManager slotManager;
+    private void Awake()
+    {
+        slotManager = FindObjectOfType<SlotManager>(true);
+    }
     private void Start()
     {
         SaveLoadManager.Instance.loadedSceanMove = FileLoadAction;
     }
-
     /// <summary>
     /// 로드 눌렀을때 화면이동과 데이터 셋팅 함수
     /// </summary>
@@ -19,6 +23,7 @@ public class DataLoad_SceanMove : MonoBehaviour
         //여기에 파싱작업이필요하다 실제로사용되는 작업
         if (data != null)
         {
+            setData(data);
             Debug.Log($"{data} 파일이 정상로드됬습니다 , {data.SceanName} 파싱작업후 맵이동 작성을 해야하니 맵이 필요합니다.");
             if (SpaceSurvival_GameManager.Instance.GetBattleMapInit != null) //배틀맵데이터가 셋팅되있으면
             {
@@ -28,5 +33,26 @@ public class DataLoad_SceanMove : MonoBehaviour
 
         }
     }
-
+    public void setData(JsonGameData data) 
+    {
+        List<Slot> slots = slotManager.slots[Current_Inventory_State.Equip];
+        int i = 0;
+        foreach (Slot slot in slots)
+        {
+            if (data.EquipData.Length > i)
+            {
+                slot.ItemData = GameManager.Itemdata[data.EquipData[i].ItemIndex];
+                slot.ItemCount = data.EquipData[i].Values;
+            }
+            else 
+            {
+                break;
+            }
+            i++;
+        }
+        //slotManager.slots[Current_Inventory_State.Equip] = new List<Slot>((Slot[])data.EquipData);
+        //slotManager.slots[Current_Inventory_State.Consume] = new List<Slot>((Slot[])data.ConsumeData);
+        //slotManager.slots[Current_Inventory_State.Etc] = new List<Slot>((Slot[])data.EtcData);
+        //slotManager.slots[Current_Inventory_State.Craft] = new List<Slot>((Slot[])data.CraftData);
+    }
 }

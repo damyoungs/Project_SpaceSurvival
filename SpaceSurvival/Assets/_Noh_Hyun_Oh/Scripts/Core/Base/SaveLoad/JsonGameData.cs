@@ -1,3 +1,4 @@
+using StructList;
 using System;
 using System.IO;
 using UnityEngine;
@@ -103,18 +104,45 @@ public class JsonGameData
     }
 
     /// <summary>
-    /// 캐릭터 소지아이템 리스트
+    /// 캐릭터 소지아이템 리스트 -장비
     /// </summary>
     [SerializeField]
-    StructList.CharcterItems[] itemList;
-    public StructList.CharcterItems[] ItemList { 
-        get => itemList;
-        protected set
-        {
-            itemList = value;
-        }
+    CharcterItems[] equipData;
+    public CharcterItems[] EquipData
+    {
+        get => equipData;
+        set => equipData = value;
     }
-
+    /// <summary>
+    /// 캐릭터 소지아이템 리스트 -소비
+    /// </summary>
+    [SerializeField]
+    CharcterItems[] consumeData;
+    public CharcterItems[] ConsumeData
+    {
+        get => consumeData;
+        set => consumeData = value;
+    }
+    /// <summary>
+    /// 캐릭터 소지아이템 리스트 -기타
+    /// </summary>
+    [SerializeField]
+    CharcterItems[] etcData;
+    public CharcterItems[] EtcData
+    {
+        get => etcData;
+        set => etcData = value;
+    }
+    /// <summary>
+    /// 캐릭터 소지아이템 리스트 -조합
+    /// </summary>
+    [SerializeField]
+    CharcterItems[] craftData;
+    public CharcterItems[] CraftData
+    {
+        get => craftData;
+        set => craftData = value;
+    }
     /// <summary>
     /// 캐릭터습득 기술 정보리스트
     /// </summary>

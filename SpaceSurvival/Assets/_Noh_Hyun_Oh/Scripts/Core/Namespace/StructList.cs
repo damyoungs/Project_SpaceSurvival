@@ -39,8 +39,8 @@ namespace StructList {
         /// 아이템수량
         /// </summary>
         [SerializeField]
-        int values; 
-        public int Values
+        uint values; 
+        public uint Values
         {
             get => values;
             set
@@ -52,8 +52,8 @@ namespace StructList {
         /// 아이템 고유 키값
         /// </summary>
         [SerializeField]
-        int itemIndex;
-        public int ItemIndex
+        ItemCode itemIndex;
+        public ItemCode ItemIndex
         {
             get => itemIndex;
             set
@@ -61,6 +61,19 @@ namespace StructList {
                 itemIndex = value;
             }
         }
+        /// <summary>
+        /// 아이템 슬롯번호 
+        /// </summary>
+        uint slotNumber;
+        public uint SlotNumber 
+        {
+            get=> slotNumber;
+            set 
+            {
+                slotNumber = value;
+            }
+        }
+        
     }
 
     /// <summary>
