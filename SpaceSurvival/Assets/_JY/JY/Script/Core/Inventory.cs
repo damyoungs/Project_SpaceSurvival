@@ -14,7 +14,7 @@ public enum Current_Inventory_State
     Craft
 }
 
-public class Inventory : MonoBehaviour
+public class Inventory : MonoBehaviour, IPopupSortWindow
 {
     GameObject Equip_Inven;
     GameObject Consume_Inven;
@@ -43,7 +43,7 @@ public class Inventory : MonoBehaviour
 
     CanvasGroup canvasGroup;
 
-    public delegate void Inventory_State_Changed(Current_Inventory_State state); //state°¡ ¹Ù²î¸é setter°¡ È£ÃâÇÒ delegate
+    public delegate void Inventory_State_Changed(Current_Inventory_State state); //stateê°€ ë°”ë€Œë©´ setterê°€ í˜¸ì¶œí•  delegate
     Inventory_State_Changed inventory_changed;
 
     private  Current_Inventory_State state;
@@ -59,6 +59,8 @@ public class Inventory : MonoBehaviour
             }
         }
     }
+
+    public Action<IPopupSortWindow> PopupSorting { get ; set ; }
 
     private void Awake()
     {
@@ -94,7 +96,7 @@ public class Inventory : MonoBehaviour
 
         canvasGroup = GetComponent<CanvasGroup>();
     }
-    void SlotSorting() //addListener ·Î ¸Å°³º¯¼öÇÊ¿äÇÑ ÇÔ¼ö ¹Ù·Î µî·ÏÀÌ ¾ÈµÇ¼­ ¿ìÈ¸Á¢±Ù
+    void SlotSorting() //addListener ë¡œ ë§¤ê°œë³€ìˆ˜í•„ìš”í•œ í•¨ìˆ˜ ë°”ë¡œ ë“±ë¡ì´ ì•ˆë˜ì„œ ìš°íšŒì ‘ê·¼
     {
         GameManager.SlotManager.SlotSorting(ItemSortBy.Price, true);
     }
@@ -120,7 +122,7 @@ public class Inventory : MonoBehaviour
 
 
         add_Button.onClick.AddListener(GameManager.SlotManager.Make_Slot);
-        enhance_Button.onClick.AddListener(Open_Enhancer);//enable, Awake¿¡¼­´Â ¾ÈµÊ
+        enhance_Button.onClick.AddListener(Open_Enhancer);//enable, Awakeì—ì„œëŠ” ì•ˆë¨
         player.onOpenInven += Open_Inventory;
         GameManager.SlotManager.Initialize();
     }
@@ -175,16 +177,16 @@ public class Inventory : MonoBehaviour
                 break;
         }
     }
-    public void SwitchTab_To_Equip() { State = Current_Inventory_State.Equip; } //¹öÆ° ´©¸£¸é È£Ãâ
+    public void SwitchTab_To_Equip() { State = Current_Inventory_State.Equip; } //ë²„íŠ¼ ëˆ„ë¥´ë©´ í˜¸ì¶œ
     public void SwitchTab_To_Consume() { State = Current_Inventory_State.Consume;}
     public void SwitchTab_To_Etc() { State = Current_Inventory_State.Etc;}
     public void SwitchTab_To_Craft() { State = Current_Inventory_State.Craft;}
     public void Open_Inventory()
     {
-        //ÀüÅõÁß ÀÔ·Â ¸·À» ÇÔ¼ö ¸ñ·Ï
-        // ÀÎº¥Åä¸® ¿­±â
-        // ÀåºñÃ¢
-        // Äü½½·Ô ÆË¾÷
+        //ì „íˆ¬ì¤‘ ì…ë ¥ ë§‰ì„ í•¨ìˆ˜ ëª©ë¡
+        // ì¸ë²¤í† ë¦¬ ì—´ê¸°
+        // ì¥ë¹„ì°½
+        // í€µìŠ¬ë¡¯ íŒì—…
 
         if (canvasGroup.alpha < 1.0f)
         {
@@ -202,5 +204,23 @@ public class Inventory : MonoBehaviour
     public void RefreshOrder()
     {
         this.transform.SetAsFirstSibling();
+    }
+
+    public void OpenWindow()
+    {
+        canvasGroup.alpha = 1.0f;
+        canvasGroup.interactable = true;
+        canvasGroup.blocksRaycasts = true;
+    }
+
+    public void CloseWindow()
+    {
+        canvasGroup.alpha = 0.0f;
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
+    }
+    private void OnMouseDown()
+    {
+        PopupSorting.Invoke(this);
     }
 }

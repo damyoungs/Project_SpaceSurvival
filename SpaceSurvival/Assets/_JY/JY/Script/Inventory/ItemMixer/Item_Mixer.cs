@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
- public enum ItemMixerState// °­È­µµÁß Ã¢ ´İ±â ºñÈ°¼ºÈ­
+ public enum ItemMixerState// ê°•í™”ë„ì¤‘ ì°½ ë‹«ê¸° ë¹„í™œì„±í™”
 {
     Open,
     SetItem,
@@ -44,7 +44,7 @@ public class Item_Mixer : MonoBehaviour
 
     ItemData leftSlotData = null;
     ItemData middleSlotData = null;
-    ItemData tempData = null;// ¾ÆÀÌÅÛ Á¦°ÅÇÏ±â Àü slot¿¡ Ãß°¡ÇÒ ¾ÆÀÌÅÛÀ» ¹Ì¸® º¹»çÇØ³õ´Â ¿ëµµ
+    ItemData tempData = null;// ì•„ì´í…œ ì œê±°í•˜ê¸° ì „ slotì— ì¶”ê°€í•  ì•„ì´í…œì„ ë¯¸ë¦¬ ë³µì‚¬í•´ë†“ëŠ” ìš©ë„
 
     public bool IsCritical { get; set; }
     bool return_To_Inventory = true;
@@ -60,7 +60,7 @@ public class Item_Mixer : MonoBehaviour
     public Action<ItemData> onLeftSlotDataSet;
     public Action<ItemData> onMiddleSlotDataSet;
 
-    //ÀÏ´Ü ¸ÕÀú ÇÒ´çÀ» ÇÑ ÈÄ ºñ±³ÇØ¼­ ´Ù¸£¸é »èÁ¦ÇØ¾ßÇÔ. Ãß°¡ÇÒ ¶§ºÎÅÍ ºñ±³¸¦ÇØ¼­ ÇÏ·Á¸é ÃÊ±â¿¡ ¾ÆÀÌÅÛÀÌ Ãß°¡°¡ ¾ÈµÇ´Â ¹®Á¦°¡ ÀÖÀ½
+    //ì¼ë‹¨ ë¨¼ì € í• ë‹¹ì„ í•œ í›„ ë¹„êµí•´ì„œ ë‹¤ë¥´ë©´ ì‚­ì œí•´ì•¼í•¨. ì¶”ê°€í•  ë•Œë¶€í„° ë¹„êµë¥¼í•´ì„œ í•˜ë ¤ë©´ ì´ˆê¸°ì— ì•„ì´í…œì´ ì¶”ê°€ê°€ ì•ˆë˜ëŠ” ë¬¸ì œê°€ ìˆìŒ
     public ItemData LeftSlotData
     {
         get => leftSlotData;
@@ -71,7 +71,7 @@ public class Item_Mixer : MonoBehaviour
                 tempData = leftSlotData;
                 leftSlotData = value;
                 CheckBothSlot();
-                onLeftSlotDataSet?.Invoke(leftSlotData);// ½½·Ô¸Ş´ÏÀú¿¡¼­ ÀÌ µ¨¸®°ÔÀÌÆ®¸¦ ¹Ş¾Æ¼­ ¾ÆÀÌÅÛÀÇ Ä«¿îÆ®¸¦ ´õÇÏ°í »©Áà¾ßÇÑ´Ù.nullÀÌ¸é ´õÇÏ°í  ¾Æ´Ï¸é »©ÁÖ°í
+                onLeftSlotDataSet?.Invoke(leftSlotData);// ìŠ¬ë¡¯ë©”ë‹ˆì €ì—ì„œ ì´ ë¸ë¦¬ê²Œì´íŠ¸ë¥¼ ë°›ì•„ì„œ ì•„ì´í…œì˜ ì¹´ìš´íŠ¸ë¥¼ ë”í•˜ê³  ë¹¼ì¤˜ì•¼í•œë‹¤.nullì´ë©´ ë”í•˜ê³   ì•„ë‹ˆë©´ ë¹¼ì£¼ê³ 
                 if (leftSlotData != null)
                 {
                     StartCoroutine(LeftSlotDelay());
@@ -101,7 +101,7 @@ public class Item_Mixer : MonoBehaviour
         {
             if (middleSlotData != value)
             {
-                tempData = middleSlotData;// µ¥ÀÌÅÍ°¡ null ÀÌ µÇ¸é ÀÎº¥Åä¸® ½½·Ô¿¡ ¾ÆÀÌÅÛÀ» Ãß°¡ÇØ¾ßÇÏ±â¶§¹®¿¡ nullÀÌ µÇ±â Àü ÀÓ½ÃÀúÀå
+                tempData = middleSlotData;// ë°ì´í„°ê°€ null ì´ ë˜ë©´ ì¸ë²¤í† ë¦¬ ìŠ¬ë¡¯ì— ì•„ì´í…œì„ ì¶”ê°€í•´ì•¼í•˜ê¸°ë•Œë¬¸ì— nullì´ ë˜ê¸° ì „ ì„ì‹œì €ì¥
 
                 middleSlotData = value;
                 CheckBothSlot();
@@ -120,8 +120,8 @@ public class Item_Mixer : MonoBehaviour
     }
     void CheckBothSlot()
     {
-        if (leftSlotData != null && middleSlotData != null)//µÎ ½½·Ô ¸ğµÎ ¼ÂÆÃ µÇ¾ú´Ù¸é 
-        {// Á¶ÇÕ¸ñ·Ï¿¡ ÀÖ´ÂÁö È®ÀÎ ÇÏ´Â Á¶°Ç Ãß°¡ÇØ¾ßÇÔ
+        if (leftSlotData != null && middleSlotData != null)//ë‘ ìŠ¬ë¡¯ ëª¨ë‘ ì…‹íŒ… ë˜ì—ˆë‹¤ë©´ 
+        {// ì¡°í•©ëª©ë¡ì— ìˆëŠ”ì§€ í™•ì¸ í•˜ëŠ” ì¡°ê±´ ì¶”ê°€í•´ì•¼í•¨
             MixerState = ItemMixerState.SetItem;
         }
         else
@@ -159,17 +159,17 @@ public class Item_Mixer : MonoBehaviour
                     onSetItemCanceled?.Invoke();
                     break;
                 case ItemMixerState.Confirm:
-                    if (result_Slot.ItemData != null)//¾ÆÀÌÅÛÀÌ ¼ÂÆÃµÈ °æ¿ì¸¸ ÆË¾÷
+                    if (result_Slot.ItemData != null)//ì•„ì´í…œì´ ì…‹íŒ…ëœ ê²½ìš°ë§Œ íŒì—…
                     onConfirmButtonClick?.Invoke();
                     break;
                 case ItemMixerState.WaitforResult:
                     onWaitforResult?.Invoke();
                     break;
                 case ItemMixerState.Success:
-                    onSuccess?.Invoke(IsCritical); // inventory¿¡ Itemdata ¸®ÅÏÇÏ°í EnhancerUI Clear
+                    onSuccess?.Invoke(IsCritical); // inventoryì— Itemdata ë¦¬í„´í•˜ê³  EnhancerUI Clear
                     break;
                 case ItemMixerState.Fail:
-                    onFail?.Invoke(); // inventory¿¡ Itemdata ¸®ÅÏÇÏ°í EnhancerUI Clear
+                    onFail?.Invoke(); // inventoryì— Itemdata ë¦¬í„´í•˜ê³  EnhancerUI Clear
                     break;
                 case ItemMixerState.ClearItem:
                     onClearItem?.Invoke();
@@ -189,6 +189,7 @@ public class Item_Mixer : MonoBehaviour
         left_Slot = GetComponentInChildren<Mixer_Slot_Left>();
         middle_Slot = GetComponentInChildren<Mixer_Slot_Middle>();
         result_Slot = GetComponentInChildren<Mixer_Slot_Result>();
+        mixer_Anim = FindObjectOfType<Mixer_Anim>();
 
         left_Slot.onClearLeftSlot += LeftSlot_Canceled;
         middle_Slot.onClearMiddleSlot += MiddleSlot_Canceled;
@@ -197,9 +198,8 @@ public class Item_Mixer : MonoBehaviour
     {
         slot_Manager = GameManager.SlotManager;
         mixing_table = GameManager.Mixing_Table;
-        mixer_Anim = FindObjectOfType<Mixer_Anim>();
     }
-    void LeftSlot_Canceled()//Á¶ÇÕ ½ÇÆĞÇÒ °æ¿ì°¡ ¾Æ´Ï¶ó ±×³É Å¬¸¯ÇØ¼­ Ãë¼ÒÇÑ °æ¿ì
+    void LeftSlot_Canceled()//ì¡°í•© ì‹¤íŒ¨í•  ê²½ìš°ê°€ ì•„ë‹ˆë¼ ê·¸ëƒ¥ í´ë¦­í•´ì„œ ì·¨ì†Œí•œ ê²½ìš°
     {
         Return_To_Inventory = true;
         LeftSlotData = null;
@@ -217,7 +217,7 @@ public class Item_Mixer : MonoBehaviour
         }
         else
         {
-            Debug.Log("ºÒ°¡´ÉÇÑ Á¶ÇÕÀÔ´Ï´Ù.");
+            Debug.Log("ë¶ˆê°€ëŠ¥í•œ ì¡°í•©ì…ë‹ˆë‹¤.");
         }
     }
 }

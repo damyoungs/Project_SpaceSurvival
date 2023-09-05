@@ -43,11 +43,11 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     ItemSplitter spliter;
     bool isShiftPress = false;
 
-    public Action<ItemData> on_UnEquip_Item;// Àåºñ ÇØÁ¦, ÀåºñÃ¢ ½½·ÔÀ» ´õºíÅ¬¸¯ ÇßÀ» ¶§ È£Ãâ
+    public Action<ItemData> on_UnEquip_Item;// ì¥ë¹„ í•´ì œ, ì¥ë¹„ì°½ ìŠ¬ë¡¯ì„ ë”ë¸”í´ë¦­ í–ˆì„ ë•Œ í˜¸ì¶œ
     public Action<ItemData_Potion, uint> onDetectQuickSlot;
 
     public Dictionary<Current_Inventory_State, List<Slot>> slots;
-    private Dictionary<Current_Inventory_State, int> slotCount; //½½·Ô »ı¼ºÈÄ ¹øÈ£¸¦ ºÎ¿©ÇÏ±âÀ§ÇÑ Dic
+    private Dictionary<Current_Inventory_State, int> slotCount; //ìŠ¬ë¡¯ ìƒì„±í›„ ë²ˆí˜¸ë¥¼ ë¶€ì—¬í•˜ê¸°ìœ„í•œ Dic
     private Dictionary<ItemData_Potion, bool> quickSlot_Binding_Table;
     List<Slot> tempList_For_QuickSlot = new();
  
@@ -66,10 +66,10 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         input = new InputKeyMouse();
         tempSlot = FindObjectOfType<TempSlot>(true);
         itemDescription = FindObjectOfType<ItemDescription>();
+        spliter = FindObjectOfType<ItemSplitter>(true);
     }
     private void Start()
     {
-        spliter = FindObjectOfType<ItemSplitter>(true);
         GameManager.playerDummy.onUnEquipItem += UnEquip_Item;
     }
     private void OnEnable()
@@ -86,7 +86,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         input.UI.Shift.canceled -= OnShiftPress;
         input.UI.Disable();
     }
-    public void Initialize()//Inventory¿¡¼­ StartÅ¸ÀÌ¹Ö¿¡ È£Ãâ
+    public void Initialize()//Inventoryì—ì„œ Startíƒ€ì´ë°ì— í˜¸ì¶œ
     {
         equipBox = GameManager.EquipBox;
         equipboxRectTransform = equipBox.GetComponent<RectTransform>();
@@ -113,8 +113,8 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
 
         itemDescription.Close();
         TempSlot.InitializeSlot(TempSlot);
-        TempSlot.onTempSlotOpenClose += OnDetailPause; // TempSlotÀÌ OpenÇÒ¶§ true·Î È£ÃâÇÏ°í CloseÇÒ¶§ false·Î È£Ãâ
-        spliter.onCancel += () => itemDescription.IsPause = false;   // Äµ½½¹öÅÏ ´©¸£¸é »ó¼¼Á¤º¸Ã¢ ÀÏ½ÃÁ¤Áö ÇØÁ¦
+        TempSlot.onTempSlotOpenClose += OnDetailPause; // TempSlotì´ Opení• ë•Œ trueë¡œ í˜¸ì¶œí•˜ê³  Closeí• ë•Œ falseë¡œ í˜¸ì¶œ
+        spliter.onCancel += () => itemDescription.IsPause = false;   // ìº”ìŠ¬ë²„í„´ ëˆ„ë¥´ë©´ ìƒì„¸ì •ë³´ì°½ ì¼ì‹œì •ì§€ í•´ì œ
         spliter.Close();
         spliter.onOkClick += OnSpliterOk;
 
@@ -130,7 +130,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             { Current_Inventory_State.Etc, new List<Slot>() },
             { Current_Inventory_State.Craft, new List<Slot>() }
         };
-        slotCount = new Dictionary<Current_Inventory_State, int> // ½½·Ô ¿ÀºêÁ§Æ®¿¡ ¹øÈ£¸¦ ºÎ¿©ÇÏ±â À§ÇÑ Dic
+        slotCount = new Dictionary<Current_Inventory_State, int> // ìŠ¬ë¡¯ ì˜¤ë¸Œì íŠ¸ì— ë²ˆí˜¸ë¥¼ ë¶€ì—¬í•˜ê¸° ìœ„í•œ Dic
         {
             { Current_Inventory_State.Equip, 0 },
             { Current_Inventory_State.Consume, 0},
@@ -195,21 +195,21 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     private void OnItemMoveBegin(ItemData data, uint index)
     {
         Index_JustChange_Slot = (byte)index;
-        MoveItem(data ,index, tempSlot.Index);    // ½ÃÀÛ ½½·Ô¿¡¼­ ÀÓ½Ã ½½·ÔÀ¸·Î ¾ÆÀÌÅÛ ¿Å±â±â
-        TempSlot.Open();                          // ÀÓ½Ã ½½·Ô ¿­±â
+        MoveItem(data ,index, tempSlot.Index);    // ì‹œì‘ ìŠ¬ë¡¯ì—ì„œ ì„ì‹œ ìŠ¬ë¡¯ìœ¼ë¡œ ì•„ì´í…œ ì˜®ê¸°ê¸°
+        TempSlot.Open();                          // ì„ì‹œ ìŠ¬ë¡¯ ì—´ê¸°
     }
     private void OnItemMoveEnd(ItemData data, uint index, bool isSuccess)
     {
-        MoveItem(data, tempSlot.Index, index);    // ÀÓ½Ã ½½·Ô¿¡¼­ µµÂø ½½·ÔÀ¸·Î ¾ÆÀÌÅÛ ¿Å±â±â
-        if (tempSlot.IsEmpty)          // ºñ¾ú´Ù¸é(°°Àº Á¾·ùÀÇ ¾ÆÀÌÅÛÀÏ ¶§ ÀÏºÎ¸¸ µé¾î°¡´Â °æ¿ì°¡ ÀÖÀ» ¼ö ÀÖÀ¸¹Ç·Î)
+        MoveItem(data, tempSlot.Index, index);    // ì„ì‹œ ìŠ¬ë¡¯ì—ì„œ ë„ì°© ìŠ¬ë¡¯ìœ¼ë¡œ ì•„ì´í…œ ì˜®ê¸°ê¸°
+        if (tempSlot.IsEmpty)          // ë¹„ì—ˆë‹¤ë©´(ê°™ì€ ì¢…ë¥˜ì˜ ì•„ì´í…œì¼ ë•Œ ì¼ë¶€ë§Œ ë“¤ì–´ê°€ëŠ” ê²½ìš°ê°€ ìˆì„ ìˆ˜ ìˆìœ¼ë¯€ë¡œ)
         {
-            TempSlot.Close();                     // ÀÓ½Ã ½½·Ô ´İ±â
+            TempSlot.Close();                     // ì„ì‹œ ìŠ¬ë¡¯ ë‹«ê¸°
         }
 
         if (isSuccess)
         {
             List<Slot> slots = GetItemTab();
-            itemDescription.Open(slots[(int)index].ItemData);     // µå·¡±×°¡ ¼º°øÀûÀ¸·Î ³¡³µÀ¸¸é »ó¼¼ Á¤º¸Ã¢µµ ¿­±â
+            itemDescription.Open(slots[(int)index].ItemData);     // ë“œë˜ê·¸ê°€ ì„±ê³µì ìœ¼ë¡œ ëë‚¬ìœ¼ë©´ ìƒì„¸ ì •ë³´ì°½ë„ ì—´ê¸°
         }
     }
     private void OnSlotClick(ItemData data, uint index)
@@ -229,22 +229,22 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         }
         else
         {
-            // ÀÓ½Ã ½½·Ô¿¡ ¾ÆÀÌÅÛÀÌ ÀÖÀ» ¶§ Å¬¸¯ÀÌ µÇ¾úÀ¸¸é
-            OnItemMoveEnd(data, index, true); // Å¬¸¯µÈ ½½·ÔÀ¸·Î ¾ÆÀÌÅÛ ÀÌµ¿
+            // ì„ì‹œ ìŠ¬ë¡¯ì— ì•„ì´í…œì´ ìˆì„ ë•Œ í´ë¦­ì´ ë˜ì—ˆìœ¼ë©´
+            OnItemMoveEnd(data, index, true); // í´ë¦­ëœ ìŠ¬ë¡¯ìœ¼ë¡œ ì•„ì´í…œ ì´ë™
         }
        
     }
     private void OnItemDetailOn( ItemData data, uint index)
     {
-        List<Slot> slots = GetItemTab(data); //ºó½½·Ô À§¿¡ Pointer Enter½Ã data°¡ null ÀÌµÇ¼­ ¸®½ºÆ®¸¦ °¡Á®¿Ã¶§ ÅÍÁü
+        List<Slot> slots = GetItemTab(data); //ë¹ˆìŠ¬ë¡¯ ìœ„ì— Pointer Enterì‹œ dataê°€ null ì´ë˜ì„œ ë¦¬ìŠ¤íŠ¸ë¥¼ ê°€ì ¸ì˜¬ë•Œ í„°ì§
 
-        itemDescription.Open(slots[(int)index].ItemData); // »ó¼¼Á¤º¸Ã¢ ¿­±â
+        itemDescription.Open(slots[(int)index].ItemData); // ìƒì„¸ì •ë³´ì°½ ì—´ê¸°
     }
     private void OnItemDetailOff(uint index)
     {
-        itemDescription.Close(); // »ó¼¼Á¤º¸Ã¢ ´İ±â
+        itemDescription.Close(); // ìƒì„¸ì •ë³´ì°½ ë‹«ê¸°
     }
-    private void OnSlotPointerMove(Vector2 screenPos)//¸¶¿ì½º ¿òÁ÷ÀÏ¶§¸¶´Ù È£Ãâ
+    private void OnSlotPointerMove(Vector2 screenPos)//ë§ˆìš°ìŠ¤ ì›€ì§ì¼ë•Œë§ˆë‹¤ í˜¸ì¶œ
     {
         itemDescription.MovePosition(screenPos);
     }
@@ -253,9 +253,9 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         itemDescription.IsPause = isPause;
     }
     /// <summary>
-    /// ¾ÆÀÌÅÛ ºĞ¸®Ã¢À» ¿©´Â ÇÔ¼ö
+    /// ì•„ì´í…œ ë¶„ë¦¬ì°½ì„ ì—¬ëŠ” í•¨ìˆ˜
     /// </summary>
-    /// <param name="index">¾ÆÀÌÅÛÀ» ºĞ¸®ÇÒ ½½·ÔÀÇ ÀÎµ¦½º</param>
+    /// <param name="index">ì•„ì´í…œì„ ë¶„ë¦¬í•  ìŠ¬ë¡¯ì˜ ì¸ë±ìŠ¤</param>
     private void OnSpliterOpen(uint index)
     {
         List<Slot> slots = GetItemTab();
@@ -266,10 +266,10 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     }
 
     /// <summary>
-    /// ¾ÆÀÌÅÛ ºĞ¸®Ã¢¿¡¼­ OK ¹öÆ°ÀÌ ´­·¯Á³À» ¶§ ½ÇÇàµÉ ÇÔ¼ö
+    /// ì•„ì´í…œ ë¶„ë¦¬ì°½ì—ì„œ OK ë²„íŠ¼ì´ ëˆŒëŸ¬ì¡Œì„ ë•Œ ì‹¤í–‰ë  í•¨ìˆ˜
     /// </summary>
-    /// <param name="index">¾ÆÀÌÅÛÀÌ ºĞ¸®µÉ ½½·Ô</param>
-    /// <param name="count">ºĞ¸®µÈ °³¼ö</param>
+    /// <param name="index">ì•„ì´í…œì´ ë¶„ë¦¬ë  ìŠ¬ë¡¯</param>
+    /// <param name="count">ë¶„ë¦¬ëœ ê°œìˆ˜</param>
     private void OnSpliterOk(uint index, uint count)
     {
         SplitItem(index, count);
@@ -277,17 +277,17 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     }
 
     /// <summary>
-    /// ½¬ÇÁÆ®Å°°¡ ´­·ÁÁö°Å³ª ¶§Á³À» ¶§ ½ÇÇàµÉ ÇÔ¼ö
+    /// ì‰¬í”„íŠ¸í‚¤ê°€ ëˆŒë ¤ì§€ê±°ë‚˜ ë•Œì¡Œì„ ë•Œ ì‹¤í–‰ë  í•¨ìˆ˜
     /// </summary>
     /// <param name="context"></param>
     private void OnShiftPress(InputAction.CallbackContext context)
     {
-        isShiftPress = !context.canceled;   // ½¬ÇÁÆ®Å° »óÈ² ±â·Ï
+        isShiftPress = !context.canceled;   // ì‰¬í”„íŠ¸í‚¤ ìƒí™© ê¸°ë¡
     }
 
 
     /// <summary>
-    /// ¸¶¿ì½º Å¬¸¯ÀÌ ¶³¾îÁ³À» ¶§ ½ÇÇàµÇ´Â ÇÔ¼ö(¾ÆÀÌÅÛ µå¶ø¿ë)
+    /// ë§ˆìš°ìŠ¤ í´ë¦­ì´ ë–¨ì–´ì¡Œì„ ë•Œ ì‹¤í–‰ë˜ëŠ” í•¨ìˆ˜(ì•„ì´í…œ ë“œëìš©)
     /// </summary>
     private void OnItemDrop(InputAction.CallbackContext _)
     {
@@ -296,7 +296,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         if (!tempSlot.IsEmpty)
         {
             Vector2 screenPos = Mouse.current.position.ReadValue();
-            Vector2 distance_Between_Mouse_Inven = screenPos - (Vector2)inventoryRectTransform.position;//inventoryRectTransform.positionÀÇ ÇÇº¿À» ±âÁØÀ¸·Î ¶³¾îÁø°Å¸® °è»ê
+            Vector2 distance_Between_Mouse_Inven = screenPos - (Vector2)inventoryRectTransform.position;//inventoryRectTransform.positionì˜ í”¼ë´‡ì„ ê¸°ì¤€ìœ¼ë¡œ ë–¨ì–´ì§„ê±°ë¦¬ ê³„ì‚°
             Vector2 distance_Between_Mouse_BeforeSlot = screenPos - (Vector2)beforeSlotRectTransform.position;
             Vector2 distance_Between_Mouse_enhancerUI = screenPos - (Vector2)enhancerUIRectTransform.position;
             Vector2 distance_Between_Mouse_Left_Slot = screenPos - (Vector2)mixer_Left_slot_Transform.position;
@@ -305,7 +305,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             Vector2 distance_Between_Mouse_QuickSlot_Box = screenPos - (Vector2)GameManager.QuickSlot_Manager.QuickSlotBox_RectTransform.position;
             Vector2 distance_Between_Mouse_EquipBox = screenPos - (Vector2)equipboxRectTransform.position;
 
-            if (beforeSlotRectTransform.rect.Contains(distance_Between_Mouse_BeforeSlot) && GameManager.Enhancer.EnhancerUI.IsOpen)//°­È­ ½½·ÔÀÇ À§Ä¡ÀÌ¸é¼­ °­È­¤Á °¡´ÉÇÑ ¾ÆÀÌÅÛ ÀÏ ¶§
+            if (beforeSlotRectTransform.rect.Contains(distance_Between_Mouse_BeforeSlot) && GameManager.Enhancer.EnhancerUI.IsOpen)//ê°•í™” ìŠ¬ë¡¯ì˜ ìœ„ì¹˜ì´ë©´ì„œ ê°•í™”ã…‘ ê°€ëŠ¥í•œ ì•„ì´í…œ ì¼ ë•Œ
             {
                 ItemData_Enhancable enhancable = TempSlot.ItemData as ItemData_Enhancable;
                 if (enhancable != null)
@@ -313,15 +313,15 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                     GameManager.Enhancer.ItemData = enhancable;
                 }
             }
-            else if (equipboxRectTransform.rect.Contains(distance_Between_Mouse_EquipBox) && equipBox.IsOpen)//ÀåºñÃ¢ ¹üÀ§ ¾È¿¡ µå·ÓÇÒ ¶§
+            else if (equipboxRectTransform.rect.Contains(distance_Between_Mouse_EquipBox) && equipBox.IsOpen)//ì¥ë¹„ì°½ ë²”ìœ„ ì•ˆì— ë“œë¡­í•  ë•Œ
             {
                 equipBox.Set_ItemData_For_Drag(tempSlot.ItemData);
             }
-            else if (quickSlot_Manager.QuickSlotBox_RectTransform.rect.Contains(distance_Between_Mouse_QuickSlot_Box))//Äü½½·Ô¹Ú½º ¾ÈÂÊÀÏ ¶§
+            else if (quickSlot_Manager.QuickSlotBox_RectTransform.rect.Contains(distance_Between_Mouse_QuickSlot_Box))//í€µìŠ¬ë¡¯ë°•ìŠ¤ ì•ˆìª½ì¼ ë•Œ
             {
-                //½ºÅ³ÀÌ³ª Æ÷¼Ç¸¸ µî·Ï
+                //ìŠ¤í‚¬ì´ë‚˜ í¬ì…˜ë§Œ ë“±ë¡
                 ItemData_Potion potion = TempSlot.ItemData as ItemData_Potion;
-                slots[Current_Inventory_State.Consume][Index_JustChange_Slot].ItemData = potion;//»ı·«½Ã slotÀÇ ItemData°¡ null ÀÌ¶ó µ¨¸®°ÔÀÌÆ® Ãß°¡°¡ ¾ÈµÊ
+                slots[Current_Inventory_State.Consume][Index_JustChange_Slot].ItemData = potion;//ìƒëµì‹œ slotì˜ ItemDataê°€ null ì´ë¼ ë¸ë¦¬ê²Œì´íŠ¸ ì¶”ê°€ê°€ ì•ˆë¨
                 if (potion != null)
                 {
                     if (quickSlot_Manager.Find_Slot(out QuickSlot targetSlot))
@@ -332,7 +332,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                     }
                 }
             }
-            else if (mixer_Left_slot_Transform.rect.Contains(distance_Between_Mouse_Left_Slot) && mixer_UI.IsOpen)//Á¶ÇÕÃ¢ÀÇ ¿ŞÂÊ½½·Ô
+            else if (mixer_Left_slot_Transform.rect.Contains(distance_Between_Mouse_Left_Slot) && mixer_UI.IsOpen)//ì¡°í•©ì°½ì˜ ì™¼ìª½ìŠ¬ë¡¯
             {
                 if (GameManager.Mixer.LeftSlotData == null)
                 {
@@ -352,18 +352,18 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             {
                 return;
             }
-            else if (!inventoryRectTransform.rect.Contains(distance_Between_Mouse_Inven))// °Å¸®ÀÇ Å©±â°¡ rect ÀÇ Å©±âº¸´Ù ÀÛÀ¸¸é ÀÎº¥Åä¸® ¾ÈÂÊ
+            else if (!inventoryRectTransform.rect.Contains(distance_Between_Mouse_Inven))// ê±°ë¦¬ì˜ í¬ê¸°ê°€ rect ì˜ í¬ê¸°ë³´ë‹¤ ì‘ìœ¼ë©´ ì¸ë²¤í† ë¦¬ ì•ˆìª½
             {
-                if (enhancerUIRectTransform.rect.Contains(distance_Between_Mouse_enhancerUI) && GameManager.Enhancer.EnhancerState == EnhancerState.Open)//inhancerUI¿­·ÁÀÖÀ¸¸é return
+                if (enhancerUIRectTransform.rect.Contains(distance_Between_Mouse_enhancerUI) && GameManager.Enhancer.EnhancerState == EnhancerState.Open)//inhancerUIì—´ë ¤ìˆìœ¼ë©´ return
                 {
                     return;
                 }
-                // ÀÎº¥Åä¸® ¿µ¿ª ¹ÛÀÌ¸é
+                // ì¸ë²¤í† ë¦¬ ì˜ì—­ ë°–ì´ë©´
                 TempSlot.OnDrop(screenPos);
             }
         }
     }
-    void UnEquip_Item(ItemData itemData)// ´õºíÅ¬¸¯À¸·Î ÇØÁ¦ ÇÒ ¶§
+    void UnEquip_Item(ItemData itemData)// ë”ë¸”í´ë¦­ìœ¼ë¡œ í•´ì œ í•  ë•Œ
     {
         bool result = false;
         List<Slot> slotList = GetItemTab(itemData);
@@ -379,7 +379,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         }
         if (!result)
         {
-            Debug.Log("ÀÎº¥Åä¸®¿¡ ºó ½½·ÔÀÌ ¾ø½À´Ï´Ù.");
+            Debug.Log("ì¸ë²¤í† ë¦¬ì— ë¹ˆ ìŠ¬ë¡¯ì´ ì—†ìŠµë‹ˆë‹¤.");
         }
     }
     public void Taking_Item_From_EquipBox(ItemData data)
@@ -399,12 +399,12 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             }
         }
     }
-    void Binding_Slots(ItemData_Potion itemData, QuickSlot targetSlot)//Äü½½·Ô¿¡ ItemData°¡ ¼ÂÆÃ µÆÀ»‹š È£Ãâ
+    void Binding_Slots(ItemData_Potion itemData, QuickSlot targetSlot)//í€µìŠ¬ë¡¯ì— ItemDataê°€ ì…‹íŒ… ëì„ë–„ í˜¸ì¶œ
     {
-        //ÀÌ ½ÃÁ¡¿¡¼± linkedSlotsÀÌ ÀÌ¹Ì ClearµÈ »óÅÂ¶ó¼­ InventoryÀÇ ¾ÆÀÌÅÛÀ» ºñ±³ÇØ¼­ Ã£¾Æ¾ßÇÑ´Ù.
-        foreach (Slot slot in slots[Current_Inventory_State.Consume])//¼ÒºñÃ¢ ¼øÈ¸
+        //ì´ ì‹œì ì—ì„  linkedSlotsì´ ì´ë¯¸ Clearëœ ìƒíƒœë¼ì„œ Inventoryì˜ ì•„ì´í…œì„ ë¹„êµí•´ì„œ ì°¾ì•„ì•¼í•œë‹¤.
+        foreach (Slot slot in slots[Current_Inventory_State.Consume])//ì†Œë¹„ì°½ ìˆœíšŒ
         {
-            if (slot.ItemData == itemData)//Äü½½·Ô¿¡¼­ ¹ŞÀºitemData¿Í °°À¸¸é µ¨¸®°ÔÀÌÆ® ÃÊ±âÈ­, Àç ¿¬°á
+            if (slot.ItemData == itemData)//í€µìŠ¬ë¡¯ì—ì„œ ë°›ì€itemDataì™€ ê°™ìœ¼ë©´ ë¸ë¦¬ê²Œì´íŠ¸ ì´ˆê¸°í™”, ì¬ ì—°ê²°
             {
                 slot.BindingSlot = targetSlot;
                 slot.onItemCountChange = null;
@@ -414,12 +414,12 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         }
     }
 
-    void Throw_NewCount_To_QuickSlot(QuickSlot targetSlot, ItemData itemData)//targetSlot = È£ÃâÇÏ´Â ½½·ÔÀÇ BindingSlot
+    void Throw_NewCount_To_QuickSlot(QuickSlot targetSlot, ItemData itemData)//targetSlot = í˜¸ì¶œí•˜ëŠ” ìŠ¬ë¡¯ì˜ BindingSlot
     {
         uint newCount = GetTotalAmount(itemData);
-        targetSlot.ItemCount = newCount;//ÂüÁ¶¸¦ ¹Ş¾Æ¿Ô±â ¶§¹®¿¡ ¹Ù·Î ¼öÁ¤ °¡´É
+        targetSlot.ItemCount = newCount;//ì°¸ì¡°ë¥¼ ë°›ì•„ì™”ê¸° ë•Œë¬¸ì— ë°”ë¡œ ìˆ˜ì • ê°€ëŠ¥
     }
-    private uint GetTotalAmount(ItemData itemData)//°°Àº ¾ÆÀÌÅÛÀ»°¡Áø ½½·ÔµéÀÇ Ä«¿îÆ®¸¦ ¸ğµÎ ´õÇØ ¸®ÅÏÇÏ´Â ÇÔ¼ö
+    private uint GetTotalAmount(ItemData itemData)//ê°™ì€ ì•„ì´í…œì„ê°€ì§„ ìŠ¬ë¡¯ë“¤ì˜ ì¹´ìš´íŠ¸ë¥¼ ëª¨ë‘ ë”í•´ ë¦¬í„´í•˜ëŠ” í•¨ìˆ˜
     {
         uint newCount = 0;
         List<Slot> consumeTab = slots[Current_Inventory_State.Consume];
@@ -457,7 +457,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         return parentTransform;
     }
 
-    void Add_Reward_Item(ItemData item)//Á¶ÇÕ¼º°ø½Ã ¾ÆÀÌÅÛ Ãß°¡
+    void Add_Reward_Item(ItemData item)//ì¡°í•©ì„±ê³µì‹œ ì•„ì´í…œ ì¶”ê°€
     {
         AddItem(item.code);
     }
@@ -469,23 +469,23 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         Slot sameDataSlot = FindSameItem(data);
         if (sameDataSlot != null)
         {
-            // °°Àº Á¾·ùÀÇ ¾ÆÀÌÅÛÀÌ ÀÖ´Ù.
-            // ¾ÆÀÌÅÛ °³¼ö 1 Áõ°¡½ÃÅ°±â°í °á°ú ¹Ş±â
-            result = sameDataSlot.IncreaseSlotItem(out _);  // ³ÑÄ¡´Â °³¼ö°¡ ÀÇ¹Ì ¾ø¾î¼­ µû·Î ¹ŞÁö ¾ÊÀ½
+            // ê°™ì€ ì¢…ë¥˜ì˜ ì•„ì´í…œì´ ìˆë‹¤.
+            // ì•„ì´í…œ ê°œìˆ˜ 1 ì¦ê°€ì‹œí‚¤ê¸°ê³  ê²°ê³¼ ë°›ê¸°
+            result = sameDataSlot.IncreaseSlotItem(out _);  // ë„˜ì¹˜ëŠ” ê°œìˆ˜ê°€ ì˜ë¯¸ ì—†ì–´ì„œ ë”°ë¡œ ë°›ì§€ ì•ŠìŒ
         }
         else
         {
-            // °°Àº Á¾·ùÀÇ ¾ÆÀÌÅÛÀÌ ¾ø´Ù.
+            // ê°™ì€ ì¢…ë¥˜ì˜ ì•„ì´í…œì´ ì—†ë‹¤.
             Slot emptySlot = FindEmptySlot(data);
             if (emptySlot != null)
             {
-                emptySlot.AssignSlotItem(data); // ºó½½·ÔÀÌ ÀÖÀ¸¸é ¾ÆÀÌÅÛ ÇÏ³ª ÇÒ´ç
+                emptySlot.AssignSlotItem(data); // ë¹ˆìŠ¬ë¡¯ì´ ìˆìœ¼ë©´ ì•„ì´í…œ í•˜ë‚˜ í• ë‹¹
                 result = true;
             }
             else
             {
-                // ºñ¾îÀÖ´Â ½½·ÔÀÌ ¾ø´Ù.
-                //Debug.Log("¾ÆÀÌÅÛ Ãß°¡ ½ÇÆĞ : ÀÎº¥Åä¸®°¡ °¡µæ Â÷ÀÖ½À´Ï´Ù.");
+                // ë¹„ì–´ìˆëŠ” ìŠ¬ë¡¯ì´ ì—†ë‹¤.
+                //Debug.Log("ì•„ì´í…œ ì¶”ê°€ ì‹¤íŒ¨ : ì¸ë²¤í† ë¦¬ê°€ ê°€ë“ ì°¨ìˆìŠµë‹ˆë‹¤.");
             }
         }
 
@@ -494,17 +494,17 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     public bool AddItem(ItemData_Enhancable data)
     {
         bool result = false;
-        // °°Àº Á¾·ùÀÇ ¾ÆÀÌÅÛÀÌ ¾ø´Ù.
+        // ê°™ì€ ì¢…ë¥˜ì˜ ì•„ì´í…œì´ ì—†ë‹¤.
         Slot emptySlot = FindEmptySlot(data);
         if (emptySlot != null)
         {
-            emptySlot.AssignSlotItem(data); // ºó½½·ÔÀÌ ÀÖÀ¸¸é ¾ÆÀÌÅÛ ÇÏ³ª ÇÒ´ç
+            emptySlot.AssignSlotItem(data); // ë¹ˆìŠ¬ë¡¯ì´ ìˆìœ¼ë©´ ì•„ì´í…œ í•˜ë‚˜ í• ë‹¹
             result = true;
         }
         else
         {
-            // ºñ¾îÀÖ´Â ½½·ÔÀÌ ¾ø´Ù.
-            //Debug.Log("¾ÆÀÌÅÛ Ãß°¡ ½ÇÆĞ : ÀÎº¥Åä¸®°¡ °¡µæ Â÷ÀÖ½À´Ï´Ù.");
+            // ë¹„ì–´ìˆëŠ” ìŠ¬ë¡¯ì´ ì—†ë‹¤.
+            //Debug.Log("ì•„ì´í…œ ì¶”ê°€ ì‹¤íŒ¨ : ì¸ë²¤í† ë¦¬ê°€ ê°€ë“ ì°¨ìˆìŠµë‹ˆë‹¤.");
         }
         return result;
     }
@@ -518,7 +518,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         }
         else
         {
-            //Debug.Log($"¾ÆÀÌÅÛ °¨¼Ò ½ÇÆĞ : {slotIndex}´Â ¾ø´Â ÀÎµ¦½ºÀÔ´Ï´Ù.");
+            //Debug.Log($"ì•„ì´í…œ ê°ì†Œ ì‹¤íŒ¨ : {slotIndex}ëŠ” ì—†ëŠ” ì¸ë±ìŠ¤ì…ë‹ˆë‹¤.");
         }
     }
     public void ClearSlot(ItemData data, uint slotIndex)
@@ -531,7 +531,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         }
         else
         {
-            //Debug.Log($"¾ÆÀÌÅÛ »èÁ¦ ½ÇÆĞ : {slotIndex}´Â ¾ø´Â ÀÎµ¦½ºÀÔ´Ï´Ù.");
+            //Debug.Log($"ì•„ì´í…œ ì‚­ì œ ì‹¤íŒ¨ : {slotIndex}ëŠ” ì—†ëŠ” ì¸ë±ìŠ¤ì…ë‹ˆë‹¤.");
         }
     }
     public void ClearInventory()
@@ -549,70 +549,70 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             data = TempSlot.ItemData;
         }
         List<Slot> slots = GetItemTab(data);
-        // fromÁöÁ¡°ú toÁöÁ¡ÀÌ ´Ù¸£°í from°ú to°¡ ¸ğµÎ validÇØ¾ß ÇÑ´Ù.
+        // fromì§€ì ê³¼ toì§€ì ì´ ë‹¤ë¥´ê³  fromê³¼ toê°€ ëª¨ë‘ validí•´ì•¼ í•œë‹¤.
         if ((from != to) && IsValidIndex(from, data) && IsValidIndex(to, data))
         {
-            Slot fromSlot = (from == tempSlot.Index) ? tempSlot : slots[(int)from];  // ÀÓ½Ã ½½·ÔÀ» °¨¾ÈÇØ¼­ »ïÇ×¿¬»êÀÚ·Î Ã³¸®
+            Slot fromSlot = (from == tempSlot.Index) ? tempSlot : slots[(int)from];  // ì„ì‹œ ìŠ¬ë¡¯ì„ ê°ì•ˆí•´ì„œ ì‚¼í•­ì—°ì‚°ìë¡œ ì²˜ë¦¬
             if (!fromSlot.IsEmpty)
             {
                 Slot toSlot = (to == tempSlot.Index) ? TempSlot : slots[(int)to];
-                if (fromSlot.ItemData == toSlot.ItemData)  // °°Àº Á¾·ùÀÇ ¾ÆÀÌÅÛÀÌ¸é
+                if (fromSlot.ItemData == toSlot.ItemData)  // ê°™ì€ ì¢…ë¥˜ì˜ ì•„ì´í…œì´ë©´
                 {
-                    toSlot.IncreaseSlotItem(out uint overCount, fromSlot.ItemCount);    // ÀÏ´Ü fromÀÌ °¡Áø °³¼ö¸¸Å­ to °¨¼Ò ½Ãµµ
-                    fromSlot.DecreaseSlotItem(fromSlot.ItemCount - overCount);          // from¿¡¼­ ½ÇÁ¦·Î ³Ñ¾î°£ ¼ıÀÚ¸¸Å­ from °¨¼Ò
-                    //Debug.Log($"{from}¹ø ½½·Ô¿¡¼­ {to}¹ø ½½·ÔÀ¸·Î ¾ÆÀÌÅÛ ÇÕÄ¡±â");
+                    toSlot.IncreaseSlotItem(out uint overCount, fromSlot.ItemCount);    // ì¼ë‹¨ fromì´ ê°€ì§„ ê°œìˆ˜ë§Œí¼ to ê°ì†Œ ì‹œë„
+                    fromSlot.DecreaseSlotItem(fromSlot.ItemCount - overCount);          // fromì—ì„œ ì‹¤ì œë¡œ ë„˜ì–´ê°„ ìˆ«ìë§Œí¼ from ê°ì†Œ
+                    //Debug.Log($"{from}ë²ˆ ìŠ¬ë¡¯ì—ì„œ {to}ë²ˆ ìŠ¬ë¡¯ìœ¼ë¡œ ì•„ì´í…œ í•©ì¹˜ê¸°");
                 }
                 else
                 {
-                    // ´Ù¸¥ Á¾·ùÀÇ ¾ÆÀÌÅÛÀÌ¸é ¼­·Î ½º¿Ò
+                    // ë‹¤ë¥¸ ì¢…ë¥˜ì˜ ì•„ì´í…œì´ë©´ ì„œë¡œ ìŠ¤ì™‘
                     ItemData tempData = fromSlot.ItemData;
                     uint tempCount = fromSlot.ItemCount;
-                    fromSlot.AssignSlotItem(toSlot.ItemData, toSlot.ItemCount);// ÀÌ¶§ ½½·ÔÀÇ µ¥ÀÌÅÍ°¡ nullÀÌ µÈ´Ù.
+                    fromSlot.AssignSlotItem(toSlot.ItemData, toSlot.ItemCount);// ì´ë•Œ ìŠ¬ë¡¯ì˜ ë°ì´í„°ê°€ nullì´ ëœë‹¤.
                     toSlot.AssignSlotItem(tempData, tempCount);
-                    //Debug.Log($"{from}¹ø ½½·Ô°ú {to}¹ø ½½·ÔÀÇ ¾ÆÀÌÅÛ ±³Ã¼");
+                    //Debug.Log($"{from}ë²ˆ ìŠ¬ë¡¯ê³¼ {to}ë²ˆ ìŠ¬ë¡¯ì˜ ì•„ì´í…œ êµì²´");
                 }
             }
         }
     }
 
 
-    public void SplitItem(uint slotIndex, uint count) // ½ºÇÃ¸´ÇÒ¶§´Â ±»ÀÌ 
+    public void SplitItem(uint slotIndex, uint count) // ìŠ¤í”Œë¦¿í• ë•ŒëŠ” êµ³ì´ 
     {
         if (IsValidIndex(slotIndex))
         {
             List<Slot> slots = GetItemTab();
             Slot slot = slots[(int)slotIndex];
-            tempSlot.AssignSlotItem(slot.ItemData, count);  // ÀÓ½Ã ½½·Ô¿¡ ÇÒ´çÇÏ±â
-            slot.DecreaseSlotItem(count);                   // ½½·Ô¿¡¼­ ´ú¾î³»°í
+            tempSlot.AssignSlotItem(slot.ItemData, count);  // ì„ì‹œ ìŠ¬ë¡¯ì— í• ë‹¹í•˜ê¸°
+            slot.DecreaseSlotItem(count);                   // ìŠ¬ë¡¯ì—ì„œ ëœì–´ë‚´ê³ 
         }
     }
 
     /// <summary>
-    /// ÀÎº¥Åä¸®¸¦ Á¤·ÄÇÏ´Â ÇÔ¼ö 
+    /// ì¸ë²¤í† ë¦¬ë¥¼ ì •ë ¬í•˜ëŠ” í•¨ìˆ˜ 
     /// </summary>
-    /// <param name="sortBy">Á¤·Ä ±âÁØ</param>
-    /// <param name="isAcending">true¸é ¿À¸§Â÷¼ø, false¸é ³»¸²Â÷¼ø</param>
+    /// <param name="sortBy">ì •ë ¬ ê¸°ì¤€</param>
+    /// <param name="isAcending">trueë©´ ì˜¤ë¦„ì°¨ìˆœ, falseë©´ ë‚´ë¦¼ì°¨ìˆœ</param>
     public void SlotSorting(ItemSortBy sortBy, bool isAcending = true)
     {
         List<Slot> slots = GetItemTab();
-        List<Slot> beforeSlots = new List<Slot>(slots);   // slots ¹è¿­À» ÀÌ¿ëÇØ¼­ ¸®½ºÆ® ¸¸µé±â
+        List<Slot> beforeSlots = new List<Slot>(slots);   // slots ë°°ì—´ì„ ì´ìš©í•´ì„œ ë¦¬ìŠ¤íŠ¸ ë§Œë“¤ê¸°
 
-        switch (sortBy) // Á¤·Ä ±âÁØ¿¡ µû¶ó ´Ù¸£°Ô Ã³¸®ÇÏ±â(Sort ÇÔ¼öÀÇ ÆÄ¶ó¸ŞÅÍ·Î µé¾î°¥ ¶÷´ÙÇÔ¼ö¸¦ ´Ù¸£°Ô ÀÛ¼º)
+        switch (sortBy) // ì •ë ¬ ê¸°ì¤€ì— ë”°ë¼ ë‹¤ë¥´ê²Œ ì²˜ë¦¬í•˜ê¸°(Sort í•¨ìˆ˜ì˜ íŒŒë¼ë©”í„°ë¡œ ë“¤ì–´ê°ˆ ëŒë‹¤í•¨ìˆ˜ë¥¼ ë‹¤ë¥´ê²Œ ì‘ì„±)
         {
             case ItemSortBy.Code:
-                beforeSlots.Sort((x, y) =>  // x, y´Â ¼­·Î ºñ±³ÇÒ 2°³(beforeSlots¿¡ µé¾îÀÖ´Â 2°³)
+                beforeSlots.Sort((x, y) =>  // x, yëŠ” ì„œë¡œ ë¹„êµí•  2ê°œ(beforeSlotsì— ë“¤ì–´ìˆëŠ” 2ê°œ)
                 {
-                    if (x.ItemData == null) // itemData´Â ºñ¾îÀÖÀ» ¼ö ÀÖÀ¸´Ï ºñ¾îÀÖÀ¸¸é ºñ¾îÀÖ´Â °ÍÀÌ µÚÂÊÀ¸·Î ¼³Á¤
+                    if (x.ItemData == null) // itemDataëŠ” ë¹„ì–´ìˆì„ ìˆ˜ ìˆìœ¼ë‹ˆ ë¹„ì–´ìˆìœ¼ë©´ ë¹„ì–´ìˆëŠ” ê²ƒì´ ë’¤ìª½ìœ¼ë¡œ ì„¤ì •
                         return 1;
                     if (y.ItemData == null)
                         return -1;
                     if (isAcending)
                     {
-                        return x.ItemData.code.CompareTo(y.ItemData.code);  // enumÀÌ °¡Áö´Â CompareTo ÇÔ¼ö·Î ºñ±³(¿À¸§Â÷¼øÀÏ ¶§)
+                        return x.ItemData.code.CompareTo(y.ItemData.code);  // enumì´ ê°€ì§€ëŠ” CompareTo í•¨ìˆ˜ë¡œ ë¹„êµ(ì˜¤ë¦„ì°¨ìˆœì¼ ë•Œ)
                     }
                     else
                     {
-                        return y.ItemData.code.CompareTo(x.ItemData.code);  // enumÀÌ °¡Áö´Â CompareTo ÇÔ¼ö·Î ºñ±³(³»¸²Â÷¼øÀÏ ¶§)
+                        return y.ItemData.code.CompareTo(x.ItemData.code);  // enumì´ ê°€ì§€ëŠ” CompareTo í•¨ìˆ˜ë¡œ ë¹„êµ(ë‚´ë¦¼ì°¨ìˆœì¼ ë•Œ)
                     }
                 });
                 break;
@@ -651,30 +651,30 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                 });
                 break;
         }
-        // beforeSlotsÀº Á¤ÇØÁø ±âÁØ¿¡ µû¶ó Á¤·Ä ¿Ï·á
+        // beforeSlotsì€ ì •í•´ì§„ ê¸°ì¤€ì— ë”°ë¼ ì •ë ¬ ì™„ë£Œ
 
-        // ¾ÆÀÌÅÛ Á¾·ù¿Í °³¼ö¸¦ µû·Î ÀúÀåÇÏ±â
+        // ì•„ì´í…œ ì¢…ë¥˜ì™€ ê°œìˆ˜ë¥¼ ë”°ë¡œ ì €ì¥í•˜ê¸°
         List<(ItemData, uint)> sortedData = new List<(ItemData, uint)>(slots.Count);
         foreach (var slot in beforeSlots)
         {
             sortedData.Add((slot.ItemData, slot.ItemCount));
         }
 
-        // ½½·Ô¿¡ ¾ÆÀÌÅÛ Á¾·ù¿Í °³¼ö¸¦ ¼ø¼­´ë·Î ÇÒ´çÇÏ±â
+        // ìŠ¬ë¡¯ì— ì•„ì´í…œ ì¢…ë¥˜ì™€ ê°œìˆ˜ë¥¼ ìˆœì„œëŒ€ë¡œ í• ë‹¹í•˜ê¸°
         int index = 0;
         foreach (var data in sortedData)
         {
             slots[index].AssignSlotItem(data.Item1, data.Item2);
             index++;
-        }//¼öµ¿ º¹»çºÎºĞ
+        }//ìˆ˜ë™ ë³µì‚¬ë¶€ë¶„
 
-        // Á¤·Ä ¿Ï·áµÈ °ÍÀ» ´Ù½Ã ¹è¿­·Î ¸¸µé±â
+        // ì •ë ¬ ì™„ë£Œëœ ê²ƒì„ ë‹¤ì‹œ ë°°ì—´ë¡œ ë§Œë“¤ê¸°
        // slots = beforeSlots;
         RefreshInventory();
     }
 
     /// <summary>
-    /// ¸ğµç ½½·ÔÀÌ º¯°æµÇ¾úÀ½À» ¾Ë¸®´Â ÇÔ¼ö
+    /// ëª¨ë“  ìŠ¬ë¡¯ì´ ë³€ê²½ë˜ì—ˆìŒì„ ì•Œë¦¬ëŠ” í•¨ìˆ˜
     /// </summary>
     void RefreshInventory()
     {
@@ -688,11 +688,11 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     {
         List<Slot> slots = GetItemTab(data);
         Slot findSlot = null;
-        foreach (var slot in slots)  // ¸ğµç ½½·ÔÀ» ´Ù µ¹¸é¼­
+        foreach (var slot in slots)  // ëª¨ë“  ìŠ¬ë¡¯ì„ ë‹¤ ëŒë©´ì„œ
         {
             if (slot.ItemData != null)
             {
-                if (slot.ItemData.code == data.code && slot.ItemCount < slot.ItemData.maxStackCount)  // itemData°¡ °°°í ¿©À¯ °ø°£ÀÌ ÀÖÀ¸¸é ±× ½½·ÔÀ» ¸®ÅÏÇÑ´Ù
+                if (slot.ItemData.code == data.code && slot.ItemCount < slot.ItemData.maxStackCount)  // itemDataê°€ ê°™ê³  ì—¬ìœ  ê³µê°„ì´ ìˆìœ¼ë©´ ê·¸ ìŠ¬ë¡¯ì„ ë¦¬í„´í•œë‹¤
                 {
                     findSlot = slot;
                     break;
@@ -708,16 +708,16 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     }
 
     /// <summary>
-    /// ÀÎº¥Åä¸®¿¡¼­ ºñ¾îÀÖ´Â ½½·ÔÀ» Ã£´Â ÇÔ¼ö
+    /// ì¸ë²¤í† ë¦¬ì—ì„œ ë¹„ì–´ìˆëŠ” ìŠ¬ë¡¯ì„ ì°¾ëŠ” í•¨ìˆ˜
     /// </summary>
-    /// <returns>ºñ¾îÀÖ´Â ½½·Ô(Ã¹¹øÂ°)</returns>
+    /// <returns>ë¹„ì–´ìˆëŠ” ìŠ¬ë¡¯(ì²«ë²ˆì§¸)</returns>
     Slot FindEmptySlot(ItemData data)
     {
         Slot findSlot = null;
         List<Slot> slots = GetItemTab(data);
-        foreach (var slot in slots)     // ¸ğµç ½½·ÔÀ» ´Ù µ¹¸é¼­
+        foreach (var slot in slots)     // ëª¨ë“  ìŠ¬ë¡¯ì„ ë‹¤ ëŒë©´ì„œ
         {
-            if (slot.IsEmpty)            // ºñ¾îÀÖ´Â ½½·ÔÀÌ ÀÖÀ¸¸é Ã£¾Ò´Ù.// SlotÀÇ IsEmpty°¡ ÃÊ±â falseÀÎ ¹®Á¦  ItemData°¡ null ÀÎµ¥ ¿Ö falseÀÎÁö Àß ¸ğ¸£°Ú´Ù.
+            if (slot.IsEmpty)            // ë¹„ì–´ìˆëŠ” ìŠ¬ë¡¯ì´ ìˆìœ¼ë©´ ì°¾ì•˜ë‹¤.// Slotì˜ IsEmptyê°€ ì´ˆê¸° falseì¸ ë¬¸ì œ  ItemDataê°€ null ì¸ë° ì™œ falseì¸ì§€ ì˜ ëª¨ë¥´ê² ë‹¤.
             {
                 findSlot = slot;
                 break;
@@ -727,7 +727,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         return findSlot;
     }
 
-    /// ÀûÀıÇÑ ÀÎµ¦½ºÀÎÁö È®ÀÎÇÏ´Â ÇÔ¼ö
+    /// ì ì ˆí•œ ì¸ë±ìŠ¤ì¸ì§€ í™•ì¸í•˜ëŠ” í•¨ìˆ˜
     bool IsValidIndex(uint index, ItemData data = null)
     {
         List<Slot> slots = GetItemTab(data);
@@ -741,9 +741,9 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     private List<Slot> GetItemTab(ItemData item = null)
     {
         List<Slot> slotList;
-        if (item != null) // ÀÌ ÇÔ¼ö¸¦ È£ÃâÇÒ ¶§ itemdata°¡ null ÀÌ¸é  ÀÎº¥Åä¸®¿¡ ÇöÀç ¼±ÅÃµÈ ÅÇÀÇ ¸®½ºÆ®¸¦ ¸®ÅÏÇÑ´Ù.
+        if (item != null) // ì´ í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•  ë•Œ itemdataê°€ null ì´ë©´  ì¸ë²¤í† ë¦¬ì— í˜„ì¬ ì„ íƒëœ íƒ­ì˜ ë¦¬ìŠ¤íŠ¸ë¥¼ ë¦¬í„´í•œë‹¤.
         {
-            switch (item.ItemType) // null ÀÌ ¾Æ´Ï¸é Inventory Å¬·¡½º¿¡¼­ ÇöÀç ¾î¶² ÅÇÀÌ ¼±ÅÃµÇ¾úµç °ü°è¾øÀÌ itemÀÇ itemType¿¡ µû¶ó ¸®½ºÆ®¸¦ °áÁ¤ ÇÑ´Ù.
+            switch (item.ItemType) // null ì´ ì•„ë‹ˆë©´ Inventory í´ë˜ìŠ¤ì—ì„œ í˜„ì¬ ì–´ë–¤ íƒ­ì´ ì„ íƒë˜ì—ˆë“  ê´€ê³„ì—†ì´ itemì˜ itemTypeì— ë”°ë¼ ë¦¬ìŠ¤íŠ¸ë¥¼ ê²°ì • í•œë‹¤.
             {
                 case ItemType.Equip:
                     return slotList = slots[Current_Inventory_State.Equip];

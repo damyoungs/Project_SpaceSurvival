@@ -6,15 +6,15 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// Ã¢°ü·Ã ÃÖ»óÀ§ ¿ÀºêÁ§Æ®¿¡ »ç¿ë
-/// °øÅëÀûÀÎ ¿ÜºÎÀÔ·ÂÀÌº¥Æ®Ã³¸®¸¦ ¿©±â¼­ ÇÏ¸é ÁÁÀ»°Í°°´Ù.
-/// ·ÎµùÃ¢¿¡¼­ Ã³¸®¾ÈµÇ°Ô ÀÌº¥Æ®ÇÔ¼ö¸¶´Ù if (!LoadingScean.IsLoading){ } ¾È¿¡¼­ ¸¸ ½ÇÇàµÇ°Ô ¸¸µé¾îÁÖ¼¼¿ä
-/// WindowList , DataFactory  ¿ÀºêÁ§Æ®´Â ºñÈ°¼ºÈ­¸¦ ½ÃÅ°Áö¸¶¼¼¿ä. ³»ºÎ¿ÀºêÁ§Æ®¸¸ ½ÃÅ°µµ·Ï ·ÎÁ÷ÀÛ¼ººÎÅ¹µå¸³´Ï´Ù.
+/// ì°½ê´€ë ¨ ìµœìƒìœ„ ì˜¤ë¸Œì íŠ¸ì— ì‚¬ìš©
+/// ê³µí†µì ì¸ ì™¸ë¶€ì…ë ¥ì´ë²¤íŠ¸ì²˜ë¦¬ë¥¼ ì—¬ê¸°ì„œ í•˜ë©´ ì¢‹ì„ê²ƒê°™ë‹¤.
+/// ë¡œë”©ì°½ì—ì„œ ì²˜ë¦¬ì•ˆë˜ê²Œ ì´ë²¤íŠ¸í•¨ìˆ˜ë§ˆë‹¤ if (!LoadingScean.IsLoading){ } ì•ˆì—ì„œ ë§Œ ì‹¤í–‰ë˜ê²Œ ë§Œë“¤ì–´ì£¼ì„¸ìš”
+/// WindowList , DataFactory  ì˜¤ë¸Œì íŠ¸ëŠ” ë¹„í™œì„±í™”ë¥¼ ì‹œí‚¤ì§€ë§ˆì„¸ìš”. ë‚´ë¶€ì˜¤ë¸Œì íŠ¸ë§Œ ì‹œí‚¤ë„ë¡ ë¡œì§ì‘ì„±ë¶€íƒë“œë¦½ë‹ˆë‹¤.
 /// </summary>
 public class WindowList : Singleton<WindowList> {
 
     /// <summary>
-    /// È°¼ºÈ­ µÈ ÆË¾÷ÀÌÀÖ´Â°æ¿ì defencePanel ¼ÂÆÃ
+    /// í™œì„±í™” ëœ íŒì—…ì´ìˆëŠ”ê²½ìš° defencePanel ì…‹íŒ…
     /// </summary>
     EnumList.PopupList activePopup;
     public EnumList.PopupList ActivePopup{
@@ -33,74 +33,74 @@ public class WindowList : Singleton<WindowList> {
         } 
     }
     /// <summary>
-    /// ÆË¾÷Ã¢ÀÌ¶ß¸é µğÆæ½º ÆĞ³ÎÀ» ¶ç¿ö ÀÎÇ²ÀÌº¥Æ®¸¦ ¸·´Â´Ù.
+    /// íŒì—…ì°½ì´ëœ¨ë©´ ë””íœìŠ¤ íŒ¨ë„ì„ ë„ì›Œ ì¸í’‹ì´ë²¤íŠ¸ë¥¼ ë§‰ëŠ”ë‹¤.
     /// </summary>
     DefenceEvent defencePanel;
 
     /// <summary>
-    /// Å°ÀÔ·Â ÀÌº¥Æ®
+    /// í‚¤ì…ë ¥ ì´ë²¤íŠ¸
     /// </summary>
     InputKeyMouse inputKeyEvent;
     public InputKeyMouse InputKeyEvent => inputKeyEvent;
     
     /// <summary>
-    /// °ü¸®ÇÒ À©µµ¿ì Áß ¿É¼Ç°ü·Ã À©µµ¿ì
+    /// ê´€ë¦¬í•  ìœˆë„ìš° ì¤‘ ì˜µì…˜ê´€ë ¨ ìœˆë„ìš°
     /// </summary>
     SaveWindowManager mainWindow;
     public SaveWindowManager MainWindow => mainWindow;
 
     /// <summary>
-    /// ÀÎº¥Åä¸® ¿ÀºêÁ§Æ®
+    /// ì¸ë²¤í† ë¦¬ ì˜¤ë¸Œì íŠ¸
     /// </summary>
     Inventory invenWindow;
     public Inventory InvenWindow => invenWindow;
 
     /// <summary>
-    /// ÀúÀå »èÁ¦ º¹»ç ·Îµå ½ÇÇà¿©ºÎ ¹¯´Â Ã¢ °¡Á®¿À±â
+    /// ì €ì¥ ì‚­ì œ ë³µì‚¬ ë¡œë“œ ì‹¤í–‰ì—¬ë¶€ ë¬»ëŠ” ì°½ ê°€ì ¸ì˜¤ê¸°
     /// </summary>
     SaveLoadPopupWindow saveLoadPopupWindow;
     public SaveLoadPopupWindow IOPopupWindow => saveLoadPopupWindow;
 
     /// <summary>
-    /// Å×½ºÆ®¿ë ¿É¼Ç ÆË¾÷À©µµ¿ì
+    /// í…ŒìŠ¤íŠ¸ìš© ì˜µì…˜ íŒì—…ìœˆë„ìš°
     /// </summary>
     OptionsPopupWindow optionsPopupWindow;
     public OptionsPopupWindow OptionsPopupWindow => optionsPopupWindow;
 
 
     /// <summary>
-    /// ÆË¾÷ Ã¢ °ü¸®ÇØÁÙ ¸Å´ÏÀú
+    /// íŒì—… ì°½ ê´€ë¦¬í•´ì¤„ ë§¤ë‹ˆì €
     /// </summary>
     PopupSortManager popupManager;
     public PopupSortManager PopupSortManager => popupManager;
     
     /// <summary>
-    /// ÅÏ °ÔÀÌÁö UI À§Ä¡
+    /// í„´ ê²Œì´ì§€ UI ìœ„ì¹˜
     /// </summary>
     TurnGaugeOnOff turnGaugeUI;
     public TurnGaugeOnOff TurnGaugeUI => turnGaugeUI;
 
     /// <summary>
-    /// ¹èÆ²¸Ê ¾×¼Ç ¹öÆ° 
+    /// ë°°í‹€ë§µ ì•¡ì…˜ ë²„íŠ¼ 
     /// </summary>
     Transform battleActionButtons;
     public Transform BattleActionButtons => battleActionButtons;
     
     /// <summary>
-    /// ¹èÆ²¸Ê¿¡¼­ Ä³¸¯ÅÍ »ó½ÃÁ¤º¸¸¦ º¸¿©ÁÙ ÄÄÆ÷³ÍÆ® À§Ä¡
+    /// ë°°í‹€ë§µì—ì„œ ìºë¦­í„° ìƒì‹œì •ë³´ë¥¼ ë³´ì—¬ì¤„ ì»´í¬ë„ŒíŠ¸ ìœ„ì¹˜
     /// </summary>
     TeamBorderManager teamBorderManager;
     public TeamBorderManager TeamBorderManager => teamBorderManager;
 
 
     /// <summary>
-    /// À©µµ¿ì¸®½ºÆ®´Â Ç×»ó°¡Áö°í´Ù´Ï´Â°ÍÀÌ±â¶§¹®¿¡ ¿©±â¿¡¼­ ÀÌº¥Æ®Ã³¸®¸¦ ÁøÇà.
+    /// ìœˆë„ìš°ë¦¬ìŠ¤íŠ¸ëŠ” í•­ìƒê°€ì§€ê³ ë‹¤ë‹ˆëŠ”ê²ƒì´ê¸°ë•Œë¬¸ì— ì—¬ê¸°ì—ì„œ ì´ë²¤íŠ¸ì²˜ë¦¬ë¥¼ ì§„í–‰.
     /// </summary>
     protected override void Awake()
     {
         base.Awake();
         inputKeyEvent = new InputKeyMouse();
-        //¿ÀºêÁ§Æ® ¼ø¼­ °è¼Ó¹Ù²¸¼­ °Á¹«°Ì´õ¶óµµ GetComponentInChildren<Type>(true) À¸·Î Ã£¾ÆµÑ¶õ´Ù.. ¸Å¹ø ÀÌ°Å¶§¸Å °íÄ¡±â±ÍÂú.
+        //ì˜¤ë¸Œì íŠ¸ ìˆœì„œ ê³„ì†ë°”ê»´ì„œ ê±ë¬´ê²ë”ë¼ë„ GetComponentInChildren<Type>(true) ìœ¼ë¡œ ì°¾ì•„ë‘˜ë€ë‹¤.. ë§¤ë²ˆ ì´ê±°ë•Œë§¤ ê³ ì¹˜ê¸°ê·€ì°®.
         defencePanel = transform.GetComponentInChildren<DefenceEvent>(true); 
         invenWindow = transform.GetComponentInChildren<Inventory>(true);
         saveLoadPopupWindow = transform.GetComponentInChildren<SaveLoadPopupWindow>(true);
@@ -109,7 +109,7 @@ public class WindowList : Singleton<WindowList> {
         optionsPopupWindow = transform.GetComponentInChildren<OptionsPopupWindow>(true);
         turnGaugeUI = transform.GetComponentInChildren<TurnGaugeOnOff>(true);
         teamBorderManager = transform.GetComponentInChildren<TeamBorderManager>(true);
-        battleActionButtons = transform.GetChild(0).GetChild(1); //³ªÁß¿¡ ¼öÁ¤ÇÊ¿ä 
+        battleActionButtons = transform.GetChild(0).GetChild(1); //ë‚˜ì¤‘ì— ìˆ˜ì •í•„ìš” 
 
     }
     private void Start()
@@ -117,24 +117,24 @@ public class WindowList : Singleton<WindowList> {
         mainWindow.Oninitialize();
     }
     /// <summary>
-    /// Å°ÀÔ·Â¹× ¸¶¿ì½º ÀÔ·ÂÃ³¸®µµ Ãß°¡ÇÏÀÚ
+    /// í‚¤ì…ë ¥ë° ë§ˆìš°ìŠ¤ ì…ë ¥ì²˜ë¦¬ë„ ì¶”ê°€í•˜ì
     /// </summary>
     protected override void OnEnable()
     {
         base.OnEnable();
         inputKeyEvent.Enable();
-        inputKeyEvent.KeyBoard.System.performed += OffPopupWindow; // esc ÀÔ·Â½Ã ¼ø¼­´ë·Î Ã¢´İ±â 
-        inputKeyEvent.KeyBoard.OptionKey.performed += OnOffWindowOption; // ¿É¼ÇÃ¢ ¹× ¼¼ÀÌºêÃ¢ ¿­°í´İ±â
-        inputKeyEvent.KeyBoard.InvenKey.performed += OnOffInventory; // ÀÎº¥Ã¢ Å×½ºÆ®¿ë 
-        InputKeyEvent.KeyBoard.StateKey.performed += OnOffStateWindow;// »óÅÂÃ¢ Å×½ºÆ®¿ë
+        inputKeyEvent.KeyBoard.System.performed += OffPopupWindow; // esc ì…ë ¥ì‹œ ìˆœì„œëŒ€ë¡œ ì°½ë‹«ê¸° 
+        inputKeyEvent.KeyBoard.OptionKey.performed += OnOffWindowOption; // ì˜µì…˜ì°½ ë° ì„¸ì´ë¸Œì°½ ì—´ê³ ë‹«ê¸°
+        //inputKeyEvent.KeyBoard.InvenKey.performed += OnOffInventory; // ì¸ë²¤ì°½ í…ŒìŠ¤íŠ¸ìš© 
+        InputKeyEvent.KeyBoard.StateKey.performed += OnOffStateWindow;// ìƒíƒœì°½ í…ŒìŠ¤íŠ¸ìš©
     }   
 
 
 
     /// <summary>
-    /// ºñÈ°¼ºÈ­ µÉÀÏÀÌ °ÔÀÓÁ¾·áµÉ¶§¸¸µÇ±â¶§¹®¿¡ ÀÌº¥Æ® »èÁ¦ÇÔ¼ö Ã³¸®¾ÈÇØµµµÈ´Ù.
-    /// ´Ù¸¸ ½Ì±ÛÅæ »ı¼º½Ã ±âÁ¸»ı¼ºµÈ°ÍÀÌ DestroyµÉ¶§ ºñÈ°¼ºÈ­¸¦ ½ÇÇàÇÏ±â¶§¹®¿¡ ¿À·ù°¡³¯¼öÀÖ´Ù. - È®ÀÎ¿Ï·á
-    /// ¾ÀÀÌµ¿½Ã OnEnableÇÔ¼ö°¡ ÀçÈ£ÃâµÇÁø¾Ê´Â´Ù (È®ÀÎ¿Ï·á)
+    /// ë¹„í™œì„±í™” ë ì¼ì´ ê²Œì„ì¢…ë£Œë ë•Œë§Œë˜ê¸°ë•Œë¬¸ì— ì´ë²¤íŠ¸ ì‚­ì œí•¨ìˆ˜ ì²˜ë¦¬ì•ˆí•´ë„ëœë‹¤.
+    /// ë‹¤ë§Œ ì‹±ê¸€í†¤ ìƒì„±ì‹œ ê¸°ì¡´ìƒì„±ëœê²ƒì´ Destroyë ë•Œ ë¹„í™œì„±í™”ë¥¼ ì‹¤í–‰í•˜ê¸°ë•Œë¬¸ì— ì˜¤ë¥˜ê°€ë‚ ìˆ˜ìˆë‹¤. - í™•ì¸ì™„ë£Œ
+    /// ì”¬ì´ë™ì‹œ OnEnableí•¨ìˆ˜ê°€ ì¬í˜¸ì¶œë˜ì§„ì•ŠëŠ”ë‹¤ (í™•ì¸ì™„ë£Œ)
     /// </summary>
     //protected override void OnDisable()
     //{
@@ -149,27 +149,27 @@ public class WindowList : Singleton<WindowList> {
 
 
     /// <summary>
-    /// ÆË¾÷Ã¢ ¹öÆ°À» ´­·¶À»°æ¿ì ¿­·ÈÀ»°æ¿ì ´İÈ÷°í ´İÇûÀ»°æ¿ì ¿­¸°´Ù.
-    /// <param name="target">¿­¸± ÆË¾÷Ã¢ °´Ã¼</param>
+    /// íŒì—…ì°½ ë²„íŠ¼ì„ ëˆŒë €ì„ê²½ìš° ì—´ë ¸ì„ê²½ìš° ë‹«íˆê³  ë‹«í˜”ì„ê²½ìš° ì—´ë¦°ë‹¤.
+    /// <param name="target">ì—´ë¦´ íŒì—…ì°½ ê°ì²´</param>
     /// </summary>
     public void popupOnOff(IPopupSortWindow target) {
-        if (target.gameObject.activeSelf)//Ã¢ÀÌ ¿­·ÁÀÖÀ¸¸é
+        if (target.gameObject.activeSelf)//ì°½ì´ ì—´ë ¤ìˆìœ¼ë©´
         {
-            popupManager.PopupClose(target) ;//´İ°í
+            popupManager.PopupClose(target) ;//ë‹«ê³ 
         }
-        else //¾Æ´Ñ°æ¿ì¿£
+        else //ì•„ë‹Œê²½ìš°ì—”
         { 
-            popupManager.PopupOpen(target); //¿¬´Ù
+            popupManager.PopupOpen(target); //ì—°ë‹¤
         }
     }
 
     /// <summary>
-    /// ¸Ş´º Ã¢ ¿Â¿ÀÇÁ 
+    /// ë©”ë‰´ ì°½ ì˜¨ì˜¤í”„ 
     /// </summary>
-    /// <param name="context">ÀÔ·ÂÁ¤º¸</param>
+    /// <param name="context">ì…ë ¥ì •ë³´</param>
     private void OnOffWindowOption(InputAction.CallbackContext context)
     {
-        //¾À·ÎµùÀÌ¾Æ´Ñ°æ¿ì¸¸ ½ÇÇàÇÑ´Ù. 
+        //ì”¬ë¡œë”©ì´ì•„ë‹Œê²½ìš°ë§Œ ì‹¤í–‰í•œë‹¤. 
         if (!LoadingScean.IsLoading){ 
             if (context.performed)
             {
@@ -179,29 +179,29 @@ public class WindowList : Singleton<WindowList> {
     }
 
     /// <summary>
-    /// ÀÎº¥ Ã¢ ¿Â¿ÀÇÁ
+    /// ì¸ë²¤ ì°½ ì˜¨ì˜¤í”„
     /// </summary>
     /// <param name="context"></param>
-    private void OnOffInventory(InputAction.CallbackContext context)
-    {
-        //¾À·ÎµùÀÌ¾Æ´Ñ°æ¿ì¸¸ ½ÇÇàÇÑ´Ù. 
-        if (!LoadingScean.IsLoading)
-        {
-            if (context.performed)
-            {
-                invenWindow.Open_Inventory();
-            }
+    //private void OnOffInventory(InputAction.CallbackContext context)
+    //{
+    //    //ì”¬ë¡œë”©ì´ì•„ë‹Œê²½ìš°ë§Œ ì‹¤í–‰í•œë‹¤. 
+    //    if (!LoadingScean.IsLoading)
+    //    {
+    //        if (context.performed)
+    //        {
+    //            invenWindow.Open_Inventory();
+    //        }
 
-        }
-    }
+    //    }
+    //}
 
     /// <summary>
-    /// ½ºÅİ Ã¢ ¿Â¿ÀÇÁ
+    /// ìŠ¤í…Ÿ ì°½ ì˜¨ì˜¤í”„
     /// </summary>
     /// <param name="context"></param>
     private void OnOffStateWindow(InputAction.CallbackContext context)
     {
-        //¾À·ÎµùÀÌ¾Æ´Ñ°æ¿ì¸¸ ½ÇÇàÇÑ´Ù. 
+        //ì”¬ë¡œë”©ì´ì•„ë‹Œê²½ìš°ë§Œ ì‹¤í–‰í•œë‹¤. 
         if (!LoadingScean.IsLoading)
         {
             if (context.performed)
@@ -214,7 +214,7 @@ public class WindowList : Singleton<WindowList> {
 
     private void OffPopupWindow(InputAction.CallbackContext context)
     {
-        //¾À·ÎµùÀÌ¾Æ´Ñ°æ¿ì¸¸ ½ÇÇàÇÑ´Ù. 
+        //ì”¬ë¡œë”©ì´ì•„ë‹Œê²½ìš°ë§Œ ì‹¤í–‰í•œë‹¤. 
         if (!LoadingScean.IsLoading)
         {
             if (context.performed)

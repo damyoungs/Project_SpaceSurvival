@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WarningBox : MonoBehaviour
+public class WarningBox : MonoBehaviour, IPopupSortWindow
 {
     Item_Enhancer item_Enhancer;
     Item_Mixer item_Mixer;
@@ -14,6 +14,9 @@ public class WarningBox : MonoBehaviour
     Button cancelButton;
 
     public Action onWarningBoxClose;
+
+    public Action<IPopupSortWindow> PopupSorting { get ; set; }
+
     private void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
@@ -59,7 +62,7 @@ public class WarningBox : MonoBehaviour
         canvasGroup.alpha = 0;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
-        switch (item_Mixer.MixerState)//°­È­ÁßÀÌ¸é ½ÅÈ£¸¦ º¸³»Áö ¸¶¶ó(½ÅÈ£°¡ º¸³»Áö¸é UIÀÇ ¸ğµç interactableÀÌ true°¡ µÊ)
+        switch (item_Mixer.MixerState)//ê°•í™”ì¤‘ì´ë©´ ì‹ í˜¸ë¥¼ ë³´ë‚´ì§€ ë§ˆë¼(ì‹ í˜¸ê°€ ë³´ë‚´ì§€ë©´ UIì˜ ëª¨ë“  interactableì´ trueê°€ ë¨)
         {
             case ItemMixerState.Success:
             case ItemMixerState.Fail:
@@ -68,5 +71,20 @@ public class WarningBox : MonoBehaviour
                 break;
         }
         onWarningBoxClose?.Invoke();//
+    }
+
+    public void OpenWindow()
+    {
+        Open();
+    }
+
+    public void CloseWindow()
+    {
+        Close();
+    }
+
+    private void OnMouseDown()
+    {
+        PopupSorting?.Invoke(this);
     }
 }
