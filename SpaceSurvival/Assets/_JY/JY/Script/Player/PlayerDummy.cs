@@ -114,7 +114,7 @@ public class PlayerDummy : MonoBehaviour, IHealth
             if (hp != value)
             {
                 hp = value;
-                Debug.Log($"ÇÃ·¹ÀÌ¾î HP : {hp:f0}");
+                Debug.Log($"í”Œë ˆì´ì–´ HP : {hp:f0}");
             }
         }
     }
@@ -139,7 +139,7 @@ public class PlayerDummy : MonoBehaviour, IHealth
             if (att != value)
             {
                 att = value;
-                Debug.Log($"ÇÃ·¹ÀÌ¾î °ø°İ·Â : {att}");
+                Debug.Log($"í”Œë ˆì´ì–´ ê³µê²©ë ¥ : {att}");
             }
         }
     }
@@ -152,7 +152,7 @@ public class PlayerDummy : MonoBehaviour, IHealth
             if (dp != value)
             {
                 dp = value;
-                Debug.Log($"ÇÃ·¹ÀÌ¾î ¹æ¾î·Â : {dp}");
+                Debug.Log($"í”Œë ˆì´ì–´ ë°©ì–´ë ¥ : {dp}");
             }
         }
     }
@@ -160,7 +160,7 @@ public class PlayerDummy : MonoBehaviour, IHealth
     {
         inputActions = new InputKeyMouse();
         shootAction = GetComponent<ShootAction>();
-        shootAction.onAttack += Attack;
+        shootAction.on_Attack += Attack;
         //on_Attack = Pistol_Attack;
     }
 
@@ -199,10 +199,10 @@ public class PlayerDummy : MonoBehaviour, IHealth
         equipBox.on_Update_Status_For_UnEquip += Update_Status_For_UnEquip;
 
         armors = new Transform[4];
-        armors[0] = transform.GetChild(6).transform;// ±âº» Crue ÄÉ¸¯ÅÍ
+        armors[0] = transform.GetChild(6).transform;// ê¸°ë³¸ Crue ì¼€ë¦­í„°
         armors[1] = transform.GetChild(17).transform;// Space Armor
         armors[2] = transform.GetChild(20).transform;// Big Armor
-        armors[3] = transform.GetChild(19).transform;// ¸Ó¸®
+        armors[3] = transform.GetChild(19).transform;// ë¨¸ë¦¬
     }
     public void Disable_Input()
     {
@@ -239,13 +239,13 @@ public class PlayerDummy : MonoBehaviour, IHealth
             DP -= jewel.defence_Point;
         }
     }
-    private void Update_Status_For_EquipOrSwap(ItemData legacyData, ItemData newData)//±¸Á¶»ó ÀÎÅÍÆäÀÌ½º¸¦ »ç¿ëÇß´Ù¸é ¾Æ·¡¿Í °°ÀÌ Çüº¯È¯À» ÇÏ°í ºñ±³ÇÏ´Â °úÁ¤ÀÌ ¹ø°Å·ÓÁö´Â ¾Ê¾ÒÀ» °Í °°´Ù.
+    private void Update_Status_For_EquipOrSwap(ItemData legacyData, ItemData newData)//êµ¬ì¡°ìƒ ì¸í„°í˜ì´ìŠ¤ë¥¼ ì‚¬ìš©í–ˆë‹¤ë©´ ì•„ë˜ì™€ ê°™ì´ í˜•ë³€í™˜ì„ í•˜ê³  ë¹„êµí•˜ëŠ” ê³¼ì •ì´ ë²ˆê±°ë¡­ì§€ëŠ” ì•Šì•˜ì„ ê²ƒ ê°™ë‹¤.
     {
         ItemData_Hat hat = newData as ItemData_Hat;
         ItemData_Enhancable weapon = newData as ItemData_Enhancable;
         ItemData_Armor armor = newData as ItemData_Armor;
         ItemData_Craft jewel = newData as ItemData_Craft;
-        if( legacyData == null )//ÀåÂøÀÌ ¾ÈµÇ¾îÀÖÀ» °æ¿ì ´õÇØÁÖ°í ³¡
+        if( legacyData == null )//ì¥ì°©ì´ ì•ˆë˜ì–´ìˆì„ ê²½ìš° ë”í•´ì£¼ê³  ë
         {
             if (hat != null)
             {
@@ -268,7 +268,7 @@ public class PlayerDummy : MonoBehaviour, IHealth
                 DP += jewel.defence_Point;
             }
         }
-        else//ÀÌ¹Ì ÀåÂøµÇ¾îÀÖ¾úÀ» °æ¿ì ½ºÅ×ÀÌÅÍ½º ´õÇÏ°í »©±â
+        else//ì´ë¯¸ ì¥ì°©ë˜ì–´ìˆì—ˆì„ ê²½ìš° ìŠ¤í…Œì´í„°ìŠ¤ ë”í•˜ê³  ë¹¼ê¸°
         {
             if (hat != null)
             {
