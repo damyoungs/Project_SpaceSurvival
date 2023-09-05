@@ -140,7 +140,7 @@ public class Inventory : MonoBehaviour
         etcButtonColor.color = Color.white;
         craftButtonColor.color = Color.white;
 
-
+        
         switch (state)
         {
             case Current_Inventory_State.Equip:
@@ -181,6 +181,11 @@ public class Inventory : MonoBehaviour
     public void SwitchTab_To_Craft() { State = Current_Inventory_State.Craft;}
     public void Open_Inventory()
     {
+        //전투중 입력 막을 함수 목록
+        // 인벤토리 열기
+        // 장비창
+        // 퀵슬롯 팝업
+
         if (canvasGroup.alpha < 1.0f)
         {
             canvasGroup.alpha = 1.0f;

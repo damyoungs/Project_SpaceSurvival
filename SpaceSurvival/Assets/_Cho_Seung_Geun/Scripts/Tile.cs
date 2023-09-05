@@ -58,15 +58,18 @@ public class Tile : MonoBehaviour, IComparable<Tile>
                         lineRenderer.enabled = false;
                         break;
                     case TileExistType.Monster:
+                        lineRenderer.enabled = false;
                         break;
                     case TileExistType.Item:
                         break;
                     case TileExistType.Prop:
+                        lineRenderer.enabled = false;
                         break;
                     case TileExistType.Move:
                         lineRenderer.enabled = true;
                         break;
                     case TileExistType.Charcter:
+                        lineRenderer.enabled = false;
                         break;
                     default:
                         break;
@@ -101,6 +104,8 @@ public class Tile : MonoBehaviour, IComparable<Tile>
 
     public float G;
 
+    public float MoveCheckG = 1000.0f;
+
     public float H;
 
     public float F => G + H;
@@ -114,6 +119,7 @@ public class Tile : MonoBehaviour, IComparable<Tile>
     {
         lineRenderer = GetComponent<LineRenderer>();
     }
+
     /// <summary>
     /// A*에 관한 변수 초기화
     /// </summary>
@@ -130,8 +136,5 @@ public class Tile : MonoBehaviour, IComparable<Tile>
             return 1;
         return F.CompareTo(other.F);
     }
-    private void OnMouseDown()
-    {
-        Debug.Log(Index);
-    }
+   
 }

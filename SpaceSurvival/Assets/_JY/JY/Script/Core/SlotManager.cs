@@ -51,11 +51,18 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     private Dictionary<ItemData_Potion, bool> quickSlot_Binding_Table;
     List<Slot> tempList_For_QuickSlot = new();
  
-    public byte Index_JustChange_Slot { get; set; }
-  
 
+    public byte Index_JustChange_Slot { get; set; }
     private void Awake()
     {
+        //foreach (List<Slot> slotlist in slots.Values)
+        //{
+        //    foreach (Slot slot in slotlist)
+        //    {
+        //        string data = slot.ItemData.itemDescription;
+        //    }
+        //}
+
         input = new InputKeyMouse();
         tempSlot = FindObjectOfType<TempSlot>(true);
         itemDescription = FindObjectOfType<ItemDescription>();
@@ -91,7 +98,6 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         quickSlot_Manager = GameManager.QuickSlot_Manager;
         beforeSlotRectTransform = GameManager.Enhancer.EnhancerUI.BeforeSlot.GetComponent<RectTransform>();
         enhancerUIRectTransform = GameManager.Enhancer.EnhancerUI.AfterSlot.GetComponent<RectTransform>();
-   
 
         foreach (QuickSlot quickSlot in quickSlot_Manager.quickSlots)
         {
@@ -226,6 +232,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             // 임시 슬롯에 아이템이 있을 때 클릭이 되었으면
             OnItemMoveEnd(data, index, true); // 클릭된 슬롯으로 아이템 이동
         }
+       
     }
     private void OnItemDetailOn( ItemData data, uint index)
     {
