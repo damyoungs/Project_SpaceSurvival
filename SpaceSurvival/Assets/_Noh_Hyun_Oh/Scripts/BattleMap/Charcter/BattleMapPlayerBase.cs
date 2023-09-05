@@ -60,7 +60,11 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
     /// 행동력 혹은 이동 거리
     /// </summary>
     protected float moveSize = 5.0f;
-    public float MoveSize => moveSize;
+    public float MoveSize 
+    {
+        get => moveSize;
+        set => moveSize = value;
+    }
 
 
     /// <summary>

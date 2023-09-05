@@ -65,8 +65,8 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
     /// 턴시작의 최소값
     /// </summary>
     [SerializeField]
-    [Range(0.1f,1.0f)]
-    private float turnStartValue = 1.0f;
+    [Range(1.0f,10.0f)]
+    private float turnStartValue = 10.0f;
 
  
     /// <summary>
@@ -145,6 +145,7 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
         foreach (ITurnBaseData node in turnObjectList) //턴이끝날때마다 
         {
             node.TurnActionValue += node.TurnEndActionValue;//리스트의 대기자들은 활동력을 추가 시킨다.
+           
         }
     }
 

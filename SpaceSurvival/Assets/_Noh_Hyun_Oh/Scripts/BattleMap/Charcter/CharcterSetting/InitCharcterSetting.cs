@@ -50,7 +50,10 @@ public class InitCharcterSetting : MonoBehaviour
         cameraMoveComp.GetCineBrainCam = () => brainCam; //브레인카메라 찾아서 연결해주기
         cameraMoveComp.gameObject.SetActive(true); //카메라 이동은 배틀맵에서만 사용하기때문에 따로안뺏다.
     }
-
+    private void Start()
+    {
+        TestInit();
+    }
     /// <summary>
     /// 테스트용 데이터 생성 
     /// </summary>

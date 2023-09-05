@@ -50,7 +50,11 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
     /// 행동력 혹은 이동가능 거리
     /// </summary>
     protected float moveSize = 3.0f;
-    public float MoveSize => moveSize;
+    public float MoveSize 
+    {
+        get => moveSize;
+        set => moveSize = value;
+    } 
 
 
     private void Start()
