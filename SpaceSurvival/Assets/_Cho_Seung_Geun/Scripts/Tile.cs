@@ -104,7 +104,7 @@ public class Tile : MonoBehaviour, IComparable<Tile>
 
     public float G;
 
-    public float MoveCheckG;
+    public float MoveCheckG = 1000.0f;
 
     public float H;
 
