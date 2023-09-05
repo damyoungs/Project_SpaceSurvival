@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,8 @@ public class ShootAction : MonoBehaviour
     Animator unitAnimator;
     AudioSource audioSource;
     InputKeyMouse inputAction;
+
+    public Action on_Attack;
     private void Awake()
     {
         inputAction = new();
@@ -31,7 +34,9 @@ public class ShootAction : MonoBehaviour
 
     void onClickRight(InputAction.CallbackContext context)
 	{
-		unitAnimator.SetTrigger("IsFiring");
+        on_Attack?.Invoke();
+
+        unitAnimator.SetTrigger("IsFiring");
 		Instantiate(bulletProjectilePrefab, shootPointTransform.position, shootPointTransform.rotation);
 		audioSource.Play();
 	}

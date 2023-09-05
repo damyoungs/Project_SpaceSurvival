@@ -21,7 +21,6 @@ public class EnemyTurnObject : TurnBaseObject
     /// </summary>
     public override void InitData()
     {
-        TurnActionValue = 0.0f; // 액션값 초기화 
 
         ICharcterBase[] enemyList = initEnemy?.Invoke(); //외부에서 몬스터 배열이 들어왔는지 체크
         if (enemyList == null || enemyList.Length == 0) //몬스터 초기화가 안되있으면 
@@ -34,7 +33,7 @@ public class EnemyTurnObject : TurnBaseObject
                 charcterList.Add(go);
                 
                 go.name = $"Enemy_{i}";
-                go.GetCurrentTile += () => (SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Monster)); //데이터 연결 
+                go.GetCurrentTile = () => (SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Monster)); //데이터 연결 
                 go.transform.position = go.CurrentTile.transform.position; //셋팅된 타일위치로 이동시킨다.
             }
         }
@@ -48,10 +47,10 @@ public class EnemyTurnObject : TurnBaseObject
     }
     public override void TurnStartAction()
     {
-        Debug.Log($"적군턴시작 :{TurnActionValue}");
-        TurnActionValue -= 0.8f;//UnityEngine.Random.Range(0.3f, 1.0f);// 행동력 소모후 테스트 용 
+        Debug.Log($"적군턴시작 행동력 :{TurnActionValue}");
+        TurnActionValue -= 10.0f;//UnityEngine.Random.Range(0.3f, 1.0f);// 행동력 소모후 테스트 용 
         
-        Debug.Log($"적군턴끝 :{TurnActionValue}");
+        Debug.Log($"적군턴끝 행동력 :{TurnActionValue}");
         TurnEndAction();
     }
 }

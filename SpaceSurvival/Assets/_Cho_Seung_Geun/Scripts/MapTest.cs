@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class MapTest : TestBase
+public class MapTest : MonoBehaviour
 {
     public ChoClickTest player;             // 플레이어
     public Material material;               // 필요없을 것 같아 아마 지울 예정
@@ -12,7 +12,6 @@ public class MapTest : TestBase
     public GameObject sideTile;             // 외곽에 배치될 타일
     public GameObject vertexTile;           // 꼭지점 타일
     public GameObject wall;                 // 기본 벽
-    public GameObject pointLight;           // 조명
     public GameObject pillar;               // 기둥
 
     public int sizeX = 0;                   // 타일 가로 갯수
@@ -26,30 +25,23 @@ public class MapTest : TestBase
     bool isPropExist = false;
 
     Vector3 mainTileSize = Vector3.zero;    // 중앙 타일 사이즈
-    Vector3 sideTileSize = Vector3.zero;    // 사이드 타일 사이즈
-    Vector3 vertexTileSize = Vector3.zero;  // 꼭지점 타일 사이즈
 
     Tile[] mapTiles;                        // 타일 오브젝트 객체를 담을 배열
     List<GameObject> props;                 // 지형 지물을 담을 배열
 
-    GameObject[] lights;                    // 조명
     GameObject[] pillars;                   // 기둥
     Tile[] standardPos;                // 기준 위치(조명과 기둥이 있을 위치)
 
     private void Start()
     {
-        // 중앙 타일 사이즈 반환     - 밑의 두 타일과 사이즈 같음(혹시 몰라 밑에도 구했지만 필요없으면 지울 예정)
+        // 중앙 타일 사이즈 반환     - 바닥에 깔리는 모든 타일들은 사이즈 동일
         mainTileSize = centerTile.GetComponentInChildren<BoxCollider>().size;
-        // 사이드 타일 사이즈 반환
-        sideTileSize = sideTile.GetComponentInChildren<BoxCollider>().size;      
-        // 꼭지점 타일 사이즈 반환
-        vertexTileSize = vertexTile.GetComponentInChildren<BoxCollider>().size;
     }
 
     /// <summary>
     /// 타일 랜덤 생성
     /// </summary>
-    protected override void Test1(InputAction.CallbackContext _)
+    public void Test1()
     {
         if (!isExist)                   // 타일이 존재하지 않을 경우에만 생성
         {
@@ -59,10 +51,11 @@ public class MapTest : TestBase
 
             MapInstantiate();                       // 메인 맵 생성
 
-            player.CurrentPos = GetTile(sizeX / 2, sizeY / 3);     // 플레이어 위치 이동(임시)
 
-            LightInstantiate();                     // 조명 및 기둥 생성
+            PillarInstantiate();                     // 조명 및 기둥 생성
             //MiniMapInstantiate();                 // 미니맵 판자 생성(필요없을 것 같아 나중에 지울 예정)
+
+            RandomPlayerMove();
 
             isExist = true;         // 중복 맵 생성 방지
 
@@ -72,24 +65,27 @@ public class MapTest : TestBase
     /// <summary>
     /// 타일 제거
     /// </summary>
-    protected override void Test2(InputAction.CallbackContext _)
+    public void Test2()
     {
         if (isExist && !isPropExist)
         {
             MapDestroy();
+
+            isExist = false;
         }
     }
 
-    protected override void Test3(InputAction.CallbackContext _)
+    public void Test3()
     {
         if (isExist)
         {
             PropInstantiate();
+            RandomPlayerMove();
             isPropExist = true;
         }
     }
 
-    protected override void Test4(InputAction.CallbackContext context)
+    public void Test4()
     {
         if (isPropExist)
         {
@@ -191,11 +187,8 @@ public class MapTest : TestBase
 
         for (int i = 0; i < 4; i++)
         {
-            Destroy(lights[i]);
             Destroy(pillars[i]);
         }
-
-        isExist = false;
     }
 
     /// <summary>
@@ -236,11 +229,10 @@ public class MapTest : TestBase
     /// <summary>
     /// 조명과 기둥 생성 및 이동
     /// </summary>
-    private void LightInstantiate()
+    private void PillarInstantiate()
     {
         standardPos = new Tile[4];         // 기준 위치 생성
         pillars = new GameObject[4];            // 기둥 동적 생성
-        lights = new GameObject[4];             // 조명 동적 생성
 
         standardPos[0] = GetTile(sizeX / 3 - 1, sizeY / 3 - 1).GetComponent<Tile>();
         standardPos[1] = GetTile(sizeX - sizeX / 3 + 1, sizeY / 3 - 1).GetComponent<Tile>();
@@ -254,8 +246,6 @@ public class MapTest : TestBase
             pillars[i] = Instantiate(pillar, gameObject.transform);                                               // 기둥 생성
             pillars[i].transform.position = standardPos[i].transform.position;                                    // 기둥 이동
 
-            lights[i] = Instantiate(pointLight, gameObject.transform);                                            // 조명 생성
-            lights[i].transform.position = standardPos[i].transform.position + new Vector3(0.0f, 20.0f, 0.0f);    // 조명 이동
         }
     }
 
@@ -509,4 +499,23 @@ public class MapTest : TestBase
     {
         return GetTile(x, y).ExistType != Tile.TileExistType.None;
     }
+
+    
+    private void RandomPlayerMove()
+    {
+        int count = 0;
+        while (true)
+        {
+            if (GetTile(sizeX / 2, sizeY / 3 + count).ExistType == Tile.TileExistType.None)
+            {
+                player.CurrentPos = GetTile(sizeX / 2, sizeY / 3 + count);     // 플레이어 위치 이동(임시)
+                break;
+            }
+            else
+            {
+                count++;
+            }
+        }
+    }
+
 }

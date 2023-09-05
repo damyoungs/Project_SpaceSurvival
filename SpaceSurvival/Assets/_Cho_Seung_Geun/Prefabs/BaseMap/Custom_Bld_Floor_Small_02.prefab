@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5117591928324388830}
   - component: {fileID: 1962519777974830193}
   - component: {fileID: 3738836338027972452}
-  - component: {fileID: 7962067540608820760}
+  - component: {fileID: 5999327561962903643}
   m_Layer: 8
   m_Name: Custom_Bld_Floor_Small_02
   m_TagString: Tile
@@ -58,6 +58,7 @@ MonoBehaviour:
   length: 0
   Index: 0
   G: 0
+  MoveCheckG: 0
   H: 0
   parent: {fileID: 0}
 --- !u!65 &3738836338027972452
@@ -73,7 +74,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 0.17388695, z: 2}
   m_Center: {x: 0, y: -0.08, z: 0}
---- !u!120 &7962067540608820760
+--- !u!120 &5999327561962903643
 LineRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,10 +116,10 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Positions:
-  - {x: -1, y: 0.1, z: 1}
-  - {x: -1, y: 0.1, z: -1}
   - {x: 1, y: 0.1, z: -1}
   - {x: 1, y: 0.1, z: 1}
+  - {x: -1, y: 0.1, z: 1}
+  - {x: -1, y: 0.1, z: -1}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.1

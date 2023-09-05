@@ -20,7 +20,10 @@ public class DataLoad_SceanMove : MonoBehaviour
         if (data != null)
         {
             Debug.Log($"{data} 파일이 정상로드됬습니다 , {data.SceanName} 파싱작업후 맵이동 작성을 해야하니 맵이 필요합니다.");
-            
+            if (SpaceSurvival_GameManager.Instance.GetBattleMapInit != null) //배틀맵데이터가 셋팅되있으면
+            {
+                SpaceSurvival_GameManager.Instance.BattleMapInitClass.TestReset();  //초기화 하기
+            }
             LoadingScean.SceanLoading(data.SceanName);
 
         }
