@@ -10,6 +10,7 @@ using UnityEditor;
 #endif
 public class PlayerDummy : MonoBehaviour, IHealth
 {
+
     public enum ArmorType
     {
         None,
@@ -63,6 +64,7 @@ public class PlayerDummy : MonoBehaviour, IHealth
 
     InputKeyMouse inputActions;
 
+    ShootAction shootAction;
     ItemDescription itemDescription;
     EquipBox_Description EquipBox_Description;
     EquipBox equipBox;
@@ -76,7 +78,7 @@ public class PlayerDummy : MonoBehaviour, IHealth
     public Action<ItemData> onEquipItem;
     public Action<ItemData> onUnEquipItem;
     public Action onClearSlot;
-
+    public Action on_Attack;
 
 
     
@@ -157,7 +159,28 @@ public class PlayerDummy : MonoBehaviour, IHealth
     private void Awake()
     {
         inputActions = new InputKeyMouse();
+        shootAction = GetComponent<ShootAction>();
+        shootAction.onAttack += Attack;
+        //on_Attack = Pistol_Attack;
     }
+
+    private void Attack()
+    {
+        on_Attack();
+    }
+    void Pistol_Attack()
+    {
+
+    }
+    void Rifle_Attack()
+    {
+
+    }
+    void ShotGun_Attack()
+    {
+
+    }
+
     private void OnEnable()
     {
         inputActions.Player.Enable();
@@ -180,6 +203,14 @@ public class PlayerDummy : MonoBehaviour, IHealth
         armors[1] = transform.GetChild(17).transform;// Space Armor
         armors[2] = transform.GetChild(20).transform;// Big Armor
         armors[3] = transform.GetChild(19).transform;// ¸Ó¸®
+    }
+    public void Disable_Input()
+    {
+        inputActions.KeyBoard.InvenKey.performed -= OpenInven;
+    }
+    public void Enable_Input()
+    {
+        inputActions.KeyBoard.InvenKey.performed += OpenInven;
     }
     void Update_Status_For_UnEquip(ItemData legacyData)
     {

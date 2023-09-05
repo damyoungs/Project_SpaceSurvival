@@ -138,7 +138,7 @@ public class ItemSpawner : TestBase
     }
     protected  void OpenInven(InputAction.CallbackContext _)
     {
-        GameManager.Inventory.Open_Inventory();
+
     }
     protected override void Test3(InputAction.CallbackContext context)
     {
