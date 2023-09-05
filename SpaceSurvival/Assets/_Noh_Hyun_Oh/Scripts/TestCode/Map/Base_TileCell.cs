@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 /*
@@ -10,7 +11,7 @@ using UnityEngine.UIElements;
 /// <summary>
 /// 타일 기본정보 
 /// </summary>
-public class Base_TileCell : Base_PoolObj, ITileBase, IPointerUpHandler, IPointerDownHandler
+public class Base_TileCell : Base_PoolObj, ITileBase
 {
     int index = -1;
     /// <summary>
@@ -88,8 +89,7 @@ public class Base_TileCell : Base_PoolObj, ITileBase, IPointerUpHandler, IPointe
         }
 
     }
-
-
+  
     public void OnInitData(int index, Vector3Int gridPos, CurrentTileState currentTileState)
     {
         this.index = index;
@@ -126,14 +126,11 @@ public class Base_TileCell : Base_PoolObj, ITileBase, IPointerUpHandler, IPointe
         gameObject.SetActive(false);
     }
 
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        OnClick?.Invoke(index);
-        //Debug.Log(index);
-    }
+   
 
-    public void OnPointerDown(PointerEventData eventData)
+    private void OnMouseDown()
     {
+        Debug.Log(index);
     }
 
 }

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// <summary>
 /// UI 기준으로 스크립트만듬 
 /// </summary>
-public class BattleActionButtonBase : MonoBehaviour ,IPointerEnterHandler,IPointerExitHandler
+public class BattleActionButtonBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     //버튼은 하위단에 하나밖에존재안함
     Button bt;
@@ -26,11 +26,13 @@ public class BattleActionButtonBase : MonoBehaviour ,IPointerEnterHandler,IPoint
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
+        SpaceSurvival_GameManager.Instance.IsUICheck = true;
         OnMouseEnter();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        SpaceSurvival_GameManager.Instance.IsUICheck = false;
         OnMouseExit();
     }
 

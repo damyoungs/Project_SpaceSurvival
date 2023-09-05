@@ -5,9 +5,11 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// 승근씨 맵 생성로직 중 맵생성부분만 빼서 따로 컴포넌트로 생성 
+/// 배열의 좌표값을 해당 컴포넌트 접근없이 가져오기위해 이중 배열로 교체 
 /// </summary>
 public class Cho_BattleMapGenerate : MonoBehaviour
 {
@@ -21,29 +23,30 @@ public class Cho_BattleMapGenerate : MonoBehaviour
     [SerializeField]
     int sizeX = 0;                   // 타일 가로 갯수
     public int SizeX => sizeX;
-    
+
     [SerializeField]
     int sizeY = 0;                   // 타일 세로 갯수
     public int SizeY => sizeY;
-    
+
     [SerializeField]
     int tileCount = 0;               // 타일의 수
 
     [SerializeField]
     List<GameObject> singleProps;    // 1칸만 차지하는 물체
-    public List<GameObject> SingleProps=> singleProps;
+    public List<GameObject> SingleProps => singleProps;
 
     [SerializeField]
     List<GameObject> multiProps;     // 2칸 이상의 타일을 차지하는 물체
-    public List<GameObject> MultiProps=> multiProps;
+    public List<GameObject> MultiProps => multiProps;
 
     List<GameObject> props;                 // 지형 지물을 담을 배열
 
     Tile[] standardPos;                // 기준 위치(조명과 기둥이 있을 위치)
-    
+
     GameObject[] pillars;                   // 기둥
 
     GameObject[] lights;                    // 조명
+
 
     Vector3 mainTileSize = Vector3.zero;    // 중앙 타일 사이즈
 
@@ -59,21 +62,24 @@ public class Cho_BattleMapGenerate : MonoBehaviour
         blockCamera = GetComponent<BoxCollider>(); //시네머신 카메라 관련 설정할 콜라이더 찾고 
 
         mainTileSize = centerTile.GetComponent<BoxCollider>().size; // 타일 콜라이더 사이즈 가져오고
-        
+
         MapInstantiate(); //맵 생성하고 
-        
+
         MoveRange moveRange = GetComponent<MoveRange>(); //맵 이동 가능범위 표시하기위한 로직 찾아서
         moveRange.InitDataSetting(mapTiles, sizeX, sizeY);  // 맵에대한 정보 셋팅 
 
         SpaceSurvival_GameManager.Instance.GetBattleMapTilesData = () => MapTiles; // 게임메니저에 데이터 저장하기위해 연결 
+        SpaceSurvival_GameManager.Instance.GetMapTileX = () => sizeX; // 게임메니저에 데이터 저장하기위해 연결 
+        SpaceSurvival_GameManager.Instance.GetMapTileY = () => sizeY; // 게임메니저에 데이터 저장하기위해 연결 
     }
-
-    void MapInstantiate()
+    /// <summary>
+    /// 메인 맵 생성하는 함수
+    /// </summary>
+    private void MapInstantiate()
     {
         sizeX = Random.Range(20, 31);       // 타일 가로 갯수 랜덤 생성
         sizeY = Random.Range(20, 31);       // 타일 세로 갯수 랜덤 생성
         tileCount = sizeX * sizeY;          // 총 타일 갯수
-
         mapTiles = new Tile[tileCount];   // 배열 동적 생성
         GameObject wallObject;          // 벽 오브젝트
 
@@ -83,11 +89,7 @@ public class Cho_BattleMapGenerate : MonoBehaviour
             int length = i / sizeX;             // 세로 인덱스 번호
 
             // 타일 생성
-            if ((width == 0 && length == 0) ||                  //좌측 최하단 체크
-                (width == 0 && length == sizeY - 1) ||          //좌측 최상단 체크
-                (width == sizeX - 1 && length == 0) ||          //우측 최하단 체크
-                (width == sizeX - 1 && length == sizeY - 1)     //우측 최상단 체크
-                )
+            if ((width == 0 && length == 0) || (width == 0 && length == sizeY - 1) || (width == sizeX - 1 && length == 0) || (width == sizeX - 1 && length == sizeY - 1))
             {
                 // 꼭지점인 경우
                 TileInstantiate(i, vertexTile, Tile.MapTileType.vertexTile, width, length);      // 꼭지점 타일 생성
@@ -118,11 +120,7 @@ public class Cho_BattleMapGenerate : MonoBehaviour
                     mapTiles[i].transform.Rotate(new Vector3(0, 270.0f, 0));
                 }
             }
-            else if (width == 0 ||              //왼쪽끝   라인이거나 
-                     width == sizeX - 1 ||      //오른쪽끝 라인이거나
-                     length == 0 ||             //맨아래   라인이거나
-                     length == sizeY - 1        //맨위     라인이면
-                     )
+            else if (width == 0 || width == sizeX - 1 || length == 0 || length == sizeY - 1)
             {
                 // 가장자리일 경우
                 TileInstantiate(i, sideTile, Tile.MapTileType.sideTile, width, length);             // 사이드 타일 생성
@@ -149,10 +147,8 @@ public class Cho_BattleMapGenerate : MonoBehaviour
             else
             {
                 // 가장자리가 아닌 경우
-                TileInstantiate(i, centerTile, Tile.MapTileType.centerTile, width, length);              //중앙 타일 생성-		base	"Custom_Bld_Floor_Small_02(Clone) (Tile)"	UnityEngine.Component
-
-                mapTiles[i].transform.Rotate(new Vector3(0, 90.0f * Random.Range(0, 4), 0));        // 중앙 타일 랜덤 회전(그냥 미관상)-		base	"Custom_Bld_Floor_Small_02(Clone) (Tile)"	UnityEngine.Object
-
+                TileInstantiate(i, centerTile, Tile.MapTileType.centerTile, width, length);              //중앙 타일 생성
+                mapTiles[i].transform.Rotate(new Vector3(0, 90.0f * Random.Range(0, 4), 0));        // 중앙 타일 랜덤 회전(그냥 미관상)
             }
 
             mapTiles[i].transform.position = new Vector3(mainTileSize.x * width, 0, mainTileSize.z * length);
@@ -162,6 +158,100 @@ public class Cho_BattleMapGenerate : MonoBehaviour
         PropInstantiate();
     }
 
+    //void MapInstantiate()
+    //{
+    //    sizeX = Random.Range(20, 31);       // 타일 가로 갯수 랜덤 생성
+    //    sizeY = Random.Range(20, 31);       // 타일 세로 갯수 랜덤 생성
+    //    tileCount = sizeX * sizeY;          // 총 타일 갯수
+
+    //    mapTiles = new Tile[tileCount];   // 배열 동적 생성
+    //    GameObject wallObject;          // 벽 오브젝트
+    //    int i = -1;
+    //    for (int y = 0; y < sizeY; y++)
+    //    {
+    //        for (int x = 0; x < sizeX; x++)
+    //        {
+    //            i = sizeX * y + x;  //인덱스 구하기 
+
+    //            if ((x == 0 && y == 0) ||                  //좌측 최하단 체크
+    //           (x == 0 && y == sizeY - 1) ||          //좌측 최상단 체크
+    //           (x == sizeX - 1 && y == 0) ||          //우측 최하단 체크
+    //           (x == sizeX - 1 && y == sizeY - 1)     //우측 최상단 체크
+    //           )
+    //            {
+    //                // 꼭지점인 경우
+    //                TileInstantiate(i, vertexTile, Tile.MapTileType.vertexTile, x, y);      // 꼭지점 타일 생성
+    //                wallObject = Instantiate(wall, mapTiles[i].transform);                      // 측면 벽1 생성
+    //                wallObject.transform.Translate(new Vector3(1.0f, 0.0f, -1.75f));            // 측면 벽1 이동
+    //                wallObject = Instantiate(wall, mapTiles[i].transform);                      // 측면 벽2 생성
+    //                wallObject.transform.Rotate(new Vector3(0, -90.0f, 0));                     // 측면 벽2 회전
+    //                wallObject.transform.Translate(new Vector3(1.0f, 0.0f, -1.75f));            // 측면 벽2 이동
+    //                wallObject = Instantiate(wall, mapTiles[i].transform);                      // 꼭지점 벽 생성
+    //                wallObject.transform.Rotate(new Vector3(0, -45.0f, 0));                     // 꼭지점 벽 회전
+    //                wallObject.transform.Translate(new Vector3(1.0f, 0.0f, -2.0f));             // 꼭지점 벽 이동
+
+
+    //                if (x == 0 && y == 0)                                      // 왼쪽 위
+    //                {
+    //                    mapTiles[i].transform.Rotate(new Vector3(0, 90.0f, 0));
+    //                }
+    //                else if (x == 0 && y == sizeY - 1)                         // 왼쪽 아래
+    //                {
+    //                    mapTiles[i].transform.Rotate(new Vector3(0, 180.0f, 0));
+    //                }
+    //                else if (x == sizeX - 1 && y == 0)                         // 오른쪽 위
+    //                {
+    //                    mapTiles[i].transform.Rotate(new Vector3(0, 0.0f, 0));
+    //                }
+    //                else if (x == sizeX - 1 && y == sizeY - 1)                 // 오른쪽 아래
+    //                {
+    //                    mapTiles[i].transform.Rotate(new Vector3(0, 270.0f, 0));
+    //                }
+    //            }
+    //            else if (x == 0 ||              //왼쪽끝   라인이거나 
+    //                 x == sizeX - 1 ||      //오른쪽끝 라인이거나
+    //                 y == 0 ||             //맨아래   라인이거나
+    //                 y == sizeY - 1        //맨위     라인이면
+    //                 )
+    //            {
+    //                // 가장자리일 경우
+    //                TileInstantiate(i, sideTile, Tile.MapTileType.sideTile, x, y);             // 사이드 타일 생성
+    //                wallObject = Instantiate(wall, mapTiles[i].transform);                              // 측면 벽 생성
+    //                wallObject.transform.Translate(new Vector3(1, 0.0f, -1.75f));                       // 측면 벽 이동
+
+    //                if (x == 0)                                                                     // 왼쪽 세로줄
+    //                {
+    //                    mapTiles[i].transform.Rotate(new Vector3(0, 90.0f, 0));
+    //                }
+    //                else if (x == sizeX - 1)                                                        // 오른쪽 세로줄
+    //                {
+    //                    mapTiles[i].transform.Rotate(new Vector3(0, 270.0f, 0));
+    //                }
+    //                else if (y == 0)                                                               // 맨 윗줄
+    //                {
+    //                    mapTiles[i].transform.Rotate(new Vector3(0, 0.0f, 0));
+    //                }
+    //                else if (y == sizeY - 1)                                                       // 맨 아랫줄
+    //                {
+    //                    mapTiles[i].transform.Rotate(new Vector3(0, 180.0f, 0));
+    //                }
+    //            }
+    //            else
+    //            {
+    //                // 가장자리가 아닌 경우
+    //                TileInstantiate(i, centerTile, Tile.MapTileType.centerTile, x, y);              //중앙 타일 생성-		base	"Custom_Bld_Floor_Small_02(Clone) (Tile)"	UnityEngine.Component
+
+    //                mapTiles[i].transform.Rotate(new Vector3(0, 90.0f * Random.Range(0, 4), 0));        // 중앙 타일 랜덤 회전(그냥 미관상)-		base	"Custom_Bld_Floor_Small_02(Clone) (Tile)"	UnityEngine.Object
+
+    //            }
+    //            mapTiles[i].transform.position = new Vector3(mainTileSize.x * x, 0, mainTileSize.z * y);
+    //        }
+    //    }
+    //    SetBlock(); //맵생성이 끝나면 카메라 벗어나지않게 컬라이더 위치조절
+    //    LightInstantiate();
+    //    PropInstantiate();
+    //}
+
     /// <summary>
     /// 타입에 따른 타일 생성
     /// </summary>
@@ -170,12 +260,12 @@ public class Cho_BattleMapGenerate : MonoBehaviour
     /// <param name="tileType">타일 스크립트에 저장할 타입</param>
     /// <param name="width">타일의 가로 인덱스</param>
     /// <param name="length">타일의 세로 인덱스</param>
-    private void TileInstantiate(int i, GameObject type, Tile.MapTileType tileType, int width, int length)
+    private void TileInstantiate(int i, GameObject type, Tile.MapTileType tileType, int x, int y)
     {
         mapTiles[i] = Instantiate(type, transform).GetComponent<Tile>();     // type에 따른 타일 생성
         mapTiles[i].TileType = tileType;                                                // 타일 스크립트에 타입 저장
-        mapTiles[i].Width = width;                                                      // 타일 가로 인덱스 저정
-        mapTiles[i].Length = length;                                                    // 타일 세로 인덱스 저정
+        mapTiles[i].Width = x;                                                      // 타일 가로 인덱스 저정
+        mapTiles[i].Length = y;                                                    // 타일 세로 인덱스 저정
         mapTiles[i].Index = i;
     }
 
@@ -254,7 +344,7 @@ public class Cho_BattleMapGenerate : MonoBehaviour
     /// <param name="chooseProp">구조물 종류 인덱스</param>
     private void PropSingleMaking(int chooseProp)
     {
-        GameObject obj = Instantiate(singleProps[chooseProp],transform);      // 구조물 생성
+        GameObject obj = Instantiate(singleProps[chooseProp], transform);      // 구조물 생성
 
         while (true)
         {
@@ -283,7 +373,7 @@ public class Cho_BattleMapGenerate : MonoBehaviour
     /// <param name="index4">세로 인덱스의 최대 범위</param>
     private void PropMultiMaking(int chooseProp, int index1, int index2, int index3, int index4)
     {
-        GameObject obj = Instantiate(multiProps[chooseProp],transform);           // 구조물 생성
+        GameObject obj = Instantiate(multiProps[chooseProp], transform);           // 구조물 생성
         PropData objData = obj.GetComponent<PropData>();                // 구조물의 데이터 반환
         Tile[] tempTile = new Tile[objData.width * objData.length];     // 타일 체크 시 담아놓을 임시 배열(구조물의 가로와 세로 길이의 곱과 같다)
         bool isSuccess = false;                                         // 구조물 이동이 가능한지 여부
@@ -380,17 +470,13 @@ public class Cho_BattleMapGenerate : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 이차원 좌표를 타일로 반환하는 함수
-    /// </summary>
-    /// <param name="width">가로 인덱스</param>
-    /// <param name="length">세로 인덱스</param>
-    /// <returns></returns>
-    private Tile GetTile(int width, int length)
+
+    public Tile GetTile(int width, int length)
     {
         int index = sizeX * length + width;
         return mapTiles[index];
     }
+
 
     //private Tile GetTile(Vector2Int pos)
     //{
@@ -497,11 +583,11 @@ public class Cho_BattleMapGenerate : MonoBehaviour
 
 
 
-    public Vector3 GetTilePos(int index ) 
-    {
-        int x =  index % sizeX;
-        int y =  index / sizeX;
-        return new Vector3(x, 0, y);
-    }
-  
+    //public Vector3 GetTilePos(int index)
+    //{
+    //    int x = index % sizeX;
+    //    int y = index / sizeX;
+    //    return new Vector3(x, 0, y);
+    //}
+
 }

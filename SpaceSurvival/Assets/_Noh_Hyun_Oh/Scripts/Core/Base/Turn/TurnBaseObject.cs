@@ -35,6 +35,17 @@ public class TurnBaseObject : BattleMapTurnUnit_PoolObj, ITurnBaseData
         get => isTurn;
         set => isTurn = value;
     } 
+
+    public bool IsMove 
+    {
+        get 
+        {
+            if (currentUnit == null) return false;
+            
+            return currentUnit.IsMoveCheck; 
+        }
+    }
+    
     /// <summary>
     /// 배틀 인덱스 가져올 델리게이트
     /// </summary>
@@ -53,7 +64,7 @@ public class TurnBaseObject : BattleMapTurnUnit_PoolObj, ITurnBaseData
     /// 행동력 최대치 (회복상한선)
     /// </summary>
     [SerializeField]
-    [Range(1.0f, 2.0f)]
+    [Range(1.1f, 2.0f)]
     protected float maxTurnValue = 1.5f;
 
     /// <summary>
@@ -113,6 +124,7 @@ public class TurnBaseObject : BattleMapTurnUnit_PoolObj, ITurnBaseData
     /// </summary>
     protected ICharcterBase currentUnit;
     public ICharcterBase CurrentUnit => currentUnit;
+
 
     /// <summary>
     /// 턴 UI가 담길 캔버스 위치
