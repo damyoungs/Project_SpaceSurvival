@@ -112,6 +112,7 @@ public class Item_Enhancer_UI : MonoBehaviour, IPopupSortWindow
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
         ClearEnhancerUI();
+        PopupSorting?.Invoke(this);
     }
     public void Close()
     {
@@ -219,6 +220,7 @@ public class Item_Enhancer_UI : MonoBehaviour, IPopupSortWindow
     public void OpenWindow()
     {
         Open();
+        PopupSorting?.Invoke(this);
     }
 
     public void CloseWindow()

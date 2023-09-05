@@ -141,6 +141,7 @@ public class Item_Mixer_UI : MonoBehaviour, IPopupSortWindow
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
         ClearMixerUI();
+        PopupSorting?.Invoke(this);
     }
     public void Close()
     {

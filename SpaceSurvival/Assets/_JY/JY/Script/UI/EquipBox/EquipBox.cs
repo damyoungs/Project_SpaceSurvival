@@ -237,6 +237,7 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow
         canvasGroup.alpha = 1;
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
+        PopupSorting?.Invoke(this);
     }
     public void Close()
     {

@@ -193,6 +193,7 @@ public class Inventory : MonoBehaviour, IPopupSortWindow
             canvasGroup.alpha = 1.0f;
             canvasGroup.interactable = true;
             canvasGroup.blocksRaycasts = true;
+            PopupSorting?.Invoke(this);
         }
         else
         {

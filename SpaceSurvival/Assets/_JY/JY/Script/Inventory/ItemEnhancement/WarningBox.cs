@@ -56,6 +56,7 @@ public class WarningBox : MonoBehaviour, IPopupSortWindow
         canvasGroup.alpha = 1;
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
+        PopupSorting?.Invoke(this);
     }
     void Close()
     {
