@@ -23,7 +23,7 @@ public class Opening : MonoBehaviour
     /// <summary>
     /// 텍스트 기본 사이즈
     /// </summary>
-    const float textWidth = 73.0f;
+    const float textWidth = 80.0f;
     
     /// <summary>
     /// 텍스트 기본 사이즈
@@ -55,7 +55,7 @@ public class Opening : MonoBehaviour
     /// 한라인에 차지할 글자 수
     /// </summary>
     [SerializeField]
-    int fileLineSize = 20;
+    int fileLineSize = 25;
 
     int lineCount = 0;
 
@@ -120,7 +120,7 @@ public class Opening : MonoBehaviour
         //도착이니 다음 화면으로 이동
         LoadingScean.SceanLoading(EnumList.SceanName.TITLE); 
     }
-
+    string enterText = "//";
 
     /// <summary>
     /// 연속된 글자의 배열을 가지고 TextMeshPro 를 만들어 화면에뿌리는로직
@@ -139,8 +139,11 @@ public class Opening : MonoBehaviour
         rt.anchoredPosition3D = new Vector3(0.0f, 0.0f, 0.0f); //처음 위치 조절하고 
         for (int i = 0; i < textLength ; i++) //글자 구간갯수 만큼 돌리고 
         {
-            if (textLineLength + fileText[i].Length > fileLineSize)  //한줄에 보여줄 길이 넘어가면 
+            Debug.Log($"{fileText[i].Contains(enterText)} : {fileText[i]}");
+            if (fileText[i].Contains(enterText) 
+                )//|| textLineLength + fileText[i].Length > fileLineSize)  //한줄에 보여줄 길이 넘어가면 
             {
+                fileText[i] =  fileText[i].Replace(enterText,"");
                 textObject = Instantiate(textPrefab,transform); //새롭게 프리팹 내용 복사하고 
                 textLineLength = fileText[i].Length; //글자 길이 수정 
                 textObject.text = fileText[i]; //내용 담고 
