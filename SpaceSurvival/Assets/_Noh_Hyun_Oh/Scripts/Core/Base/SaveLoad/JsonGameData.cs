@@ -104,6 +104,17 @@ public class JsonGameData
     }
 
     /// <summary>
+    /// 장비 슬롯갯수 
+    /// </summary>
+    [SerializeField]
+    int equipSlotLength;
+    public int EquipSlotLength 
+    {   
+        get => equipSlotLength;
+        set => equipSlotLength = value;
+    }
+
+    /// <summary>
     /// 캐릭터 소지아이템 리스트 -장비
     /// </summary>
     [SerializeField]
@@ -112,6 +123,16 @@ public class JsonGameData
     {
         get => equipData;
         set => equipData = value;
+    }
+    /// <summary>
+    /// 소모 슬롯갯수 
+    /// </summary>
+    [SerializeField]
+    int consumeSlotLength;
+    public int ConsumeSlotLength
+    {
+        get => consumeSlotLength;
+        set => consumeSlotLength = value;
     }
     /// <summary>
     /// 캐릭터 소지아이템 리스트 -소비
@@ -124,6 +145,16 @@ public class JsonGameData
         set => consumeData = value;
     }
     /// <summary>
+    /// 기타 슬롯갯수 
+    /// </summary>
+    [SerializeField]
+    int etcSlotLength;
+    public int EtcSlotLength
+    {
+        get => etcSlotLength;
+        set => etcSlotLength = value;
+    }
+    /// <summary>
     /// 캐릭터 소지아이템 리스트 -기타
     /// </summary>
     [SerializeField]
@@ -132,6 +163,16 @@ public class JsonGameData
     {
         get => etcData;
         set => etcData = value;
+    }
+    /// <summary>
+    /// 조합 슬롯갯수 
+    /// </summary>
+    [SerializeField]
+    int craftSlotLength;
+    public int CraftSlotLength
+    {
+        get => craftSlotLength;
+        set => craftSlotLength = value;
     }
     /// <summary>
     /// 캐릭터 소지아이템 리스트 -조합

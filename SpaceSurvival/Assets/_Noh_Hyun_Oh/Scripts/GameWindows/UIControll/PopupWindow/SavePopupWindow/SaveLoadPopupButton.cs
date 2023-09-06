@@ -109,22 +109,28 @@ public class SaveLoadPopupButton : MonoBehaviour
     private void SetData() 
     {
         JsonGameData saveData = new JsonGameData();
-        
+        int defaultSlotLength = 10;
         List<Slot> temp = slotManager.slots[Current_Inventory_State.Equip];
         List<CharcterItems> tempList = new();
         
         CharcterItems tempData = new CharcterItems();
+        ItemData_Enhancable enhanceItem;
         foreach (Slot slot in temp)
         {
             if (slot.ItemData != null) 
             {
-
+                enhanceItem = slot.ItemData as ItemData_Enhancable;
+                if (enhanceItem != null) 
+                {
+                    tempData.ItemEnhanceValue = enhanceItem.itemLevel;
+                }
                 tempData.ItemIndex = slot.ItemData.code;
                 tempData.Values = slot.ItemCount;
-                tempData.SlotNumber = slot.Index;
+                tempData.SlotIndex = slot.Index;
                 tempList.Add(tempData);
             }
         }
+        saveData.EquipSlotLength =  temp.Count - defaultSlotLength ;
         saveData.EquipData = tempList.ToArray();
         tempList.Clear();
    
@@ -136,10 +142,11 @@ public class SaveLoadPopupButton : MonoBehaviour
 
                 tempData.ItemIndex = slot.ItemData.code;
                 tempData.Values = slot.ItemCount;
-                tempData.SlotNumber = slot.Index;
+                tempData.SlotIndex = slot.Index;
                 tempList.Add(tempData);
             }
         }
+        saveData.ConsumeSlotLength = temp.Count - defaultSlotLength;
         saveData.ConsumeData = tempList.ToArray();
         tempList.Clear();
 
@@ -151,10 +158,11 @@ public class SaveLoadPopupButton : MonoBehaviour
 
                 tempData.ItemIndex = slot.ItemData.code;
                 tempData.Values = slot.ItemCount;
-                tempData.SlotNumber = slot.Index;
+                tempData.SlotIndex = slot.Index;
                 tempList.Add(tempData);
             }
         }
+        saveData.EtcSlotLength = temp.Count - defaultSlotLength;
         saveData.EtcData = tempList.ToArray();
         tempList.Clear();
 
@@ -167,10 +175,11 @@ public class SaveLoadPopupButton : MonoBehaviour
 
                 tempData.ItemIndex = slot.ItemData.code;
                 tempData.Values = slot.ItemCount;
-                tempData.SlotNumber = slot.Index;
+                tempData.SlotIndex = slot.Index;
                 tempList.Add(tempData);
             }
         }
+        saveData.CraftSlotLength = temp.Count - defaultSlotLength;
         saveData.CraftData = tempList.ToArray();
 
         SaveLoadManager.Instance.GameSaveData = saveData;

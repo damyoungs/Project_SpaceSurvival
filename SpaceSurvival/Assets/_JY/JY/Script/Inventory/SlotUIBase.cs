@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-[Serializable]
 public class SlotUI_Base : MonoBehaviour
 {
     Slot slotComp;
@@ -16,7 +15,6 @@ public class SlotUI_Base : MonoBehaviour
     public Action<QuickSlot, ItemData> onItemCountChange;
     public Action<ItemData> onItemDataChange;
     public bool IsEmpty => ItemData == null;//SlotManager에서  빈 슬롯인지 확인할때 쓰일 프로퍼티// 초기 
-    [SerializeField]
     private ItemData itemData = null;
     public ItemData ItemData//SlotManager의  GetItem 함수가 실행될때 Item의 정보를 받아오기위한 프로퍼티
     {
@@ -30,7 +28,6 @@ public class SlotUI_Base : MonoBehaviour
             }
         }
     }
-    [SerializeField]
     uint itemCount;
     public uint ItemCount
     {

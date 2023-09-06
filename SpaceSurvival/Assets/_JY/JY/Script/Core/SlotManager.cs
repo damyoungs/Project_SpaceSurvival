@@ -22,7 +22,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
 
     public TempSlot TempSlot => tempSlot;
 
-    Inventory inven; 
+    Inventory inven;
     Transform equip_Below;
     Transform consume_Below;
     Transform etc_Below;
@@ -101,7 +101,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
 
         foreach (QuickSlot quickSlot in quickSlot_Manager.quickSlots)
         {
-            quickSlot.onSetData += Binding_Slots;
+            quickSlot.onSetData += Binding_Slots; //??  += 을 사용한 이유가...?  = 으로 하나만 연결시키면되는거아닌가요?
         }
 
         inven = GameManager.Inventory;
@@ -191,7 +191,39 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             slotComp.onSet_Just_ChangeSlot += (slot) => just_ChangeSlot = slot;
         }
     }
- 
+
+    /// <summary>
+    /// 불러올때 사용하기위해 추가 
+    /// </summary>
+    /// <param name="invenTab"></param>
+    public void Make_Slot(Current_Inventory_State invenTab)
+    {
+        GameObject newSlot = Instantiate(slot);
+        Slot slotComp = newSlot.GetComponent<Slot>();
+        Transform parentTransform = GetParentTransform(invenTab);
+        if (parentTransform != null)
+        {
+            slotCount[invenTab]++;
+            newSlot.name = $"{invenTab}_{slotCount[invenTab]}";
+            newSlot.transform.SetParent(parentTransform.transform, true);
+            slots[invenTab].Add(slotComp);
+
+
+            slotComp.InitializeSlot(slotComp);
+            if (invenTab == Current_Inventory_State.Consume)
+            {
+                slotComp.onItemDataChange += BindingCheck;
+            }
+            slotComp.onDragBegin += OnItemMoveBegin;
+            slotComp.onDragEnd += OnItemMoveEnd;
+            slotComp.onClick += OnSlotClick;
+            slotComp.onPointerEnter += OnItemDetailOn;
+            slotComp.onPointerExit += OnItemDetailOff;
+            slotComp.onPointerMove += OnSlotPointerMove;
+            slotComp.Index = (uint)slots[invenTab].Count - 1;
+            slotComp.onSet_Just_ChangeSlot += (slot) => just_ChangeSlot = slot;
+        }
+    }
     private void OnItemMoveBegin(ItemData data, uint index)
     {
         Index_JustChange_Slot = (byte)index;
@@ -237,8 +269,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     private void OnItemDetailOn( ItemData data, uint index)
     {
         List<Slot> slots = GetItemTab(data); //빈슬롯 위에 Pointer Enter시 data가 null 이되서 리스트를 가져올때 터짐
-
-        itemDescription.Open(slots[(int)index].ItemData); // 상세정보창 열기
+        itemDescription.Open(slots[(int)index].ItemData); // 상세정보창 열기ㅐ
     }
     private void OnItemDetailOff(uint index)
     {
@@ -437,6 +468,34 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     {
         Transform parentTransform;
         switch (GameManager.Inventory.State)
+        {
+            case Current_Inventory_State.Equip:
+                parentTransform = equip_Below;
+                break;
+            case Current_Inventory_State.Consume:
+                parentTransform = consume_Below;
+                break;
+            case Current_Inventory_State.Etc:
+                parentTransform = etc_Below;
+                break;
+            case Current_Inventory_State.Craft:
+                parentTransform = craft_Below;
+                break;
+            default:
+                parentTransform = null;
+                break;
+        }
+        return parentTransform;
+    }
+    /// <summary>
+    /// 불러올 때 사용하기 위해 추가
+    /// </summary>
+    /// <param name="invenTab"></param>
+    /// <returns></returns>
+    private Transform GetParentTransform(Current_Inventory_State invenTab)
+    {
+        Transform parentTransform;
+        switch (invenTab)
         {
             case Current_Inventory_State.Equip:
                 parentTransform = equip_Below;
@@ -740,7 +799,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
 
     private List<Slot> GetItemTab(ItemData item = null)
     {
-        List<Slot> slotList;
+        List<Slot> slotList = null;
         if (item != null) // 이 함수를 호출할 때 itemdata가 null 이면  인벤토리에 현재 선택된 탭의 리스트를 리턴한다.
         {
             switch (item.ItemType) // null 이 아니면 Inventory 클래스에서 현재 어떤 탭이 선택되었든 관계없이 item의 itemType에 따라 리스트를 결정 한다.
@@ -773,6 +832,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                     break;
             }
         }
+        Debug.Log($"{slotList.Count} 인덱스오류왜떠");
         return null;
     }
 }

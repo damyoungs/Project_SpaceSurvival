@@ -1,3 +1,4 @@
+using StructList;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -35,24 +36,75 @@ public class DataLoad_SceanMove : MonoBehaviour
     }
     public void setData(JsonGameData data) 
     {
+        //slotManager.Initialize();
+        Slot temp = null;
+        ItemData_Enhancable tempEnchan;
+
         List<Slot> slots = slotManager.slots[Current_Inventory_State.Equip];
-        int i = 0;
-        foreach (Slot slot in slots)
+
+        for (int slotIndex = 0; slotIndex  < data.EquipSlotLength; slotIndex ++)
         {
-            if (data.EquipData.Length > i)
-            {
-                slot.ItemData = GameManager.Itemdata[data.EquipData[i].ItemIndex];
-                slot.ItemCount = data.EquipData[i].Values;
-            }
-            else 
-            {
-                break;
-            }
-            i++;
+            slotManager.Make_Slot(Current_Inventory_State.Equip);
         }
-        //slotManager.slots[Current_Inventory_State.Equip] = new List<Slot>((Slot[])data.EquipData);
-        //slotManager.slots[Current_Inventory_State.Consume] = new List<Slot>((Slot[])data.ConsumeData);
-        //slotManager.slots[Current_Inventory_State.Etc] = new List<Slot>((Slot[])data.EtcData);
-        //slotManager.slots[Current_Inventory_State.Craft] = new List<Slot>((Slot[])data.CraftData);
+
+        foreach (CharcterItems equipData in data.EquipData)
+        {
+            temp = slots[(int)equipData.SlotIndex];
+            if (equipData.ItemEnhanceValue > 0) 
+            {
+                tempEnchan = temp.ItemData as ItemData_Enhancable;
+                if (tempEnchan != null)
+                tempEnchan.itemLevel = equipData.ItemEnhanceValue;
+            }
+            temp.ItemData = GameManager.Itemdata[equipData.ItemIndex];
+            temp.ItemCount = equipData.Values;
+        }
+
+
+        slots = slotManager.slots[Current_Inventory_State.Consume];
+
+        for (int slotIndex = 0; slotIndex < data.ConsumeSlotLength; slotIndex++)
+        {
+            slotManager.Make_Slot(Current_Inventory_State.Consume);
+        }
+
+        foreach (CharcterItems consumeData in data.ConsumeData)
+        {
+            temp = slots[(int)consumeData.SlotIndex];
+            temp.ItemData = GameManager.Itemdata[consumeData.ItemIndex];
+            temp.ItemCount = consumeData.Values;
+        }
+
+
+
+        slots = slotManager.slots[Current_Inventory_State.Etc];
+
+        for (int slotIndex = 0; slotIndex < data.EtcSlotLength; slotIndex++)
+        {
+            slotManager.Make_Slot(Current_Inventory_State.Etc);
+        }
+
+        foreach (CharcterItems etcData in data.EtcData)
+        {
+            temp = slots[(int)etcData.SlotIndex];
+            temp.ItemData = GameManager.Itemdata[etcData.ItemIndex];
+            temp.ItemCount = etcData.Values;
+        }
+
+        slots = slotManager.slots[Current_Inventory_State.Craft];
+
+        for (int slotIndex = 0; slotIndex < data.CraftSlotLength; slotIndex++)
+        {
+            slotManager.Make_Slot(Current_Inventory_State.Craft);
+        }
+
+        foreach (CharcterItems craftData in data.CraftData)
+        {
+            temp = slots[(int)craftData.SlotIndex];
+            temp.ItemData = GameManager.Itemdata[craftData.ItemIndex];
+            temp.ItemCount = craftData.Values;
+        }
+
+        
     }
 }

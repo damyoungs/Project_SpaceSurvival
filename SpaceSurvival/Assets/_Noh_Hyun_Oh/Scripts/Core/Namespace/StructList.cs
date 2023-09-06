@@ -48,6 +48,7 @@ namespace StructList {
                 values = value;
             }
         }
+
         /// <summary>
         /// 아이템 고유 키값
         /// </summary>
@@ -64,16 +65,26 @@ namespace StructList {
         /// <summary>
         /// 아이템 슬롯번호 
         /// </summary>
-        uint slotNumber;
-        public uint SlotNumber 
+        [SerializeField]
+        uint slotIndex;
+        public uint SlotIndex 
         {
-            get=> slotNumber;
+            get=> slotIndex;
             set 
             {
-                slotNumber = value;
+                slotIndex = value;
             }
         }
-        
+        /// <summary>
+        /// 아이템 강화 값
+        /// </summary>
+        [SerializeField]
+        byte itemEnhanceValue;
+        public byte ItemEnhanceValue 
+        {
+            get => itemEnhanceValue;
+            set => itemEnhanceValue = value;    
+        }
     }
 
     /// <summary>
