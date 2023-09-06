@@ -55,18 +55,21 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     public byte Index_JustChange_Slot { get; set; }
     private void Awake()
     {
-        //foreach (List<Slot> slotlist in slots.Values)
-        //{
-        //    foreach (Slot slot in slotlist)
-        //    {
-        //        string data = slot.ItemData.itemDescription;
-        //    }
-        //}
+   
 
         input = new InputKeyMouse();
         tempSlot = FindObjectOfType<TempSlot>(true);
         itemDescription = FindObjectOfType<ItemDescription>();
         spliter = FindObjectOfType<ItemSplitter>(true);
+    }
+    public void Inven_Clear()
+    {
+        
+        Transform parentTransform = GetParentTransform();
+        foreach (List<Slot> slotlist in slots.Values)
+        {
+            slotlist.Clear();
+        }
     }
     private void Start()
     {

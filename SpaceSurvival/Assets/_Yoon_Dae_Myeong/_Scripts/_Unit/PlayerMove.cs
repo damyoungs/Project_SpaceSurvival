@@ -60,7 +60,6 @@ public class PlayerMove : MonoBehaviour
 	InputKeyMouse inputAction;
 
 
-	public Transform targetObj;
 
 	private void Awake()
 	{
