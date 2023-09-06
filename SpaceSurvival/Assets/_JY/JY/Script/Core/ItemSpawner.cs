@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -25,6 +26,10 @@ public class ItemSpawner : TestBase
     void Initialize()
     {
         SetDropTable();//몬스터 드롭정보 저장
+    }
+    private void Start()
+    {
+        player = GameManager.playerDummy;
     }
     void SetDropTable()
     {
@@ -156,9 +161,11 @@ public class ItemSpawner : TestBase
     {
         equipBox.Set_ItemData_For_Drag(GameManager.Itemdata[ItemCode.HpPotion]);
     }
-
+    PlayerDummy player;
     protected override void Test5(InputAction.CallbackContext context)
     {
+ 
+
     }
     protected override void Test6(InputAction.CallbackContext context)
     {

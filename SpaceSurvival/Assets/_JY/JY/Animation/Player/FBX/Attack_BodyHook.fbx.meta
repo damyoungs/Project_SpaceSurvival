@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2519fb88e5f3aa842ab3717e512bc2d0
+guid: c161cf65a95412d41b4fa80aed9fd7f8
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -33,11 +33,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Pistol_Shoot
+      name: Attack_BodyHook
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 22
+      lastFrame: 59
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

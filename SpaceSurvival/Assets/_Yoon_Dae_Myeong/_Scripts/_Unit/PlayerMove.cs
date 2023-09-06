@@ -39,7 +39,7 @@ public class PlayerMove : MonoBehaviour
 		}
 	}
 	Action Move;
-
+	public Animator unitAnimator;
 	Camera mainCamera;
 
 	Vector3 moveDirection;
@@ -58,37 +58,54 @@ public class PlayerMove : MonoBehaviour
 	BoxCollider target = null;
 	
 	InputKeyMouse inputAction;
-    public Animator unitAnimator;
-    protected AudioSource audioSource;
+
 
 	public Transform targetObj;
 
 	private void Awake()
 	{
 		inputAction = new InputKeyMouse();
-		audioSource = GetComponent<AudioSource>();
 	}
 	private void OnEnable()
 	{
 		inputAction.Mouse.Enable();
 		inputAction.Mouse.MouseClick.performed += onClick;
+		inputAction.Mouse.MouseClickRight.performed += onClickRight;
 
 		inputAction.Player.Enable();
         inputAction.Player.Move.performed += OnMove;
 		inputAction.Player.Move.canceled += OnMove;
         //inputClick.Test.Test3.performed += onUnitDie;
-       
+        CameraOriginTarget battleFollowCamera = FindObjectOfType<CameraOriginTarget>(true); //회전값 받아오기위해 찾기 
+        if (battleFollowCamera != null)
+        {
+            battleFollowCamera.cameraRotation += SetCameraRotaion; //회전값받아오기위해 연결
+        }
     }
     private void OnDisable()
     {
+        CameraOriginTarget battleFollowCamera = FindObjectOfType<CameraOriginTarget>(true); //회전값 받아오기위해 찾기
+        if (battleFollowCamera != null)
+        {
+            battleFollowCamera.cameraRotation -= SetCameraRotaion;//회전값받아오기위해 연결
+        }
         inputAction.Player.Move.performed -= OnMove;
         inputAction.Player.Move.canceled -= OnMove;
         inputAction.Player.Disable();
         //inputClick.Test.Test3.performed -= onUnitDie;
+        inputAction.Mouse.MouseClickRight.performed -= onClickRight;
         inputAction.Mouse.MouseClick.performed -= onClick;
         inputAction.Mouse.Disable();
     }
-  
+    /// <summary>
+    /// 배틀맵에서 카메라 돌아가면 캐릭터 방향도 같이 수정한다.
+    /// </summary>
+    /// <param name="quaternion">카메라 회전방향 </param>
+    private void SetCameraRotaion(Quaternion quaternion)
+    {
+		lookDir = quaternion;
+		Debug.Log($"카메라가 움직였네 값은: {quaternion}");
+    }
 
     private void Start()
     {
@@ -167,7 +184,23 @@ public class PlayerMove : MonoBehaviour
 		}
 	}
 
+	protected virtual void onClickRight(InputAction.CallbackContext context)
+	{
+	}
 
+	//protected virtual void onUnitDie(InputAction.CallbackContext context)
+	//{
+	//}
+
+
+
+
+
+
+
+
+
+	CameraOriginTarget followCamera;
 
 
 }
