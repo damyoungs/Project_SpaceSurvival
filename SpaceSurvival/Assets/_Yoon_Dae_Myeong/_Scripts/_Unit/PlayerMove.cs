@@ -6,10 +6,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.VFX;
 
 public class PlayerMove : MonoBehaviour
 {
 	int isWalkingHash = Animator.StringToHash("IsWalking");
+	int runHash = Animator.StringToHash("Run");
+	int jumpHash = Animator.StringToHash("Jump");
+
 	enum MoveState
 	{
 		Town,
@@ -28,9 +32,11 @@ public class PlayerMove : MonoBehaviour
 				{
 					case MoveState.Town:
 						Move = MoveByKeyBoard;
+						Debug.Log("이동모드 변경 - KeyBoard");
 						break;
 					case MoveState.Field:
 						Move = UnitOnMove;
+                        Debug.Log("이동모드 변경 - 마우스 클릭");
                         break;
 					default:
 						break;
@@ -39,10 +45,11 @@ public class PlayerMove : MonoBehaviour
 		}
 	}
 	Action Move;
-	public Animator unitAnimator;
+	public Animator anim;
 	Camera mainCamera;
 
 	Vector3 moveDirection;
+	Vector3 fixedPos;
 	/// <summary>
 	/// 외부에서 수정할값
 	/// </summary>
@@ -51,29 +58,55 @@ public class PlayerMove : MonoBehaviour
 	/// 이동할 값 
 	/// </summary>
 	Quaternion moveDir = Quaternion.identity;
-	[SerializeField]
-	float defaultMoveSpeed = 4.0f;
-	float moveSpeed = 4.0f;
+
+	public float defaultMoveSpeed = 2.0f;
+	public float runSpeed = 5.0f;
+
+	bool running = false;
+	bool Running
+	{
+		get => running;
+		set
+		{
+			running = value;
+			if (running)
+			{
+				moveSpeed = runSpeed;
+			}
+			else
+			{
+				moveSpeed = defaultMoveSpeed;
+			}
+		}
+	}
+
+	float moveSpeed = 2.0f;
 	float rotateSpeed = 10.0f;
 	BoxCollider target = null;
 	
 	InputKeyMouse inputAction;
+	Rigidbody rb;
 
-
+	WaitForSeconds jump_Duration;
 
 	private void Awake()
 	{
 		inputAction = new InputKeyMouse();
-	}
+		anim = GetComponent<Animator>();
+		jump_Duration = new WaitForSeconds(0.9f);
+		rb = GetComponent<Rigidbody>();
+    }
 	private void OnEnable()
 	{
 		inputAction.Mouse.Enable();
 		inputAction.Mouse.MouseClick.performed += onClick;
-		inputAction.Mouse.MouseClickRight.performed += onClickRight;
 
 		inputAction.Player.Enable();
         inputAction.Player.Move.performed += OnMove;
 		inputAction.Player.Move.canceled += OnMove;
+        inputAction.Player.MoveMode_Change.performed += On_MoveMode_Change;
+        inputAction.Player.Run.performed += Run;
+        inputAction.Player.Jump.performed += Jump;
         //inputClick.Test.Test3.performed += onUnitDie;
         CameraOriginTarget battleFollowCamera = FindObjectOfType<CameraOriginTarget>(true); //회전값 받아오기위해 찾기 
         if (battleFollowCamera != null)
@@ -81,6 +114,38 @@ public class PlayerMove : MonoBehaviour
             battleFollowCamera.cameraRotation += SetCameraRotaion; //회전값받아오기위해 연결
         }
     }
+
+    private void Jump(InputAction.CallbackContext _)
+    {
+		anim.SetTrigger(jumpHash);
+		rb.AddForce(5 * transform.up, ForceMode.Impulse);
+		//StartCoroutine(ResetPos_Y());
+    }
+	IEnumerator ResetPos_Y()
+	{
+		yield return jump_Duration;
+		fixedPos = transform.position;
+		fixedPos.y = 0;
+		transform.position = fixedPos;
+    }
+    private void Run(InputAction.CallbackContext _)
+    {
+		Running = !Running;
+    }
+
+    private void On_MoveMode_Change(InputAction.CallbackContext _)
+    {
+		switch (state)
+		{
+			case MoveState.Town:
+				State = MoveState.Field;
+				break;
+			case MoveState.Field:
+				State = MoveState.Town;
+				break;
+		}
+    }
+
     private void OnDisable()
     {
         CameraOriginTarget battleFollowCamera = FindObjectOfType<CameraOriginTarget>(true); //회전값 받아오기위해 찾기
@@ -92,7 +157,6 @@ public class PlayerMove : MonoBehaviour
         inputAction.Player.Move.canceled -= OnMove;
         inputAction.Player.Disable();
         //inputClick.Test.Test3.performed -= onUnitDie;
-        inputAction.Mouse.MouseClickRight.performed -= onClickRight;
         inputAction.Mouse.MouseClick.performed -= onClick;
         inputAction.Mouse.Disable();
     }
@@ -116,19 +180,24 @@ public class PlayerMove : MonoBehaviour
 		Vector3 dir = context.ReadValue<Vector2>();
         dir.z = dir.y;
         dir.y = 0.0f;
+		moveDirection = lookDir * dir; //이동방향설정
+		
 		if (!context.canceled)
 		{
-			moveDirection = lookDir * dir; //이동방향설정
-			//Debug.Log(moveDirection);
-			moveSpeed = defaultMoveSpeed; //이동속도 설정
             moveDir = Quaternion.LookRotation(lookDir * dir); //카메라 방향에 맞춰서 방향을 결정한다.
-			//Debug.Log(lookDir);
-            unitAnimator.SetBool(isWalkingHash, true);
+            if (running)
+			{
+				anim.SetBool(runHash, true);
+			}
+			else
+			{
+                anim.SetBool(isWalkingHash, true);
+            }
         }
 		else
 		{
-			moveSpeed = 0.0f;
-            unitAnimator.SetBool(isWalkingHash, false);
+            anim.SetBool(isWalkingHash, false);
+			anim.SetBool(runHash, false);
         }
 
     }
@@ -158,7 +227,7 @@ public class PlayerMove : MonoBehaviour
 		//UnitOnMove();
 		Move();
 	}
-	void MoveByKeyBoard()
+	void MoveByKeyBoard()//update 호출
 	{
         transform.Translate(Time.fixedDeltaTime * moveSpeed * moveDirection, Space.World);
 		transform.rotation = Quaternion.Slerp(transform.rotation, moveDir, Time.fixedDeltaTime * rotateSpeed);
@@ -175,31 +244,11 @@ public class PlayerMove : MonoBehaviour
 			transform.position += moveDirection * moveSpeed * Time.fixedDeltaTime;
 			transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
 			//transform.Translate(Time.fixedDeltaTime * speed * (target.gameObject.transform.position - transform.position).normalized);
-			unitAnimator.SetBool(isWalkingHash, true);
+			anim.SetBool(isWalkingHash, true);
 		}
 		else
 		{
-			unitAnimator.SetBool(isWalkingHash, false);
+			anim.SetBool(isWalkingHash, false);
 		}
 	}
-
-	protected virtual void onClickRight(InputAction.CallbackContext context)
-	{
-	}
-
-	//protected virtual void onUnitDie(InputAction.CallbackContext context)
-	//{
-	//}
-
-
-
-
-
-
-
-
-
-	CameraOriginTarget followCamera;
-
-
 }
