@@ -50,14 +50,20 @@ public class DataLoad_SceanMove : MonoBehaviour
         foreach (CharcterItems equipData in data.EquipData)
         {
             temp = slots[(int)equipData.SlotIndex];
+            temp.ItemData = GameManager.Itemdata[equipData.ItemIndex];
+            temp.ItemCount = equipData.Values;
             if (equipData.ItemEnhanceValue > 0) 
             {
                 tempEnchan = temp.ItemData as ItemData_Enhancable;
-                if (tempEnchan != null)
-                tempEnchan.itemLevel = equipData.ItemEnhanceValue;
+                if (tempEnchan != null) 
+                {
+                    for (int i = 1; i < equipData.ItemEnhanceValue; i++)
+                    {
+                        tempEnchan.LevelUpItemStatus(temp);
+                    }
+                }
+                
             }
-            temp.ItemData = GameManager.Itemdata[equipData.ItemIndex];
-            temp.ItemCount = equipData.Values;
         }
 
 
