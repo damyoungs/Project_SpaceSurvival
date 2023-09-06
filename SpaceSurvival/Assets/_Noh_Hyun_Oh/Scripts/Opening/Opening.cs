@@ -8,41 +8,41 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
-/// Æ÷Áö¼ÇÀº (0,20,-70)
-/// ·ÎÅ×ÀÌ¼Ç (45,0,0)
+/// í¬ì§€ì…˜ì€ (0,20,-70)
+/// ë¡œí…Œì´ì…˜ (45,0,0)
 /// </summary>
 public class Opening : MonoBehaviour
-{
+{ 
 
     /// <summary>
-    /// ÅØ½ºÆ® ±âº» ¸¸µé¾îµĞ ÇÁ¸®ÆÕ
+    /// í…ìŠ¤íŠ¸ ê¸°ë³¸ ë§Œë“¤ì–´ë‘” í”„ë¦¬íŒ¹
     /// </summary>
     [SerializeField]
     TextMeshPro textPrefab;
     
     /// <summary>
-    /// ÅØ½ºÆ® ±âº» »çÀÌÁî
+    /// í…ìŠ¤íŠ¸ ê¸°ë³¸ ì‚¬ì´ì¦ˆ
     /// </summary>
     const float textWidth = 73.0f;
     
     /// <summary>
-    /// ÅØ½ºÆ® ±âº» »çÀÌÁî
+    /// í…ìŠ¤íŠ¸ ê¸°ë³¸ ì‚¬ì´ì¦ˆ
     /// </summary>
     const float textHeight = 5.0f;
 
     /// <summary>
-    /// ÁÙ°£°İ + ¸é ¾Æ·¡¿¡¼­ À§·Î  - ¸é À§¿¡¼­ ¾Æ·¡·Î Á¤·Ä
+    /// ì¤„ê°„ê²© + ë©´ ì•„ë˜ì—ì„œ ìœ„ë¡œ  - ë©´ ìœ„ì—ì„œ ì•„ë˜ë¡œ ì •ë ¬
     /// </summary>
     [SerializeField]
     float textPadding = -10.0f;
     
     /// <summary>
-    /// Ä«¸Ş¶ó ±âº» À§Ä¡
+    /// ì¹´ë©”ë¼ ê¸°ë³¸ ìœ„ì¹˜
     /// </summary>
     Vector3 cameraPosition = new Vector3(0.0f,20.0f,0.0f);
 
     /// <summary>
-    /// Ä«¸Ş¶ó ±âº» °¢µµ
+    /// ì¹´ë©”ë¼ ê¸°ë³¸ ê°ë„
     /// </summary>
     Vector3 cameraRotate = new Vector3(45.0f,0.0f,0.0f);
 
@@ -52,7 +52,7 @@ public class Opening : MonoBehaviour
 
     Camera mainCamera;
     /// <summary>
-    /// ÇÑ¶óÀÎ¿¡ Â÷ÁöÇÒ ±ÛÀÚ ¼ö
+    /// í•œë¼ì¸ì— ì°¨ì§€í•  ê¸€ì ìˆ˜
     /// </summary>
     [SerializeField]
     int fileLineSize = 20;
@@ -62,49 +62,49 @@ public class Opening : MonoBehaviour
     private void Awake()
     {
 
-        lineCount = SetTextArray(TextFileRead()); //½ÃÀÛÇÏ¸é ¹Ù·Î µ¥ÀÌÅÍ ºÒ·¯¿Í¼­ ¼ÂÆÃ
+        lineCount = SetTextArray(TextFileRead()); //ì‹œì‘í•˜ë©´ ë°”ë¡œ ë°ì´í„° ë¶ˆëŸ¬ì™€ì„œ ì…‹íŒ…
 
-        OpeningButtonManager buttons = GameObject.FindObjectOfType<OpeningButtonManager>(); //¹öÆ° °ü¸®ÇØÁÖ´Â ÄÄÆÛ³ÍÆ® Ã£±â 
+        OpeningButtonManager buttons = GameObject.FindObjectOfType<OpeningButtonManager>(); //ë²„íŠ¼ ê´€ë¦¬í•´ì£¼ëŠ” ì»´í¼ë„ŒíŠ¸ ì°¾ê¸° 
 
         buttons.speedUpButton += () => {
-            if (elaspadSpeed < cameraMoveSpeed + 0.1f) //ÀÌµ¿¼Óµµ 1¹è¼Ó Ã¼Å©
+            if (elaspadSpeed < cameraMoveSpeed + 0.1f) //ì´ë™ì†ë„ 1ë°°ì† ì²´í¬
             {
-                elaspadSpeed = cameraMoveSpeed * 2; //µÎ¹è·Î ´Ã¸°´Ù.
+                elaspadSpeed = cameraMoveSpeed * 2; //ë‘ë°°ë¡œ ëŠ˜ë¦°ë‹¤.
             }
-            else if (elaspadSpeed < cameraMoveSpeed * 2 + 0.1f) //ÀÌµ¿¼Óµµ 2¹è¼Ó Ã¼Å© 
+            else if (elaspadSpeed < cameraMoveSpeed * 2 + 0.1f) //ì´ë™ì†ë„ 2ë°°ì† ì²´í¬ 
             {
-                elaspadSpeed = cameraMoveSpeed * 3; //¼¼¹è·Î ´Ã¸°´Ù.
+                elaspadSpeed = cameraMoveSpeed * 3; //ì„¸ë°°ë¡œ ëŠ˜ë¦°ë‹¤.
             }
             else 
             {
-                elaspadSpeed = cameraMoveSpeed; // ¿ø·¡ ¼Óµµ·Î µ¹¸°´Ù.
+                elaspadSpeed = cameraMoveSpeed; // ì›ë˜ ì†ë„ë¡œ ëŒë¦°ë‹¤.
             }
         };
 
         buttons.skipButton += () => {
-            LoadingScean.SceanLoading(EnumList.SceanName.TITLE); //½ºÅµÀÌ¸é ¾ÀÀÌµ¿
+            LoadingScean.SceanLoading(EnumList.SceanName.TITLE); //ìŠ¤í‚µì´ë©´ ì”¬ì´ë™
         };
 
-        elaspadSpeed = cameraMoveSpeed; //ÀÌµ¿¼Óµµ ±âº»¼Óµµ·Î ¼ÂÆÃ
+        elaspadSpeed = cameraMoveSpeed; //ì´ë™ì†ë„ ê¸°ë³¸ì†ë„ë¡œ ì…‹íŒ…
     }
 
     private void Start()
     {
-        //Ä«¸Ş¶ó ºÒ·¯¿Í¼­ À§Ä¡Àâ°í
+        //ì¹´ë©”ë¼ ë¶ˆëŸ¬ì™€ì„œ ìœ„ì¹˜ì¡ê³ 
         mainCamera = Camera.main;
         mainCamera.transform.position = cameraPosition;
         mainCamera.transform.rotation = Quaternion.Euler(cameraRotate);
-        //Ä«¸Ş¶ó ÀÌµ¿½ÃÀÛ
+        //ì¹´ë©”ë¼ ì´ë™ì‹œì‘
         StartCoroutine(OpeningCameraMove(lineCount));
     }
 
     /// <summary>
-    /// Ä«¸Ş¶ó°¡ ÀÌµ¿ÇÏ¿© µµÂøÁöÁ¡±îÁö °£´Ù.
+    /// ì¹´ë©”ë¼ê°€ ì´ë™í•˜ì—¬ ë„ì°©ì§€ì ê¹Œì§€ ê°„ë‹¤.
     /// </summary>
-    /// <param name="endValue">µµÂøÇÒ À§Ä¡°ª</param>
+    /// <param name="endValue">ë„ì°©í•  ìœ„ì¹˜ê°’</param>
     IEnumerator OpeningCameraMove(int endValue) 
     {
-        //À½¾Ç Àç»ı Ãß°¡ ÇÊ¿ä 
+        //ìŒì•… ì¬ìƒ ì¶”ê°€ í•„ìš” 
 
         float checkValue = mainCamera.transform.position.z;
         float checkEnd = endValue * textPadding - 100.0f;
@@ -117,41 +117,41 @@ public class Opening : MonoBehaviour
                                                 checkValue);
             yield return null;
         }
-        //µµÂøÀÌ´Ï ´ÙÀ½ È­¸éÀ¸·Î ÀÌµ¿
+        //ë„ì°©ì´ë‹ˆ ë‹¤ìŒ í™”ë©´ìœ¼ë¡œ ì´ë™
         LoadingScean.SceanLoading(EnumList.SceanName.TITLE); 
     }
 
 
     /// <summary>
-    /// ¿¬¼ÓµÈ ±ÛÀÚÀÇ ¹è¿­À» °¡Áö°í TextMeshPro ¸¦ ¸¸µé¾î È­¸é¿¡»Ñ¸®´Â·ÎÁ÷
+    /// ì—°ì†ëœ ê¸€ìì˜ ë°°ì—´ì„ ê°€ì§€ê³  TextMeshPro ë¥¼ ë§Œë“¤ì–´ í™”ë©´ì—ë¿Œë¦¬ëŠ”ë¡œì§
     /// </summary>
-    /// <param name="fileText">ÀĞ¾î¿Â ÆÄÀÏÀÇ ¿¬¼ÓµÈ±ÛÀÚÀÇ ¹è¿­</param>
-    /// <returns>±ÛÀÚÀÇ ¶óÀÎ¼ö</returns>
+    /// <param name="fileText">ì½ì–´ì˜¨ íŒŒì¼ì˜ ì—°ì†ëœê¸€ìì˜ ë°°ì—´</param>
+    /// <returns>ê¸€ìì˜ ë¼ì¸ìˆ˜</returns>
     private int SetTextArray(string[] fileText) 
     {
-        int textLength = fileText.Length; //±ÛÀÚ ±¸°£ ÃÑ°¹¼ö 
-        RectTransform rt; //À§Ä¡Á¶ÀıÇÒ ·ºÆ® º¯¼ö ¼±¾ğÇØµÎ°í 
+        int textLength = fileText.Length; //ê¸€ì êµ¬ê°„ ì´ê°¯ìˆ˜ 
+        RectTransform rt; //ìœ„ì¹˜ì¡°ì ˆí•  ë ‰íŠ¸ ë³€ìˆ˜ ì„ ì–¸í•´ë‘ê³  
         int textLineLength = 0;
-        int lineCount = 1;      //¸îÁÙÂ°ÀÎÁö Ã¼Å©¿ë Æ÷¹®µ¹±âÀü¿¡ ÇÏ³ª»ı¼ºÇÏ°í½ÃÀÛÇÏ±â¶§¹®¿¡ 1ÀÌ ÃÊ±â°ª
+        int lineCount = 1;      //ëª‡ì¤„ì§¸ì¸ì§€ ì²´í¬ìš© í¬ë¬¸ëŒê¸°ì „ì— í•˜ë‚˜ìƒì„±í•˜ê³ ì‹œì‘í•˜ê¸°ë•Œë¬¸ì— 1ì´ ì´ˆê¸°ê°’
 
-        TextMeshPro textObject = Instantiate(textPrefab,transform); //ÇÁ¸®ÆÕ »ı¼ºÇØ¼­ ´ã±â ½ÃÀÛ
-        rt = textObject.GetComponent<RectTransform>(); //À§Ä¡ Á¶ÀıÇÒ ·ºÆ® Ã£¾Æ¿À°í 
-        rt.anchoredPosition3D = new Vector3(0.0f, 0.0f, 0.0f); //Ã³À½ À§Ä¡ Á¶ÀıÇÏ°í 
-        for (int i = 0; i < textLength ; i++) //±ÛÀÚ ±¸°£°¹¼ö ¸¸Å­ µ¹¸®°í 
+        TextMeshPro textObject = Instantiate(textPrefab,transform); //í”„ë¦¬íŒ¹ ìƒì„±í•´ì„œ ë‹´ê¸° ì‹œì‘
+        rt = textObject.GetComponent<RectTransform>(); //ìœ„ì¹˜ ì¡°ì ˆí•  ë ‰íŠ¸ ì°¾ì•„ì˜¤ê³  
+        rt.anchoredPosition3D = new Vector3(0.0f, 0.0f, 0.0f); //ì²˜ìŒ ìœ„ì¹˜ ì¡°ì ˆí•˜ê³  
+        for (int i = 0; i < textLength ; i++) //ê¸€ì êµ¬ê°„ê°¯ìˆ˜ ë§Œí¼ ëŒë¦¬ê³  
         {
-            if (textLineLength + fileText[i].Length > fileLineSize)  //ÇÑÁÙ¿¡ º¸¿©ÁÙ ±æÀÌ ³Ñ¾î°¡¸é 
+            if (textLineLength + fileText[i].Length > fileLineSize)  //í•œì¤„ì— ë³´ì—¬ì¤„ ê¸¸ì´ ë„˜ì–´ê°€ë©´ 
             {
-                textObject = Instantiate(textPrefab,transform); //»õ·Ó°Ô ÇÁ¸®ÆÕ ³»¿ë º¹»çÇÏ°í 
-                textLineLength = fileText[i].Length; //±ÛÀÚ ±æÀÌ ¼öÁ¤ 
-                textObject.text = fileText[i]; //³»¿ë ´ã°í 
-                rt = textObject.GetComponent<RectTransform>(); //À§Ä¡ Á¶ÀıÇÒ ·ºÆ® Ã£¾Æ¿À°í 
-                rt.anchoredPosition3D = new Vector3(0, 0, lineCount * textPadding); //À§Ä¡ Á¶ÀıÇÏ°í 
+                textObject = Instantiate(textPrefab,transform); //ìƒˆë¡­ê²Œ í”„ë¦¬íŒ¹ ë‚´ìš© ë³µì‚¬í•˜ê³  
+                textLineLength = fileText[i].Length; //ê¸€ì ê¸¸ì´ ìˆ˜ì • 
+                textObject.text = fileText[i]; //ë‚´ìš© ë‹´ê³  
+                rt = textObject.GetComponent<RectTransform>(); //ìœ„ì¹˜ ì¡°ì ˆí•  ë ‰íŠ¸ ì°¾ì•„ì˜¤ê³  
+                rt.anchoredPosition3D = new Vector3(0, 0, lineCount * textPadding); //ìœ„ì¹˜ ì¡°ì ˆí•˜ê³  
                 lineCount++;
             }
-            else //ÇÑÁÙ¿¡ º¸¿©ÁÙ ±æÀÌ ¾È³Ñ¾î°¡¸é ´Ù½Ã Ãß°¡ÇÏ°í 
+            else //í•œì¤„ì— ë³´ì—¬ì¤„ ê¸¸ì´ ì•ˆë„˜ì–´ê°€ë©´ ë‹¤ì‹œ ì¶”ê°€í•˜ê³  
             {
-                textLineLength += fileText[i].Length+1; //±ÛÀÚ ±æÀÌ Ãß°¡ÇØµÎ°í 
-                textObject.text += $" {fileText[i]}"; //³»¿ëµµ Ãß°¡ 
+                textLineLength += fileText[i].Length+1; //ê¸€ì ê¸¸ì´ ì¶”ê°€í•´ë‘ê³  
+                textObject.text += $" {fileText[i]}"; //ë‚´ìš©ë„ ì¶”ê°€ 
             }
       
         }
@@ -161,15 +161,15 @@ public class Opening : MonoBehaviour
 
 
     /// <summary>
-    /// txt ÆÄÀÏ ÀĞ¾î¼­ string¿¡ ´ã´Â ·ÎÁ÷ 
+    /// txt íŒŒì¼ ì½ì–´ì„œ stringì— ë‹´ëŠ” ë¡œì§ 
     /// </summary>
-    /// <returns>¿¬¼ÓµÈ ±ÛÀÚÀÇ ¹è¿­</returns>
+    /// <returns>ì—°ì†ëœ ê¸€ìì˜ ë°°ì—´</returns>
     private string[] TextFileRead() 
     {
         string filePath = $"{Application.dataPath}/__CommonAssets/TextFile/";
         string fileFullPath = filePath + "Synopsis.txt";
 
-        string[] textArray = null; //¹İÈ¯ÇÒ°ª ¼±¾ğ
+        string[] textArray = null; //ë°˜í™˜í• ê°’ ì„ ì–¸
         
         try
         {
@@ -182,15 +182,15 @@ public class Opening : MonoBehaviour
             {
                 readText = File.ReadAllText(fileFullPath);
             }
-            textArray = readText.Split(' ','\r','\n'); //±¸°£º°·Î ³ª´²¼­ ¹è¿­·Î ´ã´Â´Ù.
+            textArray = readText.Split(' ','\r','\n'); //êµ¬ê°„ë³„ë¡œ ë‚˜ëˆ ì„œ ë°°ì—´ë¡œ ë‹´ëŠ”ë‹¤.
             //foreach (string text in textArray) 
             //{
-            //    Debug.Log($"ÅØ½ºÆ® :{text}  ==  ±æÀÌ :{text.Length} "); //Ã¼Å©¿ë Ãâ·Â 
+            //    Debug.Log($"í…ìŠ¤íŠ¸ :{text}  ==  ê¸¸ì´ :{text.Length} "); //ì²´í¬ìš© ì¶œë ¥ 
             //}
         }
         catch (Exception e)
         {
-            Debug.LogWarning($"ÆÄÀÏ »ı¼º ½ÇÆĞ  \r\n {e.Message}");
+            Debug.LogWarning($"íŒŒì¼ ìƒì„± ì‹¤íŒ¨  \r\n {e.Message}");
         }
         return textArray;
     }

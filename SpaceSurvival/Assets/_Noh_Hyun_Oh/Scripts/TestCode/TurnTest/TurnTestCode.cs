@@ -60,11 +60,14 @@ public class TurnTestCode : TestBase
     //    GameObject.Destroy(obj); // 게임오브젝트 삭제 
     //}
 
-    protected override void Test1(InputAction.CallbackContext context)
-    {
-        InitCharcterSetting.TestInit();
-    }
-
+    //protected override void Test1(InputAction.CallbackContext context)
+    //{
+    //    InitCharcterSetting.TestInit();
+    //}
+    //protected override void Test2(InputAction.CallbackContext context)
+    //{
+    //    InitCharcterSetting.TestReset();
+    //}
     /// <summary>
     /// 턴 진행 
     /// </summary>
@@ -82,7 +85,8 @@ public class TurnTestCode : TestBase
 
     //    node.TurnEndAction(node); //턴완료 를 알린다.
     //}
-    protected override void Test2(InputAction.CallbackContext context)
+
+    protected override void Test3(InputAction.CallbackContext context)
     {
         foreach (var charcter in TurnManager.Instance.CurrentTurn.CharcterList) 
         {
@@ -90,10 +94,10 @@ public class TurnTestCode : TestBase
         }
             
     }
-    protected override void Test3(InputAction.CallbackContext context)
-    {
-        moveRange.MoveSizeDoubleView(TurnManager.Instance.CurrentTurn.CharcterList[0].CurrentTile, moveSize);
-    }
+    //protected override void Test3(InputAction.CallbackContext context)
+    //{
+    //    moveRange.MoveSizeDoubleView(TurnManager.Instance.CurrentTurn.CharcterList[0].CurrentTile, moveSize);
+    //}
     /// <summary>
     /// 턴 내용 전부 초기화후 게임화면에있는 캐릭터 오브젝트 지우기
     /// </summary>

@@ -60,7 +60,11 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
     /// 행동력 혹은 이동 거리
     /// </summary>
     protected float moveSize = 5.0f;
-    public float MoveSize => moveSize;
+    public float MoveSize 
+    {
+        get => moveSize;
+        set => moveSize = value;
+    }
 
 
     /// <summary>
@@ -84,7 +88,7 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
             InitUI();//초기화
         }
     }
-
+   
     /// <summary>
     /// 추적형 UI 초기화 함수 셋팅
     /// </summary>
@@ -129,7 +133,8 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
             viewPlayerCamera.gameObject.SetActive(false); // 비활성화 시키고 내부적으로 큐로 돌린다.
             viewPlayerCamera = null; //참조 지우기
         }
-        this.currentTile = null; //타일정보 지우기
+        currentTile.ExistType = Tile.TileExistType.None; // 속성 돌리고 
+        currentTile = null; //타일 참조해제
         //턴 오브젝트 초기화
         transform.SetParent(poolTransform); //풀로 돌린다
         gameObject.SetActive(false); // 큐를 돌린다.
@@ -149,8 +154,10 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
     {
         if (!isMoveCheck) //이동중간에 끊길시 타일버그가 발생해 체크하는로직추가 
         {
-            List<Tile> path = Cho_BattleMap_AStarDouble.PathFind(
-                                                            SpaceSurvival_GameManager.Instance.BattleMapDoubleArray,
+            List<Tile> path = Cho_BattleMap_AStar.PathFind(
+                                                            SpaceSurvival_GameManager.Instance.BattleMap,
+                                                            SpaceSurvival_GameManager.Instance.MapSizeX,
+                                                            SpaceSurvival_GameManager.Instance.MapSizeY,
                                                             this.currentTile,
                                                             currentTile
                                                             );

@@ -72,6 +72,7 @@ public class SaveLoadManager : ChildComponentSingeton<SaveLoadManager> {
     public Action<JsonGameData,int> saveObjectReflash;
     
     
+
     /// <summary>
     /// 게임데이터 로드를 할시에 게임데이터를 가지고 로드씬으로 정보를가지고 넘어간다. 
     /// </summary>
@@ -391,7 +392,7 @@ public class SaveLoadManager : ChildComponentSingeton<SaveLoadManager> {
                 {
                     SetDefaultInfo(gameSaveData, selectFileIndex);// 파일저장시 기본정보를 저장한다.
                     string toJsonData = JsonUtility.ToJson(gameSaveData, true); //저장데이터를 Json형식으로 직렬화 하는 작업 유니티 기본제공
-                                                                                 //true입력시 파일용량이커진다. 대신보기좋아진다.
+                                                                                //true입력시 파일용량이커진다. 대신보기좋아진다.
                     string filePath = GetFileInfo(selectFileIndex);
                     FileCreate(filePath); //저장할 파일 생성
                     File.WriteAllText(filePath, toJsonData); //파일에 저장하기 
@@ -401,21 +402,14 @@ public class SaveLoadManager : ChildComponentSingeton<SaveLoadManager> {
                     return true;
                 }
                 Debug.Log($"선택 파일인덱스 :{selectFileIndex} , 게임데이터리스트 : {gameSaveData} 데이터 확인이필요합니다.");
-                isProcessing = false;
-                return false;
             }
             catch (Exception e)
             {
                 Debug.LogWarning(e);
-                isProcessing=false;
-                return false;
+                isProcessing = false;
             }
         }
-        else 
-        {
-
-            return false;
-        }
+        return false;
     }
    /// <summary>
    /// 저장파일 읽어오는 함수 
@@ -564,7 +558,6 @@ public class SaveLoadManager : ChildComponentSingeton<SaveLoadManager> {
             return false;
         }
     }
-
 
 
 

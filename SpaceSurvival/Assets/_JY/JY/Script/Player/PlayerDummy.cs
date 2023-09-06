@@ -10,6 +10,55 @@ using UnityEditor;
 #endif
 public class PlayerDummy : MonoBehaviour, IHealth
 {
+    public AnimatorOverrideController pistol_AC;
+    public AnimatorOverrideController shotGun_AC;
+    public AnimatorOverrideController rifle_AC;
+    public AnimatorOverrideController no_Weapon_AC;
+    public enum WeaponType
+    {
+        None,
+        Pistol,
+        Rifle,
+        ShotGun
+    }
+    WeaponType weaponType = WeaponType.None;
+    public WeaponType Weapon_Type
+    {
+        get => weaponType;
+        set
+        {
+            if (weaponType != value)
+            {
+                weaponType = value;
+                switch (weaponType)
+                {
+                    case WeaponType.None:
+                        on_Attack = Basic_Attack;
+                        anim.runtimeAnimatorController = no_Weapon_AC;
+                        break;
+                    case WeaponType.Pistol:
+                        on_Attack = Pistol_Attack;
+                        weapon_Parent_Transform.localPosition = pistol_Pos;
+                        weapon_Parent_Transform.localRotation = pistol_Rotation;
+                        anim.runtimeAnimatorController = pistol_AC;
+                        break;
+                    case WeaponType.Rifle:
+                        on_Attack = Rifle_Attack;
+                        weapon_Parent_Transform.localPosition = rifle_Pos;
+                        weapon_Parent_Transform.localRotation = rifle_Rotation;
+                        anim.runtimeAnimatorController = rifle_AC;
+                        break;
+                    case WeaponType.ShotGun:
+                        on_Attack = ShotGun_Attack;
+                        anim.runtimeAnimatorController= shotGun_AC;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
     public enum ArmorType
     {
         None,
@@ -61,8 +110,24 @@ public class PlayerDummy : MonoBehaviour, IHealth
     }
     Transform[] armors;
 
-    InputKeyMouse inputActions;
+    [SerializeField]
+    private Transform bulletProjectilePrefab;
 
+    public Transform weapon_Parent_Transform;
+    Vector3 pistol_Pos;
+    Vector3 rifle_Pos;
+    Vector3 shotGun_Pos;
+    Quaternion pistol_Rotation;
+    Quaternion rifle_Rotation;
+    Quaternion shotGun_Rotation;
+
+    Transform shootPointTransform;
+    AudioSource audioSource;
+
+
+    InputKeyMouse inputActions;
+    Animator anim;
+    ShootAction shootAction;
     ItemDescription itemDescription;
     EquipBox_Description EquipBox_Description;
     EquipBox equipBox;
@@ -76,9 +141,9 @@ public class PlayerDummy : MonoBehaviour, IHealth
     public Action<ItemData> onEquipItem;
     public Action<ItemData> onUnEquipItem;
     public Action onClearSlot;
+    public Action on_Attack;
 
-
-
+    int attack_Trigger_Hash = Animator.StringToHash("Attack");
     
     uint darkForce = 500;
     public uint DarkForce
@@ -154,10 +219,55 @@ public class PlayerDummy : MonoBehaviour, IHealth
             }
         }
     }
+
     private void Awake()
     {
         inputActions = new InputKeyMouse();
+        shootAction = GetComponent<ShootAction>();
+        shootAction.onAttack += Attack;
+        anim = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
+
+        
+        pistol_Pos = new Vector3(0.012f, 0.085f, 0.141f);
+        pistol_Rotation = Quaternion.Euler(7.309f, 74.719f, 267.319f);
+        rifle_Pos = new Vector3(0, 0.11f, 0.226f);
+        rifle_Rotation = Quaternion.Euler(3.819f, -293.381f, 247.4f);
+        shotGun_Pos = new Vector3(0.006f, 0.153f, 0.199f);
+        shotGun_Rotation = Quaternion.Euler(8.924f, -301.04f, 246.652f);
     }
+    void Set_ShootPoint_Transform(Transform itemObj)
+    {
+        shootPointTransform = itemObj.GetChild(1);
+    }
+    private void Attack()
+    {
+        on_Attack();
+    }
+    void Basic_Attack()
+    {
+        anim.SetTrigger(attack_Trigger_Hash);
+       // audioSource.Play();
+    }
+    void Pistol_Attack()
+    {
+        anim.SetTrigger(attack_Trigger_Hash);
+        Instantiate(bulletProjectilePrefab, shootPointTransform.position, shootPointTransform.rotation);
+        audioSource.Play();
+    }
+    void Rifle_Attack()
+    {
+        anim.SetTrigger(attack_Trigger_Hash);
+        Instantiate(bulletProjectilePrefab, shootPointTransform.position, shootPointTransform.rotation);
+        audioSource.Play();
+    }
+    void ShotGun_Attack()
+    {
+        anim.SetTrigger(attack_Trigger_Hash);
+        Instantiate(bulletProjectilePrefab, shootPointTransform.position, shootPointTransform.rotation);
+        audioSource.Play();
+    }
+
     private void OnEnable()
     {
         inputActions.Player.Enable();
@@ -174,12 +284,21 @@ public class PlayerDummy : MonoBehaviour, IHealth
 
         equipBox.on_Update_Status_For_EquipOrSwap += Update_Status_For_EquipOrSwap;
         equipBox.on_Update_Status_For_UnEquip += Update_Status_For_UnEquip;
+        equipBox.on_Pass_Item_Transform += Set_ShootPoint_Transform;
 
         armors = new Transform[4];
         armors[0] = transform.GetChild(6).transform;// 기본 Crue 케릭터
         armors[1] = transform.GetChild(17).transform;// Space Armor
         armors[2] = transform.GetChild(20).transform;// Big Armor
         armors[3] = transform.GetChild(19).transform;// 머리
+    }
+    public void Disable_Input()
+    {
+        inputActions.KeyBoard.InvenKey.performed -= OpenInven;
+    }
+    public void Enable_Input()
+    {
+        inputActions.KeyBoard.InvenKey.performed += OpenInven;
     }
     void Update_Status_For_UnEquip(ItemData legacyData)
     {

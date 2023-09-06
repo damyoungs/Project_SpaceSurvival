@@ -46,7 +46,7 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
     /// 턴관리할 링크드 리스트
     /// </summary>
     LinkedList<ITurnBaseData> turnObjectList = null;
-
+    public LinkedList<ITurnBaseData> TurnObjectList => turnObjectList;
     /// <summary>
     /// 전체리스트의 정렬방식을 정한다. 값이 큰것부터 턴이시작되야되면 Descending 작은것부터 시작되야되면 Ascending 을 넣어주면된다
     /// true = 오름차순 (- ~ +) , false 내림차순 (+ ~ -)
@@ -65,8 +65,8 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
     /// 턴시작의 최소값
     /// </summary>
     [SerializeField]
-    [Range(0.1f,1.0f)]
-    private float turnStartValue = 1.0f;
+    [Range(1.0f,10.0f)]
+    private float turnStartValue = 10.0f;
 
  
     /// <summary>
@@ -145,6 +145,7 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
         foreach (ITurnBaseData node in turnObjectList) //턴이끝날때마다 
         {
             node.TurnActionValue += node.TurnEndActionValue;//리스트의 대기자들은 활동력을 추가 시킨다.
+           
         }
     }
 

@@ -139,7 +139,7 @@
                 {
                     "name": "",
                     "id": "7a6083ef-02ec-46bb-bfb0-be940fdec55e",
-                    "path": "<Keyboard>/q",
+                    "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyMouse",
@@ -150,7 +150,7 @@
                 {
                     "name": "",
                     "id": "74497746-bd9a-4324-a4c0-d8b076d6fa0c",
-                    "path": "<Keyboard>/e",
+                    "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyMouse",
@@ -654,7 +654,7 @@
                 {
                     "name": "",
                     "id": "10b9e187-3357-4e90-b1cb-0cd0ddf71203",
-                    "path": "<Keyboard>/q",
+                    "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyMouse",
@@ -665,7 +665,7 @@
                 {
                     "name": "",
                     "id": "4938f774-f587-4710-831f-357baa60df75",
-                    "path": "<Keyboard>/e",
+                    "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyMouse",
@@ -875,6 +875,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "TestClick",
+                    "type": "Button",
+                    "id": "93837777-462b-4d72-aa16-3579da24edb0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -886,6 +895,17 @@
                     "processors": "",
                     "groups": "KeyMouse",
                     "action": "UnitMove",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6c637a3e-803d-45c2-993f-b940460262ce",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyMouse",
+                    "action": "TestClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

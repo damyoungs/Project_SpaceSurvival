@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 /// <summary>
 /// 배틀맵 관련 초기화 하는 컴퍼넌트
@@ -36,6 +37,10 @@ public class InitCharcterSetting : MonoBehaviour
 
     Camera_Move cameraMoveComp;
 
+    /// <summary>
+    /// 초기화하기위해 연결
+    /// </summary>
+    Transform battleActionButtons;
     private void Awake()
     {
         miniCam = FindObjectOfType<MiniMapCamera>(true);
@@ -45,14 +50,20 @@ public class InitCharcterSetting : MonoBehaviour
         cameraMoveComp.GetCineBrainCam = () => brainCam; //브레인카메라 찾아서 연결해주기
         cameraMoveComp.gameObject.SetActive(true); //카메라 이동은 배틀맵에서만 사용하기때문에 따로안뺏다.
     }
-
+    private void Start()
+    {
+        TestInit();
+    }
     /// <summary>
     /// 테스트용 데이터 생성 
     /// </summary>
     public void TestInit()
     {
-        if (teamArray != null) return;
-        teamArray = new ITurnBaseData[teamLength]; //배열 크기잡고
+        SpaceSurvival_GameManager.Instance.GetBattleMapInit = () => this;
+        if (teamArray == null) 
+        {
+            teamArray = new ITurnBaseData[teamLength]; //배열 크기잡고
+        }
         if (TurnManager.Instance.IsViewGauge) // 게이지 보여줄지 체크해서 
         {
             WindowList.Instance.TurnGaugeUI.gameObject.SetActive(true); //보여주면 표시
@@ -66,6 +77,7 @@ public class InitCharcterSetting : MonoBehaviour
                 tbo.UnitBattleIndex = i; 
                 tbo.gameObject.name = $"Player_Team_{i}";
                 tbo.InitData();
+
                 miniCam.player = tbo.CharcterList[0].transform; //미니맵 활성화용 수정필요 
                 cameraOriginTarget.Target = tbo.CharcterList[0].transform;
             }
@@ -82,7 +94,7 @@ public class InitCharcterSetting : MonoBehaviour
 
         //데이터 초기화끝나면 턴시작 
 
-        Transform battleActionButtons = WindowList.Instance.BattleActionButtons;
+        battleActionButtons = WindowList.Instance.BattleActionButtons;
         int childCount = battleActionButtons.childCount;
         for (int i = 0; i < childCount; i++)
         {
@@ -97,15 +109,22 @@ public class InitCharcterSetting : MonoBehaviour
 
     public void TestReset() 
     {
-        TurnManager.Instance.ResetBattleData(); //턴데이터 초기화 
+        miniCam.gameObject.SetActive(false); //미니맵 활성화 수정필요 
+        cameraOriginTarget.gameObject.SetActive(false);
+        WindowList.Instance.TeamBorderManager.UnView(); //팀 상시 유아이 끄기 
 
-        Transform battleActionButtons = WindowList.Instance.BattleActionButtons;
         int childCount = battleActionButtons.childCount;
         for (int i = 0; i < childCount; i++)
         {
             battleActionButtons.GetChild(i).gameObject.SetActive(false); //배틀맵 액션버튼 끄기 
         }
-        WindowList.Instance.TeamBorderManager.UnView(); //팀 상시 유아이 끄기 
+     
+
+        TurnManager.Instance.ResetBattleData(); //턴데이터 초기화 
+        if (TurnManager.Instance.IsViewGauge) // 게이지 보여줄지 체크해서 
+        {
+            WindowList.Instance.TurnGaugeUI.gameObject.SetActive(false); //비활성화 처리
+        }
     }
 
 }

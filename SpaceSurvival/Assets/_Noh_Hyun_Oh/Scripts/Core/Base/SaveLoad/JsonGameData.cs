@@ -1,3 +1,4 @@
+using StructList;
 using System;
 using System.IO;
 using UnityEngine;
@@ -103,18 +104,86 @@ public class JsonGameData
     }
 
     /// <summary>
-    /// 캐릭터 소지아이템 리스트
+    /// 장비 슬롯갯수 
     /// </summary>
     [SerializeField]
-    StructList.CharcterItems[] itemList;
-    public StructList.CharcterItems[] ItemList { 
-        get => itemList;
-        protected set
-        {
-            itemList = value;
-        }
+    int equipSlotLength;
+    public int EquipSlotLength 
+    {   
+        get => equipSlotLength;
+        set => equipSlotLength = value;
     }
 
+    /// <summary>
+    /// 캐릭터 소지아이템 리스트 -장비
+    /// </summary>
+    [SerializeField]
+    CharcterItems[] equipData;
+    public CharcterItems[] EquipData
+    {
+        get => equipData;
+        set => equipData = value;
+    }
+    /// <summary>
+    /// 소모 슬롯갯수 
+    /// </summary>
+    [SerializeField]
+    int consumeSlotLength;
+    public int ConsumeSlotLength
+    {
+        get => consumeSlotLength;
+        set => consumeSlotLength = value;
+    }
+    /// <summary>
+    /// 캐릭터 소지아이템 리스트 -소비
+    /// </summary>
+    [SerializeField]
+    CharcterItems[] consumeData;
+    public CharcterItems[] ConsumeData
+    {
+        get => consumeData;
+        set => consumeData = value;
+    }
+    /// <summary>
+    /// 기타 슬롯갯수 
+    /// </summary>
+    [SerializeField]
+    int etcSlotLength;
+    public int EtcSlotLength
+    {
+        get => etcSlotLength;
+        set => etcSlotLength = value;
+    }
+    /// <summary>
+    /// 캐릭터 소지아이템 리스트 -기타
+    /// </summary>
+    [SerializeField]
+    CharcterItems[] etcData;
+    public CharcterItems[] EtcData
+    {
+        get => etcData;
+        set => etcData = value;
+    }
+    /// <summary>
+    /// 조합 슬롯갯수 
+    /// </summary>
+    [SerializeField]
+    int craftSlotLength;
+    public int CraftSlotLength
+    {
+        get => craftSlotLength;
+        set => craftSlotLength = value;
+    }
+    /// <summary>
+    /// 캐릭터 소지아이템 리스트 -조합
+    /// </summary>
+    [SerializeField]
+    CharcterItems[] craftData;
+    public CharcterItems[] CraftData
+    {
+        get => craftData;
+        set => craftData = value;
+    }
     /// <summary>
     /// 캐릭터습득 기술 정보리스트
     /// </summary>

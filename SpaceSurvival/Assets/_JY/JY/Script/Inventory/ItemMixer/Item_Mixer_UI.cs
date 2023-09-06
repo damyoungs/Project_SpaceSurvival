@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-public class Item_Mixer_UI : MonoBehaviour
+public class Item_Mixer_UI : MonoBehaviour, IPopupSortWindow
 { 
     CanvasGroup canvasGroup;
     Item_Mixer mixer;
@@ -41,7 +41,7 @@ public class Item_Mixer_UI : MonoBehaviour
         set
         {
             darkForceCount = Math.Clamp(value, MinDarkForceCount, (uint)GameManager.playerDummy.DarkForce);
-            amountText.text = darkForceCount.ToString();    // ÀÎÇ² ÇÊµå¿¡ Àû¿ë
+            amountText.text = darkForceCount.ToString();    // ì¸í’‹ í•„ë“œì— ì ìš©
             amountSlider.value = darkForceCount;
             onDarkForceValueChange?.Invoke(Result_Slot.ItemData);
         }
@@ -49,6 +49,9 @@ public class Item_Mixer_UI : MonoBehaviour
     public Mixer_Slot_Left Left_Slot => left_Slot;
     public Mixer_Slot_Middle Middle_Slot => middle_Slot;
     public Mixer_Slot_Result Result_Slot => result_Slot;
+
+    public Action<IPopupSortWindow> PopupSorting { get; set ; }
+
     Item_Mixing_Table Mixing_Table;
 
     private void Awake()
@@ -60,7 +63,7 @@ public class Item_Mixer_UI : MonoBehaviour
         middle_Slot = GetComponentInChildren<Mixer_Slot_Middle>();
         result_Slot = GetComponentInChildren<Mixer_Slot_Result>();
 
-        closeButton.onClick.AddListener(() => mixer.MixerState = ItemMixerState.Close);// ¼öÁ¤ÇÊ¿ä
+        closeButton.onClick.AddListener(() => mixer.MixerState = ItemMixerState.Close);// ìˆ˜ì •í•„ìš”
         cancelButton.onClick.AddListener(() => mixer.MixerState = ItemMixerState.Close);
 
         confirmButton.onClick.AddListener(() => mixer.MixerState = ItemMixerState.Confirm);
@@ -89,11 +92,11 @@ public class Item_Mixer_UI : MonoBehaviour
 
         mixer.onOpen += Open;
         mixer.onClose += Close;
-        //mixer.onSetItem += RefreshEnhancerUI; //tempSlotÀÇ ¾ÆÀÌÅÛÀ» µå·ÓÇßÀ» ¶§
-        mixer.onClearItem += ClearMixerUI; // beforeSlotÀ» Å¬¸¯ÇßÀ» ¶§
-        mixer.onConfirmButtonClick += BlockInteractable;// enhancerUIÃ¢ÀÇ Ã¼Å©¹öÆ° Å¬›ÇßÀ» ¶§
-        onDarkForceValueChange += UpdateSuccessRate; // InputFieldÀÇ DarkforceÀÇ °ªÀÌ ¹Ù²ğ¶§
-        //mixer.onWaitforResult += WaitForResult; // warningBoxÀÇ Ã¼Å©¹öÆ°À» ´©¸¦ ¶§ 
+        //mixer.onSetItem += RefreshEnhancerUI; //tempSlotì˜ ì•„ì´í…œì„ ë“œë¡­í–ˆì„ ë•Œ
+        mixer.onClearItem += ClearMixerUI; // beforeSlotì„ í´ë¦­í–ˆì„ ë•Œ
+        mixer.onConfirmButtonClick += BlockInteractable;// enhancerUIì°½ì˜ ì²´í¬ë²„íŠ¼ í´ë§€í–ˆì„ ë•Œ
+        onDarkForceValueChange += UpdateSuccessRate; // InputFieldì˜ Darkforceì˜ ê°’ì´ ë°”ë€”ë•Œ
+        //mixer.onWaitforResult += WaitForResult; // warningBoxì˜ ì²´í¬ë²„íŠ¼ì„ ëˆ„ë¥¼ ë•Œ 
        // itemEnhancer.onWaitforResult += BlockInteractable;
 
         mixer.onSetItem += RefreshMixerUI;
@@ -105,7 +108,7 @@ public class Item_Mixer_UI : MonoBehaviour
         mixer_Anim = mixer.Mixer_Anim;
 
 
-        mixer_Anim.done_With_Success_Anim += EndSession_Success;//¼º°ø½Ã EndSession ½ÇÇà Àü resultSlotÀÇ µ¥ÀÌÅÍ¸¦ ÀÎº¥Åä¸®¿¡ ³Ö¾îÁà¾ßÇÔ
+        mixer_Anim.done_With_Success_Anim += EndSession_Success;//ì„±ê³µì‹œ EndSession ì‹¤í–‰ ì „ resultSlotì˜ ë°ì´í„°ë¥¼ ì¸ë²¤í† ë¦¬ì— ë„£ì–´ì¤˜ì•¼í•¨
         mixer_Anim.done_With_Fail_Anim += EndSession;
         Close();
 
@@ -138,6 +141,7 @@ public class Item_Mixer_UI : MonoBehaviour
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
         ClearMixerUI();
+        PopupSorting?.Invoke(this);
     }
     public void Close()
     {
@@ -162,9 +166,9 @@ public class Item_Mixer_UI : MonoBehaviour
 
     private void ClearMixerUI()
     {
-        //ÀÌ¹ÌÁö, ¼º°ø·ü text
+        //ì´ë¯¸ì§€, ì„±ê³µë¥  text
         InitializeUIElements();
-        mixer.LeftSlotData = null;// Á÷Á¢ ¼öÁ¤ÇÏ´Â ´ë½Å MixerÀÇ ÇÁ·ÎÆÛÆ¼¸¦ null·Î ¸¸µé¸é °­È­ ½Ãµµ ÈÄ ½ÇÆĞÇÑ °ÍÀÌ ¾Æ´Ï¶ó ¿Ã·È´Ù°¡ Ãë¼ÒÇÑ °ÍÀ¸·Î °£ÁÖÇØ¼­ ´Ù½Ã ÀÎº¥Åä¸®¿¡ Ãß°¡½ÃÅ´
+        mixer.LeftSlotData = null;// ì§ì ‘ ìˆ˜ì •í•˜ëŠ” ëŒ€ì‹  Mixerì˜ í”„ë¡œí¼í‹°ë¥¼ nullë¡œ ë§Œë“¤ë©´ ê°•í™” ì‹œë„ í›„ ì‹¤íŒ¨í•œ ê²ƒì´ ì•„ë‹ˆë¼ ì˜¬ë ¸ë‹¤ê°€ ì·¨ì†Œí•œ ê²ƒìœ¼ë¡œ ê°„ì£¼í•´ì„œ ë‹¤ì‹œ ì¸ë²¤í† ë¦¬ì— ì¶”ê°€ì‹œí‚´
         mixer.MiddleSlotData = null;
         mixer.ResultSlot.ItemData = null;
         // mixer.ItemData = null;
@@ -178,7 +182,7 @@ public class Item_Mixer_UI : MonoBehaviour
         successRateText.text = $"{0}";
     }
 
-    void BlockInteractable()//Enhancer¿¡¼­ ½ÅÈ£ ¹ŞÀ½ 
+    void BlockInteractable()//Enhancerì—ì„œ ì‹ í˜¸ ë°›ìŒ 
     {
         left_Slot.imageComp.raycastTarget = false;
         middle_Slot.itemIcon.raycastTarget = false;
@@ -191,7 +195,7 @@ public class Item_Mixer_UI : MonoBehaviour
         plusButton.interactable = false;
         minusButton.interactable = false;
     }
-    void OpenInteractable()//warningbox¿¡¼­ ½ÅÈ£¹ŞÀ½
+    void OpenInteractable()//warningboxì—ì„œ ì‹ í˜¸ë°›ìŒ
     {
         left_Slot.imageComp.raycastTarget = true;
         middle_Slot.itemIcon.raycastTarget = true;
@@ -204,7 +208,7 @@ public class Item_Mixer_UI : MonoBehaviour
         plusButton.interactable = true;
         minusButton.interactable = true;
     }
-    void UpdateSuccessRate(ItemData item)//È®·ü °è»êÀº IEnhancable ¿¡¼­ Á÷Á¢ÇÏ´Â°Ô ÁÁÀ»°Í °°´Ù. ÇÊ¿äÇÑ µ¥ÀÌÅÍ°¡ ¸ğµÎ °Å±âÀÖ±â¶§¹®ÀÌ´Ù.
+    void UpdateSuccessRate(ItemData item)//í™•ë¥  ê³„ì‚°ì€ IEnhancable ì—ì„œ ì§ì ‘í•˜ëŠ”ê²Œ ì¢‹ì„ê²ƒ ê°™ë‹¤. í•„ìš”í•œ ë°ì´í„°ê°€ ëª¨ë‘ ê±°ê¸°ìˆê¸°ë•Œë¬¸ì´ë‹¤.
     {
         if (item == null)
         {
@@ -222,9 +226,21 @@ public class Item_Mixer_UI : MonoBehaviour
         else
         {
             mixer.MixerState = ItemMixerState.Fail;
-            Debug.Log("½ÇÆĞ");
+            Debug.Log("ì‹¤íŒ¨");
         }
     }
 
+    public void OpenWindow()
+    {
+        Open();
+    }
 
+    public void CloseWindow()
+    {
+        Close();
+    }
+    private void OnMouseDown()
+    {
+        PopupSorting?.Invoke(this);
+    }
 }

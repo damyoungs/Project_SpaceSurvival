@@ -41,6 +41,7 @@ public interface ITurnBaseData
     /// 현재 턴을 잡고있는지 체크할 변수
     /// </summary>
     public bool IsTurn { get; set; }
+    public bool IsMove { get; }
 
     /// <summary>
     /// 유닛이 행동중에 특정유닛이 사라질경우 메니져에 신호를 주는 델리게이트
@@ -55,7 +56,7 @@ public interface ITurnBaseData
     /// <summary>
     /// 현재 컨트롤할 유닛 반환
     /// </summary>
-    public ICharcterBase CurrentUnit { get; }
+    public ICharcterBase CurrentUnit { get; set; }
 
     /// <summary>
     /// 맵생성시 호출할 데이터 초기화 함수

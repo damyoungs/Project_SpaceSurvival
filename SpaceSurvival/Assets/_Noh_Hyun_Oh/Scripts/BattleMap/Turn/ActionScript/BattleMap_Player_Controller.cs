@@ -107,15 +107,22 @@ public class BattleMap_Player_Controller : MonoBehaviour
     /// </summary>
     private void OnMove(InputAction.CallbackContext _)
     {
-        if (PlayerTurnObject == null || !playerTurnObject.IsTurn) //플레이어가 현재 턴인경우만 실행하도록 체크
+        if (PlayerTurnObject == null) //플레이어가 현재 턴인경우만 실행하도록 체크
         {
-            
             Debug.Log($"{playerTurnObject}플레이어가 셋팅 안되있거나 플레이어가 현재 턴이아닙니다.");
-            Debug.Log($"{playerTurnObject.IsTurn}");
             return;
         }
-
-        //Debug.Log($"인풋시스템에서는 클릭한 곳의 오브젝트까지는 못가져온다 그래서 레이로 쏴서 가져와야한다.");
+        else if (!playerTurnObject.IsTurn)
+        {
+            Debug.Log($"턴아니라고 그만클릭해 {playerTurnObject.IsTurn}");
+            return;
+        }
+        else if (SpaceSurvival_GameManager.Instance.IsUICheck) 
+        {
+            Debug.Log("UI 사용중입니당");
+            return;
+        }
+            //Debug.Log($"인풋시스템에서는 클릭한 곳의 오브젝트까지는 못가져온다 그래서 레이로 쏴서 가져와야한다.");
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());      // 화면에서 현재 마우스의 위치로 쏘는 빛
         Debug.DrawRay(ray.origin, ray.direction * ray_Range, Color.red, 1.0f);              // 디버그용 레이저
 
@@ -170,7 +177,7 @@ public class BattleMap_Player_Controller : MonoBehaviour
                 case Tile.TileExistType.Move:
                     //Debug.Log(targetTile);
                     onMoveActive?.Invoke(targetTile);//이동로직 실행
-                    //Debug.Log($"이동가능 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
+                    Debug.Log($"이동가능 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
                     break;
                 default:
                     Debug.Log($"접근되면 안된다.");
