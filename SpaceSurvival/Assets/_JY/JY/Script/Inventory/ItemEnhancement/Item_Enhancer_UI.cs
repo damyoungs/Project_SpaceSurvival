@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-public class Item_Enhancer_UI : MonoBehaviour, IPopupSortWindow
+public class Item_Enhancer_UI : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
 { 
     CanvasGroup canvasGroup;
     Item_Enhancer itemEnhancer;
@@ -227,7 +228,8 @@ public class Item_Enhancer_UI : MonoBehaviour, IPopupSortWindow
     {
         Close();
     }
-    private void OnMouseDown()
+
+    public void OnPointerClick(PointerEventData eventData)
     {
         PopupSorting?.Invoke(this);
     }

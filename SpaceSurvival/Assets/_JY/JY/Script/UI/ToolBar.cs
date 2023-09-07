@@ -13,6 +13,9 @@ public class ToolBar : MonoBehaviour, IPointerDownHandler,IDragHandler,IPointerU
     float maxX = 0.0f;
     float minY = 0.0f;
     float maxY = 0.0f;
+
+    IPopupSortWindow popupSort;
+
     private void Awake()
     {
         parentTransform = transform.parent.GetComponent<RectTransform>();
@@ -23,10 +26,13 @@ public class ToolBar : MonoBehaviour, IPointerDownHandler,IDragHandler,IPointerU
         minY = parentTransform.sizeDelta.y * 0.5f;
         maxY = Screen.height - (parentTransform.sizeDelta.y * 0.5f);
 
+        popupSort = transform.parent.GetComponent<IPopupSortWindow>();
     }
     public void OnPointerDown(PointerEventData eventData)
     {
         distance = eventData.position - (Vector2)parentTransform.position; //클릭하는순간의 eventPosition(마우스위치)와 인벤토리의 피봇간 거리 저장
+
+        popupSort.PopupSorting?.Invoke(popupSort);
         //positionBeforeDrag = parentTransform.position; //클릭하는순간의 Inventory 위치 저장
     }
     public void OnDrag(PointerEventData eventData) //

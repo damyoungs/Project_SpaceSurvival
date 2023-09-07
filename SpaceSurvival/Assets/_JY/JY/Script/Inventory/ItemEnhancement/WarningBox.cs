@@ -2,9 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class WarningBox : MonoBehaviour, IPopupSortWindow
+public class WarningBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
 {
     Item_Enhancer item_Enhancer;
     Item_Mixer item_Mixer;
@@ -84,7 +85,7 @@ public class WarningBox : MonoBehaviour, IPopupSortWindow
         Close();
     }
 
-    private void OnMouseDown()
+    public void OnPointerClick(PointerEventData eventData)
     {
         PopupSorting?.Invoke(this);
     }
