@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
-using static System.Net.WebRequestMethods;
-using static UnityEditor.VersionControl.Asset;
 
 public class TrackingBase : MonoBehaviour
 {
