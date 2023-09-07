@@ -272,6 +272,7 @@ public class PlayerDummy : MonoBehaviour, IHealth
         inputActions.Player.Equip_Item.performed += On_Equip_Item;
         inputActions.KeyBoard.Enable();
         inputActions.KeyBoard.InvenKey.performed += OpenInven;
+        inputActions.Mouse.Enable();
         inputActions.Mouse.MouseClickRight.performed += On_MouseClickRight;
     }
 
