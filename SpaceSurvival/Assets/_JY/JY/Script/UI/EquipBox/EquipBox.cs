@@ -2,10 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class EquipBox : MonoBehaviour, IPopupSortWindow
+public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
 {
     EquipBox_Slot[] equipBox_Slots;
     EquipBox_Description description;
@@ -14,7 +15,7 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow
     public Action<ItemData, ItemData> on_Update_Status_For_EquipOrSwap;
     public Action<ItemData> on_Update_Status_For_UnEquip;
     public EquipBox_Description Description => description;
-    public EquipBox_Slot this[EquipType type] => equipBox_Slots[(int) type - 1];//0번째 인덱스 = None 
+    public EquipBox_Slot this[EquipType type] => equipBox_Slots[(int) type - 1];//0번째 ?�덱??= None 
     public Transform[] equip_Parent_Transform;
 
     PlayerDummy player;
@@ -43,11 +44,11 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow
         player = GameManager.playerDummy;
         player.onEquipItem += Set_ItemData_For_DoubleClick;
         GameManager.SlotManager.on_UnEquip_Item += UnEquip_Item;
-        Close(); //항상들고다니는데 켜져있으면안되니 스타트마지막에 감춘다 
+        Close(); //??��?�고?�니?�데 켜져?�으면안?�니 ?��??�마지막에 감춘??
     }
-    public void Set_ItemData_For_Drag(ItemData itemData)// 프리팹 장착 처리중
+    public void Set_ItemData_For_Drag(ItemData itemData)// ?�리???�착 처리�?
     {
-        //itemdata 가 hat, Weapon, Suit, Jewel 인지 확인하고 슬롯의 타입과 맞지 않으면 리턴시키기
+        //itemdata 가 hat, Weapon, Suit, Jewel ?��? ?�인?�고 ?�롯???�?�과 맞�? ?�으�?리턴?�키�?
         ItemData_Armor armor = itemData as ItemData_Armor;
         ItemData_Hat hat = itemData as ItemData_Hat;
         ItemData_Craft jewel = itemData as ItemData_Craft;
@@ -60,7 +61,7 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow
                 {
                     Transform parent = equip_Parent_Transform[(int)armor.EquipType];
 
-                    GameManager.SlotManager.Just_ChangeSlot.ItemData = null;// 장착에 성공할 것이므로 인벤토리의 슬롯 비우기
+                    GameManager.SlotManager.Just_ChangeSlot.ItemData = null;// ?�착???�공??것이므�??�벤?�리???�롯 비우�?
                     slot.SetItemData(armor);
                 }
             }
@@ -100,7 +101,7 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow
     //{
     //    Transform parent = this[]
     //}
-    //equipSlot Clear하는 델리게이트 연결할 차례 
+    //equipSlot Clear?�는 ?�리게이???�결??차�? 
     void UnEquip_Item(ItemData itemData)
     {
         on_Update_Status_For_UnEquip?.Invoke(itemData);
@@ -129,10 +130,10 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow
         if (slot != null)
         {
             GameManager.SlotManager.Just_ChangeSlot.ItemData = null;
-            on_Update_Status_For_EquipOrSwap?.Invoke(slot.ItemData, itemData);//장비중이 아닐 때는 첫번째 파라미터가 null 이 전달 된다. // 플레이어 공격력, 방어력 셋팅
+            on_Update_Status_For_EquipOrSwap?.Invoke(slot.ItemData, itemData);//?�비중이 ?�닐 ?�는 첫번�??�라미터가 null ???�달 ?�다. // ?�레?�어 공격?? 방어???�팅
             if (itemData.code == ItemCode.Space_Armor)
             {
-                player.ArmorType_ = PlayerDummy.ArmorType.SpaceArmor;// enum 설정시 player 에서 알맞은 갑옷만 활성화하고 다른 갑옷은 비활성화
+                player.ArmorType_ = PlayerDummy.ArmorType.SpaceArmor;// enum ?�정??player ?�서 ?�맞?� 갑옷�??�성?�하�??�른 갑옷?� 비활?�화
             }
             else if (itemData.code == ItemCode.Big_Space_Armor)
             {
@@ -140,9 +141,9 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow
             }
             else
             {
-                Attach_Prefab(itemData);//프리팹 부착
+                Attach_Prefab(itemData);//?�리??부�?
             }
-            slot.SetItemData(itemData);//장비슬롯 UI업데이트
+            slot.SetItemData(itemData);//?�비?�롯 UI?�데?�트
         }
       //  Set_Edditional_State(itemData, true);//�ִϸ��̼� �� �߰� ����Ʈ ����
     }
@@ -192,7 +193,7 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow
     void Attach_Prefab(ItemData data)
     {
         Transform parentTransform = GetParentTransform(data);
-        if (parentTransform.transform.childCount > 0)// 이미 부착되어있는 아이템이 있으면 제거 후 장착
+        if (parentTransform.transform.childCount > 0)// ?��? 부착되?�있???�이?�이 ?�으�??�거 ???�착
         {
             GameObject itemPrefab = parentTransform.GetChild(0).gameObject;
             Destroy(itemPrefab);
@@ -312,7 +313,8 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow
     {
         Close();
     }
-    private void OnMouseDown()
+
+    public void OnPointerClick(PointerEventData eventData)
     {
         PopupSorting?.Invoke(this);
     }

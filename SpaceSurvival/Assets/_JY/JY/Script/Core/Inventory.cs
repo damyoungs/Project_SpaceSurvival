@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public enum Current_Inventory_State
@@ -14,7 +15,7 @@ public enum Current_Inventory_State
     Craft
 }
 
-public class Inventory : MonoBehaviour, IPopupSortWindow
+public class Inventory : MonoBehaviour, IPopupSortWindow,IPointerClickHandler
 {
     GameObject Equip_Inven;
     GameObject Consume_Inven;
@@ -220,7 +221,8 @@ public class Inventory : MonoBehaviour, IPopupSortWindow
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
     }
-    private void OnMouseDown()
+
+    public void OnPointerClick(PointerEventData eventData)
     {
         PopupSorting.Invoke(this);
     }
