@@ -1,15 +1,15 @@
 {
     "dataIndex": 2,
-    "saveTime": "2023-09-06 오후 12:23:13",
-    "sceanName": 0,
+    "saveTime": "2023-09-07 오전 9:03:02",
+    "sceanName": 4,
     "charcterInfo": [],
-    "equipSlotLength": 2,
+    "equipSlotLength": 0,
     "equipData": [
         {
             "values": 1,
             "itemIndex": 10,
-            "slotIndex": 2,
-            "itemEnhanceValue": 2
+            "slotIndex": 1,
+            "itemEnhanceValue": 1
         },
         {
             "values": 1,
@@ -20,35 +20,35 @@
         {
             "values": 1,
             "itemIndex": 10,
-            "slotIndex": 4,
-            "itemEnhanceValue": 1
-        },
-        {
-            "values": 1,
-            "itemIndex": 10,
-            "slotIndex": 6,
+            "slotIndex": 5,
             "itemEnhanceValue": 3
         },
         {
             "values": 1,
             "itemIndex": 10,
-            "slotIndex": 8,
-            "itemEnhanceValue": 1
+            "slotIndex": 7,
+            "itemEnhanceValue": 3
         },
         {
             "values": 1,
             "itemIndex": 10,
-            "slotIndex": 10,
-            "itemEnhanceValue": 3
+            "slotIndex": 9,
+            "itemEnhanceValue": 2
         }
     ],
     "consumeSlotLength": 0,
     "consumeData": [
         {
-            "values": 5,
+            "values": 20,
             "itemIndex": 1,
+            "slotIndex": 6,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 30,
+            "itemIndex": 2,
             "slotIndex": 8,
-            "itemEnhanceValue": 3
+            "itemEnhanceValue": 0
         }
     ],
     "etcSlotLength": 0,
@@ -56,10 +56,10 @@
     "craftSlotLength": 0,
     "craftData": [
         {
-            "values": 13,
+            "values": 8,
             "itemIndex": 28,
-            "slotIndex": 9,
-            "itemEnhanceValue": 3
+            "slotIndex": 1,
+            "itemEnhanceValue": 0
         }
     ],
     "skillList": [],

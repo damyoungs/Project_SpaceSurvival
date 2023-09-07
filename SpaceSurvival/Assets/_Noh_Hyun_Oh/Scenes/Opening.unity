@@ -325,6 +325,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8504456767639597434, guid: 74d052450c5808540b528e1209ba6039, type: 3}
+      propertyPath: fileLineSize
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8504456767639597434, guid: 74d052450c5808540b528e1209ba6039, type: 3}
       propertyPath: cameraMoveSpeed
       value: 20
       objectReference: {fileID: 0}
