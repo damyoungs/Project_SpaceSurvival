@@ -11,9 +11,9 @@ namespace EnumList
     public enum SceanName
     {
         NONE = -1,//셋팅안됬을때의값 이값셋팅되면안된다 기본적으로.
+        OPENING,
         TITLE,
         LOADING,
-        OPENING,
         ENDING,
         //Item_Test,//인벤창쪽으로넘어가나확인
         //CreateCharcter, //아직안만듬
