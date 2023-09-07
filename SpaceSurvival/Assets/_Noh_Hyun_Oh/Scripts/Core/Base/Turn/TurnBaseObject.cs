@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Collections;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using static UnityEditor.Progress;
 /// <summary>
 /// 기본 베이스는 ITurnBaseData 인터페이스
 /// 턴을 사용할 유닛들의 기본 틀.

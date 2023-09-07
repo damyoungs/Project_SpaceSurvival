@@ -60,14 +60,14 @@ public class TurnTestCode : TestBase
     //    GameObject.Destroy(obj); // 게임오브젝트 삭제 
     //}
 
-    protected override void Test1(InputAction.CallbackContext context)
-    {
-        InitCharcterSetting.TestInit();
-    }
-    protected override void Test2(InputAction.CallbackContext context)
-    {
-        InitCharcterSetting.TestReset();
-    }
+    //protected override void Test1(InputAction.CallbackContext context)
+    //{
+    //    InitCharcterSetting.TestInit();
+    //}
+    //protected override void Test2(InputAction.CallbackContext context)
+    //{
+    //    InitCharcterSetting.TestReset();
+    //}
     /// <summary>
     /// 턴 진행 
     /// </summary>
