@@ -11,7 +11,7 @@ public class Cho_PlayerMove : MonoBehaviour
     public float jumpHeight = 5.0f;
 
 
-    float speed = 0.0f;
+    public float speed = 0.0f;
     Vector3 moveDir = Vector3.zero;
 
     InputKeyMouse inputActions;
@@ -34,10 +34,14 @@ public class Cho_PlayerMove : MonoBehaviour
         inputActions.Player.Move.performed += OnMove;
         inputActions.Player.Move.canceled += OnMove;
         inputActions.Player.Jump.performed += OnJump;
+        inputActions.Player.Dash.performed += onDash;
+        inputActions.Player.Dash.canceled += onDash;
     }
 
     private void OnDisable()
     {
+        inputActions.Player.Dash.canceled -= onDash;
+        inputActions.Player.Dash.performed -= onDash;
         inputActions.Player.Jump.performed -= OnJump;
         inputActions.Player.Move.canceled -= OnMove;
         inputActions.Player.Move.performed -= OnMove;
@@ -61,5 +65,17 @@ public class Cho_PlayerMove : MonoBehaviour
     private void OnJump(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
         rigid.AddForce(jumpHeight * transform.up, ForceMode.Impulse);
+    }
+
+    private void onDash(InputAction.CallbackContext context)
+    {
+        if (context.canceled)
+        {
+            speed = walkSpeed;
+        }
+        else
+        {
+            speed = runSpeed;
+        }
     }
 }

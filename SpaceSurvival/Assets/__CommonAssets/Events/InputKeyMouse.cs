@@ -89,6 +89,15 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""4acfcf69-f46b-44de-994d-b50ed4babb71"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -221,6 +230,17 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""MoveMode_Change"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dfdd440b-57fe-44ce-900c-9c1316eacfb8"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyMouse"",
+                    ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -962,6 +982,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         m_Player_ItemPickUp = m_Player.FindAction("ItemPickUp", throwIfNotFound: true);
         m_Player_Equip_Item = m_Player.FindAction("Equip_Item", throwIfNotFound: true);
         m_Player_MoveMode_Change = m_Player.FindAction("MoveMode_Change", throwIfNotFound: true);
+        m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         // Mouse
         m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
         m_Mouse_MouseClick = m_Mouse.FindAction("MouseClick", throwIfNotFound: true);
@@ -1076,6 +1097,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ItemPickUp;
     private readonly InputAction m_Player_Equip_Item;
     private readonly InputAction m_Player_MoveMode_Change;
+    private readonly InputAction m_Player_Dash;
     public struct PlayerActions
     {
         private @InputKeyMouse m_Wrapper;
@@ -1087,6 +1109,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         public InputAction @ItemPickUp => m_Wrapper.m_Player_ItemPickUp;
         public InputAction @Equip_Item => m_Wrapper.m_Player_Equip_Item;
         public InputAction @MoveMode_Change => m_Wrapper.m_Player_MoveMode_Change;
+        public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1117,6 +1140,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @MoveMode_Change.started += instance.OnMoveMode_Change;
             @MoveMode_Change.performed += instance.OnMoveMode_Change;
             @MoveMode_Change.canceled += instance.OnMoveMode_Change;
+            @Dash.started += instance.OnDash;
+            @Dash.performed += instance.OnDash;
+            @Dash.canceled += instance.OnDash;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1142,6 +1168,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @MoveMode_Change.started -= instance.OnMoveMode_Change;
             @MoveMode_Change.performed -= instance.OnMoveMode_Change;
             @MoveMode_Change.canceled -= instance.OnMoveMode_Change;
+            @Dash.started -= instance.OnDash;
+            @Dash.performed -= instance.OnDash;
+            @Dash.canceled -= instance.OnDash;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1699,6 +1728,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         void OnItemPickUp(InputAction.CallbackContext context);
         void OnEquip_Item(InputAction.CallbackContext context);
         void OnMoveMode_Change(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
     }
     public interface IMouseActions
     {
