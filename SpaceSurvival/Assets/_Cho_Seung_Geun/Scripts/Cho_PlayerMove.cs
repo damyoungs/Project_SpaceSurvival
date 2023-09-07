@@ -45,7 +45,7 @@ public class Cho_PlayerMove : MonoBehaviour
     }
 
 
-    private void Update()
+    private void FixedUpdate()
     {
         rigid.MovePosition(rigid.transform.position + Time.fixedDeltaTime * speed * moveDir);
     }
@@ -60,6 +60,6 @@ public class Cho_PlayerMove : MonoBehaviour
 
     private void OnJump(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        rigid.AddForce(jumpHeight * Vector3.up, ForceMode.Impulse);
+        rigid.AddForce(jumpHeight * transform.up, ForceMode.Impulse);
     }
 }
