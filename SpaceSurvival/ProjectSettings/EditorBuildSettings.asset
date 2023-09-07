@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/_Noh_Hyun_Oh/Scenes/Opening.unity
     guid: 0527e17a18c0d1e4ebadc905ee88c1e8
   - enabled: 1
-    path: Assets/_Noh_Hyun_Oh/Scenes/Title.unity
-    guid: b4f70ba32e9477e4093f5fb7577254ad
+    path: Assets/_Noh_Hyun_Oh/Scenes/Title_Yoon.unity
+    guid: 86f01c35d1c8e48bfbfe13358fab349d
   - enabled: 1
     path: Assets/_Noh_Hyun_Oh/Scenes/Loading.unity
     guid: 8311e4ba36c1e084bbe82bcdb03750ee
