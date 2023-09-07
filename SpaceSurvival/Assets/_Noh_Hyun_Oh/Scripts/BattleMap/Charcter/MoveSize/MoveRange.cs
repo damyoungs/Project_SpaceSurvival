@@ -299,13 +299,13 @@ public class MoveRange : MonoBehaviour
 
         foreach (Tile node in mapTiles)
         {
-            node.H = 1000.0f; // H 값을 1000로 고정시키고 G 값을 초기화하여 계산 을 G값으로만 할수있게 한다.
-            node.G = 1000.0f;
+            node.H = 1000.0f; //도착지점이 없는상태라서 맥스값 넣으니 제대로 안돌아간다.
+            node.MoveCheckG = 1000.0f;
         }
 
         openList.Add(currentNode);
 
-        currentNode.G = 0.0f; //내위치는 g 가 0이다
+        currentNode.MoveCheckG = 0.0f; //내위치는 g 가 0이다
 
         while (openList.Count > 0)
         {
@@ -313,7 +313,7 @@ public class MoveRange : MonoBehaviour
             openList.Remove(currentNode); // 탐색가능한 목록에서 현재 탐색중인 목록을 제거하고 
             closeList.Add(currentNode);   // 탐색종료한 리스트에 현재 목록을 담는다.
 
-            if (currentNode.G > moveCheck) //G 값이 현재 이동 가능한 거리보다 높으면  더이상 탐색이 필요없음으로 
+            if (currentNode.MoveCheckG > moveCheck) //G 값이 현재 이동 가능한 거리보다 높으면  더이상 탐색이 필요없음으로 
             {
                 continue; //다음거 탐색 
             }
@@ -345,8 +345,6 @@ public class MoveRange : MonoBehaviour
                     continue;
                 if (adjoinTile.ExistType != Tile.TileExistType.None)                // 인접한 타일이 None이 아닐 때
                     continue;
-                if (close.Exists((inClose) => inClose == adjoinTile))             // close리스트에 있을 때
-                    continue;
 
                 bool isDiagonal = (x * y != 0);                                     // 대각선 유무 확인
                 if (isDiagonal &&                                                   // 대각선이고 현재 타일의 상하좌우가 벽일 때
@@ -365,10 +363,10 @@ public class MoveRange : MonoBehaviour
                     distance = sideDistance;
                 }
 
-                if (adjoinTile.G > currentNode.G + distance)
+                if (adjoinTile.MoveCheckG > currentNode.MoveCheckG + distance)
                 {
                     open.Add(adjoinTile);
-                    adjoinTile.G = currentNode.G + distance;
+                    adjoinTile.MoveCheckG = currentNode.MoveCheckG + distance;
                 }
             }
         }

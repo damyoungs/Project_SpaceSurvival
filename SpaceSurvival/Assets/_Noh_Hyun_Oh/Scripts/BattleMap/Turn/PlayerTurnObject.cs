@@ -46,7 +46,6 @@ public class PlayerTurnObject : TurnBaseObject
         bpc.onClickPlayer = OnClickPlayer;                       // 타일을 클릭했을때 플레이어 가있는타일(타일속성이 몬스터) 이면 실행될 함수를 연결한다. 
         bpc.onMoveActive = OnUnitMove;                           // 타일을 클릭했을때 플레이어가 움직이도록 로직연결
         bpc.GetPlayerTurnObject = () => this;                    // 초기값 데이터 연결 
-        TurnActionValue = 0.0f; //액션값 초기화 
 
         if (initPlayer != null) //외부 함수가 연결되 있으면
         {
@@ -88,7 +87,8 @@ public class PlayerTurnObject : TurnBaseObject
     public override void TurnStartAction()
     {
         isTurn = true; // 자신의 턴인지 체크한다. 해제는 델리게이트에 연결해두었고 델리는 턴종료버튼 에서 실행된다.
-        Debug.Log($"{name} 오브젝트는 턴이 시작되었다");
+        Debug.Log($"{name} 오브젝트는 턴이 시작되었다 행동력 : {TurnActionValue}");
+        
     }
 
     /// <summary>
@@ -141,6 +141,7 @@ public class PlayerTurnObject : TurnBaseObject
                             currentUnit.IsControll = false; //기존값은 컨트롤 해제하고 
                             SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentUnit.CurrentTile); //이동범위 리셋시킨다.
                         }
+                        TurnActionValue -= currentUnit.CurrentTile.MoveCheckG;  //이동한값만큼 감소시키기
                         currentUnit = playerUnit; //다른 아군을 담고
                         currentUnit.IsControll = true; //컨트롤 할수있게 설정한다.
                         cot.Target = currentUnit.transform; //카메라 포커스 맞추기 
@@ -174,6 +175,8 @@ public class PlayerTurnObject : TurnBaseObject
     /// </summary>
     private void SelectControllUnit()
     {
+        currentUnit.MoveSize = TurnActionValue; //새로운캐릭터 이동가능범위 셋팅
+        MoveActionButton.IsMoveButtonClick = false; //귀찮아서 스태틱
         Debug.Log($"컨트롤유닛 : {currentUnit.transform.name} 선택했다.");
     }
 

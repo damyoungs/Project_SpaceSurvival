@@ -7,6 +7,29 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     public static GameManager Inst { get { Init(); return instance; } }
 
+    bool isBattle = false;
+    public bool IsBattle
+    {
+        get => isBattle;
+        set
+        {
+            if (isBattle != value)
+            {
+                isBattle = value;
+                switch (isBattle)
+                {
+                    case true:
+                        
+                        break;
+                    case false:
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
     PlayerDummy player;
     Inventory inventory;
     SlotManager slotManager;

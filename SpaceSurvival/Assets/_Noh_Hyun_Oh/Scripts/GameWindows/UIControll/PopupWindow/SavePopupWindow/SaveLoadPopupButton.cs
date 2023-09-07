@@ -1,5 +1,7 @@
+using StructList;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 
@@ -25,10 +27,11 @@ public class SaveLoadPopupButton : MonoBehaviour
     /// </summary>
     int oldSelectIndex = -1;
 
+    SlotManager slotManager;
 
     private void Awake()
     {
-        
+        slotManager = FindObjectOfType<SlotManager>(true);
         parentPopupWindow = WindowList.Instance.IOPopupWindow.transform.GetChild(WindowList.Instance.IOPopupWindow.transform.childCount - 1).gameObject; //팝업창 위치 찾기
         proccessClass = WindowList.Instance.MainWindow;//초기화때 필요한 함수불러오기위해 사용  
     }
@@ -70,6 +73,8 @@ public class SaveLoadPopupButton : MonoBehaviour
     }
     public void SaveAcceptCheck() 
     {
+        SaveLoadManager.Instance.ParsingProcess.SaveParsing();
+        //저장될 시점 
         if (SaveLoadManager.Instance.Json_Save(selectIndex)) { 
             CancelButton(); //창닫기
         }
@@ -101,5 +106,7 @@ public class SaveLoadPopupButton : MonoBehaviour
         } 
         CancelButton(); //창닫기
     }
+
+    
 }
 

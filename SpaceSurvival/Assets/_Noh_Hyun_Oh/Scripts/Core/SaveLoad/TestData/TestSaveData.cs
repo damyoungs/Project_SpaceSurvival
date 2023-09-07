@@ -136,12 +136,6 @@ public class TestSaveData<T> : JsonGameData  // 상속받은 것도 같이 json으로 파싱
                 base.CharcterInfo[i].FlagList[ij] = ij * 857;
             }
         }
-        base.ItemList = new StructList.CharcterItems[100];
-        for (int i = 0; i < base.ItemList.Length; i++)
-        {
-            base.ItemList[i].Values = i * 12;
-            base.ItemList[i].ItemIndex = i ;
-        }
         base.QuestList = new StructList.CharcterQuest[500];
         for (int i = 0; i < base.QuestList.Length; i++)
         {

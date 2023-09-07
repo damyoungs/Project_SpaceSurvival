@@ -595,6 +595,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1002084203}
   m_CullTransparentMesh: 1
+--- !u!1 &1007888883
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1007888885}
+  - component: {fileID: 1007888884}
+  m_Layer: 0
+  m_Name: Test_Map
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1007888884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1007888883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 062f56128cfe0e6429cc228255794596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  map: {fileID: 1400756929}
+--- !u!4 &1007888885
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1007888883}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -19.570215, y: 57.54205, z: -59.53418}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1052770507
 GameObject:
   m_ObjectHideFlags: 0
@@ -923,7 +968,7 @@ GameObject:
   - component: {fileID: 1400756928}
   - component: {fileID: 1400756929}
   m_Layer: 0
-  m_Name: Test_Map
+  m_Name: Test_Map()
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -962,7 +1007,6 @@ MonoBehaviour:
   sideTile: {fileID: 8797011225861172393, guid: d7fd6b3f4d9c0734c8f549322c904b1e, type: 3}
   vertexTile: {fileID: 1653467421318594525, guid: bfad40b9d2c389b4ca690d028842d1e5, type: 3}
   wall: {fileID: 3841216844985782899, guid: 46a180535354e0a469ea8689de80d961, type: 3}
-  pointLight: {fileID: 2473895127990609703, guid: 9754fdad34fac1749a1727a4fc601cc8, type: 3}
   pillar: {fileID: 3138847464301115210, guid: b9e116fb37ae8d84fb4fd0e03d5f35d7, type: 3}
   sizeX: 0
   sizeY: 0

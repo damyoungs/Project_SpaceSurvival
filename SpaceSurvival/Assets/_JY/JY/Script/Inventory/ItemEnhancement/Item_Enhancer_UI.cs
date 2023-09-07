@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-public class Item_Enhancer_UI : MonoBehaviour
+public class Item_Enhancer_UI : MonoBehaviour, IPopupSortWindow
 { 
     CanvasGroup canvasGroup;
     Item_Enhancer itemEnhancer;
@@ -42,13 +42,15 @@ public class Item_Enhancer_UI : MonoBehaviour
         set
         {
             darkForceCount = Math.Clamp(value, MinDarkForceCount, (uint)GameManager.playerDummy.DarkForce);
-            amountText.text = darkForceCount.ToString();    // ÀÎÇ² ÇÊµå¿¡ Àû¿ë
+            amountText.text = darkForceCount.ToString();    // ì¸í’‹ í•„ë“œì— ì ìš©
             amountSlider.value = darkForceCount;
             onDarkForceValueChange?.Invoke(itemEnhancer.ItemData);
         }
     }
     public Enhancer_Slot_Before BeforeSlot => beforeSlot;
     public Enhancer_Slot_After AfterSlot => afterSlot;
+
+    public Action<IPopupSortWindow> PopupSorting { get; set; }
 
     private void Awake()
     {
@@ -60,7 +62,7 @@ public class Item_Enhancer_UI : MonoBehaviour
         beforeSlot = GetComponentInChildren<Enhancer_Slot_Before>();
         afterSlot = GetComponentInChildren<Enhancer_Slot_After>();
 
-        closeButton.onClick.AddListener(() => itemEnhancer.EnhancerState = EnhancerState.Close);// ¼öÁ¤ÇÊ¿ä
+        closeButton.onClick.AddListener(() => itemEnhancer.EnhancerState = EnhancerState.Close);// ìˆ˜ì •í•„ìš”
         cancelButton.onClick.AddListener(() => itemEnhancer.EnhancerState = EnhancerState.Close);
 
         confirmButton.onClick.AddListener(() => itemEnhancer.EnhancerState = EnhancerState.Confirm);
@@ -90,13 +92,13 @@ public class Item_Enhancer_UI : MonoBehaviour
 
         itemEnhancer.onOpen += Open;
         itemEnhancer.onClose += Close;
-        itemEnhancer.onSetItem += RefreshEnhancerUI; //tempSlotÀÇ ¾ÆÀÌÅÛÀ» µå·ÓÇßÀ» ¶§
-        itemEnhancer.onClearItem += ClearEnhancerUI; // beforeSlotÀ» Å¬¸¯ÇßÀ» ¶§
-        itemEnhancer.onConfirmButtonClick += BlockInteractable;// enhancerUIÃ¢ÀÇ Ã¼Å©¹öÆ° Å¬›ÇßÀ» ¶§
-        onDarkForceValueChange += UpdateSuccessRate; // InputFieldÀÇ DarkforceÀÇ °ªÀÌ ¹Ù²ğ¶§
-        itemEnhancer.onWaitforResult += WaitForResult; // warningBoxÀÇ Ã¼Å©¹öÆ°À» ´©¸¦ ¶§ 
+        itemEnhancer.onSetItem += RefreshEnhancerUI; //tempSlotì˜ ì•„ì´í…œì„ ë“œë¡­í–ˆì„ ë•Œ
+        itemEnhancer.onClearItem += ClearEnhancerUI; // beforeSlotì„ í´ë¦­í–ˆì„ ë•Œ
+        itemEnhancer.onConfirmButtonClick += BlockInteractable;// enhancerUIì°½ì˜ ì²´í¬ë²„íŠ¼ í´ë§€í–ˆì„ ë•Œ
+        onDarkForceValueChange += UpdateSuccessRate; // InputFieldì˜ Darkforceì˜ ê°’ì´ ë°”ë€”ë•Œ
+        itemEnhancer.onWaitforResult += WaitForResult; // warningBoxì˜ ì²´í¬ë²„íŠ¼ì„ ëˆ„ë¥¼ ë•Œ 
        // itemEnhancer.onWaitforResult += BlockInteractable;
-        itemEnhancer.onSuccess += () => StartCoroutine(PopUp_ProceedBox(true)); //WaitForResult¿¡¼­ È£Ãâ
+        itemEnhancer.onSuccess += () => StartCoroutine(PopUp_ProceedBox(true)); //WaitForResultì—ì„œ í˜¸ì¶œ
         itemEnhancer.onFail += () => StartCoroutine(PopUp_ProceedBox(false));
 
 
@@ -110,6 +112,7 @@ public class Item_Enhancer_UI : MonoBehaviour
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
         ClearEnhancerUI();
+        PopupSorting?.Invoke(this);
     }
     public void Close()
     {
@@ -136,7 +139,7 @@ public class Item_Enhancer_UI : MonoBehaviour
 
     private void ClearEnhancerUI()
     {
-        //ÀÌ¹ÌÁö, ¼º°ø·ü text
+        //ì´ë¯¸ì§€, ì„±ê³µë¥  text
         beforelevelText.text = string.Empty;
         afterlevelText.text = string.Empty;
         amountSlider.maxValue = 0.0f;
@@ -147,7 +150,7 @@ public class Item_Enhancer_UI : MonoBehaviour
         afterSlot.ItemData = null;
         itemEnhancer.ItemData = null;
     }
-    void BlockInteractable()//Enhancer¿¡¼­ ½ÅÈ£ ¹ŞÀ½ 
+    void BlockInteractable()//Enhancerì—ì„œ ì‹ í˜¸ ë°›ìŒ 
     {
         beforeSlot.imageComp.raycastTarget = false;
         beforeSlot.itemIcon.raycastTarget = false;
@@ -159,7 +162,7 @@ public class Item_Enhancer_UI : MonoBehaviour
         plusButton.interactable = false;
         minusButton.interactable = false;
     }
-    void OpenInteractable()//warningbox¿¡¼­ ½ÅÈ£¹ŞÀ½
+    void OpenInteractable()//warningboxì—ì„œ ì‹ í˜¸ë°›ìŒ
     {
 
         beforeSlot.imageComp.raycastTarget = true;
@@ -172,7 +175,7 @@ public class Item_Enhancer_UI : MonoBehaviour
         plusButton.interactable = true;
         minusButton.interactable = true;
     }
-    void UpdateSuccessRate(ItemData item)//È®·ü °è»êÀº IEnhancable ¿¡¼­ Á÷Á¢ÇÏ´Â°Ô ÁÁÀ»°Í °°´Ù. ÇÊ¿äÇÑ µ¥ÀÌÅÍ°¡ ¸ğµÎ °Å±âÀÖ±â¶§¹®ÀÌ´Ù.
+    void UpdateSuccessRate(ItemData item)//í™•ë¥  ê³„ì‚°ì€ IEnhancable ì—ì„œ ì§ì ‘í•˜ëŠ”ê²Œ ì¢‹ì„ê²ƒ ê°™ë‹¤. í•„ìš”í•œ ë°ì´í„°ê°€ ëª¨ë‘ ê±°ê¸°ìˆê¸°ë•Œë¬¸ì´ë‹¤.
     {
         if (item == null)
         {
@@ -201,17 +204,31 @@ public class Item_Enhancer_UI : MonoBehaviour
         if (levelUp)
         {
             proceedAnim.SetTrigger("Success");
-            yield return new WaitForSeconds(3.0f);// Success clipÀÇ Àç»ı½Ã°£À» °í·ÁÇÑ µô·¹ÀÌ
+            yield return new WaitForSeconds(3.0f);// Success clipì˜ ì¬ìƒì‹œê°„ì„ ê³ ë ¤í•œ ë”œë ˆì´
             onTriggerLevelUp?.Invoke();
             itemEnhancer.EnhancerState = EnhancerState.ClearItem;
-            Debug.Log("State º¯°æ ");
+            Debug.Log("State ë³€ê²½ ");
         }
         else
         {
             proceedAnim.SetTrigger("Fail");
-            yield return new WaitForSeconds(3.0f);//´ë±â½Ã°£ÀÌ ¾øÀ¸¸é ¹öÆ° È°¼ºÈ­°¡ ³Ê¹« »¡¸®µÈ´Ù.
+            yield return new WaitForSeconds(3.0f);//ëŒ€ê¸°ì‹œê°„ì´ ì—†ìœ¼ë©´ ë²„íŠ¼ í™œì„±í™”ê°€ ë„ˆë¬´ ë¹¨ë¦¬ëœë‹¤.
         }
         OpenInteractable();
     }
 
+    public void OpenWindow()
+    {
+        Open();
+        PopupSorting?.Invoke(this);
+    }
+
+    public void CloseWindow()
+    {
+        Close();
+    }
+    private void OnMouseDown()
+    {
+        PopupSorting?.Invoke(this);
+    }
 }

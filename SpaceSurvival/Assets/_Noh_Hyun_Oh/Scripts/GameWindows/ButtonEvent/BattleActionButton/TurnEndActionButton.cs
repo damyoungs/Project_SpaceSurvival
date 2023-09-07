@@ -14,14 +14,16 @@ public class TurnEndActionButton : BattleActionButtonBase
         }
         ICharcterBase unit = node.CurrentUnit;
         //테스트코드 
-        if (node.CurrentUnit != null) 
+        if (node.CurrentUnit != null)
         {
             SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(node.CurrentUnit.CurrentTile); //이동범위 리셋시킨다.
+            node.CurrentUnit = null;
         }
         if (!node.IsMove) 
         {
-            node.TurnActionValue -= 0.8f;//UnityEngine.Random.Range(0.05f, 0.7f); //턴 진행 시 행동력 감소치 대충 때려넣는다.
             node.IsTurn = false;
+            Debug.Log($"아군턴 종료 남은행동력 :{node.TurnActionValue}");
+            MoveActionButton.IsMoveButtonClick = false; //귀찮아서 스태틱
 
             node.TurnEndAction(); //턴완료 델리게이트를 실행한다 .
         

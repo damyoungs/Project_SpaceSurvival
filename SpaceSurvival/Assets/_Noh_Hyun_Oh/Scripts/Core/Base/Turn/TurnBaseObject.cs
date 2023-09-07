@@ -56,16 +56,16 @@ public class TurnBaseObject : BattleMapTurnUnit_PoolObj, ITurnBaseData
     /// 턴이경과시 회복될 행동력값 
     /// </summary>
     [SerializeField]
-    [Range(0.01f,0.5f)]
-    protected float turnAddValue = 0.50f;
+    [Range(1.0f,5.0f)]
+    protected float turnAddValue = 5.0f;
     public float TurnEndActionValue => turnAddValue;
 
     /// <summary>
     /// 행동력 최대치 (회복상한선)
     /// </summary>
     [SerializeField]
-    [Range(1.1f, 2.0f)]
-    protected float maxTurnValue = 1.5f;
+    [Range(10.1f, 20.0f)]
+    protected float maxTurnValue = 10f;
 
     /// <summary>
     /// 현재 턴의 진행값 
@@ -89,7 +89,7 @@ public class TurnBaseObject : BattleMapTurnUnit_PoolObj, ITurnBaseData
             }
             if (gaugeUnit != null)  // 턴게이지가 셋팅되있으면 
             {
-                gaugeUnit.ProgressValue = value; //턴게이지값도 수정 
+                gaugeUnit.ProgressValue = value / maxTurnValue; //턴게이지값도 수정 0~1값이 들어가야함으로 나누기
 
             }
         }
@@ -123,7 +123,11 @@ public class TurnBaseObject : BattleMapTurnUnit_PoolObj, ITurnBaseData
     /// 현재 컨트롤할 유닛 
     /// </summary>
     protected ICharcterBase currentUnit;
-    public ICharcterBase CurrentUnit => currentUnit;
+    public ICharcterBase CurrentUnit 
+    {
+        get=> currentUnit;
+        set => currentUnit = value;
+    }
 
 
     /// <summary>

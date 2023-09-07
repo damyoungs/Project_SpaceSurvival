@@ -6,182 +6,182 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /*
-    ÃÊ±â°ª ¼ÂÆÃÇÏ´Â ÇÔ¼ö ¸®½ºÆ® Å©±â ¹Ì¸®Á¤ÇØµÎ±â ¿¹ÃøÇØ¼­ 
+    ì´ˆê¸°ê°’ ì…‹íŒ…í•˜ëŠ” í•¨ìˆ˜ ë¦¬ìŠ¤íŠ¸ í¬ê¸° ë¯¸ë¦¬ì •í•´ë‘ê¸° ì˜ˆì¸¡í•´ì„œ 
  */
 /// <summary>
-/// A* ¸Ê ÇÏ³ª¿¡ »ç¿ëµÉ ¸Å´ÏÀú Å¬·¡½º 
-/// ±â´É Ãß°¡:  ¿öÇÁ°¡ÀÖÀ¸¸é ÇØ´çÁÂÇ¥³¢¸® ÈŞ¸®½ºÆ½ °ªÀ» Á¶Á¤ÇÏ´Â ±â´ÉÀ» Ãß°¡ÇØ¾ßÇÑ´Ù.
+/// A* ë§µ í•˜ë‚˜ì— ì‚¬ìš©ë  ë§¤ë‹ˆì € í´ë˜ìŠ¤ 
+/// ê¸°ëŠ¥ ì¶”ê°€:  ì›Œí”„ê°€ìˆìœ¼ë©´ í•´ë‹¹ì¢Œí‘œë¼ë¦¬ íœ´ë¦¬ìŠ¤í‹± ê°’ì„ ì¡°ì •í•˜ëŠ” ê¸°ëŠ¥ì„ ì¶”ê°€í•´ì•¼í•œë‹¤.
 /// </summary>
 public static class AstarProccess 
-{
+{ 
     /// <summary>
-    /// ÇöÀç Áö¿ªÀÇ »óÅÂ°ª
+    /// í˜„ì¬ ì§€ì—­ì˜ ìƒíƒœê°’
     /// </summary>
     public enum NodeState 
     {
-        None = 0,           //ÃÊ±â°ª
-        Nomal   ,           //Á¢±Ù°¡´É   
-        Inaccessible,       //Á¢±ÙºÒ°¡´É
+        None = 0,           //ì´ˆê¸°ê°’
+        Nomal   ,           //ì ‘ê·¼ê°€ëŠ¥   
+        Inaccessible,       //ì ‘ê·¼ë¶ˆê°€ëŠ¥
     }
 
     /// <summary>
-    /// Å¸ÀÏ ¸ÊÀÇ ÁÖº¯ÀÌ ÀÌµ¿°¡´ÉÇÑÁö¿ªÀÎÁö Ã¼Å©ÇÏ±âÀ§ÇÑ ÀÌ³Ñ°ª
+    /// íƒ€ì¼ ë§µì˜ ì£¼ë³€ì´ ì´ë™ê°€ëŠ¥í•œì§€ì—­ì¸ì§€ ì²´í¬í•˜ê¸°ìœ„í•œ ì´ë„˜ê°’
     /// </summary>
     [Flags]
     public enum Four_Way_Access_Area_Check :byte
     {
-        NONE = 0,                           // 0000     ÁÖº¯4¹æÇâ¿¡ ³»ÀÚ½Å°ú ´Ù¸¥°ªÀÌ Á¸ÀçÇÏÁö¾Ê´Â´Ù
+        NONE = 0,                           // 0000     ì£¼ë³€4ë°©í–¥ì— ë‚´ìì‹ ê³¼ ë‹¤ë¥¸ê°’ì´ ì¡´ì¬í•˜ì§€ì•ŠëŠ”ë‹¤
         UP = 1,                             // 0001     
         DOWN = 2,                           // 0010     
         LEFT = 4,                           // 0100     
         RIGHT = 8,                          // 1000     
-        ALL = UP | DOWN | LEFT | RIGHT ,    // 1111     ÁÖº¯4¹æÇâ¿¡ ³»ÀÚ½Å°ú ´Ù¸¥°ªÀÌ Á¸ÀçÇÑ´Ù 
+        ALL = UP | DOWN | LEFT | RIGHT ,    // 1111     ì£¼ë³€4ë°©í–¥ì— ë‚´ìì‹ ê³¼ ë‹¤ë¥¸ê°’ì´ ì¡´ì¬í•œë‹¤ 
 
     }
 
 
     /// <summary>
-    /// ½ÃÀÛ µÉ ³ëµå Á¤º¸
+    /// ì‹œì‘ ë  ë…¸ë“œ ì •ë³´
     /// </summary>
     private static Astar_Node startNode;
     
     /// <summary>
-    /// µµÂø ÇÒ ³ëµå Á¤º¸
+    /// ë„ì°© í•  ë…¸ë“œ ì •ë³´
     /// </summary>
     private static Astar_Node endNode;
 
     /// <summary>
-    /// ÇöÀç °Ë»öÁßÀÎ ³ëµåÁ¤º¸ 
+    /// í˜„ì¬ ê²€ìƒ‰ì¤‘ì¸ ë…¸ë“œì •ë³´ 
     /// </summary>
     private static Astar_Node currentNode;
 
     /// <summary>
-    /// A* ³ëµå¸®½ºÆ®
+    /// A* ë…¸ë“œë¦¬ìŠ¤íŠ¸
     /// </summary>
     private static Astar_Node[,] nodes;
     /// <summary>
-    /// ³ëµå ¿ÀÇÂ ¸®½ºÆ® 
+    /// ë…¸ë“œ ì˜¤í”ˆ ë¦¬ìŠ¤íŠ¸ 
     /// </summary>
     private static List<Astar_Node> openList = new List<Astar_Node>();
 
     /// <summary>
-    /// ³ëµå Å¬·ÎÁî ¸®½ºÆ®
+    /// ë…¸ë“œ í´ë¡œì¦ˆ ë¦¬ìŠ¤íŠ¸
     /// </summary>
     private static List<Astar_Node> closeList = new List<Astar_Node>();
 
     /// <summary>
-    /// Á¤»ç°¢ÇüÀÇ Á÷¼± °ª 
+    /// ì •ì‚¬ê°í˜•ì˜ ì§ì„  ê°’ 
     /// </summary>
     const float nomalLine = 1.0f;
 
     /// <summary>
-    /// Á¤»ç°¢ÇüÀÇ ´ë°¢¼± °ª 1.414 ¹è 
-    /// Á¤»ç°¢ÇüÀÌ¶ó ¹èÀ²ÀÌ º¯ÇÏÁö¾Ê´Â´Ù.
+    /// ì •ì‚¬ê°í˜•ì˜ ëŒ€ê°ì„  ê°’ 1.414 ë°° 
+    /// ì •ì‚¬ê°í˜•ì´ë¼ ë°°ìœ¨ì´ ë³€í•˜ì§€ì•ŠëŠ”ë‹¤.
     /// </summary>
-    //readonly float diagonalLine = Mathf.Sqrt((nomalLine*nomalLine) + (nomalLine * nomalLine)); //´ë°¢¼± °ª±¸ÇÏ±â 1.414 ÀÔ·ÂÇØµµ µÇ±äÇÏ´Ù.
+    //readonly float diagonalLine = Mathf.Sqrt((nomalLine*nomalLine) + (nomalLine * nomalLine)); //ëŒ€ê°ì„  ê°’êµ¬í•˜ê¸° 1.414 ì…ë ¥í•´ë„ ë˜ê¸´í•˜ë‹¤.
     readonly static float diagonalLine = 1.414f;
 
     public static Action<Astar_Node> onTileCreate;
 
     /// <summary>
-    /// A* Àû¿ëÇÒ µ¥ÀÌÅÍ ¹è¿­À» ¾ò¾î¿Â´Ù.
+    /// A* ì ìš©í•  ë°ì´í„° ë°°ì—´ì„ ì–»ì–´ì˜¨ë‹¤.
     /// </summary>
-    /// <param name="horizontalSize">°¡·Î °¹¼ö</param>
-    /// <param name="verticalSize"> ¼¼·Î °¹¼ö</param>
-    /// <param name="obstaclesArray">¸ø°¡´ÂÁö¿ª ÀÎµ¦½º ¹è¿­</param>
-    /// <returns>¸ø°¡´ÂÁö¿ª±îÁö ¼³Á¤³¡³­ ³ëµåÀÌÂ÷¹è¿­ ¹İÈ¯</returns>
+    /// <param name="horizontalSize">ê°€ë¡œ ê°¯ìˆ˜</param>
+    /// <param name="verticalSize"> ì„¸ë¡œ ê°¯ìˆ˜</param>
+    /// <param name="obstaclesArray">ëª»ê°€ëŠ”ì§€ì—­ ì¸ë±ìŠ¤ ë°°ì—´</param>
+    /// <returns>ëª»ê°€ëŠ”ì§€ì—­ê¹Œì§€ ì„¤ì •ëë‚œ ë…¸ë“œì´ì°¨ë°°ì—´ ë°˜í™˜</returns>
     public static Astar_Node[,] InitData(int horizontalSize, int verticalSize, int[] obstaclesArray = null)
     {
-        openList.Clear(); //¿ÀÇÂ ¸®½ºÆ® ÃÊ±âÈ­ 
+        openList.Clear(); //ì˜¤í”ˆ ë¦¬ìŠ¤íŠ¸ ì´ˆê¸°í™” 
 
-        closeList.Clear(); // Å¬·ÎÁî ¸®½ºÆ® ÃÊ±âÈ­ 
+        closeList.Clear(); // í´ë¡œì¦ˆ ë¦¬ìŠ¤íŠ¸ ì´ˆê¸°í™” 
 
-        nodes = CreateNodeArray(horizontalSize, verticalSize); // ¸Ê ¹è¿­¸¸µé°í 
+        nodes = CreateNodeArray(horizontalSize, verticalSize); // ë§µ ë°°ì—´ë§Œë“¤ê³  
 
-        if (nodes != null && obstaclesArray != null) //¸ø°¡´Â Áö¿ªÀÌÀÖÀ¸¸é
+        if (nodes != null && obstaclesArray != null) //ëª»ê°€ëŠ” ì§€ì—­ì´ìˆìœ¼ë©´
         {
-            SetPlaceObstacles(horizontalSize, verticalSize, obstaclesArray); //¸ø°¡´ÂÁö¿ª µî·ÏÇÑ´Ù.
+            SetPlaceObstacles(horizontalSize, verticalSize, obstaclesArray); //ëª»ê°€ëŠ”ì§€ì—­ ë“±ë¡í•œë‹¤.
         }
         return nodes;
     }
 
 
     /// <summary>
-    /// Á¢±Ù ºÒ°¡´ÉÇÑ Áö¿ª ¼³Á¤ 
-    /// obstaclesArray °ªÀÌ ÁÂÇ¥°ª ±âÁØÀ¸·Î ¿À¸§Â÷¼ø Á¤·ÄÀÌ µÈ»óÅÂ¿©¾ß Á¤»óÀÛµ¿ÀÌµÈ´Ù.
-    /// ±â´ÉÃß°¡ : ³ëµå¿¡´Ù°¡ ÇöÀç »óÅÂ(Á¢±Ù°¡´É,ºÒ°¡´É)¿Í ´Ù¸¥ °ªÀÌ Á¸ÀçÇÏ¸é Ã¼Å©ÇÏ´Â ·ÎÁ÷ Ãß°¡
+    /// ì ‘ê·¼ ë¶ˆê°€ëŠ¥í•œ ì§€ì—­ ì„¤ì • 
+    /// obstaclesArray ê°’ì´ ì¢Œí‘œê°’ ê¸°ì¤€ìœ¼ë¡œ ì˜¤ë¦„ì°¨ìˆœ ì •ë ¬ì´ ëœìƒíƒœì—¬ì•¼ ì •ìƒì‘ë™ì´ëœë‹¤.
+    /// ê¸°ëŠ¥ì¶”ê°€ : ë…¸ë“œì—ë‹¤ê°€ í˜„ì¬ ìƒíƒœ(ì ‘ê·¼ê°€ëŠ¥,ë¶ˆê°€ëŠ¥)ì™€ ë‹¤ë¥¸ ê°’ì´ ì¡´ì¬í•˜ë©´ ì²´í¬í•˜ëŠ” ë¡œì§ ì¶”ê°€
     /// </summary>
-    /// <param name="horizontalSize">°¡·Î Å©±â</param>
-    /// <param name="verticalSize">¼¼·Î Å©±â</param>
-    /// <param name="obstaclesArray">Á¢±ÙºÒ°¡´ÉÇÑ Áö¿ª ÀÎµ¦½º ÀúÀåÇØµĞ ¹è¿­</param>
+    /// <param name="horizontalSize">ê°€ë¡œ í¬ê¸°</param>
+    /// <param name="verticalSize">ì„¸ë¡œ í¬ê¸°</param>
+    /// <param name="obstaclesArray">ì ‘ê·¼ë¶ˆê°€ëŠ¥í•œ ì§€ì—­ ì¸ë±ìŠ¤ ì €ì¥í•´ë‘” ë°°ì—´</param>
     private static void SetPlaceObstacles(int horizontalSize, int verticalSize, int[] obstaclesArray = null)
     {
-        int index = 0; // ÀÎµ¦½º °ª Ã¼Å©ÇÒ º¯¼ö 
-        int obstacleIndex = 0; //Àå¾Ö¹° ÀÎµ¦½º°ª Ã¼Å©ÇÒ º¯¼ö
+        int index = 0; // ì¸ë±ìŠ¤ ê°’ ì²´í¬í•  ë³€ìˆ˜ 
+        int obstacleIndex = 0; //ì¥ì• ë¬¼ ì¸ë±ìŠ¤ê°’ ì²´í¬í•  ë³€ìˆ˜
         
-        for (int y = 0; y < verticalSize; y++) // ÀüÃ¼ÀÇ °¡·Î°¹¼ö¸¸Å­ µ¹°í
+        for (int y = 0; y < verticalSize; y++) // ì „ì²´ì˜ ê°€ë¡œê°¯ìˆ˜ë§Œí¼ ëŒê³ 
         {
-            for (int x = 0; x < horizontalSize; x++) // ÀüÃ¼ÀÇ ¼¼·Î°¹¼ö¸¸Å­ µ¹¾Æ¼­ ´Ùµ¹¸°´Ù.
+            for (int x = 0; x < horizontalSize; x++) // ì „ì²´ì˜ ì„¸ë¡œê°¯ìˆ˜ë§Œí¼ ëŒì•„ì„œ ë‹¤ëŒë¦°ë‹¤.
             {
-                if (obstaclesArray.Length > obstacleIndex && //¾Æ¿ô¿Àºê¹Ù¿îÁî ¿¡·¯ °É·¯³»±â¿ë
-                    obstaclesArray[obstacleIndex] == index) //ÀÎµ¦½º°ªÀ» Ã¼Å©ÇØ¼­ 
+                if (obstaclesArray.Length > obstacleIndex && //ì•„ì›ƒì˜¤ë¸Œë°”ìš´ì¦ˆ ì—ëŸ¬ ê±¸ëŸ¬ë‚´ê¸°ìš©
+                    obstaclesArray[obstacleIndex] == index) //ì¸ë±ìŠ¤ê°’ì„ ì²´í¬í•´ì„œ 
                 {
-                    nodes[y, x].State = NodeState.Inaccessible; //°°Àº ÀÎµ¦½º°ª¿¡ ³Ö¾îÁØ´Ù.
-                    obstacleIndex++;//´ÙÀ½ Àå¾Ö¹° ÀÎµ¦½º¸¦ Ã£±âÀ§ÇØ ÀÎµ¦½º Áõ°¡
+                    nodes[y, x].State = NodeState.Inaccessible; //ê°™ì€ ì¸ë±ìŠ¤ê°’ì— ë„£ì–´ì¤€ë‹¤.
+                    obstacleIndex++;//ë‹¤ìŒ ì¥ì• ë¬¼ ì¸ë±ìŠ¤ë¥¼ ì°¾ê¸°ìœ„í•´ ì¸ë±ìŠ¤ ì¦ê°€
                 }
                 else 
                 {
-                    nodes[y, x].State = NodeState.Nomal; //°°Àº ÀÎµ¦½º°ª¿¡ ³Ö¾îÁØ´Ù.
+                    nodes[y, x].State = NodeState.Nomal; //ê°™ì€ ì¸ë±ìŠ¤ê°’ì— ë„£ì–´ì¤€ë‹¤.
                 }
-                index++;//ÀüÃ¼ ÀÎµ¦½º °ª Áõ°¡ 
+                index++;//ì „ì²´ ì¸ë±ìŠ¤ ê°’ ì¦ê°€ 
             }
         }
-        // Æ÷¹®¿¡¼­ »ç¿ëµÉ º¯¼öµé ¹Ì¸®¼±¾ğ
+        // í¬ë¬¸ì—ì„œ ì‚¬ìš©ë  ë³€ìˆ˜ë“¤ ë¯¸ë¦¬ì„ ì–¸
         int startIndex = 0;
         int endIndex = 0;
-        foreach (Astar_Node node in nodes) //Á¢±Ù ºÒ°¡Áö¿ª ³ëµå¿¡ ±ÙÃ³¿¡ °¥¼öÀÖ´Â Áö¿ªÀÖ´ÂÁö Ã¼Å©ÇÏ±â
+        foreach (Astar_Node node in nodes) //ì ‘ê·¼ ë¶ˆê°€ì§€ì—­ ë…¸ë“œì— ê·¼ì²˜ì— ê°ˆìˆ˜ìˆëŠ” ì§€ì—­ìˆëŠ”ì§€ ì²´í¬í•˜ê¸°
         {
-            //½ÊÀÚ Ã¼Å© ½ÃÀÛ
+            //ì‹­ì ì²´í¬ ì‹œì‘
 
-            //À§¾Æ·¡ Ã¼Å©
-            startIndex = node.Y - 1 < 0 ? 1 : - 1;  //¸Ç ¾Æ·¡ÂÊ ³ëµå ÀÏ¶© À§ÂÊ ³ëµå¸¸ °Ë»öÇÏ¸é µÇ°í 
-            endIndex = node.Y + 2 > verticalSize    ? 0 : 2; //¸Ç À§ÂÊ ³ëµåÀÏ¶© ¾Æ·¡ÂÊ ³ëµå¸¸ °Ë»öÇÏ¸é µÈ´Ù.
-            for (int y  = startIndex; y < endIndex; y += 2) // -1°ú 1·Î ¹İ¾¿³ª´²¼­ Ã¼Å©ÇÑ´Ù.
+            //ìœ„ì•„ë˜ ì²´í¬
+            startIndex = node.Y - 1 < 0 ? 1 : - 1;  //ë§¨ ì•„ë˜ìª½ ë…¸ë“œ ì¼ë• ìœ„ìª½ ë…¸ë“œë§Œ ê²€ìƒ‰í•˜ë©´ ë˜ê³  
+            endIndex = node.Y + 2 > verticalSize    ? 0 : 2; //ë§¨ ìœ„ìª½ ë…¸ë“œì¼ë• ì•„ë˜ìª½ ë…¸ë“œë§Œ ê²€ìƒ‰í•˜ë©´ ëœë‹¤.
+            for (int y  = startIndex; y < endIndex; y += 2) // -1ê³¼ 1ë¡œ ë°˜ì”©ë‚˜ëˆ ì„œ ì²´í¬í•œë‹¤.
             {
                 //Debug.Log($" Y = {node.Y} , {y},{startIndex},{endIndex}");
-                if (node.State != nodes[node.Y + y, node.X].State)//À§¾Æ·¡¸¸ Ã¼Å©
+                if (node.State != nodes[node.Y + y, node.X].State)//ìœ„ì•„ë˜ë§Œ ì²´í¬
                 {
-                    // ¾î´À¹æÇâÀÎÁö Ã¼Å©´Â ¹Ì¸®ÇÒ¼ö°¡¾øÀ½À¸·Î Æ÷¹®¾È¿¡¼­ ÇÑ´Ù.
-                    if (y > 0) //À§ÂÊÀÌ³Ä
+                    // ì–´ëŠë°©í–¥ì¸ì§€ ì²´í¬ëŠ” ë¯¸ë¦¬í• ìˆ˜ê°€ì—†ìŒìœ¼ë¡œ í¬ë¬¸ì•ˆì—ì„œ í•œë‹¤.
+                    if (y > 0) //ìœ„ìª½ì´ëƒ
                     {
                         node.FourWayCheck |= Four_Way_Access_Area_Check.UP;
-                        //³»³ëµåÀÇ À§¿¡ÀÖ´ÂÁö Ã¼Å©
+                        //ë‚´ë…¸ë“œì˜ ìœ„ì—ìˆëŠ”ì§€ ì²´í¬
                     }
-                    else if (y < 0) //¾Æ·¡ÂÊÀÌ³Ä
+                    else if (y < 0) //ì•„ë˜ìª½ì´ëƒ
                     {
                         node.FourWayCheck |= Four_Way_Access_Area_Check.DOWN;
-                        //¾Æ´Ï¸é ³»³ëµåÀÇ ¾Æ·¡¿¡ ÀÖ´ÂÁö Ã¼Å©
+                        //ì•„ë‹ˆë©´ ë‚´ë…¸ë“œì˜ ì•„ë˜ì— ìˆëŠ”ì§€ ì²´í¬
                     }
                 }
             }
 
-            //ÁÂ¿ì Ã¼Å©
-            startIndex = node.X - 1 < 0 ? 1 : -1;  //¸Ç ¿ŞÂÊ³ëµå ÀÏ¶© ¿À¸¥ÂÊ ³ëµå¸¸ °Ë»öÇÏ¸é µÇ°í 
-            endIndex = node.X + 2 > horizontalSize  ? 0 : 2; //¸Ç ¿À¸¥ÂÊ ³ëµå ÀÏ¶© ¿ŞÂÊ ³ëµå¸¸ °Ë»öÇÏ¸é µÈ´Ù.
-            for (int x = startIndex; x < endIndex; x += 2) // -1 °ú 1 ·Î ¹İ¾¿ ³ª´² Ã¼Å©ÇÑ´Ù.
+            //ì¢Œìš° ì²´í¬
+            startIndex = node.X - 1 < 0 ? 1 : -1;  //ë§¨ ì™¼ìª½ë…¸ë“œ ì¼ë• ì˜¤ë¥¸ìª½ ë…¸ë“œë§Œ ê²€ìƒ‰í•˜ë©´ ë˜ê³  
+            endIndex = node.X + 2 > horizontalSize  ? 0 : 2; //ë§¨ ì˜¤ë¥¸ìª½ ë…¸ë“œ ì¼ë• ì™¼ìª½ ë…¸ë“œë§Œ ê²€ìƒ‰í•˜ë©´ ëœë‹¤.
+            for (int x = startIndex; x < endIndex; x += 2) // -1 ê³¼ 1 ë¡œ ë°˜ì”© ë‚˜ëˆ  ì²´í¬í•œë‹¤.
             {
                 //Debug.Log($"x = {node.X} , {x},{startIndex},{endIndex}");
-                if (node.State != nodes[node.Y, node.X + x].State)//ÁÂ¿ì¸¸ Ã¼Å©
+                if (node.State != nodes[node.Y, node.X + x].State)//ì¢Œìš°ë§Œ ì²´í¬
                 {
-                    if (0 > x) //¿ŞÂÊÀÌ³Ä?
+                    if (0 > x) //ì™¼ìª½ì´ëƒ?
                     {
                         node.FourWayCheck |= Four_Way_Access_Area_Check.LEFT;
-                        //³»³ëµåÀÇ ¿ŞÂÊ¿¡ ÀÖ´ÂÁö Ã¼Å©
+                        //ë‚´ë…¸ë“œì˜ ì™¼ìª½ì— ìˆëŠ”ì§€ ì²´í¬
                     }
-                    else if (0 < x) //¿À¸¥ÂÊÀÌ³Ä?
+                    else if (0 < x) //ì˜¤ë¥¸ìª½ì´ëƒ?
                     {
                         node.FourWayCheck |= Four_Way_Access_Area_Check.RIGHT;
-                        //¾Æ´Ï¸é ³»³ëµå ¿À¸¥ÂÊ¿¡ ÀÖ´ÂÁö Ã¼Å©
+                        //ì•„ë‹ˆë©´ ë‚´ë…¸ë“œ ì˜¤ë¥¸ìª½ì— ìˆëŠ”ì§€ ì²´í¬
                     }
                 }
             }
@@ -191,31 +191,31 @@ public static class AstarProccess
 
     
     /// <summary>
-    /// À§Ä¡°ª µÎ°³¸¦ °¡Áö°í °¡Àå °¡±î¿î °æ·Î¸¦ Å½»öÇÑ´Ù.
-    /// ½ÃÀÛÀ§Ä¡¿Í µµÂø À§Ä¡°¡ À¯È¿ÇÑÁö Ã¼Å©µµÇØ¼­ À¯È¿¾ÈÇÏ¸é ±ÙÃ³·Î ¹Ù²ã¾ßÇÔ.
+    /// ìœ„ì¹˜ê°’ ë‘ê°œë¥¼ ê°€ì§€ê³  ê°€ì¥ ê°€ê¹Œìš´ ê²½ë¡œë¥¼ íƒìƒ‰í•œë‹¤.
+    /// ì‹œì‘ìœ„ì¹˜ì™€ ë„ì°© ìœ„ì¹˜ê°€ ìœ íš¨í•œì§€ ì²´í¬ë„í•´ì„œ ìœ íš¨ì•ˆí•˜ë©´ ê·¼ì²˜ë¡œ ë°”ê¿”ì•¼í•¨.
     /// </summary>
-    /// <param name="startIndex">½ÃÀÛÀ§Ä¡ ÀÎµ¦½º</param>
-    /// <param name="endIndex">µµÂøÀ§Ä¡ ÀÎµ¦½º</param>
+    /// <param name="startIndex">ì‹œì‘ìœ„ì¹˜ ì¸ë±ìŠ¤</param>
+    /// <param name="endIndex">ë„ì°©ìœ„ì¹˜ ì¸ë±ìŠ¤</param>
     public static Astar_Node GetShortPath(int startIndex, int endIndex)
     {
-        ResetValue();                     // °æ·Î¿Í G , H °ªÀ» ¸®¼Â ½ÃÅ²´Ù.
-        int lastX = nodes.GetLength(1);         //x ÁÂÇ¥ÀÇ ÃÖ´ë°ª
-        int lastY = nodes.GetLength(0);         //y ÁÂÇ¥ÀÇ ÃÖ´ë°ª
+        ResetValue();                     // ê²½ë¡œì™€ G , H ê°’ì„ ë¦¬ì…‹ ì‹œí‚¨ë‹¤.
+        int lastX = nodes.GetLength(1);         //x ì¢Œí‘œì˜ ìµœëŒ€ê°’
+        int lastY = nodes.GetLength(0);         //y ì¢Œí‘œì˜ ìµœëŒ€ê°’
 
 
-        int startX = startIndex == 0 ? 0 : startIndex % lastX;  //½ÃÀÛÀ§Ä¡ ÀÇ xÁÂÇ¥°ª 
-        int startY = startIndex == 0 ? 0 : startIndex / lastY;  //½ÃÀÛÀ§Ä¡ ÀÇ yÁÂÇ¥°ª
+        int startX = startIndex == 0 ? 0 : startIndex % lastX;  //ì‹œì‘ìœ„ì¹˜ ì˜ xì¢Œí‘œê°’ 
+        int startY = startIndex == 0 ? 0 : startIndex / lastY;  //ì‹œì‘ìœ„ì¹˜ ì˜ yì¢Œí‘œê°’
 
-        int endY = endIndex == 0 ? 0 : endIndex / lastY;    //µµÂøÀ§Ä¡ ÀÇ yÁÂÇ¥°ª
-        int endX = endIndex == 0 ? 0 : endIndex % lastX;    //µµÂøÀ§Ä¡ ÀÇ xÁÂÇ¥°ª
+        int endY = endIndex == 0 ? 0 : endIndex / lastY;    //ë„ì°©ìœ„ì¹˜ ì˜ yì¢Œí‘œê°’
+        int endX = endIndex == 0 ? 0 : endIndex % lastX;    //ë„ì°©ìœ„ì¹˜ ì˜ xì¢Œí‘œê°’
 
         //Debug.Log($"{nodes.GetLength(0)} , {nodes.GetLength(1)} , {startIndex} ,{endIndex}");
         //Debug.Log($"start : {startX},{startY} end : {endX},{endY}");
-        startNode = nodes[startY, startX];  // ½ÃÀÛÀ§Ä¡¿Í
-        endNode = nodes[endY, endX];        // µµÂøÀ§Ä¡¸¦ ¼ÂÆÃÇÏ°í 
-        SetHeuristicsValue(endNode); //µµÂø ÁöÁ¡ ³ëµå¸¦ ÀÌ¿ëÇØ ³ëµåµéÀÇ ÈŞ¸®½ºÆ½ °ªÀ¸¸£ ¼ÂÆÃÇÑ´Ù.
+        startNode = nodes[startY, startX];  // ì‹œì‘ìœ„ì¹˜ì™€
+        endNode = nodes[endY, endX];        // ë„ì°©ìœ„ì¹˜ë¥¼ ì…‹íŒ…í•˜ê³  
+        SetHeuristicsValue(endNode); //ë„ì°© ì§€ì  ë…¸ë“œë¥¼ ì´ìš©í•´ ë…¸ë“œë“¤ì˜ íœ´ë¦¬ìŠ¤í‹± ê°’ìœ¼ë¥´ ì…‹íŒ…í•œë‹¤.
 
-        return PathFinding(); //±æÃ£±â¸¦ ½ÇÇàÇÑ´Ù.
+        return PathFinding(); //ê¸¸ì°¾ê¸°ë¥¼ ì‹¤í–‰í•œë‹¤.
     }
 
 
@@ -225,77 +225,77 @@ public static class AstarProccess
 
 
     /// <summary>
-    /// ÇöÀç À§Ä¡ÁöÁ¡¿¡¼­ Çàµ¿·Â ±âÁØ ÀÌµ¿°¡´ÉÇÑ ¹üÀ§ ÀÇ ÁÂÇ¥¸®½ºÆ®¸¦ °¡Á®¿À±âÀ§ÇÑ ÇÔ¼ö
+    /// í˜„ì¬ ìœ„ì¹˜ì§€ì ì—ì„œ í–‰ë™ë ¥ ê¸°ì¤€ ì´ë™ê°€ëŠ¥í•œ ë²”ìœ„ ì˜ ì¢Œí‘œë¦¬ìŠ¤íŠ¸ë¥¼ ê°€ì ¸ì˜¤ê¸°ìœ„í•œ í•¨ìˆ˜
     /// </summary>
-    /// <param name="currentNode">ÇöÀç ³ëµåÀ§Ä¡ </param>
-    /// <param name="moveCheck">Çàµ¿·Â °ª</param>
-    /// <returns>Ä³¸¯ÅÍ°¡ ÀÌµ¿°¡´ÉÇÑ ³ëµå¸®½ºÆ®</returns>
+    /// <param name="currentNode">í˜„ì¬ ë…¸ë“œìœ„ì¹˜ </param>
+    /// <param name="moveCheck">í–‰ë™ë ¥ ê°’</param>
+    /// <returns>ìºë¦­í„°ê°€ ì´ë™ê°€ëŠ¥í•œ ë…¸ë“œë¦¬ìŠ¤íŠ¸</returns>
     public static List<Astar_Node> SetMoveSize(Astar_Node currentNode, float moveCheck)
     {
         List<Astar_Node> resultNode = new List<Astar_Node>(); 
-        openList.Clear();   // Å½»öÀÌ ÇÊ¿äÇÑ ³ëµå ¸®½ºÆ® 
-        closeList.Clear();  // ÀÌ¹Ì °è»êÀÌ ¿Ï·áµÇ¼­ ´õÀÌ»ó Å½»öÀ» ¾ÈÇÒ ¸®½ºÆ® 
+        openList.Clear();   // íƒìƒ‰ì´ í•„ìš”í•œ ë…¸ë“œ ë¦¬ìŠ¤íŠ¸ 
+        closeList.Clear();  // ì´ë¯¸ ê³„ì‚°ì´ ì™„ë£Œë˜ì„œ ë”ì´ìƒ íƒìƒ‰ì„ ì•ˆí•  ë¦¬ìŠ¤íŠ¸ 
 
         foreach (Astar_Node node in nodes) 
         {
-            node.ResetMoveCheckValue(); // H °ªÀ» 1·Î °íÁ¤½ÃÅ°°í G °ªÀ» ÃÊ±âÈ­ÇÏ¿© °è»ê À» G°ªÀ¸·Î¸¸ ÇÒ¼öÀÖ°Ô ÇÑ´Ù.
+            node.ResetMoveCheckValue(); // H ê°’ì„ 1ë¡œ ê³ ì •ì‹œí‚¤ê³  G ê°’ì„ ì´ˆê¸°í™”í•˜ì—¬ ê³„ì‚° ì„ Gê°’ìœ¼ë¡œë§Œ í• ìˆ˜ìˆê²Œ í•œë‹¤.
         }
 
         openList.Add(currentNode);
 
-        currentNode.G = 0.0f; //À§¿¡¼­ °ªÃÊ±âÈ­ ÇÏ°íÀÖÀ½À¸·Î Ã³À½°ªÀ» 0À¸·Î ´Ù½Ã¼ÂÆÃ
+        currentNode.G = 0.0f; //ìœ„ì—ì„œ ê°’ì´ˆê¸°í™” í•˜ê³ ìˆìŒìœ¼ë¡œ ì²˜ìŒê°’ì„ 0ìœ¼ë¡œ ë‹¤ì‹œì…‹íŒ…
 
         while (openList.Count > 0) 
         {
             currentNode = openList[0];
-            openList.Remove(currentNode); // Å½»ö°¡´ÉÇÑ ¸ñ·Ï¿¡¼­ ÇöÀç Å½»öÁßÀÎ ¸ñ·ÏÀ» Á¦°ÅÇÏ°í 
-            closeList.Add(currentNode);   // Å½»öÁ¾·áÇÑ ¸®½ºÆ®¿¡ ÇöÀç ¸ñ·ÏÀ» ´ã´Â´Ù.
+            openList.Remove(currentNode); // íƒìƒ‰ê°€ëŠ¥í•œ ëª©ë¡ì—ì„œ í˜„ì¬ íƒìƒ‰ì¤‘ì¸ ëª©ë¡ì„ ì œê±°í•˜ê³  
+            closeList.Add(currentNode);   // íƒìƒ‰ì¢…ë£Œí•œ ë¦¬ìŠ¤íŠ¸ì— í˜„ì¬ ëª©ë¡ì„ ë‹´ëŠ”ë‹¤.
 
-            if (currentNode.G > moveCheck) //G °ªÀÌ ÇöÀç ÀÌµ¿ °¡´ÉÇÑ °Å¸®º¸´Ù ³ôÀ¸¸é  ´õÀÌ»ó Å½»öÀÌ ÇÊ¿ä¾øÀ½À¸·Î 
+            if (currentNode.G > moveCheck) //G ê°’ì´ í˜„ì¬ ì´ë™ ê°€ëŠ¥í•œ ê±°ë¦¬ë³´ë‹¤ ë†’ìœ¼ë©´  ë”ì´ìƒ íƒìƒ‰ì´ í•„ìš”ì—†ìŒìœ¼ë¡œ 
             {
-                continue; //´ÙÀ½°Å Å½»ö 
+                continue; //ë‹¤ìŒê±° íƒìƒ‰ 
             }
-            else // ÀÌµ¿°¡´ÉÇÑ °Å¸®¸é 
+            else // ì´ë™ê°€ëŠ¥í•œ ê±°ë¦¬ë©´ 
             {
-                resultNode.Add(currentNode); //¹İÈ¯ ½ÃÅ³ ¸®½ºÆ®·Î Ãß°¡ÇÑ´Ù.
+                resultNode.Add(currentNode); //ë°˜í™˜ ì‹œí‚¬ ë¦¬ìŠ¤íŠ¸ë¡œ ì¶”ê°€í•œë‹¤.
             }
 
-            OpenListAdd(currentNode); //ÁÖº¯ 8¹æÇâÀÇ ³ëµå¸¦ Ã£¾Æ¼­ G°ª ¼öÁ¤ÇÏ°í  ¿ÀÇÂ¸®½ºÆ®¿¡ ´ãÀ»¼öÀÖÀ¸¸é ´ã´Â´Ù.
-            openList.Sort();            //Ã£Àº G°ªÁß °¡Àå ÀÛÀº°ªºÎÅÍ ÀçÅ½»öÀÌµÈ´Ù.
+            OpenListAdd(currentNode); //ì£¼ë³€ 8ë°©í–¥ì˜ ë…¸ë“œë¥¼ ì°¾ì•„ì„œ Gê°’ ìˆ˜ì •í•˜ê³   ì˜¤í”ˆë¦¬ìŠ¤íŠ¸ì— ë‹´ì„ìˆ˜ìˆìœ¼ë©´ ë‹´ëŠ”ë‹¤.
+            openList.Sort();            //ì°¾ì€ Gê°’ì¤‘ ê°€ì¥ ì‘ì€ê°’ë¶€í„° ì¬íƒìƒ‰ì´ëœë‹¤.
         }
         return resultNode;
     }
 
     /// <summary>
-    /// ¼ÂÆÃµÈ°ªÀÌ µµÂøÁöÁ¡¿¡ µµÂøÇÒ¼öÀÖ´ÂÁö ¿©ºÎ¸¦ È®ÀÎÇÏ´Â ·ÎÁ÷
+    /// ì…‹íŒ…ëœê°’ì´ ë„ì°©ì§€ì ì— ë„ì°©í• ìˆ˜ìˆëŠ”ì§€ ì—¬ë¶€ë¥¼ í™•ì¸í•˜ëŠ” ë¡œì§
     /// </summary>
-    /// <returns>±æÀÌÀÖÀ¸¸é true ¾øÀ¸¸é false</returns>
+    /// <returns>ê¸¸ì´ìˆìœ¼ë©´ true ì—†ìœ¼ë©´ false</returns>
     private static bool IsComplite() 
     {
-        while (openList.Count > 0)  //Å½»ö ½ÃÀÛ
+        while (openList.Count > 0)  //íƒìƒ‰ ì‹œì‘
         {
             currentNode = openList[0];
-            if (currentNode == endNode) //Å½»öÇÑ ³ëµå°¡ µµÂø À§Ä¡¸é 
+            if (currentNode == endNode) //íƒìƒ‰í•œ ë…¸ë“œê°€ ë„ì°© ìœ„ì¹˜ë©´ 
             {
-                Debug.Log($"({currentNode.X},{currentNode.Y}) == ({endNode.X},{endNode.Y})±æ Á¸ÀçÇÔ"); //±æÀÖ´Ù°í ÇÏ°í 
-                return true; //ºüÁ®³ª°¨
+                Debug.Log($"({currentNode.X},{currentNode.Y}) == ({endNode.X},{endNode.Y})ê¸¸ ì¡´ì¬í•¨"); //ê¸¸ìˆë‹¤ê³  í•˜ê³  
+                return true; //ë¹ ì ¸ë‚˜ê°
             }
-            else if(!closeList.Contains(currentNode)) //Å¬·ÎÁî¸®½ºÆ®¿¡ ¾ø¾î¾ß 
+            else if(!closeList.Contains(currentNode)) //í´ë¡œì¦ˆë¦¬ìŠ¤íŠ¸ì— ì—†ì–´ì•¼ 
             {
-                closeList.Add(currentNode);//Ãß°¡ÇÑ´Ù.
-                Debug.Log($"({currentNode.X},{currentNode.Y}) == ({endNode.X},{endNode.Y})±æ Ã£´ÂÁß"); //±æÀÖ´Ù°í ÇÏ°í 
+                closeList.Add(currentNode);//ì¶”ê°€í•œë‹¤.
+                Debug.Log($"({currentNode.X},{currentNode.Y}) == ({endNode.X},{endNode.Y})ê¸¸ ì°¾ëŠ”ì¤‘"); //ê¸¸ìˆë‹¤ê³  í•˜ê³  
             }
             openList.Remove(currentNode);
 
             OpenListAdd(currentNode);
         }
-        Debug.Log($"°Ë»ö¸¶Áö¸·°ªÀÇ ³ëµå ÁÂÇ¥´Â({currentNode.X},{currentNode.Y}) ÀÌ°í ±æÀÌ¾øÀ½");
+        Debug.Log($"ê²€ìƒ‰ë§ˆì§€ë§‰ê°’ì˜ ë…¸ë“œ ì¢Œí‘œëŠ”({currentNode.X},{currentNode.Y}) ì´ê³  ê¸¸ì´ì—†ìŒ");
         return false;
     }
     /// <summary>
-    /// ¸ÊÁ¤º¸¿Í Á¢±ÙºÒ°¡´ÉÇÑ Áö¿ª Á¤º¸¸¦ ¹Ş°í 
-    /// ½ÃÀÛ À§Ä¡ÁöÁ¡°ú µµÂø À§Ä¡ÁöÁ¡ÀÇ °æ·Î¸¦ Ã£¾Æº¸°í Á¸ÀçÇÏ¸é ¾Æ¹«Áşµµ¾ÈÇÏ°í 
-    /// Á¸ÀçÇÏÁö¾ÊÀº°æ¿ì Á¢±ÙºÒ°¡Áö¿ªÀ» ÁÙ¿©°¡¸é¼­ °æ·Î¸¦ Å½»öÇÑ´Ù.
+    /// ë§µì •ë³´ì™€ ì ‘ê·¼ë¶ˆê°€ëŠ¥í•œ ì§€ì—­ ì •ë³´ë¥¼ ë°›ê³  
+    /// ì‹œì‘ ìœ„ì¹˜ì§€ì ê³¼ ë„ì°© ìœ„ì¹˜ì§€ì ì˜ ê²½ë¡œë¥¼ ì°¾ì•„ë³´ê³  ì¡´ì¬í•˜ë©´ ì•„ë¬´ì§“ë„ì•ˆí•˜ê³  
+    /// ì¡´ì¬í•˜ì§€ì•Šì€ê²½ìš° ì ‘ê·¼ë¶ˆê°€ì§€ì—­ì„ ì¤„ì—¬ê°€ë©´ì„œ ê²½ë¡œë¥¼ íƒìƒ‰í•œë‹¤.
     /// </summary>
     /// <param name="obstacleIndexArray"></param>
     /// <param name="startIndex"></param>
@@ -304,30 +304,30 @@ public static class AstarProccess
     {
 
 
-        openList.Clear(); //Å½»öÇÏ±âÀ§ÇØ Ã¼Å©ÇÒ ¸®½ºÆ® µÎ°³ ÃÊ±âÈ­ ÇÏ°í 
+        openList.Clear(); //íƒìƒ‰í•˜ê¸°ìœ„í•´ ì²´í¬í•  ë¦¬ìŠ¤íŠ¸ ë‘ê°œ ì´ˆê¸°í™” í•˜ê³  
 
         closeList.Clear();
 
-        currentNode = AstarProccess.GetNode(startIndex); //½ÃÀÛÀ§Ä¡ÀÇ ³ëµå°ª ÀúÀåÇÏ°í
+        currentNode = AstarProccess.GetNode(startIndex); //ì‹œì‘ìœ„ì¹˜ì˜ ë…¸ë“œê°’ ì €ì¥í•˜ê³ 
 
-        currentNode.G = 0.0f; //½ÃÀÛÁöÁ¡Àº 0À¸·Î ¾ÈÇÒ½Ã ±æ¸øÃ£´Â´Ù.
+        currentNode.G = 0.0f; //ì‹œì‘ì§€ì ì€ 0ìœ¼ë¡œ ì•ˆí• ì‹œ ê¸¸ëª»ì°¾ëŠ”ë‹¤.
 
-        endNode =  AstarProccess.GetNode(endIndex); //µµÂøÀ§Ä¡ÀÇ ³ëµå°ª ÀúÀå ÇÏ°í
+        endNode =  AstarProccess.GetNode(endIndex); //ë„ì°©ìœ„ì¹˜ì˜ ë…¸ë“œê°’ ì €ì¥ í•˜ê³ 
 
-        openList.Add(currentNode);//½ÃÀÛ ³ëµå ´ã¾Æ¼­ 
+        openList.Add(currentNode);//ì‹œì‘ ë…¸ë“œ ë‹´ì•„ì„œ 
 
-        SetHeuristicsValue(endNode); //ÈŞ¸®½ºÆ½ ¼ÂÆÃ ÇØÁÖ°í Ã£±â 
+        SetHeuristicsValue(endNode); //íœ´ë¦¬ìŠ¤í‹± ì…‹íŒ… í•´ì£¼ê³  ì°¾ê¸° 
 
         int debugCount = 0;
-        while(!IsComplite()) //±æÀ» Ã£À»¶§ ±îÁö °è¼Ó A Star °Ë»ö ½Ãµµ  
+        while(!IsComplite()) //ê¸¸ì„ ì°¾ì„ë•Œ ê¹Œì§€ ê³„ì† A Star ê²€ìƒ‰ ì‹œë„  
         {
-            closeList.Sort(ListCompareTo);  //ÈŞ¸®½ºÆ½°ª ±âÁØÀ¸·Î Á¤·ÄÀ» ½ÃÅ²´Ù.
-            //randomCount = UnityEngine.Random.Range(0, closeList.Count); //·£´ıÀ¸·Î »Ì±â
-            NextCheckNode(closeList[0]); //¾î´À¹æÇâÀ¸·Î °¥Áö °¡Á®¿À°í ¿ÀÇÂ¸®½ºÆ®¿¡ ´ãÀ»¼öÀÖÀ¸¸é ´ã´Â´Ù.
+            closeList.Sort(ListCompareTo);  //íœ´ë¦¬ìŠ¤í‹±ê°’ ê¸°ì¤€ìœ¼ë¡œ ì •ë ¬ì„ ì‹œí‚¨ë‹¤.
+            //randomCount = UnityEngine.Random.Range(0, closeList.Count); //ëœë¤ìœ¼ë¡œ ë½‘ê¸°
+            NextCheckNode(closeList[0]); //ì–´ëŠë°©í–¥ìœ¼ë¡œ ê°ˆì§€ ê°€ì ¸ì˜¤ê³  ì˜¤í”ˆë¦¬ìŠ¤íŠ¸ì— ë‹´ì„ìˆ˜ìˆìœ¼ë©´ ë‹´ëŠ”ë‹¤.
             debugCount++;
             if (debugCount > 1000) 
             {
-                Debug.Log($"ÁÂÇ¥°ª ¿©±â°¡³¡ÀÌ¾ß ({currentNode.X},{currentNode.Y}) ¸øÃ£¾Ñ¾î °á±¹ ");
+                Debug.Log($"ì¢Œí‘œê°’ ì—¬ê¸°ê°€ëì´ì•¼ ({currentNode.X},{currentNode.Y}) ëª»ì°¾ì•—ì–´ ê²°êµ­ ");
                 break;
             }
         }
@@ -336,233 +336,233 @@ public static class AstarProccess
     }
 
     /// <summary>
-    /// Á¤·Ä¹æ½Ä º¯°æÇÏ±â 
+    /// ì •ë ¬ë°©ì‹ ë³€ê²½í•˜ê¸° 
     /// </summary>
-    /// <param name="thisNode">ÀÌÀü³ëµå</param>
-    /// <param name="otherNode">ºñ±³³ëµå</param>
-    /// <returns>Á¤·Ä±âÁØ°ª</returns>
+    /// <param name="thisNode">ì´ì „ë…¸ë“œ</param>
+    /// <param name="otherNode">ë¹„êµë…¸ë“œ</param>
+    /// <returns>ì •ë ¬ê¸°ì¤€ê°’</returns>
     public static int ListCompareTo(Astar_Node thisNode, Astar_Node otherNode)
     {
-        // ¸®ÅÏÀÌ 0º¸´Ù ÀÛ´Ù(-1)  : ³»°¡(¿ŞÂÊ) ÀÛ´Ù(this < other)
-        // ¸®ÅÏÀÌ 0ÀÌ´Ù           : ³ª¿Í »ó´ë°¡ °°´Ù( this == other )
-        // ¸®ÅÏÀÌ 0º¸´Ù Å©´Ù(+1)  : ³»°¡(¿ŞÂÊ) Å©´Ù(this > other)
-        return thisNode.H == otherNode.H ? 0 : thisNode.H < otherNode.H ? -1 : 1;    // H °ªÀ» ±âÁØÀ¸·Î Å©±â¸¦ °áÁ¤ÇØ¶ó.
+        // ë¦¬í„´ì´ 0ë³´ë‹¤ ì‘ë‹¤(-1)  : ë‚´ê°€(ì™¼ìª½) ì‘ë‹¤(this < other)
+        // ë¦¬í„´ì´ 0ì´ë‹¤           : ë‚˜ì™€ ìƒëŒ€ê°€ ê°™ë‹¤( this == other )
+        // ë¦¬í„´ì´ 0ë³´ë‹¤ í¬ë‹¤(+1)  : ë‚´ê°€(ì™¼ìª½) í¬ë‹¤(this > other)
+        return thisNode.H == otherNode.H ? 0 : thisNode.H < otherNode.H ? -1 : 1;    // H ê°’ì„ ê¸°ì¤€ìœ¼ë¡œ í¬ê¸°ë¥¼ ê²°ì •í•´ë¼.
     }
     
     /// <summary>
-    /// ±æÀÌ¸·ÇôÀÖ´Â°æ¿ì 
-    /// µµÂøÁöÁ¡°ú °¡±î¿î¹æÇâÀÇ ¼¿À» Ã£¾Æ¼­ ´ÙÀ½ ³ëµå¸¦ °Ë»öÇØ¿Â´Ù.
-    /// ±×¸®°í ¿ÀÇÂ¸®½ºÆ®¿¡ ³Ö´Â´Ù
+    /// ê¸¸ì´ë§‰í˜€ìˆëŠ”ê²½ìš° 
+    /// ë„ì°©ì§€ì ê³¼ ê°€ê¹Œìš´ë°©í–¥ì˜ ì…€ì„ ì°¾ì•„ì„œ ë‹¤ìŒ ë…¸ë“œë¥¼ ê²€ìƒ‰í•´ì˜¨ë‹¤.
+    /// ê·¸ë¦¬ê³  ì˜¤í”ˆë¦¬ìŠ¤íŠ¸ì— ë„£ëŠ”ë‹¤
     /// </summary>
-    /// <param name="prevNode">°Ë»ö±âÁØÀ§Ä¡</param>
+    /// <param name="prevNode">ê²€ìƒ‰ê¸°ì¤€ìœ„ì¹˜</param>
     /// <returns></returns>
     private static void NextCheckNode(Astar_Node prevNode) 
     {
-        Astar_Node node; //ÀÌµ¿ÇÑ À§Ä¡°ª ´ãÀ» °´Ã¼º¯¼ö ¼±¾ğ
-        Four_Way_Access_Area_Check tempWay = Four_Way_Access_Area_Check.NONE; // ¾î´ÀÂÊ¿¡¼­ ¿Ô´ÂÁö Ã¼Å©ÇÏ±âÀ§ÇÑº¯¼ö
+        Astar_Node node; //ì´ë™í•œ ìœ„ì¹˜ê°’ ë‹´ì„ ê°ì²´ë³€ìˆ˜ ì„ ì–¸
+        Four_Way_Access_Area_Check tempWay = Four_Way_Access_Area_Check.NONE; // ì–´ëŠìª½ì—ì„œ ì™”ëŠ”ì§€ ì²´í¬í•˜ê¸°ìœ„í•œë³€ìˆ˜
 
-        int x = prevNode.X;     //¿¬»ê¿ë º¯¼ö µÎ°³ ¼±¾ğ
+        int x = prevNode.X;     //ì—°ì‚°ìš© ë³€ìˆ˜ ë‘ê°œ ì„ ì–¸
         int y = prevNode.Y;
 
         int random = UnityEngine.Random.Range(0, 2);
-        //°¡·ÎÃàÀ¸·Î °¥°ÇÁö ¼¼·ÎÃàÀ¸·Î ÀÌµ¿ÇÒ°ÇÁö ·£´ıÀ¸·Î °áÁ¤
+        //ê°€ë¡œì¶•ìœ¼ë¡œ ê°ˆê±´ì§€ ì„¸ë¡œì¶•ìœ¼ë¡œ ì´ë™í• ê±´ì§€ ëœë¤ìœ¼ë¡œ ê²°ì •
      
-        if (random < 1) //¼¼·Î¿ì¼± ·£´ıÀ¸·Î °áÁ¤ 
+        if (random < 1) //ì„¸ë¡œìš°ì„  ëœë¤ìœ¼ë¡œ ê²°ì • 
         {
-            //µµÂøÁöÁ¡°ú °¡±î¿î°÷À¸·Î ÁÂÇ¥°ª ¼ÂÆÃ
+            //ë„ì°©ì§€ì ê³¼ ê°€ê¹Œìš´ê³³ìœ¼ë¡œ ì¢Œí‘œê°’ ì…‹íŒ…
             if (endNode.Y > prevNode.Y)
             {
                 y += 1;
-                tempWay = Four_Way_Access_Area_Check.DOWN; //À§ÂÊÀ¸·Î °¡´Ï±ñ ¾Æ·¡ÂÊÀ» ÀúÀåÇÑ´Ù
+                tempWay = Four_Way_Access_Area_Check.DOWN; //ìœ„ìª½ìœ¼ë¡œ ê°€ë‹ˆê¹ ì•„ë˜ìª½ì„ ì €ì¥í•œë‹¤
             }
             else if (endNode.Y < prevNode.Y)
             {
                 y -= 1;
-                tempWay = Four_Way_Access_Area_Check.UP; //¾Æ·¡ÂÊÀ¸·Î °¡´Ï±ñ À§ÂÊÀ» ÀúÀåÇÑ´Ù
+                tempWay = Four_Way_Access_Area_Check.UP; //ì•„ë˜ìª½ìœ¼ë¡œ ê°€ë‹ˆê¹ ìœ„ìª½ì„ ì €ì¥í•œë‹¤
             }
 
             node = nodes[y,prevNode.X]; 
         }
-        else  // °¡·Î¿ì¼± 
+        else  // ê°€ë¡œìš°ì„  
         {
-            //µµÂøÁöÁ¡°ú °¡±î¿î°÷À¸·Î ÁÂÇ¥°ª ¼ÂÆÃ
+            //ë„ì°©ì§€ì ê³¼ ê°€ê¹Œìš´ê³³ìœ¼ë¡œ ì¢Œí‘œê°’ ì…‹íŒ…
             if (endNode.X > prevNode.X)
             {
                 x += 1;
-                tempWay = Four_Way_Access_Area_Check.LEFT; //¿À¸¥ÂÊÀ¸·Î °¡´Ï±ñ ¿ŞÂÊÀ» ÀúÀåÇÑ´Ù
+                tempWay = Four_Way_Access_Area_Check.LEFT; //ì˜¤ë¥¸ìª½ìœ¼ë¡œ ê°€ë‹ˆê¹ ì™¼ìª½ì„ ì €ì¥í•œë‹¤
             }
             else if (endNode.X < prevNode.X)
             {
                 x -= 1;
-                tempWay = Four_Way_Access_Area_Check.RIGHT; //¿ŞÂÊÀ¸·Î °¡´Ï±ñ ¿À¸¥ÂÊÀ» ÀúÀåÇÑ´Ù
+                tempWay = Four_Way_Access_Area_Check.RIGHT; //ì™¼ìª½ìœ¼ë¡œ ê°€ë‹ˆê¹ ì˜¤ë¥¸ìª½ì„ ì €ì¥í•œë‹¤
             }
             node = nodes[prevNode.Y,x];
         }
 
-        if (node.State == NodeState.Inaccessible) //Á¢±Ù ºÒ°¡ Áö¿ªÀÌ¸é  
+        if (node.State == NodeState.Inaccessible) //ì ‘ê·¼ ë¶ˆê°€ ì§€ì—­ì´ë©´  
         {
 
-            //¹æÇâ °»½Å
-            node.FourWayCheck &= ~tempWay;  // ÇöÀç ¼³Á¤µÈ ¹æÇâ¿¡¼­ µé¾î¿Â ¹æÇâÀ» Á¦¿Ü ½ÃÅ²´Ù.
-            node.FourWayCheck = ~node.FourWayCheck & Four_Way_Access_Area_Check.ALL; // ¼Ó¼ºÀÌ ¹Ù²¼À½À¸·Î ÀüÃ¼¸¦ µÚÁı´Â´Ù .
+            //ë°©í–¥ ê°±ì‹ 
+            node.FourWayCheck &= ~tempWay;  // í˜„ì¬ ì„¤ì •ëœ ë°©í–¥ì—ì„œ ë“¤ì–´ì˜¨ ë°©í–¥ì„ ì œì™¸ ì‹œí‚¨ë‹¤.
+            node.FourWayCheck = ~node.FourWayCheck & Four_Way_Access_Area_Check.ALL; // ì†ì„±ì´ ë°”ê¼ˆìŒìœ¼ë¡œ ì „ì²´ë¥¼ ë’¤ì§‘ëŠ”ë‹¤ .
             
-            // ÇØ´çÁö¿ªÀ» ÀÌµ¿°¡´ÉÁö¿ªÀ¸·Î º¯°æ 
-            node.State = NodeState.Nomal; // Á¢±ÙºÒ°¡´ÉÁö¿ª¿¡¼­ Á¢±Ù°¡´ÉÁö¿ªÀ¸·Î º¯°æ½ÃÅ²´Ù 
-            node.G = prevNode.G + nomalLine; //G°ª °»½Å  ´ë°¢¼±Àº ¾ÈµÊÀ¸·Î ¹«Á¶°Ç Á÷¼±¶óÀÎ À» ´õÇØÁÖ¸éµÈ´Ù.
-            node.PrevNode = prevNode; //¿©±â·Î ¿À´Â ³ëµå°ª ÀÔ·Â
-            onTileCreate?.Invoke(node); //Å¸ÀÏ»ı¼ºÇÏ¶ó°í È£Ãâ
-            Debug.Log($" ÀÌÀüÀº :{prevNode.State}({prevNode.X}{prevNode.Y}) ÁÂÇ¥¿¡¼­ {node.X}{node.Y} = {prevNode.State}");
+            // í•´ë‹¹ì§€ì—­ì„ ì´ë™ê°€ëŠ¥ì§€ì—­ìœ¼ë¡œ ë³€ê²½ 
+            node.State = NodeState.Nomal; // ì ‘ê·¼ë¶ˆê°€ëŠ¥ì§€ì—­ì—ì„œ ì ‘ê·¼ê°€ëŠ¥ì§€ì—­ìœ¼ë¡œ ë³€ê²½ì‹œí‚¨ë‹¤ 
+            node.G = prevNode.G + nomalLine; //Gê°’ ê°±ì‹   ëŒ€ê°ì„ ì€ ì•ˆë¨ìœ¼ë¡œ ë¬´ì¡°ê±´ ì§ì„ ë¼ì¸ ì„ ë”í•´ì£¼ë©´ëœë‹¤.
+            node.PrevNode = prevNode; //ì—¬ê¸°ë¡œ ì˜¤ëŠ” ë…¸ë“œê°’ ì…ë ¥
+            onTileCreate?.Invoke(node); //íƒ€ì¼ìƒì„±í•˜ë¼ê³  í˜¸ì¶œ
+            Debug.Log($" ì´ì „ì€ :{prevNode.State}({prevNode.X}{prevNode.Y}) ì¢Œí‘œì—ì„œ {node.X}{node.Y} = {prevNode.State}");
         }
-        if (!openList.Contains(node)) //¿ÀÇÂ¸®½ºÆ®¿¡ ¾øÀ»¶§¸¸ 
+        if (!openList.Contains(node)) //ì˜¤í”ˆë¦¬ìŠ¤íŠ¸ì— ì—†ì„ë•Œë§Œ 
         {
-            openList.Add(node); //´ã´Â´Ù.
+            openList.Add(node); //ë‹´ëŠ”ë‹¤.
         }
     }
 
     
 
     /// <summary>
-    /// 1. Æ¯Á¤³ëµåÀÇ ÁÖº¯³ëµå¸¦ °Ë»öÇØ¼­ ¿ÀÇÂ ¸®½ºÆ®¿¡ ´ã°í
-    /// 2. ÁÖº¯³ëµåÀÇ G°ªÀ» °»½ÅÇÑ´Ù.
+    /// 1. íŠ¹ì •ë…¸ë“œì˜ ì£¼ë³€ë…¸ë“œë¥¼ ê²€ìƒ‰í•´ì„œ ì˜¤í”ˆ ë¦¬ìŠ¤íŠ¸ì— ë‹´ê³ 
+    /// 2. ì£¼ë³€ë…¸ë“œì˜ Gê°’ì„ ê°±ì‹ í•œë‹¤.
     /// </summary>
-    /// <param name="currentNode">±âÁØÀÌµÇ´Â ³ëµå</param>
+    /// <param name="currentNode">ê¸°ì¤€ì´ë˜ëŠ” ë…¸ë“œ</param>
     private static void OpenListAdd(Astar_Node currentNode)
     {
-        int horizontalSize = nodes.GetLength(1);    //°¡·Î ±æÀÌ °¡Á®¿À°í (2Â÷¿ø¹è¿­ÀÇ ? ¹è¿­ÀÇ ±æÀÌ [y,?]) ¿À¸¥ÂÊ ±âÁØÀÌ¶ó ÇŞ°¥¸°´Ù.
-        int verticalSize = nodes.GetLength(0);      //¼¼·Î ±æÀÌ °¡Á®¿À°í (2Â÷¿ø¹è¿­ÀÇ ? ¹è¿­ÀÇ ±æÀÌ [?,x])
+        int horizontalSize = nodes.GetLength(1);    //ê°€ë¡œ ê¸¸ì´ ê°€ì ¸ì˜¤ê³  (2ì°¨ì›ë°°ì—´ì˜ ? ë°°ì—´ì˜ ê¸¸ì´ [y,?]) ì˜¤ë¥¸ìª½ ê¸°ì¤€ì´ë¼ í–‡ê°ˆë¦°ë‹¤.
+        int verticalSize = nodes.GetLength(0);      //ì„¸ë¡œ ê¸¸ì´ ê°€ì ¸ì˜¤ê³  (2ì°¨ì›ë°°ì—´ì˜ ? ë°°ì—´ì˜ ê¸¸ì´ [?,x])
 
-        //¹üÀ§¹ş¾î³´´ÂÁö Ã¼Å©ÇÏ±â
-        int horizontalStartIndex = currentNode.X - 1; //ÇöÀç À§Ä¡ÀÇ ¿ŞÂÊ °ª °¡Á®¿À±â
-        horizontalStartIndex = horizontalStartIndex < 0 ? 0 : horizontalStartIndex; //¿ŞÂÊ³¡ °ªÀÌ¸é 0À¸·Î ¼ÂÆÃ
+        //ë²”ìœ„ë²—ì–´ë‚«ëŠ”ì§€ ì²´í¬í•˜ê¸°
+        int horizontalStartIndex = currentNode.X - 1; //í˜„ì¬ ìœ„ì¹˜ì˜ ì™¼ìª½ ê°’ ê°€ì ¸ì˜¤ê¸°
+        horizontalStartIndex = horizontalStartIndex < 0 ? 0 : horizontalStartIndex; //ì™¼ìª½ë ê°’ì´ë©´ 0ìœ¼ë¡œ ì…‹íŒ…
 
-        int horizontalEndIndex = currentNode.X + 1; //ÇöÀç À§Ä¡ÀÇ ¿À¸¥ÂÊ °ª °¡Á®¿À±â
-        horizontalEndIndex = horizontalEndIndex == horizontalSize ? // ¸Ç¿À¸¥ÂÊÀÌ¸é  
+        int horizontalEndIndex = currentNode.X + 1; //í˜„ì¬ ìœ„ì¹˜ì˜ ì˜¤ë¥¸ìª½ ê°’ ê°€ì ¸ì˜¤ê¸°
+        horizontalEndIndex = horizontalEndIndex == horizontalSize ? // ë§¨ì˜¤ë¥¸ìª½ì´ë©´  
             horizontalSize    :                                     
-            horizontalEndIndex + 1;                                 // Æ÷¹® µ¹°ª¼ÂÆÃÇÏ±âÀ§ÇØ +1·Î ¼ÂÆÃ <= ¾ÈÇÏ°í <·Î Ã¼Å©ÇÏ±âÀ§ÇØ¼­ °ªÃß°¡ 
+            horizontalEndIndex + 1;                                 // í¬ë¬¸ ëŒê°’ì…‹íŒ…í•˜ê¸°ìœ„í•´ +1ë¡œ ì…‹íŒ… <= ì•ˆí•˜ê³  <ë¡œ ì²´í¬í•˜ê¸°ìœ„í•´ì„œ ê°’ì¶”ê°€ 
 
-        int verticalStartIndex = currentNode.Y - 1; //ÇöÀç À§Ä¡ÀÇ ¾Æ·¡ÂÊ °ª °¡Á®¿À±â
-        verticalStartIndex = verticalStartIndex < 0 ? 0 : verticalStartIndex; // ¸Ç¾Æ·¡ °ªÀÌ¸é 0À¸·Î ¼ÂÆÃ 
+        int verticalStartIndex = currentNode.Y - 1; //í˜„ì¬ ìœ„ì¹˜ì˜ ì•„ë˜ìª½ ê°’ ê°€ì ¸ì˜¤ê¸°
+        verticalStartIndex = verticalStartIndex < 0 ? 0 : verticalStartIndex; // ë§¨ì•„ë˜ ê°’ì´ë©´ 0ìœ¼ë¡œ ì…‹íŒ… 
 
-        int verticalEndIndex = currentNode.Y + 1;                   //ÇöÀç À§Ä¡ÀÇ À§ÂÊ °ª °¡Á®¿À±â
-        verticalEndIndex = verticalEndIndex == verticalSize ?       //¸Ç À§¸é 
+        int verticalEndIndex = currentNode.Y + 1;                   //í˜„ì¬ ìœ„ì¹˜ì˜ ìœ„ìª½ ê°’ ê°€ì ¸ì˜¤ê¸°
+        verticalEndIndex = verticalEndIndex == verticalSize ?       //ë§¨ ìœ„ë©´ 
                             verticalSize    :                          
-                            verticalEndIndex + 1;                       //Æ÷¹® µ¹°ª¼ÂÆÃÇÏ±âÀ§ÇØ +1·Î ¼ÂÆÃ <= ¾ÈÇÏ°í <·Î Ã¼Å©ÇÏ±âÀ§ÇØ¼­ °ªÃß°¡ 
-        //¹üÀ§ Ã¼Å© ³¡
+                            verticalEndIndex + 1;                       //í¬ë¬¸ ëŒê°’ì…‹íŒ…í•˜ê¸°ìœ„í•´ +1ë¡œ ì…‹íŒ… <= ì•ˆí•˜ê³  <ë¡œ ì²´í¬í•˜ê¸°ìœ„í•´ì„œ ê°’ì¶”ê°€ 
+        //ë²”ìœ„ ì²´í¬ ë
 
-        float tempG = 0.0f; //ºñ±³ÇÒ G°ªÀ» ´ãÀ» ÀÓ½Ãº¯¼ö
+        float tempG = 0.0f; //ë¹„êµí•  Gê°’ì„ ë‹´ì„ ì„ì‹œë³€ìˆ˜
 
        
-        Astar_Node tempNode; // Ã¼Å©ÇÒ °´Ã¼ ¼±¾ğ(Æ÷¹®¾È¿¡¼­ ¸Å¹ø ½ºÅÃ¿¡ ¸Ş¸ğ¸®¾ÈÀâ°í ÇÑ¹ø¸¸ÇÏ±âÀ§ÇØ ¹Û¿¡¼­ ¼±¾ğ)
-        for (int y = verticalStartIndex; y < verticalEndIndex; y++) //¹üÀ§ ÁöÁ¤ÇÑ °Í¸¸Å­ Æ÷¹® µ¹¸®±â
+        Astar_Node tempNode; // ì²´í¬í•  ê°ì²´ ì„ ì–¸(í¬ë¬¸ì•ˆì—ì„œ ë§¤ë²ˆ ìŠ¤íƒì— ë©”ëª¨ë¦¬ì•ˆì¡ê³  í•œë²ˆë§Œí•˜ê¸°ìœ„í•´ ë°–ì—ì„œ ì„ ì–¸)
+        for (int y = verticalStartIndex; y < verticalEndIndex; y++) //ë²”ìœ„ ì§€ì •í•œ ê²ƒë§Œí¼ í¬ë¬¸ ëŒë¦¬ê¸°
         {
-            for (int x = horizontalStartIndex; x < horizontalEndIndex; x++) //¹üÀ§ ÁöÁ¤ÇÑ¸¸Å­ Æ÷¹® µ¹¸®±â
+            for (int x = horizontalStartIndex; x < horizontalEndIndex; x++) //ë²”ìœ„ ì§€ì •í•œë§Œí¼ í¬ë¬¸ ëŒë¦¬ê¸°
             {
-                tempNode = nodes[y, x]; //ÁÖº¯³ëµå¸¦ ¹Ş¾Æ¿Í¼­ 
-                if (tempNode.State == NodeState.Inaccessible) continue; //Ã£¾Æ¿Â ÁÖº¯³ëµå°¡ ¸ø°¡´Â Áö¿ªÀÌ¸é ´ÙÀ½ ¹İº¹¹®À¸·Î ÀÌµ¿
-                /// G °ª Ã¼Å© ½ÃÀÛ 
+                tempNode = nodes[y, x]; //ì£¼ë³€ë…¸ë“œë¥¼ ë°›ì•„ì™€ì„œ 
+                if (tempNode.State == NodeState.Inaccessible) continue; //ì°¾ì•„ì˜¨ ì£¼ë³€ë…¸ë“œê°€ ëª»ê°€ëŠ” ì§€ì—­ì´ë©´ ë‹¤ìŒ ë°˜ë³µë¬¸ìœ¼ë¡œ ì´ë™
+                /// G ê°’ ì²´í¬ ì‹œì‘ 
                 /// 
-                //´ë°¢¼±ÀÎÁö Á÷¼±ÀÎÁö Ã¼Å©
-                if ((currentNode.X - x) == 0 || (currentNode.Y - y) == 0) //Á÷¼±ÀÎ°æ¿ì 
+                //ëŒ€ê°ì„ ì¸ì§€ ì§ì„ ì¸ì§€ ì²´í¬
+                if ((currentNode.X - x) == 0 || (currentNode.Y - y) == 0) //ì§ì„ ì¸ê²½ìš° 
                 {
                     tempG = currentNode.G + nomalLine;
-                    if (tempNode.G  > tempG) //»õ·Î °»½ÅÇÑ °ªº¸´Ù ÀÌÀü°ªÀÌ Å©¸é  
+                    if (tempNode.G  > tempG) //ìƒˆë¡œ ê°±ì‹ í•œ ê°’ë³´ë‹¤ ì´ì „ê°’ì´ í¬ë©´  
                     {
-                        tempNode.G = tempG;     //G °ªÀ» °»½Å
-                        tempNode.PrevNode = currentNode; //G°ªÀÌ ¹Ù²¼À¸¸é ¾îµğ¼­¿Ô´ÂÁö ÀÌÀü³ëµåµµ °»½Å
+                        tempNode.G = tempG;     //G ê°’ì„ ê°±ì‹ 
+                        tempNode.PrevNode = currentNode; //Gê°’ì´ ë°”ê¼ˆìœ¼ë©´ ì–´ë””ì„œì™”ëŠ”ì§€ ì´ì „ë…¸ë“œë„ ê°±ì‹ 
                     }
                 }
-                else //´ë°¢¼±ÀÎ °æ¿ì
+                else //ëŒ€ê°ì„ ì¸ ê²½ìš°
                 {
-                    //(currentNode.X - x) //°ªÀÌ - ¸é ¿À¸¥ÂÊ + ¸é ¿ŞÂÊ 
-                    //(currentNode.Y - y) //°ªÀÌ - ¸é À§ÂÊ   + ¸é ¾Æ·¡ÂÊ
+                    //(currentNode.X - x) //ê°’ì´ - ë©´ ì˜¤ë¥¸ìª½ + ë©´ ì™¼ìª½ 
+                    //(currentNode.Y - y) //ê°’ì´ - ë©´ ìœ„ìª½   + ë©´ ì•„ë˜ìª½
 
-                    //Àå¾Ö¹° Ã¼Å©
+                    //ì¥ì• ë¬¼ ì²´í¬
                     if (nodes[
-                            currentNode.Y - (currentNode.Y - y ),   // ÇöÀçÀ§Ä¡¿¡¼­ °Ë»öÇÏ´Â À§Ä¡ÀÇ °ªÀ» »©¸é +¿Í -°¡ ¹İÀüµÊÀ¸·Î - ·Î Ã³¸® 
-                            currentNode.X                           // ex) ÇöÀç (1,1) ÀÏ¶§  (2,2)È®ÀÎ½Ã (1,2) , (2,1)À»È®ÀÎÇØ¾ßµÊ Àú°ªÀÌµÇ·Á¸é +Ã³¸®·Î¾ÈµÈ´Ù.
-                            ].State == NodeState.Inaccessible || //¼¼·ÎºÎºĞ¿¡ ¸ø°¡´ÂÁö¿ªÀÌ ÀÖ°Å³ª
+                            currentNode.Y - (currentNode.Y - y ),   // í˜„ì¬ìœ„ì¹˜ì—ì„œ ê²€ìƒ‰í•˜ëŠ” ìœ„ì¹˜ì˜ ê°’ì„ ë¹¼ë©´ +ì™€ -ê°€ ë°˜ì „ë¨ìœ¼ë¡œ - ë¡œ ì²˜ë¦¬ 
+                            currentNode.X                           // ex) í˜„ì¬ (1,1) ì¼ë•Œ  (2,2)í™•ì¸ì‹œ (1,2) , (2,1)ì„í™•ì¸í•´ì•¼ë¨ ì €ê°’ì´ë˜ë ¤ë©´ +ì²˜ë¦¬ë¡œì•ˆëœë‹¤.
+                            ].State == NodeState.Inaccessible || //ì„¸ë¡œë¶€ë¶„ì— ëª»ê°€ëŠ”ì§€ì—­ì´ ìˆê±°ë‚˜
                         nodes[
                             currentNode.Y, 
                             currentNode.X - (currentNode.X -  x)
-                            ].State == NodeState.Inaccessible)   //°¡·ÎºÎºĞ¿¡ ¸ø°¡´ÂÁö¿ªÀÌ ÀÖÀ¸¸é
+                            ].State == NodeState.Inaccessible)   //ê°€ë¡œë¶€ë¶„ì— ëª»ê°€ëŠ”ì§€ì—­ì´ ìˆìœ¼ë©´
                     {
-                        Debug.Log($"ÇöÀçÀ§Ä¡({currentNode.X},{currentNode.Y}) Àå¾Ö¹° À§Ä¡ ({x},{y})");
-                        continue;//Ã³¸®¾ÈÇÏ°í ´ÙÀ½ ³ëµå¸¦ Ã£´Â´Ù.
+                        Debug.Log($"í˜„ì¬ìœ„ì¹˜({currentNode.X},{currentNode.Y}) ì¥ì• ë¬¼ ìœ„ì¹˜ ({x},{y})");
+                        continue;//ì²˜ë¦¬ì•ˆí•˜ê³  ë‹¤ìŒ ë…¸ë“œë¥¼ ì°¾ëŠ”ë‹¤.
                     }
 
-                    tempG = currentNode.G + diagonalLine; //»õ·Î »ı½ÅµÉ G°ª ¼ÂÆÃ ´ë°¢¼±°ªÀ¸·Î
-                    if (tempNode.G > tempG) //»õ·Î °»½ÅÇÑ °ªº¸´Ù ÀÌÀü°ªÀÌ Å©¸é  
+                    tempG = currentNode.G + diagonalLine; //ìƒˆë¡œ ìƒì‹ ë  Gê°’ ì…‹íŒ… ëŒ€ê°ì„ ê°’ìœ¼ë¡œ
+                    if (tempNode.G > tempG) //ìƒˆë¡œ ê°±ì‹ í•œ ê°’ë³´ë‹¤ ì´ì „ê°’ì´ í¬ë©´  
                     {
-                        tempNode.G = tempG;   //G °ªÀ» °»½Å
-                        tempNode.PrevNode = currentNode; //G°ªÀÌ ¹Ù²¼À¸¸é ¾îµğ¼­¿Ô´ÂÁö ÀÌÀü³ëµåµµ °»½Å
+                        tempNode.G = tempG;   //G ê°’ì„ ê°±ì‹ 
+                        tempNode.PrevNode = currentNode; //Gê°’ì´ ë°”ê¼ˆìœ¼ë©´ ì–´ë””ì„œì™”ëŠ”ì§€ ì´ì „ë…¸ë“œë„ ê°±ì‹ 
                     }
                 }
 
-                //G°ª Ã¼Å© ³¡
+                //Gê°’ ì²´í¬ ë
 
-                if (!closeList.Contains(tempNode) && !openList.Contains(tempNode))// Å½»öÀÌ ³¡³ªÁö ¾ÊÀº ³ëµå ÀÌ°í ¿ÀÇÂ¸®½ºÆ®¿¡µµ ¾ø¾î¾ß 
+                if (!closeList.Contains(tempNode) && !openList.Contains(tempNode))// íƒìƒ‰ì´ ëë‚˜ì§€ ì•Šì€ ë…¸ë“œ ì´ê³  ì˜¤í”ˆë¦¬ìŠ¤íŠ¸ì—ë„ ì—†ì–´ì•¼ 
                 {
-                   openList.Add(tempNode); //¿ÀÇÂ¸®½ºÆ®¿¡ ´ã¾ÆµĞ´Ù.
+                   openList.Add(tempNode); //ì˜¤í”ˆë¦¬ìŠ¤íŠ¸ì— ë‹´ì•„ë‘”ë‹¤.
                 }
             }
         }
     }
 
     /// <summary>
-    /// ÃÖÀûÀÇ °æ·Î¸¦ Ã£´Â´Ù.
+    /// ìµœì ì˜ ê²½ë¡œë¥¼ ì°¾ëŠ”ë‹¤.
     /// </summary>
-    /// <returns>°æ·Î°¡ ÀúÀåµÈ ³ëµå¸¦ ¹İÈ¯ÇÑ´Ù.</returns>
+    /// <returns>ê²½ë¡œê°€ ì €ì¥ëœ ë…¸ë“œë¥¼ ë°˜í™˜í•œë‹¤.</returns>
     private static Astar_Node PathFinding()
     {
-        openList.Clear();   // Å½»öÀÌ ÇÊ¿äÇÑ ³ëµå ¸®½ºÆ® 
-        closeList.Clear();  // ÀÌ¹Ì °è»êÀÌ ¿Ï·áµÇ¼­ ´õÀÌ»ó Å½»öÀ» ¾ÈÇÒ ¸®½ºÆ® 
+        openList.Clear();   // íƒìƒ‰ì´ í•„ìš”í•œ ë…¸ë“œ ë¦¬ìŠ¤íŠ¸ 
+        closeList.Clear();  // ì´ë¯¸ ê³„ì‚°ì´ ì™„ë£Œë˜ì„œ ë”ì´ìƒ íƒìƒ‰ì„ ì•ˆí•  ë¦¬ìŠ¤íŠ¸ 
 
-        startNode.G = 0.0f;      // ¸Ç Ã³À½ ½ÃÀÛÁöÁ¡Àº G °ªÀÌ 0ÀÌ·¡¾ß µÈ´Ù.
-        openList.Add(startNode); // ¸Ç Ã³À½¿¡´Â ½ÃÀÛ ÁöÁ¡ µî·ÏÇØ¼­ A* ·ÎÁ÷ ½ÃÀÛ
+        startNode.G = 0.0f;      // ë§¨ ì²˜ìŒ ì‹œì‘ì§€ì ì€ G ê°’ì´ 0ì´ë˜ì•¼ ëœë‹¤.
+        openList.Add(startNode); // ë§¨ ì²˜ìŒì—ëŠ” ì‹œì‘ ì§€ì  ë“±ë¡í•´ì„œ A* ë¡œì§ ì‹œì‘
 
-        while (openList.Count > 0) //¿ÀÇÂ¸®½ºÆ®ÀÇ °ªÀÌ ÀÖÀ¸¸é °è¼Ó Å½»ö 
+        while (openList.Count > 0) //ì˜¤í”ˆë¦¬ìŠ¤íŠ¸ì˜ ê°’ì´ ìˆìœ¼ë©´ ê³„ì† íƒìƒ‰ 
         {
-            currentNode = openList[0]; //ÇöÀç Å½»ö ÁßÀÎ ³ëµå¸¦ ´ã¾ÆµĞ´Ù.
+            currentNode = openList[0]; //í˜„ì¬ íƒìƒ‰ ì¤‘ì¸ ë…¸ë“œë¥¼ ë‹´ì•„ë‘”ë‹¤.
 
-            if (currentNode == endNode) // ¸ñÀûÁö¿¡ µµÂøÇß´ÂÁö Ã¼Å©ÇÑ´Ù.
+            if (currentNode == endNode) // ëª©ì ì§€ì— ë„ì°©í–ˆëŠ”ì§€ ì²´í¬í•œë‹¤.
             {
-                return currentNode;     //µµÂøÇßÀ¸¸é °æ·Î°¡ ´ã±ä ³ëµå¸¦ ¹İÈ¯ÇÑ´Ù.
+                return currentNode;     //ë„ì°©í–ˆìœ¼ë©´ ê²½ë¡œê°€ ë‹´ê¸´ ë…¸ë“œë¥¼ ë°˜í™˜í•œë‹¤.
             }
 
-            openList.Remove(currentNode); // Å½»ö°¡´ÉÇÑ ¸ñ·Ï¿¡¼­ ÇöÀç Å½»öÁßÀÎ ¸ñ·ÏÀ» Á¦°ÅÇÏ°í 
-            closeList.Add(currentNode);   // Å½»öÁ¾·áÇÑ ¸®½ºÆ®¿¡ ÇöÀç ¸ñ·ÏÀ» ´ã´Â´Ù.
+            openList.Remove(currentNode); // íƒìƒ‰ê°€ëŠ¥í•œ ëª©ë¡ì—ì„œ í˜„ì¬ íƒìƒ‰ì¤‘ì¸ ëª©ë¡ì„ ì œê±°í•˜ê³  
+            closeList.Add(currentNode);   // íƒìƒ‰ì¢…ë£Œí•œ ë¦¬ìŠ¤íŠ¸ì— í˜„ì¬ ëª©ë¡ì„ ë‹´ëŠ”ë‹¤.
 
-            OpenListAdd(currentNode); //ÇöÀçÀ§Ä¡¿¡¼­ ÁÖº¯ ³ëµå¸¦ Ã£¾Æ G °ªÀ» ¼öÁ¤½ÃÅ°°í ¿ÀÇÂ¸®½ºÆ®¿¡ ´ã´Â´Ù.
+            OpenListAdd(currentNode); //í˜„ì¬ìœ„ì¹˜ì—ì„œ ì£¼ë³€ ë…¸ë“œë¥¼ ì°¾ì•„ G ê°’ì„ ìˆ˜ì •ì‹œí‚¤ê³  ì˜¤í”ˆë¦¬ìŠ¤íŠ¸ì— ë‹´ëŠ”ë‹¤.
 
-            //¿À¸§Â÷¼ø Á¤·Ä 
+            //ì˜¤ë¦„ì°¨ìˆœ ì •ë ¬ 
             openList.Sort();
         }
-        return null; //°æ·Î¸øÃ£À¸¸é ³ÎÀ» ¸®ÅÏÇÑ´Ù.
+        return null; //ê²½ë¡œëª»ì°¾ìœ¼ë©´ ë„ì„ ë¦¬í„´í•œë‹¤.
     }
 
     /// <summary>
-    /// A* ¿¡ »ç¿ëÇÒ ´ÙÁß¹è¿­À» »ı¼ºÇÑ´Ù.
+    /// A* ì— ì‚¬ìš©í•  ë‹¤ì¤‘ë°°ì—´ì„ ìƒì„±í•œë‹¤.
     /// </summary>
-    /// <param name="horizontalSize">°¡·Î Å©±â</param>
-    /// <param name="verticalSize">¼¼·Î Å©±â</param>
+    /// <param name="horizontalSize">ê°€ë¡œ í¬ê¸°</param>
+    /// <param name="verticalSize">ì„¸ë¡œ í¬ê¸°</param>
     private static Astar_Node[,] CreateNodeArray(int horizontalSize, int verticalSize)
     {
-        Astar_Node[,] nodes = new Astar_Node[verticalSize, horizontalSize]; //ÀüÃ¼Å©±â¸¸Å­ ¹è¿­Àâ°í 
-        int i = 0; // ÀÎµ¦½º °è»êÇÒ º¯¼ö¼±¾ğÇÏ°í 
-        for (int y = 0; y < verticalSize; y++) //¼¼·Î ¸¸Å­
+        Astar_Node[,] nodes = new Astar_Node[verticalSize, horizontalSize]; //ì „ì²´í¬ê¸°ë§Œí¼ ë°°ì—´ì¡ê³  
+        int i = 0; // ì¸ë±ìŠ¤ ê³„ì‚°í•  ë³€ìˆ˜ì„ ì–¸í•˜ê³  
+        for (int y = 0; y < verticalSize; y++) //ì„¸ë¡œ ë§Œí¼
         {
-            for (int x = 0; x < horizontalSize; x++)//°¡·Î¸¸Å­
+            for (int x = 0; x < horizontalSize; x++)//ê°€ë¡œë§Œí¼
             {
-                nodes[y, x] = new Astar_Node(i , x, y); //2Â÷¿ø ¹è¿­ ¸¸µé±â  ///Ç®·Î º¯°æÇÊ¿ä --
-                i++; //ÀÎµ¦½º Áõ°¡
+                nodes[y, x] = new Astar_Node(i , x, y); //2ì°¨ì› ë°°ì—´ ë§Œë“¤ê¸°  ///í’€ë¡œ ë³€ê²½í•„ìš” --
+                i++; //ì¸ë±ìŠ¤ ì¦ê°€
             }
         }
         return nodes;
     }
 
     /// <summary>
-    /// ³ëµåµéÀÇ G,H °ª À» ÃÊ±âÈ­ ÇÏ´Â ÇÔ¼ö
-    /// °æ·Î ÀçÅ½»ö½Ã ÇÊ¿äÇÔ
+    /// ë…¸ë“œë“¤ì˜ G,H ê°’ ì„ ì´ˆê¸°í™” í•˜ëŠ” í•¨ìˆ˜
+    /// ê²½ë¡œ ì¬íƒìƒ‰ì‹œ í•„ìš”í•¨
     /// </summary>
     private static void ResetValue()
     {
@@ -573,58 +573,58 @@ public static class AstarProccess
     }
 
     /// <summary>
-    /// ÀüÃ¼ ¼ÂÆÃ  ´ÜÀÏ ¼ÂÆÃµµ ¸¸µé¾î¾ßÇÑ´Ù.
-    /// µµÂø À§Ä¡ ±âÁØÀ¸·Î ³ëµå¸®½ºÆ®ÀÇ ÈŞ¸®½ºÆ½ °ªÀ» ¼ÂÆÃÇÏ´Â ÇÔ¼ö 
+    /// ì „ì²´ ì…‹íŒ…  ë‹¨ì¼ ì…‹íŒ…ë„ ë§Œë“¤ì–´ì•¼í•œë‹¤.
+    /// ë„ì°© ìœ„ì¹˜ ê¸°ì¤€ìœ¼ë¡œ ë…¸ë“œë¦¬ìŠ¤íŠ¸ì˜ íœ´ë¦¬ìŠ¤í‹± ê°’ì„ ì…‹íŒ…í•˜ëŠ” í•¨ìˆ˜ 
     /// </summary>
-    /// <param name="endNode">µµÂø ³ëµå °ª</param>
+    /// <param name="endNode">ë„ì°© ë…¸ë“œ ê°’</param>
     private static void SetHeuristicsValue(Astar_Node endNode) 
     {
-        float tempX = 0.0f;    //´ë°¢¼± °è»êÀ»À§ÇØ ÀÓ½Ã·Î »ç¿ëÇÒ º¯¼ö 
-        float tempY = 0.0f;    //´ë°¢¼± °è»êÀ»À§ÇØ ÀÓ½Ã·Î »ç¿ëÇÒ º¯¼ö 
-        float tempLine = 0.0f; //´ë°¢¼± °è»êÀ»À§ÇØ ÀÓ½Ã·Î »ç¿ëÇÒ º¯¼ö 
+        float tempX = 0.0f;    //ëŒ€ê°ì„  ê³„ì‚°ì„ìœ„í•´ ì„ì‹œë¡œ ì‚¬ìš©í•  ë³€ìˆ˜ 
+        float tempY = 0.0f;    //ëŒ€ê°ì„  ê³„ì‚°ì„ìœ„í•´ ì„ì‹œë¡œ ì‚¬ìš©í•  ë³€ìˆ˜ 
+        float tempLine = 0.0f; //ëŒ€ê°ì„  ê³„ì‚°ì„ìœ„í•´ ì„ì‹œë¡œ ì‚¬ìš©í•  ë³€ìˆ˜ 
 
-        foreach (Astar_Node node in nodes) //ÀüÃ¼ ¸®½ºÆ®¸¦ Ã£¾Æ¼­
+        foreach (Astar_Node node in nodes) //ì „ì²´ ë¦¬ìŠ¤íŠ¸ë¥¼ ì°¾ì•„ì„œ
         {
-            node.H = float.MaxValue; //ÈŞ¸®½ºÆ½°ªÀ» ´Ù½Ã¼ÂÆÃÇÒ¶§ H °ªÀ» ÃÊ±âÈ­½ÃÅ²´Ù.
+            node.H = float.MaxValue; //íœ´ë¦¬ìŠ¤í‹±ê°’ì„ ë‹¤ì‹œì…‹íŒ…í• ë•Œ H ê°’ì„ ì´ˆê¸°í™”ì‹œí‚¨ë‹¤.
 
-            if (node.X != endNode.X && node.Y != endNode.Y) //´ë°¢¼±ÀÎ°æ¿ì ( x°ªÀÌ³ª ,y °ªÀÌ °°À¸¸é °°Àº¶óÀÎÀÎ°ÍÀ» ÀÌ¿ëÇØ Ã¼Å©)
+            if (node.X != endNode.X && node.Y != endNode.Y) //ëŒ€ê°ì„ ì¸ê²½ìš° ( xê°’ì´ë‚˜ ,y ê°’ì´ ê°™ìœ¼ë©´ ê°™ì€ë¼ì¸ì¸ê²ƒì„ ì´ìš©í•´ ì²´í¬)
             {
-                // x ¿Í y ÀÇ Â÷ÀÌÁß ÀÛÀº °ªÀ» °¡Áö°í ´ë°¢¼±À» ±ß°í µÎ°ªÀÇ Â÷ÀÌ¸¸Å­ ´õÇÏ¸é ³¡ (¤±/ ÀÌ·±¸ğ¾ç)
+                // x ì™€ y ì˜ ì°¨ì´ì¤‘ ì‘ì€ ê°’ì„ ê°€ì§€ê³  ëŒ€ê°ì„ ì„ ê¸‹ê³  ë‘ê°’ì˜ ì°¨ì´ë§Œí¼ ë”í•˜ë©´ ë (ã…/ ì´ëŸ°ëª¨ì–‘)
 
-                tempX = Math.Abs(endNode.X - node.X); //°¡·Î ¶óÀÎÀÇ °Å¸®°ªÀ» ±¸ÇÏ°í 
+                tempX = Math.Abs(endNode.X - node.X); //ê°€ë¡œ ë¼ì¸ì˜ ê±°ë¦¬ê°’ì„ êµ¬í•˜ê³  
 
-                tempY = Math.Abs(endNode.Y - node.Y); //¼¼·Î ¶óÀÎÀÇ °Å¸®°ªÀ» ±¸ÇÏ°í
+                tempY = Math.Abs(endNode.Y - node.Y); //ì„¸ë¡œ ë¼ì¸ì˜ ê±°ë¦¬ê°’ì„ êµ¬í•˜ê³ 
 
-                tempLine = tempX == tempY ?                                         // °Å¸®°ªÀÌ °°À¸¸é Á¤»ç°¢ÇüÀÓÀ¸·Î 
-                            tempX * diagonalLine                                    // ÇÑº¯¿¡´Ù°¡ ´ë°¢¼±°ªÀ» °öÇÏ¸é³¡
-                            : tempX > tempY ?                                       // °¡·Î °Å¸®°ªÀÌ ´õÅ©¸é 
-                            (tempY * diagonalLine) + ((tempX - tempY) * nomalLine)  // ¼¼·Î ±æÀÌ¸¸Å­ ´ë°¢¼±±æÀÌ¸¦ °öÇÏ°í ³²Àº °¡·Î °Å¸®¸¦ Á÷¼±±æÀÌ·Î °öÇÑ´Ù
-                            :                                                       // ¼¼·Î °Å¸®°ªÀÌ ´õÅ©¸é 
-                            (tempX * diagonalLine) + ((tempY - tempX) * nomalLine); // °¡·Î ±æÀÌ¸¸Å­ ´ë°¢¼±±æÀÌ¸¦ °öÇÏ°í ³²Àº ¼¼·Î °Å¸®¸¦ Á÷¼±±æÀÌ·Î °öÇÑ´Ù.
+                tempLine = tempX == tempY ?                                         // ê±°ë¦¬ê°’ì´ ê°™ìœ¼ë©´ ì •ì‚¬ê°í˜•ì„ìœ¼ë¡œ 
+                            tempX * diagonalLine                                    // í•œë³€ì—ë‹¤ê°€ ëŒ€ê°ì„ ê°’ì„ ê³±í•˜ë©´ë
+                            : tempX > tempY ?                                       // ê°€ë¡œ ê±°ë¦¬ê°’ì´ ë”í¬ë©´ 
+                            (tempY * diagonalLine) + ((tempX - tempY) * nomalLine)  // ì„¸ë¡œ ê¸¸ì´ë§Œí¼ ëŒ€ê°ì„ ê¸¸ì´ë¥¼ ê³±í•˜ê³  ë‚¨ì€ ê°€ë¡œ ê±°ë¦¬ë¥¼ ì§ì„ ê¸¸ì´ë¡œ ê³±í•œë‹¤
+                            :                                                       // ì„¸ë¡œ ê±°ë¦¬ê°’ì´ ë”í¬ë©´ 
+                            (tempX * diagonalLine) + ((tempY - tempX) * nomalLine); // ê°€ë¡œ ê¸¸ì´ë§Œí¼ ëŒ€ê°ì„ ê¸¸ì´ë¥¼ ê³±í•˜ê³  ë‚¨ì€ ì„¸ë¡œ ê±°ë¦¬ë¥¼ ì§ì„ ê¸¸ì´ë¡œ ê³±í•œë‹¤.
 
-                node.H = tempLine; //°è»êµÈ °ªÀ» Áı¾î³Ö´Â´Ù.
+                node.H = tempLine; //ê³„ì‚°ëœ ê°’ì„ ì§‘ì–´ë„£ëŠ”ë‹¤.
             }
-            else if (node.X == endNode.X) //°°Àº °¡·Î ¶óÀÎ¿¡ Á¸ÀçÇÏ¸é
+            else if (node.X == endNode.X) //ê°™ì€ ê°€ë¡œ ë¼ì¸ì— ì¡´ì¬í•˜ë©´
             {
-                node.H = Math.Abs(endNode.Y - node.Y) * nomalLine; //¼¼·Î Â÷ÀÌ¸¸Å­¸¸ °è»êÇÏ¸éµÊÀ¸·Î Á÷¼±°è»ê   
+                node.H = Math.Abs(endNode.Y - node.Y) * nomalLine; //ì„¸ë¡œ ì°¨ì´ë§Œí¼ë§Œ ê³„ì‚°í•˜ë©´ë¨ìœ¼ë¡œ ì§ì„ ê³„ì‚°   
             }
-            else if (node.Y == endNode.Y) //°°Àº ¼¼·Î ¶óÀÎ¿¡ Á¸ÀçÇÏ¸é 
+            else if (node.Y == endNode.Y) //ê°™ì€ ì„¸ë¡œ ë¼ì¸ì— ì¡´ì¬í•˜ë©´ 
             {
-                node.H = Math.Abs(endNode.X - node.X) * nomalLine;  //°¡·Î Â÷ÀÌ¸¸Å­¸¸ Á÷¼±°è»ê
+                node.H = Math.Abs(endNode.X - node.X) * nomalLine;  //ê°€ë¡œ ì°¨ì´ë§Œí¼ë§Œ ì§ì„ ê³„ì‚°
             }
             else 
             {
-                Debug.Log($"¹«½¼°æ¿ì³Ä? µé¾î¿ÃÀÏ ¾øÀ»°Å°°Àºµ¥  : node({node.X},{node.Y}) _ curruntNode({endNode.X},{endNode.Y})");
+                Debug.Log($"ë¬´ìŠ¨ê²½ìš°ëƒ? ë“¤ì–´ì˜¬ì¼ ì—†ì„ê±°ê°™ì€ë°  : node({node.X},{node.Y}) _ curruntNode({endNode.X},{endNode.Y})");
             }
-            Debug.Log($"ÈŞ¸®½ºÆ½({node.X},{node.Y}) : {node.H} ");
+            Debug.Log($"íœ´ë¦¬ìŠ¤í‹±({node.X},{node.Y}) : {node.H} ");
         }
     }
     
     /// <summary>
-    /// ³ëµå°¡ °¡Áö°íÀÖ´Â °æ·Î¸¦ Ã£¾Æ¿Â´Ù.
+    /// ë…¸ë“œê°€ ê°€ì§€ê³ ìˆëŠ” ê²½ë¡œë¥¼ ì°¾ì•„ì˜¨ë‹¤.
     /// </summary>
-    /// <param name="node">°æ·Î Ã£À» ³ëµå</param>
-    /// <returns>³ëµå±îÁö ¼³Á¤µÈ °æ·Î </returns>
+    /// <param name="node">ê²½ë¡œ ì°¾ì„ ë…¸ë“œ</param>
+    /// <returns>ë…¸ë“œê¹Œì§€ ì„¤ì •ëœ ê²½ë¡œ </returns>
     public static List<Vector3Int> GetPath(Astar_Node node)
     {
         List<Vector3Int> path = new List<Vector3Int>();
@@ -632,19 +632,19 @@ public static class AstarProccess
         path.Add(new Vector3Int(node.X, node.Y, node.Z));
         Astar_Node prevNode = node.PrevNode;
 
-        while (prevNode != null) //ÀÌÀü°æ·Î°¡ ÀÖÀ»¶§±îÁö µ¹·Á!
+        while (prevNode != null) //ì´ì „ê²½ë¡œê°€ ìˆì„ë•Œê¹Œì§€ ëŒë ¤!
         {
-            path.Add(new Vector3Int(prevNode.X, prevNode.Y, prevNode.Z)); //³ëµå Á¤º¸¸¦ ´ã´Â´Ù.
-            prevNode = prevNode.PrevNode; //ÀÌÀü³ëµå Á¤º¸ Ã£¾Æ¿À±â
+            path.Add(new Vector3Int(prevNode.X, prevNode.Y, prevNode.Z)); //ë…¸ë“œ ì •ë³´ë¥¼ ë‹´ëŠ”ë‹¤.
+            prevNode = prevNode.PrevNode; //ì´ì „ë…¸ë“œ ì •ë³´ ì°¾ì•„ì˜¤ê¸°
         }
-        path.Reverse(); //µé¾î°£ °ªÀ» ²¨²Ù·Î µÚÁı´Â´Ù.
+        path.Reverse(); //ë“¤ì–´ê°„ ê°’ì„ êº¼ê¾¸ë¡œ ë’¤ì§‘ëŠ”ë‹¤.
         return path;
     }
     /// <summary>
-    /// ÀÎµ¦½º¿¡ ÇØ´çÇÏ´Â ³ëµå°ª °¡Á®¿À±â
+    /// ì¸ë±ìŠ¤ì— í•´ë‹¹í•˜ëŠ” ë…¸ë“œê°’ ê°€ì ¸ì˜¤ê¸°
     /// </summary>
-    /// <param name="startIndex">ÀÎµ¦½º°ª</param>
-    /// <returns>ÀÎµ¦½º¿¡ ÇØ´çÇÏ´Â ³ëµåÁ¤º¸</returns>
+    /// <param name="startIndex">ì¸ë±ìŠ¤ê°’</param>
+    /// <returns>ì¸ë±ìŠ¤ì— í•´ë‹¹í•˜ëŠ” ë…¸ë“œì •ë³´</returns>
     public static Astar_Node GetNode(int startIndex)
     {
         if (nodes != null && nodes.Length > 0 && startIndex < nodes.Length)
@@ -653,8 +653,8 @@ public static class AstarProccess
             {
                 return nodes[0, 0];
             }
-            int startX = startIndex == 0 ? 0 : startIndex % nodes.GetLength(0);  //½ÃÀÛÀ§Ä¡ ÀÇ xÁÂÇ¥°ª 
-            int startY = startIndex == 0 ? 0 : startIndex / nodes.GetLength(1);  //½ÃÀÛÀ§Ä¡ ÀÇ yÁÂÇ¥°ª
+            int startX = startIndex == 0 ? 0 : startIndex % nodes.GetLength(0);  //ì‹œì‘ìœ„ì¹˜ ì˜ xì¢Œí‘œê°’ 
+            int startY = startIndex == 0 ? 0 : startIndex / nodes.GetLength(1);  //ì‹œì‘ìœ„ì¹˜ ì˜ yì¢Œí‘œê°’
 
             return nodes[startY, startX];
         }
@@ -664,11 +664,11 @@ public static class AstarProccess
         }
     }
     /// <summary>
-    /// ÀÎµ¦½º¿¡ ÇØ´çÇÏ´Â ³ëµå°ª °¡Á®¿À±â
-    /// <param name="x">xÀÎµ¦½º ÁÂÇ¥</param>
-    /// <param name="y">yÀÎµ¦½º ÁÂÇ¥</param>
-    /// <param name="z">zÀÎµ¦½º ÁÂÇ¥? °ª¾øÀ½</param>
-    /// <returns>ÀÎµ¦½º¿¡ ÇØ´çÇÏ´Â ³ëµåÁ¤º¸</returns>
+    /// ì¸ë±ìŠ¤ì— í•´ë‹¹í•˜ëŠ” ë…¸ë“œê°’ ê°€ì ¸ì˜¤ê¸°
+    /// <param name="x">xì¸ë±ìŠ¤ ì¢Œí‘œ</param>
+    /// <param name="y">yì¸ë±ìŠ¤ ì¢Œí‘œ</param>
+    /// <param name="z">zì¸ë±ìŠ¤ ì¢Œí‘œ? ê°’ì—†ìŒ</param>
+    /// <returns>ì¸ë±ìŠ¤ì— í•´ë‹¹í•˜ëŠ” ë…¸ë“œì •ë³´</returns>
     public static Astar_Node GetNode( int x , int y , int z = 1)
     {
         if (x  < 0 || y < 0  || x > nodes.GetLength(0) || y >  nodes.GetLength(1))
@@ -681,7 +681,7 @@ public static class AstarProccess
         }
     }
 
-    //----------- Å×½ºÆ®¿ë ÇÔ¼ö
+    //----------- í…ŒìŠ¤íŠ¸ìš© í•¨ìˆ˜
 
 
 
@@ -691,7 +691,7 @@ public static class AstarProccess
         string str = "";
         foreach (Astar_Node node in nodes)
         {
-            str += $"ÁÂÇ¥({node.X},{node.Y}) : G °ª : {node.G} \r\n";
+            str += $"ì¢Œí‘œ({node.X},{node.Y}) : G ê°’ : {node.G} \r\n";
         }
         Debug.Log(str);
     }

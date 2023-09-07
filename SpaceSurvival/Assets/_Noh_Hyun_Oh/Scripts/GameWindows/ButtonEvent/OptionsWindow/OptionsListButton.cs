@@ -49,6 +49,11 @@ public class OptionsListButton : MonoBehaviour
 
     public void TitleAction()
     {
+        Debug.Log("옵션창에서 타이틀로 이동");
+        if (SpaceSurvival_GameManager.Instance.GetBattleMapInit != null) //배틀맵데이터가 셋팅되있으면
+        {
+            SpaceSurvival_GameManager.Instance.BattleMapInitClass.TestReset();  //초기화 하기
+        }
         LoadingScean.SceanLoading(EnumList.SceanName.TITLE);
     }
 

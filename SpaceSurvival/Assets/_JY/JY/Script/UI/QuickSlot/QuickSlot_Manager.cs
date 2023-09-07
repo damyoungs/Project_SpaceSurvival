@@ -28,8 +28,8 @@ public class QuickSlot_Manager : MonoBehaviour
     Button popupButton;
     TextMeshProUGUI buttonText;
     InputKeyMouse inputAction;
-    string open = "¡ã";
-    string close = "¡å";
+    string open = "â–²";
+    string close = "â–¼";
 
 
     RectTransform rectTransform;
@@ -89,6 +89,7 @@ public class QuickSlot_Manager : MonoBehaviour
         Init();
         buttonText.text = open;
        // GameManager.SlotManager.onDetectQuickSlot += Set_ItemDataTo_QuickSlot;
+       gameObject.SetActive(false); //ì˜¤í”ˆí™”ë©´ë¶€í„° ë“¤ê³ ë‹¤ë…€ì•¼ë˜ë‹ˆ ì¼ë‹¨ê°ì¶”ê³  í•„ìš”í• ë•Œ í™œì„±í™” 
     }
     private void Insert_performed(InputAction.CallbackContext context)
     {
@@ -192,7 +193,7 @@ public class QuickSlot_Manager : MonoBehaviour
         {
             quickSlots[i] = transform.GetChild(i).GetComponent<QuickSlot>();
             quickSlots[i].Index = i;
-            quickSlots[i].QuickSlot_Key_Value = Enum.GetName(typeof(QuickSlotList), i);//i¹øÂ° ÀÎµ¦½º¸¦ ¹®ÀÚ¿­·Î ¹Ù²ã¼­ º¯¼ö¿¡ ÇÒ´ç
+            quickSlots[i].QuickSlot_Key_Value = Enum.GetName(typeof(QuickSlotList), i);//ië²ˆì§¸ ì¸ë±ìŠ¤ë¥¼ ë¬¸ìì—´ë¡œ ë°”ê¿”ì„œ ë³€ìˆ˜ì— í• ë‹¹
 
             quickSlots[i].onPointerEnter += itemDescription.Open;
             quickSlots[i].onPointerMove += itemDescription.MovePosition;
@@ -204,7 +205,7 @@ public class QuickSlot_Manager : MonoBehaviour
             quickSlots[i].onEndDrag += tempSlot_Base.EndDrag;
             tempSlot_Base.onEndDrag += (itemData, count) =>
             {
-                Find_Slot(out QuickSlot slot);//ÇöÀç ¸¶¿ì½ºÀ§Ä¡ÀÇ Äü½½·Ô °¡Á®¿À±â
+                Find_Slot(out QuickSlot slot);//í˜„ì¬ ë§ˆìš°ìŠ¤ìœ„ì¹˜ì˜ í€µìŠ¬ë¡¯ ê°€ì ¸ì˜¤ê¸°
                 if (slot != null)
                 {
                     slot.ItemData = itemData;

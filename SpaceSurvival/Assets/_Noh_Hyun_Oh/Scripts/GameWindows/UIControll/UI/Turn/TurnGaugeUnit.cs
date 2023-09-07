@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 /// <summary>
 ///  턴 게이지에 보일 유닛오브젝트
@@ -140,8 +141,15 @@ public class TurnGaugeUnit : TurnGaugeObject_PoolObj
     public void ResetData() 
     {
         ProgressValue = 0.0f;//값 초기화하고
-        //transform.SetParent(PoolTransform); //풀로 돌리고
-        gameObject.SetActive(false); //큐로 돌리고
+        if (TurnManager.Instance.IsViewGauge) //턴유아이 활성화되있으면 
+        {
+            gameObject.SetActive(false); //큐로 돌리고
+        }
+        else //안되있으면
+        {
+            Debug.Log($"실행 : {onDisable}");
+            onDisable?.Invoke(); //큐로 돌리기위해 강제로 함수실행 
+        }
     }
 
 }

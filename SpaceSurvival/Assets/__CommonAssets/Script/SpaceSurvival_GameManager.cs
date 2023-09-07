@@ -117,5 +117,20 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
     /// 유아이 사용시 마우스 이벤트 막기위한 변수 
     /// </summary>
     public bool IsUICheck = false;
-    
+
+
+
+    InitCharcterSetting battleMapInitClass;
+    public InitCharcterSetting BattleMapInitClass 
+    {
+        get 
+        {
+            if (battleMapInitClass == null) 
+            {
+                battleMapInitClass = GetBattleMapInit?.Invoke();
+            }
+            return battleMapInitClass;
+        }
+    }
+    public Func<InitCharcterSetting> GetBattleMapInit;
 }

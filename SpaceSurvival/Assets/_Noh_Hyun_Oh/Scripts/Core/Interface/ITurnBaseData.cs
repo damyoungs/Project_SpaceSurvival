@@ -56,7 +56,7 @@ public interface ITurnBaseData
     /// <summary>
     /// 현재 컨트롤할 유닛 반환
     /// </summary>
-    public ICharcterBase CurrentUnit { get; }
+    public ICharcterBase CurrentUnit { get; set; }
 
     /// <summary>
     /// 맵생성시 호출할 데이터 초기화 함수
