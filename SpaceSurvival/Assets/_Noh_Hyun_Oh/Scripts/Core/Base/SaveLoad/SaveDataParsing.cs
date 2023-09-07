@@ -24,7 +24,6 @@ public class SaveDataParsing : MonoBehaviour
 
         SaveLoadManager.Instance.GameSaveData = saveData;           //저장로직에사용될 객체에 담기
     }
-
     /// <summary>
     /// 로드 시 데이터 셋팅하는 함수
     /// </summary>

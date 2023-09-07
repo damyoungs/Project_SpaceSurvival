@@ -139,6 +139,7 @@ public class Opening : MonoBehaviour
         rt.anchoredPosition3D = new Vector3(0.0f, 0.0f, 0.0f); //처음 위치 조절하고 
         for (int i = 0; i < textLength ; i++) //글자 구간갯수 만큼 돌리고 
         {
+            Debug.Log($"{fileText[i].Contains(enterText)} : {fileText[i]}");
             if (fileText[i].Contains(enterText) 
                 )//|| textLineLength + fileText[i].Length > fileLineSize)  //한줄에 보여줄 길이 넘어가면 
             {

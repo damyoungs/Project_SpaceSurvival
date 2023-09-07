@@ -48,6 +48,7 @@ public class InitCharcterSetting : MonoBehaviour
         cameraMoveComp = FindObjectOfType<Camera_Move>(true);
         brainCam = Camera.main.GetComponent<CinemachineBrain>();//브레인 카메라 찾고 
         cameraMoveComp.GetCineBrainCam = () => brainCam; //브레인카메라 찾아서 연결해주기
+        cameraMoveComp.gameObject.SetActive(true); //카메라 이동은 배틀맵에서만 사용하기때문에 따로안뺏다.
     }
     private void Start()
     {
@@ -58,7 +59,6 @@ public class InitCharcterSetting : MonoBehaviour
     /// </summary>
     public void TestInit()
     {
-        cameraMoveComp.gameObject.SetActive(true); //카메라 이동은 배틀맵에서만 사용하기때문에 따로안뺏다.
         SpaceSurvival_GameManager.Instance.GetBattleMapInit = () => this;
         if (teamArray == null) 
         {
