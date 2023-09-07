@@ -178,7 +178,10 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         Slot[] findSlots = FindObjectsOfType<Slot>(true); //기존슬롯 싹다찾아서 
         foreach (Slot slot in findSlots)
         {
-            Destroy(slot.gameObject);//날려버리기 
+            if (slot != tempSlot) //템프슬롯빼고  
+            {
+                Destroy(slot.gameObject);//날려버리기 
+            }
         }
         //해시테이블(딕셔너리)초기화시키고
         slots = new Dictionary<Current_Inventory_State, List<Slot>>
