@@ -23,7 +23,7 @@ public class Opening : MonoBehaviour
     /// <summary>
     /// 텍스트 기본 사이즈
     /// </summary>
-    const float textWidth = 73.0f;
+    const float textWidth = 80.0f;
     
     /// <summary>
     /// 텍스트 기본 사이즈
@@ -35,7 +35,20 @@ public class Opening : MonoBehaviour
     /// </summary>
     [SerializeField]
     float textPadding = -10.0f;
+    /// <summary>
+    /// 그림자처럼 보이게하는 글자의 위치간격
+    /// </summary>
+    [SerializeField]
+    float shadowPadding = -0.25f;
+
+    /// <summary>
+    /// 글자크기
+    /// </summary>
+    [SerializeField]
+    float textSize = 23.0f;
     
+    [SerializeField]
+    Color shadowColor;
     /// <summary>
     /// 카메라 기본 위치
     /// </summary>
@@ -51,13 +64,8 @@ public class Opening : MonoBehaviour
     float elaspadSpeed = 0.0f;
 
     Camera mainCamera;
-    /// <summary>
-    /// 한라인에 차지할 글자 수
-    /// </summary>
-    [SerializeField]
-    int fileLineSize = 20;
 
-    int lineCount = 0;
+    int lineCount = -1;
 
     private void Awake()
     {
@@ -120,7 +128,7 @@ public class Opening : MonoBehaviour
         //도착이니 다음 화면으로 이동
         LoadingScean.SceanLoading(EnumList.SceanName.TITLE); 
     }
-
+    string enterText = "//";
 
     /// <summary>
     /// 연속된 글자의 배열을 가지고 TextMeshPro 를 만들어 화면에뿌리는로직
@@ -131,27 +139,41 @@ public class Opening : MonoBehaviour
     {
         int textLength = fileText.Length; //글자 구간 총갯수 
         RectTransform rt; //위치조절할 렉트 변수 선언해두고 
+        RectTransform shadowRt;
         int textLineLength = 0;
         int lineCount = 1;      //몇줄째인지 체크용 포문돌기전에 하나생성하고시작하기때문에 1이 초기값
 
-        TextMeshPro textObject = Instantiate(textPrefab,transform); //프리팹 생성해서 담기 시작
-        rt = textObject.GetComponent<RectTransform>(); //위치 조절할 렉트 찾아오고 
-        rt.anchoredPosition3D = new Vector3(0.0f, 0.0f, 0.0f); //처음 위치 조절하고 
+        TextMeshPro textObject = null;
+        TextMeshPro shadowObject = null;
         for (int i = 0; i < textLength ; i++) //글자 구간갯수 만큼 돌리고 
         {
-            if (textLineLength + fileText[i].Length > fileLineSize)  //한줄에 보여줄 길이 넘어가면 
+            Debug.Log($"{fileText[i].Contains(enterText)} : {fileText[i]}");
+            if (fileText[i].Contains(enterText) 
+                )//|| textLineLength + fileText[i].Length > fileLineSize)           //한줄에 보여줄 길이 넘어가면 
             {
-                textObject = Instantiate(textPrefab,transform); //새롭게 프리팹 내용 복사하고 
-                textLineLength = fileText[i].Length; //글자 길이 수정 
-                textObject.text = fileText[i]; //내용 담고 
-                rt = textObject.GetComponent<RectTransform>(); //위치 조절할 렉트 찾아오고 
+                fileText[i] =  fileText[i].Replace(enterText,"");                   //
+                textObject = Instantiate(textPrefab,transform);                     //새롭게 프리팹 내용 복사하고 
+                rt = textObject.GetComponent<RectTransform>();                      //위치 조절할 렉트 찾아오고 
                 rt.anchoredPosition3D = new Vector3(0, 0, lineCount * textPadding); //위치 조절하고 
+                textObject.fontSize = textSize;
+                textObject.text = fileText[i];                                      //내용 담고 
+
+                shadowObject = Instantiate(textPrefab, transform); //프리팹 생성해서 담기 시작
+                shadowRt = shadowObject.GetComponent<RectTransform>(); //위치 조절할 렉트 찾아오고 
+                shadowRt.anchoredPosition3D = new Vector3(0.0f, shadowPadding, lineCount * textPadding); //처음 위치 조절하고 
+                shadowObject.color = shadowColor;
+                shadowObject.fontSize = textSize;
+                shadowObject.text = fileText[i];
+                
+
+                //textLineLength = fileText[i].Length;                                //글자 길이 수정 
                 lineCount++;
             }
             else //한줄에 보여줄 길이 안넘어가면 다시 추가하고 
             {
                 textLineLength += fileText[i].Length+1; //글자 길이 추가해두고 
                 textObject.text += $" {fileText[i]}"; //내용도 추가 
+                shadowObject.text += $" {fileText[i]}";
             }
       
         }

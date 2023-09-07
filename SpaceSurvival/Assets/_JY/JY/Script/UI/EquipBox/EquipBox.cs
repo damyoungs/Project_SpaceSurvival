@@ -10,6 +10,7 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow
     EquipBox_Slot[] equipBox_Slots;
     EquipBox_Description description;
 
+    public Action<Transform> on_Pass_Item_Transform;
     public Action<ItemData, ItemData> on_Update_Status_For_EquipOrSwap;
     public Action<ItemData> on_Update_Status_For_UnEquip;
     public EquipBox_Description Description => description;
@@ -105,6 +106,7 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow
         on_Update_Status_For_UnEquip?.Invoke(itemData);
         Remove_Prefab(itemData);
         EquipBox_Slot slot = Find_Slot_By_Type(itemData);
+        Set_Edditional_State(itemData, false);//æ÷¥œ∏ﬁ¿Ãº« π◊ √ﬂ∞° ¿Ã∆Â∆Æ «ÿ¡¶
         slot.ItemData = null;
     }
     void Remove_Prefab(ItemData data)
@@ -142,7 +144,50 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow
             }
             slot.SetItemData(itemData);//Ïû•ÎπÑÏä¨Î°Ø UIÏóÖÎç∞Ïù¥Ìä∏
         }
-
+      //  Set_Edditional_State(itemData, true);//æ÷¥œ∏ﬁ¿Ãº« π◊ √ﬂ∞° ¿Ã∆Â∆Æ ¿˚øÎ
+    }
+    bool Set_Edditional_State(ItemData data, bool equip)
+    {
+        bool result = false;
+        switch (data.code)
+        {
+            case ItemCode.Enhancable_Pistol:
+                if (equip)
+                {
+                    player.Weapon_Type = PlayerDummy.WeaponType.Pistol;
+                }
+                else
+                {
+                    player.Weapon_Type = PlayerDummy.WeaponType.None;
+                }
+                result = true;
+                break;
+            case ItemCode.Enhancable_Rifle:
+                if (equip)
+                {
+                    player.Weapon_Type = PlayerDummy.WeaponType.Rifle;
+                }
+                else
+                {
+                    player.Weapon_Type = PlayerDummy.WeaponType.None;
+                }
+                result = true;
+                break;
+            case ItemCode.Enhancable_shotGun:
+                if (equip)
+                {
+                    player.Weapon_Type = PlayerDummy.WeaponType.ShotGun;
+                }
+                else
+                {
+                    player.Weapon_Type = PlayerDummy.WeaponType.None;
+                }
+                result = true;
+                break;
+            default:
+                break;
+        }
+        return result;
     }
     void Attach_Prefab(ItemData data)
     {
@@ -152,12 +197,24 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow
             GameObject itemPrefab = parentTransform.GetChild(0).gameObject;
             Destroy(itemPrefab);
             GameObject newItemPrefab = Instantiate(data.modelPrefab, parentTransform);
+            if (Set_Edditional_State(data, true))// π´±‚∑˘ ¿œ ∂ß∏∏
+            {
+                on_Pass_Item_Transform?.Invoke(newItemPrefab.transform);// «√∑π¿ÃæÓø° ∆Æ∑£Ω∫∆˚ ¿¸¥ﬁ ShootPoint º≥¡§øÎ
+            }
+            ItemRotater rotater = newItemPrefab.GetComponentInChildren<ItemRotater>();
+            Destroy(rotater);
             newItemPrefab.transform.localPosition = Vector3.zero;
             newItemPrefab.transform.localRotation = Quaternion.identity;
         }
         else
         {
             GameObject itemPrefab = Instantiate(data.modelPrefab, parentTransform);
+            if (Set_Edditional_State(data, true))// π´±‚∑˘ ¿œ ∂ß∏∏
+            {
+                on_Pass_Item_Transform?.Invoke(itemPrefab.transform);// «√∑π¿ÃæÓø° ∆Æ∑£Ω∫∆˚ ¿¸¥ﬁ ShootPoint º≥¡§øÎ
+            }
+            ItemRotater rotater = itemPrefab.GetComponentInChildren<ItemRotater>();
+            Destroy(rotater);
             itemPrefab.transform.localPosition = Vector3.zero;
             itemPrefab.transform.localRotation = Quaternion.identity;
         }

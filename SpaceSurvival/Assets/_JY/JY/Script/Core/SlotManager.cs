@@ -30,7 +30,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
 
     QuickSlot_Manager quickSlot_Manager;
 
-   
+    
     RectTransform equipboxRectTransform;
     RectTransform beforeSlotRectTransform;
     RectTransform enhancerUIRectTransform;

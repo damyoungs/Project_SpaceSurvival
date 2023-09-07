@@ -96,6 +96,11 @@ public class SaveLoadManager : ChildComponentSingeton<SaveLoadManager> {
         get => gameSaveData;
         set => gameSaveData = value;
     }
+    /// <summary>
+    /// 저장 데이터 파싱관련 클래스 
+    /// </summary>
+    SaveDataParsing parsingProcess;
+    public SaveDataParsing ParsingProcess => parsingProcess;
 
     /// <summary>
     /// 저장화면에 사용될 데이터리스트
@@ -142,6 +147,7 @@ public class SaveLoadManager : ChildComponentSingeton<SaveLoadManager> {
                                         GetChild(0). //SaveLoadWindow
                                         GetChild(1). //PageListAndButton
                                         GetChild(1).gameObject; //PageNumber
+        parsingProcess = GetComponent<SaveDataParsing>();
     }
    
     void Start (){
@@ -558,9 +564,6 @@ public class SaveLoadManager : ChildComponentSingeton<SaveLoadManager> {
             return false;
         }
     }
-
-
-
 
 
 
