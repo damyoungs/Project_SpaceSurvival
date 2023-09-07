@@ -101,7 +101,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
 
         foreach (QuickSlot quickSlot in quickSlot_Manager.quickSlots)
         {
-            quickSlot.onSetData += Binding_Slots; //??  += 을 사용한 이유가...?  = 으로 하나만 연결시키면되는거아닌가요?
+            quickSlot.onSetData += Binding_Slots; 
         }
 
         inven = GameManager.Inventory;
@@ -138,7 +138,15 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             { Current_Inventory_State.Craft, 0}
         };
 
-        
+        SlotInit();
+
+    }
+    /// <summary>
+    /// 슬롯의 기본갯수를 셋팅한다 
+    /// </summary>
+    public void SlotInit() 
+    {
+        //슬롯갯수  초기화 시킨다
         GameManager.Inventory.State = Current_Inventory_State.Equip;
         for (int i = 0; i < 4; i++)
         {
@@ -162,7 +170,34 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             }
         }
     }
-
+    /// <summary>
+    /// 
+    /// </summary>
+    public void SaveFileLoadedResetSlots()
+    {
+        Slot[] findSlots = FindObjectsOfType<Slot>(true); //기존슬롯 싹다찾아서 
+        foreach (Slot slot in findSlots)
+        {
+            Destroy(slot.gameObject);//날려버리기 
+        }
+        //해시테이블(딕셔너리)초기화시키고
+        slots = new Dictionary<Current_Inventory_State, List<Slot>>
+        {
+            { Current_Inventory_State.Equip, new List<Slot>() },
+            { Current_Inventory_State.Consume, new List<Slot>() },
+            { Current_Inventory_State.Etc, new List<Slot>() },
+            { Current_Inventory_State.Craft, new List<Slot>() }
+        };
+        //카운트도 초기화
+        slotCount = new Dictionary<Current_Inventory_State, int> // 슬롯 오브젝트에 번호를 부여하기 위한 Dic
+        {
+            { Current_Inventory_State.Equip, 0 },
+            { Current_Inventory_State.Consume, 0},
+            { Current_Inventory_State.Etc, 0},
+            { Current_Inventory_State.Craft, 0}
+        };
+        SlotInit(); //기본 슬롯갯수 셋팅
+    }
     public void Make_Slot()
     {
         GameObject newSlot = Instantiate(slot);

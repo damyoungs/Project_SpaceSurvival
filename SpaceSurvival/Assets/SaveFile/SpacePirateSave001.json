@@ -1,9 +1,9 @@
 {
     "dataIndex": 1,
-    "saveTime": "2023-09-07 오전 9:03:00",
+    "saveTime": "2023-09-08 오전 12:40:40",
     "sceanName": 4,
     "charcterInfo": [],
-    "equipSlotLength": 0,
+    "equipSlotLength": 3,
     "equipData": [
         {
             "values": 1,
@@ -36,7 +36,7 @@
             "itemEnhanceValue": 2
         }
     ],
-    "consumeSlotLength": 0,
+    "consumeSlotLength": 1,
     "consumeData": [
         {
             "values": 20,
@@ -51,9 +51,9 @@
             "itemEnhanceValue": 0
         }
     ],
-    "etcSlotLength": 0,
+    "etcSlotLength": 4,
     "etcData": [],
-    "craftSlotLength": 0,
+    "craftSlotLength": 5,
     "craftData": [
         {
             "values": 8,
