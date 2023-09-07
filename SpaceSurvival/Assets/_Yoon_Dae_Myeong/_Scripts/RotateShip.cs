@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RotateShip : MonoBehaviour
 {
+    public float rotateSpeed = 6f;
     // Start is called before the first frame update
     void Start()
     {
@@ -13,6 +14,6 @@ public class RotateShip : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        gameObject . transform . Rotate ( Vector3.up,6f * Time . deltaTime,Space.Self);
+        gameObject . transform . Rotate ( Vector3.up,rotateSpeed * Time . deltaTime,Space.Self);
     }
 }
