@@ -132,38 +132,42 @@ public class SaveDataParsing : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// 저장파일 로드시 저장된내용 가지고 데이터 파싱작업
+    /// </summary>
+    /// <param name="data">저장파일에서 가져온데이터 </param>
     private void LoadInvenDataParsing(JsonGameData data) 
     {
-        //slotManager.Initialize();
-        Slot temp = null;
-        ItemData_Enhancable tempEnchan;
+        slotManager.SaveFileLoadedResetSlots(); //기존데이터 싹다날리고 초기값으로 셋팅
+        Slot temp = null; //슬롯내용물셋팅할 임시변수
+        ItemData_Enhancable tempEnchan; //인첸장비인지 체크할 임시변수
 
-        List<Slot> slots = slotManager.slots[Current_Inventory_State.Equip];
+        List<Slot> slots = slotManager.slots[Current_Inventory_State.Equip]; //장비일경우
 
         for (int slotIndex = 0; slotIndex < data.EquipSlotLength; slotIndex++)
         {
-            slotManager.Make_Slot(Current_Inventory_State.Equip);
+            slotManager.Make_Slot(Current_Inventory_State.Equip); //슬롯갯수 추가할것이있으면 추가해두고 
         }
 
-        foreach (CharcterItems equipData in data.EquipData)
+        foreach (CharcterItems equipData in data.EquipData) //포문돌면서 데이터셋팅
         {
             temp = slots[(int)equipData.SlotIndex];
             temp.ItemData = GameManager.Itemdata[equipData.ItemIndex];
             temp.ItemCount = equipData.Values;
-            if (equipData.ItemEnhanceValue > 0)
+            if (equipData.ItemEnhanceValue > 0) //인첸내용이있으면 
             {
-                tempEnchan = temp.ItemData as ItemData_Enhancable;
+                tempEnchan = temp.ItemData as ItemData_Enhancable; //인첸 클래스로 변경후 
                 if (tempEnchan != null)
                 {
-                    for (int i = 1; i < equipData.ItemEnhanceValue; i++)
+                    for (int i = 1; i < equipData.ItemEnhanceValue; i++) // 인첸무기는 기본값이 1부터 시작임으로 초기값 1로셋팅
                     {
-                        tempEnchan.LevelUpItemStatus(temp);
+                        tempEnchan.LevelUpItemStatus(temp); //인첸한만큼 추가로 인첸데이터셋팅
                     }
                 }
 
             }
         }
-
+        //장비와비슷하게 셋팅한다 밑에는 반복작업
 
         slots = slotManager.slots[Current_Inventory_State.Consume];
 
@@ -211,8 +215,5 @@ public class SaveDataParsing : MonoBehaviour
 
 
     }
-
-
-
 
 }
