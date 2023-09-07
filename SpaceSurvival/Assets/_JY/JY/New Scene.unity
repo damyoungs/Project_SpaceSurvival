@@ -17619,10 +17619,10 @@ Animator:
   m_GameObject: {fileID: 4704479902103843540}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: c8c20564eb982f84a96a0d4d8e357cc5, type: 3}
-  m_Controller: {fileID: 9100000, guid: ca4ea693c40e645b0bd0ddca144649dc, type: 2}
+  m_Controller: {fileID: 22100000, guid: 82767ca96522a8b4c9196ab0c6ef11d7, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -21447,6 +21447,7 @@ GameObject:
   - component: {fileID: 178315122}
   - component: {fileID: 178315124}
   - component: {fileID: 1457401560}
+  - component: {fileID: 4710655938412183881}
   m_Layer: 6
   m_Name: PlayerYoon
   m_TagString: Untagged
@@ -22973,6 +22974,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &4710655938412183881
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4704479902103843540}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!4 &4710674305291197252
 Transform:
   m_ObjectHideFlags: 0
