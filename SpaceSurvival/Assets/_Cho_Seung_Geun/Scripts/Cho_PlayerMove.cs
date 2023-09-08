@@ -2,16 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.InputSystem;
 
 public class Cho_PlayerMove : MonoBehaviour
 {
+    public float speed = 0.0f;
     public float walkSpeed = 3.5f;
     public float runSpeed = 5.0f;
     public float jumpHeight = 5.0f;
+    public float rotateSensitiveX = 8.0f;
 
-
-    public float speed = 0.0f;
+    float rotateDir = 0.0f;
     Vector3 moveDir = Vector3.zero;
 
     InputKeyMouse inputActions;
@@ -36,10 +38,20 @@ public class Cho_PlayerMove : MonoBehaviour
         inputActions.Player.Jump.performed += OnJump;
         inputActions.Player.Dash.performed += onDash;
         inputActions.Player.Dash.canceled += onDash;
+        inputActions.Mouse.Enable();
+        inputActions.Mouse.MouseVector2.performed += OnMouseDelta;
+        //inputActions.Mouse.MouseX.performed += valueMouseX;
+    }
+
+    private void valueMouseX(InputAction.CallbackContext context)
+    {
+        mouseX = context.ReadValue<float>();
     }
 
     private void OnDisable()
     {
+        inputActions.Mouse.MouseVector2.performed -= OnMouseDelta;
+        inputActions.Mouse.Disable();
         inputActions.Player.Dash.canceled -= onDash;
         inputActions.Player.Dash.performed -= onDash;
         inputActions.Player.Jump.performed -= OnJump;
@@ -49,10 +61,13 @@ public class Cho_PlayerMove : MonoBehaviour
     }
 
 
-    private void FixedUpdate()
+    private void Update()
     {
-        rigid.MovePosition(rigid.transform.position + Time.fixedDeltaTime * speed * moveDir);
+        transform.Translate(Time.deltaTime * speed * moveDir);
     }
+
+    public float mouseX = 0.0f;
+
 
     private void OnMove(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
@@ -60,6 +75,7 @@ public class Cho_PlayerMove : MonoBehaviour
 
         moveDir.x = dir.x;
         moveDir.z = dir.y;
+
     }
 
     private void OnJump(UnityEngine.InputSystem.InputAction.CallbackContext context)
@@ -77,5 +93,12 @@ public class Cho_PlayerMove : MonoBehaviour
         {
             speed = runSpeed;
         }
+    }
+
+    private void OnMouseDelta(InputAction.CallbackContext context)
+    {
+        Vector2 temp = context.ReadValue<Vector2>();
+        rotateDir = temp.x * rotateSensitiveX * Time.deltaTime;
+        transform.Rotate(Vector3.up, rotateDir);
     }
 }

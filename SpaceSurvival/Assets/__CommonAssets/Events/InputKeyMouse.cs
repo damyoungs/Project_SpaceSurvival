@@ -276,6 +276,33 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MouseVector2"",
+                    ""type"": ""Value"",
+                    ""id"": ""87db369b-be6d-44dc-b221-e67eb94dfcb6"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MouseX"",
+                    ""type"": ""Value"",
+                    ""id"": ""707f9a49-dc39-4612-9617-ec7a9d44a669"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MouseY"",
+                    ""type"": ""Value"",
+                    ""id"": ""d8c731ab-25e7-4729-94de-0b06c7e5598e"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -309,6 +336,39 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""KeyMouse"",
                     ""action"": ""MouseClickRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""46064f09-2204-43c3-9fcf-d114d1660af4"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyMouse"",
+                    ""action"": ""MouseVector2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8a4f739a-aa20-45b8-a18b-fdc71b11b36c"",
+                    ""path"": ""<Mouse>/delta/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyMouse"",
+                    ""action"": ""MouseX"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5cd59e04-355d-42d7-a4c4-fcdad2f10bb3"",
+                    ""path"": ""<Mouse>/delta/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyMouse"",
+                    ""action"": ""MouseY"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -988,6 +1048,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         m_Mouse_MouseClick = m_Mouse.FindAction("MouseClick", throwIfNotFound: true);
         m_Mouse_TestClick = m_Mouse.FindAction("TestClick", throwIfNotFound: true);
         m_Mouse_MouseClickRight = m_Mouse.FindAction("MouseClickRight", throwIfNotFound: true);
+        m_Mouse_MouseVector2 = m_Mouse.FindAction("MouseVector2", throwIfNotFound: true);
+        m_Mouse_MouseX = m_Mouse.FindAction("MouseX", throwIfNotFound: true);
+        m_Mouse_MouseY = m_Mouse.FindAction("MouseY", throwIfNotFound: true);
         // KeyBoard
         m_KeyBoard = asset.FindActionMap("KeyBoard", throwIfNotFound: true);
         m_KeyBoard_InvenKey = m_KeyBoard.FindAction("InvenKey", throwIfNotFound: true);
@@ -1195,6 +1258,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     private readonly InputAction m_Mouse_MouseClick;
     private readonly InputAction m_Mouse_TestClick;
     private readonly InputAction m_Mouse_MouseClickRight;
+    private readonly InputAction m_Mouse_MouseVector2;
+    private readonly InputAction m_Mouse_MouseX;
+    private readonly InputAction m_Mouse_MouseY;
     public struct MouseActions
     {
         private @InputKeyMouse m_Wrapper;
@@ -1202,6 +1268,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         public InputAction @MouseClick => m_Wrapper.m_Mouse_MouseClick;
         public InputAction @TestClick => m_Wrapper.m_Mouse_TestClick;
         public InputAction @MouseClickRight => m_Wrapper.m_Mouse_MouseClickRight;
+        public InputAction @MouseVector2 => m_Wrapper.m_Mouse_MouseVector2;
+        public InputAction @MouseX => m_Wrapper.m_Mouse_MouseX;
+        public InputAction @MouseY => m_Wrapper.m_Mouse_MouseY;
         public InputActionMap Get() { return m_Wrapper.m_Mouse; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1220,6 +1289,15 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @MouseClickRight.started += instance.OnMouseClickRight;
             @MouseClickRight.performed += instance.OnMouseClickRight;
             @MouseClickRight.canceled += instance.OnMouseClickRight;
+            @MouseVector2.started += instance.OnMouseVector2;
+            @MouseVector2.performed += instance.OnMouseVector2;
+            @MouseVector2.canceled += instance.OnMouseVector2;
+            @MouseX.started += instance.OnMouseX;
+            @MouseX.performed += instance.OnMouseX;
+            @MouseX.canceled += instance.OnMouseX;
+            @MouseY.started += instance.OnMouseY;
+            @MouseY.performed += instance.OnMouseY;
+            @MouseY.canceled += instance.OnMouseY;
         }
 
         private void UnregisterCallbacks(IMouseActions instance)
@@ -1233,6 +1311,15 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @MouseClickRight.started -= instance.OnMouseClickRight;
             @MouseClickRight.performed -= instance.OnMouseClickRight;
             @MouseClickRight.canceled -= instance.OnMouseClickRight;
+            @MouseVector2.started -= instance.OnMouseVector2;
+            @MouseVector2.performed -= instance.OnMouseVector2;
+            @MouseVector2.canceled -= instance.OnMouseVector2;
+            @MouseX.started -= instance.OnMouseX;
+            @MouseX.performed -= instance.OnMouseX;
+            @MouseX.canceled -= instance.OnMouseX;
+            @MouseY.started -= instance.OnMouseY;
+            @MouseY.performed -= instance.OnMouseY;
+            @MouseY.canceled -= instance.OnMouseY;
         }
 
         public void RemoveCallbacks(IMouseActions instance)
@@ -1735,6 +1822,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         void OnMouseClick(InputAction.CallbackContext context);
         void OnTestClick(InputAction.CallbackContext context);
         void OnMouseClickRight(InputAction.CallbackContext context);
+        void OnMouseVector2(InputAction.CallbackContext context);
+        void OnMouseX(InputAction.CallbackContext context);
+        void OnMouseY(InputAction.CallbackContext context);
     }
     public interface IKeyBoardActions
     {
