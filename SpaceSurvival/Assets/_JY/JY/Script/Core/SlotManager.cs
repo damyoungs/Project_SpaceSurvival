@@ -634,14 +634,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             //Debug.Log($"아이템 삭제 실패 : {slotIndex}는 없는 인덱스입니다.");
         }
     }
-    public void ClearInventory()
-    {
-        List<Slot> slots = GetItemTab();
-        foreach (var slot in slots)
-        {
-            slot.ClearSlotItem();
-        }
-    }
+
     public void MoveItem(ItemData data, uint from, uint to)
     {
         if (data == null)
