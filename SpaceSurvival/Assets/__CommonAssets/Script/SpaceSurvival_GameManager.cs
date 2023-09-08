@@ -4,10 +4,54 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
+/// 단축키 이벤트 컨트롤할 이넘 설정 
+/// </summary>
+[Flags]
+public enum HotKey_Use : byte
+{
+    None = 0,            // 처음시작시 기본값 : 오프닝, 타이틀, 로딩창 등 입력이 되면안되는곳에 사용될 플래그 
+    BattleMap = 1,            // 배틀맵 처럼 전투상황에 사용될 플래그
+    TownMap = 2,            // 마을 처럼 전투가없는 상황일경우 사용될 플래그                   
+    OptionView = 4,            // 옵션창이 열렸을때 체크할 플래그  - 설정이나 저장시 인벤창 같이 내부 설정이 변경될만한게 열리면안되니 체크필요
+}
+
+/// <summary>
 /// 게임에서 필요한 데이터 및 공통된 기능을 담을 메니저 클래스 
 /// </summary>
 public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
 {
+    HotKey_Use inputkeyCheck;
+    public HotKey_Use InputKeyCheck 
+    {
+        get => inputkeyCheck;
+        set 
+        {
+            if (inputkeyCheck != value) 
+            {
+                inputkeyCheck = value;
+                switch (value)
+                {
+                    case HotKey_Use.None:
+
+                        break;
+                    case HotKey_Use.BattleMap:
+                        break;
+                    case HotKey_Use.TownMap:
+                        break;
+                    case HotKey_Use.OptionView:
+                        break;
+                    default:
+                        break;
+                }
+            }
+        
+        }
+    }
+    /// <summary>
+    /// 단축키 사용여부 
+    /// </summary>
+    public bool Is_Use_HotKey = false;
+
     /// <summary>
     /// 배틀맵 시작시 셋팅할 맵의 타일 변수 
     /// </summary>
@@ -119,7 +163,10 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
     public bool IsUICheck = false;
 
 
-
+    /// <summary>
+    /// 배틀맵의 초기화 함수는 싱글톤형식으로 들고다니지 않기때문에 
+    /// 전역으로 관리할 변수에 항시들어가지않는다 그래서 Get 할때 체크 필요 
+    /// </summary>
     InitCharcterSetting battleMapInitClass;
     public InitCharcterSetting BattleMapInitClass 
     {
@@ -133,4 +180,6 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
         }
     }
     public Func<InitCharcterSetting> GetBattleMapInit;
+
+    
 }
