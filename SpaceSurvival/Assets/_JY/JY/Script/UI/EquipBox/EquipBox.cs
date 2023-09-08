@@ -18,15 +18,17 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
     public EquipBox_Slot this[EquipType type] => equipBox_Slots[(int) type - 1];//0Î≤àÏß∏ ?∏Îç±??= None 
     public Transform[] equip_Parent_Transform;
 
-    PlayerDummy player;
+    Player_ player;
 
     CanvasGroup canvasGroup;
     public bool IsOpen => canvasGroup.alpha > 0.9f;
 
     public Action<IPopupSortWindow> PopupSorting { get ; set ; }
+    InputKeyMouse player_Input_Action;
 
     private void Awake()
     {
+        player_Input_Action = new InputKeyMouse();
         description = GetComponentInChildren<EquipBox_Description>();
         canvasGroup = GetComponent<CanvasGroup>();
         equipBox_Slots = new EquipBox_Slot[4];
@@ -36,6 +38,23 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
             equipBox_Slots[i - 1].onPointerEnter += description.Open;
             equipBox_Slots[i - 1].onPointerMove += description.MovePosition;
             equipBox_Slots[i - 1].onPointerExit += description.Close;
+        }
+    }
+    private void OnEnable()
+    {
+        player_Input_Action.KeyBoard.Enable();
+        player_Input_Action.KeyBoard.EquipBox_Open.performed += On_EquipBox_Open;
+    }
+
+    private void On_EquipBox_Open(InputAction.CallbackContext _)
+    {
+        if (IsOpen)
+        {
+            Close();
+        }
+        else
+        {
+            Open();
         }
     }
 
@@ -116,11 +135,11 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
         GameObject itemPrefab = parentTransform.GetChild(0).gameObject;
         if (data.code == ItemCode.Space_Armor)
         {
-            player.ArmorType_ = PlayerDummy.ArmorType.None;
+            player.ArmorType_ = Player_.ArmorType.None;
         }
         else if (data.code == ItemCode.Big_Space_Armor)
         {
-            player.ArmorType_ = PlayerDummy.ArmorType.None;
+            player.ArmorType_ = Player_.ArmorType.None;
         }
         Destroy(itemPrefab);
     }
@@ -133,11 +152,11 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
             on_Update_Status_For_EquipOrSwap?.Invoke(slot.ItemData, itemData);//?•ÎπÑÏ§ëÏù¥ ?ÑÎãê ?åÎäî Ï≤´Î≤àÏß??åÎùºÎØ∏ÌÑ∞Í∞Ä null ???ÑÎã¨ ?úÎã§. // ?åÎ†à?¥Ïñ¥ Í≥µÍ≤©?? Î∞©Ïñ¥???ãÌåÖ
             if (itemData.code == ItemCode.Space_Armor)
             {
-                player.ArmorType_ = PlayerDummy.ArmorType.SpaceArmor;// enum ?§Ï†ï??player ?êÏÑú ?åÎßû?Ä Í∞ëÏò∑Îß??úÏÑ±?îÌïòÍ≥??§Î•∏ Í∞ëÏò∑?Ä ÎπÑÌôú?±Ìôî
+                player.ArmorType_ = Player_.ArmorType.SpaceArmor;// enum ?§Ï†ï??player ?êÏÑú ?åÎßû?Ä Í∞ëÏò∑Îß??úÏÑ±?îÌïòÍ≥??§Î•∏ Í∞ëÏò∑?Ä ÎπÑÌôú?±Ìôî
             }
             else if (itemData.code == ItemCode.Big_Space_Armor)
             {
-                player.ArmorType_ = PlayerDummy.ArmorType.BigArmor;
+                player.ArmorType_ = Player_.ArmorType.BigArmor;
             }
             else
             {
@@ -155,33 +174,33 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
             case ItemCode.Enhancable_Pistol:
                 if (equip)
                 {
-                    player.Weapon_Type = PlayerDummy.WeaponType.Pistol;
+                    player.Weapon_Type = Player_.WeaponType.Pistol;
                 }
                 else
                 {
-                    player.Weapon_Type = PlayerDummy.WeaponType.None;
+                    player.Weapon_Type = Player_.WeaponType.None;
                 }
                 result = true;
                 break;
             case ItemCode.Enhancable_Rifle:
                 if (equip)
                 {
-                    player.Weapon_Type = PlayerDummy.WeaponType.Rifle;
+                    player.Weapon_Type = Player_.WeaponType.Rifle;
                 }
                 else
                 {
-                    player.Weapon_Type = PlayerDummy.WeaponType.None;
+                    player.Weapon_Type = Player_.WeaponType.None;
                 }
                 result = true;
                 break;
             case ItemCode.Enhancable_shotGun:
                 if (equip)
                 {
-                    player.Weapon_Type = PlayerDummy.WeaponType.ShotGun;
+                    player.Weapon_Type = Player_.WeaponType.ShotGun;
                 }
                 else
                 {
-                    player.Weapon_Type = PlayerDummy.WeaponType.None;
+                    player.Weapon_Type = Player_.WeaponType.None;
                 }
                 result = true;
                 break;

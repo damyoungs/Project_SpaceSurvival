@@ -11,7 +11,7 @@ public class TempSlot : Slot, IPointerUpHandler,IPointerClickHandler,IPointerDow
     /// <summary>
     /// 이 인벤토리를 가진 플레이어(아이템 드랍 때문에 필요)
     /// </summary>
-    PlayerDummy owner;
+    Player_ owner;
 
     /// <summary>
     /// 임시 슬롯이 열리고 닫힐 때 실행되는 함수

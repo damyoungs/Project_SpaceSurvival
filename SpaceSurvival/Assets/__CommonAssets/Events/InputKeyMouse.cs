@@ -353,6 +353,15 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""EquipBox_Open"",
+                    ""type"": ""Button"",
+                    ""id"": ""c8674803-4b06-4c36-b7a0-bf7edf45d9e3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -397,6 +406,17 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""System"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d856841b-1960-47b9-b858-84719efb71f7"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""EquipBox_Open"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -994,6 +1014,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         m_KeyBoard_OptionKey = m_KeyBoard.FindAction("OptionKey", throwIfNotFound: true);
         m_KeyBoard_StateKey = m_KeyBoard.FindAction("StateKey", throwIfNotFound: true);
         m_KeyBoard_System = m_KeyBoard.FindAction("System", throwIfNotFound: true);
+        m_KeyBoard_EquipBox_Open = m_KeyBoard.FindAction("EquipBox_Open", throwIfNotFound: true);
         // Test
         m_Test = asset.FindActionMap("Test", throwIfNotFound: true);
         m_Test_Test1 = m_Test.FindAction("Test1", throwIfNotFound: true);
@@ -1258,6 +1279,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     private readonly InputAction m_KeyBoard_OptionKey;
     private readonly InputAction m_KeyBoard_StateKey;
     private readonly InputAction m_KeyBoard_System;
+    private readonly InputAction m_KeyBoard_EquipBox_Open;
     public struct KeyBoardActions
     {
         private @InputKeyMouse m_Wrapper;
@@ -1266,6 +1288,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         public InputAction @OptionKey => m_Wrapper.m_KeyBoard_OptionKey;
         public InputAction @StateKey => m_Wrapper.m_KeyBoard_StateKey;
         public InputAction @System => m_Wrapper.m_KeyBoard_System;
+        public InputAction @EquipBox_Open => m_Wrapper.m_KeyBoard_EquipBox_Open;
         public InputActionMap Get() { return m_Wrapper.m_KeyBoard; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1287,6 +1310,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @System.started += instance.OnSystem;
             @System.performed += instance.OnSystem;
             @System.canceled += instance.OnSystem;
+            @EquipBox_Open.started += instance.OnEquipBox_Open;
+            @EquipBox_Open.performed += instance.OnEquipBox_Open;
+            @EquipBox_Open.canceled += instance.OnEquipBox_Open;
         }
 
         private void UnregisterCallbacks(IKeyBoardActions instance)
@@ -1303,6 +1329,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @System.started -= instance.OnSystem;
             @System.performed -= instance.OnSystem;
             @System.canceled -= instance.OnSystem;
+            @EquipBox_Open.started -= instance.OnEquipBox_Open;
+            @EquipBox_Open.performed -= instance.OnEquipBox_Open;
+            @EquipBox_Open.canceled -= instance.OnEquipBox_Open;
         }
 
         public void RemoveCallbacks(IKeyBoardActions instance)
@@ -1742,6 +1771,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         void OnOptionKey(InputAction.CallbackContext context);
         void OnStateKey(InputAction.CallbackContext context);
         void OnSystem(InputAction.CallbackContext context);
+        void OnEquipBox_Open(InputAction.CallbackContext context);
     }
     public interface ITestActions
     {

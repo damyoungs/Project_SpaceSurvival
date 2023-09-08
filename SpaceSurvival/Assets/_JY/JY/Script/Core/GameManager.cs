@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    PlayerDummy player;
+    Player_ player;
     Inventory inventory;
     SlotManager slotManager;
     ItemSpawner itemSpawner;
@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     public static Inventory Inventory { get { return Inst.inventory; } }
     public static SlotManager SlotManager { get { return Inst.slotManager; } }
     public static ItemSpawner Item_Spawner { get { return Inst.itemSpawner; } }
-    public static PlayerDummy playerDummy { get { return Inst.player; } }
+    public static Player_ playerDummy { get { return Inst.player; } }
     public static Item_Enhancer Enhancer { get { return Inst.enhancer; } }
     public static Item_Mixer Mixer { get { return Inst.mixer; } }
     public static Item_Mixing_Table Mixing_Table { get { return Inst.mixingTable; } }
@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
     {
         Init();
         itemDataManager = GetComponent<ItemDataManager>();
-        player = FindObjectOfType<PlayerDummy>();
+        player = FindObjectOfType<Player_>();
         inventory = FindObjectOfType<Inventory>();
         slotManager = FindObjectOfType<SlotManager>();
         itemSpawner = FindObjectOfType<ItemSpawner>();

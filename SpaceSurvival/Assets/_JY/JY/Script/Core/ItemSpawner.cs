@@ -158,7 +158,7 @@ public class ItemSpawner : TestBase
     {
         equipBox.Set_ItemData_For_Drag(GameManager.Itemdata[ItemCode.HpPotion]);
     }
-    PlayerDummy player;
+    Player_ player;
     protected override void Test5(InputAction.CallbackContext context)
     {
         GameManager.SlotManager.Inven_Clear();

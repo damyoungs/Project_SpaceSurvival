@@ -44,6 +44,7 @@ public class Inventory : MonoBehaviour, IPopupSortWindow,IPointerClickHandler
 
     CanvasGroup canvasGroup;
 
+
     public delegate void Inventory_State_Changed(Current_Inventory_State state); //state가 바뀌면 setter가 호출할 delegate
     Inventory_State_Changed inventory_changed;
 
@@ -119,7 +120,7 @@ public class Inventory : MonoBehaviour, IPopupSortWindow,IPointerClickHandler
         Craft_Inven = transform.GetChild(3).gameObject;
         ItemEnhancer = GameManager.Enhancer;
         mixer = GameManager.Mixer;
-        PlayerDummy player = GameManager.playerDummy;
+        Player_ player = GameManager.playerDummy;
 
 
         add_Button.onClick.AddListener(GameManager.SlotManager.Make_Slot);
