@@ -190,6 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51dd056d90046f84a97849a9c96abd9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Is_Use_HotKey: 0
   IsUICheck: 0
 --- !u!1 &2446283389658444454
 GameObject:
@@ -673,7 +674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92c86bb833cca4e43a66d4a2bb70439e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  origianlPrefab: {fileID: 2958273194949555751, guid: ddca3c67046c56d45a84255d43ef85e5, type: 3}
+  origianlPrefab: {fileID: 5419761541846428511, guid: 81b54c0c03e79de488691627c1f7b7ff, type: 3}
   poolSize: 8
 --- !u!1 &4550168752674352822
 GameObject:

@@ -45,7 +45,7 @@ public class PlayerMove : MonoBehaviour
 		}
 	}
 	Action Move;
-	public Animator anim;
+	 Animator anim;
 	Camera mainCamera;
 
 	Vector3 moveDirection;

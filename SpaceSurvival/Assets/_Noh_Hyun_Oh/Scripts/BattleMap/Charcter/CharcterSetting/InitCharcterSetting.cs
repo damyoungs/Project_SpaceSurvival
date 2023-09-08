@@ -54,8 +54,6 @@ public class InitCharcterSetting : MonoBehaviour
     }
     private void Start()
     {
-        GameObject obj = GameObject.FindGameObjectWithTag("Essential_Light");
-        obj.GetComponent<Light>().enabled = true;
         TestInit();
         
     }

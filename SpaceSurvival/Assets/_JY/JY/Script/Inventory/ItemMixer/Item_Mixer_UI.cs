@@ -141,6 +141,7 @@ public class Item_Mixer_UI : MonoBehaviour, IPopupSortWindow, IPointerClickHandl
         canvasGroup.alpha = 1.0f;
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
+        DarkForceCount = 0;
         ClearMixerUI();
         PopupSorting?.Invoke(this);
     }
@@ -149,7 +150,6 @@ public class Item_Mixer_UI : MonoBehaviour, IPopupSortWindow, IPointerClickHandl
         canvasGroup.alpha = 0.0f;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
-        DarkForceCount = 0;
       //  mixer.ItemData = null;
         mixer.LeftSlotData= null;
         mixer.MiddleSlotData = null;

@@ -112,6 +112,8 @@ public class Item_Enhancer_UI : MonoBehaviour, IPopupSortWindow, IPointerClickHa
         canvasGroup.alpha = 1.0f;
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
+        DarkForceCount = 0;
+
         ClearEnhancerUI();
         PopupSorting?.Invoke(this);
     }
@@ -120,7 +122,6 @@ public class Item_Enhancer_UI : MonoBehaviour, IPopupSortWindow, IPointerClickHa
         canvasGroup.alpha = 0.0f;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
-        DarkForceCount = 0;
         itemEnhancer.ItemData = null;
         BeforeSlot.ItemData = null;
         AfterSlot.ItemData = null;
