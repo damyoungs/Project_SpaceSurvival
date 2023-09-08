@@ -67,6 +67,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Run",
+                    "type": "Button",
+                    "id": "ff788026-fc2b-4f17-a500-ff74e98701d2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -195,10 +204,21 @@
                     "name": "",
                     "id": "53feca87-2df9-4191-926e-2cb081f00873",
                     "path": "<Keyboard>/tab",
-                    "interactions": "MultiTap(tapDelay=0.4)",
+                    "interactions": "MultiTap(tapDelay=0.5)",
                     "processors": "",
                     "groups": "",
                     "action": "MoveMode_Change",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1d116796-5c07-4e0e-b0bc-b1b1c1727638",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Run",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

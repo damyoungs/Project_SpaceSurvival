@@ -164,7 +164,7 @@ public class ItemSpawner : TestBase
     PlayerDummy player;
     protected override void Test5(InputAction.CallbackContext context)
     {
- 
+        GameManager.SlotManager.Inven_Clear();
 
     }
     protected override void Test6(InputAction.CallbackContext context)

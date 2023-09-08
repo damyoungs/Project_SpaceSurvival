@@ -127,7 +127,6 @@ public class PlayerDummy : MonoBehaviour, IHealth
 
     InputKeyMouse inputActions;
     Animator anim;
-    ShootAction shootAction;
     ItemDescription itemDescription;
     EquipBox_Description EquipBox_Description;
     EquipBox equipBox;
@@ -223,8 +222,6 @@ public class PlayerDummy : MonoBehaviour, IHealth
     private void Awake()
     {
         inputActions = new InputKeyMouse();
-        shootAction = GetComponent<ShootAction>();
-        shootAction.onAttack += Attack;
         anim = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
 
@@ -275,7 +272,15 @@ public class PlayerDummy : MonoBehaviour, IHealth
         inputActions.Player.Equip_Item.performed += On_Equip_Item;
         inputActions.KeyBoard.Enable();
         inputActions.KeyBoard.InvenKey.performed += OpenInven;
+        inputActions.Mouse.Enable();
+        inputActions.Mouse.MouseClickRight.performed += On_MouseClickRight;
     }
+
+    private void On_MouseClickRight(InputAction.CallbackContext _)
+    {
+        Attack();
+    }
+
     private void Start()
     {
         itemDescription = GameManager.SlotManager.ItemDescription;
