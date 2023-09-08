@@ -24,9 +24,11 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
     public bool IsOpen => canvasGroup.alpha > 0.9f;
 
     public Action<IPopupSortWindow> PopupSorting { get ; set ; }
+    InputKeyMouse player_Input_Action;
 
     private void Awake()
     {
+        player_Input_Action = new InputKeyMouse();
         description = GetComponentInChildren<EquipBox_Description>();
         canvasGroup = GetComponent<CanvasGroup>();
         equipBox_Slots = new EquipBox_Slot[4];
@@ -36,6 +38,23 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
             equipBox_Slots[i - 1].onPointerEnter += description.Open;
             equipBox_Slots[i - 1].onPointerMove += description.MovePosition;
             equipBox_Slots[i - 1].onPointerExit += description.Close;
+        }
+    }
+    private void OnEnable()
+    {
+        player_Input_Action.KeyBoard.Enable();
+        player_Input_Action.KeyBoard.EquipBox_Open.performed += On_EquipBox_Open;
+    }
+
+    private void On_EquipBox_Open(InputAction.CallbackContext _)
+    {
+        if (IsOpen)
+        {
+            Close();
+        }
+        else
+        {
+            Open();
         }
     }
 

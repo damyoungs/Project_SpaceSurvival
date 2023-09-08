@@ -44,6 +44,7 @@ public class Inventory : MonoBehaviour, IPopupSortWindow,IPointerClickHandler
 
     CanvasGroup canvasGroup;
 
+
     public delegate void Inventory_State_Changed(Current_Inventory_State state); //state가 바뀌면 setter가 호출할 delegate
     Inventory_State_Changed inventory_changed;
 
