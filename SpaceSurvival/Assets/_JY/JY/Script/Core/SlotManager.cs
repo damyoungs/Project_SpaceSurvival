@@ -71,10 +71,10 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             slotlist.Clear();
         }
     }
-    private void Start()
-    {
-        GameManager.playerDummy.onUnEquipItem += UnEquip_Item;
-    }
+    //private void Start()
+    //{
+    //    GameManager.playerDummy.onUnEquipItem += UnEquip_Item;
+    //}
     private void OnEnable()
     {
         input.UI.Enable();
@@ -435,7 +435,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             }
         }
     }
-    void UnEquip_Item(ItemData itemData)// 더블클릭으로 해제 할 때
+    public void UnEquip_Item(ItemData itemData)// 더블클릭으로 해제 할 때
     {
         bool result = false;
         List<Slot> slotList = GetItemTab(itemData);

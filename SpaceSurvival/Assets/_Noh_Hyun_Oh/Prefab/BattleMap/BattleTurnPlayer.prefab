@@ -48,6 +48,6 @@ MonoBehaviour:
   turnAddValue: 3
   maxTurnValue: 10.1
   turnWaitingValue: 10
-  testPlayerLength: 3
+  testPlayerLength: 1
   bpc: {fileID: 0}
   cot: {fileID: 0}

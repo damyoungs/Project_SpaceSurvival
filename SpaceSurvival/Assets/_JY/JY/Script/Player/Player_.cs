@@ -233,6 +233,8 @@ public class Player_ : MonoBehaviour, IBattle
         rifle_Rotation = Quaternion.Euler(3.819f, -293.381f, 247.4f);
         shotGun_Pos = new Vector3(0.006f, 0.153f, 0.199f);
         shotGun_Rotation = Quaternion.Euler(8.924f, -301.04f, 246.652f);
+
+        
     }
     void Set_ShootPoint_Transform(Transform itemObj)
     {
@@ -287,6 +289,10 @@ public class Player_ : MonoBehaviour, IBattle
         itemDescription = GameManager.SlotManager.ItemDescription;
         equipBox = GameManager.EquipBox;
         EquipBox_Description = equipBox.Description;
+
+        onEquipItem += equipBox.Set_ItemData_For_DoubleClick;
+        onUnEquipItem += GameManager.SlotManager.UnEquip_Item;
+        onOpenInven += GameManager.Inventory.Open_Inventory;
 
         equipBox.on_Update_Status_For_EquipOrSwap += Update_Status_For_EquipOrSwap;
         equipBox.on_Update_Status_For_UnEquip += Update_Status_For_UnEquip;

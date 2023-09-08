@@ -60,8 +60,6 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
 
     void Start()
     {
-        player = GameManager.playerDummy;
-        player.onEquipItem += Set_ItemData_For_DoubleClick;
         GameManager.SlotManager.on_UnEquip_Item += UnEquip_Item;
         Close(); //??ƒ?¤ê³ ?¤ë‹ˆ?”ë° ì¼œì ¸?ˆìœ¼ë©´ì•ˆ?˜ë‹ˆ ?¤í??¸ë§ˆì§€ë§‰ì— ê°ì¶˜??
     }

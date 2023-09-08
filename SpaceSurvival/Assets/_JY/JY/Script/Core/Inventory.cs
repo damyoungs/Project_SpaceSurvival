@@ -123,8 +123,6 @@ public class Inventory : MonoBehaviour, IPopupSortWindow,IPointerClickHandler
 
         add_Button.onClick.AddListener(GameManager.SlotManager.Make_Slot);
         enhance_Button.onClick.AddListener(Open_Enhancer);//enable, Awake에서는 안됨
-        Player_ player = GameManager.playerDummy;
-        player.onOpenInven += Open_Inventory;
         GameManager.SlotManager.Initialize();
     }
     void Open_Enhancer()

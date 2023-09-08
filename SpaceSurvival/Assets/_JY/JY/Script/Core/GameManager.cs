@@ -57,7 +57,6 @@ public class GameManager : MonoBehaviour
     {
         Init();
         itemDataManager = GetComponent<ItemDataManager>();
-        player = FindObjectOfType<Player_>();
         inventory = FindObjectOfType<Inventory>();
         slotManager = FindObjectOfType<SlotManager>();
         itemSpawner = FindObjectOfType<ItemSpawner>();
@@ -66,6 +65,11 @@ public class GameManager : MonoBehaviour
         mixingTable = FindObjectOfType<Item_Mixing_Table>();
         quickSlot_Box = FindObjectOfType<QuickSlot_Manager>();
         equipBox = FindObjectOfType<EquipBox>();
+    }
+    private void Start()
+    {
+        player = FindObjectOfType<Player_>(true);
+
     }
     static void Init()
     {
