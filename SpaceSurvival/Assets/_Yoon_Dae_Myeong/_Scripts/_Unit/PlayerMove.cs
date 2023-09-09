@@ -25,22 +25,21 @@ public class PlayerMove : MonoBehaviour
 		get => state;
 		set
 		{
-			if (state != value)
+			state = value;
+			switch (state)
 			{
-				state = value;
-				switch (state)
-				{
-					case MoveState.Town:
-						Move = MoveByKeyBoard;
-						Debug.Log("이동모드 변경 - KeyBoard");
-						break;
-					case MoveState.Field:
-						Move = UnitOnMove;
-                        Debug.Log("이동모드 변경 - 마우스 클릭");
-                        break;
-					default:
-						break;
-				}
+				case MoveState.Town:
+					rb.isKinematic = false;
+					Move = UnitOnMove;
+					Debug.Log("이동모드 변경 - KeyBoard");
+					break;
+				case MoveState.Field:
+					rb.isKinematic = true;
+					Move = UnitOnMove;
+                    Debug.Log("이동모드 변경 - 마우스 클릭");
+                    break;
+				default:
+					break;
 			}
 		}
 	}
@@ -95,6 +94,7 @@ public class PlayerMove : MonoBehaviour
 		anim = GetComponent<Animator>();
 		jump_Duration = new WaitForSeconds(0.9f);
 		rb = GetComponent<Rigidbody>();
+		State = MoveState.Field;
     }
 	private void OnEnable()
 	{
@@ -121,13 +121,7 @@ public class PlayerMove : MonoBehaviour
 		rb.AddForce(5 * transform.up, ForceMode.Impulse);
 		//StartCoroutine(ResetPos_Y());
     }
-	IEnumerator ResetPos_Y()
-	{
-		yield return jump_Duration;
-		fixedPos = transform.position;
-		fixedPos.y = 0;
-		transform.position = fixedPos;
-    }
+
     private void Run(InputAction.CallbackContext _)
     {
 		Running = !Running;
@@ -173,7 +167,6 @@ public class PlayerMove : MonoBehaviour
     private void Start()
     {
         mainCamera = Camera.main;
-		Move = MoveByKeyBoard ;
     }
     private void OnMove(InputAction.CallbackContext context)
     {
@@ -202,27 +195,44 @@ public class PlayerMove : MonoBehaviour
 
     }
 
+    IEnumerator onClickDelayed()
+    {
+        yield return null;  // 다음 프레임까지 대기
+
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            Debug.Log("UI 감지");
+            yield break;
+        }
+		Detect_Tile();
+    }
 
 
 
     private void onClick(InputAction.CallbackContext context)
-	{
-		Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());     
-		Debug.DrawRay(ray.origin, ray.direction * 20.0f, Color.red, 1.0f);           
+    {
+        //StartCoroutine(onClickDelayed());
+    }
 
-		if (Physics.Raycast(ray, out RaycastHit hitInfo))                       
-		{
-			if (hitInfo.transform.gameObject.CompareTag("Tile"))              
-			{
-				target = (BoxCollider)hitInfo.collider;                     
-				Tile tile = target.gameObject.GetComponent<Tile>();            
-				
-			}
-		}
-	}
+    private void Detect_Tile()
+    {
+        Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
+        Debug.DrawRay(ray.origin, ray.direction * 20.0f, Color.red, 1.0f);
 
-	private void FixedUpdate()
+        if (Physics.Raycast(ray, out RaycastHit hitInfo))
+        {
+
+            if (hitInfo.transform.gameObject.CompareTag("Tile"))
+            {
+                target = (BoxCollider)hitInfo.collider;
+                Tile tile = target.gameObject.GetComponent<Tile>();
+
+            }
+        }
+    }
+
+    private void FixedUpdate()
 	{
 		//UnitOnMove();
 		Move();
@@ -248,6 +258,7 @@ public class PlayerMove : MonoBehaviour
 		}
 		else
 		{
+			target = null;
 			anim.SetBool(isWalkingHash, false);
 		}
 	}
