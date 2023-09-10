@@ -11,7 +11,15 @@ public class ItemData_Potion : ItemData
     public void Consume(Player_ target)
     {
         Player_ player = target.GetComponent<Player_>();
-        player.RecoveryHP_(recoveryValue, duration);
+        switch (code)
+        {
+            case ItemCode.HpPotion:
+                player.Recovery_HP(recoveryValue, duration);
+                break;
+            case ItemCode.MpPotion:
+                player.Recovery_Stamina(recoveryValue, duration);
+                break;
+        }
     }
 
 }
