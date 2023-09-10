@@ -55,6 +55,7 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
     //UI_Inven 액션맵
 
     public Action OnUI_Inven_Click;
+    public Action OnUI_Inven_Click_Cancel;
     public Action<InputAction.CallbackContext> OnUI_Inven_Shift; //per 에서한번 cancel한번 
     public Action OnUI_Inven_EquipBox_Open;
     public Action OnUI_Inven_Inven_Open;
@@ -118,6 +119,7 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
 
 
         inputSystem.UI_Inven.Click.performed += (_) => { OnUI_Inven_Click(); };
+        inputSystem.UI_Inven.Click.canceled += (_) => { OnUI_Inven_Click_Cancel(); };
         inputSystem.UI_Inven.Shift.performed += (context) => { OnUI_Inven_Shift(context); };
         inputSystem.UI_Inven.Shift.canceled += (context) => { OnUI_Inven_Shift(context); };
         inputSystem.UI_Inven.EquipBox_Open.performed += (_) => { OnUI_Inven_EquipBox_Open(); };

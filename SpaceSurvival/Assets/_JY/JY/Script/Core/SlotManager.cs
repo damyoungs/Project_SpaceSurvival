@@ -73,7 +73,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     }
     private void Start()
     {
-        InputSystemController.Instance.OnUI_Inven_Click += OnItemDrop;
+        InputSystemController.Instance.OnUI_Inven_Click_Cancel += OnItemDrop;
         InputSystemController.Instance.OnUI_Inven_Shift += OnShiftPress;
         //GameManager.playerDummy.onUnEquipItem += UnEquip_Item;
     }
@@ -364,7 +364,6 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     /// <summary>
     /// 마우스 클릭이 떨어졌을 때 실행되는 함수(아이템 드랍용)
     /// </summary>
-    //private void OnItemDrop(InputAction.CallbackContext _)
     private void OnItemDrop()
     {
         if (tempSlot == null)

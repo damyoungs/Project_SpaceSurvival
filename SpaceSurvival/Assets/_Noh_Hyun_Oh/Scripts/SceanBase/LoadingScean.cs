@@ -74,6 +74,8 @@ public class LoadingScean : MonoBehaviour
                 }
                 else 
                 {
+
+
                     isLoading = false; //로딩 화면전환이없음으로 바로 끄기
                     SetInputSetting();
                 } 

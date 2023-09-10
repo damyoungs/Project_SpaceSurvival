@@ -166,7 +166,6 @@ public class ItemSplitter : MonoBehaviour
     /// 마우스가 오른쪽 클릭이 되거나 왼쪽 클릭이 될 때 실행되는 함수
     /// </summary>
     /// <param name="_"></param>
-    //private void OnClick(InputAction.CallbackContext _)
     private void OnClick()
     {
         Vector2 screenPos = Mouse.current.position.ReadValue();         // 마우스 포인터 위치 가져오고
