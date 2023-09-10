@@ -142,6 +142,7 @@ public class Player_ : MonoBehaviour, IBattle
     public Action onClearSlot;
     public Action on_Attack;
     public Action on_Using_Stamina;
+    public Action on_RanOut_Stamina;
 
     int attack_Trigger_Hash = Animator.StringToHash("Attack");
     int get_Hit_Hash = Animator.StringToHash("Get_Hit");
@@ -186,11 +187,15 @@ public class Player_ : MonoBehaviour, IBattle
     public float Stamina
     {
         get => stamina;
-        private set
+        set
         {
             if (stamina != value)
             {
                 stamina = value;
+                if (stamina <= 0)
+                {
+                    on_RanOut_Stamina?.Invoke();
+                }
             }
         }
     }
@@ -243,7 +248,7 @@ public class Player_ : MonoBehaviour, IBattle
     }
     private void Attack()
     {
-        on_Using_Stamina?.Invoke();// stamina 차감
+        Stamina--;
         on_Attack();
     }
     void Basic_Attack()
@@ -411,7 +416,7 @@ public class Player_ : MonoBehaviour, IBattle
     {
         if (itemDescription.ItemData != null)
         {
-            on_Using_Stamina?.Invoke();//다른 아이템 장착시  stamina 차감
+            Stamina--;//다른 아이템 장착시  stamina 차감
             onEquipItem?.Invoke(itemDescription.ItemData);
         }
         else if (EquipBox_Description.ItemData != null)
@@ -446,12 +451,12 @@ public class Player_ : MonoBehaviour, IBattle
     }
     public void Recovery_HP(int recoveryValue, float duration)
     {
-        on_Using_Stamina?.Invoke();// stamina 차감
+        Stamina--;// stamina 차감
         StartCoroutine(Recovery_HP_(recoveryValue, duration));
     }
     public void Recovery_Stamina(int recoveryValue, float duration)
     {
-        on_Using_Stamina?.Invoke();// stamina 차감
+        Stamina--;// stamina 차감
         StartCoroutine(Recovery_Stamina_(recoveryValue, duration));
     }
     IEnumerator Recovery_HP_(int recoveryValue, float duration)
