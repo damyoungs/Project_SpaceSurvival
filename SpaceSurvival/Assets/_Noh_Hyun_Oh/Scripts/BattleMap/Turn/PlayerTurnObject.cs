@@ -57,6 +57,16 @@ public class PlayerTurnObject : TurnBaseObject
                     charcterList.Add(player); //턴관리할 캐릭터로 셋팅
                     player.GetCurrentTile = () => SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Charcter); //타일 셋팅연결
                     player.transform.position = player.CurrentTile.transform.position;//셋팅된 타일위치로 이동시킨다.
+                    ((BattleMapPlayerBase)player).CharcterData.on_Player_Stamina_Change += (stmValue) => {
+                        TurnActionValue = stmValue;
+                        currentUnit.MoveSize = stmValue;
+                        SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentUnit.CurrentTile);
+                        SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(currentUnit.CurrentTile, currentUnit.MoveSize);//이동범위표시해주기 
+                        if (stmValue < 1.0f) 
+                        {
+                            TurnEndAction();
+                        }
+                    };
                 }
                 WindowList.Instance.TeamBorderManager.ViewTeamInfo(playerList.Length);//팀 상시 유아이 보여주기 
             }
@@ -75,6 +85,8 @@ public class PlayerTurnObject : TurnBaseObject
                 go.name = $"Player_{i}";
                 go.SetTile(SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Charcter));
                 go.transform.position = go.CurrentTile.transform.position; //셋팅된 타일위치로 이동시킨다.
+               
+
             }
             WindowList.Instance.TeamBorderManager.ViewTeamInfo(testPlayerLength); //팀 상시 유아이 보여주기 
         }
@@ -91,18 +103,21 @@ public class PlayerTurnObject : TurnBaseObject
         currentUnit = charcterList[0]; //플레이어 설정을하고 
         currentUnit.IsControll = true; //컨트롤 할수있게 설정한다.
         cot.Target = currentUnit.transform; //카메라 포커스 맞추기 
-        currentUnit.MoveSize = TurnActionValue;
-        SelectControllUnit();
+ 
+        //캐릭터쪽으로 스테미나 데이터 넘기기
+        BattleMapPlayerBase currentCharcter = (BattleMapPlayerBase)currentUnit;
+        Player_ currentPlayer = currentCharcter.CharcterData;
+        currentPlayer.Stamina = TurnActionValue;
         
-        //이동범위표시 
-        SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentUnit.CurrentTile);
-        SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(currentUnit.CurrentTile, currentUnit.MoveSize);//이동범위표시해주기 
+
+        SelectControllUnit(); //유닛 선택로직 실행
         
         // 첫로딩시 생성타이밍안맞음 
         if (currentUnit.BattleUI != null) 
         {
             currentUnit.BattleUI.stmGaugeSetting(TurnActionValue,maxTurnValue);
         }
+
     }
 
     /// <summary>

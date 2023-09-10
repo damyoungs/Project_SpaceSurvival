@@ -192,6 +192,7 @@ public class Player_ : MonoBehaviour, IBattle
             if (stamina != value)
             {
                 stamina = value;
+                Debug.Log($"값수정 체크 : {value}");
                 on_Player_Stamina_Change?.Invoke(stamina);
                 if (stamina <= 0)
                 {
