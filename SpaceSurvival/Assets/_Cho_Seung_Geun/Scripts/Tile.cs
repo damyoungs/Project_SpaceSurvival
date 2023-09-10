@@ -69,7 +69,6 @@ public class Tile : MonoBehaviour, IComparable<Tile>
                         lineRenderer.enabled = true;
                         break;
                     case TileExistType.Charcter:
-                        GameManager.Player__.Stamina--;
                         lineRenderer.enabled = false;
                         break;
                     default:
