@@ -41,7 +41,7 @@ public class Item_Mixer_UI : MonoBehaviour, IPopupSortWindow, IPointerClickHandl
         get => darkForceCount;
         set
         {
-            darkForceCount = Math.Clamp(value, MinDarkForceCount, (uint)GameManager.playerDummy.DarkForce);
+            darkForceCount = Math.Clamp(value, MinDarkForceCount, (uint)GameManager.Player_.DarkForce);
             amountText.text = darkForceCount.ToString();    // 인풋 필드에 적용
             amountSlider.value = darkForceCount;
             onDarkForceValueChange?.Invoke(Result_Slot.ItemData);
@@ -160,7 +160,7 @@ public class Item_Mixer_UI : MonoBehaviour, IPopupSortWindow, IPointerClickHandl
     {
         if (resultData != null)
         {
-            amountSlider.maxValue = GameManager.playerDummy.DarkForce;
+            amountSlider.maxValue = GameManager.Player_.DarkForce;
             UpdateSuccessRate(resultData);
         }
     }

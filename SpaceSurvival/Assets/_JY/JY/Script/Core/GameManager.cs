@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     public static Inventory Inventory { get { return Inst.inventory; } }
     public static SlotManager SlotManager { get { return Inst.slotManager; } }
     public static ItemSpawner Item_Spawner { get { return Inst.itemSpawner; } }
-    public static Player_ playerDummy { get { return Inst.player; } }
+    public static Player_ Player_ { get { return Inst.player; } }
     public static Item_Enhancer Enhancer { get { return Inst.enhancer; } }
     public static Item_Mixer Mixer { get { return Inst.mixer; } }
     public static Item_Mixing_Table Mixing_Table { get { return Inst.mixingTable; } }

@@ -14,41 +14,10 @@ public class PlayerMove : MonoBehaviour
 	int runHash = Animator.StringToHash("Run");
 	int jumpHash = Animator.StringToHash("Jump");
 
-	enum MoveState
-	{
-		Town,
-		Field
-	}
-	MoveState state = MoveState.Field;
-	MoveState State
-	{
-		get => state;
-		set
-		{
-			state = value;
-			switch (state)
-			{
-				case MoveState.Town:
-					rb.isKinematic = false;
-					Move = UnitOnMove;
-					Debug.Log("이동모드 변경 - KeyBoard");
-					break;
-				case MoveState.Field:
-					rb.isKinematic = true;
-					Move = UnitOnMove;
-                    Debug.Log("이동모드 변경 - 마우스 클릭");
-                    break;
-				default:
-					break;
-			}
-		}
-	}
-	Action Move;
 	 Animator anim;
 	Camera mainCamera;
 
 	Vector3 moveDirection;
-	Vector3 fixedPos;
 	/// <summary>
 	/// 외부에서 수정할값
 	/// </summary>
@@ -78,8 +47,34 @@ public class PlayerMove : MonoBehaviour
 			}
 		}
 	}
+	bool enable_KeyBoard_Move = true;
+	bool Enable_KeyBoard_Move
+	{
+		get => enable_KeyBoard_Move;
+		set
+		{
+			if (enable_KeyBoard_Move != value)
+			{
+                enable_KeyBoard_Move = value;
+                switch (value)
+                {
+                    case true:
+                        inputAction.Player.Move.performed += OnMove;
+                        inputAction.Player.Move.canceled += OnMove;
+						rb.isKinematic = false;
+                        break;
+                    case false:
+                        inputAction.Player.Move.performed -= OnMove;
+                        inputAction.Player.Move.canceled -= OnMove;
+                        rb.isKinematic = true;
+                        break;
+                }
+            }
+		}
+	}
 
-	float moveSpeed = 2.0f;
+
+    float moveSpeed = 2.0f;
 	float rotateSpeed = 10.0f;
 	BoxCollider target = null;
 	
@@ -94,16 +89,11 @@ public class PlayerMove : MonoBehaviour
 		anim = GetComponent<Animator>();
 		jump_Duration = new WaitForSeconds(0.9f);
 		rb = GetComponent<Rigidbody>();
-		State = MoveState.Field;
+		Enable_KeyBoard_Move = false;
     }
 	private void OnEnable()
 	{
-		inputAction.Mouse.Enable();
-		inputAction.Mouse.MouseClick.performed += onClick;
-
 		inputAction.Player.Enable();
-        inputAction.Player.Move.performed += OnMove;
-		inputAction.Player.Move.canceled += OnMove;
         inputAction.Player.MoveMode_Change.performed += On_MoveMode_Change;
         inputAction.Player.Run.performed += Run;
         inputAction.Player.Jump.performed += Jump;
@@ -119,7 +109,6 @@ public class PlayerMove : MonoBehaviour
     {
 		anim.SetTrigger(jumpHash);
 		rb.AddForce(5 * transform.up, ForceMode.Impulse);
-		//StartCoroutine(ResetPos_Y());
     }
 
     private void Run(InputAction.CallbackContext _)
@@ -129,15 +118,7 @@ public class PlayerMove : MonoBehaviour
 
     private void On_MoveMode_Change(InputAction.CallbackContext _)
     {
-		switch (state)
-		{
-			case MoveState.Town:
-				State = MoveState.Field;
-				break;
-			case MoveState.Field:
-				State = MoveState.Town;
-				break;
-		}
+        Enable_KeyBoard_Move = !Enable_KeyBoard_Move;
     }
 
     private void OnDisable()
@@ -151,8 +132,6 @@ public class PlayerMove : MonoBehaviour
         inputAction.Player.Move.canceled -= OnMove;
         inputAction.Player.Disable();
         //inputClick.Test.Test3.performed -= onUnitDie;
-        inputAction.Mouse.MouseClick.performed -= onClick;
-        inputAction.Mouse.Disable();
     }
     /// <summary>
     /// 배틀맵에서 카메라 돌아가면 캐릭터 방향도 같이 수정한다.
@@ -195,48 +174,10 @@ public class PlayerMove : MonoBehaviour
 
     }
 
-    IEnumerator onClickDelayed()
-    {
-        yield return null;  // 다음 프레임까지 대기
-
-        if (EventSystem.current.IsPointerOverGameObject())
-        {
-            Debug.Log("UI 감지");
-            yield break;
-        }
-		Detect_Tile();
-    }
-
-
-
-    private void onClick(InputAction.CallbackContext context)
-    {
-        //StartCoroutine(onClickDelayed());
-    }
-
-    private void Detect_Tile()
-    {
-        Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
-
-        Debug.DrawRay(ray.origin, ray.direction * 20.0f, Color.red, 1.0f);
-
-        if (Physics.Raycast(ray, out RaycastHit hitInfo))
-        {
-
-            if (hitInfo.transform.gameObject.CompareTag("Tile"))
-            {
-                target = (BoxCollider)hitInfo.collider;
-                Tile tile = target.gameObject.GetComponent<Tile>();
-
-            }
-        }
-    }
-
     private void FixedUpdate()
 	{
-		//UnitOnMove();
-		Move();
-	}
+		MoveByKeyBoard();
+    }
 	void MoveByKeyBoard()//update 호출
 	{
         transform.Translate(Time.fixedDeltaTime * moveSpeed * moveDirection, Space.World);
@@ -246,20 +187,4 @@ public class PlayerMove : MonoBehaviour
 
 	}
 
-	private void UnitOnMove()
-	{
-		if (target != null && (target.gameObject.transform.position - transform.position).sqrMagnitude > 0.1f)
-		{
-			Vector3 moveDirection = (target.gameObject.transform.position - transform.position).normalized;
-			transform.position += moveDirection * moveSpeed * Time.fixedDeltaTime;
-			transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
-			//transform.Translate(Time.fixedDeltaTime * speed * (target.gameObject.transform.position - transform.position).normalized);
-			anim.SetBool(isWalkingHash, true);
-		}
-		else
-		{
-			target = null;
-			anim.SetBool(isWalkingHash, false);
-		}
-	}
 }

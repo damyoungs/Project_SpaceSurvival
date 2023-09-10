@@ -78,7 +78,7 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
         battleUICanvas = WindowList.Instance.transform.GetChild(0).GetChild(0);  // TrackingUI 담을 캔버스위치
         InitUI();//맨처음 
         unitAnimator = transform.GetChild(0).GetComponent<Animator>();
-        charcterMove = CharcterMoveCoroutine(null);
+        charcterMove = CharcterMoveCoroutine(null,0.0f);
     }
 
     protected override void OnEnable()
@@ -164,8 +164,9 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
             //StopAllCoroutines();
             //StartCoroutine(CharcterMove(path));
             StopCoroutine(charcterMove);
-            charcterMove = CharcterMoveCoroutine(path);
+            charcterMove = CharcterMoveCoroutine(path, currentTile.MoveCheckG);
             StartCoroutine(charcterMove);
+           
         }
         
     }
@@ -185,9 +186,10 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
     /// - 어떠한 상황에서 발생하는지는 파악이안되나 타일의 값이 charcter 로 셋팅이안되는 상황이 발생 
     ///   이동시 해당로직에서 데이터를 바꾸고있기때문에 여기인거같은데 정확하게 파악을 못하고있음.
     /// </summary>
-    /// <param name="path"></param>
+    /// <param name="path">A스타 최단거리 타일리스트</param>
+    /// <param name="useTurnValue">이동했을때 소모될 값</param>
     /// <returns></returns>
-    IEnumerator CharcterMoveCoroutine(List<Tile> path)
+    IEnumerator CharcterMoveCoroutine(List<Tile> path , float useTurnValue)
     {
         isMoveCheck = true; //이동 중인지 체크하기 
         Vector3 targetPos = currentTile.transform.position;
@@ -214,6 +216,27 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
         transform.position = targetPos;
         transform.GetChild(0).transform.localPosition = Vector3.zero;
         unitAnimator.SetBool(isWalkingHash, false);
+        CheckTurnValue(useTurnValue); //특정수치만큼 행동력(스태미나) 줄이고 일정이하면 턴종료시키는 함수
+        SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(CurrentTile);
+        SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(CurrentTile, MoveSize);//이동범위표시해주기 
         isMoveCheck = false; //이동끝낫는지 체크
+    }
+
+    /// <summary>
+    /// 행동력(스태미나) 수치가 1이하로 내려갈시 강제로 턴종료시킨다.
+    /// </summary>
+    /// <param name="usingValue">소모될 행동력(스태미나)</param>
+    public void CheckTurnValue(float usingValue)
+    {
+        TurnBaseObject currenTurn = (TurnBaseObject)TurnManager.Instance.CurrentTurn; //현재턴 유닛 가져와서 
+
+        currenTurn.TurnActionValue -= usingValue; //값수정하고 
+        moveSize = currenTurn.TurnActionValue; //이동범위값 수정하고 
+        BattleUI.stmGaugeSetting(currenTurn.TurnActionValue, currenTurn.MaxTurnValue); //소모된 행동력 표시
+
+        if (currenTurn.TurnActionValue < 1.0f)  // 1이하면  턴종료 
+        {
+            currenTurn.TurnEndAction();
+        }
     }
 }

@@ -62,6 +62,12 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
     {
         GameManager.SlotManager.on_UnEquip_Item += UnEquip_Item;
         Close(); //??ƒ?¤ê³ ?¤ë‹ˆ?”ë° ì¼œì ¸?ˆìœ¼ë©´ì•ˆ?˜ë‹ˆ ?¤í??¸ë§ˆì§€ë§‰ì— ê°ì¶˜??
+        StartCoroutine(Get_Player_Reference());
+    }
+    IEnumerator Get_Player_Reference()
+    {
+        yield return null;
+        player = GameManager.Player_;
     }
     public void Set_ItemData_For_Drag(ItemData itemData)// ?„ë¦¬???¥ì°© ì²˜ë¦¬ì¤?
     {

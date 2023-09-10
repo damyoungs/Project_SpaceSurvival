@@ -88,7 +88,21 @@ public class PlayerTurnObject : TurnBaseObject
     {
         isTurn = true; // 자신의 턴인지 체크한다. 해제는 델리게이트에 연결해두었고 델리는 턴종료버튼 에서 실행된다.
         Debug.Log($"{name} 오브젝트는 턴이 시작되었다 행동력 : {TurnActionValue}");
+        currentUnit = charcterList[0]; //플레이어 설정을하고 
+        currentUnit.IsControll = true; //컨트롤 할수있게 설정한다.
+        cot.Target = currentUnit.transform; //카메라 포커스 맞추기 
+        currentUnit.MoveSize = TurnActionValue;
+        SelectControllUnit();
         
+        //이동범위표시 
+        SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentUnit.CurrentTile);
+        SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(currentUnit.CurrentTile, currentUnit.MoveSize);//이동범위표시해주기 
+        
+        // 첫로딩시 생성타이밍안맞음 
+        if (currentUnit.BattleUI != null) 
+        {
+            currentUnit.BattleUI.stmGaugeSetting(TurnActionValue,maxTurnValue);
+        }
     }
 
     /// <summary>
@@ -104,31 +118,35 @@ public class PlayerTurnObject : TurnBaseObject
         }
         if (currentUnit != null && currentUnit.IsControll) //현재 컨트롤인경우만 
         {
+
             currentUnit.CharcterMove(seletedTile);//이동로직 실행
+           
         }
     }
-
+   
     /// <summary>
     /// 아군을 클릭했을때 처리할 로직 
     /// </summary>
     /// <param name="clickedTile">클릭한 타일</param>
     public void OnClickPlayer(Tile clickedTile)
     {
-        if (currentUnit == null) //플레이어가 설정안되있으면 
-        {
-            foreach (ICharcterBase playerUnit in charcterList) //플레이어 유닛위치인지 체크하기위해 플레이어를 뒤진다.
-            {
-                if (clickedTile.width == playerUnit.CurrentTile.width &&
-                    clickedTile.length == playerUnit.CurrentTile.length) //클릭한 타일이 플레이어 유닛 위치면 
-                {
-                    currentUnit = playerUnit; //플레이어 설정을하고 
-                    currentUnit.IsControll = true; //컨트롤 할수있게 설정한다.
-                    cot.Target = currentUnit.transform; //카메라 포커스 맞추기 
-                    SelectControllUnit();
-                    return;
-                }
-            }
-        }
+        //if (currentUnit == null) //플레이어가 설정안되있으면 
+        //{
+        //    foreach (ICharcterBase playerUnit in charcterList) //플레이어 유닛위치인지 체크하기위해 플레이어를 뒤진다.
+        //    {
+        //        if (clickedTile.width == playerUnit.CurrentTile.width &&
+        //            clickedTile.length == playerUnit.CurrentTile.length) //클릭한 타일이 플레이어 유닛 위치면 
+        //        {
+        //            currentUnit = playerUnit; //플레이어 설정을하고 
+        //            currentUnit.IsControll = true; //컨트롤 할수있게 설정한다.
+        //            cot.Target = currentUnit.transform; //카메라 포커스 맞추기 
+        //            SelectControllUnit();
+        //            return;
+        //        }
+        //    }
+        //}
+        currentUnit.IsControll = true; //컨트롤 할수있게 설정한다.
+        cot.Target = currentUnit.transform; //카메라 포커스 맞추기 
         if (!currentUnit.IsMoveCheck)// 캐릭터 이동중인지 체크해서 이동끝날때만 로직 실행 
         {
             if (currentUnit == null || //컨트롤중인 유닛이 없거나 
