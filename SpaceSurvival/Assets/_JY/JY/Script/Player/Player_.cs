@@ -141,6 +141,7 @@ public class Player_ : MonoBehaviour, IBattle
     public Action<ItemData> onUnEquipItem;
     public Action onClearSlot;
     public Action on_Attack;
+    public Action on_Using_Stamina;
 
     int attack_Trigger_Hash = Animator.StringToHash("Attack");
     int get_Hit_Hash = Animator.StringToHash("Get_Hit");
@@ -181,15 +182,15 @@ public class Player_ : MonoBehaviour, IBattle
             }
         }
     }
-    float mp = 150;
-    public float MP
+    float stamina = 10;
+    public float Stamina
     {
-        get => mp;
+        get => stamina;
         private set
         {
-            if (mp != value)
+            if (stamina != value)
             {
-                mp = value;
+                stamina = value;
             }
         }
     }
@@ -242,6 +243,7 @@ public class Player_ : MonoBehaviour, IBattle
     }
     private void Attack()
     {
+        on_Using_Stamina?.Invoke();// stamina 차감
         on_Attack();
     }
     void Basic_Attack()
@@ -409,6 +411,7 @@ public class Player_ : MonoBehaviour, IBattle
     {
         if (itemDescription.ItemData != null)
         {
+            on_Using_Stamina?.Invoke();//다른 아이템 장착시  stamina 차감
             onEquipItem?.Invoke(itemDescription.ItemData);
         }
         else if (EquipBox_Description.ItemData != null)
@@ -441,11 +444,17 @@ public class Player_ : MonoBehaviour, IBattle
             }  
         }
     }
-    public void RecoveryHP_(int recoveryValue, float duration)
+    public void Recovery_HP(int recoveryValue, float duration)
     {
-        StartCoroutine(RecoveryHP(recoveryValue, duration));
+        on_Using_Stamina?.Invoke();// stamina 차감
+        StartCoroutine(Recovery_HP_(recoveryValue, duration));
     }
-    IEnumerator RecoveryHP(int recoveryValue, float duration)
+    public void Recovery_Stamina(int recoveryValue, float duration)
+    {
+        on_Using_Stamina?.Invoke();// stamina 차감
+        StartCoroutine(Recovery_Stamina_(recoveryValue, duration));
+    }
+    IEnumerator Recovery_HP_(int recoveryValue, float duration)
     {
         float regenPerSecond = recoveryValue / duration;
         float time = 0.0f;
@@ -456,9 +465,16 @@ public class Player_ : MonoBehaviour, IBattle
             yield return null;
         }
     }
-    IEnumerator RecoveryMP()
+    IEnumerator Recovery_Stamina_(int recoveryValue, float duration)
     {
-        yield return null;
+        float regenPerSecond = recoveryValue / duration;
+        float time = 0.0f;
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            Stamina += regenPerSecond * Time.deltaTime;
+            yield return null;
+        }
     }
     bool IsEquipped()
     {

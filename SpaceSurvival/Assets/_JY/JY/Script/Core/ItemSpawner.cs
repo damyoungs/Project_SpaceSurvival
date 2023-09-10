@@ -29,7 +29,7 @@ public class ItemSpawner : TestBase
     }
     private void Start()
     {
-        player = GameManager.playerDummy;
+        player = GameManager.Player_;
     }
     void SetDropTable()
     {
