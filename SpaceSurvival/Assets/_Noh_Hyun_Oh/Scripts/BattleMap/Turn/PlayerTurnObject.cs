@@ -215,7 +215,7 @@ public class PlayerTurnObject : TurnBaseObject
     {
         currentUnit.MoveSize = TurnActionValue; //새로운캐릭터 이동가능범위 셋팅
         MoveActionButton.IsMoveButtonClick = false; //귀찮아서 스태틱
-        Debug.Log($"컨트롤유닛 : {currentUnit.transform.name} 선택했다.");
+        //Debug.Log($"컨트롤유닛 : {currentUnit.transform.name} 선택했다.");
     }
 
     public override void ResetData()
