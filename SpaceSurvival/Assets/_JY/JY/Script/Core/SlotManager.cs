@@ -102,7 +102,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         beforeSlotRectTransform = GameManager.Enhancer.EnhancerUI.BeforeSlot.GetComponent<RectTransform>();
         enhancerUIRectTransform = GameManager.Enhancer.EnhancerUI.AfterSlot.GetComponent<RectTransform>();
 
-        foreach (QuickSlot quickSlot in quickSlot_Manager.quickSlots)
+        foreach (QuickSlot quickSlot in quickSlot_Manager.QuickSlots)
         {
             quickSlot.onSetData += Binding_Slots; 
         }
@@ -396,7 +396,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                 slots[Current_Inventory_State.Consume][Index_JustChange_Slot].ItemData = potion;//생략시 slot의 ItemData가 null 이라 델리게이트 추가가 안됨
                 if (potion != null)
                 {
-                    if (quickSlot_Manager.Find_Slot(out QuickSlot targetSlot))
+                    if (quickSlot_Manager.Find_Slot_By_Position(out QuickSlot targetSlot))
                     {
                         quickSlot_Manager.Set_ItemDataTo_QuickSlot(potion);
                         Throw_NewCount_To_QuickSlot(targetSlot, potion);
@@ -461,7 +461,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     }
     void BindingCheck(ItemData itemData)
     {
-        List<QuickSlot> quickSlots = quickSlot_Manager.quickSlots.ToList();
+        List<QuickSlot> quickSlots = quickSlot_Manager.QuickSlots.ToList();
         foreach (QuickSlot slot in quickSlots)
         {
             if (slot.ItemData == itemData)

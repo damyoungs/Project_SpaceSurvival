@@ -16974,6 +16974,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5463838511932179184}
     m_Modifications:
+    - target: {fileID: 3489718169256711201, guid: 4243b64a3c92fd449913267d5eea31ee, type: 3}
+      propertyPath: type
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3489718169288064796, guid: 4243b64a3c92fd449913267d5eea31ee, type: 3}
       propertyPath: m_Name
       value: QuickSlot_Box
@@ -17065,6 +17069,30 @@ PrefabInstance:
     - target: {fileID: 3489718169288064797, guid: 4243b64a3c92fd449913267d5eea31ee, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3489718169403960935, guid: 4243b64a3c92fd449913267d5eea31ee, type: 3}
+      propertyPath: type
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3489718170134199923, guid: 4243b64a3c92fd449913267d5eea31ee, type: 3}
+      propertyPath: type
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3489718170138516354, guid: 4243b64a3c92fd449913267d5eea31ee, type: 3}
+      propertyPath: type
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3489718170138551482, guid: 4243b64a3c92fd449913267d5eea31ee, type: 3}
+      propertyPath: type
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3489718170668068893, guid: 4243b64a3c92fd449913267d5eea31ee, type: 3}
+      propertyPath: type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3489718170872765300, guid: 4243b64a3c92fd449913267d5eea31ee, type: 3}
+      propertyPath: type
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4243b64a3c92fd449913267d5eea31ee, type: 3}
@@ -17431,7 +17459,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 49095cf82e6b5564e88fb0853e0daa4d, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
