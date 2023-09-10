@@ -17,6 +17,17 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
     }
 
     /// <summary>
+    /// 캐릭터 데이터 연동용 변수
+    /// </summary>
+    Player_ charcterData;
+    public Player_ CharcterData => charcterData;
+    /// <summary>
+    /// 스태미나 최대치 
+    /// </summary>
+    const float charcterStaminaMaxValue = 10.0f;
+
+
+    /// <summary>
     /// 이동버그가 존재해서 체크하는 변수
     /// </summary>
     bool isMoveCheck = false;
@@ -72,6 +83,27 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
     /// </summary>
     UICamera viewPlayerCamera;
 
+
+    protected override void Awake()
+    {
+        base.Awake();
+        charcterData = GetComponentInChildren<Player_>();
+        charcterData.on_Player_Stamina_Change += (stmValue) => {
+            
+            TurnManager.Instance.CurrentTurn.TurnActionValue = stmValue;
+            moveSize = stmValue;
+            if (battleUI != null) 
+            {
+                BattleUI.stmGaugeSetting(stmValue, charcterStaminaMaxValue); //소모된 행동력 표시
+            }
+            SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentTile);
+            SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(currentTile, moveSize);//이동범위표시해주기 
+            if (stmValue < 1.0f) //최소행동값? 보다 낮으면 
+            {
+                TurnManager.Instance.CurrentTurn.TurnEndAction();//턴종료 
+            }
+        };
+    }
 
     private void Start()
     {
@@ -216,27 +248,10 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
         transform.position = targetPos;
         transform.GetChild(0).transform.localPosition = Vector3.zero;
         unitAnimator.SetBool(isWalkingHash, false);
-        CheckTurnValue(useTurnValue); //특정수치만큼 행동력(스태미나) 줄이고 일정이하면 턴종료시키는 함수
-        SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(CurrentTile);
-        SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(CurrentTile, MoveSize);//이동범위표시해주기 
+
+        charcterData.Stamina -= this.currentTile.MoveCheckG; //최종이동한 거리만큼 스태미나를 깍는다.
+
         isMoveCheck = false; //이동끝낫는지 체크
     }
 
-    /// <summary>
-    /// 행동력(스태미나) 수치가 1이하로 내려갈시 강제로 턴종료시킨다.
-    /// </summary>
-    /// <param name="usingValue">소모될 행동력(스태미나)</param>
-    public void CheckTurnValue(float usingValue)
-    {
-        TurnBaseObject currenTurn = (TurnBaseObject)TurnManager.Instance.CurrentTurn; //현재턴 유닛 가져와서 
-
-        currenTurn.TurnActionValue -= usingValue; //값수정하고 
-        moveSize = currenTurn.TurnActionValue; //이동범위값 수정하고 
-        BattleUI.stmGaugeSetting(currenTurn.TurnActionValue, currenTurn.MaxTurnValue); //소모된 행동력 표시
-
-        if (currenTurn.TurnActionValue < 1.0f)  // 1이하면  턴종료 
-        {
-            currenTurn.TurnEndAction();
-        }
-    }
 }

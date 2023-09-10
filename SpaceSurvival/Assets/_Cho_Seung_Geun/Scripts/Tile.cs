@@ -115,6 +115,8 @@ public class Tile : MonoBehaviour, IComparable<Tile>
 
     LineRenderer lineRenderer;
 
+    public Action on_Decrease_Player_Stamina;
+
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();

@@ -49,4 +49,6 @@ public interface ICharcterBase
     /// 캐릭터의 이동함수
     /// </summary>
     public void CharcterMove(Tile selectedTile);
+
+ 
 }

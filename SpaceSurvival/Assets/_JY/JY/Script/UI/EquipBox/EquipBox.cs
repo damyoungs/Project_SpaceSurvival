@@ -67,7 +67,7 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
     IEnumerator Get_Player_Reference()
     {
         yield return null;
-        player = GameManager.Player_;
+        player = GameManager.Player__;
     }
     public void Set_ItemData_For_Drag(ItemData itemData)// ?„ë¦¬???¥ì°© ì²˜ë¦¬ì¤?
     {

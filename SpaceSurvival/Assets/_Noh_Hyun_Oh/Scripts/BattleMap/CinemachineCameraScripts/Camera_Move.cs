@@ -95,7 +95,7 @@ public class Camera_Move : MonoBehaviour
         //Debug.Log(tempMoveDir);
         if (angle > -1.0f && angle < 1.0f) //0도 회전
         {
-            Debug.Log("0도");
+            //Debug.Log("0도");
             tempMoveDir.x = dir.x;
             tempMoveDir.z = dir.y;
         }
@@ -112,7 +112,7 @@ public class Camera_Move : MonoBehaviour
 
             tempMoveDir.x = -dir.x;
             tempMoveDir.z = -dir.y;
-            Debug.Log("180도");
+            //Debug.Log("180도");
         }
         else
         if (angle > 269.0f && angle < 271.0f) //270도 회전
