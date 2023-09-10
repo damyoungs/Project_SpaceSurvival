@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1031603625229830374}
+  - component: {fileID: 1226507393925284082}
   m_Layer: 0
   m_Name: Jewel_Parent_Transform
   m_TagString: Untagged
@@ -31,6 +32,18 @@ Transform:
   m_Father: {fileID: 5697224533000532735}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1226507393925284082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031603625229830375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 894658a93c576a343be25269991867d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1031603625406118177
 GameObject:
   m_ObjectHideFlags: 0
@@ -40,6 +53,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1031603625406118176}
+  - component: {fileID: 3470259412318636510}
   m_Layer: 0
   m_Name: BodySuit_Parent_Transform
   m_TagString: Untagged
@@ -62,6 +76,18 @@ Transform:
   m_Father: {fileID: 5697224533000532735}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3470259412318636510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031603625406118177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96a23382b0fea4d4ab623d23deb9f88d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1031603626904832529
 GameObject:
   m_ObjectHideFlags: 0
@@ -71,6 +97,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1031603626904832528}
+  - component: {fileID: 8192478470548018383}
   m_Layer: 0
   m_Name: Hat_Parent_Transform
   m_TagString: Untagged
@@ -93,6 +120,18 @@ Transform:
   m_Father: {fileID: 5697061252447051029}
   m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8192478470548018383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031603626904832529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86f3af94e781fe847be96b6b35e577a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1031603627036609869
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,6 +172,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7280297186420816552}
+  - component: {fileID: 8235618657152254526}
   m_Layer: 0
   m_Name: Weapon_ParentTramsform
   m_TagString: Untagged
@@ -155,6 +195,18 @@ Transform:
   m_Father: {fileID: 5697444861970936155}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 9.759, y: -290.358, z: 265.469}
+--- !u!114 &8235618657152254526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5400394139056107943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86a12f77ae0c93b46a08cc275155769d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5419761541846428511
 GameObject:
   m_ObjectHideFlags: 0
@@ -1733,6 +1785,11 @@ MonoBehaviour:
   no_Weapon_AC: {fileID: 22100000, guid: 292402136cb8ddd42b15d42ccd1f671a, type: 2}
   bulletProjectilePrefab: {fileID: 1822355521190178300, guid: 9daa372118a39448a9a6c3ef57db0a08, type: 3}
   weapon_Parent_Transform: {fileID: 7280297186420816552}
+  pistol_Sound: {fileID: 8300000, guid: 4d44f7f90f91075418c2e71c0e28abcd, type: 3}
+  shotGun_Sound: {fileID: 8300000, guid: 121b0ce686df0024b8cc484ca5eeb5d1, type: 3}
+  rifle_Sound: {fileID: 8300000, guid: 18989dfbc1ba8714a963cd21b878ad4e, type: 3}
+  equip_Sound: {fileID: 8300000, guid: fb68d09b403a8a94b880ac8dfc27e67c, type: 3}
+  punch_Sound: {fileID: 8300000, guid: 99297bf4d9d2ecc48938ae61ad2d8217, type: 3}
   moveSpeed: 0
   rotateSpeed: 0
   pickupRange: 3

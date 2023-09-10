@@ -113,16 +113,30 @@ public class Player_ : MonoBehaviour, IBattle
     [SerializeField]
     private Transform bulletProjectilePrefab;
 
-    public Transform weapon_Parent_Transform;
+    Transform weapon_Parent_Transform;
+    Transform jewel_Parent_Transform;
+    Transform hat_Parent_Transform;
+    Transform suit_Parent_Transform;
+
+    public Transform Weapon_Parent_Transform => weapon_Parent_Transform;
+    public Transform Jewel_Parent_Transform => jewel_Parent_Transform;
+    public Transform Hat_Parent_Transform => hat_Parent_Transform;
+    public Transform Suit_Parent_Transform => suit_Parent_Transform;
+
     Vector3 pistol_Pos;
     Vector3 rifle_Pos;
     Vector3 shotGun_Pos;
     Quaternion pistol_Rotation;
     Quaternion rifle_Rotation;
     Quaternion shotGun_Rotation;
-
     Transform shootPointTransform;
+
     AudioSource audioSource;
+    public AudioClip pistol_Sound;
+    public AudioClip shotGun_Sound;
+    public AudioClip rifle_Sound;
+    public AudioClip equip_Sound;
+    public AudioClip punch_Sound;
 
 
     InputKeyMouse inputActions;
@@ -242,7 +256,10 @@ public class Player_ : MonoBehaviour, IBattle
         shotGun_Pos = new Vector3(0.006f, 0.153f, 0.199f);
         shotGun_Rotation = Quaternion.Euler(8.924f, -301.04f, 246.652f);
 
-        
+        weapon_Parent_Transform = GetComponentInChildren<Weapon_Parent_Transform>().transform;
+        jewel_Parent_Transform = GetComponentInChildren<Jewel_Parent_Transform>().transform;
+        hat_Parent_Transform = GetComponentInChildren<Hat_Parent_Transform>().transform;
+        hat_Parent_Transform = GetComponentInChildren<BodySuit_Parent_Transform>().transform;
     }
     void Set_ShootPoint_Transform(Transform itemObj)
     {
@@ -255,26 +272,27 @@ public class Player_ : MonoBehaviour, IBattle
     }
     void Basic_Attack()
     {
+        audioSource.PlayOneShot(punch_Sound);
         anim.SetTrigger(attack_Trigger_Hash);
        // audioSource.Play();
     }
     void Pistol_Attack()
     {
+        audioSource.PlayOneShot(pistol_Sound);
         anim.SetTrigger(attack_Trigger_Hash);
         Instantiate(bulletProjectilePrefab, shootPointTransform.position, shootPointTransform.rotation);
-        audioSource.Play();
     }
     void Rifle_Attack()
     {
+        audioSource.PlayOneShot(rifle_Sound);
         anim.SetTrigger(attack_Trigger_Hash);
         Instantiate(bulletProjectilePrefab, shootPointTransform.position, shootPointTransform.rotation);
-        audioSource.Play();
     }
     void ShotGun_Attack()
     {
+        audioSource.PlayOneShot(shotGun_Sound);
         anim.SetTrigger(attack_Trigger_Hash);
         Instantiate(bulletProjectilePrefab, shootPointTransform.position, shootPointTransform.rotation);
-        audioSource.Play();
     }
 
     private void OnEnable()
@@ -418,6 +436,7 @@ public class Player_ : MonoBehaviour, IBattle
     {
         if (itemDescription.ItemData != null)
         {
+            audioSource.PlayOneShot(equip_Sound);
             Stamina--;//다른 아이템 장착시  stamina 차감
             onEquipItem?.Invoke(itemDescription.ItemData);
         }
