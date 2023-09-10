@@ -92,7 +92,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDebug: 0
+  player: {fileID: 0}
   mainCamera: {fileID: 0}
+  minDirection: 3
+  maxDirection: 20
 --- !u!1 &3520079797937783551
 GameObject:
   m_ObjectHideFlags: 0

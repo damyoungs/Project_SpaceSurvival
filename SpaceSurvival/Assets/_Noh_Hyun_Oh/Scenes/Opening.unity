@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0036645655, g: 0.0051948903, b: 0.007260641, a: 1}
+  m_IndirectSpecularColor: {r: 0.0036790755, g: 0.0051774327, b: 0.0072589843, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -906,6 +906,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4448403842861961559, guid: eb5a737cfd4232b4dae34c330972995e, type: 3}
+      propertyPath: turnStartValue
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4448403842976144011, guid: eb5a737cfd4232b4dae34c330972995e, type: 3}
       propertyPath: poolSize
       value: 1
@@ -957,6 +961,10 @@ PrefabInstance:
     - target: {fileID: 4550168752674352822, guid: eb5a737cfd4232b4dae34c330972995e, type: 3}
       propertyPath: m_Name
       value: DataFactory
+      objectReference: {fileID: 0}
+    - target: {fileID: 7419131746764185936, guid: eb5a737cfd4232b4dae34c330972995e, type: 3}
+      propertyPath: poolSize
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb5a737cfd4232b4dae34c330972995e, type: 3}
