@@ -14875,6 +14875,7 @@ GameObject:
   - component: {fileID: 7912396504498853362}
   - component: {fileID: 7912396504498853363}
   - component: {fileID: 7912396504498853360}
+  - component: {fileID: 4539718990609788972}
   - component: {fileID: 2618787895020679433}
   m_Layer: 5
   m_Name: WindowList
@@ -14967,6 +14968,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &4539718990609788972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7912396504498853361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cf20a114be5ee74183c4dbf19600eb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hotKey: 0
 --- !u!114 &2618787895020679433
 MonoBehaviour:
   m_ObjectHideFlags: 0

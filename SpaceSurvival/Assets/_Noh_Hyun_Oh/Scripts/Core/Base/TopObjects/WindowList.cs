@@ -38,12 +38,6 @@ public class WindowList : Singleton<WindowList> {
     DefenceEvent defencePanel;
 
     /// <summary>
-    /// 키입력 이벤트
-    /// </summary>
-    InputKeyMouse inputKeyEvent;
-    public InputKeyMouse InputKeyEvent => inputKeyEvent;
-    
-    /// <summary>
     /// 관리할 윈도우 중 옵션관련 윈도우
     /// </summary>
     SaveWindowManager mainWindow;
@@ -99,7 +93,6 @@ public class WindowList : Singleton<WindowList> {
     protected override void Awake()
     {
         base.Awake();
-        inputKeyEvent = new InputKeyMouse();
         //오브젝트 순서 계속바껴서 걍무겁더라도 GetComponentInChildren<Type>(true) 으로 찾아둘란다.. 매번 이거때매 고치기귀찮.
         defencePanel = transform.GetComponentInChildren<DefenceEvent>(true); 
         invenWindow = transform.GetComponentInChildren<Inventory>(true);
@@ -114,40 +107,16 @@ public class WindowList : Singleton<WindowList> {
     }
     private void Start()
     {
+        InputSystemController.Instance.OnUI_Options_WindowOpen += OnOffWindowOption; //옵션창 열고 닫기 
+        InputSystemController.Instance.OnUI_Options_Esc += OffPopupWindow;          //키입력시 순서대로 닫히게만들기
+        
+        InputSystemController.Instance.OnInput_Action_NoneGame_MouseClick+= ()=> { }; //뭘연결시킬까나.   
+        InputSystemController.Instance.OnInput_Action_NoneGame_Esc+= ()=> { };        //오프닝에사용할건데 바꿀수도있음  
+        
         mainWindow.Oninitialize();
     }
-    /// <summary>
-    /// 키입력및 마우스 입력처리도 추가하자
-    /// </summary>
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-        inputKeyEvent.Enable();
-        inputKeyEvent.KeyBoard.System.performed += OffPopupWindow; // esc 입력시 순서대로 창닫기 
-        inputKeyEvent.KeyBoard.OptionKey.performed += OnOffWindowOption; // 옵션창 및 세이브창 열고닫기
-        //inputKeyEvent.KeyBoard.InvenKey.performed += OnOffInventory; // 인벤창 테스트용 
-        InputKeyEvent.KeyBoard.StateKey.performed += OnOffStateWindow;// 상태창 테스트용
-    }   
 
-
-
-    /// <summary>
-    /// 비활성화 될일이 게임종료될때만되기때문에 이벤트 삭제함수 처리안해도된다.
-    /// 다만 싱글톤 생성시 기존생성된것이 Destroy될때 비활성화를 실행하기때문에 오류가날수있다. - 확인완료
-    /// 씬이동시 OnEnable함수가 재호출되진않는다 (확인완료)
-    /// </summary>
-    //protected override void OnDisable()
-    //{
-    //    base.OnDisable();
-    //    inputKeyEvent.Mouse.MouseClick.performed -= OnLeftClick;
-    //    inputKeyEvent.KeyBorad.OptionKey.performed -= OnOffWindowOption;
-    //    inputKeyEvent.KeyBorad.InvenKey.performed -= OnOffInventory;
-    //    inputKeyEvent.KeyBorad.System.performed -= OnOffWindowOption;
-    //    inputKeyEvent.Disable();
-    //}
-
-
-
+    
     /// <summary>
     /// 팝업창 버튼을 눌렀을경우 열렸을경우 닫히고 닫혔을경우 열린다.
     /// <param name="target">열릴 팝업창 객체</param>
@@ -167,14 +136,11 @@ public class WindowList : Singleton<WindowList> {
     /// 메뉴 창 온오프 
     /// </summary>
     /// <param name="context">입력정보</param>
-    private void OnOffWindowOption(InputAction.CallbackContext context)
+    private void OnOffWindowOption()
     {
         //씬로딩이아닌경우만 실행한다. 
         if (!LoadingScean.IsLoading){ 
-            if (context.performed)
-            {
-                popupOnOff(mainWindow);
-            }
+            popupOnOff(mainWindow);
         }
     }
 
@@ -199,29 +165,23 @@ public class WindowList : Singleton<WindowList> {
     /// 스텟 창 온오프
     /// </summary>
     /// <param name="context"></param>
-    private void OnOffStateWindow(InputAction.CallbackContext context)
+    //private void OnOffStateWindow(InputAction.CallbackContext context)
+    private void OnOffStateWindow()
     {
         //씬로딩이아닌경우만 실행한다. 
         if (!LoadingScean.IsLoading)
         {
-            if (context.performed)
-            {
-                popupOnOff(optionsPopupWindow);
-            }
+            popupOnOff(optionsPopupWindow);
 
         }
     }
 
-    private void OffPopupWindow(InputAction.CallbackContext context)
+    private void OffPopupWindow()
     {
         //씬로딩이아닌경우만 실행한다. 
         if (!LoadingScean.IsLoading)
         {
-            if (context.performed)
-            {
-                popupManager.PopupClose();
-            }
-
+            popupManager.PopupClose();
         }
     }
 }

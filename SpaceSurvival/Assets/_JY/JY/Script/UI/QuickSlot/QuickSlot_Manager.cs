@@ -27,7 +27,7 @@ public class QuickSlot_Manager : MonoBehaviour
 {
     Button popupButton;
     TextMeshProUGUI buttonText;
-    InputKeyMouse inputAction;
+    //InputKeyMouse inputAction;
     string open = "▲";
     string close = "▼";
 
@@ -61,7 +61,7 @@ public class QuickSlot_Manager : MonoBehaviour
     public QuickSlot this[QuickSlotList number] => quickSlots[(int) number];
     private void Awake()
     {
-        inputAction = new InputKeyMouse();
+        //inputAction = new InputKeyMouse();
         hidePos = new Vector2(0, -280.0f);
         rectTransform = GetComponent<RectTransform>();
 
@@ -71,29 +71,37 @@ public class QuickSlot_Manager : MonoBehaviour
         popupButton.onClick.AddListener(PopUp);
 
     }
-    private void OnEnable()
-    {
-        inputAction.QuickSlot.Enable();
-        inputAction.QuickSlot.PopUp.performed += QuickSlot_PopUp;
-        inputAction.QuickSlot.Shift.performed += Shift_performed;
-        inputAction.QuickSlot.Eight.performed += Eight_performed;
-        inputAction.QuickSlot.Nine.performed += Nine_performed;
-        inputAction.QuickSlot.Zero.performed += Zero_performed;
-        inputAction.QuickSlot.Ctrl.performed += Ctrl_performed;
-        inputAction.QuickSlot.Alt.performed += Alt_performed;
-        inputAction.QuickSlot.Space.performed += Space_performed;
-        inputAction.QuickSlot.Insert.performed += Insert_performed;
-    }
+    //private void OnEnable()
+    //{
+        //inputAction.QuickSlot.Enable();
+        //inputAction.QuickSlot.PopUp.performed += QuickSlot_PopUp;
+        //inputAction.QuickSlot.Shift.performed += Shift_performed;
+        //inputAction.QuickSlot.Eight.performed += Eight_performed;
+        //inputAction.QuickSlot.Nine.performed += Nine_performed;
+        //inputAction.QuickSlot.Zero.performed += Zero_performed;
+        //inputAction.QuickSlot.Ctrl.performed += Ctrl_performed;
+        //inputAction.QuickSlot.Alt.performed += Alt_performed;
+        //inputAction.QuickSlot.Space.performed += Space_performed;
+        //inputAction.QuickSlot.Insert.performed += Insert_performed;
+    //}
     private void Start()
     {
+        InputSystemController.Instance.OnQuickSlot_Alt += Alt_performed;
+        InputSystemController.Instance.OnQuickSlot_Ctrl += Ctrl_performed;
+        InputSystemController.Instance.OnQuickSlot_Eight += Eight_performed;
+        InputSystemController.Instance.OnQuickSlot_Insert += Insert_performed;
+        InputSystemController.Instance.OnQuickSlot_Nine += Nine_performed;
+        InputSystemController.Instance.OnQuickSlot_Popup += QuickSlot_PopUp;
+        InputSystemController.Instance.OnQuickSlot_Shift += Shift_performed;
+        InputSystemController.Instance.OnQuickSlot_Space += Space_performed;
+        InputSystemController.Instance.OnQuickSlot_Zero += Zero_performed;
+
         Init();
         buttonText.text = open;
        // GameManager.SlotManager.onDetectQuickSlot += Set_ItemDataTo_QuickSlot;
        gameObject.SetActive(false); //오픈화면부터 들고다녀야되니 일단감추고 필요할때 활성화 
     }
-    private void Insert_performed(InputAction.CallbackContext context)
-    {
-    }
+
     public void Set_ItemDataTo_QuickSlot(ItemData_Potion data)
     {
         Find_Slot(out QuickSlot targetSlot);
@@ -148,37 +156,48 @@ public class QuickSlot_Manager : MonoBehaviour
     {
         StartCoroutine(PopUpCoroutine());
     }
-    private void QuickSlot_PopUp(InputAction.CallbackContext _)
+    //private void QuickSlot_PopUp(InputAction.CallbackContext _)
+    private void QuickSlot_PopUp()
     {
         StartCoroutine(PopUpCoroutine());
     }
-    private void Space_performed(InputAction.CallbackContext context)
+    //private void Space_performed(InputAction.CallbackContext context)
+    private void Space_performed()
     {
     }
 
-    private void Alt_performed(InputAction.CallbackContext context)
+    //private void Alt_performed(InputAction.CallbackContext context)
+    private void Alt_performed()
     {
     }
 
-    private void Ctrl_performed(InputAction.CallbackContext context)
+    //private void Ctrl_performed(InputAction.CallbackContext context)
+    private void Ctrl_performed()
     {
     }
 
-    private void Zero_performed(InputAction.CallbackContext context)
+    //private void Zero_performed(InputAction.CallbackContext context)
+    private void Zero_performed()
     {
     }
 
-    private void Nine_performed(InputAction.CallbackContext context)
+    //private void Nine_performed(InputAction.CallbackContext context)
+    private void Nine_performed()
     {
     }
 
-    private void Eight_performed(InputAction.CallbackContext context)
+    //private void Eight_performed(InputAction.CallbackContext context)
+    private void Eight_performed()
     {
     }
 
- 
+    //private void Insert_performed(InputAction.CallbackContext context)
+    private void Insert_performed()
+    {
+    }
 
-    private void Shift_performed(InputAction.CallbackContext context)
+    //private void Shift_performed(InputAction.CallbackContext context)
+    private void Shift_performed()
     {
     }
 
