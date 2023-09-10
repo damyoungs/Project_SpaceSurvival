@@ -141,8 +141,8 @@ public class Player_ : MonoBehaviour, IBattle
     public Action<ItemData> onUnEquipItem;
     public Action onClearSlot;
     public Action on_Attack;
-    public Action on_Using_Stamina;
-    public Action on_RanOut_Stamina;
+    public Action<float> on_Player_Stamina_Change;
+    public Action on_Ranout_Player_Stamina;
 
     int attack_Trigger_Hash = Animator.StringToHash("Attack");
     int get_Hit_Hash = Animator.StringToHash("Get_Hit");
@@ -192,9 +192,10 @@ public class Player_ : MonoBehaviour, IBattle
             if (stamina != value)
             {
                 stamina = value;
+                on_Player_Stamina_Change?.Invoke(stamina);
                 if (stamina <= 0)
                 {
-                    on_RanOut_Stamina?.Invoke();
+                    on_Ranout_Player_Stamina?.Invoke();
                 }
             }
         }
