@@ -409,6 +409,7 @@ public class Player_ : MonoBehaviour, IBattle
  
     private void On_Equip_Item(InputAction.CallbackContext _)
     {
+        if(itemDescription == null) { return; } //노현오 추가 일단 에러나서 막아놧음
         if (itemDescription.ItemData != null)
         {
             on_Using_Stamina?.Invoke();//다른 아이템 장착시  stamina 차감
