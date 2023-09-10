@@ -91,7 +91,7 @@ public class InitCharcterSetting : MonoBehaviour
                 tbo.gameObject.name = $"ENEMY_Team_{i}";
                 tbo.InitData();
             }
-            tbo.TurnActionValue = UnityEngine.Random.Range(0.0f, 8.0f); // -테스트값 설정
+            tbo.TurnActionValue = 10.0f; // -테스트값 설정
             teamArray[i] = tbo;
         }
 

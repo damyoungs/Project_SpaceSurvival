@@ -54,8 +54,8 @@ public class TurnBaseObject : BattleMapTurnUnit_PoolObj, ITurnBaseData
     /// 턴이경과시 회복될 행동력값 
     /// </summary>
     [SerializeField]
-    [Range(1.0f,5.0f)]
-    protected float turnAddValue = 5.0f;
+    [Range(1.0f,10.0f)]
+    protected float turnAddValue = 10.0f;
     public float TurnEndActionValue => turnAddValue;
 
     /// <summary>
@@ -63,15 +63,15 @@ public class TurnBaseObject : BattleMapTurnUnit_PoolObj, ITurnBaseData
     /// </summary>
     [SerializeField]
     [Range(10.1f, 20.0f)]
-    protected float maxTurnValue = 10f;
-
+    protected float maxTurnValue = 10.1f;
+    public float MaxTurnValue => maxTurnValue;
     /// <summary>
     /// 현재 턴의 진행값 
     /// 이값으로 돌아올순번을 정한다.
     /// </summary>
     [SerializeField]
     [ReadOnly]
-    float turnWaitingValue = 1.0f;
+    float turnWaitingValue = 10.0f;
     public float TurnActionValue
     {
         get => turnWaitingValue;

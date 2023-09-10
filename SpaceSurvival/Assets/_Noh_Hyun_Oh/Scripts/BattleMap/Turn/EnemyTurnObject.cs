@@ -48,7 +48,7 @@ public class EnemyTurnObject : TurnBaseObject
     public override void TurnStartAction()
     {
         Debug.Log($"적군턴시작 행동력 :{TurnActionValue}");
-        TurnActionValue -= 10.0f;//UnityEngine.Random.Range(0.3f, 1.0f);// 행동력 소모후 테스트 용 
+        TurnActionValue -= UnityEngine.Random.Range(5.0f, 10.0f);// 행동력 소모후 테스트 용 
         
         Debug.Log($"적군턴끝 행동력 :{TurnActionValue}");
         TurnEndAction();
