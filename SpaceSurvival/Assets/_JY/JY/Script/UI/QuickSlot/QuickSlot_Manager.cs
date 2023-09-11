@@ -100,20 +100,29 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
     }
     //private void OnEnable()
     //{
-        //inputAction.QuickSlot.Enable();
-        //inputAction.QuickSlot.PopUp.performed += QuickSlot_PopUp;
-        //inputAction.QuickSlot.Shift.performed += Shift_performed;
-        //inputAction.QuickSlot.Eight.performed += Eight_performed;
-        //inputAction.QuickSlot.Nine.performed += Nine_performed;
-        //inputAction.QuickSlot.Zero.performed += Zero_performed;
-        //inputAction.QuickSlot.Ctrl.performed += Ctrl_performed;
-        //inputAction.QuickSlot.Alt.performed += Alt_performed;
-        //inputAction.QuickSlot.Space.performed += Space_performed;
-        //inputAction.QuickSlot.Insert.performed += Insert_performed;
+    //inputAction.QuickSlot.Enable();
+    //inputAction.QuickSlot.PopUp.performed += QuickSlot_PopUp;
+    //inputAction.QuickSlot.Shift.performed += Shift_performed;
+    //inputAction.QuickSlot.Eight.performed += Eight_performed;
+    //inputAction.QuickSlot.Nine.performed += Nine_performed;
+    //inputAction.QuickSlot.Zero.performed += Zero_performed;
+    //inputAction.QuickSlot.Ctrl.performed += Ctrl_performed;
+    //inputAction.QuickSlot.Alt.performed += Alt_performed;
+    //inputAction.QuickSlot.Space.performed += Space_performed;
+    //inputAction.QuickSlot.Insert.performed += Insert_performed;
     //}
     private void Start()
     {
+        InputSystemController.Instance.OnQuickSlot_Alt += Alt_performed;
+        InputSystemController.Instance.OnQuickSlot_Ctrl += Ctrl_performed;
+        InputSystemController.Instance.OnQuickSlot_Eight += Eight_performed;
+        InputSystemController.Instance.OnQuickSlot_Insert += Insert_performed;
+        InputSystemController.Instance.OnQuickSlot_Nine += Nine_performed;
         InputSystemController.Instance.OnQuickSlot_Popup += QuickSlot_PopUp;
+        InputSystemController.Instance.OnQuickSlot_Shift += Shift_performed;
+        InputSystemController.Instance.OnQuickSlot_Space += Space_performed;
+        InputSystemController.Instance.OnQuickSlot_Zero += Zero_performed;
+
         Init();
         buttonText.text = open;
         // GameManager.SlotManager.onDetectQuickSlot += Set_ItemDataTo_QuickSlot;
@@ -139,43 +148,35 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
         switch (slot.type)
         {
             case QuickSlot_Type.Shift:
-                //inputAction.QuickSlot.Shift.performed += Shift_performed;
-                InputSystemController.Instance.OnQuickSlot_Shift += Shift_performed;
+                inputAction.QuickSlot.Shift.performed += Shift_performed;
                 shiftSlot_Data = slot.ItemData;
                 break;
             case QuickSlot_Type._8:
-                //inputAction.QuickSlot.Eight.performed += Eight_performed;
-                InputSystemController.Instance.OnQuickSlot_Eight += Eight_performed;
+                inputAction.QuickSlot.Eight.performed += Eight_performed;
                 _8Slot_Data = slot.ItemData;
                 break;
             case QuickSlot_Type._9:
-                //inputAction.QuickSlot.Nine.performed += Nine_performed;
-                InputSystemController.Instance.OnQuickSlot_Nine += Nine_performed;
+                inputAction.QuickSlot.Nine.performed += Nine_performed;
                 _9Slot_Data = slot.ItemData;
                 break;
             case QuickSlot_Type._0:
-                //inputAction.QuickSlot.Zero.performed += Zero_performed;
-                InputSystemController.Instance.OnQuickSlot_Zero += Zero_performed;
+                inputAction.QuickSlot.Zero.performed += Zero_performed;
                 _0Slot_Data = slot.ItemData;
                 break;
             case QuickSlot_Type.Ctrl:
-                //inputAction.QuickSlot.Ctrl.performed += Ctrl_performed;
-                InputSystemController.Instance.OnQuickSlot_Ctrl += Ctrl_performed;
+                inputAction.QuickSlot.Ctrl.performed += Ctrl_performed;
                 ctrl_Slot_Data = slot.ItemData;
                 break;
             case QuickSlot_Type.Alt:
-                //inputAction.QuickSlot.Alt.performed += Alt_performed;
-                InputSystemController.Instance.OnQuickSlot_Alt += Alt_performed;
+                inputAction.QuickSlot.Alt.performed += Alt_performed;
                 alt_Slot_Data = slot.ItemData;
                 break;
             case QuickSlot_Type.Space:
-                //inputAction.QuickSlot.Space.performed += Space_performed;
-                InputSystemController.Instance.OnQuickSlot_Space += Space_performed;
+                inputAction.QuickSlot.Space.performed += Space_performed;
                 space_Slot_Data = slot.ItemData;
                 break;
             case QuickSlot_Type.Insert:
-                //inputAction.QuickSlot.Insert.performed += Insert_performed;
-                InputSystemController.Instance.OnQuickSlot_Insert += Insert_performed;
+                inputAction.QuickSlot.Insert.performed += Insert_performed;
                 insert_Slot_Data = slot.ItemData;
                 break;
             default:
@@ -187,36 +188,28 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
         switch (slot.type)
         {
             case QuickSlot_Type.Shift:
-                //inputAction.QuickSlot.Shift.performed -= Shift_performed;
-                InputSystemController.Instance.OnQuickSlot_Shift -= Shift_performed;
+                inputAction.QuickSlot.Shift.performed -= Shift_performed;
                 break;
             case QuickSlot_Type._8:
-                //inputAction.QuickSlot.Eight.performed -= Eight_performed;
-                InputSystemController.Instance.OnQuickSlot_Eight -= Eight_performed;
+                inputAction.QuickSlot.Eight.performed -= Eight_performed;
                 break;
             case QuickSlot_Type._9:
-                //inputAction.QuickSlot.Nine.performed -= Nine_performed;
-                InputSystemController.Instance.OnQuickSlot_Nine -= Nine_performed;
+                inputAction.QuickSlot.Nine.performed -= Nine_performed;
                 break;
             case QuickSlot_Type._0:
-                //inputAction.QuickSlot.Zero.performed -= Zero_performed;
-                InputSystemController.Instance.OnQuickSlot_Zero -= Zero_performed;
+                inputAction.QuickSlot.Zero.performed -= Zero_performed;
                 break;
             case QuickSlot_Type.Ctrl:
-                //inputAction.QuickSlot.Ctrl.performed -= Ctrl_performed;
-                InputSystemController.Instance.OnQuickSlot_Ctrl -= Ctrl_performed;
+                inputAction.QuickSlot.Ctrl.performed -= Ctrl_performed;
                 break;
             case QuickSlot_Type.Alt:
-                //inputAction.QuickSlot.Alt.performed -= Alt_performed;
-                InputSystemController.Instance.OnQuickSlot_Alt -= Alt_performed;
+                inputAction.QuickSlot.Alt.performed -= Alt_performed;
                 break;
             case QuickSlot_Type.Space:
-                //inputAction.QuickSlot.Space.performed -= Space_performed;
-                InputSystemController.Instance.OnQuickSlot_Space -= Space_performed;
+                inputAction.QuickSlot.Space.performed -= Space_performed;
                 break;
             case QuickSlot_Type.Insert:
-                //inputAction.QuickSlot.Insert.performed -= Insert_performed;
-                InputSystemController.Instance.OnQuickSlot_Insert -= Insert_performed;
+                inputAction.QuickSlot.Insert.performed -= Insert_performed;
                 break;
             default:
                 break;
