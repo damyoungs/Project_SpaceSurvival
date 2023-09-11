@@ -30,6 +30,7 @@ public class ItemSpawner : TestBase
     private void Start()
     {
         player = GameManager.Player__;
+        GetItem_For_Test();
     }
     void SetDropTable()
     {
@@ -87,10 +88,26 @@ public class ItemSpawner : TestBase
         ItemData data = GameManager.Itemdata[itemCode];
         GameManager.SlotManager.ClearSlot(data, index);
     }
-    public void GetItemBow()
+    public void GetItem_For_Test()
     {
+        int i = 0;
+        while(i < 50)
+        {
+            GameManager.SlotManager.AddItem(ItemCode.HpPotion);
+            GameManager.SlotManager.AddItem(ItemCode.MpPotion);
+            i++;
+        }
+        GameManager.SlotManager.AddItem(ItemCode.Enhancable_shotGun);
+        GameManager.SlotManager.AddItem(ItemCode.Enhancable_Pistol);
+        GameManager.SlotManager.AddItem(ItemCode.Enhancable_Rifle);
+        GameManager.SlotManager.AddItem(ItemCode.Captains_Hat);
+        GameManager.SlotManager.AddItem(ItemCode.Crews_Hat);
+        GameManager.SlotManager.AddItem(ItemCode.Big_Space_Armor);
+        GameManager.SlotManager.AddItem(ItemCode.Space_Armor);
+        GameManager.SlotManager.AddItem(ItemCode.Intermidiate_Green_Crystal);
+        GameManager.SlotManager.AddItem(ItemCode.Advanced_Red_Crystal);
     }
-    public void GetItemHpPotion()
+    public void GetItemH()
     {
         GameManager.SlotManager.AddItem(ItemCode.HpPotion);
     }

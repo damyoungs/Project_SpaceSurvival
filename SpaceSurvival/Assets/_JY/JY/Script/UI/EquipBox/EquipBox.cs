@@ -16,7 +16,7 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
     public Action<ItemData> on_Update_Status_For_UnEquip;
     public EquipBox_Description Description => description;
     public EquipBox_Slot this[EquipType type] => equipBox_Slots[(int) type - 1];//0Î≤àÏß∏ ?∏Îç±??= None 
-    public Transform[] equip_Parent_Transform;
+    Transform[] equip_Parent_Transform;
 
     Player_ player;
 
@@ -68,6 +68,11 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
     {
         yield return null;
         player = GameManager.Player__;
+        equip_Parent_Transform = new Transform[4];
+        equip_Parent_Transform[0] = player.Hat_Parent_Transform;
+        equip_Parent_Transform[1] = player.Weapon_Parent_Transform;
+        equip_Parent_Transform[2] = player.Suit_Parent_Transform;
+        equip_Parent_Transform[3] = player.Jewel_Parent_Transform;
     }
     public void Set_ItemData_For_Drag(ItemData itemData)// ?ÑÎ¶¨???•Ï∞© Ï≤òÎ¶¨Ï§?
     {
