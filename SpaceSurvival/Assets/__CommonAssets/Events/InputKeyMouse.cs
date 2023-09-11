@@ -104,7 +104,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""2D Vector"",
                     ""id"": ""d1542847-2a7b-46b0-b170-656cd38e9d98"",
-                    ""path"": ""2DVector(mode=1)"",
+                    ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
