@@ -103,6 +103,7 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
                 TurnManager.Instance.CurrentTurn.TurnEndAction();//≈œ¡æ∑· 
             }
         };
+
     }
 
     private void Start()

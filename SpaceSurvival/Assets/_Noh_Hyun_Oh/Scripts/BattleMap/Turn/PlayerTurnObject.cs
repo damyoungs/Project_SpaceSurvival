@@ -57,16 +57,6 @@ public class PlayerTurnObject : TurnBaseObject
                     charcterList.Add(player); //턴관리할 캐릭터로 셋팅
                     player.GetCurrentTile = () => SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Charcter); //타일 셋팅연결
                     player.transform.position = player.CurrentTile.transform.position;//셋팅된 타일위치로 이동시킨다.
-                    ((BattleMapPlayerBase)player).CharcterData.on_Player_Stamina_Change += (stmValue) => {
-                        TurnActionValue = stmValue;
-                        currentUnit.MoveSize = stmValue;
-                        SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentUnit.CurrentTile);
-                        SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(currentUnit.CurrentTile, currentUnit.MoveSize);//이동범위표시해주기 
-                        if (stmValue < 1.0f) 
-                        {
-                            TurnEndAction();
-                        }
-                    };
                 }
                 WindowList.Instance.TeamBorderManager.ViewTeamInfo(playerList.Length);//팀 상시 유아이 보여주기 
             }
