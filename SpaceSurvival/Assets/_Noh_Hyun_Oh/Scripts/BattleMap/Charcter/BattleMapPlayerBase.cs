@@ -143,7 +143,7 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
         {
             viewPlayerCamera = EtcObjects.Instance.TeamCharcterView;// EtcObject 에 미리 만들어둔 게임오브젝트 가져오기 큐로 관리중이다 
             Transform cameraTarget = transform.GetChild(0); //캐릭터위치
-            viewPlayerCamera.TargetObject = cameraTarget.GetChild(cameraTarget.childCount-1); //캐릭터안에 맨밑에 카메라 타겟을 만들어둬야쫒아다닌다.
+            viewPlayerCamera.TargetObject = cameraTarget.GetChild(cameraTarget.childCount-2); //캐릭터안에 맨밑에서두번째 오브젝트를 카메라 타겟을 만들어둬야쫒아다닌다.
             viewPlayerCamera.gameObject.SetActive(true); //셋팅끝낫으면 활성화시키기
         }
     }

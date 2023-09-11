@@ -15,11 +15,12 @@ using UnityEngine.InputSystem.Utilities;
 [Flags]
 public enum HotKey_Use : byte
 {
-    None = 0,                   // 처음시작시 기본값 : 오프닝, 타이틀, 로딩창 등 입력이 되면안되는곳에 사용될 플래그 
+    None = 0,                       // 처음시작시 기본값 : 오프닝, 타이틀, 로딩창 등 입력이 되면안되는곳에 사용될 플래그 
     Use_BattleMap = 1,              // 배틀맵 처럼 전투상황에 사용될 플래그
     Use_TownMap = 2,                // 마을 처럼 전투가없는 상황일경우 사용될 플래그                   
     Use_OptionView = 4,             // 옵션창 열기위한 값셋팅
     Use_InvenView = 8,              // 인벤창 열기위한 값셋팅
+
     Cancel_InvenView = 247,         // 인벤 창 제외하기위한 값셋팅
     Cancel_BattleMap = 254,         // 배틀맵 옵션을 제외하기위한 값셋팅
     Cancel_TownMap = 253,           // 마을맵 옵션을 제외하기위한 값셋팅
@@ -188,7 +189,7 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
             case HotKey_Use.Use_InvenView:                                  //인벤 사용가능 할시
                 inputSystem.Input_Action_NoneGame.Disable();
 
-                //inputSystem.QuickSlot.Enable();
+                inputSystem.QuickSlot.Enable();
                 inputSystem.UI_Inven.Enable();
                 break;
 
