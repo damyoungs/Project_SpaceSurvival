@@ -48,8 +48,8 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
     // Player 액션맵  
     public Action<Vector2> OnPlayer_Move;
     public Action OnPlayer_Jump;
-    public Action OnPlayer_ItemPickUp;
-    public Action OnPlayer_Equip_Item;
+    public Action OnUI_Inven_ItemPickUp;
+    public Action OnUI_Inven_Equip_Item;
     public Action OnPlayer_MoveMode_Change;
     public Action OnPlayer_Run;
 
@@ -113,19 +113,20 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
 
         inputSystem.Player.Move.performed += (context) => { OnPlayer_Move(context.ReadValue<Vector2>()); };
         inputSystem.Player.Jump.performed += (_) => { OnPlayer_Jump(); };
-        inputSystem.Player.ItemPickUp.performed += (_) => { OnPlayer_ItemPickUp(); };
-        inputSystem.Player.Equip_Item.performed += (_) => { OnPlayer_Equip_Item(); };
         inputSystem.Player.MoveMode_Change.performed += (_) => { OnPlayer_MoveMode_Change(); };
         inputSystem.Player.Run.performed += (_) => { OnPlayer_Run(); };
 
+        inputSystem.Mouse.MouseClickRight.performed += (_) => { OnUI_Inven_MouseClickRight(); };
 
+
+        inputSystem.UI_Inven.Equip_Item.performed += (_) => { OnUI_Inven_Equip_Item(); };
+        inputSystem.UI_Inven.ItemPickUp.performed += (_) => { OnUI_Inven_ItemPickUp(); };
         inputSystem.UI_Inven.Click.performed += (_) => { OnUI_Inven_Click(); };
         inputSystem.UI_Inven.Click.canceled += (_) => { OnUI_Inven_Click_Cancel(); };
         inputSystem.UI_Inven.Shift.performed += (context) => { OnUI_Inven_Shift(context); };
         inputSystem.UI_Inven.Shift.canceled += (context) => { OnUI_Inven_Shift(context); };
         inputSystem.UI_Inven.EquipBox_Open.performed += (_) => { OnUI_Inven_EquipBox_Open(); };
-        inputSystem.UI_Inven.Inven_Open.performed += (_) => { OnUI_Inven_Inven_Open(); };
-        inputSystem.UI_Inven.MouseClickRight.performed += (_) => { OnUI_Inven_MouseClickRight(); };
+        inputSystem.UI_Inven.InvenKey.performed += (_) => { OnUI_Inven_Inven_Open(); };
 
 
         inputSystem.Camera.RightRotate.performed += (_) => { OnCamera_RightRotate(); };
@@ -146,15 +147,15 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
         inputSystem.BattleMap_Player.UnitMove.performed += (_) => { OnBattleMap_Player_UnitMove(); };
 
 
-        inputSystem.Input_Action_NoneGame.Esc.performed += (_) => { OnInput_Action_NoneGame_Esc(); };
-        inputSystem.Input_Action_NoneGame.MouseClick.performed += (_) => { OnInput_Action_NoneGame_MouseClick(); };
+        //inputSystem.Input_Action_NoneGame.Esc.performed += (_) => { OnInput_Action_NoneGame_Esc(); };
+        //inputSystem.Input_Action_NoneGame.MouseClick.performed += (_) => { OnInput_Action_NoneGame_MouseClick(); };
 
 
-        inputSystem.UI_Options.Esc.performed += (_) => { OnUI_Options_Esc(); };
-        inputSystem.UI_Options.WindowOpen.performed += (_) => { OnUI_Options_WindowOpen(); };
+        //inputSystem.UI_Options.Esc.performed += (_) => { OnUI_Options_Esc(); };
+        //inputSystem.UI_Options.WindowOpen.performed += (_) => { OnUI_Options_WindowOpen(); };
 
 
-        inputSystem.UI_ModalPopup.OnOff.performed += (_) => { OnUI_ModalPopup_OnOff(); };
+        //inputSystem.UI_ModalPopup.OnOff.performed += (_) => { OnUI_ModalPopup_OnOff(); };
     }
     /// <summary>
     /// 인풋 시스템 연결하는 로직 
@@ -167,27 +168,27 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
         {
             case HotKey_Use.Use_BattleMap:                                  //배틀맵 진입시
                 //inputSystem.Player.Enable(); //Enable 함수는 액션이 등록되있거나 이미활성화상태면 아무작동도안하고 리턴한다.  2021.3.25f1 버전 기준
-                inputSystem.Input_Action_NoneGame.Disable();
+                //inputSystem.Input_Action_NoneGame.Disable();
 
                 inputSystem.BattleMap_Player.Enable();
                 inputSystem.Camera.Enable();
                 break;
             
             case HotKey_Use.Use_TownMap:                                    // 마을 진입시
-                inputSystem.Input_Action_NoneGame.Disable();
+                //inputSystem.Input_Action_NoneGame.Disable();
 
                 inputSystem.Player.Enable(); 
                 break;
             
             case HotKey_Use.Use_OptionView:                                 //옵션창 사용가능 할시
-                inputSystem.Input_Action_NoneGame.Disable();
+                //inputSystem.Input_Action_NoneGame.Disable();
 
-                inputSystem.UI_Options.Enable();
-                inputSystem.UI_ModalPopup.Enable();
+                //inputSystem.UI_Options.Enable();
+                //inputSystem.UI_ModalPopup.Enable();
                 break;
 
             case HotKey_Use.Use_InvenView:                                  //인벤 사용가능 할시
-                inputSystem.Input_Action_NoneGame.Disable();
+                //inputSystem.Input_Action_NoneGame.Disable();
 
                 inputSystem.QuickSlot.Enable();
                 inputSystem.UI_Inven.Enable();
@@ -217,7 +218,7 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
                 {
                     action.Disable(); //닫아버려
                 }
-                inputSystem.Input_Action_NoneGame.Enable(); //기본만 연다.
+                //inputSystem.Input_Action_NoneGame.Enable(); //기본만 연다.
 #if UNITY_EDITOR
                 inputSystem.Test.Enable(); //포문돌면서 다닫기때문에 테스트도 닫혀버린다.. 그러니 열어두자
 #endif
@@ -245,8 +246,8 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
             case HotKey_Use.Use_OptionView:                                             // 옵션창 닫기 
                 hotKey &= HotKey_Use.Cancel_OptionView;
 
-                inputSystem.UI_Options.Disable();
-                inputSystem.UI_ModalPopup.Disable();
+                //inputSystem.UI_Options.Disable();
+                //inputSystem.UI_ModalPopup.Disable();
 
                 break;
             default:
