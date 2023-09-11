@@ -458,16 +458,14 @@ public class Player_ : MonoBehaviour, IBattle
         foreach(var collider in itemColliders)
         {
             ItemObject itemObj = collider.GetComponent<ItemObject>();
-            //IConsumable consumable = itemObj.ItemData as IConsumable;
-            //if (consumable != null)
-            //{
-            //    consumable.Consume(this.gameObject);
-            //    Destroy(itemObj.gameObject);
-            //}
-            if (GameManager.SlotManager.AddItem(itemObj.ItemData.code))
+            if (itemObj != null)
             {
-                Destroy(itemObj.gameObject);
-            }  
+                if (GameManager.SlotManager.AddItem(itemObj.ItemData.code))
+                {
+                    Destroy(itemObj.gameObject);
+                }
+
+            }
         }
     }
     public void Recovery_HP(int recoveryValue, float duration)
