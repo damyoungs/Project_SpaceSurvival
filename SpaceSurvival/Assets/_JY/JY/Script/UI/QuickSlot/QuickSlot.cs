@@ -43,11 +43,8 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
         get => itemCount;
         set
         {
-            if (itemCount != value)
-            {
-                itemCount = value;
-                Refresh_Count(itemCount);
-            }
+            itemCount = value;
+            Refresh_Count(itemCount);
         }
     }
     public ItemData_Potion ItemData
