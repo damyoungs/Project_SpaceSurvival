@@ -1,67 +1,16 @@
 {
     "dataIndex": 2,
-    "saveTime": "2023-09-11 오후 11:49:24",
-    "sceanName": 4,
+    "saveTime": "2023-09-08 오전 2:19:00",
+    "sceanName": 1,
     "charcterInfo": [],
-    "equipSlotLength": 3,
-    "equipData": [
-        {
-            "values": 1,
-            "itemIndex": 10,
-            "slotIndex": 0,
-            "itemEnhanceValue": 3
-        },
-        {
-            "values": 1,
-            "itemIndex": 10,
-            "slotIndex": 3,
-            "itemEnhanceValue": 1
-        },
-        {
-            "values": 1,
-            "itemIndex": 10,
-            "slotIndex": 5,
-            "itemEnhanceValue": 3
-        },
-        {
-            "values": 1,
-            "itemIndex": 10,
-            "slotIndex": 7,
-            "itemEnhanceValue": 3
-        },
-        {
-            "values": 1,
-            "itemIndex": 10,
-            "slotIndex": 9,
-            "itemEnhanceValue": 2
-        }
-    ],
-    "consumeSlotLength": 1,
-    "consumeData": [
-        {
-            "values": 20,
-            "itemIndex": 1,
-            "slotIndex": 6,
-            "itemEnhanceValue": 0
-        },
-        {
-            "values": 30,
-            "itemIndex": 2,
-            "slotIndex": 8,
-            "itemEnhanceValue": 0
-        }
-    ],
-    "etcSlotLength": 4,
+    "equipSlotLength": 0,
+    "equipData": [],
+    "consumeSlotLength": 0,
+    "consumeData": [],
+    "etcSlotLength": 0,
     "etcData": [],
-    "craftSlotLength": 5,
-    "craftData": [
-        {
-            "values": 8,
-            "itemIndex": 28,
-            "slotIndex": 1,
-            "itemEnhanceValue": 0
-        }
-    ],
+    "craftSlotLength": 0,
+    "craftData": [],
     "skillList": [],
     "questList": []
 }

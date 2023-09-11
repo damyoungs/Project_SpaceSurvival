@@ -77,7 +77,7 @@ public class ItemData_Enhancable : ItemData_Equip, IEnhancable
 
         GameManager.SlotManager.RemoveItem(this, slot.Index);
         slot.AssignSlotItem(this);
-        //Debug.Log("값 변경 완료");
+        Debug.Log("값 변경 완료");
         // Debug.Log(GameManager.SlotManager.slots[Current_Inventory_State.Equip][GameManager.SlotManager.IndexForEnhancer].ItemData);
         //이 시점에서 Slot에 이 아이템 데이터를 Assign 해줘야한다.
     }

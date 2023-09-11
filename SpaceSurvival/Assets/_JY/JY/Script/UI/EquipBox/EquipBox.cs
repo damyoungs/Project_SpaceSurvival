@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -25,11 +24,11 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
     public bool IsOpen => canvasGroup.alpha > 0.9f;
 
     public Action<IPopupSortWindow> PopupSorting { get ; set ; }
-    //InputKeyMouse player_Input_Action;
+    InputKeyMouse player_Input_Action;
 
     private void Awake()
     {
-        //player_Input_Action = new InputKeyMouse();
+        player_Input_Action = new InputKeyMouse();
         description = GetComponentInChildren<EquipBox_Description>();
         canvasGroup = GetComponent<CanvasGroup>();
         equipBox_Slots = new EquipBox_Slot[4];
@@ -41,22 +40,13 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
             equipBox_Slots[i - 1].onPointerExit += description.Close;
         }
     }
-    private void Start() 
+    private void OnEnable()
     {
-        InputSystemController.Instance.OnUI_Inven_EquipBox_Open = On_EquipBox_Open;
-        GameManager.SlotManager.on_UnEquip_Item += UnEquip_Item;
-        Close(); //??ƒ?¤ê³ ?¤ë‹ˆ?”ë° ì¼œì ¸?ˆìœ¼ë©´ì•ˆ?˜ë‹ˆ ?¤í??¸ë§ˆì§€ë§‰ì— ê°ì¶˜??
-        StartCoroutine(Get_Player_Reference());
+        player_Input_Action.KeyBoard.Enable();
+        player_Input_Action.KeyBoard.EquipBox_Open.performed += On_EquipBox_Open;
     }
-    //private void OnEnable()
-    //{
 
-        //player_Input_Action.KeyBoard.Enable();
-        //player_Input_Action.KeyBoard.EquipBox_Open.performed += On_EquipBox_Open;
-    //}
-
-    //private void On_EquipBox_Open(InputAction.CallbackContext _)
-    private void On_EquipBox_Open()
+    private void On_EquipBox_Open(InputAction.CallbackContext _)
     {
         if (IsOpen)
         {
@@ -68,7 +58,12 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
         }
     }
 
-   
+    void Start()
+    {
+        GameManager.SlotManager.on_UnEquip_Item += UnEquip_Item;
+        Close(); //??ƒ?¤ê³ ?¤ë‹ˆ?”ë° ì¼œì ¸?ˆìœ¼ë©´ì•ˆ?˜ë‹ˆ ?¤í??¸ë§ˆì§€ë§‰ì— ê°ì¶˜??
+        StartCoroutine(Get_Player_Reference());
+    }
     IEnumerator Get_Player_Reference()
     {
         yield return null;

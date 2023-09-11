@@ -9,12 +9,6 @@ using UnityEngine.UIElements;
 /// </summary>
 public class TeamBorderManager : MonoBehaviour
 {
-    TeamBorderStateUI[] teamState;
-    public TeamBorderStateUI[] TeamStateUIs => teamState;
-    private void Awake()
-    {
-        teamState = transform.GetComponentsInChildren<TeamBorderStateUI>(true);
-    }
     /// <summary>
     /// 팀원수만큼 상태창을 보여준다 
     /// </summary>

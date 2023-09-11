@@ -10,12 +10,12 @@ public class AttackActionButton : BattleActionButtonBase
     }
 
 
-    //protected override void OnMouseEnter()
-    //{
-    //    uiController.ViewButtons();
-    //}
-    //protected override void OnMouseExit()
-    //{
-    //    uiController.ResetButtons();
-    //}
+    protected override void OnMouseEnter()
+    {
+        uiController.ViewButtons();
+    }
+    protected override void OnMouseExit()
+    {
+        uiController.ResetButtons();
+    }
 }

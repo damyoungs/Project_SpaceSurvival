@@ -14,18 +14,17 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
     /// <summary>
     /// 배틀맵 시작시 셋팅할 맵의 타일 변수 
     /// </summary>
-    [SerializeField]
     Tile[] battleMap;
     public Tile[] BattleMap 
     {
         get 
         {
-            if (battleMap == null || battleMap.Length == 0) //배틀맵의 값이없으면 
-            {
-                battleMap = GetBattleMapTilesData?.Invoke(); //델리게이트 요청해 값을 받아오도록한다.
-                //배틀맵이 아닌경우 델리게이트가 값을 셋팅못하니 null 이 셋팅 될수도있다.
-            }
-            //battleMap ??= GetBattleMapTilesData?.Invoke(); //위의 주석과 같은 내용이라고 한다 . (복합형)
+            //if (battleMap == null) //배틀맵의 값이없으면 
+            //{
+            //    battleMap = GetBattleMapTilesData?.Invoke(); //델리게이트 요청해 값을 받아오도록한다.
+            //    //배틀맵이 아닌경우 델리게이트가 값을 셋팅못하니 null 이 셋팅 될수도있다.
+            //}
+            battleMap ??= GetBattleMapTilesData?.Invoke(); //위의 주석과 같은 내용이라고 한다 . (복합형)
             return battleMap;
 
         }
@@ -33,7 +32,6 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
     /// <summary>
     /// 배틀맵 시작시 셋팅할 맵의 타일 가로갯수 
     /// </summary>
-    [SerializeField]
     int mapSizeX = -1;
     public int MapSizeX
     {
@@ -49,7 +47,6 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
     /// <summary>
     /// 배틀맵 시작시 셋팅할 맵의 타일 세로갯수 
     /// </summary>
-    [SerializeField]
     int mapSizeY = -1;
     public int MapSizeY
     {
@@ -143,19 +140,5 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
     }
     public Func<InitCharcterSetting> GetBattleMapInit;
 
-    public void BattleMap_ResetData(bool isLoadedBattleMap = false)
-    {
-        if (!isLoadedBattleMap) 
-        {
-            battleMap = null;
-            mapSizeX = -1;
-            mapSizeY = -1;
-            moveRange = null;
-            GetMoveRangeComp = null;
-            battleMapInitClass = null;
-            GetBattleMapInit = null;
-        }
-        playerTeam = null;
-        GetPlayerTeam = null;
-    }
+    
 }

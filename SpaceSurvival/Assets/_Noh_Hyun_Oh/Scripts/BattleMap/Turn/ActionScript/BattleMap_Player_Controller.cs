@@ -8,6 +8,10 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class BattleMap_Player_Controller : MonoBehaviour
 {
+    /// <summary>
+    /// 키입력 처리가져오기
+    /// </summary>
+    InputKeyMouse inputSystem;
 
     /// <summary>
     /// 레이가 타일에 충돌됬을때 체크할 레이어 값
@@ -80,18 +84,24 @@ public class BattleMap_Player_Controller : MonoBehaviour
     {
         tileLayerIndex = LayerMask.NameToLayer("Ground");
         uiLayerIndex = LayerMask.NameToLayer("UI");
-
+        inputSystem = new();
+        inputSystem.BattleMap_Player.Enable();
+        inputSystem.BattleMap_Player.UnitMove.performed += OnMove;
        
     }
-    private void Start()
+
+    private void OnDestroy()
     {
-        InputSystemController.Instance.OnBattleMap_Player_UnitMove += OnMove;
+        inputSystem.BattleMap_Player.UnitMove.performed -= OnMove;
+        inputSystem.BattleMap_Player.Disable();
+
     }
+    
     /// <summary>
     /// 클릭했을때 레이를 쏴서 레이에 충돌한 객체들을 가져오고 
     /// 레이어로 나눠서 처리를 하는 로직 
     /// </summary>
-    private void OnMove()
+    private void OnMove(InputAction.CallbackContext _)
     {
         if (PlayerTurnObject == null) //플레이어가 현재 턴인경우만 실행하도록 체크
         {
@@ -172,6 +182,17 @@ public class BattleMap_Player_Controller : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 나중에 이벤트 핸들러 컨트롤을하기위한 온오프 함수
+    /// </summary>
+    private void EventHandlerOn()
+    {
+        inputSystem.BattleMap_Player.Enable();
+    }
+    private void EventHandlerOff()
+    {
+        inputSystem.BattleMap_Player.Disable();
+    }
 
 }
   

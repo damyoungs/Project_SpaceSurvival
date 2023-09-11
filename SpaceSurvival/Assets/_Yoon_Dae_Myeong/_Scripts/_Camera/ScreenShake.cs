@@ -9,35 +9,30 @@ public class ScreenShake : MonoBehaviour
 {
     private CinemachineImpulseSource cinemachineImpulseSource;
 
-	//InputKeyMouse inputClick;
+	InputKeyMouse inputClick;
 
 	private void Awake()
 	{
-		//inputClick = new InputKeyMouse();
+		inputClick = new InputKeyMouse();
 		cinemachineImpulseSource = GetComponent<CinemachineImpulseSource>();
 	}
-    private void Start()
-    {
-        InputSystemController.Instance.OnUI_Inven_MouseClickRight += onClickRight;
-    }
-    //private void OnEnable()
-    //{
-    //	inputClick.Mouse.Enable();
-    //	//inputClick.Mouse.MouseClick.performed += onClick;
-    //	inputClick.Mouse.MouseClickRight.performed += onClickRight;
-    //	//inputClick.Test.Test3.performed += onUnitDie;
-    //}
+	private void OnEnable()
+	{
+		inputClick.Mouse.Enable();
+		//inputClick.Mouse.MouseClick.performed += onClick;
+		inputClick.Mouse.MouseClickRight.performed += onClickRight;
+		//inputClick.Test.Test3.performed += onUnitDie;
+	}
 
-    //private void OnDisable()
-    //{
-    //	//inputClick.Test.Test3.performed -= onUnitDie;
-    //	inputClick.Mouse.MouseClickRight.performed -= onClickRight;
-    //	//inputClick.Mouse.MouseClick.performed -= onClick;
-    //	inputClick.Mouse.Disable();
-    //}
+	private void OnDisable()
+	{
+		//inputClick.Test.Test3.performed -= onUnitDie;
+		inputClick.Mouse.MouseClickRight.performed -= onClickRight;
+		//inputClick.Mouse.MouseClick.performed -= onClick;
+		inputClick.Mouse.Disable();
+	}
 
-    //protected void onClickRight(InputAction.CallbackContext callback)
-    protected void onClickRight()
+	protected void onClickRight(InputAction.CallbackContext callback)
 	{
 		Shake();
 	}

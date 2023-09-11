@@ -31,9 +31,9 @@ public class LoadingScean : MonoBehaviour
     /// 다음씬으로 넘어갈 씬이름
     /// 다음씬이 입력안되면 타이틀로넘어간다.
     /// </summary>
-    //static  EnumList.SceanName nextSceanName = EnumList.SceanName.TITLE;
-    static int nextSceanindex = -1;
-
+    static  EnumList.SceanName nextSceanName = EnumList.SceanName.TITLE;
+    //static int nextSceanName = 0; //성능 차이가 미미하게 더빠르다
+    static int nextSceanIndex = -1;
      /// <summary>
     /// 로딩 진행도 이미지 종류
     /// EnumList 인터페이스에 정의해놓은 값을 참고한다.
@@ -64,20 +64,16 @@ public class LoadingScean : MonoBehaviour
         if (sceanName != EnumList.SceanName.NONE) { //씬 셋팅이 되어있고
             if (!isLoading) { //로딩이 안됬을경우 
                 isLoading = true;//로딩 시작플래그
-                nextSceanindex = (int)sceanName; //다음씬 인덱스 셋팅하고 
-                InputSystemController.Instance.DisableHotKey(HotKey_Use.None); //열려있는 액션 전부 닫고 기본만열자 
+                nextSceanIndex = (int)sceanName; //다음씬 인덱스 셋팅하고 
                 WindowList.Instance.PopupSortManager.CloseAllWindow(); //화면 전환시 열려있는창 전부닫자.  
-                if (SceneManager.GetActiveScene().buildIndex != nextSceanindex) //현재씬이아닌 다른씬갈때는 로딩창을 가도록 수정 
+                if (SceneManager.GetActiveScene().buildIndex != nextSceanIndex) //현재씬이아닌 다른씬갈때는 로딩창을 가도록 수정 
                 {
                     progressType = type; //프로그래스 타입설정.
                     SceneManager.LoadSceneAsync((int)EnumList.SceanName.LOADING);
                 }
                 else 
                 {
-
-
                     isLoading = false; //로딩 화면전환이없음으로 바로 끄기
-                    SetInputSetting();
                 } 
 
             }
@@ -119,7 +115,7 @@ public class LoadingScean : MonoBehaviour
     IEnumerator LoadSceanProcess()
     {
         //비동기 씬로딩정보를 받기위해 가져오는 변수
-        AsyncOperation op = SceneManager.LoadSceneAsync(nextSceanindex, LoadSceneMode.Single); //기본 single => 마지막 로딩완료된것만 열린다
+        AsyncOperation op = SceneManager.LoadSceneAsync(nextSceanIndex,LoadSceneMode.Single); //기본 single => 마지막 로딩완료된것만 열린다
                                                                                                   // additive는 여러씬이 같이열린다..
         //AsyncOperation 이 한개가있지만 여러개선언해도 하나를 참조해서 
         //allowSceneActivation 값이 공유된다.; 
@@ -162,8 +158,7 @@ public class LoadingScean : MonoBehaviour
 
                             isLoading = false;//로딩끝났다고 설정
                             op.allowSceneActivation = true; //해당 변수가 true면 progress 값이 0.9(90%)값이 넘어가는순간 다음씬을 로딩한다.
-                            SetInputSetting();
-                             yield break; //제어권넘기기
+                            yield break; //제어권넘기기
                         }
                     }
                 }
@@ -177,28 +172,4 @@ public class LoadingScean : MonoBehaviour
 
 
     }
-
-    /// <summary>
-    /// 씬전환시 액션값 셋팅용 함수 
-    /// </summary>
-    private static void SetInputSetting()
-    {
-        EnumList.SceanName nextSceanName = (EnumList.SceanName)nextSceanindex;
-        switch (nextSceanName)
-        {
-            case EnumList.SceanName.TestBattleMap:
-                InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_BattleMap);
-                InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_OptionView);
-                InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_InvenView);
-                break;
-            case EnumList.SceanName.meage:
-                InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_BattleMap);
-                InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_OptionView);
-                InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_InvenView);
-                break;
-            default:
-                break;
-        }
-    }
-
 }

@@ -53,7 +53,7 @@ public class ItemSplitter : MonoBehaviour
     /// <summary>
     /// 인풋액션들
     /// </summary>
-    //InputKeyMouse inputActions;
+    InputKeyMouse inputActions;
 
     // 컴포넌트들
     Image itemIcon;
@@ -115,23 +115,20 @@ public class ItemSplitter : MonoBehaviour
             Close();
         });
 
-        //inputActions = new InputKeyMouse();
+        inputActions = new InputKeyMouse();
     }
-    private void Start()
-    {
-        InputSystemController.Instance.OnUI_Inven_Click += OnClick;
-    }
-    //private void OnEnable()
-    //{
-    //    inputActions.UI.Enable();
-    //    inputActions.UI.Click.performed += OnClick;
-    //}
 
-    //private void OnDisable()
-    //{
-    //    inputActions.UI.Click.performed -= OnClick;
-    //    inputActions.UI.Disable();
-    //}
+    private void OnEnable()
+    {
+        inputActions.UI.Enable();
+        inputActions.UI.Click.performed += OnClick;
+    }
+
+    private void OnDisable()
+    {
+        inputActions.UI.Click.performed -= OnClick;
+        inputActions.UI.Disable();
+    }
 
     /// <summary>
     /// 아이템 분리창을 여는 함수
@@ -166,7 +163,7 @@ public class ItemSplitter : MonoBehaviour
     /// 마우스가 오른쪽 클릭이 되거나 왼쪽 클릭이 될 때 실행되는 함수
     /// </summary>
     /// <param name="_"></param>
-    private void OnClick()
+    private void OnClick(InputAction.CallbackContext _)
     {
         Vector2 screenPos = Mouse.current.position.ReadValue();         // 마우스 포인터 위치 가져오고
         Vector2 posDiff = screenPos - (Vector2)transform.position;      // 오브젝트 피봇 위치에서 얼마나 떨어져 있는지 계산
