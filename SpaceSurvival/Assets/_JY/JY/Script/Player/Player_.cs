@@ -14,6 +14,8 @@ public class Player_ : MonoBehaviour, IBattle
     public AnimatorOverrideController shotGun_AC;
     public AnimatorOverrideController rifle_AC;
     public AnimatorOverrideController no_Weapon_AC;
+
+    Line_Renderer lineRenderer;
     public enum WeaponType
     {
         None,
@@ -33,10 +35,12 @@ public class Player_ : MonoBehaviour, IBattle
                 switch (weaponType)
                 {
                     case WeaponType.None:
+                        lineRenderer.State = Attack_State.DeSelect;
                         on_Attack = Basic_Attack;
                         anim.runtimeAnimatorController = no_Weapon_AC;
                         break;
                     case WeaponType.Pistol:
+                        lineRenderer.State = Attack_State.Normal_Attack;
                         on_Attack = Pistol_Attack;
                         weapon_Parent_Transform.localPosition = pistol_Pos;
                         weapon_Parent_Transform.localRotation = pistol_Rotation;
@@ -137,9 +141,10 @@ public class Player_ : MonoBehaviour, IBattle
     public AudioClip rifle_Sound;
     public AudioClip equip_Sound;
     public AudioClip punch_Sound;
+    public AudioClip potion_Sound;
 
 
-    //InputKeyMouse inputActions;
+    InputKeyMouse inputActions;
     Animator anim;
     ItemDescription itemDescription;
     EquipBox_Description EquipBox_Description;
@@ -243,7 +248,8 @@ public class Player_ : MonoBehaviour, IBattle
 
     private void Awake()
     {
-        //inputActions = new InputKeyMouse();
+        lineRenderer = GetComponent<Line_Renderer>();
+        inputActions = new InputKeyMouse();
         anim = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
 
@@ -260,43 +266,6 @@ public class Player_ : MonoBehaviour, IBattle
         hat_Parent_Transform = GetComponentInChildren<Hat_Parent_Transform>().transform;
         hat_Parent_Transform = GetComponentInChildren<BodySuit_Parent_Transform>().transform;
     }
-
-    private void Start()
-    {
-        itemDescription = GameManager.SlotManager.ItemDescription;
-        equipBox = GameManager.EquipBox;
-        EquipBox_Description = equipBox.Description;
-
-        onEquipItem += equipBox.Set_ItemData_For_DoubleClick;
-        onUnEquipItem += GameManager.SlotManager.UnEquip_Item;
-        onOpenInven += GameManager.Inventory.Open_Inventory;
-
-        equipBox.on_Update_Status_For_EquipOrSwap += Update_Status_For_EquipOrSwap;
-        equipBox.on_Update_Status_For_UnEquip += Update_Status_For_UnEquip;
-        equipBox.on_Pass_Item_Transform += Set_ShootPoint_Transform;
-
-        armors = new Transform[4];
-        armors[0] = transform.GetChild(6).transform;// 기본 Crue 케릭터
-        armors[1] = transform.GetChild(17).transform;// Space Armor
-        armors[2] = transform.GetChild(20).transform;// Big Armor
-        armors[3] = transform.GetChild(19).transform;// 머리
-
-        InputSystemController.Instance.OnPlayer_ItemPickUp += ItemPickUp;
-        InputSystemController.Instance.OnPlayer_Equip_Item += On_Equip_Item;
-        InputSystemController.Instance.OnUI_Inven_Inven_Open += OpenInven;
-        InputSystemController.Instance.OnUI_Inven_MouseClickRight += On_MouseClickRight;
-    }
-
-    //private void OnEnable()
-    //{
-        //inputActions.Player.Enable();
-        //inputActions.Player.ItemPickUp.performed += ItemPickUp;
-        //inputActions.Player.Equip_Item.performed += On_Equip_Item;
-        //inputActions.KeyBoard.Enable();
-        //inputActions.KeyBoard.InvenKey.performed += OpenInven;
-        //inputActions.Mouse.Enable();
-        //inputActions.Mouse.MouseClickRight.performed += On_MouseClickRight;
-    //}
     void Set_ShootPoint_Transform(Transform itemObj)
     {
         shootPointTransform = itemObj.GetChild(1);
@@ -331,16 +300,50 @@ public class Player_ : MonoBehaviour, IBattle
         Instantiate(bulletProjectilePrefab, shootPointTransform.position, shootPointTransform.rotation);
     }
 
-  
+    private void OnEnable()
+    {
+        inputActions.Player.Enable();
+        inputActions.Player.ItemPickUp.performed += ItemPickUp;
+        inputActions.Player.Equip_Item.performed += On_Equip_Item;
+        inputActions.KeyBoard.Enable();
+        inputActions.KeyBoard.InvenKey.performed += OpenInven;
+        inputActions.Mouse.Enable();
+        inputActions.Mouse.MouseClickRight.performed += On_MouseClickRight;
+    }
 
-    //private void On_MouseClickRight(InputAction.CallbackContext _)
-    private void On_MouseClickRight()
+    private void On_MouseClickRight(InputAction.CallbackContext _)
     {
         Attack();
     }
 
-  
+    private void Start()
+    {
+        itemDescription = GameManager.SlotManager.ItemDescription;
+        equipBox = GameManager.EquipBox;
+        EquipBox_Description = equipBox.Description;
 
+        onEquipItem += equipBox.Set_ItemData_For_DoubleClick;
+        onUnEquipItem += GameManager.SlotManager.UnEquip_Item;
+        onOpenInven += GameManager.Inventory.Open_Inventory;
+
+        equipBox.on_Update_Status_For_EquipOrSwap += Update_Status_For_EquipOrSwap;
+        equipBox.on_Update_Status_For_UnEquip += Update_Status_For_UnEquip;
+        equipBox.on_Pass_Item_Transform += Set_ShootPoint_Transform;
+
+        armors = new Transform[4];
+        armors[0] = transform.GetChild(6).transform;// 기본 Crue 케릭터
+        armors[1] = transform.GetChild(17).transform;// Space Armor
+        armors[2] = transform.GetChild(20).transform;// Big Armor
+        armors[3] = transform.GetChild(19).transform;// 머리
+    }
+    public void Disable_Input()
+    {
+        inputActions.KeyBoard.InvenKey.performed -= OpenInven;
+    }
+    public void Enable_Input()
+    {
+        inputActions.KeyBoard.InvenKey.performed += OpenInven;
+    }
     void Update_Status_For_UnEquip(ItemData legacyData)
     {
         ItemData_Hat hat = legacyData as ItemData_Hat;
@@ -434,8 +437,7 @@ public class Player_ : MonoBehaviour, IBattle
         }
     }
  
-    //private void On_Equip_Item(InputAction.CallbackContext _)
-    private void On_Equip_Item()
+    private void On_Equip_Item(InputAction.CallbackContext _)
     {
         if (itemDescription.ItemData != null)
         {
@@ -450,14 +452,12 @@ public class Player_ : MonoBehaviour, IBattle
     }
  
 
-    //private void OpenInven(InputAction.CallbackContext _)
-    private void OpenInven()
+    private void OpenInven(InputAction.CallbackContext _)
     {
         onOpenInven?.Invoke();
     }
 
-    //private void ItemPickUp(InputAction.CallbackContext _)
-    private void ItemPickUp()
+    private void ItemPickUp(InputAction.CallbackContext _)
     {
         Collider[] itemColliders = Physics.OverlapSphere(transform.position, pickupRange, LayerMask.GetMask("Item"));
         foreach(var collider in itemColliders)
@@ -472,6 +472,10 @@ public class Player_ : MonoBehaviour, IBattle
 
             }
         }
+    }
+    public void Play_PotionSound()
+    {
+        audioSource.PlayOneShot(potion_Sound);
     }
     public void Recovery_HP(int recoveryValue, float duration)
     {
@@ -538,12 +542,4 @@ public class Player_ : MonoBehaviour, IBattle
 
 
 #endif
-    //public void Disable_Input()
-    //{
-    //    inputActions.KeyBoard.InvenKey.performed -= OpenInven;
-    //}
-    //public void Enable_Input()
-    //{
-    //    inputActions.KeyBoard.InvenKey.performed += OpenInven;
-    //}
 }
