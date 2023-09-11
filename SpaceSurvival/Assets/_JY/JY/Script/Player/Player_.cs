@@ -156,7 +156,7 @@ public class Player_ : MonoBehaviour, IBattle
     public Action onClearSlot;
     public Action on_Attack;
     public Action<float> on_Player_Stamina_Change;
-    public Action on_Ranout_Player_Stamina;
+    public Action<float> on_Player_HP_Change;
 
     int attack_Trigger_Hash = Animator.StringToHash("Attack");
     int get_Hit_Hash = Animator.StringToHash("Get_Hit");
@@ -185,6 +185,7 @@ public class Player_ : MonoBehaviour, IBattle
         }
     }
     float hp = 200;
+    float maxHP = 200;
     public float HP
     {
         get => hp;
@@ -192,12 +193,14 @@ public class Player_ : MonoBehaviour, IBattle
         {
             if (hp != value)
             {
-                hp = value;
+                hp = Mathf.Clamp(value, 0, maxHP);
                 Debug.Log($"플레이어 HP : {hp:f0}");
+                on_Player_HP_Change?.Invoke(hp);
             }
         }
     }
     float stamina = 10;
+    const float max_Stamina = 20;
     public float Stamina
     {
         get => stamina;
@@ -205,13 +208,9 @@ public class Player_ : MonoBehaviour, IBattle
         {
             if (stamina != value)
             {
-                stamina = value;
+                stamina = Mathf.Clamp(value, 0, max_Stamina);
                 Debug.Log($"값수정 체크 : {value}");
                 on_Player_Stamina_Change?.Invoke(stamina);
-                if (stamina <= 0)
-                {
-                    on_Ranout_Player_Stamina?.Invoke();
-                }
             }
         }
     }

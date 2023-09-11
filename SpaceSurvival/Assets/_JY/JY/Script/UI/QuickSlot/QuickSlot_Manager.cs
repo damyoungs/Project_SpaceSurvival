@@ -26,6 +26,7 @@ public enum QuickSlot_State
 public class QuickSlot_Manager : MonoBehaviour
 {
     Player_ player;
+    SlotManager slotManager;
 
     Button popupButton;
     TextMeshProUGUI buttonText;
@@ -104,12 +105,13 @@ public class QuickSlot_Manager : MonoBehaviour
         Init();
         buttonText.text = open;
         // GameManager.SlotManager.onDetectQuickSlot += Set_ItemDataTo_QuickSlot;
-        StartCoroutine(Get_Player_Reference());
+        StartCoroutine(Get_References());
     }
-    IEnumerator Get_Player_Reference()
+    IEnumerator Get_References()
     {
         yield return null;
         player = GameManager.Player__;
+        slotManager = GameManager.SlotManager;
     }
     public void Set_ItemDataTo_QuickSlot(ItemData_Potion data)
     {
@@ -244,41 +246,73 @@ public class QuickSlot_Manager : MonoBehaviour
     }
     private void Space_performed(InputAction.CallbackContext context)
     {
-        space_Slot_Data.Consume(player);
+        if (this[QuickSlotList.Space].ItemCount > 0)
+        {
+            space_Slot_Data.Consume(player);
+            slotManager.Use_Item_On_QuickSlot(space_Slot_Data);
+        }
     }
 
     private void Alt_performed(InputAction.CallbackContext context)
     {
-        alt_Slot_Data.Consume(player);
+        if (this[QuickSlotList.Alt].ItemCount > 0)
+        {
+            alt_Slot_Data.Consume(player);
+            slotManager.Use_Item_On_QuickSlot(alt_Slot_Data);
+        }
     }
 
     private void Ctrl_performed(InputAction.CallbackContext context)
     {
-        ctrl_Slot_Data.Consume(player);
+        if (this[QuickSlotList.Ctrl].ItemCount > 0)
+        {
+            ctrl_Slot_Data.Consume(player);
+            slotManager.Use_Item_On_QuickSlot(ctrl_Slot_Data);
+        }
     }
 
     private void Zero_performed(InputAction.CallbackContext context)
     {
-        _0Slot_Data.Consume(player);
+        if (this[QuickSlotList._0].ItemCount > 0)
+        {
+            _0Slot_Data.Consume(player);
+            slotManager.Use_Item_On_QuickSlot(_0Slot_Data);
+        }
     }
 
     private void Nine_performed(InputAction.CallbackContext context)
     {
-        _9Slot_Data.Consume(player);
+        if (this[QuickSlotList._9].ItemCount > 0)
+        {
+            _9Slot_Data.Consume(player);
+            slotManager.Use_Item_On_QuickSlot(_9Slot_Data);
+        }
     }
 
     private void Eight_performed(InputAction.CallbackContext context)
     {
-        _8Slot_Data.Consume(player);
+        if (this[QuickSlotList._8].ItemCount > 0)
+        {
+            _8Slot_Data.Consume(player);
+            slotManager.Use_Item_On_QuickSlot(_8Slot_Data);
+        }
     }
 
     private void Shift_performed(InputAction.CallbackContext context)
     {
-        shiftSlot_Data.Consume(player);
+        if (this[QuickSlotList.Shift].ItemCount > 0)
+        {
+            shiftSlot_Data.Consume(player);
+            slotManager.Use_Item_On_QuickSlot(shiftSlot_Data);
+        }
     }
     private void Insert_performed(InputAction.CallbackContext context)
     {
-        insert_Slot_Data.Consume(player);
+        if (this[QuickSlotList.Insert].ItemCount > 0)
+        {
+            insert_Slot_Data.Consume(player);
+            slotManager.Use_Item_On_QuickSlot(insert_Slot_Data);
+        }
     }
 
     void Init()
