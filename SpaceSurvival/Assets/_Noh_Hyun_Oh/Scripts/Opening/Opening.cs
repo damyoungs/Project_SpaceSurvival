@@ -73,23 +73,26 @@ public class Opening : MonoBehaviour
         lineCount = SetTextArray(TextFileRead()); //시작하면 바로 데이터 불러와서 셋팅
 
         OpeningButtonManager buttons = GameObject.FindObjectOfType<OpeningButtonManager>(); //버튼 관리해주는 컴퍼넌트 찾기 
-
-        buttons.speedUpButton += () => {
+        buttons.speedUpButton += (text) => {
             if (elaspadSpeed < cameraMoveSpeed + 0.1f) //이동속도 1배속 체크
             {
+                text.text = ">>";
                 elaspadSpeed = cameraMoveSpeed * 2; //두배로 늘린다.
             }
             else if (elaspadSpeed < cameraMoveSpeed * 2 + 0.1f) //이동속도 2배속 체크 
             {
+                text.text = ">>>";
                 elaspadSpeed = cameraMoveSpeed * 3; //세배로 늘린다.
             }
             else 
             {
+                text.text = ">";
                 elaspadSpeed = cameraMoveSpeed; // 원래 속도로 돌린다.
             }
         };
 
-        buttons.skipButton += () => {
+        TextMeshPro speedUpText = buttons.GetComponentInChildren<TextMeshPro>();
+        buttons.skipButton += (text) => {
             LoadingScean.SceanLoading(EnumList.SceanName.TITLE); //스킵이면 씬이동
         };
 

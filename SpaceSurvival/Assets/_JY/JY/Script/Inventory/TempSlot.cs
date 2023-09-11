@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using static UnityEngine.UI.GridLayoutGroup;
 
-public class TempSlot : Slot, IPointerUpHandler,IPointerClickHandler,IPointerDownHandler
+public class TempSlot : Slot, IPointerClickHandler,IPointerDownHandler
 {
     /// <summary>
     /// 이 인벤토리를 가진 플레이어(아이템 드랍 때문에 필요)
@@ -90,13 +90,4 @@ public class TempSlot : Slot, IPointerUpHandler,IPointerClickHandler,IPointerDow
 
     }
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
-       
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        Debug.Log("감지");
-    }
 }

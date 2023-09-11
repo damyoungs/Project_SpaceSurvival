@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = Slot,     Inventory, InventoryUI = SlotManager
 {
-    InputKeyMouse input;
+    //InputKeyMouse input; 인풋시스템 통합중
 
     public GameObject slot;
     Slot just_ChangeSlot;
@@ -57,7 +57,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     {
    
 
-        input = new InputKeyMouse();
+        //input = new InputKeyMouse(); //통합중
         tempSlot = FindObjectOfType<TempSlot>(true);
         itemDescription = FindObjectOfType<ItemDescription>();
         spliter = FindObjectOfType<ItemSplitter>(true);
@@ -71,24 +71,27 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             slotlist.Clear();
         }
     }
-    //private void Start()
-    //{
-    //    GameManager.playerDummy.onUnEquipItem += UnEquip_Item;
-    //}
+    private void Start()
+    {
+        InputSystemController.Instance.OnUI_Inven_Click_Cancel += OnItemDrop;
+        InputSystemController.Instance.OnUI_Inven_Shift += OnShiftPress;
+        //GameManager.playerDummy.onUnEquipItem += UnEquip_Item;
+    }
     private void OnEnable()
     {
-        input.UI.Enable();
-        input.UI.Click.canceled += OnItemDrop;
-        input.UI.Shift.performed += OnShiftPress;
-        input.UI.Shift.canceled += OnShiftPress;
+        //통합중
+        //input.UI_Inven.Enable();
+        //input.UI_Inven.Click.canceled += OnItemDrop;
+        //input.UI_Inven.Shift.performed += OnShiftPress;
+        //input.UI_Inven.Shift.canceled += OnShiftPress;
     }
-    private void OnDisable()
-    {
-        input.UI.Click.canceled -= OnItemDrop;
-        input.UI.Shift.performed -= OnShiftPress;
-        input.UI.Shift.canceled -= OnShiftPress;
-        input.UI.Disable();
-    }
+    //private void OnDisable()
+    //{
+    //    input.UI_Inven.Click.canceled -= OnItemDrop;
+    //    input.UI_Inven.Shift.performed -= OnShiftPress;
+    //    input.UI_Inven.Shift.canceled -= OnShiftPress;
+    //    input.UI_Inven.Disable();
+    //}
     public void Initialize()//Inventory에서 Start타이밍에 호출
     {
         equipBox = GameManager.EquipBox;
@@ -361,7 +364,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     /// <summary>
     /// 마우스 클릭이 떨어졌을 때 실행되는 함수(아이템 드랍용)
     /// </summary>
-    private void OnItemDrop(InputAction.CallbackContext _)
+    private void OnItemDrop()
     {
         if (tempSlot == null)
             return;

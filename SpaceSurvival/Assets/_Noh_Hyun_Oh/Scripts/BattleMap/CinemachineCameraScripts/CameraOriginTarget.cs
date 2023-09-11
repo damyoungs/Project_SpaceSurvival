@@ -63,8 +63,13 @@ public class CameraOriginTarget : MonoBehaviour
         screenHalfPosition.x = Screen.width * 0.5f;
         screenHalfPosition.z = 0.0f;
         screenHalfPosition.y = Screen.height * 0.5f;
-    }
 
+    }
+    private void Start()
+    {
+        InputSystemController.Instance.OnCamera_LeftRotate += OnLeftRotate;
+        InputSystemController.Instance.OnCamera_RightRotate += OnRightRotate;
+    }
     private void LateUpdate()
     {
         ///문제가 있을거같지만 일단 동작은 잘하네..?
@@ -72,20 +77,7 @@ public class CameraOriginTarget : MonoBehaviour
         //transform.Translate(target.transform.position ,Space.World);
     }
 
-    private void OnEnable()
-    {
-        inputAction.Camera.Enable();
-        inputAction.Camera.RightRotate.performed += OnRightRotate;
-        inputAction.Camera.LeftRotate.performed += OnLeftRotate;
-    }
-    
-    private void OnDisable()
-    {
-        inputAction.Camera.LeftRotate.performed -= OnLeftRotate;
-        inputAction.Camera.RightRotate.performed -= OnRightRotate;
-        inputAction.Camera.Disable();
-    }
-    private void OnLeftRotate(InputAction.CallbackContext context)
+    private void OnLeftRotate()
     {
         if (!isRotate)
         {
@@ -94,7 +86,7 @@ public class CameraOriginTarget : MonoBehaviour
         }
     }
 
-    private void OnRightRotate(InputAction.CallbackContext context)
+    private void OnRightRotate()
     {
         if (!isRotate)
         {

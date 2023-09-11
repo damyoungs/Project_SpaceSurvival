@@ -23,14 +23,14 @@ public enum QuickSlot_State
     Set,
     Moving
 }
-public class QuickSlot_Manager : MonoBehaviour
+public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
 {
     Player_ player;
     SlotManager slotManager;
 
     Button popupButton;
     TextMeshProUGUI buttonText;
-    InputKeyMouse inputAction;
+    //InputKeyMouse inputAction;
     string open = "▲";
     string close = "▼";
 
@@ -71,10 +71,13 @@ public class QuickSlot_Manager : MonoBehaviour
             itemCount = value;
         }
     }
-    public QuickSlot this[QuickSlotList number] => quickSlots[(int) number];
+
+    public Action<IPopupSortWindow> PopupSorting { get; set; }
+
+    public QuickSlot this[QuickSlotList number] => quickSlots[(int)number];
     private void Awake()
     {
-        inputAction = new InputKeyMouse();
+        //inputAction = new InputKeyMouse();
         hidePos = new Vector2(0, -280.0f);
         rectTransform = GetComponent<RectTransform>();
 
@@ -95,13 +98,31 @@ public class QuickSlot_Manager : MonoBehaviour
         }
 
     }
-    private void OnEnable()
-    {
-        inputAction.QuickSlot.Enable();
-        inputAction.QuickSlot.PopUp.performed += QuickSlot_PopUp;
-    }
+    //private void OnEnable()
+    //{
+    //inputAction.QuickSlot.Enable();
+    //inputAction.QuickSlot.PopUp.performed += QuickSlot_PopUp;
+    //inputAction.QuickSlot.Shift.performed += Shift_performed;
+    //inputAction.QuickSlot.Eight.performed += Eight_performed;
+    //inputAction.QuickSlot.Nine.performed += Nine_performed;
+    //inputAction.QuickSlot.Zero.performed += Zero_performed;
+    //inputAction.QuickSlot.Ctrl.performed += Ctrl_performed;
+    //inputAction.QuickSlot.Alt.performed += Alt_performed;
+    //inputAction.QuickSlot.Space.performed += Space_performed;
+    //inputAction.QuickSlot.Insert.performed += Insert_performed;
+    //}
     private void Start()
     {
+        InputSystemController.Instance.OnQuickSlot_Alt += Alt_performed;
+        InputSystemController.Instance.OnQuickSlot_Ctrl += Ctrl_performed;
+        InputSystemController.Instance.OnQuickSlot_Eight += Eight_performed;
+        InputSystemController.Instance.OnQuickSlot_Insert += Insert_performed;
+        InputSystemController.Instance.OnQuickSlot_Nine += Nine_performed;
+        InputSystemController.Instance.OnQuickSlot_Popup += QuickSlot_PopUp;
+        InputSystemController.Instance.OnQuickSlot_Shift += Shift_performed;
+        InputSystemController.Instance.OnQuickSlot_Space += Space_performed;
+        InputSystemController.Instance.OnQuickSlot_Zero += Zero_performed;
+
         Init();
         buttonText.text = open;
         // GameManager.SlotManager.onDetectQuickSlot += Set_ItemDataTo_QuickSlot;
@@ -113,6 +134,7 @@ public class QuickSlot_Manager : MonoBehaviour
         player = GameManager.Player__;
         slotManager = GameManager.SlotManager;
     }
+
     public void Set_ItemDataTo_QuickSlot(ItemData_Potion data)
     {
         Find_Slot_By_Position(out QuickSlot targetSlot);
@@ -198,7 +220,7 @@ public class QuickSlot_Manager : MonoBehaviour
         Vector2 mousePos = Mouse.current.position.ReadValue();
         findSlot = null;
         bool result = false;
-        foreach(var targetSlot in quickSlots)
+        foreach (var targetSlot in quickSlots)
         {
             RectTransform rectTransform = targetSlot.GetComponent<RectTransform>();
             Vector2 distance = mousePos - (Vector2)rectTransform.position;
@@ -218,7 +240,7 @@ public class QuickSlot_Manager : MonoBehaviour
         {
             while (transform.position.y > hidePos.y)
             {
-                transform.position +=  popUpSpeed * -Vector3.up;
+                transform.position += popUpSpeed * -Vector3.up;
                 yield return null;
             }
             isOpen = false;
@@ -228,23 +250,25 @@ public class QuickSlot_Manager : MonoBehaviour
         {
             while (transform.position.y < 0.0f)
             {
-                transform.position +=  popUpSpeed * Vector3.up;
+                transform.position += popUpSpeed * Vector3.up;
                 yield return null;
             }
             isOpen = true;
             buttonText.text = close;
         }
-     
+
     }
     void PopUp()
     {
         StartCoroutine(PopUpCoroutine());
     }
-    private void QuickSlot_PopUp(InputAction.CallbackContext _)
+    //private void QuickSlot_PopUp(InputAction.CallbackContext _)
+    private void QuickSlot_PopUp()
     {
         StartCoroutine(PopUpCoroutine());
     }
-    private void Space_performed(InputAction.CallbackContext context)
+    //private void Space_performed(InputAction.CallbackContext context)
+    private void Space_performed()
     {
         if (this[QuickSlotList.Space].ItemCount > 0)
         {
@@ -253,7 +277,8 @@ public class QuickSlot_Manager : MonoBehaviour
         }
     }
 
-    private void Alt_performed(InputAction.CallbackContext context)
+    //private void Alt_performed(InputAction.CallbackContext context)
+    private void Alt_performed()
     {
         if (this[QuickSlotList.Alt].ItemCount > 0)
         {
@@ -262,7 +287,8 @@ public class QuickSlot_Manager : MonoBehaviour
         }
     }
 
-    private void Ctrl_performed(InputAction.CallbackContext context)
+    //private void Ctrl_performed(InputAction.CallbackContext context)
+    private void Ctrl_performed()
     {
         if (this[QuickSlotList.Ctrl].ItemCount > 0)
         {
@@ -271,7 +297,8 @@ public class QuickSlot_Manager : MonoBehaviour
         }
     }
 
-    private void Zero_performed(InputAction.CallbackContext context)
+    //private void Zero_performed(InputAction.CallbackContext context)
+    private void Zero_performed()
     {
         if (this[QuickSlotList._0].ItemCount > 0)
         {
@@ -280,7 +307,8 @@ public class QuickSlot_Manager : MonoBehaviour
         }
     }
 
-    private void Nine_performed(InputAction.CallbackContext context)
+    //private void Nine_performed(InputAction.CallbackContext context)
+    private void Nine_performed()
     {
         if (this[QuickSlotList._9].ItemCount > 0)
         {
@@ -289,7 +317,8 @@ public class QuickSlot_Manager : MonoBehaviour
         }
     }
 
-    private void Eight_performed(InputAction.CallbackContext context)
+    //private void Eight_performed(InputAction.CallbackContext context)
+    private void Eight_performed()
     {
         if (this[QuickSlotList._8].ItemCount > 0)
         {
@@ -298,7 +327,8 @@ public class QuickSlot_Manager : MonoBehaviour
         }
     }
 
-    private void Shift_performed(InputAction.CallbackContext context)
+    //private void Insert_performed(InputAction.CallbackContext context)
+    private void Insert_performed()
     {
         if (this[QuickSlotList.Shift].ItemCount > 0)
         {
@@ -315,12 +345,18 @@ public class QuickSlot_Manager : MonoBehaviour
         }
     }
 
+    //private void Shift_performed(InputAction.CallbackContext context)
+    private void Shift_performed()
+    {
+    }
+
+
     void Init()
     {
         ItemDescription itemDescription = GameManager.SlotManager.ItemDescription;
         TempSlot_For_QuickSlot_Base tempSlot_Base = FindObjectOfType<TempSlot_For_QuickSlot_Base>();
 
-       // quickSlots = new QuickSlot[8];
+        // quickSlots = new QuickSlot[8];
         for (int i = 0; i < quickSlots.Length; i++)
         {
             quickSlots[i] = transform.GetChild(i).GetComponent<QuickSlot>();
@@ -331,7 +367,7 @@ public class QuickSlot_Manager : MonoBehaviour
             quickSlots[i].onPointerMove += itemDescription.MovePosition;
             quickSlots[i].onPointerExit += itemDescription.Close;
 
-            quickSlots[i].onBeginDrag += (_,_) => itemDescription.Toggle_IsPause();
+            quickSlots[i].onBeginDrag += (_, _) => itemDescription.Toggle_IsPause();
             quickSlots[i].onEndDrag += () => itemDescription.Toggle_IsPause();
             quickSlots[i].onBeginDrag += tempSlot_Base.StartDrag;
             quickSlots[i].onEndDrag += tempSlot_Base.EndDrag;
@@ -346,6 +382,23 @@ public class QuickSlot_Manager : MonoBehaviour
             };
 
 
+        }
+    }
+
+    public void OpenWindow()
+    {
+        if (gameObject.activeSelf)
+        {
+            QuickSlot_PopUp();
+            PopupSorting(this);
+        }
+    }
+
+    public void CloseWindow()
+    {
+        if (gameObject.activeSelf)
+        {
+            QuickSlot_PopUp();
         }
     }
 }
