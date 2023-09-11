@@ -7,6 +7,14 @@ using UnityEngine.InputSystem;
 
 public class Cho_PlayerMove : MonoBehaviour
 {
+    enum PlayerState
+    {
+        Idle = 0,
+        Walk,
+        Run,
+        Jump
+    }
+
     public float speed = 0.0f;
     public float walkSpeed = 3.5f;
     public float runSpeed = 5.0f;
@@ -17,6 +25,14 @@ public class Cho_PlayerMove : MonoBehaviour
     Vector3 moveDir = Vector3.zero;
     float curRotateY = 0.0f;
     bool isRun = false;
+
+    PlayerState state = PlayerState.Idle;
+    PlayerState State
+    {
+        get => state;
+        set => state = value;
+    }
+
 
     InputKeyMouse inputActions;
     Rigidbody rigid;
