@@ -1,15 +1,15 @@
 {
     "dataIndex": 2,
-    "saveTime": "2023-09-11 오후 11:49:24",
-    "sceanName": 4,
+    "saveTime": "2023-09-12 오전 1:51:48",
+    "sceanName": 1,
     "charcterInfo": [],
     "equipSlotLength": 3,
     "equipData": [
         {
             "values": 1,
             "itemIndex": 10,
-            "slotIndex": 0,
-            "itemEnhanceValue": 3
+            "slotIndex": 1,
+            "itemEnhanceValue": 1
         },
         {
             "values": 1,

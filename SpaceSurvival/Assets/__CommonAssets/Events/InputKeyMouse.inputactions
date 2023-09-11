@@ -882,6 +882,54 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Common",
+            "id": "25980614-e1ac-4b1c-b74f-16bde8fc7056",
+            "actions": [
+                {
+                    "name": "Options",
+                    "type": "Button",
+                    "id": "5a0de8e7-83a2-424a-9f94-34d5ffcffe54",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Esc",
+                    "type": "Button",
+                    "id": "3dbd4c33-ad89-4799-80cd-db911056b103",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "93a0f874-815b-4d78-a239-ff2894336986",
+                    "path": "<Keyboard>/o",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyMouse",
+                    "action": "Options",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d26c431e-a540-4a5c-96c3-94e5cc21191e",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyMouse",
+                    "action": "Esc",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

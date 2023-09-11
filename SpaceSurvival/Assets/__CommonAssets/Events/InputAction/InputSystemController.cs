@@ -18,7 +18,7 @@ public enum HotKey_Use : byte
     None = 0,                       // 처음시작시 기본값 : 오프닝, 타이틀, 로딩창 등 입력이 되면안되는곳에 사용될 플래그 
     Use_BattleMap = 1,              // 배틀맵 처럼 전투상황에 사용될 플래그
     Use_TownMap = 2,                // 마을 처럼 전투가없는 상황일경우 사용될 플래그                   
-    Use_OptionView = 4,             // 옵션창 열기위한 값셋팅
+    Use_Common = 4,             // 옵션창 열기위한 값셋팅
     Use_InvenView = 8,              // 인벤창 열기위한 값셋팅
 
     Cancel_InvenView = 247,         // 인벤 창 제외하기위한 값셋팅
@@ -90,8 +90,8 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
 
     //UI_Options 액션맵
 
-    public Action OnUI_Options_WindowOpen;
-    public Action OnUI_Options_Esc;
+    public Action On_Common_Options;
+    public Action On_Common_Esc;
 
     //UI_ModalPopup 액션맵
     public Action OnUI_ModalPopup_OnOff;
@@ -151,8 +151,8 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
         //inputSystem.Input_Action_NoneGame.MouseClick.performed += (_) => { OnInput_Action_NoneGame_MouseClick(); };
 
 
-        //inputSystem.UI_Options.Esc.performed += (_) => { OnUI_Options_Esc(); };
-        //inputSystem.UI_Options.WindowOpen.performed += (_) => { OnUI_Options_WindowOpen(); };
+        inputSystem.Common.Esc.performed += (_) => { On_Common_Esc(); };
+        inputSystem.Common.Options.performed += (_) => { On_Common_Options(); };
 
 
         //inputSystem.UI_ModalPopup.OnOff.performed += (_) => { OnUI_ModalPopup_OnOff(); };
@@ -180,10 +180,10 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
                 inputSystem.Player.Enable(); 
                 break;
             
-            case HotKey_Use.Use_OptionView:                                 //옵션창 사용가능 할시
+            case HotKey_Use.Use_Common:                                 //옵션창 사용가능 할시
                 //inputSystem.Input_Action_NoneGame.Disable();
 
-                //inputSystem.UI_Options.Enable();
+                inputSystem.Common.Enable();
                 //inputSystem.UI_ModalPopup.Enable();
                 break;
 
@@ -243,7 +243,7 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
                 inputSystem.UI_Inven.Disable();
 
                 break;
-            case HotKey_Use.Use_OptionView:                                             // 옵션창 닫기 
+            case HotKey_Use.Use_Common:                                             // 옵션창 닫기 
                 hotKey &= HotKey_Use.Cancel_OptionView;
 
                 //inputSystem.UI_Options.Disable();

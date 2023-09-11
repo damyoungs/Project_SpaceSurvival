@@ -904,6 +904,54 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Common"",
+            ""id"": ""25980614-e1ac-4b1c-b74f-16bde8fc7056"",
+            ""actions"": [
+                {
+                    ""name"": ""Options"",
+                    ""type"": ""Button"",
+                    ""id"": ""5a0de8e7-83a2-424a-9f94-34d5ffcffe54"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Esc"",
+                    ""type"": ""Button"",
+                    ""id"": ""3dbd4c33-ad89-4799-80cd-db911056b103"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""93a0f874-815b-4d78-a239-ff2894336986"",
+                    ""path"": ""<Keyboard>/o"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyMouse"",
+                    ""action"": ""Options"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d26c431e-a540-4a5c-96c3-94e5cc21191e"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyMouse"",
+                    ""action"": ""Esc"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -977,6 +1025,10 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         m_UI_Inven_StateKey = m_UI_Inven.FindAction("StateKey", throwIfNotFound: true);
         m_UI_Inven_System = m_UI_Inven.FindAction("System", throwIfNotFound: true);
         m_UI_Inven_EquipBox_Open = m_UI_Inven.FindAction("EquipBox_Open", throwIfNotFound: true);
+        // Common
+        m_Common = asset.FindActionMap("Common", throwIfNotFound: true);
+        m_Common_Options = m_Common.FindAction("Options", throwIfNotFound: true);
+        m_Common_Esc = m_Common.FindAction("Esc", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1604,6 +1656,60 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         }
     }
     public UI_InvenActions @UI_Inven => new UI_InvenActions(this);
+
+    // Common
+    private readonly InputActionMap m_Common;
+    private List<ICommonActions> m_CommonActionsCallbackInterfaces = new List<ICommonActions>();
+    private readonly InputAction m_Common_Options;
+    private readonly InputAction m_Common_Esc;
+    public struct CommonActions
+    {
+        private @InputKeyMouse m_Wrapper;
+        public CommonActions(@InputKeyMouse wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Options => m_Wrapper.m_Common_Options;
+        public InputAction @Esc => m_Wrapper.m_Common_Esc;
+        public InputActionMap Get() { return m_Wrapper.m_Common; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CommonActions set) { return set.Get(); }
+        public void AddCallbacks(ICommonActions instance)
+        {
+            if (instance == null || m_Wrapper.m_CommonActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_CommonActionsCallbackInterfaces.Add(instance);
+            @Options.started += instance.OnOptions;
+            @Options.performed += instance.OnOptions;
+            @Options.canceled += instance.OnOptions;
+            @Esc.started += instance.OnEsc;
+            @Esc.performed += instance.OnEsc;
+            @Esc.canceled += instance.OnEsc;
+        }
+
+        private void UnregisterCallbacks(ICommonActions instance)
+        {
+            @Options.started -= instance.OnOptions;
+            @Options.performed -= instance.OnOptions;
+            @Options.canceled -= instance.OnOptions;
+            @Esc.started -= instance.OnEsc;
+            @Esc.performed -= instance.OnEsc;
+            @Esc.canceled -= instance.OnEsc;
+        }
+
+        public void RemoveCallbacks(ICommonActions instance)
+        {
+            if (m_Wrapper.m_CommonActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ICommonActions instance)
+        {
+            foreach (var item in m_Wrapper.m_CommonActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_CommonActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public CommonActions @Common => new CommonActions(this);
     private int m_KeyMouseSchemeIndex = -1;
     public InputControlScheme KeyMouseScheme
     {
@@ -1671,5 +1777,10 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         void OnStateKey(InputAction.CallbackContext context);
         void OnSystem(InputAction.CallbackContext context);
         void OnEquipBox_Open(InputAction.CallbackContext context);
+    }
+    public interface ICommonActions
+    {
+        void OnOptions(InputAction.CallbackContext context);
+        void OnEsc(InputAction.CallbackContext context);
     }
 }

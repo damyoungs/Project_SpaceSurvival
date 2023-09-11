@@ -188,12 +188,12 @@ public class LoadingScean : MonoBehaviour
         {
             case EnumList.SceanName.TestBattleMap:
                 InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_BattleMap);
-                InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_OptionView);
+                InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_Common);
                 InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_InvenView);
                 break;
             case EnumList.SceanName.meage:
                 InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_BattleMap);
-                InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_OptionView);
+                InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_Common);
                 InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_InvenView);
                 break;
             default:
