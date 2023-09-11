@@ -132,15 +132,15 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
         inputSystem.Camera.LeftRotate.performed += (_) => { OnCamera_LeftRotate(); };
 
 
-        inputSystem.QuickSlot.PopUp.performed += (_) => { OnQuickSlot_Popup(); };
-        inputSystem.QuickSlot.Shift.performed += (_) => { OnQuickSlot_Shift(); };
-        inputSystem.QuickSlot.Eight.performed += (_) => { OnQuickSlot_Eight(); };
-        inputSystem.QuickSlot.Nine.performed += (_) => { OnQuickSlot_Nine(); };
-        inputSystem.QuickSlot.Zero.performed += (_) => { OnQuickSlot_Zero(); };
-        inputSystem.QuickSlot.Ctrl.performed += (_) => { OnQuickSlot_Ctrl(); };
-        inputSystem.QuickSlot.Alt.performed += (_) => { OnQuickSlot_Alt(); };
-        inputSystem.QuickSlot.Space.performed += (_) => { OnQuickSlot_Space(); };
-        inputSystem.QuickSlot.Insert.performed += (_) => { OnQuickSlot_Insert(); };
+        inputSystem.QuickSlot.PopUp.performed += (_) => { OnQuickSlot_Popup?.Invoke(); };
+        inputSystem.QuickSlot.Shift.performed += (_) => { OnQuickSlot_Shift?.Invoke(); };
+        inputSystem.QuickSlot.Eight.performed += (_) => { OnQuickSlot_Eight?.Invoke(); };
+        inputSystem.QuickSlot.Nine.performed += (_) => { OnQuickSlot_Nine?.Invoke(); };
+        inputSystem.QuickSlot.Zero.performed += (_) => { OnQuickSlot_Zero?.Invoke(); };
+        inputSystem.QuickSlot.Ctrl.performed += (_) => { OnQuickSlot_Ctrl?.Invoke(); };
+        inputSystem.QuickSlot.Alt.performed += (_) => { OnQuickSlot_Alt?.Invoke(); };
+        inputSystem.QuickSlot.Space.performed += (_) => { OnQuickSlot_Space?.Invoke(); };
+        inputSystem.QuickSlot.Insert.performed += (_) => { OnQuickSlot_Insert?.Invoke(); };
 
 
         inputSystem.BattleMap_Player.UnitMove.performed += (_) => { OnBattleMap_Player_UnitMove(); };
