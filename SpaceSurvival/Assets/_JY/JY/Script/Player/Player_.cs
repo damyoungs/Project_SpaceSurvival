@@ -14,6 +14,8 @@ public class Player_ : MonoBehaviour, IBattle
     public AnimatorOverrideController shotGun_AC;
     public AnimatorOverrideController rifle_AC;
     public AnimatorOverrideController no_Weapon_AC;
+
+    Line_Renderer lineRenderer;
     public enum WeaponType
     {
         None,
@@ -33,10 +35,12 @@ public class Player_ : MonoBehaviour, IBattle
                 switch (weaponType)
                 {
                     case WeaponType.None:
+                        lineRenderer.State = Attack_State.DeSelect;
                         on_Attack = Basic_Attack;
                         anim.runtimeAnimatorController = no_Weapon_AC;
                         break;
                     case WeaponType.Pistol:
+                        lineRenderer.State = Attack_State.Normal_Attack;
                         on_Attack = Pistol_Attack;
                         weapon_Parent_Transform.localPosition = pistol_Pos;
                         weapon_Parent_Transform.localRotation = pistol_Rotation;
@@ -137,6 +141,7 @@ public class Player_ : MonoBehaviour, IBattle
     public AudioClip rifle_Sound;
     public AudioClip equip_Sound;
     public AudioClip punch_Sound;
+    public AudioClip potion_Sound;
 
 
     InputKeyMouse inputActions;
@@ -243,6 +248,7 @@ public class Player_ : MonoBehaviour, IBattle
 
     private void Awake()
     {
+        lineRenderer = GetComponent<Line_Renderer>();
         inputActions = new InputKeyMouse();
         anim = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
@@ -466,6 +472,10 @@ public class Player_ : MonoBehaviour, IBattle
 
             }
         }
+    }
+    public void Play_PotionSound()
+    {
+        audioSource.PlayOneShot(potion_Sound);
     }
     public void Recovery_HP(int recoveryValue, float duration)
     {
