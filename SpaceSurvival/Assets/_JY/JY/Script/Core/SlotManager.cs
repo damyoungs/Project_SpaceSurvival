@@ -102,7 +102,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         beforeSlotRectTransform = GameManager.Enhancer.EnhancerUI.BeforeSlot.GetComponent<RectTransform>();
         enhancerUIRectTransform = GameManager.Enhancer.EnhancerUI.AfterSlot.GetComponent<RectTransform>();
 
-        foreach (QuickSlot quickSlot in quickSlot_Manager.quickSlots)
+        foreach (QuickSlot quickSlot in quickSlot_Manager.QuickSlots)
         {
             quickSlot.onSetData += Binding_Slots; 
         }
@@ -396,7 +396,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                 slots[Current_Inventory_State.Consume][Index_JustChange_Slot].ItemData = potion;//생략시 slot의 ItemData가 null 이라 델리게이트 추가가 안됨
                 if (potion != null)
                 {
-                    if (quickSlot_Manager.Find_Slot(out QuickSlot targetSlot))
+                    if (quickSlot_Manager.Find_Slot_By_Position(out QuickSlot targetSlot))
                     {
                         quickSlot_Manager.Set_ItemDataTo_QuickSlot(potion);
                         Throw_NewCount_To_QuickSlot(targetSlot, potion);
@@ -461,7 +461,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     }
     void BindingCheck(ItemData itemData)
     {
-        List<QuickSlot> quickSlots = quickSlot_Manager.quickSlots.ToList();
+        List<QuickSlot> quickSlots = quickSlot_Manager.QuickSlots.ToList();
         foreach (QuickSlot slot in quickSlots)
         {
             if (slot.ItemData == itemData)
@@ -567,7 +567,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         ItemData data = GameManager.Itemdata[code];
 
         Slot sameDataSlot = FindSameItem(data);
-        if (sameDataSlot != null)
+        if (sameDataSlot != null && sameDataSlot.ItemCount < sameDataSlot.ItemData.maxStackCount)
         {
             // 같은 종류의 아이템이 있다.
             // 아이템 개수 1 증가시키기고 결과 받기
@@ -777,6 +777,14 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             slot.onItemDataChange?.Invoke(slot.ItemData);
         }
     }
+    public void Use_Item_On_QuickSlot(ItemData data)
+    {
+        Slot slot = FindSameItem(data);
+        if (slot.ItemData != null && slot.ItemCount > 0)
+        {
+            slot.DecreaseSlotItem();
+        }
+    }
     Slot FindSameItem(ItemData data)
     {
         List<Slot> slots = GetItemTab(data);
@@ -785,7 +793,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         {
             if (slot.ItemData != null)
             {
-                if (slot.ItemData.code == data.code && slot.ItemCount < slot.ItemData.maxStackCount)  // itemData가 같고 여유 공간이 있으면 그 슬롯을 리턴한다
+                if (slot.ItemData.code == data.code)  // itemData가 같고 여유 공간이 있으면 그 슬롯을 리턴한다
                 {
                     findSlot = slot;
                     break;

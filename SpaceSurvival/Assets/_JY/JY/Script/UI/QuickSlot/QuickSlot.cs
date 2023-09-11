@@ -7,6 +7,18 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+public enum QuickSlot_Type
+{
+    Shift,
+    _8,
+    _9,
+    _0,
+    Ctrl,
+    Alt,
+    Space,
+    Insert
+}
+
 public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandler, IPointerExitHandler, IBeginDragHandler,IEndDragHandler, IDragHandler
 {
     Image itemIcon;
@@ -22,19 +34,17 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
     public Action onEndDrag;
 
     public Action<ItemData_Potion, QuickSlot> onSetData;
+    public Action<QuickSlot> on_Clear_Quickslot_Data;
 
-
+    public QuickSlot_Type type;
     uint itemCount = 0;
     public uint ItemCount
     {
         get => itemCount;
         set
         {
-            if (itemCount != value)
-            {
-                itemCount = value;
-                Refresh_Count(itemCount);
-            }
+            itemCount = value;
+            Refresh_Count(itemCount);
         }
     }
     public ItemData_Potion ItemData
@@ -46,7 +56,14 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
             {
                 itemData = value;
                 Refresh_Icon(itemData);
-                onSetData?.Invoke(itemData, this);
+                if (itemData != null)
+                {
+                    onSetData?.Invoke(itemData, this);//SlotManager, QuickSlotManager에서 받음
+                }
+                else
+                {
+                    on_Clear_Quickslot_Data?.Invoke(this);
+                }
             }
         }
     }

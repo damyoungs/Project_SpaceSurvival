@@ -99,8 +99,9 @@ public class Slot : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandle
     }
     public void ClearSlotItem()
     {
-        ItemData = null;
         ItemCount = 0;
+        onItemCountChange?.Invoke(BindingSlot, ItemData);
+        ItemData = null;
         IsEquipped = false;
         //Debug.Log($"인벤토리 {slotIndex}번 슬롯을 비웁니다.");
     }
