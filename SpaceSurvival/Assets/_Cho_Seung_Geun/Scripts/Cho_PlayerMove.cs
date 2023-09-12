@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.InputSystem;
@@ -16,8 +17,8 @@ public class Cho_PlayerMove : MonoBehaviour
     }
 
     public float speed = 0.0f;
-    public float walkSpeed = 3.5f;
-    public float runSpeed = 5.0f;
+    public float walkSpeed = 5.0f;
+    public float runSpeed = 8.0f;
     public float jumpHeight = 5.0f;
     public float rotateSensitiveX = 30.0f;
     public float rotateSensitiveY = 30.0f;
@@ -30,7 +31,26 @@ public class Cho_PlayerMove : MonoBehaviour
     PlayerState State
     {
         get => state;
-        set => state = value;
+        set
+        {
+            if (state != value)
+            {
+                state = value;
+                switch (state)
+                {
+                    case PlayerState.Idle:
+                        break;
+                    case PlayerState.Walk:
+                        break;
+                    case PlayerState.Run:
+                        break;
+                    case PlayerState.Jump:
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
     }
 
 
@@ -79,9 +99,10 @@ public class Cho_PlayerMove : MonoBehaviour
         inputActions.Player.Disable();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         rigid.MovePosition(rigid.position + transform.TransformDirection(Time.fixedDeltaTime * speed * moveDir));
+        //rigid.MovePosition(rigid.position + Time.fixedDeltaTime * speed * moveDir);
     }
 
     private void OnMove(UnityEngine.InputSystem.InputAction.CallbackContext context)
@@ -131,10 +152,11 @@ public class Cho_PlayerMove : MonoBehaviour
     private void OnMouseDelta(InputAction.CallbackContext context)
     {
         Vector2 temp = context.ReadValue<Vector2>();
-        float rotateX = temp.x * rotateSensitiveX * Time.deltaTime;
-        transform.Rotate(Vector3.up, rotateX);
+        float rotateX = temp.x * rotateSensitiveX * Time.fixedDeltaTime;
+        rigid.MoveRotation(rigid.rotation * Quaternion.AngleAxis(rotateX, Vector3.up));
+        //transform.Rotate(Vector3.up, rotateX);
 
-        float rotateY = temp.y * rotateSensitiveY * Time.deltaTime;
+        float rotateY = temp.y * rotateSensitiveY * Time.fixedDeltaTime;
         curRotateY -= rotateY;
         curRotateY = Mathf.Clamp(curRotateY, -60.0f, 60.0f);
         cameraPos.rotation = Quaternion.Euler(curRotateY, cameraPos.eulerAngles.y, cameraPos.eulerAngles.z);
