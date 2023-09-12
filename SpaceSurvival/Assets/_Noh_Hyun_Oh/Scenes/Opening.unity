@@ -630,6 +630,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4448403842861961559, guid: eb5a737cfd4232b4dae34c330972995e, type: 3}
+      propertyPath: turnStartValue
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4550168752674352820, guid: eb5a737cfd4232b4dae34c330972995e, type: 3}
       propertyPath: m_RootOrder
       value: 0

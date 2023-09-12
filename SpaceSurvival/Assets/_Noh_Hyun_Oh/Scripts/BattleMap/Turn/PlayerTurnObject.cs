@@ -67,18 +67,37 @@ public class PlayerTurnObject : TurnBaseObject
         }
         else //외부함수가 연결안되있는경우  
         {
+            BattleMapPlayerBase go;
             //테스트 데이터 생성
             for (int i = 0; i < testPlayerLength; i++)//캐릭터들 생성해서 셋팅 
             {
-                BattleMapPlayerBase go = (BattleMapPlayerBase)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.CHARCTER_PLAYER_POOL);
+                go = (BattleMapPlayerBase)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.CHARCTER_PLAYER_POOL);
                 charcterList.Add(go);
                 go.name = $"Player_{i}";
                 go.SetTile(SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Charcter));
                 go.transform.position = go.CurrentTile.transform.position; //셋팅된 타일위치로 이동시킨다.
-               
+                int ramdaIndex = i; //람다식안에다가 넘길 인덱스값
+                go.CharcterData.on_Player_HP_Change += (hpValue) =>
+                {
+                    TeamBorderStateUI uiComp = WindowList.Instance.TeamBorderManager.TeamStateUIs[ramdaIndex];
+                    uiComp.HpText.text = $"{hpValue:f0}";
+                    uiComp.HpMaxText.text = $"{go.CharcterData.MaxHp}";
+                    uiComp.HpSlider.value = hpValue / go.CharcterData.MaxHp;
+
+                };
+                go.CharcterData.on_Player_Stamina_Change += (stmValue) =>
+                {
+                    Debug.Log(stmValue);
+                    TeamBorderStateUI uiComp = WindowList.Instance.TeamBorderManager.TeamStateUIs[ramdaIndex];
+                    uiComp.StmText.text = $"{stmValue:f0}";
+                    uiComp.StmMaxText.text = $"{go.CharcterData.Max_Stamina}";
+                    uiComp.StmSlider.value = stmValue / go.CharcterData.Max_Stamina;
+
+                };
 
             }
             WindowList.Instance.TeamBorderManager.ViewTeamInfo(testPlayerLength); //팀 상시 유아이 보여주기 
+
         }
 
     }
@@ -98,17 +117,28 @@ public class PlayerTurnObject : TurnBaseObject
         BattleMapPlayerBase currentCharcter = (BattleMapPlayerBase)currentUnit;
         Player_ currentPlayer = currentCharcter.CharcterData;
         currentPlayer.Stamina = TurnActionValue;
-        
+        float moveSize = currentUnit.MoveSize < TurnActionValue ? currentUnit.MoveSize : TurnActionValue;//이동범위 최대 크기잡아놓은만큼만 표시하기위한 값
+        Debug.Log(TurnActionValue);
+        //상시유아이 갱신
+        TeamBorderStateUI uiComp = WindowList.Instance.TeamBorderManager.TeamStateUIs[0];
+        uiComp.HpSlider.value = currentPlayer.HP / currentPlayer.MaxHp;
+        uiComp.HpMaxText.text = $"{currentPlayer.MaxHp}";
+        uiComp.HpText.text = $"{currentPlayer.HP:f0}";
+        uiComp.StmSlider.value = TurnActionValue / currentPlayer.Max_Stamina;
+        uiComp.StmMaxText.text = $"{currentPlayer.Max_Stamina}";
+        uiComp.StmText.text = $"{TurnActionValue:f0}";
+
 
         SelectControllUnit(); //유닛 선택로직 실행
-        
+
         // 첫로딩시 생성타이밍안맞음 
-        if (currentUnit.BattleUI != null) 
+        if (currentUnit.BattleUI != null)
         {
-            currentUnit.BattleUI.stmGaugeSetting(TurnActionValue,maxTurnValue);
+            currentUnit.BattleUI.stmGaugeSetting(TurnActionValue, currentPlayer.Max_Stamina);
+            currentUnit.BattleUI.hpGaugeSetting(currentPlayer.HP, currentPlayer.MaxHp);
         }
         SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentUnit.CurrentTile);
-        SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(currentUnit.CurrentTile, currentUnit.MoveSize);//이동범위표시해주기 
+        SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(currentUnit.CurrentTile, moveSize);//이동범위표시해주기 
 
     }
 
@@ -205,7 +235,7 @@ public class PlayerTurnObject : TurnBaseObject
     /// </summary>
     private void SelectControllUnit()
     {
-        currentUnit.MoveSize = TurnActionValue; //새로운캐릭터 이동가능범위 셋팅
+        //currentUnit.MoveSize = TurnActionValue; //새로운캐릭터 이동가능범위 셋팅
         MoveActionButton.IsMoveButtonClick = false; //귀찮아서 스태틱
         //Debug.Log($"컨트롤유닛 : {currentUnit.transform.name} 선택했다.");
     }

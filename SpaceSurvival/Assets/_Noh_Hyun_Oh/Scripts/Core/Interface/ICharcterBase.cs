@@ -39,7 +39,7 @@ public interface ICharcterBase
     /// <summary>
     /// 캐릭터가 이동할수있는 거리 (행동력값을 넘겨줘도됨)
     /// </summary>
-    float MoveSize { get; set; }
+    float MoveSize { get; }
     /// <summary>
     /// 턴유닛이 사라질때 초기화할 함수
     /// </summary>

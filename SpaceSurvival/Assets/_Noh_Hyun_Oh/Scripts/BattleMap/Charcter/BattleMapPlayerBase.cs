@@ -21,10 +21,7 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
     /// </summary>
     Player_ charcterData;
     public Player_ CharcterData => charcterData;
-    /// <summary>
-    /// 스태미나 최대치 
-    /// </summary>
-    const float charcterStaminaMaxValue = 10.0f;
+   
 
 
     /// <summary>
@@ -67,15 +64,16 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
     Transform battleUICanvas;
     public Transform BattleUICanvas => battleUICanvas;
 
+
     /// <summary>
     /// 행동력 혹은 이동 거리
     /// </summary>
-    protected float moveSize = 5.0f;
-    public float MoveSize 
-    {
-        get => moveSize;
-        set => moveSize = value;
-    }
+    [SerializeField]
+    float moveSize = 5.0f;
+    
+    public float MoveSize => moveSize;
+
+
 
 
     /// <summary>
@@ -90,20 +88,26 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
         charcterData = GetComponentInChildren<Player_>();
         charcterData.on_Player_Stamina_Change += (stmValue) => {
             
+            //float currentMoveSize = stmValue > moveSize ? moveSize : stmValue;
             TurnManager.Instance.CurrentTurn.TurnActionValue = stmValue;
-            moveSize = stmValue;
+            //moveSize = stmValue;
             if (battleUI != null) 
             {
-                BattleUI.stmGaugeSetting(stmValue, charcterStaminaMaxValue); //소모된 행동력 표시
+                BattleUI.stmGaugeSetting(stmValue, charcterData.Max_Stamina); //소모된 행동력 표시
             }
-            SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentTile);
-            SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(currentTile, moveSize);//이동범위표시해주기 
+            //SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentTile);
+            //SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(currentTile, currentMoveSize);//이동범위표시해주기 
             if (stmValue < 1.0f) //최소행동값? 보다 낮으면 
             {
                 TurnManager.Instance.CurrentTurn.TurnEndAction();//턴종료 
             }
         };
-
+        charcterData.on_Player_HP_Change += (hpValue) => {
+            if (battleUI != null)
+            {
+                BattleUI.hpGaugeSetting(hpValue, charcterData.MaxHp); //소모된 행동력 표시
+            }
+        };
     }
 
     private void Start()

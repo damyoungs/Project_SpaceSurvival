@@ -191,6 +191,7 @@ public class Player_ : MonoBehaviour, IBattle
     }
     float hp = 200;
     float maxHP = 200;
+    public float MaxHp => maxHP;
     public float HP
     {
         get => hp;
@@ -206,6 +207,7 @@ public class Player_ : MonoBehaviour, IBattle
     }
     float stamina = 10;
     const float max_Stamina = 20;
+    public float Max_Stamina => max_Stamina;
     public float Stamina
     {
         get => stamina;

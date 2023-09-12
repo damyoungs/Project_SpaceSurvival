@@ -35,24 +35,24 @@ public class MoveActionButton : BattleActionButtonBase
     protected override void OnClick()
     {
 
-        ITurnBaseData turnObj = TurnManager.Instance.CurrentTurn;   // 턴 오브젝트찾아서 
-        ICharcterBase curruentUnit = turnObj.CurrentUnit;           // 현재 행동중인 유닛 찾고 
-        if (curruentUnit == null)
-        {
-            Debug.LogWarning("선택한 유닛이없습니다");
-            return;
-        }
-        if (!curruentUnit.IsMoveCheck) //이동중이 아닌경우만  
-        {
-            if (isMoveButtonClick) 
-            {
-                turnObj.CurrentUnit.MoveSize -= turnObj.CurrentUnit.CurrentTile.MoveCheckG;
-                turnObj.TurnActionValue -= turnObj.CurrentUnit.CurrentTile.MoveCheckG;
-            }
-            SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(curruentUnit.CurrentTile);
-            SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(curruentUnit.CurrentTile, curruentUnit.MoveSize);//이동범위표시해주기 
-            isMoveButtonClick = true;
-        }
+        //ITurnBaseData turnObj = TurnManager.Instance.CurrentTurn;   // 턴 오브젝트찾아서 
+        //ICharcterBase curruentUnit = turnObj.CurrentUnit;           // 현재 행동중인 유닛 찾고 
+        //if (curruentUnit == null)
+        //{
+        //    Debug.LogWarning("선택한 유닛이없습니다");
+        //    return;
+        //}
+        //if (!curruentUnit.IsMoveCheck) //이동중이 아닌경우만  
+        //{
+        //    if (isMoveButtonClick) 
+        //    {
+                //turnObj.CurrentUnit.MoveSize -= turnObj.CurrentUnit.CurrentTile.MoveCheckG;
+                //turnObj.TurnActionValue -= turnObj.CurrentUnit.CurrentTile.MoveCheckG;
+        //    }
+        //    SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(curruentUnit.CurrentTile);
+        //    SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(curruentUnit.CurrentTile, curruentUnit.MoveSize);//이동범위표시해주기 
+        //    isMoveButtonClick = true;
+        //}
     }
 
     protected override void OnMouseEnter()

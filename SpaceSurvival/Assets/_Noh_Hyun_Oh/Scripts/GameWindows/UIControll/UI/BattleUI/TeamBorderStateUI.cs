@@ -33,13 +33,13 @@ public class TeamBorderStateUI : MonoBehaviour
     private void Awake()
     {
         Transform child = transform.GetChild(0); //hp
-        hpSlider = child.GetComponent<Slider>();
+        hpSlider = child.GetChild(0).GetComponent<Slider>();
         hpText = child.GetChild(1).GetComponent<TextMeshProUGUI>(); // 현재피
         hpMaxText = child.GetChild(3).GetComponent<TextMeshProUGUI>() ; // 최대피
         child = transform.GetChild(1);  //stm
         stmText = child.GetChild(1).GetComponent<TextMeshProUGUI>(); // 현재스태미나
         stmMaxText = child.GetChild(3).GetComponent<TextMeshProUGUI>(); // 최대스태미나
-        stmSlider = child.GetComponent<Slider>();
+        stmSlider = child.GetChild(0).GetComponent<Slider>();
         child = transform.GetChild(2); //상태이상 
         int childCount = child.childCount;
         imgIconArray = new Image[childCount];
