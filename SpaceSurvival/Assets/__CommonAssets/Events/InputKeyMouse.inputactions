@@ -888,15 +888,6 @@
             "id": "25980614-e1ac-4b1c-b74f-16bde8fc7056",
             "actions": [
                 {
-                    "name": "Options",
-                    "type": "Button",
-                    "id": "5a0de8e7-83a2-424a-9f94-34d5ffcffe54",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Esc",
                     "type": "Button",
                     "id": "3dbd4c33-ad89-4799-80cd-db911056b103",
@@ -909,23 +900,40 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "93a0f874-815b-4d78-a239-ff2894336986",
-                    "path": "<Keyboard>/o",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyMouse",
-                    "action": "Options",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "d26c431e-a540-4a5c-96c3-94e5cc21191e",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyMouse",
                     "action": "Esc",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Options",
+            "id": "a7517348-2605-4803-977a-a9cfb061e5f7",
+            "actions": [
+                {
+                    "name": "Options",
+                    "type": "Button",
+                    "id": "0fd2e57a-bb9b-49b1-8c57-070569510226",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "0232b0df-105a-45f5-b30c-f916071fb306",
+                    "path": "<Keyboard>/o",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyMouse",
+                    "action": "Options",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

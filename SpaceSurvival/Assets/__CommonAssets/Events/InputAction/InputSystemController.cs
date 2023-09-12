@@ -101,7 +101,7 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
 
     //Common 액션맵
 
-    public Action On_Common_Options;
+    public Action On_Options_Options;
     public Action On_Common_Esc;
 
     //UI_ModalPopup 액션맵
@@ -160,10 +160,10 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
         inputSystem.BattleMap_Player.UnitMove.performed += (_) => { OnBattleMap_Player_UnitMove?.Invoke(); };
 
 
-       
-
         inputSystem.Common.Esc.performed += (_) => { On_Common_Esc?.Invoke(); };
-        inputSystem.Common.Options.performed += (_) => { On_Common_Options?.Invoke(); };
+
+
+        inputSystem.Options.Options.performed += (_) => { On_Options_Options?.Invoke(); };
 
 
         //inputSystem.UI_ModalPopup.OnOff.performed += (_) => { OnUI_ModalPopup_OnOff(); }; //모달 창 따로 할까 생각중..
@@ -178,10 +178,12 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
         {
             case HotKey_Use.Use_BattleMap:                                  //배틀맵 진입시
                 inputSystem.BattleMap_Player.Enable();
+                inputSystem.Options.Enable();
                 inputSystem.Camera.Enable();
                 break;
             
             case HotKey_Use.Use_TownMap:                                    // 마을 진입시
+                inputSystem.Options.Enable();
                 inputSystem.Player.Enable(); 
                 break;
             
@@ -233,7 +235,8 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
                 break;
             case HotKey_Use.Cancel_BattleMap:                                       //배틀맵에서 벗어낫을때  
                 hotKey &= HotKey_Use.Cancel_BattleMap;  //값수정하고
-                
+
+                inputSystem.Options.Disable();
                 inputSystem.BattleMap_Player.Disable();                             //배틀맵에서 플레이어가 사용할 인풋관련키고
                 inputSystem.Camera.Disable();                                       //카메라 회전관련 인풋 키고
 
@@ -241,6 +244,7 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
             case HotKey_Use.Cancel_TownMap:                                         //마을에서 벗어낫을때  
                 hotKey &= HotKey_Use.Cancel_TownMap;    //값수정하고
 
+                inputSystem.Options.Disable();
                 inputSystem.Player.Disable();                                       //wasd 와 점프 같은기능을 사용할수있게 킨다.
 
                 break;

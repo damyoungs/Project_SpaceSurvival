@@ -107,7 +107,7 @@ public class WindowList : Singleton<WindowList> {
     }
     private void Start()
     {
-        InputSystemController.Instance.On_Common_Options += OnOffWindowOption; //옵션창 열고 닫기 
+        InputSystemController.Instance.On_Options_Options += OnOffWindowOption; //옵션창 열고 닫기 
         InputSystemController.Instance.On_Common_Esc += OffPopupWindow;          //키입력시 순서대로 닫히게만들기
         
         //InputSystemController.Instance.OnInput_Action_NoneGame_MouseClick+= ()=> { }; //뭘연결시킬까나.   

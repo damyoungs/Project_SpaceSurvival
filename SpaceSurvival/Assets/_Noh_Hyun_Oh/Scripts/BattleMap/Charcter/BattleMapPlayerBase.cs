@@ -115,7 +115,7 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
         battleUICanvas = WindowList.Instance.transform.GetChild(0).GetChild(0);  // TrackingUI 담을 캔버스위치
         InitUI();//맨처음 
         unitAnimator = transform.GetChild(0).GetComponent<Animator>();
-        charcterMove = CharcterMoveCoroutine(null,0.0f);
+        charcterMove = CharcterMoveCoroutine(null);
     }
 
     protected override void OnEnable()
@@ -202,7 +202,7 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
             //StopAllCoroutines();
             //StartCoroutine(CharcterMove(path));
             StopCoroutine(charcterMove);
-            charcterMove = CharcterMoveCoroutine(path, currentTile.MoveCheckG);
+            charcterMove = CharcterMoveCoroutine(path);
             StartCoroutine(charcterMove);
            
         }
@@ -226,12 +226,11 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
     ///  해결  : 이동범위표시할때 초기화 하는로직에서 꼬였었음 
     /// </summary>
     /// <param name="path">A스타 최단거리 타일리스트</param>
-    /// <param name="useTurnValue">이동했을때 소모될 값</param>
     /// <returns></returns>
-    IEnumerator CharcterMoveCoroutine(List<Tile> path , float useTurnValue)
+    IEnumerator CharcterMoveCoroutine(List<Tile> path )
     {
         isMoveCheck = true; //이동 중인지 체크하기 
-        Vector3 targetPos = currentTile.transform.position;
+        Vector3 targetPos = currentTile.transform.position; //길이없는경우 현재 타일위치 고정
         unitAnimator.SetBool(isWalkingHash, true); //이동애니메이션 재생 시작
         foreach (Tile tile in path)  // 길이있는경우 
         {
