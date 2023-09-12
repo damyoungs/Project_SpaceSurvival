@@ -24,36 +24,9 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "LeftRotate",
+                    "name": "Run",
                     "type": "Button",
-                    "id": "2b702604-5cb8-40f3-9dd1-0e909eed1cb4",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "RightRotate",
-                    "type": "Button",
-                    "id": "ee67fc0c-d326-44ae-b7e8-7f793d49b5e2",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "ItemPickUp",
-                    "type": "Button",
-                    "id": "b05c263e-df4c-4eea-9892-fcd3efd12ec1",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Equip_Item",
-                    "type": "Button",
-                    "id": "76aa3019-e59a-448e-9b43-ed44f0e446d2",
+                    "id": "ff788026-fc2b-4f17-a500-ff74e98701d2",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -62,16 +35,7 @@
                 {
                     "name": "MoveMode_Change",
                     "type": "Button",
-                    "id": "58cce24f-25c0-4dd8-9748-c832251e369b",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Run",
-                    "type": "Button",
-                    "id": "ff788026-fc2b-4f17-a500-ff74e98701d2",
+                    "id": "c4a541c8-7952-4ffd-a8ae-6d77bcc5b8f2",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -147,78 +111,23 @@
                 },
                 {
                     "name": "",
-                    "id": "7a6083ef-02ec-46bb-bfb0-be940fdec55e",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyMouse",
-                    "action": "LeftRotate",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "74497746-bd9a-4324-a4c0-d8b076d6fa0c",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyMouse",
-                    "action": "RightRotate",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4f4fef8c-4c00-434b-91fd-2bc19161f564",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ItemPickUp",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7f631461-747c-4088-bdef-3dadcfc7bdbc",
-                    "path": "<Keyboard>/z",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ItemPickUp",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "66d88ca4-cb5b-4eda-9b55-f8de612e258b",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "MultiTap(tapDelay=0.4)",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Equip_Item",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "53feca87-2df9-4191-926e-2cb081f00873",
-                    "path": "<Keyboard>/tab",
-                    "interactions": "MultiTap(tapDelay=0.5)",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MoveMode_Change",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "1d116796-5c07-4e0e-b0bc-b1b1c1727638",
                     "path": "<Keyboard>/shift",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Run",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0597b375-14fd-4bdf-bc4d-157d9750d5b2",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "MultiTap(tapDelay=0.4)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveMode_Change",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -236,15 +145,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
-                },
-                {
-                    "name": "TestClick",
-                    "type": "PassThrough",
-                    "id": "64a0994d-d4f9-4dab-af61-a0b4c5c39d16",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 },
                 {
                     "name": "MouseClickRight",
@@ -270,131 +170,12 @@
                 },
                 {
                     "name": "",
-                    "id": "22daf798-14f0-42ee-8f59-ef2d491ee1be",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "TestClick",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "73933102-520f-4c03-ba39-951ed265350a",
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyMouse",
                     "action": "MouseClickRight",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "KeyBoard",
-            "id": "2fe57fd0-94ec-48be-a1c3-751133faf037",
-            "actions": [
-                {
-                    "name": "InvenKey",
-                    "type": "Button",
-                    "id": "bec4b0ba-dcbe-4278-9ea3-1d44416c437c",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "OptionKey",
-                    "type": "Button",
-                    "id": "0b8941a4-b399-459d-a370-d54702cd6e08",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "StateKey",
-                    "type": "Button",
-                    "id": "f540ad41-ab20-4a1c-99d7-6963c56833e1",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "System",
-                    "type": "Button",
-                    "id": "98ab586a-9e65-4ffd-9b8c-a5edf7e362b2",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "EquipBox_Open",
-                    "type": "Button",
-                    "id": "c8674803-4b06-4c36-b7a0-bf7edf45d9e3",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "62f3cc10-e6f8-4bca-ada9-2309ad2d6acd",
-                    "path": "<Keyboard>/i",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "InvenKey",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3f13777f-5336-4a94-8b68-f0795dbb25f6",
-                    "path": "<Keyboard>/o",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "OptionKey",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0af9c2cc-a9ad-48c3-ac3e-17355e69a8f8",
-                    "path": "<Keyboard>/p",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "StateKey",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4e9dca12-5267-480e-a988-2fd5b3a6caf2",
-                    "path": "<Keyboard>/escape",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "System",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d856841b-1960-47b9-b858-84719efb71f7",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "EquipBox_Open",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -603,65 +384,6 @@
                     "processors": "",
                     "groups": "KeyMouse",
                     "action": "Test9",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "UI",
-            "id": "60105a31-2baa-4a4a-a6e1-de88fe1fcdb9",
-            "actions": [
-                {
-                    "name": "Click",
-                    "type": "Button",
-                    "id": "8abfd317-8e81-489c-a229-9ae255004d07",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Shift",
-                    "type": "Button",
-                    "id": "4a88eb60-c7c6-4cfc-82fa-2104f1652ed3",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "8c1eaa1a-1035-461f-98d1-5b848099ce11",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Click",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "52d8b9ee-103c-4c9f-bc09-9401c3bcc2f1",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Click",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c541439f-abcb-4970-88e8-0f6b3865bb85",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Shift",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -915,15 +637,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
-                },
-                {
-                    "name": "TestClick",
-                    "type": "Button",
-                    "id": "93837777-462b-4d72-aa16-3579da24edb0",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -937,15 +650,262 @@
                     "action": "UnitMove",
                     "isComposite": false,
                     "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "UI_Inven",
+            "id": "92959d50-8e28-4da4-bdc8-7303c6d89c9d",
+            "actions": [
+                {
+                    "name": "Click",
+                    "type": "Button",
+                    "id": "f15c78df-b5cd-4b1a-bbb4-7a2ce677eb03",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Shift",
+                    "type": "Button",
+                    "id": "b61f79c7-2374-466a-a156-eba9145b8d56",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Equip_Item",
+                    "type": "Button",
+                    "id": "c0ba7cde-33c5-4edf-a931-744590f725c1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ItemPickUp",
+                    "type": "Button",
+                    "id": "f1ee8e84-3157-48e6-a764-986fde029bf6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "InvenKey",
+                    "type": "Button",
+                    "id": "beba4f3e-c403-42a9-a08e-38e2331a4982",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "OptionKey",
+                    "type": "Button",
+                    "id": "9cc30019-aa9b-4547-9d9d-4c3a55791066",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "StateKey",
+                    "type": "Button",
+                    "id": "15f81dc4-3d17-4d3c-b32c-78824bd12bc9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "System",
+                    "type": "Button",
+                    "id": "24dcdb30-ed2d-4582-9a2f-379953cdc49d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "EquipBox_Open",
+                    "type": "Button",
+                    "id": "ff48c69b-221d-4266-a2a9-4216030e6d15",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "9d735b74-c6c2-4ada-9fdb-b4701859d8bf",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "6c637a3e-803d-45c2-993f-b940460262ce",
+                    "id": "caeed834-2332-4fde-8a34-af0ca4c3b762",
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
+                    "groups": "",
+                    "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b960c28f-24e6-4f1b-920b-a0acaf199f2b",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shift",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f4633dd3-211b-4ba9-8703-adb5acf0ff42",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "MultiTap(tapDelay=0.4)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Equip_Item",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "943db113-03f8-44dd-a57a-01a663b79d79",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ItemPickUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ab81b23d-1ba5-47a4-b4e0-7a293505303f",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ItemPickUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b5f69b83-bd41-4ea8-823f-6437551ddf50",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "InvenKey",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b622e900-97b8-449b-99d8-3fea582b2c3c",
+                    "path": "<Keyboard>/o",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OptionKey",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "94fed637-7a1d-4a90-860e-5281c525dcd1",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "StateKey",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dcc410c1-9ae2-4d5f-8994-e235e1f93afd",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "System",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "84ae9ca9-d7c9-4bbc-ba5e-e38b45072202",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EquipBox_Open",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Common",
+            "id": "25980614-e1ac-4b1c-b74f-16bde8fc7056",
+            "actions": [
+                {
+                    "name": "Options",
+                    "type": "Button",
+                    "id": "5a0de8e7-83a2-424a-9f94-34d5ffcffe54",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Esc",
+                    "type": "Button",
+                    "id": "3dbd4c33-ad89-4799-80cd-db911056b103",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "93a0f874-815b-4d78-a239-ff2894336986",
+                    "path": "<Keyboard>/o",
+                    "interactions": "",
+                    "processors": "",
                     "groups": "KeyMouse",
-                    "action": "TestClick",
+                    "action": "Options",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d26c431e-a540-4a5c-96c3-94e5cc21191e",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyMouse",
+                    "action": "Esc",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
