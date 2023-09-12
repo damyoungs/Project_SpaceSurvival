@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = Slot,     Inventory, InventoryUI = SlotManager
 {
-    InputKeyMouse input;
+    //InputKeyMouse input; 인풋시스템 통합중
 
     public GameObject slot;
     Slot just_ChangeSlot;
@@ -30,7 +30,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
 
     QuickSlot_Manager quickSlot_Manager;
 
-    
+
     RectTransform equipboxRectTransform;
     RectTransform beforeSlotRectTransform;
     RectTransform enhancerUIRectTransform;
@@ -50,45 +50,48 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     private Dictionary<Current_Inventory_State, int> slotCount; //슬롯 생성후 번호를 부여하기위한 Dic
     private Dictionary<ItemData_Potion, bool> quickSlot_Binding_Table;
     List<Slot> tempList_For_QuickSlot = new();
- 
+
 
     public byte Index_JustChange_Slot { get; set; }
     private void Awake()
     {
-   
 
-        input = new InputKeyMouse();
+
+        //input = new InputKeyMouse(); //통합중
         tempSlot = FindObjectOfType<TempSlot>(true);
         itemDescription = FindObjectOfType<ItemDescription>();
         spliter = FindObjectOfType<ItemSplitter>(true);
     }
     public void Inven_Clear()
     {
-        
+
         Transform parentTransform = GetParentTransform();
         foreach (List<Slot> slotlist in slots.Values)
         {
             slotlist.Clear();
         }
     }
-    //private void Start()
-    //{
-    //    GameManager.playerDummy.onUnEquipItem += UnEquip_Item;
-    //}
+    private void Start()
+    {
+        InputSystemController.Instance.OnUI_Inven_Click_Cancel += OnItemDrop;
+        InputSystemController.Instance.OnUI_Inven_Shift += OnShiftPress;
+        //GameManager.playerDummy.onUnEquipItem += UnEquip_Item;
+    }
     private void OnEnable()
     {
-        input.UI.Enable();
-        input.UI.Click.canceled += OnItemDrop;
-        input.UI.Shift.performed += OnShiftPress;
-        input.UI.Shift.canceled += OnShiftPress;
+        //통합중
+        //input.UI_Inven.Enable();
+        //input.UI_Inven.Click.canceled += OnItemDrop;
+        //input.UI_Inven.Shift.performed += OnShiftPress;
+        //input.UI_Inven.Shift.canceled += OnShiftPress;
     }
-    private void OnDisable()
-    {
-        input.UI.Click.canceled -= OnItemDrop;
-        input.UI.Shift.performed -= OnShiftPress;
-        input.UI.Shift.canceled -= OnShiftPress;
-        input.UI.Disable();
-    }
+    //private void OnDisable()
+    //{
+    //    input.UI_Inven.Click.canceled -= OnItemDrop;
+    //    input.UI_Inven.Shift.performed -= OnShiftPress;
+    //    input.UI_Inven.Shift.canceled -= OnShiftPress;
+    //    input.UI_Inven.Disable();
+    //}
     public void Initialize()//Inventory에서 Start타이밍에 호출
     {
         equipBox = GameManager.EquipBox;
@@ -104,7 +107,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
 
         foreach (QuickSlot quickSlot in quickSlot_Manager.QuickSlots)
         {
-            quickSlot.onSetData += Binding_Slots; 
+            quickSlot.onSetData += Binding_Slots;
         }
 
         inven = GameManager.Inventory;
@@ -121,7 +124,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         spliter.Close();
         spliter.onOkClick += OnSpliterOk;
 
-        
+
 
 
         mixer_UI.onEndSession_Success += Add_Reward_Item;
@@ -147,7 +150,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     /// <summary>
     /// 슬롯의 기본갯수를 셋팅한다 
     /// </summary>
-    public void SlotInit() 
+    public void SlotInit()
     {
         //슬롯갯수  초기화 시킨다
         GameManager.Inventory.State = Current_Inventory_State.Equip;
@@ -212,11 +215,11 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         if (parentTransform != null)
         {
             slotCount[GameManager.Inventory.State]++;
-            newSlot.name = $"{GameManager.Inventory.State}_{slotCount[GameManager.Inventory.State]}";           
+            newSlot.name = $"{GameManager.Inventory.State}_{slotCount[GameManager.Inventory.State]}";
             newSlot.transform.SetParent(parentTransform.transform, true);
             slots[GameManager.Inventory.State].Add(slotComp);
 
-            
+
             slotComp.InitializeSlot(slotComp);
             if (GameManager.Inventory.State == Current_Inventory_State.Consume)
             {
@@ -268,7 +271,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     private void OnItemMoveBegin(ItemData data, uint index)
     {
         Index_JustChange_Slot = (byte)index;
-        MoveItem(data ,index, tempSlot.Index);    // 시작 슬롯에서 임시 슬롯으로 아이템 옮기기
+        MoveItem(data, index, tempSlot.Index);    // 시작 슬롯에서 임시 슬롯으로 아이템 옮기기
         TempSlot.Open();                          // 임시 슬롯 열기
     }
     private void OnItemMoveEnd(ItemData data, uint index, bool isSuccess)
@@ -305,9 +308,9 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             // 임시 슬롯에 아이템이 있을 때 클릭이 되었으면
             OnItemMoveEnd(data, index, true); // 클릭된 슬롯으로 아이템 이동
         }
-       
+
     }
-    private void OnItemDetailOn( ItemData data, uint index)
+    private void OnItemDetailOn(ItemData data, uint index)
     {
         List<Slot> slots = GetItemTab(data); //빈슬롯 위에 Pointer Enter시 data가 null 이되서 리스트를 가져올때 터짐
         itemDescription.Open(slots[(int)index].ItemData); // 상세정보창 열기ㅐ
@@ -361,7 +364,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     /// <summary>
     /// 마우스 클릭이 떨어졌을 때 실행되는 함수(아이템 드랍용)
     /// </summary>
-    private void OnItemDrop(InputAction.CallbackContext _)
+    private void OnItemDrop()
     {
         if (tempSlot == null)
             return;
@@ -439,7 +442,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     {
         bool result = false;
         List<Slot> slotList = GetItemTab(itemData);
-        foreach(Slot slot in slotList)
+        foreach (Slot slot in slotList)
         {
             if (slot.IsEmpty)
             {
@@ -482,7 +485,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                 slot.onItemCountChange = null;
                 slot.onItemCountChange += Throw_NewCount_To_QuickSlot;
             }
-            
+
         }
     }
 
@@ -762,7 +765,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         }//수동 복사부분
 
         // 정렬 완료된 것을 다시 배열로 만들기
-       // slots = beforeSlots;
+        // slots = beforeSlots;
         RefreshInventory();
     }
 
@@ -837,7 +840,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             return true;
         }
         return false;
-    } 
+    }
 
     private List<Slot> GetItemTab(ItemData item = null)
     {
@@ -859,7 +862,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             }
         }
         else
-        {      
+        {
             switch (GameManager.Inventory.State)
             {
                 case Current_Inventory_State.Equip:

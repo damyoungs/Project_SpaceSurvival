@@ -176,15 +176,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Get_Position"",
-                    ""type"": ""Value"",
-                    ""id"": ""1a274f96-950c-448d-b428-48a891d3fca7"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -207,17 +198,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""KeyMouse"",
                     ""action"": ""MouseClickRight"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""26593f5f-70c9-436f-a786-b81ca81c055e"",
-                    ""path"": ""<Mouse>/position"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Get_Position"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -983,7 +963,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
         m_Mouse_MouseClick = m_Mouse.FindAction("MouseClick", throwIfNotFound: true);
         m_Mouse_MouseClickRight = m_Mouse.FindAction("MouseClickRight", throwIfNotFound: true);
-        m_Mouse_Get_Position = m_Mouse.FindAction("Get_Position", throwIfNotFound: true);
         // Test
         m_Test = asset.FindActionMap("Test", throwIfNotFound: true);
         m_Test_Test1 = m_Test.FindAction("Test1", throwIfNotFound: true);
@@ -1162,14 +1141,12 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     private List<IMouseActions> m_MouseActionsCallbackInterfaces = new List<IMouseActions>();
     private readonly InputAction m_Mouse_MouseClick;
     private readonly InputAction m_Mouse_MouseClickRight;
-    private readonly InputAction m_Mouse_Get_Position;
     public struct MouseActions
     {
         private @InputKeyMouse m_Wrapper;
         public MouseActions(@InputKeyMouse wrapper) { m_Wrapper = wrapper; }
         public InputAction @MouseClick => m_Wrapper.m_Mouse_MouseClick;
         public InputAction @MouseClickRight => m_Wrapper.m_Mouse_MouseClickRight;
-        public InputAction @Get_Position => m_Wrapper.m_Mouse_Get_Position;
         public InputActionMap Get() { return m_Wrapper.m_Mouse; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1185,9 +1162,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @MouseClickRight.started += instance.OnMouseClickRight;
             @MouseClickRight.performed += instance.OnMouseClickRight;
             @MouseClickRight.canceled += instance.OnMouseClickRight;
-            @Get_Position.started += instance.OnGet_Position;
-            @Get_Position.performed += instance.OnGet_Position;
-            @Get_Position.canceled += instance.OnGet_Position;
         }
 
         private void UnregisterCallbacks(IMouseActions instance)
@@ -1198,9 +1172,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @MouseClickRight.started -= instance.OnMouseClickRight;
             @MouseClickRight.performed -= instance.OnMouseClickRight;
             @MouseClickRight.canceled -= instance.OnMouseClickRight;
-            @Get_Position.started -= instance.OnGet_Position;
-            @Get_Position.performed -= instance.OnGet_Position;
-            @Get_Position.canceled -= instance.OnGet_Position;
         }
 
         public void RemoveCallbacks(IMouseActions instance)
@@ -1730,7 +1701,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     {
         void OnMouseClick(InputAction.CallbackContext context);
         void OnMouseClickRight(InputAction.CallbackContext context);
-        void OnGet_Position(InputAction.CallbackContext context);
     }
     public interface ITestActions
     {

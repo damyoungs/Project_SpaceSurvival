@@ -27,7 +27,7 @@ public class CameraOriginTarget : MonoBehaviour
     /// </summary>
     [SerializeField]
     Transform target;
-    public Transform Target 
+    public Transform Target
     {
         get => target;
         set => target = value;
@@ -59,29 +59,21 @@ public class CameraOriginTarget : MonoBehaviour
         screenHalfPosition.x = Screen.width * 0.5f;
         screenHalfPosition.z = 0.0f;
         screenHalfPosition.y = Screen.height * 0.5f;
-    }
 
+    }
+    private void Start()
+    {
+        InputSystemController.Instance.OnCamera_LeftRotate += OnLeftRotate;
+        InputSystemController.Instance.OnCamera_RightRotate += OnRightRotate;
+    }
     private void LateUpdate()
     {
         ///문제가 있을거같지만 일단 동작은 잘하네..?
-        transform.position = Vector3.Lerp(transform.position,target.position, followSpeed * Time.deltaTime); // 시작위치가 항상바뀜으로 시간누적 뺏다.
+        transform.position = Vector3.Lerp(transform.position, target.position, followSpeed * Time.deltaTime); // 시작위치가 항상바뀜으로 시간누적 뺏다.
         //transform.Translate(target.transform.position ,Space.World);
     }
 
-    private void OnEnable()
-    {
-        inputAction.Camera.Enable();
-        inputAction.Camera.RightRotate.performed += OnRightRotate;
-        inputAction.Camera.LeftRotate.performed += OnLeftRotate;
-    }
-    
-    private void OnDisable()
-    {
-        inputAction.Camera.LeftRotate.performed -= OnLeftRotate;
-        inputAction.Camera.RightRotate.performed -= OnRightRotate;
-        inputAction.Camera.Disable();
-    }
-    private void OnLeftRotate(InputAction.CallbackContext context)
+    private void OnLeftRotate()
     {
         if (!isRotate)
         {
@@ -90,7 +82,7 @@ public class CameraOriginTarget : MonoBehaviour
         }
     }
 
-    private void OnRightRotate(InputAction.CallbackContext context)
+    private void OnRightRotate()
     {
         if (!isRotate)
         {
@@ -103,7 +95,7 @@ public class CameraOriginTarget : MonoBehaviour
     /// </summary>
     /// <param name="rotateValue">회전 방향및 각도(90,-90)</param>
     /// <returns></returns>
-    IEnumerator RotateCourutine(float rotateValue) 
+    IEnumerator RotateCourutine(float rotateValue)
     {
         isRotate = true;//회전끝날때까지 입력들어와도 막는용
 
@@ -123,7 +115,7 @@ public class CameraOriginTarget : MonoBehaviour
             cameraRotation?.Invoke(transform.rotation);
             isRotate = false;//회전끝난것을 체크
         }
-        else 
+        else
         {
             while (time > rotateValue)//체킹
             {
@@ -142,4 +134,3 @@ public class CameraOriginTarget : MonoBehaviour
     }
 
 }
-
