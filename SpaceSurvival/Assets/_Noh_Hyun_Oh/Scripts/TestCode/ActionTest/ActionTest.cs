@@ -6,13 +6,6 @@ using UnityEngine.InputSystem;
 
 public class ActionTest : TestBase
 {
-    [SerializeField]
-    [Range(0.0f,1.0f)]
-    float test = 0.0f;
-    [SerializeField]
-    float max = 0.0f;
-    [SerializeField]
-    float now = 0.0f;
     TrackingBattleUI testUI;
     Action action;
     event Action testAction //기본적으로 중복으로 함수가 등록이된다.

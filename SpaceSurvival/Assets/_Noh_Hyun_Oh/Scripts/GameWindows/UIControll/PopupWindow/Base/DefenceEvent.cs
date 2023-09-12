@@ -19,7 +19,7 @@ public class DefenceEvent: MonoBehaviour
     }
     private void Start()
     {
-        InputSystemController.Instance.OnUI_ModalPopup_OnOff += Close;  //모달 관련 설정은 따로 생각을 좀더해봐야될듯
+        InputSystemController.Instance.On_Common_Esc += Close;  //모달 관련 설정은 따로 생각을 좀더해봐야될듯
     }
     //private void OnEnable()
     //{
