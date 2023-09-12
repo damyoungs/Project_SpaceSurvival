@@ -70,11 +70,10 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
     /// <summary>
     /// 행동력 혹은 이동 거리
     /// </summary>
-    protected float moveSize = 5.0f;
+    protected const float moveSize = 5.0f;
     public float MoveSize 
     {
         get => moveSize;
-        set => moveSize = value;
     }
 
 
@@ -91,7 +90,6 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
         charcterData.on_Player_Stamina_Change += (stmValue) => {
             
             TurnManager.Instance.CurrentTurn.TurnActionValue = stmValue;
-            moveSize = stmValue;
             if (battleUI != null) 
             {
                 BattleUI.stmGaugeSetting(stmValue, charcterStaminaMaxValue); //소모된 행동력 표시

@@ -59,7 +59,6 @@ public class PlayerTurnObject : TurnBaseObject
                     player.transform.position = player.CurrentTile.transform.position;//셋팅된 타일위치로 이동시킨다.
                     ((BattleMapPlayerBase)player).CharcterData.on_Player_Stamina_Change += (stmValue) => {
                         TurnActionValue = stmValue;
-                        currentUnit.MoveSize = stmValue;
                         SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentUnit.CurrentTile);
                         SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(currentUnit.CurrentTile, currentUnit.MoveSize);//이동범위표시해주기 
                         if (stmValue < 1.0f) 
@@ -213,7 +212,6 @@ public class PlayerTurnObject : TurnBaseObject
     /// </summary>
     private void SelectControllUnit()
     {
-        currentUnit.MoveSize = TurnActionValue; //새로운캐릭터 이동가능범위 셋팅
         MoveActionButton.IsMoveButtonClick = false; //귀찮아서 스태틱
         //Debug.Log($"컨트롤유닛 : {currentUnit.transform.name} 선택했다.");
     }
