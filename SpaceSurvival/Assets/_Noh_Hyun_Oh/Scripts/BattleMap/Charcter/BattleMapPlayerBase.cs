@@ -70,10 +70,11 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
     /// <summary>
     /// 행동력 혹은 이동 거리
     /// </summary>
-    protected const float moveSize = 5.0f;
+    protected float moveSize = 5.0f;
     public float MoveSize 
     {
         get => moveSize;
+        set => moveSize = value;
     }
 
 
@@ -90,6 +91,7 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
         charcterData.on_Player_Stamina_Change += (stmValue) => {
             
             TurnManager.Instance.CurrentTurn.TurnActionValue = stmValue;
+            moveSize = stmValue;
             if (battleUI != null) 
             {
                 BattleUI.stmGaugeSetting(stmValue, charcterStaminaMaxValue); //소모된 행동력 표시
@@ -101,6 +103,7 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
                 TurnManager.Instance.CurrentTurn.TurnEndAction();//턴종료 
             }
         };
+
     }
 
     private void Start()
@@ -141,7 +144,7 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
         {
             viewPlayerCamera = EtcObjects.Instance.TeamCharcterView;// EtcObject 에 미리 만들어둔 게임오브젝트 가져오기 큐로 관리중이다 
             Transform cameraTarget = transform.GetChild(0); //캐릭터위치
-            viewPlayerCamera.TargetObject = cameraTarget.GetChild(cameraTarget.childCount-1); //캐릭터안에 맨밑에 카메라 타겟을 만들어둬야쫒아다닌다.
+            viewPlayerCamera.TargetObject = cameraTarget.GetChild(cameraTarget.childCount-2); //캐릭터안에 맨밑에서두번째 오브젝트를 카메라 타겟을 만들어둬야쫒아다닌다.
             viewPlayerCamera.gameObject.SetActive(true); //셋팅끝낫으면 활성화시키기
         }
     }
@@ -163,6 +166,7 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
             viewPlayerCamera.gameObject.SetActive(false); // 비활성화 시키고 내부적으로 큐로 돌린다.
             viewPlayerCamera = null; //참조 지우기
         }
+        SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentTile); //이동범위  리셋시키고 
         currentTile.ExistType = Tile.TileExistType.None; // 속성 돌리고 
         currentTile = null; //타일 참조해제
         //턴 오브젝트 초기화
@@ -206,15 +210,16 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
     int isWalkingHash = Animator.StringToHash("IsWalking");
     [SerializeField]
     float moveSpeed = 3.0f;
-    [SerializeField]
-    float rotateSpeed = 10.0f;
+    //[SerializeField]
+    //float rotateSpeed = 10.0f;
     IEnumerator charcterMove;
     /// <summary>
     /// 승근씨가 짜둔 길찾기 가져오기
     /// 
     /// 이동버그 존재함 
     /// - 어떠한 상황에서 발생하는지는 파악이안되나 타일의 값이 charcter 로 셋팅이안되는 상황이 발생 
-    ///   이동시 해당로직에서 데이터를 바꾸고있기때문에 여기인거같은데 정확하게 파악을 못하고있음.
+    ///   이동시 해당로직에서 데이터를 바꾸고있기때문에 여기인거같은데 정확하게 파악을 못하고있음. 
+    ///  해결  : 이동범위표시할때 초기화 하는로직에서 꼬였었음 
     /// </summary>
     /// <param name="path">A스타 최단거리 타일리스트</param>
     /// <param name="useTurnValue">이동했을때 소모될 값</param>

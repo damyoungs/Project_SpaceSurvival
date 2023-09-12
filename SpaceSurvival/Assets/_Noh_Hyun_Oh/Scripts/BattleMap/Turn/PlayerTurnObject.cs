@@ -57,15 +57,6 @@ public class PlayerTurnObject : TurnBaseObject
                     charcterList.Add(player); //턴관리할 캐릭터로 셋팅
                     player.GetCurrentTile = () => SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Charcter); //타일 셋팅연결
                     player.transform.position = player.CurrentTile.transform.position;//셋팅된 타일위치로 이동시킨다.
-                    ((BattleMapPlayerBase)player).CharcterData.on_Player_Stamina_Change += (stmValue) => {
-                        TurnActionValue = stmValue;
-                        SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentUnit.CurrentTile);
-                        SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(currentUnit.CurrentTile, currentUnit.MoveSize);//이동범위표시해주기 
-                        if (stmValue < 1.0f) 
-                        {
-                            TurnEndAction();
-                        }
-                    };
                 }
                 WindowList.Instance.TeamBorderManager.ViewTeamInfo(playerList.Length);//팀 상시 유아이 보여주기 
             }
@@ -116,6 +107,8 @@ public class PlayerTurnObject : TurnBaseObject
         {
             currentUnit.BattleUI.stmGaugeSetting(TurnActionValue,maxTurnValue);
         }
+        SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentUnit.CurrentTile);
+        SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(currentUnit.CurrentTile, currentUnit.MoveSize);//이동범위표시해주기 
 
     }
 
@@ -176,7 +169,7 @@ public class PlayerTurnObject : TurnBaseObject
                         if (currentUnit != null) //기존에 컨트롤 중인 유닛이 있을때  
                         {
                             currentUnit.IsControll = false; //기존값은 컨트롤 해제하고 
-                            SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentUnit.CurrentTile); //이동범위 리셋시킨다.
+                            //SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentUnit.CurrentTile); //이동범위 리셋시킨다.
                         }
                         TurnActionValue -= currentUnit.CurrentTile.MoveCheckG;  //이동한값만큼 감소시키기
                         currentUnit = playerUnit; //다른 아군을 담고
@@ -212,6 +205,7 @@ public class PlayerTurnObject : TurnBaseObject
     /// </summary>
     private void SelectControllUnit()
     {
+        currentUnit.MoveSize = TurnActionValue; //새로운캐릭터 이동가능범위 셋팅
         MoveActionButton.IsMoveButtonClick = false; //귀찮아서 스태틱
         //Debug.Log($"컨트롤유닛 : {currentUnit.transform.name} 선택했다.");
     }

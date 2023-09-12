@@ -98,7 +98,9 @@ public class InitCharcterSetting : MonoBehaviour
         //데이터 초기화끝나면 턴시작 
 
         battleActionButtons = WindowList.Instance.BattleActionButtons;
+
         int childCount = battleActionButtons.childCount;
+
         for (int i = 0; i < childCount; i++)
         {
             battleActionButtons.GetChild(i).gameObject.SetActive(true);
@@ -108,9 +110,15 @@ public class InitCharcterSetting : MonoBehaviour
 
 
         TurnManager.Instance.InitTurnData(teamArray);
+
+        GameManager.QuickSlot_Manager.gameObject.SetActive(true);
     }
 
-    public void TestReset() 
+    /// <summary>
+    /// 배틀맵 데이터를 초기화 하는 함수
+    /// </summary>
+    /// <param name="isBattleLoaded">씬이동이 배틀맵에서 배틀맵으로 데이터 초기화시 체크하는 변수</param>
+    public void TestReset(bool isBattleLoaded = false) 
     {
         miniCam.gameObject.SetActive(false); //미니맵 활성화 수정필요 
         cameraOriginTarget.gameObject.SetActive(false);
@@ -128,6 +136,7 @@ public class InitCharcterSetting : MonoBehaviour
         {
             WindowList.Instance.TurnGaugeUI.gameObject.SetActive(false); //비활성화 처리
         }
+        SpaceSurvival_GameManager.Instance.BattleMap_ResetData(isBattleLoaded);
     }
 
 }

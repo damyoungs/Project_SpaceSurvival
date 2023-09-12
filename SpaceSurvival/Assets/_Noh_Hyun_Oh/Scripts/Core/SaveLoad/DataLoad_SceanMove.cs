@@ -24,17 +24,21 @@ public class DataLoad_SceanMove : MonoBehaviour
         //여기에 파싱작업이필요하다 실제로사용되는 작업
         if (data != null)
         {
-            if (TurnManager.Instance.TurnIndex > 0) //배틀맵에서 로드한거면 
-            {
-                SpaceSurvival_GameManager.Instance.BattleMapInitClass.TestReset();  //배틀맵 데이터 초기화 
-                if (data.SceanName == EnumList.SceanName.TestBattleMap) // 불러오는곳이 배틀맵이면  
-                {
-                    SpaceSurvival_GameManager.Instance.BattleMapInitClass.TestInit();  //데이터 리셋
-                }
-            }
             SaveLoadManager.Instance.ParsingProcess.LoadParsing(data);
             Debug.Log($"{data} 파일이 정상로드됬습니다 , {data.SceanName} 파싱작업후 맵이동 작성을 해야하니 맵이 필요합니다.");
             LoadingScean.SceanLoading(data.SceanName);
+            if (TurnManager.Instance.TurnIndex > 0) //배틀맵에서 로드한거면 
+            {
+                if (data.SceanName == EnumList.SceanName.TestBattleMap) // 불러오는곳이 배틀맵이면  
+                {
+                    SpaceSurvival_GameManager.Instance.BattleMapInitClass.TestReset(true);  //배틀맵 데이터 초기화 
+                    SpaceSurvival_GameManager.Instance.BattleMapInitClass.TestInit();  //데이터 리셋
+                }
+                else 
+                {
+                    SpaceSurvival_GameManager.Instance.BattleMapInitClass.TestReset();  //배틀맵 데이터 초기화 
+                }
+            }
 
         }
     }

@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
 public class MoveActionButton : BattleActionButtonBase
 {
     /// <summary>
@@ -49,6 +46,7 @@ public class MoveActionButton : BattleActionButtonBase
         {
             if (isMoveButtonClick) 
             {
+                turnObj.CurrentUnit.MoveSize -= turnObj.CurrentUnit.CurrentTile.MoveCheckG;
                 turnObj.TurnActionValue -= turnObj.CurrentUnit.CurrentTile.MoveCheckG;
             }
             SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(curruentUnit.CurrentTile);
