@@ -14,6 +14,8 @@ public class Player_ : MonoBehaviour, IBattle
     public AnimatorOverrideController shotGun_AC;
     public AnimatorOverrideController rifle_AC;
     public AnimatorOverrideController no_Weapon_AC;
+
+    Line_Renderer lineRenderer;
     public enum WeaponType
     {
         None,
@@ -33,10 +35,12 @@ public class Player_ : MonoBehaviour, IBattle
                 switch (weaponType)
                 {
                     case WeaponType.None:
+                        lineRenderer.State = Attack_State.DeSelect;
                         on_Attack = Basic_Attack;
                         anim.runtimeAnimatorController = no_Weapon_AC;
                         break;
                     case WeaponType.Pistol:
+                        lineRenderer.State = Attack_State.Normal_Attack;
                         on_Attack = Pistol_Attack;
                         weapon_Parent_Transform.localPosition = pistol_Pos;
                         weapon_Parent_Transform.localRotation = pistol_Rotation;
@@ -50,7 +54,7 @@ public class Player_ : MonoBehaviour, IBattle
                         break;
                     case WeaponType.ShotGun:
                         on_Attack = ShotGun_Attack;
-                        anim.runtimeAnimatorController= shotGun_AC;
+                        anim.runtimeAnimatorController = shotGun_AC;
                         break;
                     default:
                         break;
@@ -67,11 +71,11 @@ public class Player_ : MonoBehaviour, IBattle
 
     }
     ArmorType armorType = ArmorType.None;
-     public ArmorType ArmorType_
+    public ArmorType ArmorType_
     {
         get => armorType;
         set
-        { 
+        {
             if (armorType != value)
             {
                 armorType = value;
@@ -137,9 +141,10 @@ public class Player_ : MonoBehaviour, IBattle
     public AudioClip rifle_Sound;
     public AudioClip equip_Sound;
     public AudioClip punch_Sound;
+    public AudioClip potion_Sound;
 
 
-    InputKeyMouse inputActions;
+    //InputKeyMouse inputActions;
     Animator anim;
     ItemDescription itemDescription;
     EquipBox_Description EquipBox_Description;
@@ -160,7 +165,7 @@ public class Player_ : MonoBehaviour, IBattle
 
     int attack_Trigger_Hash = Animator.StringToHash("Attack");
     int get_Hit_Hash = Animator.StringToHash("Get_Hit");
-    
+
     uint darkForce = 500;
     public uint DarkForce
     {
@@ -186,6 +191,7 @@ public class Player_ : MonoBehaviour, IBattle
     }
     float hp = 200;
     float maxHP = 200;
+    public float MaxHp => maxHP;
     public float HP
     {
         get => hp;
@@ -201,6 +207,7 @@ public class Player_ : MonoBehaviour, IBattle
     }
     float stamina = 10;
     const float max_Stamina = 20;
+    public float Max_Stamina => max_Stamina;
     public float Stamina
     {
         get => stamina;
@@ -243,11 +250,12 @@ public class Player_ : MonoBehaviour, IBattle
 
     private void Awake()
     {
-        inputActions = new InputKeyMouse();
+        lineRenderer = GetComponent<Line_Renderer>();
+        //inputActions = new InputKeyMouse();
         anim = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
 
-        
+
         pistol_Pos = new Vector3(0.012f, 0.085f, 0.141f);
         pistol_Rotation = Quaternion.Euler(7.309f, 74.719f, 267.319f);
         rifle_Pos = new Vector3(0, 0.11f, 0.226f);
@@ -273,7 +281,7 @@ public class Player_ : MonoBehaviour, IBattle
     {
         audioSource.PlayOneShot(punch_Sound);
         anim.SetTrigger(attack_Trigger_Hash);
-       // audioSource.Play();
+        // audioSource.Play();
     }
     void Pistol_Attack()
     {
@@ -296,22 +304,28 @@ public class Player_ : MonoBehaviour, IBattle
 
     private void OnEnable()
     {
-        inputActions.Player.Enable();
-        inputActions.Player.ItemPickUp.performed += ItemPickUp;
-        inputActions.Player.Equip_Item.performed += On_Equip_Item;
-        inputActions.KeyBoard.Enable();
-        inputActions.KeyBoard.InvenKey.performed += OpenInven;
-        inputActions.Mouse.Enable();
-        inputActions.Mouse.MouseClickRight.performed += On_MouseClickRight;
+        //inputActions.UI_Inven.Enable();
+        //inputActions.UI_Inven.ItemPickUp.performed      += ItemPickUp;
+        //inputActions.UI_Inven.Equip_Item.performed      += On_Equip_Item;
+        //inputActions.UI_Inven.InvenKey.performed        += OpenInven;
+        //inputActions.Mouse.Enable();
+        //inputActions.Mouse.MouseClickRight.performed    += On_MouseClickRight;
+
     }
 
-    private void On_MouseClickRight(InputAction.CallbackContext _)
+    //private void On_MouseClickRight(InputAction.CallbackContext _)
+    private void On_MouseClickRight()
     {
         Attack();
     }
 
     private void Start()
     {
+        InputSystemController.Instance.OnUI_Inven_ItemPickUp += ItemPickUp;
+        InputSystemController.Instance.OnUI_Inven_Equip_Item += On_Equip_Item;
+        InputSystemController.Instance.OnUI_Inven_Inven_Open += OpenInven;
+        InputSystemController.Instance.OnUI_Inven_MouseClickRight += On_MouseClickRight;
+
         itemDescription = GameManager.SlotManager.ItemDescription;
         equipBox = GameManager.EquipBox;
         EquipBox_Description = equipBox.Description;
@@ -330,14 +344,14 @@ public class Player_ : MonoBehaviour, IBattle
         armors[2] = transform.GetChild(20).transform;// Big Armor
         armors[3] = transform.GetChild(19).transform;// 머리
     }
-    public void Disable_Input()
-    {
-        inputActions.KeyBoard.InvenKey.performed -= OpenInven;
-    }
-    public void Enable_Input()
-    {
-        inputActions.KeyBoard.InvenKey.performed += OpenInven;
-    }
+    //public void Disable_Input() //연결없어서 에러없애기위해 주석처리
+    //{
+    //    inputActions.KeyBoard.InvenKey.performed -= OpenInven; 
+    //}
+    //public void Enable_Input()
+    //{
+    //    inputActions.KeyBoard.InvenKey.performed += OpenInven;
+    //}
     void Update_Status_For_UnEquip(ItemData legacyData)
     {
         ItemData_Hat hat = legacyData as ItemData_Hat;
@@ -371,7 +385,7 @@ public class Player_ : MonoBehaviour, IBattle
         ItemData_Enhancable weapon = newData as ItemData_Enhancable;
         ItemData_Armor armor = newData as ItemData_Armor;
         ItemData_Craft jewel = newData as ItemData_Craft;
-        if( legacyData == null )//장착이 안되어있을 경우 더해주고 끝
+        if (legacyData == null)//장착이 안되어있을 경우 더해주고 끝
         {
             if (hat != null)
             {
@@ -430,8 +444,9 @@ public class Player_ : MonoBehaviour, IBattle
             }
         }
     }
- 
-    private void On_Equip_Item(InputAction.CallbackContext _)
+
+    //private void On_Equip_Item(InputAction.CallbackContext _)
+    private void On_Equip_Item()
     {
         if (itemDescription.ItemData != null)
         {
@@ -444,17 +459,20 @@ public class Player_ : MonoBehaviour, IBattle
             onUnEquipItem?.Invoke(EquipBox_Description.ItemData);
         }
     }
- 
 
-    private void OpenInven(InputAction.CallbackContext _)
+
+    //private void OpenInven(InputAction.CallbackContext _)
+    private void OpenInven()
     {
+        Debug.Log("1");
         onOpenInven?.Invoke();
     }
 
-    private void ItemPickUp(InputAction.CallbackContext _)
+    //private void ItemPickUp(InputAction.CallbackContext _)
+    private void ItemPickUp()
     {
         Collider[] itemColliders = Physics.OverlapSphere(transform.position, pickupRange, LayerMask.GetMask("Item"));
-        foreach(var collider in itemColliders)
+        foreach (var collider in itemColliders)
         {
             ItemObject itemObj = collider.GetComponent<ItemObject>();
             if (itemObj != null)
@@ -466,6 +484,10 @@ public class Player_ : MonoBehaviour, IBattle
 
             }
         }
+    }
+    public void Play_PotionSound()
+    {
+        audioSource.PlayOneShot(potion_Sound);
     }
     public void Recovery_HP(int recoveryValue, float duration)
     {

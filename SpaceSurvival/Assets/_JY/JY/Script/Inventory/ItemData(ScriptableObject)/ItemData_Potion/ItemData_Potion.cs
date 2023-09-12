@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,9 +9,11 @@ public class ItemData_Potion : ItemData
     [Header("포션 전용 데이터")]
     public float duration;
     public int recoveryValue;
+    
     public void Consume(Player_ target)
     {
         Player_ player = target.GetComponent<Player_>();
+        player.Play_PotionSound();
         switch (code)
         {
             case ItemCode.HpPotion:

@@ -5,8 +5,6 @@ using UnityEngine.InputSystem;
 
 public class TurnTestCode : TestBase
 {
-    [SerializeField]
-    float moveSize = 3.0f;
 
     //Tile currentTile ;
 
