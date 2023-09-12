@@ -59,13 +59,13 @@ public class ActionTest : TestBase
     {
         Debug.Log("인풋시스템 중복 등록 테스트 ");
     }
-    //protected override void Test1(InputAction.CallbackContext context)
-    //{
-    //    testUI.hpGaugeSetting(now,max);
-    //}
-    //protected override void Test2(InputAction.CallbackContext context)
-    //{
-    //    testUI.stmGaugeSetting(now,max);
+    protected override void Test1(InputAction.CallbackContext context)
+    {
+        testUI.hpGaugeSetting(now,max);
+    }
+    protected override void Test2(InputAction.CallbackContext context)
+    {
+        testUI.stmGaugeSetting(now,max);
 
-    //}
+    }
 }

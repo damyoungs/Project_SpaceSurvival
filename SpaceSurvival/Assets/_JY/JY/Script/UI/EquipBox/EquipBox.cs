@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -16,7 +15,7 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
     public Action<ItemData, ItemData> on_Update_Status_For_EquipOrSwap;
     public Action<ItemData> on_Update_Status_For_UnEquip;
     public EquipBox_Description Description => description;
-    public EquipBox_Slot this[EquipType type] => equipBox_Slots[(int)type - 1];//0??¬¸ ?????= None 
+    public EquipBox_Slot this[EquipType type] => equipBox_Slots[(int) type - 1];//0ë²ˆì§¸ ?¸ë±??= None 
     Transform[] equip_Parent_Transform;
 
     Player_ player;
@@ -24,12 +23,12 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
     CanvasGroup canvasGroup;
     public bool IsOpen => canvasGroup.alpha > 0.9f;
 
-    public Action<IPopupSortWindow> PopupSorting { get; set; }
-    //InputKeyMouse player_Input_Action;
+    public Action<IPopupSortWindow> PopupSorting { get ; set ; }
+    InputKeyMouse player_Input_Action;
 
     private void Awake()
     {
-        //player_Input_Action = new InputKeyMouse();
+        player_Input_Action = new InputKeyMouse();
         description = GetComponentInChildren<EquipBox_Description>();
         canvasGroup = GetComponent<CanvasGroup>();
         equipBox_Slots = new EquipBox_Slot[4];
@@ -41,22 +40,13 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
             equipBox_Slots[i - 1].onPointerExit += description.Close;
         }
     }
-    private void Start()
+    private void OnEnable()
     {
-        InputSystemController.Instance.OnUI_Inven_EquipBox_Open = On_EquipBox_Open;
-        GameManager.SlotManager.on_UnEquip_Item += UnEquip_Item;
-        Close(); //????ªê??ªë???? ×²ô¯?????ñ©ü·??? ?ªí????ıä???? íõ????
-        StartCoroutine(Get_Player_Reference());
+        player_Input_Action.KeyBoard.Enable();
+        player_Input_Action.KeyBoard.EquipBox_Open.performed += On_EquipBox_Open;
     }
-    //private void OnEnable()
-    //{
 
-    //player_Input_Action.KeyBoard.Enable();
-    //player_Input_Action.KeyBoard.EquipBox_Open.performed += On_EquipBox_Open;
-    //}
-
-    //private void On_EquipBox_Open(InputAction.CallbackContext _)
-    private void On_EquipBox_Open()
+    private void On_EquipBox_Open(InputAction.CallbackContext _)
     {
         if (IsOpen)
         {
@@ -68,7 +58,12 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
         }
     }
 
-
+    void Start()
+    {
+        GameManager.SlotManager.on_UnEquip_Item += UnEquip_Item;
+        Close(); //??ƒ?¤ê³ ?¤ë‹ˆ?”ë° ì¼œì ¸?ˆìœ¼ë©´ì•ˆ?˜ë‹ˆ ?¤í??¸ë§ˆì§€ë§‰ì— ê°ì¶˜??
+        StartCoroutine(Get_Player_Reference());
+    }
     IEnumerator Get_Player_Reference()
     {
         yield return null;
@@ -79,9 +74,9 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
         equip_Parent_Transform[2] = player.Suit_Parent_Transform;
         equip_Parent_Transform[3] = player.Jewel_Parent_Transform;
     }
-    public void Set_ItemData_For_Drag(ItemData itemData)// ??¥Ì???«ìäß ??¥Ì??
+    public void Set_ItemData_For_Drag(ItemData itemData)// ?„ë¦¬???¥ì°© ì²˜ë¦¬ì¤?
     {
-        //itemdata íõ? hat, Weapon, Suit, Jewel ??? ?????? ??¡¯??????ãí ??? ?????????????
+        //itemdata ê°€ hat, Weapon, Suit, Jewel ?¸ì? ?•ì¸?˜ê³  ?¬ë¡¯???€?…ê³¼ ë§ì? ?Šìœ¼ë©?ë¦¬í„´?œí‚¤ê¸?
         ItemData_Armor armor = itemData as ItemData_Armor;
         ItemData_Hat hat = itemData as ItemData_Hat;
         ItemData_Craft jewel = itemData as ItemData_Craft;
@@ -94,7 +89,7 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
                 {
                     Transform parent = equip_Parent_Transform[(int)armor.EquipType];
 
-                    GameManager.SlotManager.Just_ChangeSlot.ItemData = null;// ?«ìäß???????????????????¥Ì????¡¯ ?ı³???
+                    GameManager.SlotManager.Just_ChangeSlot.ItemData = null;// ?¥ì°©???±ê³µ??ê²ƒì´ë¯€ë¡??¸ë²¤? ë¦¬???¬ë¡¯ ë¹„ìš°ê¸?
                     slot.SetItemData(armor);
                 }
             }
@@ -134,13 +129,13 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
     //{
     //    Transform parent = this[]
     //}
-    //equipSlot Clear??? ??¥Ì??????÷ûÚÜ????? 
+    //equipSlot Clear?˜ëŠ” ?¸ë¦¬ê²Œì´???°ê²°??ì°¨ë? 
     void UnEquip_Item(ItemData itemData)
     {
         on_Update_Status_For_UnEquip?.Invoke(itemData);
         Remove_Prefab(itemData);
         EquipBox_Slot slot = Find_Slot_By_Type(itemData);
-        Set_Edditional_State(itemData, false);//ÏÑ???? Î² Øù? ?Ñ¤? òÚÕô
+        Set_Edditional_State(itemData, false);//¾Ö´Ï¸ŞÀÌ¼Ç ¹× Ãß°¡ ÀÌÆåÆ® ÇØÁ¦
         slot.ItemData = null;
     }
     void Remove_Prefab(ItemData data)
@@ -163,10 +158,10 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
         if (slot != null)
         {
             GameManager.SlotManager.Just_ChangeSlot.ItemData = null;
-            on_Update_Status_For_EquipOrSwap?.Invoke(slot.ItemData, itemData);//?«ë???? ??ê± ??? ?şë?ıä???????íõ? null ????? ???. // ????ñ©? ?ïÁÚÏ?? ?¦â??????
+            on_Update_Status_For_EquipOrSwap?.Invoke(slot.ItemData, itemData);//?¥ë¹„ì¤‘ì´ ?„ë‹ ?ŒëŠ” ì²«ë²ˆì§??Œë¼ë¯¸í„°ê°€ null ???„ë‹¬ ?œë‹¤. // ?Œë ˆ?´ì–´ ê³µê²©?? ë°©ì–´???‹íŒ…
             if (itemData.code == ItemCode.Space_Armor)
             {
-                player.ArmorType_ = Player_.ArmorType.SpaceArmor;// enum ?ªì???player ??? ????? íõ?äÅ???ô¯???????ªë«¸ íõ?äÅ?? ????øú?
+                player.ArmorType_ = Player_.ArmorType.SpaceArmor;// enum ?¤ì •??player ?ì„œ ?Œë§?€ ê°‘ì˜·ë§??œì„±?”í•˜ê³??¤ë¥¸ ê°‘ì˜·?€ ë¹„í™œ?±í™”
             }
             else if (itemData.code == ItemCode.Big_Space_Armor)
             {
@@ -174,11 +169,11 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
             }
             else
             {
-                Attach_Prefab(itemData);//??¥Ì??????
+                Attach_Prefab(itemData);//?„ë¦¬??ë¶€ì°?
             }
-            slot.SetItemData(itemData);//?«ë???¡¯ UI??????
+            slot.SetItemData(itemData);//?¥ë¹„?¬ë¡¯ UI?…ë°?´íŠ¸
         }
-        //  Set_Edditional_State(itemData, true);//ÏÑ???? Î² Øù? ?Ñ¤? ××?
+      //  Set_Edditional_State(itemData, true);//¾Ö´Ï¸ŞÀÌ¼Ç ¹× Ãß°¡ ÀÌÆåÆ® Àû¿ë
     }
     bool Set_Edditional_State(ItemData data, bool equip)
     {
@@ -226,14 +221,14 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
     void Attach_Prefab(ItemData data)
     {
         Transform parentTransform = GetParentTransform(data);
-        if (parentTransform.transform.childCount > 0)// ?ğÂ? ???¦á??ñ©????ı³??ô¯? ??????üÑİä ???«ìäß
+        if (parentTransform.transform.childCount > 0)// ?´ë? ë¶€ì°©ë˜?´ìˆ???„ì´?œì´ ?ˆìœ¼ë©??œê±° ???¥ì°©
         {
             GameObject itemPrefab = parentTransform.GetChild(0).gameObject;
             Destroy(itemPrefab);
             GameObject newItemPrefab = Instantiate(data.modelPrefab, parentTransform);
-            if (Set_Edditional_State(data, true))// Íëø·øë ÖÕ ?İ«
+            if (Set_Edditional_State(data, true))// ¹«±â·ù ÀÏ ¶§¸¸
             {
-                on_Pass_Item_Transform?.Invoke(newItemPrefab.transform);// Í»???ñÕ ???Ñ© ?õË ShootPoint Ğã??
+                on_Pass_Item_Transform?.Invoke(newItemPrefab.transform);// ÇÃ·¹ÀÌ¾î¿¡ Æ®·£½ºÆû Àü´Ş ShootPoint ¼³Á¤¿ë
             }
             ItemRotater rotater = newItemPrefab.GetComponentInChildren<ItemRotater>();
             Destroy(rotater);
@@ -243,9 +238,9 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
         else
         {
             GameObject itemPrefab = Instantiate(data.modelPrefab, parentTransform);
-            if (Set_Edditional_State(data, true))// Íëø·øë ÖÕ ?İ«
+            if (Set_Edditional_State(data, true))// ¹«±â·ù ÀÏ ¶§¸¸
             {
-                on_Pass_Item_Transform?.Invoke(itemPrefab.transform);// Í»???ñÕ ???Ñ© ?õË ShootPoint Ğã??
+                on_Pass_Item_Transform?.Invoke(itemPrefab.transform);// ÇÃ·¹ÀÌ¾î¿¡ Æ®·£½ºÆû Àü´Ş ShootPoint ¼³Á¤¿ë
             }
             ItemRotater rotater = itemPrefab.GetComponentInChildren<ItemRotater>();
             Destroy(rotater);
@@ -260,7 +255,7 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
         ItemData_Hat hat = itemData as ItemData_Hat;
         ItemData_Craft jewel = itemData as ItemData_Craft;
         ItemData_Enhancable weapon = itemData as ItemData_Enhancable;
-
+       
         if (armor != null)
         {
             equipSlot = this[EquipType.Body];
@@ -285,7 +280,7 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
         Vector2 mousePos = Mouse.current.position.ReadValue();
         Vector2 distance;
         RectTransform slotRect;
-        foreach (var slot in equipBox_Slots)
+        foreach(var slot in equipBox_Slots)
         {
             slotRect = slot.GetComponent<RectTransform>();
             distance = mousePos - (Vector2)slotRect.position;
