@@ -10,7 +10,10 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class CameraOriginTarget : MonoBehaviour
 {
-
+    /// <summary>
+    /// 키입력 처리할 것들
+    /// </summary>
+    InputKeyMouse inputAction;
     /// <summary>
     /// 회전속도
     /// </summary>
@@ -56,6 +59,7 @@ public class CameraOriginTarget : MonoBehaviour
 
     private void Awake()
     {
+        inputAction = new();
         screenHalfPosition.x = Screen.width * 0.5f;
         screenHalfPosition.z = 0.0f;
         screenHalfPosition.y = Screen.height * 0.5f;
