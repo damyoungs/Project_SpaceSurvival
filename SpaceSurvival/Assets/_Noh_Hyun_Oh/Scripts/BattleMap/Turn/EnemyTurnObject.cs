@@ -15,7 +15,9 @@ public class EnemyTurnObject : TurnBaseObject
     /// 캐릭터 데이터는 외부에서 셋팅하기때문에 해당 델리게이트 연결해줘야함
     /// </summary>
     public Func<ICharcterBase[]> initEnemy;
-  
+
+    public Action turnStart; 
+
     /// <summary>
     /// 데이터 초기화 함수 
     /// </summary>
@@ -47,6 +49,7 @@ public class EnemyTurnObject : TurnBaseObject
     }
     public override void TurnStartAction()
     {
+        turnStart?.Invoke();
         Debug.Log($"적군턴시작 행동력 :{TurnActionValue}");
         TurnActionValue -= UnityEngine.Random.Range(5.0f, 10.0f);// 행동력 소모후 테스트 용 
         

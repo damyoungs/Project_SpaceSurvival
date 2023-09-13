@@ -56,8 +56,8 @@ public class ChoClickTest : MonoBehaviour
     }
     private void OnEnable()
     {
-        inputClick.Mouse.Enable();
-        inputClick.Mouse.MouseClick.performed += onClick;
+        inputClick.BattleMap_Player.Enable();
+        inputClick.BattleMap_Player.UnitMove.performed += onClick;
 
         map = FindObjectOfType<MapTest>();
         path = new List<Tile>();
@@ -65,8 +65,8 @@ public class ChoClickTest : MonoBehaviour
 
     private void OnDisable()
     {
-        inputClick.Mouse.MouseClick.performed -= onClick;
-        inputClick.Mouse.Disable();
+        inputClick.BattleMap_Player.UnitMove.performed -= onClick;
+        inputClick.BattleMap_Player.Disable();
 
         if (path != null )
             path.Clear();

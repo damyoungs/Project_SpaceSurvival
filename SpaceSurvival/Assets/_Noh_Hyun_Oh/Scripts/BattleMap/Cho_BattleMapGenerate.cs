@@ -43,7 +43,7 @@ public class Cho_BattleMapGenerate : MonoBehaviour
 
 
     Vector3 mainTileSize = Vector3.zero;    // 중앙 타일 사이즈
-
+    [SerializeField]
     Tile[] mapTiles;                        // 타일 오브젝트 객체를 담을 배열
     public Tile[] MapTiles => mapTiles;
 
@@ -59,10 +59,7 @@ public class Cho_BattleMapGenerate : MonoBehaviour
 
         MapInstantiate(); //맵 생성하고 
 
-        MoveRange moveRange = GetComponent<MoveRange>(); //맵 이동 가능범위 표시하기위한 로직 찾아서
-        moveRange.InitDataSetting(mapTiles, sizeX, sizeY);  // 맵에대한 정보 셋팅 
-
-        SpaceSurvival_GameManager.Instance.GetBattleMapTilesData = () => MapTiles; // 게임메니저에 데이터 저장하기위해 연결 
+        SpaceSurvival_GameManager.Instance.GetBattleMapTilesData = () => mapTiles; // 게임메니저에 데이터 저장하기위해 연결 
         SpaceSurvival_GameManager.Instance.GetMapTileX = () => sizeX; // 게임메니저에 데이터 저장하기위해 연결 
         SpaceSurvival_GameManager.Instance.GetMapTileY = () => sizeY; // 게임메니저에 데이터 저장하기위해 연결 
     }
@@ -71,6 +68,7 @@ public class Cho_BattleMapGenerate : MonoBehaviour
     /// </summary>
     private void MapInstantiate()
     {
+
         sizeX = Random.Range(20, 31);       // 타일 가로 갯수 랜덤 생성
         sizeY = Random.Range(20, 31);       // 타일 세로 갯수 랜덤 생성
         tileCount = sizeX * sizeY;          // 총 타일 갯수

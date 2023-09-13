@@ -98,7 +98,7 @@ MonoBehaviour:
   - {fileID: 250185068433443445, guid: 6c601df49ef23414591b7bbc47808f64, type: 3}
   - {fileID: 5855008442964821017, guid: 0043dbb66767f8245a28a6945e1c283e, type: 3}
   index: 0
-  itemCode: 40
+  itemCode: 9
   sortBy: 0
   IsAccending: 0
   equipBox: {fileID: 0}

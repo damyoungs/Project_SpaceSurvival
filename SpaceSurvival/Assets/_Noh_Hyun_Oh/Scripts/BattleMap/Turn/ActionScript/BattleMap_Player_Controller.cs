@@ -8,10 +8,6 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class BattleMap_Player_Controller : MonoBehaviour
 {
-    /// <summary>
-    /// 키입력 처리가져오기
-    /// </summary>
-    InputKeyMouse inputSystem;
 
     /// <summary>
     /// 레이가 타일에 충돌됬을때 체크할 레이어 값
@@ -19,13 +15,13 @@ public class BattleMap_Player_Controller : MonoBehaviour
     ///  LayerMask.GetMask();// 2진코드로 작성되있어서 값이 0,1,2,4,8,16 처럼 2의 배수로 순차적으로 저장되있다 
     ///  LayerMask.NameToLayer("");// 겟마스크와다르게 저장된순번 을가져온다 0,1,2,3,4,5,6,7 .... 
     ///  GameObject.Layer 는 순번이 저장되있다 
-    ///  readOnly 로 미리 검색시도했더니 
+    ///  readOnly 로 미리 검색시도했더니 에러남 레이어셋팅은 게임시작하고나서 진행되는듯.
     /// </summary>
     [SerializeField]
     int tileLayerIndex;
 
-    [SerializeField]
-    int uiLayerIndex;
+    //[SerializeField]
+    //int uiLayerIndex;
 
     /// <summary>
     /// 플레이어가 턴인지 확인하기위해 가져오는 오브젝트
@@ -83,29 +79,23 @@ public class BattleMap_Player_Controller : MonoBehaviour
     private void Awake()
     {
         tileLayerIndex = LayerMask.NameToLayer("Ground");
-        uiLayerIndex = LayerMask.NameToLayer("UI");
-        inputSystem = new();
-        inputSystem.BattleMap_Player.Enable();
-        inputSystem.BattleMap_Player.UnitMove.performed += OnMove;
+        //uiLayerIndex = LayerMask.NameToLayer("UI");
+
        
     }
-
-    private void OnDestroy()
+    private void Start()
     {
-        inputSystem.BattleMap_Player.UnitMove.performed -= OnMove;
-        inputSystem.BattleMap_Player.Disable();
-
+        InputSystemController.Instance.OnBattleMap_Player_UnitMove += OnMove;
     }
-    
     /// <summary>
     /// 클릭했을때 레이를 쏴서 레이에 충돌한 객체들을 가져오고 
     /// 레이어로 나눠서 처리를 하는 로직 
     /// </summary>
-    private void OnMove(InputAction.CallbackContext _)
+    private void OnMove()
     {
         if (PlayerTurnObject == null) //플레이어가 현재 턴인경우만 실행하도록 체크
         {
-            Debug.Log($"{playerTurnObject}플레이어가 셋팅 안되있거나 플레이어가 현재 턴이아닙니다.");
+            Debug.Log($"{playerTurnObject}플레이어가 셋팅 안되있습니다.");
             return;
         }
         else if (!playerTurnObject.IsTurn)
@@ -126,10 +116,6 @@ public class BattleMap_Player_Controller : MonoBehaviour
         
         foreach (RaycastHit hit in hitObjets) // 내용이 있는경우 내용을 실행한다.
         {
-            if (hit.collider.gameObject.layer == uiLayerIndex) 
-            {
-                Debug.Log($"{hit.collider.name}오브젝트는 UI다");
-            }
             if (hit.collider.gameObject.layer == tileLayerIndex) //타일인지 체크하고 
             {
                 OnTileClick(hit); //타일 클릭되있을때 로직을 실행 
@@ -182,17 +168,6 @@ public class BattleMap_Player_Controller : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 나중에 이벤트 핸들러 컨트롤을하기위한 온오프 함수
-    /// </summary>
-    private void EventHandlerOn()
-    {
-        inputSystem.BattleMap_Player.Enable();
-    }
-    private void EventHandlerOff()
-    {
-        inputSystem.BattleMap_Player.Disable();
-    }
 
 }
   

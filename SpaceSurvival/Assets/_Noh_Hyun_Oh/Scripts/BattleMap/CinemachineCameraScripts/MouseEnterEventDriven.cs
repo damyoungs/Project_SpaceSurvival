@@ -32,34 +32,27 @@ public class MouseEnterEventDriven : MonoBehaviour, IPointerEnterHandler, IPoint
     /// <param name="eventData"></param>
     public void OnPointerEnter(PointerEventData eventData)
     {
+        Screen_Side_Mouse_Direction screenDir = Screen_Side_Mouse_Direction.None;
         Vector2 dir = eventData.position;
         if (dir.x > rightCheck)  //오른쪽 끝
         {
-            dir.x = 1.0f;
+            screenDir |= Screen_Side_Mouse_Direction.Right;
         }
         else if (dir.x < leftCheck) //왼쪽 끝
         {
-            dir.x = -1.0f;
-        }
-        else  // 이도 저도아닌 중간일때 
-        {
-            dir.x = 0.0f;
+            screenDir |= Screen_Side_Mouse_Direction.Left;
         }
 
         if (dir.y > topCheck) //위쪽 끝
         {
-            dir.y = 1.0f;
+            screenDir |= Screen_Side_Mouse_Direction.Top;
         }
         else if (dir.y < bottomCheck) //아래쪽 끝 
         {
-            dir.y = -1.0f;
+            screenDir |= Screen_Side_Mouse_Direction.Bottom;
         }
-        else  //이도 저도아닌 중간일때 
-        {
-            dir.y = 0.0f;
-        }
-        //Debug.Log(dir);
-        moveAction.moveCamera?.Invoke(dir); //수정값 전달
+        
+        moveAction.moveCamera?.Invoke(screenDir); //수정값 전달
     }
 
     /// <summary>
@@ -67,7 +60,7 @@ public class MouseEnterEventDriven : MonoBehaviour, IPointerEnterHandler, IPoint
     /// </summary>
     public void OnPointerExit(PointerEventData eventData)
     {
-        moveAction.moveCamera?.Invoke(Vector2.zero); //초기값 전달
+        moveAction.moveCamera?.Invoke(Screen_Side_Mouse_Direction.None); //초기값 전달
     }
 
 }
