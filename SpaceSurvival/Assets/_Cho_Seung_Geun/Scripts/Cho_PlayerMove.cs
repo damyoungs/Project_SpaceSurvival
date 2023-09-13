@@ -25,7 +25,6 @@ public class Cho_PlayerMove : MonoBehaviour
 
     Vector3 moveDir = Vector3.zero;
     float curRotateY = 0.0f;
-    bool isRun = false;
 
     PlayerState state = PlayerState.Idle;
     PlayerState State
@@ -36,19 +35,6 @@ public class Cho_PlayerMove : MonoBehaviour
             if (state != value)
             {
                 state = value;
-                switch (state)
-                {
-                    case PlayerState.Idle:
-                        break;
-                    case PlayerState.Walk:
-                        break;
-                    case PlayerState.Run:
-                        break;
-                    case PlayerState.Jump:
-                        break;
-                    default:
-                        break;
-                }
             }
         }
     }
@@ -59,8 +45,10 @@ public class Cho_PlayerMove : MonoBehaviour
     Animator animator;
     Transform cameraPos;
 
-    readonly int IsMove_Hash = Animator.StringToHash("IsMove");
-    readonly int IsRun_Hash = Animator.StringToHash("IsRun");
+    readonly int Speed_Hash = Animator.StringToHash("Speed");
+
+    const float animatorWalkSpeed = 0.5f;
+    const float animatorRunSpeed = 1.0f;
 
     private void Awake()
     {
@@ -111,19 +99,15 @@ public class Cho_PlayerMove : MonoBehaviour
 
         if (context.performed)
         {
-            animator.SetBool(IsMove_Hash, true);
-        }
-        else if (context.performed && isRun)
-        {
-            animator.SetBool(IsRun_Hash, true);
-        }
-        else if (context.performed && !isRun)
-        {
-            animator.SetBool(IsRun_Hash, false);
+            if (State != PlayerState.Run)
+            {
+                animator.SetFloat(Speed_Hash, animatorWalkSpeed);
+                State = PlayerState.Walk;
+            }
         }
         else
         {
-            animator.SetBool(IsMove_Hash, false);
+            animator.SetFloat(Speed_Hash, 0);
         }
 
         moveDir.x = dir.x;
@@ -133,19 +117,22 @@ public class Cho_PlayerMove : MonoBehaviour
     private void OnJump(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
         rigid.AddForce(jumpHeight * transform.up, ForceMode.Impulse);
+        animator.SetTrigger("IsJump");
     }
 
     private void onDash(InputAction.CallbackContext context)
     {
         if (context.canceled)
         {
+            State = PlayerState.Walk;
             speed = walkSpeed;
-            isRun = false;
+            animator.SetFloat(Speed_Hash, animatorWalkSpeed);
         }
         else
         {
+            State = PlayerState.Run;
             speed = runSpeed;
-            isRun = true;
+            animator.SetFloat(Speed_Hash, animatorRunSpeed);
         }
     }
 
