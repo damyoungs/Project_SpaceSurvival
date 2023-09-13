@@ -15,7 +15,7 @@ public class SkillBox : MonoBehaviour
     {
         inputAction = new();
         canvasGroup = GetComponent<CanvasGroup>();
-        darkForce_Text = transform.GetChild(2).GetChild(1).GetComponent<TextMeshProUGUI>();
+        darkForce_Text = transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
     }
     private void OnEnable()
     {

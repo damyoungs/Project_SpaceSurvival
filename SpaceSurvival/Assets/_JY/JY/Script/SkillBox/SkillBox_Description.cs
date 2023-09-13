@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class SkillBox_Description : MonoBehaviour
@@ -38,17 +39,19 @@ public class SkillBox_Description : MonoBehaviour
         nextLevel_Description = transform.GetChild(1).GetChild(3).GetComponent<TextMeshProUGUI>();
     }
 
-    void MovePosition()
+    public void MovePosition()
     {
+        transform.position = Mouse.current.position.ReadValue();
+    }
+    public void Open(SkillData skillData)
+    {
+        MovePosition();
+        canvasGroup.alpha = 1.0f;
 
     }
-    void Open()
+    public void Close()
     {
-
-    }
-    void Close()
-    {
-
+        canvasGroup.alpha = 0;
     }
     void Refresh()
     {

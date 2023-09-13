@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Skill_04 : SkillData
 {
     protected override void Init()
     {
         base.Init();
+        button = transform.parent.GetChild(8).GetComponent<Button>();
+        button.onClick.AddListener(Skill_LevelUp);
+
         SkillName = "스나이핑";
         SkillLevel = 0;
         //AnimClip

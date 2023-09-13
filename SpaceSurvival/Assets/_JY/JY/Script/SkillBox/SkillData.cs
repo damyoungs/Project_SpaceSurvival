@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -14,7 +15,7 @@ public enum SkillType
     Normal
 
 }
-public class SkillData : MonoBehaviour, IPointerClickHandler
+public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandler, IPointerMoveHandler,IPointerExitHandler
 {
     string skillName;                        public string SkillName { get => skillName; protected set { skillName = value; } }
     AnimationClip animClip;                  public AnimationClip AnimClip { get => animClip; protected set {  animClip = value; } }
@@ -36,12 +37,18 @@ public class SkillData : MonoBehaviour, IPointerClickHandler
     }
 
     Player_ player;
+    SkillBox_Description skillBox_Description;
     SkillType skillType; public SkillType SkillType { get => skillType; protected set { skillType = value; } }
     //UI
     protected Image itemicon;
     protected Button button;
     protected TextMeshProUGUI skillLevel_Text;
     //#EndUI
+
+    public Action<SkillData> on_PointerEnter;
+    public Action on_PointerExit;
+    public Action on_PointerMove;
+    public Action<SkillData> on_PointerClick;
 
     void Start()
     {
@@ -50,14 +57,16 @@ public class SkillData : MonoBehaviour, IPointerClickHandler
     protected virtual void Init()
     {
         player = GameManager.Player__;
+        skillBox_Description = transform.parent.GetChild(12).GetComponent<SkillBox_Description>();
         itemicon = transform.GetChild(1).GetChild(0).GetComponent<Image>();
-        button = transform.GetChild(2).GetComponent<Button>();
-        skillLevel_Text = transform.GetChild(3).GetComponent<TextMeshProUGUI>();
+        skillLevel_Text = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
 
-        button.onClick.AddListener(Skill_LevelUp);
         player.on_DarkForce_Change += () => button.interactable = Require_Force_For_skillLevelUp < player.DarkForce;
+        on_PointerEnter += skillBox_Description.Open;
+        on_PointerExit += skillBox_Description.Close;
+        on_PointerMove += skillBox_Description.MovePosition;
     }
-    void Skill_LevelUp()
+    protected virtual void Skill_LevelUp()
     {
         if (Require_Force_For_skillLevelUp < player.DarkForce)
         {
@@ -72,6 +81,21 @@ public class SkillData : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log(this.skillType);
+        on_PointerClick?.Invoke(this);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        on_PointerEnter?.Invoke(this);
+    }
+
+    public void OnPointerMove(PointerEventData eventData)
+    {
+        on_PointerMove?.Invoke();
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        on_PointerExit?.Invoke();
     }
 }
