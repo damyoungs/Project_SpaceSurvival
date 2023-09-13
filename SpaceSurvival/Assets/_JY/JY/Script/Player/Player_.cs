@@ -162,6 +162,7 @@ public class Player_ : MonoBehaviour, IBattle
     public Action on_Attack;
     public Action<float> on_Player_Stamina_Change;
     public Action<float> on_Player_HP_Change;
+    public Action on_DarkForce_Change;
 
     int attack_Trigger_Hash = Animator.StringToHash("Attack");
     int get_Hit_Hash = Animator.StringToHash("Get_Hit");
@@ -173,7 +174,7 @@ public class Player_ : MonoBehaviour, IBattle
         set
         {
             darkForce = value;
-
+            on_DarkForce_Change?.Invoke();
         }
     }
     int money = 0;
@@ -301,7 +302,32 @@ public class Player_ : MonoBehaviour, IBattle
         anim.SetTrigger(attack_Trigger_Hash);
         Instantiate(bulletProjectilePrefab, shootPointTransform.position, shootPointTransform.rotation);
     }
-
+    public void Skill_Action(SkillData skillData)
+    {
+        switch (skillData.SkillType)
+        {
+            case SkillType.Normal:
+                PrintSkillData(skillData);
+                break;
+            case SkillType.Sniping:
+                PrintSkillData(skillData);
+                break;
+            case SkillType.Penetrate:
+                break;
+            case SkillType.rampage:
+                break;
+            case SkillType.Blessing:
+                break;
+            default:
+                break;
+        }
+    }
+    void PrintSkillData(SkillData data)
+    {
+        Debug.Log($"스킬이름 : {data.SkillName}");
+        Debug.Log($"스테미너 소모량 : {data.Require_Stamina_For_UsingSkill}");
+        Debug.Log($"스킬레벨 : {data.SkillLevel}");
+    }
     private void OnEnable()
     {
         //inputActions.UI_Inven.Enable();

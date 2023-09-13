@@ -757,6 +757,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SkillBox_Open",
+                    "type": "Button",
+                    "id": "f1d1648e-58dc-4225-96e5-f17be279868f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -878,6 +887,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "EquipBox_Open",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "22fbffa0-e087-4181-91f4-1f2ce0d840e2",
+                    "path": "<Keyboard>/k",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SkillBox_Open",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
