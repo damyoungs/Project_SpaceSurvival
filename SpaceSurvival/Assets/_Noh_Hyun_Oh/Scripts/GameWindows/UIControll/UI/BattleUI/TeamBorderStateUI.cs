@@ -57,10 +57,14 @@ public class TeamBorderStateUI : MonoBehaviour
             imgIconArray[i] = image; //남은시간 보여줄 이미지 객체 
             stateTimer[i] = child.GetChild(i).GetChild(0).GetComponent<Image>(); //이미지 아이콘 보여줄 스프라이트 객체 가져오기 
         }
+        hpGauge = HP_GaugeSetting(0.0f, 0.0f);
+        stmGauge = Stm_GaugeSetting(0.0f, 0.0f);
+
     }
     public void SetStmGaugeAndText(float changeValue , float maxValue) 
     {
         //stmGauge = GaugeView(stmSlider,stmText,stmMaxText,changeValue,maxValue);
+        StopCoroutine(stmGauge);
         stmGauge = Stm_GaugeSetting(changeValue,maxValue);
         StartCoroutine(stmGauge);
 
@@ -68,6 +72,7 @@ public class TeamBorderStateUI : MonoBehaviour
     public void SetHpGaugeAndText(float changeValue ,float maxValue)
     {
         //hpGauge = GaugeView(hpSlider,hpText,hpMaxText,changeValue,maxValue);
+        StopCoroutine(hpGauge);
         hpGauge = HP_GaugeSetting(changeValue,maxValue);
         StartCoroutine(hpGauge);
     
