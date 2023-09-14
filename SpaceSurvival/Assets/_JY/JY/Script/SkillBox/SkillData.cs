@@ -21,9 +21,19 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
     AnimationClip animClip;                  public AnimationClip AnimClip { get => animClip; protected set {  animClip = value; } }
     AudioClip audioClip;                     public AudioClip AudioClip { get => audioClip; protected set { audioClip = value; } }
     int attackRange;                         public int AttackRange { get => attackRange; protected set { attackRange = value; } }
-    uint require_Force_For_skillLevelUp;      public uint Require_Force_For_skillLevelUp { get => require_Force_For_skillLevelUp; protected set { require_Force_For_skillLevelUp = value; } }
     int require_Stamina_For_UsingSkill;      public int Require_Stamina_For_UsingSkill { get => require_Stamina_For_UsingSkill; protected set { require_Stamina_For_UsingSkill = value; } }
+    public Sprite skill_sprite;
 
+    uint require_Force_For_skillLevelUp;   
+    public uint Require_Force_For_skillLevelUp
+    {
+        get => require_Force_For_skillLevelUp; 
+        protected set
+        {
+            require_Force_For_skillLevelUp = value; 
+            require_Force_Text.text = require_Force_For_skillLevelUp.ToString();
+        } 
+    }
     int skillLevel;                         
     public int SkillLevel
     {
@@ -40,9 +50,10 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
     SkillBox_Description skillBox_Description;
     SkillType skillType; public SkillType SkillType { get => skillType; protected set { skillType = value; } }
     //UI
-    protected Image itemicon;
+    protected Image skill_Icon;
     protected Button button;
     protected TextMeshProUGUI skillLevel_Text;
+    TextMeshProUGUI require_Force_Text;
     //#EndUI
 
     public Action<SkillData> on_PointerEnter;
@@ -58,8 +69,9 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
     {
         player = GameManager.Player__;
         skillBox_Description = transform.parent.GetChild(12).GetComponent<SkillBox_Description>();
-        itemicon = transform.GetChild(1).GetChild(0).GetComponent<Image>();
+        skill_Icon = transform.GetChild(1).GetChild(0).GetComponent<Image>();
         skillLevel_Text = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+        require_Force_Text = transform.GetChild(4).GetComponent<TextMeshProUGUI>();
 
         player.on_DarkForce_Change += () => button.interactable = Require_Force_For_skillLevelUp < player.DarkForce;
         on_PointerEnter += skillBox_Description.Open;
@@ -73,6 +85,11 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
             player.DarkForce -= Require_Force_For_skillLevelUp;
             SkillLevel++;
         }
+    }
+    protected virtual void Calculate_NextLevel_Info()
+    {
+        //stamina 사용량
+        // 공격력
     }
     protected virtual void LevelUp_Skill_Info()
     {

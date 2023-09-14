@@ -34,9 +34,8 @@ public class SkillBox_Description : MonoBehaviour
         currentLevel_Skill_Icon = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>();
         currentLevel_LevelText = transform.GetChild(0).GetChild(3).GetComponent<TextMeshProUGUI>();
         currentLevel_Description = transform.GetChild(0).GetChild(4).GetComponent<TextMeshProUGUI>();
-        nextLevel_Skill_Icon = transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<Image>();
-        nextLevel_LevelText = transform.GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>();
-        nextLevel_Description = transform.GetChild(1).GetChild(3).GetComponent<TextMeshProUGUI>();
+        nextLevel_LevelText = transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
+        nextLevel_Description = transform.GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>();
     }
 
     public void MovePosition()
@@ -46,6 +45,7 @@ public class SkillBox_Description : MonoBehaviour
     public void Open(SkillData skillData)
     {
         MovePosition();
+        Refresh(skillData);
         canvasGroup.alpha = 1.0f;
 
     }
@@ -53,8 +53,12 @@ public class SkillBox_Description : MonoBehaviour
     {
         canvasGroup.alpha = 0;
     }
-    void Refresh()
+    void Refresh(SkillData skillData)
     {
+        skillName_Text.text = skillData.SkillName;
+        currentLevel_Skill_Icon.sprite = skillData.skill_sprite;
+        currentLevel_LevelText.text = skillData.SkillLevel.ToString();
+        nextLevel_LevelText.text = skillData.SkillLevel + 1.ToString();
 
     }
 }
