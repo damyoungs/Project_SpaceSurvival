@@ -38,10 +38,24 @@ public class CameraOriginTarget : MonoBehaviour
     /// </summary>
     Vector3 screenHalfPosition = Vector3.zero;
 
+    float rotateValue = 0.0f;
+    float RotateValue 
+    {
+        get => rotateValue;
+        set 
+        {
+            if (rotateValue != value) 
+            {
+                rotateValue = value > 359.0f ? 0.0f : value < 1.0f ? 0.0f : value; //값이 0~ 360 까지만 셋팅된다.
+                onCameraRotateValue?.Invoke(rotateValue);
+            } 
+        }
+    }
+
     /// <summary>
-    /// 신호받으면 움직이는 코루틴 연결할때 사용 할 델리게이트
+    /// 회전값을 전달할 델리게이트
     /// </summary>
-    //public Action<Transform> onCameraOriginMove;
+    public Action<float> onCameraRotateValue;
 
     /// <summary>
     /// 카메라 이동속도
@@ -97,8 +111,8 @@ public class CameraOriginTarget : MonoBehaviour
     /// <returns></returns>
     IEnumerator RotateCourutine(float rotateValue) 
     {
+        RotateValue += rotateValue;// 순순히 처음회전값이 0도 로 가정한상태로 얼마나돌아갔는지 체크하기위한 변수 
         isRotate = true;//회전끝날때까지 입력들어와도 막는용
-
         //Debug.Log(transform.rotation.eulerAngles.y);
         float time = transform.rotation.eulerAngles.y; //시작값 셋팅
         rotateValue += time; //도착값 셋팅
