@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0036790755, g: 0.0051774327, b: 0.0072589843, a: 1}
+  m_IndirectSpecularColor: {r: 0.0036645655, g: 0.0051948903, b: 0.007260641, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3817,7 +3817,7 @@ GameObject:
   - component: {fileID: 7128327499805438427}
   - component: {fileID: 7128327499805438429}
   m_Layer: 5
-  m_Name: Skill_01
+  m_Name: Skill_01_Sniping
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7644,6 +7644,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63b11cb27513a1449938faf2c9ab578f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skill_sprite: {fileID: 21300000, guid: fe5b7d141bcc88e4b80ba05bdc1924f0, type: 3}
 --- !u!1 &1424820283162117023
 GameObject:
   m_ObjectHideFlags: 0
@@ -7657,7 +7658,7 @@ GameObject:
   - component: {fileID: 1424820283162116993}
   - component: {fileID: 1424820283162116995}
   m_Layer: 5
-  m_Name: Skill_02
+  m_Name: Skill_02_Penetrate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7757,6 +7758,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ebaec7b8a51f87448b928f4ff1649c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skill_sprite: {fileID: 21300000, guid: d75950706a2c066449811e2135530305, type: 3}
 --- !u!222 &1424820283299103792
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9384,7 +9386,7 @@ GameObject:
   - component: {fileID: 1424820284373818633}
   - component: {fileID: 1424820284373818635}
   m_Layer: 5
-  m_Name: Skill_04
+  m_Name: Skill_04_Buff
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9465,6 +9467,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93455a208ea495d44a99f8bebaa8a9b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skill_sprite: {fileID: 21300000, guid: 9e47129d5b6667a45bc8ca4392535909, type: 3}
 --- !u!1 &1424820284413563987
 GameObject:
   m_ObjectHideFlags: 0
@@ -10249,7 +10252,7 @@ GameObject:
   - component: {fileID: 1424820284690091992}
   - component: {fileID: 1424820284690091994}
   m_Layer: 5
-  m_Name: Skill_03
+  m_Name: Skill_03_Rampage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10330,6 +10333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 627c1e4e40ed3964da9ed3ac750fa9fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skill_sprite: {fileID: 21300000, guid: 0917d70718fe2f2488a6754945c28f58, type: 3}
 --- !u!1 &1424820284777318395
 GameObject:
   m_ObjectHideFlags: 0
@@ -29484,7 +29488,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 275258044042751221}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 1
@@ -37482,6 +37486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90ba3b11284547045b46314307f4e079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skill_sprite: {fileID: 21300000, guid: ad95df6a4ac85a044b9219bfa0248677, type: 3}
 --- !u!222 &7129782918707784291
 CanvasRenderer:
   m_ObjectHideFlags: 0

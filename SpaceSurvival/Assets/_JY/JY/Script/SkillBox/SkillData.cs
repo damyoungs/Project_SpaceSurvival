@@ -77,6 +77,7 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
         on_PointerEnter += skillBox_Description.Open;
         on_PointerExit += skillBox_Description.Close;
         on_PointerMove += skillBox_Description.MovePosition;
+        skill_Icon.sprite = skill_sprite;
     }
     protected virtual void Skill_LevelUp()
     {
