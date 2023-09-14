@@ -56,7 +56,7 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
     TextMeshProUGUI require_Force_Text;
     //#EndUI
 
-    public Action<SkillData> on_PointerEnter;
+    public Action<SkillData, string, string> on_PointerEnter;
     public Action on_PointerExit;
     public Action on_PointerMove;
     public Action<SkillData> on_PointerClick;
@@ -87,10 +87,19 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
             SkillLevel++;
         }
     }
-    protected virtual void Calculate_NextLevel_Info()
+    protected virtual void SetCurrentLevel_Description_Info(out string info)
     {
+        info = string.Empty;
         //stamina 사용량
-        // 공격력
+        // 공격력 증가량
+        // 
+    }
+    protected virtual void SetNextLevel_Description_Info(out string info)
+    {
+        info = string.Empty;
+        //stamina 사용량
+        // 공격력 증가량
+        // 
     }
     protected virtual void LevelUp_Skill_Info()
     {
@@ -104,7 +113,9 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        on_PointerEnter?.Invoke(this);
+        SetCurrentLevel_Description_Info(out string current_Info);
+        SetNextLevel_Description_Info(out string next_Info);
+        on_PointerEnter?.Invoke(this, current_Info, next_Info);
     }
 
     public void OnPointerMove(PointerEventData eventData)

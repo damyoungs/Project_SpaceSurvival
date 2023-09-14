@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class SkillBox_Description : MonoBehaviour
 {
     SkillData skillData;
-    SkillData SkillData
+    public SkillData SkillData
     {
         get => skillData;
         set
@@ -17,6 +17,7 @@ public class SkillBox_Description : MonoBehaviour
         }
     }
 
+    RectTransform rectTransform;
     CanvasGroup canvasGroup;
     //아이콘, 레벨, 네임, 설명
     TextMeshProUGUI skillName_Text;
@@ -36,16 +37,27 @@ public class SkillBox_Description : MonoBehaviour
         currentLevel_Description = transform.GetChild(0).GetChild(4).GetComponent<TextMeshProUGUI>();
         nextLevel_LevelText = transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
         nextLevel_Description = transform.GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>();
+        rectTransform = (RectTransform)transform;
     }
 
     public void MovePosition()
     {
-        transform.position = Mouse.current.position.ReadValue();
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+        float positionY = mousePos.y + (rectTransform.sizeDelta.y * 0.5f);
+        float overY = positionY - Screen.height;
+
+
+        if (positionY > Screen.height)
+        {
+            mousePos.y -= overY;
+        }
+        transform.position = mousePos;
     }
-    public void Open(SkillData skillData)
+    public void Open(SkillData skillData, string currentLevel_Info, string nextLevel_Info)
     {
+        SkillData = skillData;
         MovePosition();
-        Refresh(skillData);
+        Refresh(skillData, currentLevel_Info, nextLevel_Info);
         canvasGroup.alpha = 1.0f;
 
     }
@@ -53,12 +65,13 @@ public class SkillBox_Description : MonoBehaviour
     {
         canvasGroup.alpha = 0;
     }
-    void Refresh(SkillData skillData)
+    void Refresh(SkillData skillData, string current_Info, string next_Info)
     {
         skillName_Text.text = skillData.SkillName;
         currentLevel_Skill_Icon.sprite = skillData.skill_sprite;
         currentLevel_LevelText.text = skillData.SkillLevel.ToString();
-        nextLevel_LevelText.text = skillData.SkillLevel + 1.ToString();
-
+        nextLevel_LevelText.text = $"{skillData.SkillLevel + 1}";
+        currentLevel_Description.text = current_Info;
+        nextLevel_Description.text = next_Info;
     }
 }
