@@ -55,7 +55,7 @@ public class Cho_PlayerMove : MonoBehaviour
         inputActions = new InputKeyMouse();
         rigid = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
-        cameraPos = transform.GetChild(22);
+        cameraPos = transform.GetChild(21);
     }
 
     private void Start()
@@ -116,6 +116,7 @@ public class Cho_PlayerMove : MonoBehaviour
 
     private void OnJump(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
+        rigid.velocity = Vector3.zero;
         rigid.AddForce(jumpHeight * transform.up, ForceMode.Impulse);
         animator.SetTrigger("IsJump");
     }
