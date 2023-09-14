@@ -18524,6 +18524,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f42a1ecd147e8848aea9f889b383798, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hpGaugeSpeed: 100
+  stmGaugeSpeed: 10
   stateTimer: []
   imgIconArray: []
 --- !u!1 &4531859057105053028
@@ -33820,6 +33822,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f42a1ecd147e8848aea9f889b383798, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hpGaugeSpeed: 100
+  stmGaugeSpeed: 10
   stateTimer: []
   imgIconArray: []
 --- !u!1 &7762287776763822625
@@ -34978,6 +34982,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f42a1ecd147e8848aea9f889b383798, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hpGaugeSpeed: 100
+  stmGaugeSpeed: 10
   stateTimer: []
   imgIconArray: []
 --- !u!1 &8107514967450381554
