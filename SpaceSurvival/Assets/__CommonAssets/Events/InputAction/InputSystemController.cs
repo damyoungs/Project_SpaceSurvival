@@ -75,9 +75,9 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
     public Action OnUI_Inven_Click_Cancel;
     public Action<InputAction.CallbackContext> OnUI_Inven_Shift; //per 에서한번 cancel한번 
     public Action OnUI_Inven_EquipBox_Open;
+    public Action OnUI_SkillBox_Open;
     public Action OnUI_Inven_Inven_Open;
     public Action OnUI_Inven_MouseClickRight;
-
     //QuickSlot
 
     public Action OnQuickSlot_Popup;
@@ -140,6 +140,7 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
         inputSystem.UI_Inven.Shift.canceled += (context) => { OnUI_Inven_Shift?.Invoke(context); };
         inputSystem.UI_Inven.EquipBox_Open.performed += (_) => { OnUI_Inven_EquipBox_Open?.Invoke(); };
         inputSystem.UI_Inven.InvenKey.performed += (_) => { OnUI_Inven_Inven_Open?.Invoke(); };
+        inputSystem.UI_Inven.SkillBox_Open.performed += (_) => { OnUI_SkillBox_Open?.Invoke(); };
 
 
         inputSystem.Camera.RightRotate.performed += (_) => { OnCamera_RightRotate?.Invoke(); };

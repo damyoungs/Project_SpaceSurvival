@@ -1,27 +1,22 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class SkillBox : MonoBehaviour
+public class SkillBox : MonoBehaviour, IPopupSortWindow
 {
-    InputKeyMouse inputAction;
     CanvasGroup canvasGroup;
     TextMeshProUGUI darkForce_Text;
-    
-    
+
+    public Action<IPopupSortWindow> PopupSorting { get; set; }
 
     private void Awake()
     {
-        inputAction = new();
         canvasGroup = GetComponent<CanvasGroup>();
         darkForce_Text = transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
     }
-    private void OnEnable()
-    {
-        inputAction.UI_Inven.Enable();
-        inputAction.UI_Inven.SkillBox_Open.performed += Toggle_Open_Close;
-    }
+
 
     private void Toggle_Open_Close(UnityEngine.InputSystem.InputAction.CallbackContext _)
     {
@@ -37,9 +32,9 @@ public class SkillBox : MonoBehaviour
 
     private void Start()
     {
+        InputSystemController.InputSystem.UI_Inven.SkillBox_Open.performed += Toggle_Open_Close;
         GameManager.Player__.on_DarkForce_Change += Refresh;
         Refresh();
-
     }
     public void Open()
     {
@@ -57,5 +52,15 @@ public class SkillBox : MonoBehaviour
     void Refresh()
     {
         darkForce_Text.text = GameManager.Player__.DarkForce.ToString();
+    }
+
+    public void OpenWindow()
+    {
+        Open();
+    }
+
+    public void CloseWindow()
+    {
+        Close();
     }
 }
