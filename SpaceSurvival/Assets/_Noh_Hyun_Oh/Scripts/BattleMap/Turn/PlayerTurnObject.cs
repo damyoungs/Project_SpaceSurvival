@@ -76,25 +76,6 @@ public class PlayerTurnObject : TurnBaseObject
                 go.name = $"Player_{i}";
                 go.SetTile(SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Charcter));
                 go.transform.position = go.CurrentTile.transform.position; //셋팅된 타일위치로 이동시킨다.
-                int ramdaIndex = i; //람다식안에다가 넘길 인덱스값
-                go.CharcterData.on_Player_HP_Change += (hpValue) =>
-                {
-                    TeamBorderStateUI uiComp = WindowList.Instance.TeamBorderManager.TeamStateUIs[ramdaIndex];
-                    uiComp.HpText.text = $"{hpValue:f0}";
-                    uiComp.HpMaxText.text = $"{go.CharcterData.MaxHp}";
-                    uiComp.HpSlider.value = hpValue / go.CharcterData.MaxHp;
-
-                };
-                go.CharcterData.on_Player_Stamina_Change += (stmValue) =>
-                {
-                    Debug.Log(stmValue);
-                    TeamBorderStateUI uiComp = WindowList.Instance.TeamBorderManager.TeamStateUIs[ramdaIndex];
-                    uiComp.StmText.text = $"{stmValue:f0}";
-                    uiComp.StmMaxText.text = $"{go.CharcterData.Max_Stamina}";
-                    uiComp.StmSlider.value = stmValue / go.CharcterData.Max_Stamina;
-
-                };
-
             }
             WindowList.Instance.TeamBorderManager.ViewTeamInfo(testPlayerLength); //팀 상시 유아이 보여주기 
 
@@ -120,13 +101,10 @@ public class PlayerTurnObject : TurnBaseObject
         float moveSize = currentUnit.MoveSize < TurnActionValue ? currentUnit.MoveSize : TurnActionValue;//이동범위 최대 크기잡아놓은만큼만 표시하기위한 값
         Debug.Log(TurnActionValue);
         //상시유아이 갱신
+
         TeamBorderStateUI uiComp = WindowList.Instance.TeamBorderManager.TeamStateUIs[0];
-        uiComp.HpSlider.value = currentPlayer.HP / currentPlayer.MaxHp;
-        uiComp.HpMaxText.text = $"{currentPlayer.MaxHp}";
-        uiComp.HpText.text = $"{currentPlayer.HP:f0}";
-        uiComp.StmSlider.value = TurnActionValue / currentPlayer.Max_Stamina;
-        uiComp.StmMaxText.text = $"{currentPlayer.Max_Stamina}";
-        uiComp.StmText.text = $"{TurnActionValue:f0}";
+        uiComp.SetHpGaugeAndText(currentPlayer.HP,currentPlayer.MaxHp);
+        uiComp.SetStmGaugeAndText(currentPlayer.Stamina, currentPlayer.Max_Stamina);
 
 
         SelectControllUnit(); //유닛 선택로직 실행
@@ -134,6 +112,7 @@ public class PlayerTurnObject : TurnBaseObject
         // 첫로딩시 생성타이밍안맞음 
         if (currentUnit.BattleUI != null)
         {
+            
             currentUnit.BattleUI.stmGaugeSetting(TurnActionValue, currentPlayer.Max_Stamina);
             currentUnit.BattleUI.hpGaugeSetting(currentPlayer.HP, currentPlayer.MaxHp);
         }
