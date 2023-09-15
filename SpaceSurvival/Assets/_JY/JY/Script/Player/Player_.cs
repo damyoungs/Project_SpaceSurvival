@@ -162,6 +162,8 @@ public class Player_ : MonoBehaviour, IBattle
     public Action on_Attack;
     public Action<float> on_Player_Stamina_Change;
     public Action<float> on_Player_HP_Change;
+    public Action on_DarkForce_Change;
+    public Action<SkillData> on_ActiveSkill;
 
     int attack_Trigger_Hash = Animator.StringToHash("Attack");
     int get_Hit_Hash = Animator.StringToHash("Get_Hit");
@@ -173,7 +175,7 @@ public class Player_ : MonoBehaviour, IBattle
         set
         {
             darkForce = value;
-
+            on_DarkForce_Change?.Invoke();
         }
     }
     int money = 0;
@@ -272,6 +274,7 @@ public class Player_ : MonoBehaviour, IBattle
     {
         shootPointTransform = itemObj.GetChild(1);
     }
+ 
     private void Attack()
     {
         Stamina--;
@@ -301,19 +304,27 @@ public class Player_ : MonoBehaviour, IBattle
         anim.SetTrigger(attack_Trigger_Hash);
         Instantiate(bulletProjectilePrefab, shootPointTransform.position, shootPointTransform.rotation);
     }
-
-    private void OnEnable()
+    public void Skill_Action(SkillData skillData)
     {
-        //inputActions.UI_Inven.Enable();
-        //inputActions.UI_Inven.ItemPickUp.performed      += ItemPickUp;
-        //inputActions.UI_Inven.Equip_Item.performed      += On_Equip_Item;
-        //inputActions.UI_Inven.InvenKey.performed        += OpenInven;
-        //inputActions.Mouse.Enable();
-        //inputActions.Mouse.MouseClickRight.performed    += On_MouseClickRight;
-
+        if (Stamina >= skillData.Require_Stamina_For_UsingSkill)
+        {
+            Stamina -= skillData.Require_Stamina_For_UsingSkill;
+            skillData.FinalDamage = this.ATT * skillData.SkillPower;
+            on_ActiveSkill?.Invoke(skillData);
+            //애니메이션 및 사운드 재생
+        }
+        else
+        {
+            Debug.Log("스테미너가 부족합니다.");
+        }
     }
-
-    //private void On_MouseClickRight(InputAction.CallbackContext _)
+    void Test_PrintSkillData(SkillData data)
+    {
+        Debug.Log($"스킬이름 : {data.SkillName}");
+        Debug.Log($"스테미너 소모량 : {data.Require_Stamina_For_UsingSkill}");
+        Debug.Log($"스킬레벨 : {data.SkillLevel}");
+    }
+  
     private void On_MouseClickRight()
     {
         Attack();
@@ -496,7 +507,6 @@ public class Player_ : MonoBehaviour, IBattle
     }
     public void Recovery_Stamina(int recoveryValue, float duration)
     {
-        Stamina--;// stamina 차감
         StartCoroutine(Recovery_Stamina_(recoveryValue, duration));
     }
     IEnumerator Recovery_HP_(int recoveryValue, float duration)

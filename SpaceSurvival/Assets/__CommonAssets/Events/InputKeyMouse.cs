@@ -779,6 +779,15 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SkillBox_Open"",
+                    ""type"": ""Button"",
+                    ""id"": ""f1d1648e-58dc-4225-96e5-f17be279868f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -900,6 +909,17 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""EquipBox_Open"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""22fbffa0-e087-4181-91f4-1f2ce0d840e2"",
+                    ""path"": ""<Keyboard>/k"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SkillBox_Open"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1033,6 +1053,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         m_UI_Inven_StateKey = m_UI_Inven.FindAction("StateKey", throwIfNotFound: true);
         m_UI_Inven_System = m_UI_Inven.FindAction("System", throwIfNotFound: true);
         m_UI_Inven_EquipBox_Open = m_UI_Inven.FindAction("EquipBox_Open", throwIfNotFound: true);
+        m_UI_Inven_SkillBox_Open = m_UI_Inven.FindAction("SkillBox_Open", throwIfNotFound: true);
         // Common
         m_Common = asset.FindActionMap("Common", throwIfNotFound: true);
         m_Common_Esc = m_Common.FindAction("Esc", throwIfNotFound: true);
@@ -1569,6 +1590,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Inven_StateKey;
     private readonly InputAction m_UI_Inven_System;
     private readonly InputAction m_UI_Inven_EquipBox_Open;
+    private readonly InputAction m_UI_Inven_SkillBox_Open;
     public struct UI_InvenActions
     {
         private @InputKeyMouse m_Wrapper;
@@ -1582,6 +1604,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         public InputAction @StateKey => m_Wrapper.m_UI_Inven_StateKey;
         public InputAction @System => m_Wrapper.m_UI_Inven_System;
         public InputAction @EquipBox_Open => m_Wrapper.m_UI_Inven_EquipBox_Open;
+        public InputAction @SkillBox_Open => m_Wrapper.m_UI_Inven_SkillBox_Open;
         public InputActionMap Get() { return m_Wrapper.m_UI_Inven; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1618,6 +1641,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @EquipBox_Open.started += instance.OnEquipBox_Open;
             @EquipBox_Open.performed += instance.OnEquipBox_Open;
             @EquipBox_Open.canceled += instance.OnEquipBox_Open;
+            @SkillBox_Open.started += instance.OnSkillBox_Open;
+            @SkillBox_Open.performed += instance.OnSkillBox_Open;
+            @SkillBox_Open.canceled += instance.OnSkillBox_Open;
         }
 
         private void UnregisterCallbacks(IUI_InvenActions instance)
@@ -1649,6 +1675,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @EquipBox_Open.started -= instance.OnEquipBox_Open;
             @EquipBox_Open.performed -= instance.OnEquipBox_Open;
             @EquipBox_Open.canceled -= instance.OnEquipBox_Open;
+            @SkillBox_Open.started -= instance.OnSkillBox_Open;
+            @SkillBox_Open.performed -= instance.OnSkillBox_Open;
+            @SkillBox_Open.canceled -= instance.OnSkillBox_Open;
         }
 
         public void RemoveCallbacks(IUI_InvenActions instance)
@@ -1825,6 +1854,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         void OnStateKey(InputAction.CallbackContext context);
         void OnSystem(InputAction.CallbackContext context);
         void OnEquipBox_Open(InputAction.CallbackContext context);
+        void OnSkillBox_Open(InputAction.CallbackContext context);
     }
     public interface ICommonActions
     {
