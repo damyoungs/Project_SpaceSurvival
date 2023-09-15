@@ -43,14 +43,20 @@ public class SkillBox_Description : MonoBehaviour
     public void MovePosition()
     {
         Vector2 mousePos = Mouse.current.position.ReadValue();
-        float positionY = mousePos.y + (rectTransform.sizeDelta.y * 0.5f);
-        float overY = positionY - Screen.height;
+        float maxY = mousePos.y + (rectTransform.sizeDelta.y * 0.5f);
+        float minY = mousePos.y - (rectTransform.sizeDelta.y * 0.5f);
+        float maxX = mousePos.x + rectTransform.sizeDelta.x;
+
+        
+
+        float overY = maxY - Screen.height;
 
 
-        if (positionY > Screen.height)
+        if (maxY > Screen.height)
         {
             mousePos.y -= overY;
         }
+        
         transform.position = mousePos;
     }
     public void Open(SkillData skillData, string currentLevel_Info, string nextLevel_Info)
