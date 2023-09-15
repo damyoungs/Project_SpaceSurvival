@@ -30,6 +30,12 @@ public class ItemSpawner : TestBase
     private void Start()
     {
         player = GameManager.Player__;
+        StartCoroutine(TestInit());
+    }
+    IEnumerator TestInit() 
+    {
+        yield return null;
+
         GetItem_For_Test();
     }
     void SetDropTable()

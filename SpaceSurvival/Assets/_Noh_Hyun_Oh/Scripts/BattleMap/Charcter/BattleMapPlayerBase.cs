@@ -86,6 +86,13 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
     {
         base.Awake();
         charcterData = GetComponentInChildren<Player_>();
+        charcterData.on_Player_Stamina_Change += (stmValue) =>
+        {
+            //Debug.Log(stmValue);
+            TeamBorderStateUI uiComp = WindowList.Instance.TeamBorderManager.TeamStateUIs[0];
+            uiComp.SetStmGaugeAndText(stmValue, charcterData.Max_Stamina);
+
+        };
         charcterData.on_Player_Stamina_Change += (stmValue) => {
             
             //float currentMoveSize = stmValue > moveSize ? moveSize : stmValue;
@@ -102,12 +109,23 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
                 TurnManager.Instance.CurrentTurn.TurnEndAction();//턴종료 
             }
         };
+        charcterData.on_Player_HP_Change += (hpValue) =>
+        {
+            TeamBorderStateUI uiComp = WindowList.Instance.TeamBorderManager.TeamStateUIs[0];
+            uiComp.SetHpGaugeAndText(hpValue, charcterData.MaxHp);
+
+        };
+
         charcterData.on_Player_HP_Change += (hpValue) => {
             if (battleUI != null)
             {
                 BattleUI.hpGaugeSetting(hpValue, charcterData.MaxHp); //소모된 행동력 표시
             }
         };
+
+      
+     
+
     }
 
     private void Start()
