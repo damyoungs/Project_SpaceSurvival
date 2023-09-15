@@ -69,7 +69,6 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
     }
     public bool IsEmpty => itemData == null;
 
-    ISkill skill = null;
 
     public string QuickSlot_Key_Value { get; set; }
     int index;
