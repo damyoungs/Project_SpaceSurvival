@@ -11,14 +11,14 @@ public class Skill_04 : SkillData
         button = transform.parent.GetChild(8).GetComponent<Button>();
         button.onClick.AddListener(Skill_LevelUp);
 
-        SkillName = "스나이핑";
-        SkillLevel = 0;
+        SkillName = "블레싱";
+        SkillLevel = 1;
         //AnimClip
         //audioClip
         AttackRange = 1;
         Require_Force_For_skillLevelUp = 1;
         Require_Stamina_For_UsingSkill = 1;
-        SkillType = SkillType.Sniping;
+        SkillType = SkillType.Blessing;
     }
     protected override void LevelUp_Skill_Info()
     {

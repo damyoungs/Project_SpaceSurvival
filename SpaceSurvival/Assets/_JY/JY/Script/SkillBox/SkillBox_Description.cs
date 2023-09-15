@@ -47,15 +47,33 @@ public class SkillBox_Description : MonoBehaviour
         float minY = mousePos.y - (rectTransform.sizeDelta.y * 0.5f);
         float maxX = mousePos.x + rectTransform.sizeDelta.x;
 
-        
-
+        float overX = maxX - Screen.width;
         float overY = maxY - Screen.height;
 
-
-        if (maxY > Screen.height)
+        if (maxX > Screen.width && maxY > Screen.height)
+        {
+            mousePos.y -= overY;
+            mousePos.x -= overX;
+        }
+        else if (maxX > Screen.width && minY < 0)
+        {
+            mousePos.x -= overX;
+            mousePos.y -= minY;
+        }
+        else if (maxY > Screen.height)
         {
             mousePos.y -= overY;
         }
+        else if (minY < 0)
+        {
+            mousePos.y -= minY;
+        }
+        else if (maxX > Screen.width)
+        {
+            mousePos.x -= overX;
+        }
+
+
         
         transform.position = mousePos;
     }

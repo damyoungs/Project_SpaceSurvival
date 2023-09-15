@@ -22,6 +22,9 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
     AudioClip audioClip;                     public AudioClip AudioClip { get => audioClip; protected set { audioClip = value; } }
     int attackRange;                         public int AttackRange { get => attackRange; protected set { attackRange = value; } }
     int require_Stamina_For_UsingSkill;      public int Require_Stamina_For_UsingSkill { get => require_Stamina_For_UsingSkill; protected set { require_Stamina_For_UsingSkill = value; } }
+    float finalDamage;                       public float FinalDamage { get => finalDamage; set { finalDamage = value; } }
+    float skillPower;                        public float SkillPower { get => skillPower; set { skillPower = value; } }
+
     public Sprite skill_sprite;
 
     uint require_Force_For_skillLevelUp;   

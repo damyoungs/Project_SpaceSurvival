@@ -10,7 +10,7 @@ public class Skill_05 : SkillData
         button = transform.parent.GetChild(7).GetComponent<Button>();
         button.onClick.AddListener(Skill_LevelUp);
         SkillName = "일반 공격";
-        SkillLevel = 0;
+        SkillLevel = 1;
         //AnimClip
         //audioClip
         AttackRange = 1;
