@@ -90,6 +90,7 @@ public class InitCharcterSetting : MonoBehaviour
                 tbo.UnitBattleIndex = i;
                 tbo.gameObject.name = $"ENEMY_Team_{i}";
                 tbo.InitData();
+                
             }
             tbo.TurnActionValue = 10.0f; // -테스트값 설정
             teamArray[i] = tbo;

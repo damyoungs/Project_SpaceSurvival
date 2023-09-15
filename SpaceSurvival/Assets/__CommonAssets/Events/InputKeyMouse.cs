@@ -216,7 +216,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""path"": ""<Mouse>/position"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""KeyMouse"",
                     ""action"": ""Get_Position"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false

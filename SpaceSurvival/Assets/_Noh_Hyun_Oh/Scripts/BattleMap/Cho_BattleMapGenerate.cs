@@ -255,6 +255,7 @@ public class Cho_BattleMapGenerate : MonoBehaviour
     private void TileInstantiate(int i, GameObject type, Tile.MapTileType tileType, int x, int y)
     {
         mapTiles[i] = Instantiate(type, transform).GetComponent<Tile>();     // type에 따른 타일 생성
+        MapTiles[i].name = $"인덱스:{i},타일좌표({x},{y})";
         mapTiles[i].TileType = tileType;                                                // 타일 스크립트에 타입 저장
         mapTiles[i].Width = x;                                                      // 타일 가로 인덱스 저정
         mapTiles[i].Length = y;                                                    // 타일 세로 인덱스 저정

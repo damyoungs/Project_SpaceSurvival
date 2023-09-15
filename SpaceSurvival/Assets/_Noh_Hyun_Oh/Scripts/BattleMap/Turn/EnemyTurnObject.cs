@@ -46,6 +46,7 @@ public class EnemyTurnObject : TurnBaseObject
                 charcterList.Add(enemy); //턴관리할 몹 셋팅
             }
         }
+        SpaceSurvival_GameManager.Instance.GetEnemeyTeam = () => enemyList;  //싱글톤메니저쪽에 데이터 셋팅 
     }
     public override void TurnStartAction()
     {

@@ -180,6 +180,7 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
                 inputSystem.BattleMap_Player.Enable();
                 inputSystem.Options.Enable();
                 inputSystem.Camera.Enable();
+                inputSystem.Mouse.Enable();
                 break;
             
             case HotKey_Use.Use_TownMap:                                    // 마을 진입시

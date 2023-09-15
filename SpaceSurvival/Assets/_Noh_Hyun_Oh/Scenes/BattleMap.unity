@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 139159161}
   - component: {fileID: 139159164}
+  - component: {fileID: 139159166}
   - component: {fileID: 139159163}
   - component: {fileID: 139159165}
   m_Layer: 0
@@ -217,6 +218,20 @@ MonoBehaviour:
   - {fileID: 2560189862556437691, guid: 087d3070348688542b8efc48a5520cb7, type: 3}
   - {fileID: 91425800058563941, guid: 5428ababdf143a24b8dfeb6020337863, type: 3}
   mapTiles: []
+--- !u!114 &139159166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 139159159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf74fea0c30dece46931f076359da6a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileLayerIndex: 0
+  ray_Range: 30
 --- !u!1001 &205899045
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -570,6 +585,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileLayerIndex: 0
+  isAttack: 0
   ray_Range: 20
 --- !u!114 &717264946
 MonoBehaviour:

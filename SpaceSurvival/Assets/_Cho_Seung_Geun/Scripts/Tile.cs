@@ -26,8 +26,9 @@ public class Tile : MonoBehaviour, IComparable<Tile>
         Item,
         Prop,
         Move,
-        Charcter
-
+        Charcter,
+        Attack,
+        AttackSkill,
     }
 
     // 타일 타입
@@ -40,6 +41,9 @@ public class Tile : MonoBehaviour, IComparable<Tile>
             tileType = value;
         }
     }
+
+    [SerializeField]
+    Material[] lineRendererMaterials;
 
     // 타일 위 몬스터, 아이템 등 타입 존재 여부
     public TileExistType existType = 0;
@@ -66,10 +70,19 @@ public class Tile : MonoBehaviour, IComparable<Tile>
                         lineRenderer.enabled = false;
                         break;
                     case TileExistType.Move:
+                        lineRenderer.material = lineRendererMaterials[0];
                         lineRenderer.enabled = true;
                         break;
                     case TileExistType.Charcter:
                         lineRenderer.enabled = false;
+                        break;
+                    case TileExistType.Attack:
+                        lineRenderer.material = lineRendererMaterials[1];
+                        lineRenderer.enabled = true;
+                        break;
+                    case TileExistType.AttackSkill:
+                        lineRenderer.material = lineRendererMaterials[2];
+                        lineRenderer.enabled = true;
                         break;
                     default:
                         break;
@@ -105,6 +118,8 @@ public class Tile : MonoBehaviour, IComparable<Tile>
     public float G;
 
     public float MoveCheckG = 1000.0f;
+    
+    public float AttackCheckG = 1000.0f;
 
     public float H;
 

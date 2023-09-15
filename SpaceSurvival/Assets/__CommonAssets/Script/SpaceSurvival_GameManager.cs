@@ -10,6 +10,10 @@ using UnityEngine;
 /// </summary>
 public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
 {
+    /// <summary>
+    /// 유아이 사용시 마우스 이벤트 막기위한 변수 
+    /// </summary>
+    public bool IsUICheck = false;
 
     /// <summary>
     /// 배틀맵 시작시 셋팅할 맵의 타일 변수 
@@ -30,6 +34,9 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
 
         }
     }
+    public Func<Tile[]> GetBattleMapTilesData;
+
+
     /// <summary>
     /// 배틀맵 시작시 셋팅할 맵의 타일 가로갯수 
     /// </summary>
@@ -46,6 +53,8 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
             return mapSizeX;
         }
     }
+    public Func<int> GetMapTileX;
+    
     /// <summary>
     /// 배틀맵 시작시 셋팅할 맵의 타일 세로갯수 
     /// </summary>
@@ -62,6 +71,7 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
             return mapSizeY;
         }
     }
+    public Func<int> GetMapTileY;
 
     /// <summary>
     /// 플레이어의 팀원 목록을 저장해둔다.
@@ -79,39 +89,41 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
             return playerTeam;
         }
     }
-    /// <summary>
-    /// 플레이어의 팀원 목록을 받아오기위한 Func 델리게이트 
-    /// 이건 아직 데이터새성이 어떻게될지모르니 일단 틀만 잡아놓고 나중에 수정.
-    /// </summary>
     public Func<ICharcterBase[]> GetPlayerTeam;
 
     /// <summary>
-    /// 배틀맵 데이터를 받아오기위한 Func 델리게이트
+    /// 플레이어의 팀원 목록을 저장해둔다.
     /// </summary>
-    public Func<Tile[]> GetBattleMapTilesData;
-    public Func<int> GetMapTileX;
-    public Func<int> GetMapTileY;
-
-
-    /*
-     인벤토리는 하나만 사용할경우 여기에 추가가 필요하다 .
-     */
+    ICharcterBase[] enemyTeam;
+    public ICharcterBase[] EnemyTeam
+    {
+        get
+        {
+            //if (playerTeam == null) //팀목록이 없으면 
+            //{
+            //    playerTeam = GetPlayerTeam?.Invoke(); // 델리를 요청해서 받아온다
+            //}
+            enemyTeam ??= GetEnemeyTeam?.Invoke(); // 위의 주석 내용과 같음(복합형)
+            return enemyTeam;
+        }
+    }
+    public Func<ICharcterBase[]> GetEnemeyTeam;
 
     /// <summary>
     /// 이동범위 표시하는 컴포넌트 가져온다.
     /// </summary>
     MoveRange moveRange;
-    public MoveRange MoveRange 
+    public MoveRange MoveRange
     {
-        get 
+        get
         {
-            if (moveRange == null) 
+            if (moveRange == null)
             {
                 moveRange = GetMoveRangeComp?.Invoke();
             }
             return moveRange;
         }
-    
+
     }
     /// <summary>
     /// 이동 범위표시하는 로직 받아오기위한 델리게이트
@@ -120,10 +132,25 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
 
 
     /// <summary>
-    /// 유아이 사용시 마우스 이벤트 막기위한 변수 
+    /// 공격 범위 표시하는 컴포넌트 가져온다.
     /// </summary>
-    public bool IsUICheck = false;
+    AttackRange attackRange;
+    public AttackRange AttackRange
+    {
+        get
+        {
+            if (attackRange == null)
+            {
+                attackRange = GetAttackRangeComp?.Invoke();
+            }
+            return attackRange;
+        }
 
+    }
+    /// <summary>
+    /// 공격 범위표시하는 로직 받아오기위한 델리게이트
+    /// </summary>
+    public Func<AttackRange> GetAttackRangeComp;
 
     /// <summary>
     /// 배틀맵의 초기화 함수는 싱글톤형식으로 들고다니지 않기때문에 
@@ -151,7 +178,9 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
             mapSizeX = -1;
             mapSizeY = -1;
             moveRange = null;
+            attackRange = null;
             GetMoveRangeComp = null;
+            GetAttackRangeComp = null;
             battleMapInitClass = null;
             GetBattleMapInit = null;
         }
