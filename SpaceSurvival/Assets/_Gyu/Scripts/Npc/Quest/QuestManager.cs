@@ -10,7 +10,6 @@ public class QuestManager : MonoBehaviour
 {
     public static QuestManager instance;
     public TalkData talkData;   // 대사 모음
-    public int Npcid;           // 고유 id
     private int ItemNumber;     // 퀘스트 보상 아이템&골드
 
     // UI상태 체크
@@ -40,13 +39,14 @@ public class QuestManager : MonoBehaviour
     // 캔버스 위치
     GameObject CanvasLocation;
 
+    NpcBase NpcMe;
+
     private void Awake()
     {
-        Npcid = 1000;
         talkData = GameObject.FindAnyObjectByType<TalkData>();
         Buttons = new GameObject[3];
 
-        CanvasLocation = transform.GetChild(0).gameObject;
+        CanvasLocation = GameObject.Find("Canvas");
         TalkPanel = CanvasLocation.transform.GetChild(0).gameObject;
         QuestPanel = CanvasLocation.transform.GetChild(1).gameObject;
         MyQuestPanel=CanvasLocation.transform.GetChild(2).gameObject;
@@ -58,7 +58,7 @@ public class QuestManager : MonoBehaviour
         MyQeustBox = MyQuestPanel.GetComponentsInChildren<TextMeshProUGUI>()[0];
         for(int i = 0; i < 3; i++)
             Buttons[i] = QuestPanel.GetComponentsInChildren<Button>()[i].gameObject;
-
+        NpcMe = GetComponentInChildren<NpcBase>();
 
         if (instance == null)
             instance = this;
@@ -68,11 +68,11 @@ public class QuestManager : MonoBehaviour
     }
 
     // 화면 중앙 대화하기 버튼
-    public void Action()
+    public void Action(int npc)
     {
         //ItemNumber = (int)QuestManager.instance.quests[CharBase.instance.questChapter].questReward.RewardItem;
 
-        Talk(QuestManager.instance.Npcid);
+        Talk(npc);
     }
 
     /// <summary>

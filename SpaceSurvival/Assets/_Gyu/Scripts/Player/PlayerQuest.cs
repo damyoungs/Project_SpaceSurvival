@@ -16,4 +16,7 @@ public class PlayerQuest : MonoBehaviour
         if (instance == null)
             instance = this;
     }
+    
+
+
 }

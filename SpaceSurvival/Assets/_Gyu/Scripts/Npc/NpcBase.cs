@@ -4,33 +4,32 @@ using UnityEngine;
 
 public class NpcBase : MonoBehaviour
 {
-    public GameObject Button;
-    SphereCollider sphereCollider ;
+    public int Npcid;
+    //public GameObject Button;
+    //SphereCollider sphereCollider ;
 
-    public GameObject CanvasLocation;
+    //public GameObject CanvasLocation;
 
-    private void Awake()
-    {
-        CanvasLocation = GameObject.Find("Canvas");
-        Button = CanvasLocation.transform.GetChild(3).gameObject;
-        Button.gameObject.SetActive(false);
-        sphereCollider = GetComponent<SphereCollider>();
-    }
+    //private void Awake()
+    //{
+    //    CanvasLocation = GameObject.Find("Canvas");
+    //    Button = CanvasLocation.transform.GetChild(3).gameObject;
+    //    Button.gameObject.SetActive(false);
+    //    sphereCollider = GetComponent<SphereCollider>();
+    //}
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            TEstQuestMnAger.instance.initialize();
-            Button.gameObject.SetActive(true);
-        }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            Button.gameObject.SetActive(false);
-            TEstQuestMnAger.instance.initialize();
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("Player"))
+    //    {
+    //        Button.gameObject.SetActive(true);
+    //    }
+    //}
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("Player"))
+    //    {
+    //        Button.gameObject.SetActive(false);
+    //    }
+    //}
 }
