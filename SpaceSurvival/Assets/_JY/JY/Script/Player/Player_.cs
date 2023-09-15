@@ -29,36 +29,33 @@ public class Player_ : MonoBehaviour, IBattle
         get => weaponType;
         set
         {
-            if (weaponType != value)
+            weaponType = value;
+            switch (weaponType)
             {
-                weaponType = value;
-                switch (weaponType)
-                {
-                    case WeaponType.None:
-                        lineRenderer.State = Attack_State.DeSelect;
-                        on_Attack = Basic_Attack;
-                        anim.runtimeAnimatorController = no_Weapon_AC;
-                        break;
-                    case WeaponType.Pistol:
-                        lineRenderer.State = Attack_State.Normal_Attack;
-                        on_Attack = Pistol_Attack;
-                        weapon_Parent_Transform.localPosition = pistol_Pos;
-                        weapon_Parent_Transform.localRotation = pistol_Rotation;
-                        anim.runtimeAnimatorController = pistol_AC;
-                        break;
-                    case WeaponType.Rifle:
-                        on_Attack = Rifle_Attack;
-                        weapon_Parent_Transform.localPosition = rifle_Pos;
-                        weapon_Parent_Transform.localRotation = rifle_Rotation;
-                        anim.runtimeAnimatorController = rifle_AC;
-                        break;
-                    case WeaponType.ShotGun:
-                        on_Attack = ShotGun_Attack;
-                        anim.runtimeAnimatorController = shotGun_AC;
-                        break;
-                    default:
-                        break;
-                }
+                case WeaponType.None:
+                    lineRenderer.State = Attack_State.DeSelect;
+                    on_Attack = Basic_Attack;
+                    anim.runtimeAnimatorController = no_Weapon_AC;
+                    break;
+                case WeaponType.Pistol:
+                    lineRenderer.State = Attack_State.Normal_Attack;
+                    on_Attack = Pistol_Attack;
+                    weapon_Parent_Transform.localPosition = pistol_Pos;
+                    weapon_Parent_Transform.localRotation = pistol_Rotation;
+                    anim.runtimeAnimatorController = pistol_AC;
+                    break;
+                case WeaponType.Rifle:
+                    on_Attack = Rifle_Attack;
+                    weapon_Parent_Transform.localPosition = rifle_Pos;
+                    weapon_Parent_Transform.localRotation = rifle_Rotation;
+                    anim.runtimeAnimatorController = rifle_AC;
+                    break;
+                case WeaponType.ShotGun:
+                    on_Attack = ShotGun_Attack;
+                    anim.runtimeAnimatorController = shotGun_AC;
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -282,8 +279,8 @@ public class Player_ : MonoBehaviour, IBattle
     }
     void Basic_Attack()
     {
-        audioSource.PlayOneShot(punch_Sound);
         anim.SetTrigger(attack_Trigger_Hash);
+        audioSource.PlayOneShot(punch_Sound);
         // audioSource.Play();
     }
     void Pistol_Attack()
@@ -354,6 +351,7 @@ public class Player_ : MonoBehaviour, IBattle
         armors[1] = transform.GetChild(17).transform;// Space Armor
         armors[2] = transform.GetChild(20).transform;// Big Armor
         armors[3] = transform.GetChild(19).transform;// 머리
+        Weapon_Type = WeaponType.None;
     }
     //public void Disable_Input() //연결없어서 에러없애기위해 주석처리
     //{
