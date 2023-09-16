@@ -73,8 +73,9 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
     
     public float MoveSize => moveSize;
 
-
-
+    [SerializeField]
+    float attackRange = 7.0f;
+    public float AttackRange => attackRange;
 
     /// <summary>
     /// 좌측상단에있는 캐릭터 상태창

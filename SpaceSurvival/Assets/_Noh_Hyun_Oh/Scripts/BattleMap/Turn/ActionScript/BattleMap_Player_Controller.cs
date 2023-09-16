@@ -171,7 +171,7 @@ public class BattleMap_Player_Controller : MonoBehaviour
                     onMoveActive?.Invoke(targetTile);//이동로직 실행
                     Debug.Log($"이동가능 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
                     break;
-                case Tile.TileExistType.Attack:
+                case Tile.TileExistType.AttackRange:
                     //Debug.Log(targetTile);
 
                     onAttackAction?.Invoke(null);//공격로직 실행
