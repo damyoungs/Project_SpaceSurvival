@@ -718,7 +718,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Equip_Item"",
+                    ""name"": ""DoubleClick"",
                     ""type"": ""Button"",
                     ""id"": ""c0ba7cde-33c5-4edf-a931-744590f725c1"",
                     ""expectedControlType"": ""Button"",
@@ -831,7 +831,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""interactions"": ""MultiTap(tapDelay=0.4)"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Equip_Item"",
+                    ""action"": ""DoubleClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1046,7 +1046,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         m_UI_Inven = asset.FindActionMap("UI_Inven", throwIfNotFound: true);
         m_UI_Inven_Click = m_UI_Inven.FindAction("Click", throwIfNotFound: true);
         m_UI_Inven_Shift = m_UI_Inven.FindAction("Shift", throwIfNotFound: true);
-        m_UI_Inven_Equip_Item = m_UI_Inven.FindAction("Equip_Item", throwIfNotFound: true);
+        m_UI_Inven_DoubleClick = m_UI_Inven.FindAction("DoubleClick", throwIfNotFound: true);
         m_UI_Inven_ItemPickUp = m_UI_Inven.FindAction("ItemPickUp", throwIfNotFound: true);
         m_UI_Inven_InvenKey = m_UI_Inven.FindAction("InvenKey", throwIfNotFound: true);
         m_UI_Inven_OptionKey = m_UI_Inven.FindAction("OptionKey", throwIfNotFound: true);
@@ -1583,7 +1583,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     private List<IUI_InvenActions> m_UI_InvenActionsCallbackInterfaces = new List<IUI_InvenActions>();
     private readonly InputAction m_UI_Inven_Click;
     private readonly InputAction m_UI_Inven_Shift;
-    private readonly InputAction m_UI_Inven_Equip_Item;
+    private readonly InputAction m_UI_Inven_DoubleClick;
     private readonly InputAction m_UI_Inven_ItemPickUp;
     private readonly InputAction m_UI_Inven_InvenKey;
     private readonly InputAction m_UI_Inven_OptionKey;
@@ -1597,7 +1597,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         public UI_InvenActions(@InputKeyMouse wrapper) { m_Wrapper = wrapper; }
         public InputAction @Click => m_Wrapper.m_UI_Inven_Click;
         public InputAction @Shift => m_Wrapper.m_UI_Inven_Shift;
-        public InputAction @Equip_Item => m_Wrapper.m_UI_Inven_Equip_Item;
+        public InputAction @DoubleClick => m_Wrapper.m_UI_Inven_DoubleClick;
         public InputAction @ItemPickUp => m_Wrapper.m_UI_Inven_ItemPickUp;
         public InputAction @InvenKey => m_Wrapper.m_UI_Inven_InvenKey;
         public InputAction @OptionKey => m_Wrapper.m_UI_Inven_OptionKey;
@@ -1620,9 +1620,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @Shift.started += instance.OnShift;
             @Shift.performed += instance.OnShift;
             @Shift.canceled += instance.OnShift;
-            @Equip_Item.started += instance.OnEquip_Item;
-            @Equip_Item.performed += instance.OnEquip_Item;
-            @Equip_Item.canceled += instance.OnEquip_Item;
+            @DoubleClick.started += instance.OnDoubleClick;
+            @DoubleClick.performed += instance.OnDoubleClick;
+            @DoubleClick.canceled += instance.OnDoubleClick;
             @ItemPickUp.started += instance.OnItemPickUp;
             @ItemPickUp.performed += instance.OnItemPickUp;
             @ItemPickUp.canceled += instance.OnItemPickUp;
@@ -1654,9 +1654,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @Shift.started -= instance.OnShift;
             @Shift.performed -= instance.OnShift;
             @Shift.canceled -= instance.OnShift;
-            @Equip_Item.started -= instance.OnEquip_Item;
-            @Equip_Item.performed -= instance.OnEquip_Item;
-            @Equip_Item.canceled -= instance.OnEquip_Item;
+            @DoubleClick.started -= instance.OnDoubleClick;
+            @DoubleClick.performed -= instance.OnDoubleClick;
+            @DoubleClick.canceled -= instance.OnDoubleClick;
             @ItemPickUp.started -= instance.OnItemPickUp;
             @ItemPickUp.performed -= instance.OnItemPickUp;
             @ItemPickUp.canceled -= instance.OnItemPickUp;
@@ -1847,7 +1847,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     {
         void OnClick(InputAction.CallbackContext context);
         void OnShift(InputAction.CallbackContext context);
-        void OnEquip_Item(InputAction.CallbackContext context);
+        void OnDoubleClick(InputAction.CallbackContext context);
         void OnItemPickUp(InputAction.CallbackContext context);
         void OnInvenKey(InputAction.CallbackContext context);
         void OnOptionKey(InputAction.CallbackContext context);

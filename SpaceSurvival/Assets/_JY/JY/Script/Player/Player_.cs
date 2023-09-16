@@ -143,6 +143,7 @@ public class Player_ : MonoBehaviour, IBattle
 
     //InputKeyMouse inputActions;
     Animator anim;
+    SkillBox_Description skill_Description;
     ItemDescription itemDescription;
     EquipBox_Description EquipBox_Description;
     EquipBox equipBox;
@@ -161,6 +162,7 @@ public class Player_ : MonoBehaviour, IBattle
     public Action<float> on_Player_HP_Change;
     public Action on_DarkForce_Change;
     public Action<SkillData> on_ActiveSkill;
+    public Action on_Buff_Start;
 
     int attack_Trigger_Hash = Animator.StringToHash("Attack");
     int get_Hit_Hash = Animator.StringToHash("Get_Hit");
@@ -233,6 +235,7 @@ public class Player_ : MonoBehaviour, IBattle
             }
         }
     }
+    uint previous_ATT = 0;
     uint dp;
     public uint DP
     {
@@ -246,7 +249,7 @@ public class Player_ : MonoBehaviour, IBattle
             }
         }
     }
-
+    uint Previous_DP = 0;
     private void Awake()
     {
         lineRenderer = GetComponent<Line_Renderer>();
@@ -303,16 +306,30 @@ public class Player_ : MonoBehaviour, IBattle
     }
     public void Skill_Action(SkillData skillData)
     {
-        if (Stamina >= skillData.Require_Stamina_For_UsingSkill)
+        Skill_Blessing blessingSkill = skillData as Skill_Blessing;
+        if (Stamina >= skillData.Require_Stamina_For_UsingSkill && this.Weapon_Type != WeaponType.None)
         {
             Stamina -= skillData.Require_Stamina_For_UsingSkill;
             skillData.FinalDamage = this.ATT * skillData.SkillPower;
             on_ActiveSkill?.Invoke(skillData);
+
+            Debug.Log($"스킬이름 : {skillData.SkillName}\n 데미지 : {skillData.FinalDamage}");
+
             //애니메이션 및 사운드 재생
         }
-        else
+        else if (blessingSkill != null)
         {
-            Debug.Log("스테미너가 부족합니다.");
+            previous_ATT = this.ATT;
+            Previous_DP = this.DP;
+
+            float temp = this.ATT;
+            temp *= blessingSkill.SkillPower;
+
+
+
+            this.ATT = (uint)temp;
+            on_Buff_Start?.Invoke();
+            return;
         }
     }
     void Test_PrintSkillData(SkillData data)
@@ -330,10 +347,11 @@ public class Player_ : MonoBehaviour, IBattle
     private void Start()
     {
         InputSystemController.Instance.OnUI_Inven_ItemPickUp += ItemPickUp;
-        InputSystemController.Instance.OnUI_Inven_Equip_Item += On_Equip_Item;
+        InputSystemController.Instance.OnUI_Inven_DoubleClick += On_DoubleClick;
         InputSystemController.Instance.OnUI_Inven_Inven_Open += OpenInven;
         InputSystemController.Instance.OnUI_Inven_MouseClickRight += On_MouseClickRight;
 
+        skill_Description = FindObjectOfType<SkillBox_Description>();
         itemDescription = GameManager.SlotManager.ItemDescription;
         equipBox = GameManager.EquipBox;
         EquipBox_Description = equipBox.Description;
@@ -351,7 +369,10 @@ public class Player_ : MonoBehaviour, IBattle
         armors[1] = transform.GetChild(17).transform;// Space Armor
         armors[2] = transform.GetChild(20).transform;// Big Armor
         armors[3] = transform.GetChild(19).transform;// 머리
+
+        //초기스펙 설정
         Weapon_Type = WeaponType.None;
+        this.ATT = 100;
     }
     //public void Disable_Input() //연결없어서 에러없애기위해 주석처리
     //{
@@ -455,7 +476,7 @@ public class Player_ : MonoBehaviour, IBattle
     }
 
     //private void On_Equip_Item(InputAction.CallbackContext _)
-    private void On_Equip_Item()
+    private void On_DoubleClick()
     {
         if (itemDescription.ItemData != null)
         {
@@ -466,6 +487,10 @@ public class Player_ : MonoBehaviour, IBattle
         else if (EquipBox_Description.ItemData != null)
         {
             onUnEquipItem?.Invoke(EquipBox_Description.ItemData);
+        }
+        else if (skill_Description.SkillData != null)
+        {
+            Skill_Action(skill_Description.SkillData);
         }
     }
 

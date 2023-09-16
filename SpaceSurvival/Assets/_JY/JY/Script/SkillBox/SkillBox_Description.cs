@@ -79,7 +79,7 @@ public class SkillBox_Description : MonoBehaviour
     }
     public void Open(SkillData skillData, string currentLevel_Info, string nextLevel_Info)
     {
-        SkillData = skillData;
+        this.SkillData = skillData;
         MovePosition();
         Refresh(skillData, currentLevel_Info, nextLevel_Info);
         canvasGroup.alpha = 1.0f;
@@ -87,6 +87,7 @@ public class SkillBox_Description : MonoBehaviour
     }
     public void Close()
     {
+        this.SkillData = null;
         canvasGroup.alpha = 0;
     }
     void Refresh(SkillData skillData, string current_Info, string next_Info)
