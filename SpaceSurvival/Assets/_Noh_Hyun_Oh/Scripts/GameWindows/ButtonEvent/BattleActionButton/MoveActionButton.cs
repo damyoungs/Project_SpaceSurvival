@@ -42,27 +42,23 @@ public class MoveActionButton : BattleActionButtonBase
             if (!SpaceSurvival_GameManager.Instance.AttackRange.isAttacRange) //공격안하고있으면   
             {
                 ITurnBaseData turnObj = TurnManager.Instance.CurrentTurn;   // 턴 오브젝트찾아서 
-                BattleMapPlayerBase curruentUnit = turnObj.CurrentUnit as BattleMapPlayerBase;           // 현재 행동중인 유닛 찾고 
-                if (curruentUnit == null)
+                if (player == null)
                 {
                     Debug.LogWarning("선택한 유닛이없습니다");
                     return;
                 }
-                if (!curruentUnit.IsMoveCheck) //이동중이 아닌경우만  
+                if (!player.IsMoveCheck) //이동중이 아닌경우만  
                 {
-                    float moveSize = curruentUnit.CharcterData.Stamina > curruentUnit.MoveSize ? curruentUnit.MoveSize : curruentUnit.CharcterData.Stamina;
-                    SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(curruentUnit.CurrentTile);
-                    SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(curruentUnit.CurrentTile, moveSize);//이동범위표시해주기 
+                    float moveSize = player.CharcterData.Stamina > player.MoveSize ? player.MoveSize : player.CharcterData.Stamina;
+                    SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(player.CurrentTile);
+                    SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(player.CurrentTile, moveSize);//이동범위표시해주기 
                     isMoveButtonClick = true;
                 }
             }
-            else //공격 상태면
+            else //공격 상태면 
             {
-                SpaceSurvival_GameManager.Instance.AttackRange.ClearLineRenderer(); //초기화한다.
-
-                SpaceSurvival_GameManager.Instance.AttackRange.isAttacRange = false;
-                SpaceSurvival_GameManager.Instance.AttackRange.isSkillAndAttack = false;
-                
+               SpaceSurvival_GameManager.Instance.To_AttackRange_From_MoveRange();
+               isMoveButtonClick = true;
             }
 
         }

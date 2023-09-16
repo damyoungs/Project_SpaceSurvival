@@ -81,6 +81,7 @@ public class PlayerTurnObject : TurnBaseObject
 
         }
 
+   
     }
 
     /// <summary>
@@ -119,6 +120,8 @@ public class PlayerTurnObject : TurnBaseObject
         SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentUnit.CurrentTile);
         SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(currentUnit.CurrentTile, moveSize);//이동범위표시해주기 
 
+        SpaceSurvival_GameManager.Instance.AttackRange.ClearLineRenderer();     //공격범위 초기화 
+        SpaceSurvival_GameManager.Instance.AttackRange.InitDataSet(currentPlayer); //턴시작될때 공격 범위 적용 할 유닛으로 셋팅
     }
 
     /// <summary>

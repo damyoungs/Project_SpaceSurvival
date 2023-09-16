@@ -83,7 +83,7 @@ public class BattleMap_Player_Controller : MonoBehaviour
     /// <summary>
     /// 공격 범위가 표시된상태로 클릭시 처리할 액션 
     /// </summary>
-    public Action<ICharcterBase[]> onAttackAction;
+    public Action<ICharcterBase[], float> onAttackAction;
 
     private void Awake()
     {
@@ -172,9 +172,14 @@ public class BattleMap_Player_Controller : MonoBehaviour
                     Debug.Log($"이동가능 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
                     break;
                 case Tile.TileExistType.Attack_OR_Skill:
-                    ICharcterBase[] attackArray = SpaceSurvival_GameManager.Instance.AttackRange.GetEnemyArray();
-                    onAttackAction?.Invoke(attackArray);//공격로직 실행
-                    Debug.Log($"공격 했다 {attackArray} 맞춘 인원수 {attackArray.Length} ");
+                    ICharcterBase[] attackArray = SpaceSurvival_GameManager.Instance.AttackRange.GetEnemyArray(out float lastDamage); //
+                    if (attackArray != null && attackArray.Length > 0) //공격할적이있을땐 
+                    {
+                        onAttackAction?.Invoke(attackArray, lastDamage);//공격로직 실행 적군 데미지처리는 알아서하도록 데이터만넘기자
+                        Debug.Log($"공격 했다 최종데미지{lastDamage} 맞춘 인원수 {attackArray.Length} ");
+
+                        SpaceSurvival_GameManager.Instance.To_AttackRange_From_MoveRange();
+                    }
                     break;
                 default:
                     Debug.Log($"접근되면 안된다.");
