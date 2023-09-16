@@ -69,7 +69,7 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
 
     //UI_Inven ¾×¼Ç¸Ê
 
-    public Action OnUI_Inven_Equip_Item;
+    public Action OnUI_Inven_DoubleClick;
     public Action OnUI_Inven_ItemPickUp;
     public Action OnUI_Inven_Click;
     public Action OnUI_Inven_Click_Cancel;
@@ -132,7 +132,7 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
         inputSystem.Mouse.MouseClickRight.performed += (_) => { OnUI_Inven_MouseClickRight?.Invoke(); };
 
 
-        inputSystem.UI_Inven.Equip_Item.performed += (_) => { OnUI_Inven_Equip_Item?.Invoke(); };
+        inputSystem.UI_Inven.DoubleClick.performed += (_) => { OnUI_Inven_DoubleClick?.Invoke(); };
         inputSystem.UI_Inven.ItemPickUp.performed += (_) => { OnUI_Inven_ItemPickUp?.Invoke(); };
         inputSystem.UI_Inven.Click.performed += (_) => { OnUI_Inven_Click?.Invoke(); };
         inputSystem.UI_Inven.Click.canceled += (_) => { OnUI_Inven_Click_Cancel?.Invoke(); };
