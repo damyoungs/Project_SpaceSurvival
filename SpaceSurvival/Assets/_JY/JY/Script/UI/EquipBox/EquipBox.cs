@@ -7,6 +7,38 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+public class Equipments_Total_ATT_DP//«√∑π¿ÃæÓ∞° ø¯«œ¥¬ ≈∏¿Ãπ÷ø° æ¡¶µÁ «ˆ¿Á ¿Â∫Òµ» ¿Â∫ÒµÈ∑Œ ¿Œ«ÿ √ﬂ∞°µ» ∞¯∞›∑¬∞˙ πÊæÓ∑¬¿ª πﬁæ∆ø¿±‚¿ß«— ≈¨∑°Ω∫
+{
+    EquipBox equipBox_;
+    uint total_ATT;
+    public uint Total_ATT => total_ATT;
+    uint total_DP;
+    public uint Total_DP => total_DP;
+    public Equipments_Total_ATT_DP(EquipBox equipBox)
+    {
+        equipBox_ = equipBox;
+    }
+    public Equipments_Total_ATT_DP GetEquipments_Total_ATT_DP()
+    {
+        Equipments_Total_ATT_DP result = this;
+        ItemData_Equip itemData;
+        this.total_ATT = 0;
+        this.total_DP = 0;
+
+        foreach (var equipSlot in equipBox_.EquipBox_Slots)
+        {
+            itemData = equipSlot.ItemData as ItemData_Equip;
+            if (itemData != null)
+            {
+                total_ATT += itemData.attackPoint;
+                total_DP += itemData.attackPoint;
+            }
+        }
+
+        return result;
+    }
+}
+
 public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
 {
     EquipBox_Slot[] equipBox_Slots;
@@ -17,6 +49,7 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
     public Action<ItemData> on_Update_Status_For_UnEquip;
     public EquipBox_Description Description => description;
     public EquipBox_Slot this[EquipType type] => equipBox_Slots[(int) type - 1];//0Î≤àÏß∏ ?∏Îç±??= None 
+    public EquipBox_Slot[] EquipBox_Slots => equipBox_Slots;
     Transform[] equip_Parent_Transform;
 
     Player_ player;
@@ -26,7 +59,7 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
 
     public Action<IPopupSortWindow> PopupSorting { get ; set ; }
     //InputKeyMouse player_Input_Action;
-
+    
     private void Awake()
     {
         //player_Input_Action = new InputKeyMouse();
@@ -48,14 +81,7 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
         Close(); //??ÉÅ?§Í≥†?§Îãà?îÎç∞ ÏºúÏ†∏?àÏúºÎ©¥Ïïà?òÎãà ?§Ì??∏ÎßàÏßÄÎßâÏóê Í∞êÏ∂ò??
         StartCoroutine(Get_Player_Reference());
     }
-    //private void OnEnable()
-    //{
-
-        //player_Input_Action.KeyBoard.Enable();
-        //player_Input_Action.KeyBoard.EquipBox_Open.performed += On_EquipBox_Open;
-    //}
-
-    //private void On_EquipBox_Open(InputAction.CallbackContext _)
+    
     private void On_EquipBox_Open()
     {
         if (IsOpen)

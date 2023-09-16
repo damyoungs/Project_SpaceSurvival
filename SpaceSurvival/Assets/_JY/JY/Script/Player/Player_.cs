@@ -8,6 +8,17 @@ using Cinemachine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+
+public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 방어력을 저장. 버프사용, 사용중 장비, 해제 시 다시 설정할 때 사용
+{
+    public uint base_ATT;
+    public uint base_DP;
+    public Base_Status(Player_ player)
+    {
+        base_ATT = player.ATT;
+        base_DP = player.DP;
+    }
+}
 public class Player_ : MonoBehaviour, IBattle
 {
     public AnimatorOverrideController pistol_AC;
@@ -141,12 +152,13 @@ public class Player_ : MonoBehaviour, IBattle
     public AudioClip potion_Sound;
 
 
-    //InputKeyMouse inputActions;
     Animator anim;
     SkillBox_Description skill_Description;
     ItemDescription itemDescription;
     EquipBox_Description EquipBox_Description;
     EquipBox equipBox;
+    Base_Status base_Status;
+    Equipments_Total_ATT_DP equipments_Total_ATT_DP;
 
     public Action onOpenInven;
 
@@ -162,7 +174,7 @@ public class Player_ : MonoBehaviour, IBattle
     public Action<float> on_Player_HP_Change;
     public Action on_DarkForce_Change;
     public Action<SkillData> on_ActiveSkill;
-    public Action on_Buff_Start;
+    public Action<Skill_Blessing> on_Buff_Start;
 
     int attack_Trigger_Hash = Animator.StringToHash("Attack");
     int get_Hit_Hash = Animator.StringToHash("Get_Hit");
@@ -235,7 +247,6 @@ public class Player_ : MonoBehaviour, IBattle
             }
         }
     }
-    uint previous_ATT = 0;
     uint dp;
     public uint DP
     {
@@ -249,7 +260,6 @@ public class Player_ : MonoBehaviour, IBattle
             }
         }
     }
-    uint Previous_DP = 0;
     private void Awake()
     {
         lineRenderer = GetComponent<Line_Renderer>();
@@ -317,26 +327,26 @@ public class Player_ : MonoBehaviour, IBattle
 
             //애니메이션 및 사운드 재생
         }
-        else if (blessingSkill != null)
+        else if (blessingSkill != null)//만약 사용한 스킬이 버프스킬이면
         {
-            previous_ATT = this.ATT;
-            Previous_DP = this.DP;
-
-            float temp = this.ATT;
-            temp *= blessingSkill.SkillPower;
-
-
-
-            this.ATT = (uint)temp;
-            on_Buff_Start?.Invoke();
+            Reset_Status();//장비아이템의 능력치가 합산된 플레이어의 공격력, 방어력 적용하기
+            float finalAttackPoint = this.ATT * blessingSkill.SkillPower;
+            float finalDefencePoint = this.DP * blessingSkill.SkillPower;
+            this.ATT = (uint)finalAttackPoint; //리셋된 공격력에 스킬의 skillPower만큼 곱해주기
+            this.DP = (uint)finalDefencePoint;
+            on_Buff_Start?.Invoke(blessingSkill);// TurnBuffCount 프로퍼티로 몇턴 동안 버프가 유지될 것인지 설정되어 있습니다.
             return;
         }
     }
-    void Test_PrintSkillData(SkillData data)
+    void DeBuff()//버프스킬 적용 해제
     {
-        Debug.Log($"스킬이름 : {data.SkillName}");
-        Debug.Log($"스테미너 소모량 : {data.Require_Stamina_For_UsingSkill}");
-        Debug.Log($"스킬레벨 : {data.SkillLevel}");
+        Reset_Status();
+    }
+    void Reset_Status()
+    {
+        equipments_Total_ATT_DP = equipments_Total_ATT_DP.GetEquipments_Total_ATT_DP();// totalATT, TotalDP 값을 업데이트하는 함수 실행
+        this.ATT = base_Status.base_ATT + equipments_Total_ATT_DP.Total_ATT;//플레이어의 공격력 = 기본공격력 + 장비아이템들의 공격력 총 합
+        this.DP = base_Status.base_DP + equipments_Total_ATT_DP.Total_DP;
     }
   
     private void On_MouseClickRight()
@@ -373,15 +383,14 @@ public class Player_ : MonoBehaviour, IBattle
         //초기스펙 설정
         Weapon_Type = WeaponType.None;
         this.ATT = 100;
+        this.DP = 100;
+
+        base_Status = new Base_Status(this);
+        equipments_Total_ATT_DP = new Equipments_Total_ATT_DP(equipBox);
+
+
     }
-    //public void Disable_Input() //연결없어서 에러없애기위해 주석처리
-    //{
-    //    inputActions.KeyBoard.InvenKey.performed -= OpenInven; 
-    //}
-    //public void Enable_Input()
-    //{
-    //    inputActions.KeyBoard.InvenKey.performed += OpenInven;
-    //}
+   
     void Update_Status_For_UnEquip(ItemData legacyData)
     {
         ItemData_Hat hat = legacyData as ItemData_Hat;
