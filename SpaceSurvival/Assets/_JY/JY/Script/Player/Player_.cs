@@ -159,6 +159,8 @@ public class Player_ : MonoBehaviour, IBattle
     EquipBox equipBox;
     Base_Status base_Status;
     Equipments_Total_ATT_DP equipments_Total_ATT_DP;
+    Skill_Blessing skill_Blessing;
+
 
     public Action onOpenInven;
 
@@ -213,7 +215,6 @@ public class Player_ : MonoBehaviour, IBattle
             if (hp != value)
             {
                 hp = Mathf.Clamp(value, 0, maxHP);
-                Debug.Log($"플레이어 HP : {hp:f0}");
                 on_Player_HP_Change?.Invoke(hp);
             }
         }
@@ -229,7 +230,6 @@ public class Player_ : MonoBehaviour, IBattle
             if (stamina != value)
             {
                 stamina = Mathf.Clamp(value, 0, max_Stamina);
-                Debug.Log($"값수정 체크 : {value}");
                 on_Player_Stamina_Change?.Invoke(stamina);
             }
         }
@@ -260,6 +260,7 @@ public class Player_ : MonoBehaviour, IBattle
             }
         }
     }
+    bool duringBuffSkill = false;
     private void Awake()
     {
         lineRenderer = GetComponent<Line_Renderer>();
@@ -316,10 +317,10 @@ public class Player_ : MonoBehaviour, IBattle
     }
     public void Skill_Action(SkillData skillData)
     {
-        Skill_Blessing blessingSkill = skillData as Skill_Blessing;
-        if (Stamina >= skillData.Require_Stamina_For_UsingSkill && this.Weapon_Type != WeaponType.None)
+        skill_Blessing = skillData as Skill_Blessing;
+        if (skill_Blessing == null && Stamina >= skillData.Require_Stamina_For_UsingSkill && this.Weapon_Type != WeaponType.None)
         {
-            Stamina -= skillData.Require_Stamina_For_UsingSkill;
+            //Stamina -= skillData.Require_Stamina_For_UsingSkill;//그리드에서 신호받아서 처리 할 예정
             skillData.FinalDamage = this.ATT * skillData.SkillPower;
             on_ActiveSkill?.Invoke(skillData);
 
@@ -327,17 +328,19 @@ public class Player_ : MonoBehaviour, IBattle
 
             //애니메이션 및 사운드 재생
         }
-        else if (blessingSkill != null)//만약 사용한 스킬이 버프스킬이면
+        else if (skill_Blessing != null)//만약 사용한 스킬이 버프스킬이면
         {
             Reset_Status();//장비아이템의 능력치가 합산된 플레이어의 공격력, 방어력 적용하기
-            float finalAttackPoint = this.ATT * blessingSkill.SkillPower;
-            float finalDefencePoint = this.DP * blessingSkill.SkillPower;
+            float finalAttackPoint = this.ATT * skill_Blessing.SkillPower;
+            float finalDefencePoint = this.DP * skill_Blessing.SkillPower;
             this.ATT = (uint)finalAttackPoint; //리셋된 공격력에 스킬의 skillPower만큼 곱해주기
             this.DP = (uint)finalDefencePoint;
-            on_Buff_Start?.Invoke(blessingSkill);// TurnBuffCount 프로퍼티로 몇턴 동안 버프가 유지될 것인지 설정되어 있습니다.
+            on_Buff_Start?.Invoke(skill_Blessing);// TurnBuffCount 프로퍼티로 몇턴 동안 버프가 유지될 것인지 설정되어 있습니다.
+            duringBuffSkill = true;//버프스킬 발동중 표시
             return;
         }
     }
+    
     void DeBuff()//버프스킬 적용 해제
     {
         Reset_Status();
@@ -417,6 +420,14 @@ public class Player_ : MonoBehaviour, IBattle
             ATT -= jewel.attack_Point;
             DP -= jewel.defence_Point;
         }
+        if (duringBuffSkill)//버프중이면
+        {
+            Reset_Status();//장비아이템의 능력치가 합산된 플레이어의 공격력, 방어력 적용하기
+            float finalAttackPoint = this.ATT * skill_Blessing.SkillPower;
+            float finalDefencePoint = this.DP * skill_Blessing.SkillPower;
+            this.ATT = (uint)finalAttackPoint; //리셋된 공격력에 스킬의 skillPower만큼 곱해주기
+            this.DP = (uint)finalDefencePoint;
+        }
     }
     private void Update_Status_For_EquipOrSwap(ItemData legacyData, ItemData newData)//구조상 인터페이스를 사용했다면 아래와 같이 형변환을 하고 비교하는 과정이 번거롭지는 않았을 것 같다.
     {
@@ -451,10 +462,10 @@ public class Player_ : MonoBehaviour, IBattle
         {
             if (hat != null)
             {
-                att += hat.attack_Point;
+                att += hat.attack_Point;//새로장착할 아이템의 능력치 적용
                 dp += hat.defence_Point;
                 hat = legacyData as ItemData_Hat;
-                ATT -= hat.attack_Point;
+                ATT -= hat.attack_Point;//이전에 장착되어있던 능력치 적용 해제
                 DP -= hat.defence_Point;
             }
             else if (armor != null)
@@ -481,6 +492,14 @@ public class Player_ : MonoBehaviour, IBattle
                 ATT -= jewel.attack_Point;
                 DP -= jewel.defence_Point;
             }
+        }
+        if (duringBuffSkill)//버프중이면
+        {
+            Reset_Status();//장비아이템의 능력치가 합산된 플레이어의 공격력, 방어력 적용하기
+            float finalAttackPoint = this.ATT * skill_Blessing.SkillPower;
+            float finalDefencePoint = this.DP * skill_Blessing.SkillPower;
+            this.ATT = (uint)finalAttackPoint; //리셋된 공격력에 스킬의 skillPower만큼 곱해주기
+            this.DP = (uint)finalDefencePoint;
         }
     }
 
