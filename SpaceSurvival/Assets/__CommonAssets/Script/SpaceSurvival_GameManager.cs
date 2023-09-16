@@ -76,8 +76,8 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
     /// <summary>
     /// 플레이어의 팀원 목록을 저장해둔다.
     /// </summary>
-    ICharcterBase[] playerTeam;
-    public ICharcterBase[] PlayerTeam 
+    BattleMapPlayerBase[] playerTeam;
+    public BattleMapPlayerBase[] PlayerTeam 
     {
         get 
         {
@@ -89,21 +89,17 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
             return playerTeam;
         }
     }
-    public Func<ICharcterBase[]> GetPlayerTeam;
+    public Func<BattleMapPlayerBase[]> GetPlayerTeam;
 
     /// <summary>
-    /// 플레이어의 팀원 목록을 저장해둔다.
+    /// 적군 목록을 저장해둔다.
     /// </summary>
     ICharcterBase[] enemyTeam;
     public ICharcterBase[] EnemyTeam
     {
         get
         {
-            //if (playerTeam == null) //팀목록이 없으면 
-            //{
-            //    playerTeam = GetPlayerTeam?.Invoke(); // 델리를 요청해서 받아온다
-            //}
-            enemyTeam ??= GetEnemeyTeam?.Invoke(); // 위의 주석 내용과 같음(복합형)
+            enemyTeam ??= GetEnemeyTeam?.Invoke(); 
             return enemyTeam;
         }
     }
