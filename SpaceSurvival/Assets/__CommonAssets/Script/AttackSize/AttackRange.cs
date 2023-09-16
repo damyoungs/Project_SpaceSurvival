@@ -165,11 +165,9 @@ public class AttackRange : MonoBehaviour
         activeAttackTiles = new();
         revertAttackRangeTileType = new();
 
+        tileLayerIndex = LayerMask.NameToLayer("Ground");
 
         SpaceSurvival_GameManager.Instance.GetAttackRangeComp = () => this; //데이터 연결하기 
-        tileLayerIndex = LayerMask.NameToLayer("Ground");
-     
-
     }
 
     private void OnMouseMove(InputAction.CallbackContext context)
@@ -178,6 +176,58 @@ public class AttackRange : MonoBehaviour
         AttackRangeView(mouseScreenPos);
     }
 
+    /// <summary>
+    /// 공격 범위 표시하기 
+    /// </summary>
+    private void OpenLineRenderer()
+    {
+        if (!isClear)
+        {
+            InputSystemController.InputSystem.Mouse.Get_Position.performed += OnMouseMove; //레이를 쏘는작업 시작 원점 타일가져오기작업
+
+            foreach (Tile tile in attackRangeTiles)
+            {
+                revertTileTypes.Add(tile.ExistType);
+                tile.ExistType = Tile.TileExistType.AttackRange;
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// 공격범위 초기화 하기 .
+    /// 기존에 초기화할 내용이 있는경우만 로직이 실행된다.
+    /// </summary>
+    public void ClearLineRenderer()
+    {
+        if (!isClear)
+        {
+            isClear = true;
+            if (revertAttackRangeTileType.Count > 0) //스킬 공격범위가 존재하면 
+            {
+                for (int i = 0; i < revertAttackRangeTileType.Count; i++) //원복 리스트 찾아서 
+                {
+                    activeAttackTiles[i].ExistType = revertAttackRangeTileType[i]; //원복시키고 
+                }
+                revertAttackRangeTileType.Clear(); //초기화한다
+                activeAttackTiles.Clear();          //초기화
+            }
+
+            InputSystemController.InputSystem.Mouse.Get_Position.performed -= OnMouseMove; //레이를 쏘는 작업 끄기 원점타일가져오는작업
+
+            if (revertTileTypes.Count > 0) //초기화 할 타일이있을때만  
+            {
+                int listSize = revertTileTypes.Count; //갯수가져와서
+                for (int i = 0; i < listSize; i++)
+                {
+                    attackRangeTiles[i].ExistType = revertTileTypes[i]; // 기존에 저장해뒀던 값으로 다시돌리고 
+                }
+                attackRangeTiles.Clear();  // 내용 비우고  clear 함수는 내부 배열요소만 초기화하기때문에 null보다 낫다.
+                revertTileTypes.Clear();    // 내용 비운다.
+            }
+            isClear = false;
+        }
+    }
 
     /// <summary>
     /// 마우스 위치에따른 타일 찾기
@@ -255,6 +305,8 @@ public class AttackRange : MonoBehaviour
                 activeAttackTiles.Clear();
             }
             //새롭게 범위 셋팅
+
+
             activeAttackTiles.Add(targetTile);
             revertAttackRangeTileType.Add(targetTile.ExistType);
 
@@ -271,12 +323,17 @@ public class AttackRange : MonoBehaviour
     /// <returns>적이있으면 배열로반환 없으면 null반환</returns>
     public ICharcterBase[] GetEnemyArray() 
     {
-        List<ICharcterBase> resultEnemyList = new(4);
+        List<ICharcterBase> resultEnemyList;
         if (activeAttackTiles.Count > 0) 
         {
             ICharcterBase[] enemyArray = SpaceSurvival_GameManager.Instance.EnemyTeam; //배틀맵의 몹정보를 전부 들고 
+            
             int enemySize = enemyArray.Length;
-            foreach (Tile attackTile in activeAttackTiles) { //공격범위만큼 검색하고
+            
+            resultEnemyList = new List<ICharcterBase>(enemySize); //최대크기는 몬스터 리스트보다 클수없음으로 그냥 최대로잡자
+
+            foreach (Tile attackTile in activeAttackTiles) //공격범위만큼 검색하고
+            { 
                 for (int i = 0; i < enemySize; i++) //적들을 검색을 진행 
                 {
                     if (enemyArray[i].CurrentTile.width == attackTile.width &&
@@ -287,8 +344,9 @@ public class AttackRange : MonoBehaviour
                     }
                 }
             }
+            return resultEnemyList.ToArray();
         }
-        return resultEnemyList.ToArray();
+        return null;
     }
 
 
@@ -329,55 +387,6 @@ public class AttackRange : MonoBehaviour
 
 
 
-    /// <summary>
-    /// 공격범위 초기화 하기 .
-    /// 기존에 초기화할 내용이 있는경우만 로직이 실행된다.
-    /// </summary>
-    public void ClearLineRenderer()
-    {
-        if (!isClear)
-        {
-            isClear = true;
-            if (revertAttackRangeTileType.Count > 0) //스킬 공격범위가 존재하면 
-            {
-                for (int i = 0; i < revertAttackRangeTileType.Count; i++) //원복 리스트 찾아서 
-                {
-                    activeAttackTiles[i].ExistType = revertAttackRangeTileType[i]; //원복시키고 
-                }
-                revertAttackRangeTileType.Clear(); //초기화한다
-                activeAttackTiles.Clear();          //초기화
-            }
-
-            InputSystemController.InputSystem.Mouse.Get_Position.performed -= OnMouseMove;
-            if (revertTileTypes.Count > 0) //초기화 할 타일이있을때만  
-            {
-                int listSize = revertTileTypes.Count; //갯수가져와서
-                for (int i = 0; i < listSize; i++)
-                {
-                    attackRangeTiles[i].ExistType = revertTileTypes[i]; // 기존에 저장해뒀던 값으로 다시돌리고 
-                }
-                attackRangeTiles.Clear();  // 내용 비우고  clear 함수는 내부 배열요소만 초기화하기때문에 null보다 낫다.
-                revertTileTypes.Clear();    // 내용 비운다.
-            }
-            isClear = false;
-        }
-    }
-    
-    /// <summary>
-    /// 공격 범위 표시하기 
-    /// </summary>
-    private void OpenLineRenderer() 
-    {
-        if (!isClear) 
-        {
-            InputSystemController.InputSystem.Mouse.Get_Position.performed += OnMouseMove;
-            foreach (Tile tile in attackRangeTiles)
-            {
-                revertTileTypes.Add(tile.ExistType);
-                tile.ExistType = Tile.TileExistType.AttackRange;
-            }
-        }
-    }
 
   
 
