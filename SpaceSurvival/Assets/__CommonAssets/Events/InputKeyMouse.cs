@@ -185,6 +185,15 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MouseWheel"",
+                    ""type"": ""Value"",
+                    ""id"": ""9da44067-4413-4f8e-97e2-6fabd82ff84c"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -218,6 +227,17 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""KeyMouse"",
                     ""action"": ""Get_Position"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8ec557d6-a180-44a3-b8b0-314b000b02ba"",
+                    ""path"": ""<Mouse>/scroll/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyMouse"",
+                    ""action"": ""MouseWheel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1012,6 +1032,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         m_Mouse_MouseClick = m_Mouse.FindAction("MouseClick", throwIfNotFound: true);
         m_Mouse_MouseClickRight = m_Mouse.FindAction("MouseClickRight", throwIfNotFound: true);
         m_Mouse_Get_Position = m_Mouse.FindAction("Get_Position", throwIfNotFound: true);
+        m_Mouse_MouseWheel = m_Mouse.FindAction("MouseWheel", throwIfNotFound: true);
         // Test
         m_Test = asset.FindActionMap("Test", throwIfNotFound: true);
         m_Test_Test1 = m_Test.FindAction("Test1", throwIfNotFound: true);
@@ -1194,6 +1215,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     private readonly InputAction m_Mouse_MouseClick;
     private readonly InputAction m_Mouse_MouseClickRight;
     private readonly InputAction m_Mouse_Get_Position;
+    private readonly InputAction m_Mouse_MouseWheel;
     public struct MouseActions
     {
         private @InputKeyMouse m_Wrapper;
@@ -1201,6 +1223,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         public InputAction @MouseClick => m_Wrapper.m_Mouse_MouseClick;
         public InputAction @MouseClickRight => m_Wrapper.m_Mouse_MouseClickRight;
         public InputAction @Get_Position => m_Wrapper.m_Mouse_Get_Position;
+        public InputAction @MouseWheel => m_Wrapper.m_Mouse_MouseWheel;
         public InputActionMap Get() { return m_Wrapper.m_Mouse; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1219,6 +1242,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @Get_Position.started += instance.OnGet_Position;
             @Get_Position.performed += instance.OnGet_Position;
             @Get_Position.canceled += instance.OnGet_Position;
+            @MouseWheel.started += instance.OnMouseWheel;
+            @MouseWheel.performed += instance.OnMouseWheel;
+            @MouseWheel.canceled += instance.OnMouseWheel;
         }
 
         private void UnregisterCallbacks(IMouseActions instance)
@@ -1232,6 +1258,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @Get_Position.started -= instance.OnGet_Position;
             @Get_Position.performed -= instance.OnGet_Position;
             @Get_Position.canceled -= instance.OnGet_Position;
+            @MouseWheel.started -= instance.OnMouseWheel;
+            @MouseWheel.performed -= instance.OnMouseWheel;
+            @MouseWheel.canceled -= instance.OnMouseWheel;
         }
 
         public void RemoveCallbacks(IMouseActions instance)
@@ -1808,6 +1837,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         void OnMouseClick(InputAction.CallbackContext context);
         void OnMouseClickRight(InputAction.CallbackContext context);
         void OnGet_Position(InputAction.CallbackContext context);
+        void OnMouseWheel(InputAction.CallbackContext context);
     }
     public interface ITestActions
     {

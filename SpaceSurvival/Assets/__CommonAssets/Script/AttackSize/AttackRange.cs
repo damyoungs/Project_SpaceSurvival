@@ -1,41 +1,45 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
-/// <summary>
-/// 공격 가능한 범위를 표시해줄 컴포넌트
-/// 휠  , 캐릭터가 바라보는 방향 
-/// </summary>
-[Flags]
-public enum AttackRangeType : byte
-{
-    None = 0,
-    Dot = 1,                // 한칸 마우스가 있는지점
-    Line = 2,               // 캐릭터로 부터 일직선 으로 나가는 라인
-    Pie = 4,                // 캐릭터 기준으로부터 부채꼴로 펼쳐지는 라인 
-    Cross =8,               // 마우스가 있는지점(가운데)에서 십자로  동서남북으로 뻗어나가는 두선
-    Cube = 16,              // 마우스가 있는지점을 중점으로 정사각형으로 표시해주는 방법
-    XLine = 32,             // 마우스가 있는지점(가운데)에서 대각선으로 X 형식으로 뻗어 나가는 두선
-                            // 아래는 휠로 돌렸을때 모양이 바뀌는 설정값들 
-    Horizontal = 64,        // 마우스가 있는지점(가운데)에서 가로로  좌 우로 뻗어나가는 일직선 
-    Vertical = 128,         // 마우스가 있는지점(가운데)에서 세로로  위 아래로 뻗어나가는 일직선
-}
-/// <summary>
-/// 기준점으로부터의 회전방향 
-/// 카메라 회전도있기때문에 카메라가 회전이 안되있는값이 기준이된다.
-/// </summary>
-public enum DirectionRangeType 
-{
-    North,                      //
-    East,
-    South,
-    West
-}
+using UnityEngine.InputSystem.EnhancedTouch;
+
 public class AttackRange : MonoBehaviour
 {
-
+    /// <summary>
+    /// 공격 가능한 범위를 표시해줄 컴포넌트
+    /// 휠  , 캐릭터가 바라보는 방향  
+    /// </summary>
+    //[Flags]
+    //enum AttackRangeType : byte
+    //{
+    //    None = 0,
+    //    Dot = 1,                // 한칸 마우스가 있는지점
+    //    Line = 2,               // 캐릭터로 부터 일직선 으로 나가는 라인
+    //    Pie = 4,                // 캐릭터 기준으로부터 부채꼴로 펼쳐지는 라인 
+    //    Cross = 8,               // 마우스가 있는지점(가운데)에서 십자로  동서남북으로 뻗어나가는 두선
+    //    Cube = 16,              // 마우스가 있는지점을 중점으로 정사각형으로 표시해주는 방법
+    //    XLine = 32,             // 마우스가 있는지점(가운데)에서 대각선으로 X 형식으로 뻗어 나가는 두선
+    //                            // 아래는 휠로 돌렸을때 모양이 바뀌는 설정값들 
+    //    Horizontal = 64,        // 마우스가 있는지점(가운데)에서 가로로  좌 우로 뻗어나가는 일직선 
+    //    Vertical = 128,         // 마우스가 있는지점(가운데)에서 세로로  위 아래로 뻗어나가는 일직선
+    //}
+    /// <summary>
+    /// 기준점으로부터의 회전방향 
+    /// 카메라 회전도있기때문에 카메라가 회전이 안되있는값이 기준이된다. 
+    /// 
+    /// </summary>
+    [Flags]
+    enum DirectionRangeType : byte
+    {
+        None = 0,               //0000 0000
+        North = 1,              //0000 0001       
+        East = 2,               //0000 0010
+        South = 4,              //0000 0100
+        West = 8,               //0000 1000
+        //All = 15,               //0000 1111
+    }
     /// <summary>
     /// 어택버튼이나 스킬버튼을눌러서 
     /// 범위표시하기위한 로직을 실행중인지 체크할 변수
@@ -111,31 +115,34 @@ public class AttackRange : MonoBehaviour
                 attackCurrentTile = value;
                 //로직실행하자
                 SkillRange_Tile_View(value);
+
             }
         }
     }
 
-    /// <summary>
-    /// 현재 공격범위표시해줄 타입 
-    /// </summary>
-    AttackRangeType attackType = AttackRangeType.None;
-    AttackRangeType AttackType 
-    {
-        get => attackType;
-        set 
-        {
-            if (attackType != value)
-            {
-                attackType = value;
-                //사용 스킬을 교체하면 실행 
-            }
-        }
-    }
+    ///// <summary>
+    ///// 현재 공격범위표시해줄 타입 
+    ///// </summary>
+    //[SerializeField]
+    //AttackRangeType attackType = AttackRangeType.None;
+    //AttackRangeType AttackType 
+    //{
+    //    get => attackType;
+    //    set 
+    //    {
+    //        if (attackType != value)
+    //        {
+    //            attackType = value;
+    //            //사용 스킬을 교체하면 실행 
+    //        }
+    //    }
+    //}
 
     /// <summary>
     /// 현재 공격방향을 정할 값
     /// </summary>
-    DirectionRangeType attackDir = DirectionRangeType.North;
+    [SerializeField]
+    DirectionRangeType attackDir = DirectionRangeType.None;
     DirectionRangeType AttackDir 
     {
         get => attackDir;
@@ -145,6 +152,7 @@ public class AttackRange : MonoBehaviour
             {
                 attackDir = value;
                 //휠이나 방향을 바꾸는 인풋이 들어올때 처리
+                SkillRange_Tile_View(attackCurrentTile);
             }
         }
     }
@@ -152,20 +160,21 @@ public class AttackRange : MonoBehaviour
     /// <summary>
     /// 현재 공격을 행하는 유닛 
     /// </summary>
-    Player_ skill_Use_Charcter;
-    Player_ Skill_Use_Charcter 
+    BattleMapPlayerBase player_Unit;
+    BattleMapPlayerBase Player_Unit 
     {
-        get => skill_Use_Charcter;
+        get => player_Unit;
         set 
         {
-            if (skill_Use_Charcter != value) //다른캐릭으로 바꼈으면 
+            if (player_Unit != value) //다른캐릭으로 바꼈으면 
             {
-                if (skill_Use_Charcter != null)  //기존캐릭터 있을때 
+                if (player_Unit != null)  //기존캐릭터 있을때 
                 {
-                    skill_Use_Charcter.on_ActiveSkill = null; //액션연결끊고 
+                    player_Unit.CharcterData.on_ActiveSkill = null; //액션연결끊고 
                 }
-                skill_Use_Charcter = value; //새롭게 컨트롤할 캐릭터 셋팅하고 
-                skill_Use_Charcter.on_ActiveSkill = ActiveSkill; //액션연결 다시한다.
+                player_Unit = value; //새롭게 컨트롤할 캐릭터 셋팅하고 
+                player_Unit.CharcterData.on_ActiveSkill = ActiveSkill; //액션연결 다시한다.
+                
             }
         }
     }
@@ -176,7 +185,33 @@ public class AttackRange : MonoBehaviour
     /// 유닛이 사용하고있는 스킬 
     /// </summary>
     SkillData currentSkill;
-
+    SkillData CurrentSkill 
+    {
+        get=> currentSkill;
+        set 
+        {
+            if (currentSkill != value)  //사용중인 스킬이 바뀔때
+            {
+                currentSkill = value;                   // 값셋팅하고 
+                SkillRange_Tile_View(attackCurrentTile);// 범위표시다시처리
+            }
+        }
+    }
+    /// <summary>
+    /// 8방향 좌표값 순서로 저장해놓기 
+    /// 관통(Penetrate)설정시 사용 
+    /// </summary>
+    Vector2Int[] eightWayRotateValues = new Vector2Int[]
+    {
+        new Vector2Int(0,1),    //북
+        new Vector2Int(1,1),    //북동
+        new Vector2Int(1,0),    //동
+        new Vector2Int(1,-1),   //남동
+        new Vector2Int(0,-1),   //남
+        new Vector2Int(-1,-1),  //남서
+        new Vector2Int(-1,0),   //서
+        new Vector2Int(-1,1)    //북서
+    };
 
     private void Awake()
     {
@@ -194,14 +229,87 @@ public class AttackRange : MonoBehaviour
     /// 턴 시작할때 초기화할 함수
     /// </summary>
     /// <param name="controllUnit">컨트롤할 유닛</param>
-    public void InitDataSet(Player_ controllUnit) 
+    public void InitDataSet(BattleMapPlayerBase controllUnit) 
     {
         if (controllUnit != null) 
         {
-            Skill_Use_Charcter = controllUnit;
+            Player_Unit = controllUnit;
+            InputSystemController.InputSystem.Mouse.MouseWheel.performed += OnMouseWheel;
         }
     }
 
+    private void OnMouseWheel(InputAction.CallbackContext context)
+    {
+        SetAttackDir(context.ReadValue<float>());
+    }
+    /// <summary>
+    /// 로직짜기귀찮아서 스위치로 처리..
+    /// </summary>
+    /// <param name="mouseWheelValue">휠방향</param>
+    private void SetAttackDir(float mouseWheelValue) 
+    {
+        if (mouseWheelValue > 0) 
+        {
+            switch (AttackDir)
+            {
+                case DirectionRangeType.North:
+                    AttackDir |= DirectionRangeType.East;
+                    break;
+                case DirectionRangeType.North | DirectionRangeType.East:
+                    AttackDir = DirectionRangeType.East;
+                    break;
+                case DirectionRangeType.East:
+                    AttackDir |= DirectionRangeType.South;
+                    break;
+                case DirectionRangeType.East | DirectionRangeType.South:
+                    AttackDir = DirectionRangeType.South;
+                    break;
+                case DirectionRangeType.South:
+                    AttackDir |= DirectionRangeType.West;
+                    break;
+                case DirectionRangeType.South | DirectionRangeType.West:
+                    AttackDir = DirectionRangeType.West;
+                    break;
+                case DirectionRangeType.West:
+                    AttackDir |= DirectionRangeType.North;
+                    break;
+                case DirectionRangeType.West | DirectionRangeType.North:
+                    AttackDir = DirectionRangeType.North;
+                    break;
+            }
+        }
+        else
+        {
+            switch (AttackDir)
+            {
+                case DirectionRangeType.North:
+                    AttackDir |= DirectionRangeType.West;
+                    break;
+                case DirectionRangeType.North | DirectionRangeType.West:
+                    AttackDir = DirectionRangeType.West;
+                    break;
+                case DirectionRangeType.West:
+                    AttackDir |= DirectionRangeType.South;
+                    break;
+                case DirectionRangeType.West | DirectionRangeType.South:
+                    AttackDir = DirectionRangeType.South;
+                    break;
+                case DirectionRangeType.South:
+                    AttackDir |= DirectionRangeType.East;
+                    break;
+                case DirectionRangeType.South | DirectionRangeType.East:
+                    AttackDir = DirectionRangeType.East;
+                    break;
+                case DirectionRangeType.East:
+                    AttackDir |= DirectionRangeType.North;
+                    break;
+                case DirectionRangeType.East | DirectionRangeType.North:
+                    AttackDir = DirectionRangeType.North;
+                    break;
+            }
+        }
+        Debug.Log(attackDir.ToString());
+    }
 
     /// <summary>
     /// 캐릭터 쪽에서 스킬을 누르거나 단축키로 스킬을 사용할때 발동하는 함수 
@@ -217,27 +325,31 @@ public class AttackRange : MonoBehaviour
             isAttacRange = false;       //사용 제어를끄고 
 
         }
-        switch (currentSkill.SkillType)
+        if (TurnManager.Instance.CurrentTurn is PlayerTurnObject pto) //현재 턴인지 체크하고 형변환가능하면true 니깐 아군턴
         {
-            case SkillType.Sniping:
-            case SkillType.Normal:
-                if (TurnManager.Instance.CurrentTurn is PlayerTurnObject pto) //현재 턴인지 체크하고 형변환가능하면true 니깐 아군턴
-                {
-                    BattleMapPlayerBase player = (BattleMapPlayerBase)pto.CurrentUnit; //아군턴이면 아군유닛이 무조건있음으로 그냥형변환시킨다.
-                    SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(player.CurrentTile); //이동 지우고 
-                    
+            BattleMapPlayerBase player = (BattleMapPlayerBase)pto.CurrentUnit; //아군턴이면 아군유닛이 무조건있음으로 그냥형변환시킨다.
+            SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(player.CurrentTile); //이동 지우고 
+            switch (currentSkill.SkillType)
+            {
+                case SkillType.Sniping:
+                case SkillType.Normal:
                     AttackRangeTileView(player.CurrentTile, skillData.AttackRange); //공격범위표시
-                }
-                break;
+                    AttackDir = DirectionRangeType.None;
+                    break;
 
-            case SkillType.Penetrate:
-                break;
+                case SkillType.Penetrate:
+                    PenetrateAttackRangeTileView(player.CurrentTile, skillData.AttackRange); //관통공격범위 표시
+                    AttackDir = DirectionRangeType.North;
+                    break;
 
-            case SkillType.rampage:
-                break;
-            default:
-                break;
+                case SkillType.rampage:
+                    break;
+                default:
+                    break;
+            }
+            CurrentSkill = skillData;   // 범위셋팅했으면 스킬데이터도 갱신
         }
+       
     }
 
     /// <summary>
@@ -267,9 +379,12 @@ public class AttackRange : MonoBehaviour
                 if (hit.collider.gameObject.layer == tileLayerIndex) //타일인지 체크하고 
                 {
                     Tile cusorTile = hit.transform.GetComponent<Tile>();
-                    if (cusorTile.ExistType == Tile.TileExistType.AttackRange) //공격범위안에서만 보여야한다. 
+                    if (cusorTile.ExistType == Tile.TileExistType.AttackRange ||
+                        cusorTile.ExistType == Tile.TileExistType.Attack_OR_Skill
+                        ) //공격범위안에서만 보여야한다. 
                     {
                         AttackCurrentTile = cusorTile; //찾은 타일을 계속 입력해준다!!!
+
                     }
                     //다른방법없나..? 구조를바꿔야..되나?
                     //다른방법 Tile 클래스 내부에다가 OnMouseEnter 함수를 이용해서 데이터를 덮어씌우는방법도있긴한데.. 어떤걸쓸가..
@@ -279,7 +394,52 @@ public class AttackRange : MonoBehaviour
         }
     }
 
-    // ----------------------   범위표시 셋팅및 초기화 하는함수들
+
+    /// <summary>
+    /// 스킬의 공격범위를 표시할 함수 일반공격 포함 
+    /// 실행타이밍 : 타일이 바뀌거나 스킬이 바뀔때 호출됨
+    /// </summary>
+    /// <param name="targetTile">공격할 원점위치</param>
+    private void SkillRange_Tile_View(Tile targetTile)
+    {
+        //공격범위가 활성화 된 상태에서 실행되게 설정
+        //활성화 된 상태라고 하더라도 공격범위일경우 다시 타일을 그려야한다. 
+        if (isAttacRange || targetTile.ExistType == Tile.TileExistType.Attack_OR_Skill) 
+        {
+            //타일이이동되면 기존범위표시 삭제하고 
+            if (revertAttackRangeTileType.Count > 0)
+            {
+                for (int i = 0; i < revertAttackRangeTileType.Count; i++)
+                {
+                    activeAttackTiles[i].ExistType = revertAttackRangeTileType[i];
+                }
+                revertAttackRangeTileType.Clear();
+                activeAttackTiles.Clear();
+            }
+            //새롭게 범위 셋팅
+            switch (currentSkill.SkillType)
+            {
+                //한점 표시 
+                case SkillType.Sniping:
+                case SkillType.Normal:
+                    activeAttackTiles.Add(targetTile);
+                    revertAttackRangeTileType.Add(targetTile.ExistType);
+                    targetTile.ExistType = Tile.TileExistType.Attack_OR_Skill;
+
+                    break;
+                //일직선 표시 
+                case SkillType.Penetrate:
+                    Set_Penetrate_Attack(player_Unit.CurrentTile, currentSkill.AttackRange);
+                    break;
+                // 내 캐릭터 기준으로 정면방향 ,
+                // 원점으로 부터 5칸 3칸 표시 
+                case SkillType.rampage:
+                    break;
+                default:
+                    break;
+            }
+        }  
+    }
 
 
     /// <summary>
@@ -396,54 +556,175 @@ public class AttackRange : MonoBehaviour
 
 
     /// <summary>
-    /// 스킬의 공격범위를 표시할 함수 일반공격 포함 
+    /// 관통관련 공격범위 표시용 함수
     /// </summary>
-    /// <param name="targetTile">공격할 원점위치</param>
-    public void SkillRange_Tile_View(Tile targetTile)
+    /// <param name="playerTile">캐릭터가 있는 타일 위치</param>
+    /// <param name="size">공격가능한 사거리 범위 (기본값은 1)</param>
+    private void PenetrateAttackRangeTileView(Tile playerTile, float size = 1.0f)
     {
-        if (isAttacRange) //공격범위가 활성화된상태만 실행되게 설정
+        if (!isAttacRange)
         {
-            //타일이이동되면 기존범위표시 삭제하고 
-            if (revertAttackRangeTileType.Count > 0) 
-            {
-                for(int i = 0; i< revertAttackRangeTileType.Count; i++)
-                {
-                    activeAttackTiles[i].ExistType = revertAttackRangeTileType[i];
-                }
-                revertAttackRangeTileType.Clear();
-                activeAttackTiles.Clear();
-            }
-            //새롭게 범위 셋팅
-
-
-            activeAttackTiles.Add(targetTile);
-            revertAttackRangeTileType.Add(targetTile.ExistType);
-
-
-            //상태교체시키기 
-            targetTile.ExistType = Tile.TileExistType.Attack_OR_Skill;
+            isAttacRange = true;                                                 //공격범위표시 시작 체크
+            ClearLineRenderer();                                                // 기존의 리스트 초기화하고 
+            PenetrateSetAttackSize(playerTile, size);                                       // 셋팅하고 
+            OpenLineRenderer();                                                 // 보여준다
         }
     }
 
-   
-
+    /// <summary>
+    /// 관통로직
+    /// 직선 공격범위 표시용 함수
+    /// </summary>
+    /// <param name="playerTile">플레이어유닛 위치</param>
+    /// <param name="size">범위값</param>
+    private void PenetrateSetAttackSize(Tile playerTile, float size = 1.0f)
+    {
+        Tile[] mapTiles = SpaceSurvival_GameManager.Instance.BattleMap;
+        int tileSizeX = SpaceSurvival_GameManager.Instance.MapSizeX;
+        int tileSizeY = SpaceSurvival_GameManager.Instance.MapSizeY;
+        int currentX = playerTile.width;
+        int currentY = playerTile.length;
+        int searchIndex = 0;
+        int forSize = 0;
+        Tile addTile = null;
+        int rotateSize = eightWayRotateValues.Length;   //8방향 회전에대한 배열크기 가져오기
+        for (int i = 0; i < rotateSize; i++)    
+        {
+            //미리선언해둔 8방향 Vector2Int 배열 을 가지고 계산한다.
+            //공격표시할 범위값 가져와서 
+            forSize = SetRangeSizeCheck(currentX, currentY, eightWayRotateValues[i].x, eightWayRotateValues[i].y, tileSizeX, tileSizeY, size);
+            //Debug.Log($" 포문횟수 : {i}번째  플레이어위치 :{playerTile}");
+            for (int j = forSize; j > 0; j--) // 포문순서는 상관없는데 반대로 해봣다.
+            {
+                searchIndex = (currentX + (eightWayRotateValues[i].x * j)) + ((currentY + (eightWayRotateValues[i].y * j)) * tileSizeX); //인덱스구하기 
+                //Debug.Log($"인덱스값 : {searchIndex} forSize :{forSize} , 공격범위{size}");
+                //Debug.Log($"X :{(currentX + (eightWayRotateValues[i].x * j))} , Y:{(currentY + (eightWayRotateValues[i].y * j))} , sX:{eightWayRotateValues[i].x} ,sY:{eightWayRotateValues[i].y}, i:{i},j:{j} , tileSizeY:{tileSizeY}");
+                addTile = mapTiles[searchIndex];
+                if (addTile.ExistType != Tile.TileExistType.Prop) //장애물 제외하고  
+                {
+                    attackRangeTiles.Add(addTile); //반환 시킬 리스트로 추가한다.
+                }
+            }
+        }
+    }
 
 
     /// <summary>
-    /// 
+    /// 관통로직
+    /// 일직선 표시 
     /// </summary>
-    /// <param name="playerTile">캐릭터가있는 타일위치</param>
+    /// <param name="currentTile">캐릭터가있는 타일위치</param>
     /// <param name="size">공격 타입에따른 범위 (기본값은 1)</param>
-    private void SetTileList(Tile playerTile, float size = 1.0f)
+    private void Set_Penetrate_Attack(Tile currentTile, float size = 1.0f)
     {
         if (!isClear)
         {
+            Vector2Int wayValue = Vector2Int.zero; //방향 셋팅할 값 
+            switch (attackDir)
+            {
+                case DirectionRangeType.None:
+                    //비표시
+                    return; //비표시때는 바로리턴
+                case DirectionRangeType.North:
+                    wayValue = eightWayRotateValues[0];
+                    //북쪽으로 쭈욱 표시 
+                    break;
+                case DirectionRangeType.North | DirectionRangeType.East:
+                    wayValue = eightWayRotateValues[1];
+                    //북동쪽 표시
+                    break;
+                case DirectionRangeType.East:
+                    wayValue = eightWayRotateValues[2];
+                    //동쪽으로 쭈욱 표시
+                    break;
+                case DirectionRangeType.East | DirectionRangeType.South:
+                    wayValue = eightWayRotateValues[3];
+                    //남동쪽으로 쭈욱 표시
+                    break;
+                case DirectionRangeType.South:
+                    wayValue = eightWayRotateValues[4];
+                    //남쪽으로 쭈욱 표시
+                    break;
+                case DirectionRangeType.West | DirectionRangeType.South:
+                    wayValue = eightWayRotateValues[5];
+                    //남서쪽으로 쭈욱 표시
+                    break;
+                case DirectionRangeType.West:
+                    wayValue = eightWayRotateValues[6];
+                    //서쪽으로 쭈욱 표시
+                    break;
+                case DirectionRangeType.North | DirectionRangeType.West:
+                    wayValue = eightWayRotateValues[7];
+                    //북서쪽 표시
+                    break;
+                default:
+                    break;
+            }
             Tile[] mapTiles = SpaceSurvival_GameManager.Instance.BattleMap;
+            Tile addTile = null;
             int tileSizeX = SpaceSurvival_GameManager.Instance.MapSizeX;
             int tileSizeY = SpaceSurvival_GameManager.Instance.MapSizeY;
-
-
+            int currentX = currentTile.width;
+            int currentY = currentTile.length;
+            int searchIndex = 0;
+            int forSize = SetRangeSizeCheck(currentX, currentY, wayValue.x, wayValue.y, tileSizeX, tileSizeY, size) + 1;
+            for (int j = 0; j < forSize; j++)
+            {
+                searchIndex = (currentX + (wayValue.x * j)) + ((currentY + (wayValue.y * j)) * tileSizeX); //인덱스구하기 
+                addTile = mapTiles[searchIndex];
+                if (addTile.ExistType == Tile.TileExistType.AttackRange) //공격범위안에있으면 
+                {
+                    activeAttackTiles.Add(addTile);
+                    revertAttackRangeTileType.Add(addTile.ExistType);
+                    addTile.ExistType = Tile.TileExistType.Attack_OR_Skill;
+                }
+            }
         }
+    }
+
+
+    /// <summary>
+    /// 관통로직에 사용됨
+    /// 공격범위가 맵끝인지 체크하는 로직 
+    /// 공격범위 float 이라 소수점이하는 날라갈수도있다. 좌표는 int 라서 
+    /// 공격할 범위를 정할 함수 
+    /// </summary>
+    /// <param name="currentX">현재위치 x좌표값</param>
+    /// <param name="currentY">현재위치 y좌표값</param>
+    /// <param name="searchX">검색x 범위 (-1,0,1)</param>
+    /// <param name="searchY">검색y 범위 (-1,0,1)</param>
+    /// <param name="tileMaxX">타일 가로 최대 갯수</param>
+    /// <param name="tileMaxY">타일 세로 최대 갯수</param>
+    /// <param name="rangeSize">현재 공격범위</param>
+    /// <returns>for문돌릴 사이즈값을 반환</returns>
+    private int SetRangeSizeCheck(int currentX, int currentY , int searchX , int searchY, int tileMaxX, int tileMaxY , float rangeSize)
+    {
+        //범위최종위치가 사이드인지 체크해서 계산
+        float tempIndex = currentX + (searchX * rangeSize); // 좌우 계산값 
+        if (tempIndex < 0) //왼쪽끝을 넘어갓는지 체크   
+        {
+            //Debug.Log($"좌측 끝 {currentX}");
+            return currentX; 
+        }
+        else if(tempIndex > tileMaxX - 1)  //오른쪽을 넘어갓는지 체크
+        {
+            //Debug.Log($"우측 끝 {(tileMaxX - 1) - currentX} ");
+            return (tileMaxX - 1) - currentX; 
+        }
+
+        tempIndex = currentY + (searchY * rangeSize);   //위아래 계산값
+        if (tempIndex < 0) //아래를 넘어갓는지 체크   
+        {
+            //Debug.Log($"아래 끝 {currentY}");
+            return currentY; 
+        }
+        else if (tempIndex > tileMaxY - 1)  //위를 넘어갓는지 체크
+        {
+            //Debug.Log($"위 끝 {(tileMaxY - 1) - currentY}");
+            return (tileMaxY -1) - currentY; // x 계산법과 동일
+        }
+
+        return (int)rangeSize; //위에 조건이 안걸리면 그냥 설정값 반환
     }
 
 
@@ -465,8 +746,6 @@ public class AttackRange : MonoBehaviour
 
 
 
-
-  
 
 
 
