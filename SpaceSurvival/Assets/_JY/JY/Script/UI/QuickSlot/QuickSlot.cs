@@ -21,7 +21,7 @@ public enum QuickSlot_Type
 
 public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandler, IPointerExitHandler, IBeginDragHandler,IEndDragHandler, IDragHandler
 {
-    Image itemIcon;
+    Image slotIcon;
     TextMeshProUGUI quickSlotText;
     ItemData_Potion itemData = null;
 
@@ -33,8 +33,9 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
     public Action<ItemData_Potion, uint> onBeginDrag;
     public Action onEndDrag;
 
-    public Action<ItemData_Potion, QuickSlot> onSetData;
+    public Action<ItemData_Potion, QuickSlot> onSet_ItemData;
     public Action<QuickSlot> on_Clear_Quickslot_Data;
+    public Action<QuickSlot> on_SkillSet;
 
     public QuickSlot_Type type;
     uint itemCount = 0;
@@ -55,10 +56,11 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
             if (itemData != value)
             {
                 itemData = value;
-                Refresh_Icon(itemData);
+                Refresh_Icon();
                 if (itemData != null)
                 {
-                    onSetData?.Invoke(itemData, this);//SlotManager, QuickSlotManager에서 받음
+                    onSet_ItemData?.Invoke(itemData, this);//SlotManager, QuickSlotManager에서 받음
+                    SkillData = null;
                 }
                 else
                 {
@@ -67,7 +69,31 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
             }
         }
     }
-    public bool IsEmpty => itemData == null;
+
+    SkillData skillData;
+    public SkillData SkillData
+    {
+        get => skillData;
+        set
+        {
+            if (skillData != value)
+            {
+                skillData = value;
+                Refresh_Icon();
+                if (skillData != null)
+                {
+                    on_SkillSet?.Invoke(this);//QuickSlotManager에 인풋컨트롤러로 델리게이트 연결 요청
+                    ItemData = null;
+                }
+                else
+                {
+                    on_Clear_Quickslot_Data?.Invoke(this);//연결 해제 요청
+                }
+            }
+        }
+    }
+
+    public bool IsEmpty => ItemData == null && SkillData == null;
 
 
     public string QuickSlot_Key_Value { get; set; }
@@ -85,21 +111,30 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
     }
     private void Awake()
     {
-        itemIcon = transform.GetChild(1).GetComponent<Image>();
+        slotIcon = transform.GetChild(1).GetComponent<Image>();
         quickSlotText = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         index = 99999;
     }
-    void Refresh_Icon(ItemData_Potion itemData)
+    void Refresh_Icon()
     {
         if (IsEmpty)
         {
-            itemIcon.sprite = null;
-            itemIcon.color = Color.clear;
+            slotIcon.sprite = null;
+            slotIcon.color = Color.clear;
         }
         else
         {
-            itemIcon.sprite = itemData.itemIcon;
-            itemIcon.color = Color.white;
+            if (SkillData != null)
+            {
+                slotIcon.sprite = skillData.skill_sprite;
+                slotIcon.color = Color.white;
+            }
+            else if (ItemData != null)
+            {
+                slotIcon.sprite = itemData.itemIcon;
+                slotIcon.color = Color.white;
+            }
+   
         }
     }
     void Refresh_Count(uint count)

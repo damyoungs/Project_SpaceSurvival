@@ -152,7 +152,7 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
             QuickSlot quickSlot = obj.GetComponent<QuickSlot>();
             if (quickSlot != null)
             {
-                Debug.Log(quickSlot);
+                quickSlot.SkillData = this;
             }
         }
     
