@@ -159,8 +159,6 @@ public class Player_ : MonoBehaviour, IBattle
     EquipBox equipBox;
     Base_Status base_Status;
     Equipments_Total_ATT_DP equipments_Total_ATT_DP;
-    Skill_Blessing skill_Blessing;
-
 
     public Action onOpenInven;
 
@@ -215,6 +213,7 @@ public class Player_ : MonoBehaviour, IBattle
             if (hp != value)
             {
                 hp = Mathf.Clamp(value, 0, maxHP);
+                Debug.Log($"플레이어 HP : {hp:f0}");
                 on_Player_HP_Change?.Invoke(hp);
             }
         }
@@ -230,6 +229,7 @@ public class Player_ : MonoBehaviour, IBattle
             if (stamina != value)
             {
                 stamina = Mathf.Clamp(value, 0, max_Stamina);
+                Debug.Log($"값수정 체크 : {value}");
                 on_Player_Stamina_Change?.Invoke(stamina);
             }
         }
@@ -260,7 +260,6 @@ public class Player_ : MonoBehaviour, IBattle
             }
         }
     }
-    bool duringBuffSkill = false;
     private void Awake()
     {
         lineRenderer = GetComponent<Line_Renderer>();
@@ -279,7 +278,7 @@ public class Player_ : MonoBehaviour, IBattle
         weapon_Parent_Transform = GetComponentInChildren<Weapon_Parent_Transform>().transform;
         jewel_Parent_Transform = GetComponentInChildren<Jewel_Parent_Transform>().transform;
         hat_Parent_Transform = GetComponentInChildren<Hat_Parent_Transform>().transform;
-        suit_Parent_Transform = GetComponentInChildren<BodySuit_Parent_Transform>().transform;
+        hat_Parent_Transform = GetComponentInChildren<BodySuit_Parent_Transform>().transform;
     }
     void Set_ShootPoint_Transform(Transform itemObj)
     {
@@ -317,10 +316,10 @@ public class Player_ : MonoBehaviour, IBattle
     }
     public void Skill_Action(SkillData skillData)
     {
-        skill_Blessing = skillData as Skill_Blessing;
-        if (skill_Blessing == null && Stamina >= skillData.Require_Stamina_For_UsingSkill && this.Weapon_Type != WeaponType.None)
+        Skill_Blessing blessingSkill = skillData as Skill_Blessing;
+        if (Stamina >= skillData.Require_Stamina_For_UsingSkill && this.Weapon_Type != WeaponType.None)
         {
-            //Stamina -= skillData.Require_Stamina_For_UsingSkill;//그리드에서 신호받아서 처리 할 예정
+            Stamina -= skillData.Require_Stamina_For_UsingSkill;
             skillData.FinalDamage = this.ATT * skillData.SkillPower;
             on_ActiveSkill?.Invoke(skillData);
 
@@ -328,19 +327,17 @@ public class Player_ : MonoBehaviour, IBattle
 
             //애니메이션 및 사운드 재생
         }
-        else if (skill_Blessing != null)//만약 사용한 스킬이 버프스킬이면
+        else if (blessingSkill != null)//만약 사용한 스킬이 버프스킬이면
         {
             Reset_Status();//장비아이템의 능력치가 합산된 플레이어의 공격력, 방어력 적용하기
-            float finalAttackPoint = this.ATT * skill_Blessing.SkillPower;
-            float finalDefencePoint = this.DP * skill_Blessing.SkillPower;
+            float finalAttackPoint = this.ATT * blessingSkill.SkillPower;
+            float finalDefencePoint = this.DP * blessingSkill.SkillPower;
             this.ATT = (uint)finalAttackPoint; //리셋된 공격력에 스킬의 skillPower만큼 곱해주기
             this.DP = (uint)finalDefencePoint;
-            on_Buff_Start?.Invoke(skill_Blessing);// TurnBuffCount 프로퍼티로 몇턴 동안 버프가 유지될 것인지 설정되어 있습니다.
-            duringBuffSkill = true;//버프스킬 발동중 표시
+            on_Buff_Start?.Invoke(blessingSkill);// TurnBuffCount 프로퍼티로 몇턴 동안 버프가 유지될 것인지 설정되어 있습니다.
             return;
         }
     }
-    
     void DeBuff()//버프스킬 적용 해제
     {
         Reset_Status();
@@ -372,9 +369,9 @@ public class Player_ : MonoBehaviour, IBattle
         onEquipItem += equipBox.Set_ItemData_For_DoubleClick;
         onUnEquipItem += GameManager.SlotManager.UnEquip_Item;
         onOpenInven += GameManager.Inventory.Open_Inventory;
-        GameManager.QuickSlot_Manager.on_Activate_Skill += Skill_Action;
 
-        equipBox.on_Update_Status += Update_Status;
+        equipBox.on_Update_Status_For_EquipOrSwap += Update_Status_For_EquipOrSwap;
+        equipBox.on_Update_Status_For_UnEquip += Update_Status_For_UnEquip;
         equipBox.on_Pass_Item_Transform += Set_ShootPoint_Transform;
 
         armors = new Transform[4];
@@ -394,23 +391,98 @@ public class Player_ : MonoBehaviour, IBattle
 
     }
    
-    void Update_Status()
+    void Update_Status_For_UnEquip(ItemData legacyData)
     {
-  
-        if (duringBuffSkill)//버프중이면
+        ItemData_Hat hat = legacyData as ItemData_Hat;
+        ItemData_Enhancable weapon = legacyData as ItemData_Enhancable;
+        ItemData_Armor armor = legacyData as ItemData_Armor;
+        ItemData_Craft jewel = legacyData as ItemData_Craft;
+        if (hat != null)
         {
-            Reset_Status();//장비아이템의 능력치가 합산된 플레이어의 공격력, 방어력 적용하기
-            float finalAttackPoint = this.ATT * skill_Blessing.SkillPower;
-            float finalDefencePoint = this.DP * skill_Blessing.SkillPower;
-            this.ATT = (uint)finalAttackPoint; //리셋된 공격력에 스킬의 skillPower만큼 곱해주기
-            this.DP = (uint)finalDefencePoint;
+            ATT -= hat.attack_Point;
+            DP -= hat.defence_Point;
         }
-        else
+        else if (armor != null)
         {
-            Reset_Status();
+            ATT -= armor.attack_Point;
+            DP -= armor.defence_Point;
+        }
+        else if (weapon != null)
+        {
+            ATT -= weapon.attackPoint;
+            DP -= weapon.defencePoint;
+        }
+        else if (jewel != null)
+        {
+            ATT -= jewel.attack_Point;
+            DP -= jewel.defence_Point;
         }
     }
-
+    private void Update_Status_For_EquipOrSwap(ItemData legacyData, ItemData newData)//구조상 인터페이스를 사용했다면 아래와 같이 형변환을 하고 비교하는 과정이 번거롭지는 않았을 것 같다.
+    {
+        ItemData_Hat hat = newData as ItemData_Hat;
+        ItemData_Enhancable weapon = newData as ItemData_Enhancable;
+        ItemData_Armor armor = newData as ItemData_Armor;
+        ItemData_Craft jewel = newData as ItemData_Craft;
+        if (legacyData == null)//장착이 안되어있을 경우 더해주고 끝
+        {
+            if (hat != null)
+            {
+                ATT += hat.attack_Point;
+                DP += hat.defence_Point;
+            }
+            else if (armor != null)
+            {
+                ATT += armor.attack_Point;
+                DP += armor.defence_Point;
+            }
+            else if (weapon != null)
+            {
+                ATT += weapon.attackPoint;
+                DP += weapon.defencePoint;
+            }
+            else if (jewel != null)
+            {
+                ATT += jewel.attack_Point;
+                DP += jewel.defence_Point;
+            }
+        }
+        else//이미 장착되어있었을 경우 스테이터스 더하고 빼기
+        {
+            if (hat != null)
+            {
+                att += hat.attack_Point;
+                dp += hat.defence_Point;
+                hat = legacyData as ItemData_Hat;
+                ATT -= hat.attack_Point;
+                DP -= hat.defence_Point;
+            }
+            else if (armor != null)
+            {
+                att += armor.attack_Point;
+                dp += armor.defence_Point;
+                armor = legacyData as ItemData_Armor;
+                ATT -= armor.attack_Point;
+                DP -= armor.defence_Point;
+            }
+            else if (weapon != null)
+            {
+                att += weapon.attackPoint;
+                dp += weapon.defencePoint;
+                weapon = legacyData as ItemData_Enhancable;
+                ATT -= weapon.attackPoint;
+                DP -= weapon.defencePoint;
+            }
+            else if (jewel != null)
+            {
+                att += jewel.attack_Point;
+                dp += jewel.defence_Point;
+                jewel = legacyData as ItemData_Craft;
+                ATT -= jewel.attack_Point;
+                DP -= jewel.defence_Point;
+            }
+        }
+    }
 
     //private void On_Equip_Item(InputAction.CallbackContext _)
     private void On_DoubleClick()

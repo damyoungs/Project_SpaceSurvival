@@ -837,6 +837,17 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""943db113-03f8-44dd-a57a-01a663b79d79"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ItemPickUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""ab81b23d-1ba5-47a4-b4e0-7a293505303f"",
                     ""path"": ""<Keyboard>/z"",
                     ""interactions"": """",

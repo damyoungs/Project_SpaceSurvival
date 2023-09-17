@@ -107,7 +107,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
 
         foreach (QuickSlot quickSlot in quickSlot_Manager.QuickSlots)
         {
-            quickSlot.onSet_ItemData += Binding_Slots; 
+            quickSlot.onSetData += Binding_Slots; 
         }
 
         inven = GameManager.Inventory;
