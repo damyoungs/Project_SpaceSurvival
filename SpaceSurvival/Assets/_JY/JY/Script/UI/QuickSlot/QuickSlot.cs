@@ -24,14 +24,17 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
     Image slotIcon;
     TextMeshProUGUI quickSlotText;
     ItemData_Potion itemData = null;
+    TempSlot_For_QuickSlot tempSlot;
 
     //---------------------------------------------- description 팝업 관련
     public Action<ItemData> onPointerEnter;
     public Action onPointerExit;
     public Action<Vector2> onPointerMove;
     //----------------------------------------------
-    public Action<ItemData_Potion, uint> onBeginDrag;
+    public Action<ItemData_Potion, uint> on_BeginDrag_With_Potion;
+    public Action<SkillData> on_BeginDrag_With_Skill;
     public Action onEndDrag;
+    public Action on_Drag;
 
     public Action<ItemData_Potion, QuickSlot> onSet_ItemData;
     public Action<QuickSlot> on_Clear_Quickslot_Data;
@@ -114,6 +117,7 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
         slotIcon = transform.GetChild(1).GetComponent<Image>();
         quickSlotText = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         index = 99999;
+        tempSlot = transform.parent.GetChild(9).GetComponent<TempSlot_For_QuickSlot>();
     }
     void Refresh_Icon()
     {
@@ -152,6 +156,7 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
     {
         ItemData = null;
         ItemCount = 0; //ItemData가 null이면 CountText는 자동으로 Default값으로 세팅
+        SkillData = null;
     }
 
 
@@ -181,16 +186,46 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
 
     public void OnDrag(PointerEventData eventData)
     {
+        on_Drag?.Invoke();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        onBeginDrag?.Invoke(itemData, itemCount);//tempSlot으로 아이템 이전
+        if (SkillData != null)
+        {
+            on_BeginDrag_With_Skill?.Invoke(SkillData);
+        }
+        else if (ItemData != null)
+        {
+            on_BeginDrag_With_Potion?.Invoke(itemData, itemCount);//tempSlot으로 아이템 이전
+        }
+        else
+        {
+            return;
+        }
         Clear();
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        onEndDrag?.Invoke();
+        GameObject obj = eventData.pointerCurrentRaycast.gameObject;
+        if (obj != null)
+        {
+            QuickSlot otherSlot = obj.GetComponent<QuickSlot>();
+            if (otherSlot != null)
+            {
+                if (tempSlot.SkillData != null)
+                {
+                    otherSlot.SkillData = tempSlot.SkillData;
+                }
+                else if (tempSlot.ItemData != null)
+                {
+                    otherSlot.ItemData = tempSlot.ItemData;
+                    otherSlot.ItemCount = tempSlot.ItemCount;
+                }
+            }
+        }
+        tempSlot.Close();
+ 
     }
 }
