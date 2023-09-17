@@ -7,19 +7,19 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// ÇÃ·¹ÀÌ¾î ÅÏ 
+/// í”Œë ˆì´ì–´ í„´ 
 /// </summary>
 public class PlayerTurnObject : TurnBaseObject 
 {
    
     /// <summary>
-    /// Å×½ºÆ®¿ë º¯¼ö 
+    /// í…ŒìŠ¤íŠ¸ìš© ë³€ìˆ˜ 
     /// </summary>
     [SerializeField]
     int testPlayerLength = 1;
 
     /// <summary>
-    /// ¹èÆ²¸Ê¿¡¼­ ÀÌº¥Æ®ÇÚµé·¯¸¦ Á¤ÀÇÇÒ ÄÄÆ÷³ÍÆ®
+    /// ë°°í‹€ë§µì—ì„œ ì´ë²¤íŠ¸í•¸ë“¤ëŸ¬ë¥¼ ì •ì˜í•  ì»´í¬ë„ŒíŠ¸
     /// </summary>
     [SerializeField]
     BattleMap_Player_Controller bpc;
@@ -28,56 +28,57 @@ public class PlayerTurnObject : TurnBaseObject
     CameraOriginTarget cot;
     
     /// <summary>
-    /// Ä³¸¯ÅÍ µ¥ÀÌÅÍ´Â ¿ÜºÎ¿¡¼­ ¼ÂÆÃÇÏ±â¶§¹®¿¡ ÇØ´ç µ¨¸®°ÔÀÌÆ® ¿¬°áÇØÁà¾ßÇÔ
+    /// ìºë¦­í„° ë°ì´í„°ëŠ” ì™¸ë¶€ì—ì„œ ì…‹íŒ…í•˜ê¸°ë•Œë¬¸ì— í•´ë‹¹ ë¸ë¦¬ê²Œì´íŠ¸ ì—°ê²°í•´ì¤˜ì•¼í•¨
     /// </summary>
     public Func<ICharcterBase[]> initPlayer;
 
     MiniMapCamera miniMapCam;
     
     /// <summary>
-    /// µ¥ÀÌÅÍ ÃÊ±âÈ­ ÇÔ¼ö
+    /// ë°ì´í„° ì´ˆê¸°í™” í•¨ìˆ˜
     /// </summary>
     public override void InitData()
     {
-        //ÇØ´ç¿ÀºêÁ§Æ®´Â ÆÑÅä¸®¿¡¼­ »ı¼ºÇÏÁö¸¸ 
-        bpc = FindObjectOfType<BattleMap_Player_Controller>();   // ÄÁÆ®·Ñ·¯´Â ¹èÆ²¸Ê¿¡¼­¸¸ ÀÖ´Â ÄÄÆ÷³ÍÆ®¶ó¼­ ÃÊ±âÈ­ ÇÒ¶§ Ã£¾Æ¿Â´Ù
-        cot = FindObjectOfType<CameraOriginTarget>(true);        // ÄÁÆ®·Ñ·¯´Â ¹èÆ²¸Ê¿¡¼­¸¸ ÀÖ´Â ÄÄÆ÷³ÍÆ®¶ó¼­ ÃÊ±âÈ­ ÇÒ¶§ Ã£¾Æ¿Â´Ù
-        miniMapCam = FindObjectOfType<MiniMapCamera>(true);      // ÄÁÆ®·Ñ·¯´Â ¹èÆ²¸Ê¿¡¼­¸¸ ÀÖ´Â ÄÄÆ÷³ÍÆ®¶ó¼­ ÃÊ±âÈ­ ÇÒ¶§ Ã£¾Æ¿Â´Ù
-        bpc.onClickPlayer = OnClickPlayer;                       // Å¸ÀÏÀ» Å¬¸¯ÇßÀ»¶§ ÇÃ·¹ÀÌ¾î °¡ÀÖ´ÂÅ¸ÀÏ(Å¸ÀÏ¼Ó¼ºÀÌ ¸ó½ºÅÍ) ÀÌ¸é ½ÇÇàµÉ ÇÔ¼ö¸¦ ¿¬°áÇÑ´Ù. 
-        bpc.onMoveActive = OnUnitMove;                           // Å¸ÀÏÀ» Å¬¸¯ÇßÀ»¶§ ÇÃ·¹ÀÌ¾î°¡ ¿òÁ÷ÀÌµµ·Ï ·ÎÁ÷¿¬°á
-        bpc.GetPlayerTurnObject = () => this;                    // ÃÊ±â°ª µ¥ÀÌÅÍ ¿¬°á 
+        //í•´ë‹¹ì˜¤ë¸Œì íŠ¸ëŠ” íŒ©í† ë¦¬ì—ì„œ ìƒì„±í•˜ì§€ë§Œ 
+        bpc = FindObjectOfType<BattleMap_Player_Controller>();   // ì»¨íŠ¸ë¡¤ëŸ¬ëŠ” ë°°í‹€ë§µì—ì„œë§Œ ìˆëŠ” ì»´í¬ë„ŒíŠ¸ë¼ì„œ ì´ˆê¸°í™” í• ë•Œ ì°¾ì•„ì˜¨ë‹¤
+        cot = FindObjectOfType<CameraOriginTarget>(true);        // ì»¨íŠ¸ë¡¤ëŸ¬ëŠ” ë°°í‹€ë§µì—ì„œë§Œ ìˆëŠ” ì»´í¬ë„ŒíŠ¸ë¼ì„œ ì´ˆê¸°í™” í• ë•Œ ì°¾ì•„ì˜¨ë‹¤
+        miniMapCam = FindObjectOfType<MiniMapCamera>(true);      // ì»¨íŠ¸ë¡¤ëŸ¬ëŠ” ë°°í‹€ë§µì—ì„œë§Œ ìˆëŠ” ì»´í¬ë„ŒíŠ¸ë¼ì„œ ì´ˆê¸°í™” í• ë•Œ ì°¾ì•„ì˜¨ë‹¤
+        bpc.onClickPlayer = OnClickPlayer;                       // íƒ€ì¼ì„ í´ë¦­í–ˆì„ë•Œ í”Œë ˆì´ì–´ ê°€ìˆëŠ”íƒ€ì¼(íƒ€ì¼ì†ì„±ì´ ëª¬ìŠ¤í„°) ì´ë©´ ì‹¤í–‰ë  í•¨ìˆ˜ë¥¼ ì—°ê²°í•œë‹¤. 
+        bpc.onMoveActive = OnUnitMove;                           // íƒ€ì¼ì„ í´ë¦­í–ˆì„ë•Œ í”Œë ˆì´ì–´ê°€ ì›€ì§ì´ë„ë¡ ë¡œì§ì—°ê²°
+        bpc.GetPlayerTurnObject = () => this;                    // ì´ˆê¸°ê°’ ë°ì´í„° ì—°ê²° 
 
-        if (initPlayer != null) //¿ÜºÎ ÇÔ¼ö°¡ ¿¬°áµÇ ÀÖÀ¸¸é
+        if (initPlayer != null) //ì™¸ë¶€ í•¨ìˆ˜ê°€ ì—°ê²°ë˜ ìˆìœ¼ë©´
         {
-            ICharcterBase[] playerList = initPlayer(); //µ¥ÀÌÅÍ ¿äÃ»À» ÇÏ°í 
-            if (playerList != null && playerList.Length > 0) //µ¥ÀÌÅÍ°¡ Á¸ÀçÇÏ¸é  
+            ICharcterBase[] playerList = initPlayer(); //ë°ì´í„° ìš”ì²­ì„ í•˜ê³  
+            if (playerList != null && playerList.Length > 0) //ë°ì´í„°ê°€ ì¡´ì¬í•˜ë©´  
             {
-                foreach (ICharcterBase player in playerList) //µ¥ÀÌÅÍ °¹¼ö¸¸Å­ 
+                foreach (ICharcterBase player in playerList) //ë°ì´í„° ê°¯ìˆ˜ë§Œí¼ 
                 {
-                    charcterList.Add(player); //ÅÏ°ü¸®ÇÒ Ä³¸¯ÅÍ·Î ¼ÂÆÃ
-                    player.GetCurrentTile = () => SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Charcter); //Å¸ÀÏ ¼ÂÆÃ¿¬°á
-                    player.transform.position = player.CurrentTile.transform.position;//¼ÂÆÃµÈ Å¸ÀÏÀ§Ä¡·Î ÀÌµ¿½ÃÅ²´Ù.
+                    charcterList.Add(player); //í„´ê´€ë¦¬í•  ìºë¦­í„°ë¡œ ì…‹íŒ…
+                    player.GetCurrentTile = () => SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Charcter); //íƒ€ì¼ ì…‹íŒ…ì—°ê²°
+                    player.transform.position = player.CurrentTile.transform.position;//ì…‹íŒ…ëœ íƒ€ì¼ìœ„ì¹˜ë¡œ ì´ë™ì‹œí‚¨ë‹¤.
                 }
-                WindowList.Instance.TeamBorderManager.ViewTeamInfo(playerList.Length);//ÆÀ »ó½Ã À¯¾ÆÀÌ º¸¿©ÁÖ±â 
+                WindowList.Instance.TeamBorderManager.ViewTeamInfo(playerList.Length);//íŒ€ ìƒì‹œ ìœ ì•„ì´ ë³´ì—¬ì£¼ê¸° 
             }
             else 
             {
-                Debug.LogWarning($"{name} ¿ÀºêÁ§Æ®È£Ãâ  \n ¿ÜºÎ ÇÃ·¹ÀÌ¾î µ¥ÀÌÅÍ°¡ ¼ÂÆÃÀÌ ¾ÈµÇÀÖ½À´Ï´Ù.");
+                Debug.LogWarning($"{name} ì˜¤ë¸Œì íŠ¸í˜¸ì¶œ  \n ì™¸ë¶€ í”Œë ˆì´ì–´ ë°ì´í„°ê°€ ì…‹íŒ…ì´ ì•ˆë˜ìˆìŠµë‹ˆë‹¤.");
             }
         }
-        else //¿ÜºÎÇÔ¼ö°¡ ¿¬°á¾ÈµÇÀÖ´Â°æ¿ì  
+        else //ì™¸ë¶€í•¨ìˆ˜ê°€ ì—°ê²°ì•ˆë˜ìˆëŠ”ê²½ìš°  
         {
             BattleMapPlayerBase go;
-            //Å×½ºÆ® µ¥ÀÌÅÍ »ı¼º
-            for (int i = 0; i < testPlayerLength; i++)//Ä³¸¯ÅÍµé »ı¼ºÇØ¼­ ¼ÂÆÃ 
+            //í…ŒìŠ¤íŠ¸ ë°ì´í„° ìƒì„±
+            for (int i = 0; i < testPlayerLength; i++)//ìºë¦­í„°ë“¤ ìƒì„±í•´ì„œ ì…‹íŒ… 
             {
                 go = (BattleMapPlayerBase)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.CHARCTER_PLAYER_POOL);
                 charcterList.Add(go);
                 go.name = $"Player_{i}";
                 go.SetTile(SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Charcter));
-                go.transform.position = go.CurrentTile.transform.position; //¼ÂÆÃµÈ Å¸ÀÏÀ§Ä¡·Î ÀÌµ¿½ÃÅ²´Ù.
+                go.transform.position = go.CurrentTile.transform.position; //ì…‹íŒ…ëœ íƒ€ì¼ìœ„ì¹˜ë¡œ ì´ë™ì‹œí‚¨ë‹¤.
+
             }
-            WindowList.Instance.TeamBorderManager.ViewTeamInfo(testPlayerLength); //ÆÀ »ó½Ã À¯¾ÆÀÌ º¸¿©ÁÖ±â 
+            WindowList.Instance.TeamBorderManager.ViewTeamInfo(testPlayerLength); //íŒ€ ìƒì‹œ ìœ ì•„ì´ ë³´ì—¬ì£¼ê¸° 
 
         }
 
@@ -85,32 +86,32 @@ public class PlayerTurnObject : TurnBaseObject
     }
 
     /// <summary>
-    /// ÅÏ¸Ş´ÏÀú¿¡¼­ ÀÚ½ÅÀÇ ÅÏÀÏ¶§ ½ÇÇàÇØÁÖ´Â ÇÔ¼ö 
+    /// í„´ë©”ë‹ˆì €ì—ì„œ ìì‹ ì˜ í„´ì¼ë•Œ ì‹¤í–‰í•´ì£¼ëŠ” í•¨ìˆ˜ 
     /// </summary>
     public override void TurnStartAction()
     {
-        isTurn = true; // ÀÚ½ÅÀÇ ÅÏÀÎÁö Ã¼Å©ÇÑ´Ù. ÇØÁ¦´Â µ¨¸®°ÔÀÌÆ®¿¡ ¿¬°áÇØµÎ¾ú°í µ¨¸®´Â ÅÏÁ¾·á¹öÆ° ¿¡¼­ ½ÇÇàµÈ´Ù.
-        Debug.Log($"{name} ¿ÀºêÁ§Æ®´Â ÅÏÀÌ ½ÃÀÛµÇ¾ú´Ù Çàµ¿·Â : {TurnActionValue}");
-        currentUnit = charcterList[0]; //ÇÃ·¹ÀÌ¾î ¼³Á¤À»ÇÏ°í 
-        currentUnit.IsControll = true; //ÄÁÆ®·Ñ ÇÒ¼öÀÖ°Ô ¼³Á¤ÇÑ´Ù.
-        cot.Target = currentUnit.transform; //Ä«¸Ş¶ó Æ÷Ä¿½º ¸ÂÃß±â 
+        isTurn = true; // ìì‹ ì˜ í„´ì¸ì§€ ì²´í¬í•œë‹¤. í•´ì œëŠ” ë¸ë¦¬ê²Œì´íŠ¸ì— ì—°ê²°í•´ë‘ì—ˆê³  ë¸ë¦¬ëŠ” í„´ì¢…ë£Œë²„íŠ¼ ì—ì„œ ì‹¤í–‰ëœë‹¤.
+        Debug.Log($"{name} ì˜¤ë¸Œì íŠ¸ëŠ” í„´ì´ ì‹œì‘ë˜ì—ˆë‹¤ í–‰ë™ë ¥ : {TurnActionValue}");
+        currentUnit = charcterList[0]; //í”Œë ˆì´ì–´ ì„¤ì •ì„í•˜ê³  
+        currentUnit.IsControll = true; //ì»¨íŠ¸ë¡¤ í• ìˆ˜ìˆê²Œ ì„¤ì •í•œë‹¤.
+        cot.Target = currentUnit.transform; //ì¹´ë©”ë¼ í¬ì»¤ìŠ¤ ë§ì¶”ê¸° 
  
-        //Ä³¸¯ÅÍÂÊÀ¸·Î ½ºÅ×¹Ì³ª µ¥ÀÌÅÍ ³Ñ±â±â
+        //ìºë¦­í„°ìª½ìœ¼ë¡œ ìŠ¤í…Œë¯¸ë‚˜ ë°ì´í„° ë„˜ê¸°ê¸°
         BattleMapPlayerBase currentCharcter = (BattleMapPlayerBase)currentUnit;
         Player_ currentPlayer = currentCharcter.CharcterData;
         currentPlayer.Stamina = TurnActionValue;
-        float moveSize = currentUnit.MoveSize < TurnActionValue ? currentUnit.MoveSize : TurnActionValue;//ÀÌµ¿¹üÀ§ ÃÖ´ë Å©±âÀâ¾Æ³õÀº¸¸Å­¸¸ Ç¥½ÃÇÏ±âÀ§ÇÑ °ª
+        float moveSize = currentUnit.MoveSize < TurnActionValue ? currentUnit.MoveSize : TurnActionValue;//ì´ë™ë²”ìœ„ ìµœëŒ€ í¬ê¸°ì¡ì•„ë†“ì€ë§Œí¼ë§Œ í‘œì‹œí•˜ê¸°ìœ„í•œ ê°’
         Debug.Log(TurnActionValue);
-        //»ó½ÃÀ¯¾ÆÀÌ °»½Å
+        //ìƒì‹œìœ ì•„ì´ ê°±ì‹ 
 
         TeamBorderStateUI uiComp = WindowList.Instance.TeamBorderManager.TeamStateUIs[0];
         uiComp.SetHpGaugeAndText(currentPlayer.HP,currentPlayer.MaxHp);
         uiComp.SetStmGaugeAndText(currentPlayer.Stamina, currentPlayer.Max_Stamina);
 
 
-        SelectControllUnit(); //À¯´Ö ¼±ÅÃ·ÎÁ÷ ½ÇÇà
+        SelectControllUnit(); //ìœ ë‹› ì„ íƒë¡œì§ ì‹¤í–‰
 
-        // Ã¹·Îµù½Ã »ı¼ºÅ¸ÀÌ¹Ö¾È¸ÂÀ½ 
+        // ì²«ë¡œë”©ì‹œ ìƒì„±íƒ€ì´ë°ì•ˆë§ìŒ 
         if (currentUnit.BattleUI != null)
         {
             
@@ -118,118 +119,25 @@ public class PlayerTurnObject : TurnBaseObject
             currentUnit.BattleUI.hpGaugeSetting(currentPlayer.HP, currentPlayer.MaxHp);
         }
         SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentUnit.CurrentTile);
-        SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(currentUnit.CurrentTile, moveSize);//ÀÌµ¿¹üÀ§Ç¥½ÃÇØÁÖ±â 
+        SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(currentUnit.CurrentTile, moveSize);//ì´ë™ë²”ìœ„í‘œì‹œí•´ì£¼ê¸° 
 
-        SpaceSurvival_GameManager.Instance.AttackRange.ClearLineRenderer();     //°ø°İ¹üÀ§ ÃÊ±âÈ­ 
-        SpaceSurvival_GameManager.Instance.AttackRange.InitDataSet(currentPlayer); //ÅÏ½ÃÀÛµÉ¶§ °ø°İ ¹üÀ§ Àû¿ë ÇÒ À¯´ÖÀ¸·Î ¼ÂÆÃ
+
+        SpaceSurvival_GameManager.Instance.AttackRange.ClearLineRenderer();     //ê³µê²©ë²”ìœ„ ì´ˆê¸°í™” 
+        SpaceSurvival_GameManager.Instance.AttackRange.InitDataSet(currentPlayer); //í„´ì‹œì‘ë ë•Œ ê³µê²© ë²”ìœ„ ì ìš© í•  ìœ ë‹›ìœ¼ë¡œ ì…‹íŒ…
     }
 
     /// <summary>
-    /// ÇöÀç ÄÁÆ®·Ñ ÁßÀÎ À¯´ÖÀÌ ÀÖÀ»¶§ ÄÁÆ®·ÑÁßÀÎÀ¯´Ö ÀÌµ¿·ÎÁ÷ ¿¬°áÇÏ±â 
+    /// í˜„ì¬ ì»¨íŠ¸ë¡¤ ì¤‘ì¸ ìœ ë‹›ì´ ìˆì„ë•Œ ì»¨íŠ¸ë¡¤ì¤‘ì¸ìœ ë‹› ì´ë™ë¡œì§ ì—°ê²°í•˜ê¸° 
     /// </summary>
-    /// <param name="seletedTile">¼±ÅÃµÈ Å¸ÀÏ</param>
+    /// <param name="seletedTile">ì„ íƒëœ íƒ€ì¼</param>
     private void OnUnitMove(Tile seletedTile) 
     {
-        if (EventSystem.current.IsPointerOverGameObject())//Æ÷ÀÎÅÍ°¡ UI À§¿¡ Mouse OverµÈ °æ¿ì return;
+        if (currentUnit != null) //í˜„ì¬ ì§„í–‰ì¤‘ì¸ ìœ ë‹›ì´ ìˆëŠ”ê²½ìš° 
         {
-            Debug.Log("UI °¨Áö");
-            return;
-        }
-        if (currentUnit != null && currentUnit.IsControll) //ÇöÀç ÄÁÆ®·ÑÀÎ°æ¿ì¸¸ 
-        {
-
-            currentUnit.CharcterMove(seletedTile);//ÀÌµ¿·ÎÁ÷ ½ÇÇà
-           
-        }
-    }
-   
-    /// <summary>
-    /// ¾Æ±ºÀ» Å¬¸¯ÇßÀ»¶§ Ã³¸®ÇÒ ·ÎÁ÷ 
-    /// </summary>
-    /// <param name="clickedTile">Å¬¸¯ÇÑ Å¸ÀÏ</param>
-    public void OnClickPlayer(Tile clickedTile)
-    {
-        //if (currentUnit == null) //ÇÃ·¹ÀÌ¾î°¡ ¼³Á¤¾ÈµÇÀÖÀ¸¸é 
-        //{
-        //    foreach (ICharcterBase playerUnit in charcterList) //ÇÃ·¹ÀÌ¾î À¯´ÖÀ§Ä¡ÀÎÁö Ã¼Å©ÇÏ±âÀ§ÇØ ÇÃ·¹ÀÌ¾î¸¦ µÚÁø´Ù.
-        //    {
-        //        if (clickedTile.width == playerUnit.CurrentTile.width &&
-        //            clickedTile.length == playerUnit.CurrentTile.length) //Å¬¸¯ÇÑ Å¸ÀÏÀÌ ÇÃ·¹ÀÌ¾î À¯´Ö À§Ä¡¸é 
-        //        {
-        //            currentUnit = playerUnit; //ÇÃ·¹ÀÌ¾î ¼³Á¤À»ÇÏ°í 
-        //            currentUnit.IsControll = true; //ÄÁÆ®·Ñ ÇÒ¼öÀÖ°Ô ¼³Á¤ÇÑ´Ù.
-        //            cot.Target = currentUnit.transform; //Ä«¸Ş¶ó Æ÷Ä¿½º ¸ÂÃß±â 
-        //            SelectControllUnit();
-        //            return;
-        //        }
-        //    }
-        //}
-        currentUnit.IsControll = true; //ÄÁÆ®·Ñ ÇÒ¼öÀÖ°Ô ¼³Á¤ÇÑ´Ù.
-        cot.Target = currentUnit.transform; //Ä«¸Ş¶ó Æ÷Ä¿½º ¸ÂÃß±â 
-        if (!currentUnit.IsMoveCheck)// Ä³¸¯ÅÍ ÀÌµ¿ÁßÀÎÁö Ã¼Å©ÇØ¼­ ÀÌµ¿³¡³¯¶§¸¸ ·ÎÁ÷ ½ÇÇà 
-        {
-            if (currentUnit == null || //ÄÁÆ®·ÑÁßÀÎ À¯´ÖÀÌ ¾ø°Å³ª 
-                clickedTile.width != currentUnit.CurrentTile.width ||
-                clickedTile.length != currentUnit.CurrentTile.length
-                )//ÄÁÆ®·Ñ ÁßÀÎ À¯´ÖÀÇ À§Ä¡¿Í ´Ù¸¦°æ¿ì 
-            {
-                foreach (ICharcterBase playerUnit in charcterList) //ÇÃ·¹ÀÌ¾î À¯´ÖÀ§Ä¡ÀÎÁö Ã¼Å©ÇÏ±âÀ§ÇØ ÇÃ·¹ÀÌ¾î¸¦ µÚÁø´Ù.
-                {
-                    if (clickedTile.width == playerUnit.CurrentTile.width &&
-                        clickedTile.length == playerUnit.CurrentTile.length) //Å¬¸¯ÇÑ Å¸ÀÏÀÌ ÇÃ·¹ÀÌ¾î À¯´Ö À§Ä¡¸é 
-                    {
-                        if (currentUnit != null) //±âÁ¸¿¡ ÄÁÆ®·Ñ ÁßÀÎ À¯´ÖÀÌ ÀÖÀ»¶§  
-                        {
-                            currentUnit.IsControll = false; //±âÁ¸°ªÀº ÄÁÆ®·Ñ ÇØÁ¦ÇÏ°í 
-                            //SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentUnit.CurrentTile); //ÀÌµ¿¹üÀ§ ¸®¼Â½ÃÅ²´Ù.
-                        }
-                        TurnActionValue -= currentUnit.CurrentTile.MoveCheckG;  //ÀÌµ¿ÇÑ°ª¸¸Å­ °¨¼Ò½ÃÅ°±â
-                        currentUnit = playerUnit; //´Ù¸¥ ¾Æ±ºÀ» ´ã°í
-                        currentUnit.IsControll = true; //ÄÁÆ®·Ñ ÇÒ¼öÀÖ°Ô ¼³Á¤ÇÑ´Ù.
-                        cot.Target = currentUnit.transform; //Ä«¸Ş¶ó Æ÷Ä¿½º ¸ÂÃß±â 
-                        miniMapCam.player = currentUnit.transform;
-                        SelectControllUnit();
-                        return;
-                    }
-                }
-            }
-            else //ÇöÀç ÄÁÆ®·Ñ ÁßÀÎ À¯´ÖÀÌ ÀÖ´Â Å¸ÀÏÀÌ Å¬¸¯‰çÀ»°æ¿ì  
-            {
-                PlayerSelect();
-            }
-        }
-        else 
-        {
-            Debug.LogWarning("Ä³¸¯ÅÍ°¡ ÀÌµ¿ÁßÀÔ´Ï´Ù.");
-        }
-    }
-
-    /// <summary>
-    /// Ä³¸¯ÅÍ°¡ ¼±ÅÃµÈ »óÅÂ¿¡¼­ ´Ù½Ã ¼±ÅÃµÉ¶§ Ã³¸®ÇÒ·ÎÁ÷ 
-    /// </summary>
-    private void PlayerSelect()
-    {
-        Debug.Log($"ÄÁÆ®·ÑÀ¯´Ö {currentUnit.transform.name} À» ´Ù½Ã ¼±ÅÃÇß´Ù.");
-    }
-
-    /// <summary>
-    /// ÄÁÆ®·Ñ À¯´ÖÀ¸·Î ¼±ÅÃ µÉ¶§ Ã³¸®ÇÒ·ÎÁ÷ 
-    /// </summary>
-    private void SelectControllUnit()
-    {
-        //currentUnit.MoveSize = TurnActionValue; //»õ·Î¿îÄ³¸¯ÅÍ ÀÌµ¿°¡´É¹üÀ§ ¼ÂÆÃ
-        MoveActionButton.IsMoveButtonClick = false; //±ÍÂú¾Æ¼­ ½ºÅÂÆ½
-        //Debug.Log($"ÄÁÆ®·ÑÀ¯´Ö : {currentUnit.transform.name} ¼±ÅÃÇß´Ù.");
-    }
-
-    public override void ResetData()
-    {
-        if (currentUnit != null) //ÇöÀç ÁøÇàÁßÀÎ À¯´ÖÀÌ ÀÖ´Â°æ¿ì 
-        {
-            currentUnit.IsControll = false; //ÄÁÆ®·Ñ ÇØÁ¦ ÇÑ´Ù.
+            currentUnit.IsControll = false; //ì»¨íŠ¸ë¡¤ í•´ì œ í•œë‹¤.
             currentUnit = null;
         }
-        base.ResetData();//±×¸®°í µ¥ÀÌÅÍ ÃÊ±âÈ­ ÇÑ´Ù.
+        base.ResetData();//ê·¸ë¦¬ê³  ë°ì´í„° ì´ˆê¸°í™” í•œë‹¤.
     }
 
 }
