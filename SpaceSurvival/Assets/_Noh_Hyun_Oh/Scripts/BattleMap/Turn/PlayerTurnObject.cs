@@ -129,14 +129,12 @@ public class PlayerTurnObject : TurnBaseObject
     {
         if (EventSystem.current.IsPointerOverGameObject())//포인터가 UI 위에 Mouse Over된 경우 return;
         {
-            Debug.Log("UI 감지");
+           // Debug.Log("UI 감지");
             return;
         }
         if (currentUnit != null && currentUnit.IsControll) //현재 컨트롤인경우만 
         {
-
             currentUnit.CharcterMove(seletedTile);//이동로직 실행
-           
         }
     }
    

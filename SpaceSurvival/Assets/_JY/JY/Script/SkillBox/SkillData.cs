@@ -15,7 +15,7 @@ public enum SkillType
     Normal
 
 }
-public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandler, IPointerMoveHandler,IPointerExitHandler
+public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandler, IPointerMoveHandler,IPointerExitHandler,IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     string skillName;                        public string SkillName { get => skillName; protected set { skillName = value; } }
     AnimationClip animClip;                  public AnimationClip AnimClip { get => animClip; protected set {  animClip = value; } }
@@ -51,9 +51,10 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
 
     Player_ player;
     SkillBox_Description skillBox_Description;
+    Skill_TempSlot tempSlot;
     SkillType skillType; public SkillType SkillType { get => skillType; protected set { skillType = value; } }
     //UI
-    protected Image skill_Icon;
+    protected Image skill_Icon; 
     protected Button button;
     protected TextMeshProUGUI skillLevel_Text;
     TextMeshProUGUI require_Force_Text;
@@ -81,6 +82,7 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
         on_PointerExit += skillBox_Description.Close;
         on_PointerMove += skillBox_Description.MovePosition;
         skill_Icon.sprite = skill_sprite;
+        tempSlot = transform.parent.GetChild(13).GetComponent<Skill_TempSlot>();
     }
     protected virtual void Skill_LevelUp()
     {
@@ -129,5 +131,30 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
     public void OnPointerExit(PointerEventData eventData)
     {
         on_PointerExit?.Invoke();
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        tempSlot.Open(this);
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        tempSlot.MovePosition();
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        tempSlot.Close();
+        GameObject obj = eventData.pointerCurrentRaycast.gameObject;
+        if (obj != null)
+        {
+            QuickSlot quickSlot = obj.GetComponent<QuickSlot>();
+            if (quickSlot != null)
+            {
+                Debug.Log(quickSlot);
+            }
+        }
+    
     }
 }
