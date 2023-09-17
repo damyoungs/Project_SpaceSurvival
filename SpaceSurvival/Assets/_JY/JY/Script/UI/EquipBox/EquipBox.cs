@@ -21,17 +21,17 @@ public class Equipments_Total_ATT_DP//ÇÃ·¹ÀÌ¾î°¡ ¿øÇÏ´Â Å¸ÀÌ¹Ö¿¡ ¾ğÁ¦µç ÇöÀç Àåº
     public Equipments_Total_ATT_DP GetEquipments_Total_ATT_DP()
     {
         Equipments_Total_ATT_DP result = this;
-        ItemData_Equip itemData;
+        IEquippable itemData;
         this.total_ATT = 0;
         this.total_DP = 0;
 
         foreach (var equipSlot in equipBox_.EquipBox_Slots)
         {
-            itemData = equipSlot.ItemData as ItemData_Equip;
+            itemData = equipSlot.ItemData as IEquippable;
             if (itemData != null)
             {
-                total_ATT += itemData.attackPoint;
-                total_DP += itemData.attackPoint;
+                total_ATT += itemData.ATT;
+                total_DP += itemData.DP;
             }
         }
 
@@ -45,8 +45,7 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
     EquipBox_Description description;
 
     public Action<Transform> on_Pass_Item_Transform;
-    public Action<ItemData, ItemData> on_Update_Status_For_EquipOrSwap;
-    public Action<ItemData> on_Update_Status_For_UnEquip;
+    public Action on_Update_Status;
     public EquipBox_Description Description => description;
     public EquipBox_Slot this[EquipType type] => equipBox_Slots[(int) type - 1];//0ë²ˆì§¸ ?¸ë±??= None 
     public EquipBox_Slot[] EquipBox_Slots => equipBox_Slots;
@@ -167,7 +166,7 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
         EquipBox_Slot slot = Find_Slot_By_Type(itemData);
         Set_Edditional_State(itemData, false);//¾Ö´Ï¸ŞÀÌ¼Ç ¹× Ãß°¡ ÀÌÆåÆ® ÇØÁ¦
         slot.ItemData = null;
-        on_Update_Status_For_UnEquip?.Invoke(itemData);
+        on_Update_Status?.Invoke();
     }
     void Remove_Prefab(ItemData data)
     {
@@ -205,7 +204,7 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
                 Attach_Prefab(itemData);//?„ë¦¬??ë¶€ì°?
             }
             slot.SetItemData(itemData);//?¥ë¹„?¬ë¡¯ UI?…ë°?´íŠ¸
-            on_Update_Status_For_EquipOrSwap?.Invoke(slot.ItemData, itemData);//?¥ë¹„ì¤‘ì´ ?„ë‹ ?ŒëŠ” ì²«ë²ˆì§??Œë¼ë¯¸í„°ê°€ null ???„ë‹¬ ?œë‹¤. // ?Œë ˆ?´ì–´ ê³µê²©?? ë°©ì–´???‹íŒ…
+            on_Update_Status?.Invoke();//?¥ë¹„ì¤‘ì´ ?„ë‹ ?ŒëŠ” ì²«ë²ˆì§??Œë¼ë¯¸í„°ê°€ null ???„ë‹¬ ?œë‹¤. // ?Œë ˆ?´ì–´ ê³µê²©?? ë°©ì–´???‹íŒ…
         }
       //  Set_Edditional_State(itemData, true);//¾Ö´Ï¸ŞÀÌ¼Ç ¹× Ãß°¡ ÀÌÆåÆ® Àû¿ë
     }

@@ -373,8 +373,7 @@ public class Player_ : MonoBehaviour, IBattle
         onUnEquipItem += GameManager.SlotManager.UnEquip_Item;
         onOpenInven += GameManager.Inventory.Open_Inventory;
 
-        equipBox.on_Update_Status_For_EquipOrSwap += Update_Status_For_EquipOrSwap;
-        equipBox.on_Update_Status_For_UnEquip += Update_Status_For_UnEquip;
+        equipBox.on_Update_Status += Update_Status;
         equipBox.on_Pass_Item_Transform += Set_ShootPoint_Transform;
 
         armors = new Transform[4];
@@ -394,7 +393,7 @@ public class Player_ : MonoBehaviour, IBattle
 
     }
    
-    void Update_Status_For_UnEquip(ItemData legacyData)
+    void Update_Status()
     {
   
         if (duringBuffSkill)//버프중이면
@@ -410,22 +409,7 @@ public class Player_ : MonoBehaviour, IBattle
             Reset_Status();
         }
     }
-    private void Update_Status_For_EquipOrSwap(ItemData legacyData, ItemData newData)//구조상 인터페이스를 사용했다면 아래와 같이 형변환을 하고 비교하는 과정이 번거롭지는 않았을 것 같다.
-    {
 
-        if (duringBuffSkill)//버프중이면
-        {
-            Reset_Status();//장비아이템의 능력치가 합산된 플레이어의 공격력, 방어력 적용하기
-            float finalAttackPoint = this.ATT * skill_Blessing.SkillPower;
-            float finalDefencePoint = this.DP * skill_Blessing.SkillPower;
-            this.ATT = (uint)finalAttackPoint; //리셋된 공격력에 스킬의 skillPower만큼 곱해주기
-            this.DP = (uint)finalDefencePoint;
-        }
-        else
-        {
-            Reset_Status();
-        }
-    }
 
     //private void On_Equip_Item(InputAction.CallbackContext _)
     private void On_DoubleClick()
