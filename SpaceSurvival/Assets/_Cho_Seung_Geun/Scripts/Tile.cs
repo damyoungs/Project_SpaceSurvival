@@ -27,8 +27,8 @@ public class Tile : MonoBehaviour, IComparable<Tile>
         Prop,
         Move,
         Charcter,
-        Attack,
-        AttackSkill,
+        AttackRange,
+        Attack_OR_Skill,
     }
 
     // 타일 타입
@@ -46,6 +46,7 @@ public class Tile : MonoBehaviour, IComparable<Tile>
     Material[] lineRendererMaterials;
 
     // 타일 위 몬스터, 아이템 등 타입 존재 여부
+    [SerializeField]
     public TileExistType existType = 0;
     public TileExistType ExistType
     {
@@ -71,18 +72,33 @@ public class Tile : MonoBehaviour, IComparable<Tile>
                         break;
                     case TileExistType.Move:
                         lineRenderer.material = lineRendererMaterials[0];
+                  
                         lineRenderer.enabled = true;
                         break;
                     case TileExistType.Charcter:
                         lineRenderer.enabled = false;
                         break;
-                    case TileExistType.Attack:
+                    case TileExistType.AttackRange:
                         lineRenderer.material = lineRendererMaterials[1];
                         lineRenderer.enabled = true;
+                        Vector3 linePos_AttackRange = Vector3.zero;
+                        for (int i = 0; i < lineRenderer.positionCount; i++)
+                        {
+                            linePos_AttackRange = lineRenderer.GetPosition(i);
+                            linePos_AttackRange.y = 0.1f;
+                            lineRenderer.SetPosition(i, linePos_AttackRange);
+                        }
                         break;
-                    case TileExistType.AttackSkill:
+                    case TileExistType.Attack_OR_Skill:
                         lineRenderer.material = lineRendererMaterials[2];
                         lineRenderer.enabled = true;
+                        Vector3 linePos_SkillRange = Vector3.zero;
+                        for (int i = 0; i < lineRenderer.positionCount; i++)
+                        {
+                            linePos_SkillRange = lineRenderer.GetPosition(i);
+                            linePos_SkillRange.y = 0.2f;
+                            lineRenderer.SetPosition(i, linePos_SkillRange);
+                        }
                         break;
                     default:
                         break;

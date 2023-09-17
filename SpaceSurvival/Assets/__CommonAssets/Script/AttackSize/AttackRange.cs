@@ -40,7 +40,14 @@ public class AttackRange : MonoBehaviour
     /// 어택버튼이나 스킬버튼을눌러서 
     /// 범위표시하기위한 로직을 실행중인지 체크할 변수
     /// </summary>
-    bool isAttacking = false;
+    public bool isAttacRange = false;
+
+
+    /// <summary>
+    /// 일반공격의 범위표시나 
+    /// 스킬공격의 범위표시가 시작됬음을 체크할 변수
+    /// </summary>
+    public bool isSkillAndAttack = false;
 
     /// <summary>
     /// 타일의 레이어값을 저장해둘 변수
@@ -59,27 +66,35 @@ public class AttackRange : MonoBehaviour
     /// </summary>
     bool isClear = false;
 
+    //---------- 공격범위 표시용 변수
     /// <summary>
     /// 공격가능한 범위의 타일들을 담아둘 리스트
     /// </summary>
+    [SerializeField]
     List<Tile> attackRangeTiles;
 
     /// <summary>
     /// 공격범위 표시하기전에 저장해둘 타일 타입
     /// attackRangeTiles 과 순서를 맞춰줘야한다.
     /// </summary>
+    [SerializeField]
     List<Tile.TileExistType> revertTileTypes;
 
+
+
+
+    //---------- 스킬(일반공격) 범위 표시용 변수
     /// <summary>
-    /// 공격이 실질적으로 ㅠㅠ
+    /// 공격이나 스킬이 표시될 타일리스트
     /// </summary>
     List<Tile> activeAttackTiles;
     
     /// <summary>
-    /// 공격타입에따른 복원시킬 이전타일속성
+    /// 공격타입에따른 복원시킬 이전타일속성  
     /// activeAttackTiles 과 순서를 맞춰야한다.
     /// </summary>
     List<Tile.TileExistType> revertAttackRangeTileType;
+
 
     /// <summary>
     /// 공격범위 표시해줄 타일 위치
@@ -95,29 +110,144 @@ public class AttackRange : MonoBehaviour
             {
                 attackCurrentTile = value;
                 //로직실행하자
-
+                SkillRange_Tile_View(value);
             }
         }
     }
 
-  
-    
+    /// <summary>
+    /// 현재 공격범위표시해줄 타입 
+    /// </summary>
+    AttackRangeType attackType = AttackRangeType.None;
+    AttackRangeType AttackType 
+    {
+        get => attackType;
+        set 
+        {
+            if (attackType != value)
+            {
+                attackType = value;
+                //사용 스킬을 교체하면 실행 
+            }
+        }
+    }
+
+    /// <summary>
+    /// 현재 공격방향을 정할 값
+    /// </summary>
+    DirectionRangeType attackDir = DirectionRangeType.North;
+    DirectionRangeType AttackDir 
+    {
+        get => attackDir;
+        set 
+        {
+            if (attackDir != value) 
+            {
+                attackDir = value;
+                //휠이나 방향을 바꾸는 인풋이 들어올때 처리
+            }
+        }
+    }
+
+    /// <summary>
+    /// 현재 공격을 행하는 유닛 
+    /// </summary>
+    Player_ skill_Use_Charcter;
+    Player_ Skill_Use_Charcter 
+    {
+        get => skill_Use_Charcter;
+        set 
+        {
+            if (skill_Use_Charcter != value) //다른캐릭으로 바꼈으면 
+            {
+                if (skill_Use_Charcter != null)  //기존캐릭터 있을때 
+                {
+                    skill_Use_Charcter.on_ActiveSkill = null; //액션연결끊고 
+                }
+                skill_Use_Charcter = value; //새롭게 컨트롤할 캐릭터 셋팅하고 
+                skill_Use_Charcter.on_ActiveSkill = ActiveSkill; //액션연결 다시한다.
+            }
+        }
+    }
+
+    public Func<Player_> playerCharcter;
+
+    /// <summary>
+    /// 유닛이 사용하고있는 스킬 
+    /// </summary>
+    SkillData currentSkill;
+
 
     private void Awake()
     {
-        attackRangeTiles = new List<Tile>();
-        SpaceSurvival_GameManager.Instance.GetAttackRangeComp = () => this; //데이터 연결하기 
+        attackRangeTiles = new();
+        revertTileTypes = new();
+        activeAttackTiles = new();
+        revertAttackRangeTileType = new();
+
         tileLayerIndex = LayerMask.NameToLayer("Ground");
-        InputSystemController.InputSystem.Mouse.Get_Position.performed += OnMouseMove;
-      
+
+        SpaceSurvival_GameManager.Instance.GetAttackRangeComp = () => this; //데이터 연결하기 
     }
 
+    /// <summary>
+    /// 턴 시작할때 초기화할 함수
+    /// </summary>
+    /// <param name="controllUnit">컨트롤할 유닛</param>
+    public void InitDataSet(Player_ controllUnit) 
+    {
+        if (controllUnit != null) 
+        {
+            Skill_Use_Charcter = controllUnit;
+        }
+    }
+
+
+    /// <summary>
+    /// 캐릭터 쪽에서 스킬을 누르거나 단축키로 스킬을 사용할때 발동하는 함수 
+    /// 내쪽에서는 들어온 스킬로 범위를 구분해서 표시해주면된다.
+    /// </summary>
+    /// <param name="skillData">스킬에대한 정보를 가지고있는 데이터</param>
+    private void ActiveSkill(SkillData skillData)
+    {
+        currentSkill = skillData;
+        if (isAttacRange) //기존에 스킬사용중 일때를 체크해서 
+        {
+            ClearLineRenderer();        //기존에 사용중인 범위 데이터 지우고 
+            isAttacRange = false;       //사용 제어를끄고 
+
+        }
+        switch (currentSkill.SkillType)
+        {
+            case SkillType.Sniping:
+            case SkillType.Normal:
+                if (TurnManager.Instance.CurrentTurn is PlayerTurnObject pto) //현재 턴인지 체크하고 형변환가능하면true 니깐 아군턴
+                {
+                    BattleMapPlayerBase player = (BattleMapPlayerBase)pto.CurrentUnit; //아군턴이면 아군유닛이 무조건있음으로 그냥형변환시킨다.
+                    SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(player.CurrentTile); //이동 지우고 
+                    
+                    AttackRangeTileView(player.CurrentTile, skillData.AttackRange); //공격범위표시
+                }
+                break;
+
+            case SkillType.Penetrate:
+                break;
+
+            case SkillType.rampage:
+                break;
+            default:
+                break;
+        }
+    }
+
+    /// <summary>
+    /// 마우스 이동 감지용 인풋시스템 연결 함수
+    /// </summary>
     private void OnMouseMove(InputAction.CallbackContext context)
     {
         Vector2 mouseScreenPos = context.ReadValue<Vector2>();
         AttackRangeView(mouseScreenPos);
     }
-
 
     /// <summary>
     /// 마우스 위치에따른 타일 찾기
@@ -136,8 +266,12 @@ public class AttackRange : MonoBehaviour
             {
                 if (hit.collider.gameObject.layer == tileLayerIndex) //타일인지 체크하고 
                 {
-                    AttackCurrentTile = hit.transform.GetComponent<Tile>(); //찾은 타일을 계속 입력해준다!!!
-                                                                            //다른방법없나..? 구조를바꿔야..되나?
+                    Tile cusorTile = hit.transform.GetComponent<Tile>();
+                    if (cusorTile.ExistType == Tile.TileExistType.AttackRange) //공격범위안에서만 보여야한다. 
+                    {
+                        AttackCurrentTile = cusorTile; //찾은 타일을 계속 입력해준다!!!
+                    }
+                    //다른방법없나..? 구조를바꿔야..되나?
                     //다른방법 Tile 클래스 내부에다가 OnMouseEnter 함수를 이용해서 데이터를 덮어씌우는방법도있긴한데.. 어떤걸쓸가..
                     break; //한번찾으면 더이상 찾을필요없으니 나가자.
                 }
@@ -145,56 +279,48 @@ public class AttackRange : MonoBehaviour
         }
     }
 
+    // ----------------------   범위표시 셋팅및 초기화 하는함수들
+
 
     /// <summary>
-    /// 공격범위를 표시해주는 함수 
+    /// 공격 범위 표시하기 
     /// </summary>
-    /// <param name="playerTile">캐릭터가 있는 타일 위치</param>
-    /// <param name="type">공격 타입 </param>
-    /// <param name="attackDir">공격 방향 (기본값은 북쪽)</param>
-    /// <param name="size">공격 타입에따른 범위 (기본값은 1)</param>
-    public void AttackRangeTileView(Tile playerTile, int size = 1) 
+    private void OpenLineRenderer()
     {
-        ClearLineRenderer();                                                // 기존의 리스트 초기화하고 
-        SetTileList(playerTile,size);                       // 셋팅하고 
-        OpenLineRenderer();                                                 // 보여준다
-    }
-
-    /// <summary>
-    /// 공격범위 안에 적이있으면 찾아서 반환하는 함수
-    /// </summary>
-    /// <returns>적이있으면 배열로반환 없으면 null반환</returns>
-    public ICharcterBase[] GetEnemyArray() 
-    {
-        List<ICharcterBase> resultEnemyList = new(4);
-        if (attackRangeTiles.Count > 0) 
+        if (!isClear)
         {
-            ICharcterBase[] enemyArray = SpaceSurvival_GameManager.Instance.EnemyTeam;
-            int enemySize = enemyArray.Length;
-            foreach (Tile attackTile in attackRangeTiles) { //공격범위만큼 검색하고
-                for (int i = 0; i < enemySize; i++) //적들을 검색을 진행 
-                {
-                    if (enemyArray[i].CurrentTile.Equals(attackTile)) //타일이 같으면 
-                    {
-                        resultEnemyList.Add(enemyArray[i]); //리스트에 추가
-                        break;//다음타일검색을위해 빠져나감
-                    }
-                }
+            InputSystemController.InputSystem.Mouse.Get_Position.performed += OnMouseMove; //레이를 쏘는작업 시작 원점 타일가져오기작업
+
+            foreach (Tile tile in attackRangeTiles)
+            {
+                revertTileTypes.Add(tile.ExistType);
+                tile.ExistType = Tile.TileExistType.AttackRange;
             }
         }
-        return resultEnemyList.ToArray();
     }
 
     /// <summary>
     /// 공격범위 초기화 하기 .
     /// 기존에 초기화할 내용이 있는경우만 로직이 실행된다.
     /// </summary>
-    private void ClearLineRenderer()
+    public void ClearLineRenderer()
     {
-        if (!isClear)
+        if (!isClear)   //청소를 중복으로하면안되니 체크한번하고 
         {
-            isClear = true;
-            if (revertTileTypes != null && revertTileTypes.Count > 0) //초기화 할 타일이있을때만  
+            isClear = true; //청소시작 셋팅
+            if (revertAttackRangeTileType.Count > 0) //스킬 공격범위가 존재하면 
+            {
+                for (int i = 0; i < revertAttackRangeTileType.Count; i++) //원복 리스트 찾아서 
+                {
+                    activeAttackTiles[i].ExistType = revertAttackRangeTileType[i]; //원복시키고 
+                }
+                revertAttackRangeTileType.Clear(); //초기화한다
+                activeAttackTiles.Clear();          //초기화
+            }
+
+            InputSystemController.InputSystem.Mouse.Get_Position.performed -= OnMouseMove; //레이를 쏘는 작업 끄기 원점타일가져오는작업
+
+            if (revertTileTypes.Count > 0) //초기화 할 타일이있을때만  
             {
                 int listSize = revertTileTypes.Count; //갯수가져와서
                 for (int i = 0; i < listSize; i++)
@@ -204,38 +330,119 @@ public class AttackRange : MonoBehaviour
                 attackRangeTiles.Clear();  // 내용 비우고  clear 함수는 내부 배열요소만 초기화하기때문에 null보다 낫다.
                 revertTileTypes.Clear();    // 내용 비운다.
             }
-            isClear = false;
-        }
-    }
-    
-    /// <summary>
-    /// 공격 범위 표시하기 
-    /// </summary>
-    private void OpenLineRenderer() 
-    {
-        if (!isClear) 
-        {
-            foreach (Tile tile in attackRangeTiles)
-            {
-                tile.ExistType = Tile.TileExistType.Attack;
-            }
+            isClear = false;//청소끝 셋팅
         }
     }
 
     /// <summary>
-    /// 공격범위 셋팅하는 함수 
+    /// 공격범위 선택을 했을시 
+    /// 적리스트를 반환하는 함수
+    /// </summary>
+    /// <returns>적이있으면 배열로반환 없으면 null반환</returns>
+    public ICharcterBase[] GetEnemyArray(out float LastDamage)
+    {
+        if (activeAttackTiles.Count > 0)
+        {
+            LastDamage = currentSkill.FinalDamage;  //몬스터한테 줄 데미지 셋팅
+
+            ICharcterBase[] enemyArray = SpaceSurvival_GameManager.Instance.EnemyTeam; //배틀맵의 몹정보를 전부 들고 
+
+            int enemySize = enemyArray.Length;      // 배틀맵에 나와있는 몬스터의 갯수 가져오고
+
+            List<ICharcterBase> resultEnemyList = new List<ICharcterBase>(enemySize); //최대크기는 몬스터 리스트보다 클수없음으로 그냥 최대로잡자
+
+            foreach (Tile attackTile in activeAttackTiles) //공격범위만큼 검색하고
+            {
+                for (int i = 0; i < enemySize; i++) //적들을 검색을 진행 
+                {
+                    if (enemyArray[i].CurrentTile.width == attackTile.width &&
+                        enemyArray[i].CurrentTile.length == attackTile.length) //타일이 같으면 
+                    {
+                        resultEnemyList.Add(enemyArray[i]); //리스트에 추가
+                        break;//다음타일검색을위해 빠져나감
+                    }
+                }
+            }
+            return resultEnemyList.ToArray();
+        }
+        //여긴 공격할적이없을때 오는곳
+        LastDamage = 0.0f;  //기냥 초기화값
+        return null;
+    }
+
+
+
+
+    // ----------------------------- 공격 범위 표시하는 함수들
+
+    /// <summary>
+    /// 사거리안의 범위를 전부 표시해주는 함수
+    /// 단일 타겟 용으로 쓰인다. (저격,일반공격)
+    /// </summary>
+    /// <param name="playerTile">캐릭터가 있는 타일 위치</param>
+    /// <param name="size">공격가능한 사거리 범위 (기본값은 1)</param>
+    private void AttackRangeTileView(Tile playerTile, float size = 1.0f)
+    {
+        if (!isAttacRange)
+        {
+            isAttacRange = true;                                                 //공격범위표시 시작 체크
+            ClearLineRenderer();                                                // 기존의 리스트 초기화하고 
+            SetAttackSize(playerTile, size);                                       // 셋팅하고 
+            OpenLineRenderer();                                                 // 보여준다
+        }
+    }
+
+
+
+
+    /// <summary>
+    /// 스킬의 공격범위를 표시할 함수 일반공격 포함 
+    /// </summary>
+    /// <param name="targetTile">공격할 원점위치</param>
+    public void SkillRange_Tile_View(Tile targetTile)
+    {
+        if (isAttacRange) //공격범위가 활성화된상태만 실행되게 설정
+        {
+            //타일이이동되면 기존범위표시 삭제하고 
+            if (revertAttackRangeTileType.Count > 0) 
+            {
+                for(int i = 0; i< revertAttackRangeTileType.Count; i++)
+                {
+                    activeAttackTiles[i].ExistType = revertAttackRangeTileType[i];
+                }
+                revertAttackRangeTileType.Clear();
+                activeAttackTiles.Clear();
+            }
+            //새롭게 범위 셋팅
+
+
+            activeAttackTiles.Add(targetTile);
+            revertAttackRangeTileType.Add(targetTile.ExistType);
+
+
+            //상태교체시키기 
+            targetTile.ExistType = Tile.TileExistType.Attack_OR_Skill;
+        }
+    }
+
+   
+
+
+
+    /// <summary>
+    /// 
     /// </summary>
     /// <param name="playerTile">캐릭터가있는 타일위치</param>
     /// <param name="size">공격 타입에따른 범위 (기본값은 1)</param>
-    private void SetTileList(Tile playerTile , int size = 1) 
+    private void SetTileList(Tile playerTile, float size = 1.0f)
     {
-        if (!isClear) 
+        if (!isClear)
         {
             Tile[] mapTiles = SpaceSurvival_GameManager.Instance.BattleMap;
             int tileSizeX = SpaceSurvival_GameManager.Instance.MapSizeX;
             int tileSizeY = SpaceSurvival_GameManager.Instance.MapSizeY;
 
-            
+
         }
     }
 
@@ -244,8 +451,30 @@ public class AttackRange : MonoBehaviour
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
     /// <summary>
-    /// 현재 위치지점에서 행동력 기준 이동가능한 범위 의 좌표리스트를 가져오기위한 함수
+    /// 현재 위치지점에서 사거리 기준 공격 가능한 범위 의 좌표리스트를 가져오기위한 함수
+    /// 일반공격 , 저격 과같은 공격할수 있는 범위가 전부표시되야되는 스킬에 사용될 함수
     /// </summary>
     /// <param name="currentNode">현재위치 타일 정보</param>
     /// <param name="attackCheck">공격가능한 거리 값</param>
@@ -279,7 +508,10 @@ public class AttackRange : MonoBehaviour
             }
             else // 이동가능한 거리면 
             {
-                attackRangeTiles.Add(currentNode); //반환 시킬 리스트로 추가한다.
+                if (!attackRangeTiles.Contains(currentNode)) //중복값방지
+                {
+                    attackRangeTiles.Add(currentNode); //반환 시킬 리스트로 추가한다.
+                }
             }
 
             OpenListAdd(mapTiles, tileSizeX, tileSizeY, currentNode, openList, closeList); //주변 8방향의 노드를 찾아서 G값 수정하고  오픈리스트에 담을수있으면 담는다.
@@ -305,14 +537,13 @@ public class AttackRange : MonoBehaviour
                     continue;
                 if (adjoinTile.ExistType == Tile.TileExistType.Prop)                // 인접한 타일이 장애물일때
                     continue;
-
                 bool isDiagonal = (x * y != 0);                                     // 대각선 유무 확인
                 if (isDiagonal &&                                                   // 대각선이고 현재 타일의 상하좌우가 벽일 때
                     Cho_BattleMap_AStar.GetTile(mapTiles, currentNode.Width + x, currentNode.Length, tileSizeX).ExistType == Tile.TileExistType.Prop ||
                     Cho_BattleMap_AStar.GetTile(mapTiles, currentNode.Width, currentNode.Length + y, tileSizeX).ExistType == Tile.TileExistType.Prop
                     )
                     continue;
-
+                //대각선 체크 이유는 이동도 안되는데 공격은 되면 안될거같아서 남겨뒀다.
                 float distance;
                 if (isDiagonal)
                 {
