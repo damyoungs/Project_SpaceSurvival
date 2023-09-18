@@ -30,6 +30,10 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
 
     Button popupButton;
     TextMeshProUGUI buttonText;
+    //InputKeyMouse inputAction;
+    string open = "▲";
+    string close = "▼";
+
 
     RectTransform rectTransform;
     public RectTransform QuickSlotBox_RectTransform => rectTransform;
@@ -69,8 +73,8 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
     }
 
     public Action<IPopupSortWindow> PopupSorting { get; set; }
-    public Action<SkillData> on_Activate_Skill;
 
+    public QuickSlot this[QuickSlotList number] => quickSlots[(int)number];
     private void Awake()
     {
         //inputAction = new InputKeyMouse();
@@ -88,8 +92,7 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
         while (i < 8)
         {
             quickSlots[i] = transform.GetChild(i).GetComponent<QuickSlot>();
-            quickSlots[i].onSet_ItemData += (_, quickSlot) => Connect_Delegate(quickSlot);
-            quickSlots[i].on_SkillSet += (quickSlot) => Connect_Delegate(quickSlot);
+            quickSlots[i].onSetData += (_, quickSlot) => Connect_Delegate(quickSlot);
             quickSlots[i].on_Clear_Quickslot_Data += DisConnect_Delegate;
             i++;
         }
@@ -112,6 +115,8 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
     {
         InputSystemController.Instance.OnQuickSlot_Popup += QuickSlot_PopUp;
         Init();
+        buttonText.text = open;
+        // GameManager.SlotManager.onDetectQuickSlot += Set_ItemDataTo_QuickSlot;
         StartCoroutine(Get_References());
     }
     IEnumerator Get_References()
@@ -136,33 +141,40 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
             case QuickSlot_Type.Shift:
                 //inputAction.QuickSlot.Shift.performed += Shift_performed;
                 InputSystemController.Instance.OnQuickSlot_Shift += Shift_performed;
-                shiftSlot_Data = slot.ItemData;// shiftSlot_Data = 이 클래스에서 저장해둘 데이터
+                shiftSlot_Data = slot.ItemData;
                 break;
             case QuickSlot_Type._8:
+                //inputAction.QuickSlot.Eight.performed += Eight_performed;
                 InputSystemController.Instance.OnQuickSlot_Eight += Eight_performed;
                 _8Slot_Data = slot.ItemData;
                 break;
             case QuickSlot_Type._9:
+                //inputAction.QuickSlot.Nine.performed += Nine_performed;
                 InputSystemController.Instance.OnQuickSlot_Nine += Nine_performed;
                 _9Slot_Data = slot.ItemData;
                 break;
             case QuickSlot_Type._0:
+                //inputAction.QuickSlot.Zero.performed += Zero_performed;
                 InputSystemController.Instance.OnQuickSlot_Zero += Zero_performed;
                 _0Slot_Data = slot.ItemData;
                 break;
             case QuickSlot_Type.Ctrl:
+                //inputAction.QuickSlot.Ctrl.performed += Ctrl_performed;
                 InputSystemController.Instance.OnQuickSlot_Ctrl += Ctrl_performed;
                 ctrl_Slot_Data = slot.ItemData;
                 break;
             case QuickSlot_Type.Alt:
+                //inputAction.QuickSlot.Alt.performed += Alt_performed;
                 InputSystemController.Instance.OnQuickSlot_Alt += Alt_performed;
                 alt_Slot_Data = slot.ItemData;
                 break;
             case QuickSlot_Type.Space:
+                //inputAction.QuickSlot.Space.performed += Space_performed;
                 InputSystemController.Instance.OnQuickSlot_Space += Space_performed;
                 space_Slot_Data = slot.ItemData;
                 break;
             case QuickSlot_Type.Insert:
+                //inputAction.QuickSlot.Insert.performed += Insert_performed;
                 InputSystemController.Instance.OnQuickSlot_Insert += Insert_performed;
                 insert_Slot_Data = slot.ItemData;
                 break;
@@ -239,6 +251,7 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
                 yield return null;
             }
             isOpen = false;
+            buttonText.text = open;
         }
         else
         {
@@ -248,6 +261,7 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
                 yield return null;
             }
             isOpen = true;
+            buttonText.text = close;
         }
 
     }
@@ -260,93 +274,80 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
     {
         StartCoroutine(PopUpCoroutine());
     }
+    //private void Space_performed(InputAction.CallbackContext context)
     private void Space_performed()
     {
-        if (quickSlots[(int)QuickSlotList.Space].SkillData != null)
-        {
-            on_Activate_Skill?.Invoke(quickSlots[(int)QuickSlotList.Space].SkillData);
-        }
-        else if (quickSlots[(int)QuickSlotList.Space].ItemCount > 0)
+        if (this[QuickSlotList.Space].ItemCount > 0)
         {
             space_Slot_Data.Consume(player);
             slotManager.Use_Item_On_QuickSlot(space_Slot_Data);
         }
     }
 
+    //private void Alt_performed(InputAction.CallbackContext context)
     private void Alt_performed()
     {
-        if (quickSlots[(int)QuickSlotList.Alt].SkillData != null)
-        {
-            on_Activate_Skill?.Invoke(quickSlots[(int)QuickSlotList.Alt].SkillData);
-        }
-        else if (quickSlots[(int)QuickSlotList.Alt].ItemCount > 0)
+        if (this[QuickSlotList.Alt].ItemCount > 0)
         {
             alt_Slot_Data.Consume(player);
             slotManager.Use_Item_On_QuickSlot(alt_Slot_Data);
         }
     }
 
+    //private void Ctrl_performed(InputAction.CallbackContext context)
     private void Ctrl_performed()
     {
-        if (quickSlots[(int)QuickSlotList.Ctrl].SkillData != null)
-        {
-            on_Activate_Skill?.Invoke(quickSlots[(int)QuickSlotList.Ctrl].SkillData);
-        }
-        else if (quickSlots[(int)QuickSlotList.Ctrl].ItemCount > 0)
+        if (this[QuickSlotList.Ctrl].ItemCount > 0)
         {
             ctrl_Slot_Data.Consume(player);
             slotManager.Use_Item_On_QuickSlot(ctrl_Slot_Data);
         }
-    
     }
 
+    //private void Zero_performed(InputAction.CallbackContext context)
     private void Zero_performed()
     {
-        if (quickSlots[(int)QuickSlotList._0].SkillData != null)
-        {
-            on_Activate_Skill?.Invoke(quickSlots[(int)QuickSlotList._0].SkillData);
-        }
-        else if (quickSlots[(int)QuickSlotList._0].ItemCount > 0)
+        if (this[QuickSlotList._0].ItemCount > 0)
         {
             _0Slot_Data.Consume(player);
             slotManager.Use_Item_On_QuickSlot(_0Slot_Data);
         }
     }
+
+    //private void Nine_performed(InputAction.CallbackContext context)
     private void Nine_performed()
     {
-        if (quickSlots[(int)QuickSlotList._9].SkillData != null)
-        {
-            on_Activate_Skill?.Invoke(quickSlots[(int)QuickSlotList._9].SkillData);
-        }
-        else if (quickSlots[(int)QuickSlotList._9].ItemCount > 0)
+        if (this[QuickSlotList._9].ItemCount > 0)
         {
             _9Slot_Data.Consume(player);
             slotManager.Use_Item_On_QuickSlot(_9Slot_Data);
         }
     }
 
+    //private void Eight_performed(InputAction.CallbackContext context)
     private void Eight_performed()
     {
-        if (quickSlots[(int)QuickSlotList._8].SkillData != null)
-        {
-            on_Activate_Skill?.Invoke(quickSlots[(int)QuickSlotList._8].SkillData);
-        }
-        else if (quickSlots[(int)QuickSlotList._8].ItemCount > 0)
+        if (this[QuickSlotList._8].ItemCount > 0)
         {
             _8Slot_Data.Consume(player);
             slotManager.Use_Item_On_QuickSlot(_8Slot_Data);
         }
     }
 
+    //private void Insert_performed(InputAction.CallbackContext context)
     private void Insert_performed()
     {
-        if (quickSlots[(int)QuickSlotList.Insert].SkillData != null)
-        {
-            on_Activate_Skill?.Invoke(quickSlots[(int)QuickSlotList.Insert].SkillData);
-        }
-        else if (quickSlots[(int)QuickSlotList.Insert].ItemCount > 0)
+        if (this[QuickSlotList.Shift].ItemCount > 0)
         {
             shiftSlot_Data.Consume(player);
+            slotManager.Use_Item_On_QuickSlot(shiftSlot_Data);
+        }
+    }
+    private void Insert_performed(InputAction.CallbackContext context)
+    {
+        if (this[QuickSlotList.Insert].ItemCount > 0)
+        {
+            insert_Slot_Data.Consume(player);
             slotManager.Use_Item_On_QuickSlot(insert_Slot_Data);
         }
     }
@@ -354,21 +355,13 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
     //private void Shift_performed(InputAction.CallbackContext context)
     private void Shift_performed()
     {
-        if (quickSlots[(int)QuickSlotList.Shift].SkillData != null)
-        {
-            on_Activate_Skill?.Invoke(quickSlots[(int)QuickSlotList.Shift].SkillData);
-        }
-        else if (quickSlots[(int)QuickSlotList.Shift].ItemCount > 0)
-        {
-            shiftSlot_Data.Consume(player);
-            slotManager.Use_Item_On_QuickSlot(shiftSlot_Data);
-        }
     }
 
 
     void Init()
     {
-        TempSlot_For_QuickSlot tempSlot = transform.GetChild(9).GetComponent<TempSlot_For_QuickSlot>();
+        ItemDescription itemDescription = GameManager.SlotManager.ItemDescription;
+        TempSlot_For_QuickSlot_Base tempSlot_Base = FindObjectOfType<TempSlot_For_QuickSlot_Base>();
 
         // quickSlots = new QuickSlot[8];
         for (int i = 0; i < quickSlots.Length; i++)
@@ -377,9 +370,25 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
             quickSlots[i].Index = i;
             quickSlots[i].QuickSlot_Key_Value = Enum.GetName(typeof(QuickSlotList), i);//i번째 인덱스를 문자열로 바꿔서 변수에 할당
 
-            quickSlots[i].on_BeginDrag_With_Potion += tempSlot.OpenWith_Potion_Data;
-            quickSlots[i].on_BeginDrag_With_Skill += tempSlot.OpenWith_Skill_Data;
-            quickSlots[i].on_Drag += tempSlot.MovePosition;
+            quickSlots[i].onPointerEnter += itemDescription.Open;
+            quickSlots[i].onPointerMove += itemDescription.MovePosition;
+            quickSlots[i].onPointerExit += itemDescription.Close;
+
+            quickSlots[i].onBeginDrag += (_, _) => itemDescription.Toggle_IsPause();
+            quickSlots[i].onEndDrag += () => itemDescription.Toggle_IsPause();
+            quickSlots[i].onBeginDrag += tempSlot_Base.StartDrag;
+            quickSlots[i].onEndDrag += tempSlot_Base.EndDrag;
+            tempSlot_Base.onEndDrag += (itemData, count) =>
+            {
+                Find_Slot_By_Position(out QuickSlot slot);//현재 마우스위치의 퀵슬롯 가져오기
+                if (slot != null)
+                {
+                    slot.ItemData = itemData;
+                    slot.ItemCount = count;
+                }
+            };
+
+
         }
     }
 
