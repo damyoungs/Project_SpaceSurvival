@@ -340,7 +340,10 @@ public class Player_ : MonoBehaviour, IBattle
             return;
         }
     }
-    
+    public void SkillPostProcess()
+    {
+
+    }
     void DeBuff()//버프스킬 적용 해제
     {
         Reset_Status();

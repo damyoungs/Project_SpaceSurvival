@@ -76,6 +76,9 @@ public class PlayerTurnObject : TurnBaseObject
                 go.name = $"Player_{i}";
                 go.SetTile(SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Charcter));
                 go.transform.position = go.CurrentTile.transform.position; //셋팅된 타일위치로 이동시킨다.
+                bpc.onAttackAction = (_,_) => { 
+                    go.CharcterData.SkillPostProcess(); 
+                }; 
             }
             WindowList.Instance.TeamBorderManager.ViewTeamInfo(testPlayerLength); //팀 상시 유아이 보여주기 
 
