@@ -76,8 +76,8 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
     /// <summary>
     /// 플레이어의 팀원 목록을 저장해둔다.
     /// </summary>
-    ICharcterBase[] playerTeam;
-    public ICharcterBase[] PlayerTeam 
+    BattleMapPlayerBase[] playerTeam;
+    public BattleMapPlayerBase[] PlayerTeam 
     {
         get 
         {
@@ -89,21 +89,17 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
             return playerTeam;
         }
     }
-    public Func<ICharcterBase[]> GetPlayerTeam;
+    public Func<BattleMapPlayerBase[]> GetPlayerTeam;
 
     /// <summary>
-    /// 플레이어의 팀원 목록을 저장해둔다.
+    /// 적군 목록을 저장해둔다.
     /// </summary>
     ICharcterBase[] enemyTeam;
     public ICharcterBase[] EnemyTeam
     {
         get
         {
-            //if (playerTeam == null) //팀목록이 없으면 
-            //{
-            //    playerTeam = GetPlayerTeam?.Invoke(); // 델리를 요청해서 받아온다
-            //}
-            enemyTeam ??= GetEnemeyTeam?.Invoke(); // 위의 주석 내용과 같음(복합형)
+            enemyTeam ??= GetEnemeyTeam?.Invoke(); 
             return enemyTeam;
         }
     }
@@ -169,6 +165,20 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
         }
     }
     public Func<InitCharcterSetting> GetBattleMapInit;
+
+    /// <summary>
+    /// 공격범위를 취소하고 이동범위를 다시표시하는 함수 중복으로 쓰이는곳이있어서 따로뺏다.
+    /// </summary>
+    public void To_AttackRange_From_MoveRange() 
+    {
+        AttackRange.ClearLineRenderer(); //공격범위 초기화한다.
+        AttackRange.isAttacRange = false;
+        AttackRange.isSkillAndAttack = false;
+        //다시 이동범위 표시한다.
+        BattleMapPlayerBase player = (BattleMapPlayerBase)TurnManager.Instance.CurrentTurn.CurrentUnit;
+        float moveSize = player.CharcterData.Stamina > player.MoveSize ? player.MoveSize : player.CharcterData.Stamina; //이동거리구하고
+        MoveRange.MoveSizeView(player.CurrentTile, moveSize);//이동범위표시해주기 
+    }
 
     public void BattleMap_ResetData(bool isLoadedBattleMap = false)
     {

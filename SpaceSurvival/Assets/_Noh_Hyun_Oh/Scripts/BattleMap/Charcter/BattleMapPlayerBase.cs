@@ -73,9 +73,6 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
     
     public float MoveSize => moveSize;
 
-
-
-
     /// <summary>
     /// 좌측상단에있는 캐릭터 상태창
     /// </summary>

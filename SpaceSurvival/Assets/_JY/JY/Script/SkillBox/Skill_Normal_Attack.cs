@@ -13,7 +13,7 @@ public class Skill_Normal_Attack : SkillData
         SkillLevel = 1;
         //AnimClip
         //audioClip
-        AttackRange = 1;
+        AttackRange = 4;
         Require_Force_For_skillLevelUp = 1;
         Require_Stamina_For_UsingSkill = 1;
         SkillPower = 1.0f;
