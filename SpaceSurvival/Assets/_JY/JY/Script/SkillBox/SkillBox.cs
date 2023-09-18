@@ -33,7 +33,7 @@ public class SkillBox : MonoBehaviour, IPopupSortWindow
     private void Start()
     {
         InputSystemController.InputSystem.UI_Inven.SkillBox_Open.performed += Toggle_Open_Close;
-        GameManager.Player__.on_DarkForce_Change += Refresh;
+        GameManager.Player_.on_DarkForce_Change += Refresh;
         Refresh();
     }
     public void Open()
@@ -51,7 +51,7 @@ public class SkillBox : MonoBehaviour, IPopupSortWindow
 
     void Refresh()
     {
-        darkForce_Text.text = GameManager.Player__.DarkForce.ToString();
+        darkForce_Text.text = GameManager.Player_.DarkForce.ToString();
     }
 
     public void OpenWindow()

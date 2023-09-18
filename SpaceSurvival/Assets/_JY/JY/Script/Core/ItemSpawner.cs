@@ -29,7 +29,7 @@ public class ItemSpawner : TestBase
     }
     private void Start()
     {
-        player = GameManager.Player__;
+        player = GameManager.Player_;
         StartCoroutine(TestInit());
     }
     IEnumerator TestInit() 
