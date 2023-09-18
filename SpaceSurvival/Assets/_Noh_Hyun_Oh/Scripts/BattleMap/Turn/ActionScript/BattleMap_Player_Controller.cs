@@ -150,13 +150,13 @@ public class BattleMap_Player_Controller : MonoBehaviour
                 case Tile.TileExistType.None:
                     break;
                 case Tile.TileExistType.Charcter:
-                    Debug.Log($"이동불가 캐릭터: 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
+                  //  Debug.Log($"이동불가 캐릭터: 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
                     onClickPlayer?.Invoke(targetTile); 
                     break;
                 case Tile.TileExistType.Monster:
                     onClickMonster?.Invoke(targetTile);
                     //몬스터 클릭시 몬스터에대한 정보가 나오던 뭔가 액션이필요
-                    Debug.Log($"이동불가 몬스터: 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
+                   // Debug.Log($"이동불가 몬스터: 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
                     break;
                 case Tile.TileExistType.Item:
                     onMoveActive?.Invoke(targetTile);//이동로직 실행
@@ -164,12 +164,12 @@ public class BattleMap_Player_Controller : MonoBehaviour
                     // 아이템이 타일에있는경우 아이템 에대한 정보를 띄우던 뭔가을 액션 
                     break;
                 case Tile.TileExistType.Prop:
-                    Debug.Log($"이동불가 장애물 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
+                   // Debug.Log($"이동불가 장애물 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
                     break;
                 case Tile.TileExistType.Move:
                     //Debug.Log(targetTile);
                     onMoveActive?.Invoke(targetTile);//이동로직 실행
-                    Debug.Log($"이동가능 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
+                    //Debug.Log($"이동가능 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
                     break;
                 case Tile.TileExistType.Attack_OR_Skill:
                     ICharcterBase[] attackArray = SpaceSurvival_GameManager.Instance.AttackRange.GetEnemyArray(out float lastDamage); //
@@ -180,9 +180,10 @@ public class BattleMap_Player_Controller : MonoBehaviour
 
                         SpaceSurvival_GameManager.Instance.To_AttackRange_From_MoveRange();
                     }
+                   // Debug.Log($"이동가능 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
                     break;
                 default:
-                    Debug.Log($"접근되면 안된다.");
+                    //Debug.Log($"접근되면 안된다.");
                     break;
             }
         }
