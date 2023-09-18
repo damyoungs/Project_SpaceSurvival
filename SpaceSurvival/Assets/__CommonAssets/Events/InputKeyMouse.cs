@@ -232,8 +232,8 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""8ec557d6-a180-44a3-b8b0-314b000b02ba"",
-                    ""path"": ""<Mouse>/scroll/up"",
+                    ""id"": ""e992225a-4c95-4191-ae94-a3dc1bb6fe31"",
+                    ""path"": ""<Mouse>/scroll/y"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyMouse"",
