@@ -44,6 +44,7 @@ public class Cho_PlayerMove : MonoBehaviour
     Rigidbody rigid;
     Animator animator;
     Transform cameraPos;
+    //CharacterController controller;
 
     readonly int Speed_Hash = Animator.StringToHash("Speed");
 
@@ -56,6 +57,7 @@ public class Cho_PlayerMove : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         cameraPos = transform.GetChild(21);
+        //controller = GetComponent<CharacterController>();
     }
 
     private void Start()
@@ -91,27 +93,38 @@ public class Cho_PlayerMove : MonoBehaviour
     {
         rigid.MovePosition(rigid.position + transform.TransformDirection(Time.fixedDeltaTime * speed * moveDir));
         //rigid.MovePosition(rigid.position + Time.fixedDeltaTime * speed * moveDir);
+
+        //controller.Move(Time.fixedDeltaTime * speed * transform.TransformDirection(moveDir));
+        //controller.SimpleMove(speed * transform.TransformDirection(moveDir));
     }
 
     private void OnMove(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
         Vector2 dir = context.ReadValue<Vector2>();
 
+        moveDir.x = dir.x;
+        moveDir.z = dir.y;
+
         if (context.performed)
         {
-            if (State != PlayerState.Run)
+            if (speed > runSpeed - 0.01f)
             {
-                animator.SetFloat(Speed_Hash, animatorWalkSpeed);
-                State = PlayerState.Walk;
+                State = PlayerState.Run;
+                animator.SetFloat(Speed_Hash, animatorRunSpeed);
             }
+            else if (speed > walkSpeed - 0.01f)
+            {
+                State = PlayerState.Walk;
+                animator.SetFloat(Speed_Hash, animatorWalkSpeed);
+            }
+            
         }
         else
         {
+            State = PlayerState.Idle;
             animator.SetFloat(Speed_Hash, 0);
         }
 
-        moveDir.x = dir.x;
-        moveDir.z = dir.y;
     }
 
     private void OnJump(UnityEngine.InputSystem.InputAction.CallbackContext context)
