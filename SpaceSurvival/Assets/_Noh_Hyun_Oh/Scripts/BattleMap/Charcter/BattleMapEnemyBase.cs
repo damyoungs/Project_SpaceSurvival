@@ -9,6 +9,10 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
     /// 몬스터는 컨트롤할수없으니 형식만 맞춰두자
     /// </summary>
     public bool IsControll { get; set; }
+
+    EnemyStatus enemyData;
+    public EnemyStatus EnemyData => enemyData;
+
     public bool IsMoveCheck { get; }
     /// <summary>
     /// 추적형 UI 
@@ -20,6 +24,8 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
         set => battleUI = value;
 
     }
+
+    bool isEnemyTurn;
 
     /// <summary>
     /// 추적형 UI 가 있는 캔버스 위치
@@ -54,8 +60,12 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
     {
         get => moveSize;
         set => moveSize = value;
-    } 
+    }
 
+    protected override void Awake()
+    {
+        enemyData = GetComponentInChildren<EnemyStatus>();
+    }
 
     private void Start()
     {
@@ -90,7 +100,11 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
         }
     }
 
-    
+    public void SetTile(Tile currentTile)
+    {
+        this.currentTile = currentTile;
+    }
+
 
     /// <summary>
     /// 셋팅전의 값으로 돌리기
@@ -114,5 +128,14 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
 
     public void CharcterMove(Tile selectedTile)
     {
+        if (!IsMoveCheck)
+        {
+            List<Tile> path = Cho_BattleMap_AStar.PathFind(SpaceSurvival_GameManager.Instance.BattleMap,
+                                                            SpaceSurvival_GameManager.Instance.MapSizeX,
+                                                            SpaceSurvival_GameManager.Instance.MapSizeY,
+                                                            this.currentTile,
+                                                            selectedTile
+                                                            );
+        }
     }
 }
