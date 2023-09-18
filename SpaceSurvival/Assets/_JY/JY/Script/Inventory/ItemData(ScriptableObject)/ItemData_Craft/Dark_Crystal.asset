@@ -24,3 +24,5 @@ MonoBehaviour:
   CraftType: 1
   successRate: 0
   Critical_Success_Item: {fileID: 0}
+  attack_Point: 10
+  defence_Point: 10

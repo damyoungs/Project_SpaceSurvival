@@ -163,15 +163,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
-                },
-                {
-                    "name": "MouseWheel",
-                    "type": "Value",
-                    "id": "9da44067-4413-4f8e-97e2-6fabd82ff84c",
-                    "expectedControlType": "Axis",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -205,17 +196,6 @@
                     "processors": "",
                     "groups": "KeyMouse",
                     "action": "Get_Position",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e992225a-4c95-4191-ae94-a3dc1bb6fe31",
-                    "path": "<Mouse>/scroll/y",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyMouse",
-                    "action": "MouseWheel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -830,17 +810,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "DoubleClick",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "943db113-03f8-44dd-a57a-01a663b79d79",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ItemPickUp",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

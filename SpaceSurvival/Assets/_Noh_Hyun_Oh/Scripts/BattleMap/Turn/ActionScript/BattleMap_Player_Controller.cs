@@ -5,19 +5,19 @@ using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 /// <summary>
-/// ë°°í‹€ë§µì—ì„œ í”Œë ˆì´ì–´ì˜ ì´ë²¤íŠ¸í•¸ë“¤ëŸ¬ë‚´ìš©ì„ ì •ì˜í•  ì»´í¬ë„ŒíŠ¸  
-/// í´ë¦­í–ˆì„ë•Œ ì´ë²¤íŠ¸ë³„ë¡œ ì—°ê²°ì‹œì¼œì£¼ê¸°
+/// ¹èÆ²¸Ê¿¡¼­ ÇÃ·¹ÀÌ¾îÀÇ ÀÌº¥Æ®ÇÚµé·¯³»¿ëÀ» Á¤ÀÇÇÒ ÄÄÆ÷³ÍÆ®  
+/// Å¬¸¯ÇßÀ»¶§ ÀÌº¥Æ®º°·Î ¿¬°á½ÃÄÑÁÖ±â
 /// </summary>
 public class BattleMap_Player_Controller : MonoBehaviour
 {
 
     /// <summary>
-    /// ë ˆì´ê°€ íƒ€ì¼ì— ì¶©ëŒÂ‰ç‘›ë»‘ ì²´í¬í•  ë ˆì´ì–´ ê°’
-    /// ì—ë””í„°ìƒì—ì„œ ë ˆì´ì–´ë¥¼ ì…‹íŒ…í•´ì¤˜ì•¼í•œë‹¤.
-    ///  LayerMask.GetMask();// 2ì§„ì½”ë“œë¡œ ì‘ì„±ë˜ìˆì–´ì„œ ê°’ì´ 0,1,2,4,8,16 ì²˜ëŸ¼ 2ì˜ ë°°ìˆ˜ë¡œ ìˆœì°¨ì ìœ¼ë¡œ ì €ì¥ë˜ìˆë‹¤ 
-    ///  LayerMask.NameToLayer("");// ê²Ÿë§ˆìŠ¤í¬ì™€ë‹¤ë¥´ê²Œ ì €ì¥ëœìˆœë²ˆ ì„ê°€ì ¸ì˜¨ë‹¤ 0,1,2,3,4,5,6,7 .... 
-    ///  GameObject.Layer ëŠ” ìˆœë²ˆì´ ì €ì¥ë˜ìˆë‹¤ 
-    ///  readOnly ë¡œ ë¯¸ë¦¬ ê²€ìƒ‰ì‹œë„í–ˆë”ë‹ˆ ì—ëŸ¬ë‚¨ ë ˆì´ì–´ì…‹íŒ…ì€ ê²Œì„ì‹œì‘í•˜ê³ ë‚˜ì„œ ì§„í–‰ë˜ëŠ”ë“¯.
+    /// ·¹ÀÌ°¡ Å¸ÀÏ¿¡ Ãæµ¹‰çÀ»¶§ Ã¼Å©ÇÒ ·¹ÀÌ¾î °ª
+    /// ¿¡µğÅÍ»ó¿¡¼­ ·¹ÀÌ¾î¸¦ ¼ÂÆÃÇØÁà¾ßÇÑ´Ù.
+    ///  LayerMask.GetMask();// 2ÁøÄÚµå·Î ÀÛ¼ºµÇÀÖ¾î¼­ °ªÀÌ 0,1,2,4,8,16 Ã³·³ 2ÀÇ ¹è¼ö·Î ¼øÂ÷ÀûÀ¸·Î ÀúÀåµÇÀÖ´Ù 
+    ///  LayerMask.NameToLayer("");// °Ù¸¶½ºÅ©¿Í´Ù¸£°Ô ÀúÀåµÈ¼ø¹ø À»°¡Á®¿Â´Ù 0,1,2,3,4,5,6,7 .... 
+    ///  GameObject.Layer ´Â ¼ø¹øÀÌ ÀúÀåµÇÀÖ´Ù 
+    ///  readOnly ·Î ¹Ì¸® °Ë»ö½ÃµµÇß´õ´Ï ¿¡·¯³² ·¹ÀÌ¾î¼ÂÆÃÀº °ÔÀÓ½ÃÀÛÇÏ°í³ª¼­ ÁøÇàµÇ´Âµí.
     /// </summary>
     [SerializeField]
     int tileLayerIndex;
@@ -26,62 +26,62 @@ public class BattleMap_Player_Controller : MonoBehaviour
     //int uiLayerIndex;
 
     /// <summary>
-    /// ê³µê²© ì—¬ë¶€ í™•ì¸ìš© 
+    /// °ø°İ ¿©ºÎ È®ÀÎ¿ë 
     /// </summary>
     [SerializeField]
     bool isAttack = false;
 
 
     /// <summary>
-    /// í”Œë ˆì´ì–´ê°€ í„´ì¸ì§€ í™•ì¸í•˜ê¸°ìœ„í•´ ê°€ì ¸ì˜¤ëŠ” ì˜¤ë¸Œì íŠ¸
+    /// ÇÃ·¹ÀÌ¾î°¡ ÅÏÀÎÁö È®ÀÎÇÏ±âÀ§ÇØ °¡Á®¿À´Â ¿ÀºêÁ§Æ®
     /// </summary>
     PlayerTurnObject playerTurnObject;
     public PlayerTurnObject PlayerTurnObject 
     {
         get 
         {
-            if (playerTurnObject == null) //ë°ì´í„°ê°€ ì—†ìœ¼ë©´ 
+            if (playerTurnObject == null) //µ¥ÀÌÅÍ°¡ ¾øÀ¸¸é 
             {
-                //playerTurnObject = FindObjectOfType<PlayerTurnObject>(); //ê°’ì´ì—†ìœ¼ë©´ ì°¾ëŠ”ë¡œì§ ì¢€ë¬´ê²ë‹¤.
-                //ë¸ë¦¬ë¥¼ ì´ìš©í•´ ì°¾ì•„ë³¸ë‹¤ 
-                playerTurnObject = GetPlayerTurnObject?.Invoke(); //ìœ„ì—ê±° ì‚¬ìš©í•˜ê¸°ì—ëŠ” ë¶€ë‹´ì´ë˜ì„œ ë°”Â…fë‹¤.
+                //playerTurnObject = FindObjectOfType<PlayerTurnObject>(); //°ªÀÌ¾øÀ¸¸é Ã£´Â·ÎÁ÷ Á»¹«°Ì´Ù.
+                //µ¨¸®¸¦ ÀÌ¿ëÇØ Ã£¾Æº»´Ù 
+                playerTurnObject = GetPlayerTurnObject?.Invoke(); //À§¿¡°Å »ç¿ëÇÏ±â¿¡´Â ºÎ´ãÀÌµÇ¼­ ¹Ù…f´Ù.
             }
             return playerTurnObject;
         }
     }
     /// <summary>
-    /// ê°ì²´ê°€ ì´ˆê¸°í™” ë˜ëŠ” íƒ€ì´ë°ì´ í‹€ë ¤ì„œ ì„¤ì •í•´ë‘” ë¸ë¦¬ê²Œì´íŠ¸
+    /// °´Ã¼°¡ ÃÊ±âÈ­ µÇ´Â Å¸ÀÌ¹ÖÀÌ Æ²·Á¼­ ¼³Á¤ÇØµĞ µ¨¸®°ÔÀÌÆ®
     /// </summary>
     public Func<PlayerTurnObject> GetPlayerTurnObject;
     
     /// <summary>
-    /// ë ˆì´ê°€ ìµœëŒ€ë¡œ ì²´í¬í•  ê±°ë¦¬
+    /// ·¹ÀÌ°¡ ÃÖ´ë·Î Ã¼Å©ÇÒ °Å¸®
     /// </summary>
     [SerializeField]
     float ray_Range = 15.0f;
 
     /// <summary>
-    /// ì´ë™ê°€ëŠ¥í•œ íƒ€ì¼ í´ë¦­ì‹œ ì‹ í˜¸ë¥¼ë„˜ê²¨ì¤€ë‹¤
+    /// ÀÌµ¿°¡´ÉÇÑ Å¸ÀÏ Å¬¸¯½Ã ½ÅÈ£¸¦³Ñ°ÜÁØ´Ù
     /// </summary>
     public Action<Tile> onMoveActive;
     
     /// <summary>
-    /// íƒ€ì¼ì— ëª¬ìŠ¤í„°ê°€ ìˆê³  í´ë¦­í–ˆì„ë•Œ ì‹ í˜¸ë¥¼ ë„˜ê²¨ì¤€ë‹¤
+    /// Å¸ÀÏ¿¡ ¸ó½ºÅÍ°¡ ÀÖ°í Å¬¸¯ÇßÀ»¶§ ½ÅÈ£¸¦ ³Ñ°ÜÁØ´Ù
     /// </summary>
     public Action<Tile> onClickMonster;
    
     /// <summary>
-    /// íƒ€ì¼ì— ì•„ì´í…œì´ ìˆê³  í´ë¦­í–‡ì„ë•Œ ì‹ í˜¸ë¥¼ ë„˜ê²¨ì¤€ë‹¤
+    /// Å¸ÀÏ¿¡ ¾ÆÀÌÅÛÀÌ ÀÖ°í Å¬¸¯ÇŞÀ»¶§ ½ÅÈ£¸¦ ³Ñ°ÜÁØ´Ù
     /// </summary>
     public Action<Tile> onClickItem;
 
     /// <summary>
-    /// ìºë¦­í„°ì¸ íƒ€ì¼ì„ í´ë¦­í–ˆì„ë•Œ ì‹ í˜¸ë¥¼ ë„˜ê²¨ì¤€ë‹¤
+    /// Ä³¸¯ÅÍÀÎ Å¸ÀÏÀ» Å¬¸¯ÇßÀ»¶§ ½ÅÈ£¸¦ ³Ñ°ÜÁØ´Ù
     /// </summary>
     public Action<Tile> onClickPlayer;
 
     /// <summary>
-    /// ê³µê²© ë²”ìœ„ê°€ í‘œì‹œëœìƒíƒœë¡œ í´ë¦­ì‹œ ì²˜ë¦¬í•  ì•¡ì…˜ 
+    /// °ø°İ ¹üÀ§°¡ Ç¥½ÃµÈ»óÅÂ·Î Å¬¸¯½Ã Ã³¸®ÇÒ ¾×¼Ç 
     /// </summary>
     public Action<Tile[]> onAttackAction;
 
@@ -98,97 +98,87 @@ public class BattleMap_Player_Controller : MonoBehaviour
     }
 
     /// <summary>
-    /// í´ë¦­í–ˆì„ë•Œ ë ˆì´ë¥¼ ì´ì„œ ë ˆì´ì— ì¶©ëŒí•œ ê°ì²´ë“¤ì„ ê°€ì ¸ì˜¤ê³  
-    /// ë ˆì´ì–´ë¡œ ë‚˜ëˆ ì„œ ì²˜ë¦¬ë¥¼ í•˜ëŠ” ë¡œì§ 
+    /// Å¬¸¯ÇßÀ»¶§ ·¹ÀÌ¸¦ ½÷¼­ ·¹ÀÌ¿¡ Ãæµ¹ÇÑ °´Ã¼µéÀ» °¡Á®¿À°í 
+    /// ·¹ÀÌ¾î·Î ³ª´²¼­ Ã³¸®¸¦ ÇÏ´Â ·ÎÁ÷ 
     /// </summary>
     private void OnMove()
     {
-        if (PlayerTurnObject == null) //í”Œë ˆì´ì–´ê°€ í˜„ì¬ ì…‹íŒ…ì´ ë˜ìˆëŠ”ì§€ ì²´í¬
+        if (PlayerTurnObject == null) //ÇÃ·¹ÀÌ¾î°¡ ÇöÀç ¼ÂÆÃÀÌ µÇÀÖ´ÂÁö Ã¼Å©
         {
-            Debug.Log($"{playerTurnObject}í”Œë ˆì´ì–´ê°€ ì…‹íŒ… ì•ˆë˜ìˆìŠµë‹ˆë‹¤.");
+            Debug.Log($"{playerTurnObject}ÇÃ·¹ÀÌ¾î°¡ ¼ÂÆÃ ¾ÈµÇÀÖ½À´Ï´Ù.");
             return;
         }
         else if (!playerTurnObject.IsTurn)  
         {
-            Debug.Log($"í„´ì•„ë‹ˆë¼ê³  ê·¸ë§Œí´ë¦­í•´ {playerTurnObject.IsTurn}");
+            Debug.Log($"ÅÏ¾Æ´Ï¶ó°í ±×¸¸Å¬¸¯ÇØ {playerTurnObject.IsTurn}");
             return;
         }
         else if (SpaceSurvival_GameManager.Instance.IsUICheck) 
         {
-            Debug.Log("UI ì‚¬ìš©ì¤‘ì…ë‹ˆë‹¹");
+            Debug.Log("UI »ç¿ëÁßÀÔ´Ï´ç");
             return;
         }
-            //Debug.Log($"ì¸í’‹ì‹œìŠ¤í…œì—ì„œëŠ” í´ë¦­í•œ ê³³ì˜ ì˜¤ë¸Œì íŠ¸ê¹Œì§€ëŠ” ëª»ê°€ì ¸ì˜¨ë‹¤ ê·¸ë˜ì„œ ë ˆì´ë¡œ ì´ì„œ ê°€ì ¸ì™€ì•¼í•œë‹¤.");
-        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());      // í™”ë©´ì—ì„œ í˜„ì¬ ë§ˆìš°ìŠ¤ì˜ ìœ„ì¹˜ë¡œ ì˜ëŠ” ë¹›
-        Debug.DrawRay(ray.origin, ray.direction * ray_Range, Color.red, 1.0f);              // ë””ë²„ê·¸ìš© ë ˆì´ì €
+            //Debug.Log($"ÀÎÇ²½Ã½ºÅÛ¿¡¼­´Â Å¬¸¯ÇÑ °÷ÀÇ ¿ÀºêÁ§Æ®±îÁö´Â ¸ø°¡Á®¿Â´Ù ±×·¡¼­ ·¹ÀÌ·Î ½÷¼­ °¡Á®¿Í¾ßÇÑ´Ù.");
+        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());      // È­¸é¿¡¼­ ÇöÀç ¸¶¿ì½ºÀÇ À§Ä¡·Î ½î´Â ºû
+        Debug.DrawRay(ray.origin, ray.direction * ray_Range, Color.red, 1.0f);              // µğ¹ö±×¿ë ·¹ÀÌÀú
 
-        RaycastHit[] hitObjets = Physics.RaycastAll(ray, ray_Range); //ë ˆì´ë¥¼ ì´ì„œ ì¶©ëŒí•œ ì˜¤ë¸Œì íŠ¸ ë¦¬ìŠ¤íŠ¸ë¥¼ ë°›ì•„ì˜¨ë‹¤.
+        RaycastHit[] hitObjets = Physics.RaycastAll(ray, ray_Range); //·¹ÀÌ¸¦ ½÷¼­ Ãæµ¹ÇÑ ¿ÀºêÁ§Æ® ¸®½ºÆ®¸¦ ¹Ş¾Æ¿Â´Ù.
         
-        foreach (RaycastHit hit in hitObjets) // ë‚´ìš©ì´ ìˆëŠ”ê²½ìš° ë‚´ìš©ì„ ì‹¤í–‰í•œë‹¤.
+        foreach (RaycastHit hit in hitObjets) // ³»¿ëÀÌ ÀÖ´Â°æ¿ì ³»¿ëÀ» ½ÇÇàÇÑ´Ù.
         {
-            if (hit.collider.gameObject.layer == tileLayerIndex) //íƒ€ì¼ì¸ì§€ ì²´í¬í•˜ê³  
+            if (hit.collider.gameObject.layer == tileLayerIndex) //Å¸ÀÏÀÎÁö Ã¼Å©ÇÏ°í 
             {
-                OnTileClick(hit); //íƒ€ì¼ í´ë¦­ë˜ìˆì„ë•Œ ë¡œì§ì„ ì‹¤í–‰ 
-                break; //í•œë²ˆí´ë¦­ì— í•œë²ˆë§Œ ë¡œì§ì„ ì‹¤í–‰í• ìˆ˜ìˆê²Œ ë¸Œë ˆì´í¬ë¥¼ ì¡ëŠ”ë‹¤.
+                OnTileClick(hit); //Å¸ÀÏ Å¬¸¯µÇÀÖÀ»¶§ ·ÎÁ÷À» ½ÇÇà 
+                break; //ÇÑ¹øÅ¬¸¯¿¡ ÇÑ¹ø¸¸ ·ÎÁ÷À» ½ÇÇàÇÒ¼öÀÖ°Ô ºê·¹ÀÌÅ©¸¦ Àâ´Â´Ù.
             }
-             //í´ë¦­ì´ë²¤íŠ¸ ì—¬ê¸°ì— ì¶”ê°€ë¡œì—°ê²° 
+             //Å¬¸¯ÀÌº¥Æ® ¿©±â¿¡ Ãß°¡·Î¿¬°á 
         }
 
     }
 
     /// <summary>
-    /// íƒ€ì¼ì— ì„¤ì •ëœ ê°’ì´ ì²´í¬ë˜ìˆì„ê²½ìš° 
+    /// Å¸ÀÏ¿¡ ¼³Á¤µÈ °ªÀÌ Ã¼Å©µÇÀÖÀ»°æ¿ì 
     /// </summary>
     /// <param name="hitInfo"></param>
     private void OnTileClick(RaycastHit hitInfo) 
     {
         Tile targetTile = hitInfo.transform.GetComponent<Tile>();
-        if (targetTile != null) //íƒ€ì¼ì´ í´ë¦­ Â‰ç‘›ëºåš¥ 
+        if (targetTile != null) //Å¸ÀÏÀÌ Å¬¸¯ ‰çÀ»°æ¿ì 
         {
-            switch (targetTile.ExistType) //íƒ€ì¼ ìƒíƒœí™•ì¸í•˜ê³  
+            switch (targetTile.ExistType) //Å¸ÀÏ »óÅÂÈ®ÀÎÇÏ°í 
             {
                 case Tile.TileExistType.None:
                     break;
                 case Tile.TileExistType.Charcter:
-
-                    Debug.Log($"ì´ë™ë¶ˆê°€ ìºë¦­í„°: ë ˆì´íƒ€ê²Ÿ{hitInfo.transform.name} , ìœ„ì¹˜ : {hitInfo.transform.position}");
-
+                  //  Debug.Log($"ÀÌµ¿ºÒ°¡ Ä³¸¯ÅÍ: ·¹ÀÌÅ¸°Ù{hitInfo.transform.name} , À§Ä¡ : {hitInfo.transform.position}");
                     onClickPlayer?.Invoke(targetTile); 
                     break;
                 case Tile.TileExistType.Monster:
                     onClickMonster?.Invoke(targetTile);
-                    //ëª¬ìŠ¤í„° í´ë¦­ì‹œ ëª¬ìŠ¤í„°ì—ëŒ€í•œ ì •ë³´ê°€ ë‚˜ì˜¤ë˜ ë­”ê°€ ì•¡ì…˜ì´í•„ìš”
-
-                    Debug.Log($"ì´ë™ë¶ˆê°€ ëª¬ìŠ¤í„°: ë ˆì´íƒ€ê²Ÿ{hitInfo.transform.name} , ìœ„ì¹˜ : {hitInfo.transform.position}");
-
+                    //¸ó½ºÅÍ Å¬¸¯½Ã ¸ó½ºÅÍ¿¡´ëÇÑ Á¤º¸°¡ ³ª¿À´ø ¹º°¡ ¾×¼ÇÀÌÇÊ¿ä
+                   // Debug.Log($"ÀÌµ¿ºÒ°¡ ¸ó½ºÅÍ: ·¹ÀÌÅ¸°Ù{hitInfo.transform.name} , À§Ä¡ : {hitInfo.transform.position}");
                     break;
                 case Tile.TileExistType.Item:
-                    onMoveActive?.Invoke(targetTile);//ì´ë™ë¡œì§ ì‹¤í–‰
-                    onClickItem?.Invoke(targetTile); //ì•„ì´í…œìˆëŠ”ê³³ì„ í´ë¦­í–ˆì„ë•Œ ë¡œì§ì‹¤í–‰
-                    // ì•„ì´í…œì´ íƒ€ì¼ì—ìˆëŠ”ê²½ìš° ì•„ì´í…œ ì—ëŒ€í•œ ì •ë³´ë¥¼ ë„ìš°ë˜ ë­”ê°€ì„ ì•¡ì…˜ 
+                    onMoveActive?.Invoke(targetTile);//ÀÌµ¿·ÎÁ÷ ½ÇÇà
+                    onClickItem?.Invoke(targetTile); //¾ÆÀÌÅÛÀÖ´Â°÷À» Å¬¸¯ÇßÀ»¶§ ·ÎÁ÷½ÇÇà
+                    // ¾ÆÀÌÅÛÀÌ Å¸ÀÏ¿¡ÀÖ´Â°æ¿ì ¾ÆÀÌÅÛ ¿¡´ëÇÑ Á¤º¸¸¦ ¶ç¿ì´ø ¹º°¡À» ¾×¼Ç 
                     break;
                 case Tile.TileExistType.Prop:
-
-                    Debug.Log($"ì´ë™ë¶ˆê°€ ì¥ì• ë¬¼ : ë ˆì´íƒ€ê²Ÿ{hitInfo.transform.name} , ìœ„ì¹˜ : {hitInfo.transform.position}");
+                   // Debug.Log($"ÀÌµ¿ºÒ°¡ Àå¾Ö¹° : ·¹ÀÌÅ¸°Ù{hitInfo.transform.name} , À§Ä¡ : {hitInfo.transform.position}");
                     break;
                 case Tile.TileExistType.Move:
                     //Debug.Log(targetTile);
-                    onMoveActive?.Invoke(targetTile);//ì´ë™ë¡œì§ ì‹¤í–‰
-
-                    Debug.Log($"ì´ë™ê°€ëŠ¥ : ë ˆì´íƒ€ê²Ÿ{hitInfo.transform.name} , ìœ„ì¹˜ : {hitInfo.transform.position}");
+                    onMoveActive?.Invoke(targetTile);//ÀÌµ¿·ÎÁ÷ ½ÇÇà
+                    //Debug.Log($"ÀÌµ¿°¡´É : ·¹ÀÌÅ¸°Ù{hitInfo.transform.name} , À§Ä¡ : {hitInfo.transform.position}");
                     break;
-                case Tile.TileExistType.Attack_OR_Skill:
-                    ICharcterBase[] attackArray = SpaceSurvival_GameManager.Instance.AttackRange.GetEnemyArray(out float lastDamage); //
-                    if (attackArray != null && attackArray.Length > 0) //ê³µê²©í• ì ì´ìˆì„ë• 
-                    {
-                        onAttackAction?.Invoke(attackArray, lastDamage);//ê³µê²©ë¡œì§ ì‹¤í–‰ ì êµ° ë°ë¯¸ì§€ì²˜ë¦¬ëŠ” ì•Œì•„ì„œí•˜ë„ë¡ ë°ì´í„°ë§Œë„˜ê¸°ì
-                        Debug.Log($"ê³µê²© í–ˆë‹¤ ìµœì¢…ë°ë¯¸ì§€{lastDamage} ë§ì¶˜ ì¸ì›ìˆ˜ {attackArray.Length} ");
+                case Tile.TileExistType.Attack:
+                    //Debug.Log(targetTile);
 
-                        SpaceSurvival_GameManager.Instance.To_AttackRange_From_MoveRange();
-                    }
+                    onAttackAction?.Invoke(null);//°ø°İ·ÎÁ÷ ½ÇÇà
+                   // Debug.Log($"ÀÌµ¿°¡´É : ·¹ÀÌÅ¸°Ù{hitInfo.transform.name} , À§Ä¡ : {hitInfo.transform.position}");
                     break;
                 default:
-                    Debug.Log($"ì ‘ê·¼ë˜ë©´ ì•ˆëœë‹¤.");
+                    //Debug.Log($"Á¢±ÙµÇ¸é ¾ÈµÈ´Ù.");
                     break;
             }
         }
