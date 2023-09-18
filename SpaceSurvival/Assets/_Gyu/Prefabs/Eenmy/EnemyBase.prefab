@@ -5398,8 +5398,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4766037116338723569}
   - component: {fileID: 4857105673451251785}
-  - component: {fileID: 5257528688936146856}
-  - component: {fileID: 2789460960092916274}
+  - component: {fileID: 7083335460619214778}
   m_Layer: 0
   m_Name: emymy
   m_TagString: Enemy
@@ -5464,7 +5463,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5257528688936146856
+--- !u!114 &7083335460619214778
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5473,19 +5472,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4771271621447685421}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34b6a834d0baac94ca41b41453356155, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2789460960092916274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4771271621447685421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9dddd5fedd1d78c4885a0b69d1df1a79, type: 3}
+  m_Script: {fileID: 11500000, guid: af2ead46272df00458bec7ce796fafe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4771279585146020275
@@ -5760,7 +5747,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3507285989751255585}
-  - component: {fileID: 6646838370684608292}
+  - component: {fileID: 3354069118699148264}
   m_Layer: 0
   m_Name: EnemyBase
   m_TagString: Untagged
@@ -5785,7 +5772,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6646838370684608292
+--- !u!114 &3354069118699148264
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
