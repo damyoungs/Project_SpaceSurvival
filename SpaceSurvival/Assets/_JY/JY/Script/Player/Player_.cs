@@ -26,6 +26,7 @@ public class Player_ : MonoBehaviour, IBattle
     public AnimatorOverrideController rifle_AC;
     public AnimatorOverrideController no_Weapon_AC;
 
+
     Line_Renderer lineRenderer;
     public enum WeaponType
     {
@@ -177,6 +178,7 @@ public class Player_ : MonoBehaviour, IBattle
     public Action on_DarkForce_Change;
     public Action<SkillData> on_ActiveSkill;
     public Action<Skill_Blessing> on_Buff_Start;
+    public Action<bool> on_CursorChange;
 
     int attack_Trigger_Hash = Animator.StringToHash("Attack");
     int get_Hit_Hash = Animator.StringToHash("Get_Hit");
@@ -325,8 +327,7 @@ public class Player_ : MonoBehaviour, IBattle
             on_ActiveSkill?.Invoke(skillData);
 
             Debug.Log($"스킬이름 : {skillData.SkillName}\n 데미지 : {skillData.FinalDamage}");
-
-            //애니메이션 및 사운드 재생
+            on_CursorChange?.Invoke(true);
         }
         else if (skill_Blessing != null)//만약 사용한 스킬이 버프스킬이면
         {
@@ -337,12 +338,14 @@ public class Player_ : MonoBehaviour, IBattle
             this.DP = (uint)finalDefencePoint;
             on_Buff_Start?.Invoke(skill_Blessing);// TurnBuffCount 프로퍼티로 몇턴 동안 버프가 유지될 것인지 설정되어 있습니다.
             duringBuffSkill = true;//버프스킬 발동중 표시
+            on_CursorChange?.Invoke(false);
             return;
         }
     }
-    public void SkillPostProcess()
+    public void SkillPostProcess()//skillAction 실행 후 grid 에서 호출할 함수 
     {
-
+        Stamina--;
+        on_CursorChange?.Invoke(false);
     }
     void DeBuff()//버프스킬 적용 해제
     {

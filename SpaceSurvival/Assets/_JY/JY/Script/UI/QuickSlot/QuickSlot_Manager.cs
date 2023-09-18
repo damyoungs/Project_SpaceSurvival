@@ -117,7 +117,7 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
     IEnumerator Get_References()
     {
         yield return null;
-        player = GameManager.Player__;
+        player = GameManager.Player_;
         slotManager = GameManager.SlotManager;
     }
 

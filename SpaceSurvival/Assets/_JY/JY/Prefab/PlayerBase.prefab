@@ -1795,6 +1795,7 @@ MonoBehaviour:
   moveSpeed: 0
   rotateSpeed: 0
   pickupRange: 3
+  cursorImage: {fileID: 2800000, guid: 7e3aef9644020474685ba2ea51af4489, type: 3}
 --- !u!136 &1031603625879402150
 CapsuleCollider:
   m_ObjectHideFlags: 0
