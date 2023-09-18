@@ -1,4 +1,4 @@
-ï»¿using System;
+using System;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -8,26 +8,26 @@ using UnityEngine.InputSystem.EnhancedTouch;
 public class AttackRange : MonoBehaviour
 {
     /// <summary>
-    /// ê³µê²© ê°€ëŠ¥í•œ ë²”ìœ„ë¥¼ í‘œì‹œí•´ì¤„ ì»´í¬ë„ŒíŠ¸
-    /// íœ   , ìºë¦­í„°ê°€ ë°”ë¼ë³´ëŠ” ë°©í–¥  
+    /// °ø°İ °¡´ÉÇÑ ¹üÀ§¸¦ Ç¥½ÃÇØÁÙ ÄÄÆ÷³ÍÆ®
+    /// ÈÙ  , Ä³¸¯ÅÍ°¡ ¹Ù¶óº¸´Â ¹æÇâ  
     /// </summary>
     //[Flags]
     //enum AttackRangeType : byte
     //{
     //    None = 0,
-    //    Dot = 1,                // í•œì¹¸ ë§ˆìš°ìŠ¤ê°€ ìˆëŠ”ì§€ì 
-    //    Line = 2,               // ìºë¦­í„°ë¡œ ë¶€í„° ì¼ì§ì„  ìœ¼ë¡œ ë‚˜ê°€ëŠ” ë¼ì¸
-    //    Pie = 4,                // ìºë¦­í„° ê¸°ì¤€ìœ¼ë¡œë¶€í„° ë¶€ì±„ê¼´ë¡œ í¼ì³ì§€ëŠ” ë¼ì¸ 
-    //    Cross = 8,               // ë§ˆìš°ìŠ¤ê°€ ìˆëŠ”ì§€ì (ê°€ìš´ë°)ì—ì„œ ì‹­ìë¡œ  ë™ì„œë‚¨ë¶ìœ¼ë¡œ ë»—ì–´ë‚˜ê°€ëŠ” ë‘ì„ 
-    //    Cube = 16,              // ë§ˆìš°ìŠ¤ê°€ ìˆëŠ”ì§€ì ì„ ì¤‘ì ìœ¼ë¡œ ì •ì‚¬ê°í˜•ìœ¼ë¡œ í‘œì‹œí•´ì£¼ëŠ” ë°©ë²•
-    //    XLine = 32,             // ë§ˆìš°ìŠ¤ê°€ ìˆëŠ”ì§€ì (ê°€ìš´ë°)ì—ì„œ ëŒ€ê°ì„ ìœ¼ë¡œ X í˜•ì‹ìœ¼ë¡œ ë»—ì–´ ë‚˜ê°€ëŠ” ë‘ì„ 
-    //                            // ì•„ë˜ëŠ” íœ ë¡œ ëŒë ¸ì„ë•Œ ëª¨ì–‘ì´ ë°”ë€ŒëŠ” ì„¤ì •ê°’ë“¤ 
-    //    Horizontal = 64,        // ë§ˆìš°ìŠ¤ê°€ ìˆëŠ”ì§€ì (ê°€ìš´ë°)ì—ì„œ ê°€ë¡œë¡œ  ì¢Œ ìš°ë¡œ ë»—ì–´ë‚˜ê°€ëŠ” ì¼ì§ì„  
-    //    Vertical = 128,         // ë§ˆìš°ìŠ¤ê°€ ìˆëŠ”ì§€ì (ê°€ìš´ë°)ì—ì„œ ì„¸ë¡œë¡œ  ìœ„ ì•„ë˜ë¡œ ë»—ì–´ë‚˜ê°€ëŠ” ì¼ì§ì„ 
+    //    Dot = 1,                // ÇÑÄ­ ¸¶¿ì½º°¡ ÀÖ´ÂÁöÁ¡
+    //    Line = 2,               // Ä³¸¯ÅÍ·Î ºÎÅÍ ÀÏÁ÷¼± À¸·Î ³ª°¡´Â ¶óÀÎ
+    //    Pie = 4,                // Ä³¸¯ÅÍ ±âÁØÀ¸·ÎºÎÅÍ ºÎÃ¤²Ã·Î ÆîÃÄÁö´Â ¶óÀÎ 
+    //    Cross = 8,               // ¸¶¿ì½º°¡ ÀÖ´ÂÁöÁ¡(°¡¿îµ¥)¿¡¼­ ½ÊÀÚ·Î  µ¿¼­³²ºÏÀ¸·Î »¸¾î³ª°¡´Â µÎ¼±
+    //    Cube = 16,              // ¸¶¿ì½º°¡ ÀÖ´ÂÁöÁ¡À» ÁßÁ¡À¸·Î Á¤»ç°¢ÇüÀ¸·Î Ç¥½ÃÇØÁÖ´Â ¹æ¹ı
+    //    XLine = 32,             // ¸¶¿ì½º°¡ ÀÖ´ÂÁöÁ¡(°¡¿îµ¥)¿¡¼­ ´ë°¢¼±À¸·Î X Çü½ÄÀ¸·Î »¸¾î ³ª°¡´Â µÎ¼±
+    //                            // ¾Æ·¡´Â ÈÙ·Î µ¹·ÈÀ»¶§ ¸ğ¾çÀÌ ¹Ù²î´Â ¼³Á¤°ªµé 
+    //    Horizontal = 64,        // ¸¶¿ì½º°¡ ÀÖ´ÂÁöÁ¡(°¡¿îµ¥)¿¡¼­ °¡·Î·Î  ÁÂ ¿ì·Î »¸¾î³ª°¡´Â ÀÏÁ÷¼± 
+    //    Vertical = 128,         // ¸¶¿ì½º°¡ ÀÖ´ÂÁöÁ¡(°¡¿îµ¥)¿¡¼­ ¼¼·Î·Î  À§ ¾Æ·¡·Î »¸¾î³ª°¡´Â ÀÏÁ÷¼±
     //}
     /// <summary>
-    /// ê¸°ì¤€ì ìœ¼ë¡œë¶€í„°ì˜ íšŒì „ë°©í–¥ 
-    /// ì¹´ë©”ë¼ íšŒì „ë„ìˆê¸°ë•Œë¬¸ì— ì¹´ë©”ë¼ê°€ íšŒì „ì´ ì•ˆë˜ìˆëŠ”ê°’ì´ ê¸°ì¤€ì´ëœë‹¤. 
+    /// ±âÁØÁ¡À¸·ÎºÎÅÍÀÇ È¸Àü¹æÇâ 
+    /// Ä«¸Ş¶ó È¸ÀüµµÀÖ±â¶§¹®¿¡ Ä«¸Ş¶ó°¡ È¸ÀüÀÌ ¾ÈµÇÀÖ´Â°ªÀÌ ±âÁØÀÌµÈ´Ù. 
     /// 
     /// </summary>
     [Flags]
@@ -41,45 +41,45 @@ public class AttackRange : MonoBehaviour
         //All = 15,               //0000 1111
     }
     /// <summary>
-    /// ì–´íƒë²„íŠ¼ì´ë‚˜ ìŠ¤í‚¬ë²„íŠ¼ì„ëˆŒëŸ¬ì„œ 
-    /// ë²”ìœ„í‘œì‹œí•˜ê¸°ìœ„í•œ ë¡œì§ì„ ì‹¤í–‰ì¤‘ì¸ì§€ ì²´í¬í•  ë³€ìˆ˜
+    /// ¾îÅÃ¹öÆ°ÀÌ³ª ½ºÅ³¹öÆ°À»´­·¯¼­ 
+    /// ¹üÀ§Ç¥½ÃÇÏ±âÀ§ÇÑ ·ÎÁ÷À» ½ÇÇàÁßÀÎÁö Ã¼Å©ÇÒ º¯¼ö
     /// </summary>
     public bool isAttacRange = false;
 
 
     /// <summary>
-    /// ì¼ë°˜ê³µê²©ì˜ ë²”ìœ„í‘œì‹œë‚˜ 
-    /// ìŠ¤í‚¬ê³µê²©ì˜ ë²”ìœ„í‘œì‹œê°€ ì‹œì‘ë¬ìŒì„ ì²´í¬í•  ë³€ìˆ˜
+    /// ÀÏ¹İ°ø°İÀÇ ¹üÀ§Ç¥½Ã³ª 
+    /// ½ºÅ³°ø°İÀÇ ¹üÀ§Ç¥½Ã°¡ ½ÃÀÛ‰çÀ½À» Ã¼Å©ÇÒ º¯¼ö
     /// </summary>
     public bool isSkillAndAttack = false;
 
     /// <summary>
-    /// íƒ€ì¼ì˜ ë ˆì´ì–´ê°’ì„ ì €ì¥í•´ë‘˜ ë³€ìˆ˜
+    /// Å¸ÀÏÀÇ ·¹ÀÌ¾î°ªÀ» ÀúÀåÇØµÑ º¯¼ö
     /// </summary>
     [SerializeField]
     int tileLayerIndex;
 
     /// <summary>
-    /// ë ˆì´ì˜ ê¸¸ì´ 
+    /// ·¹ÀÌÀÇ ±æÀÌ 
     /// </summary>
     [SerializeField]
     float ray_Range = 30.0f;
 
     /// <summary>
-    /// ì²­ì†Œ ëë‚˜ê³ ë‚˜ì„œ ë‹¤ì‹œê²€ìƒ‰í• ìˆ˜ìˆê²Œ ì²´í¬í•˜ëŠ”ë³€ìˆ˜
+    /// Ã»¼Ò ³¡³ª°í³ª¼­ ´Ù½Ã°Ë»öÇÒ¼öÀÖ°Ô Ã¼Å©ÇÏ´Âº¯¼ö
     /// </summary>
     bool isClear = false;
 
-    //---------- ê³µê²©ë²”ìœ„ í‘œì‹œìš© ë³€ìˆ˜
+    //---------- °ø°İ¹üÀ§ Ç¥½Ã¿ë º¯¼ö
     /// <summary>
-    /// ê³µê²©ê°€ëŠ¥í•œ ë²”ìœ„ì˜ íƒ€ì¼ë“¤ì„ ë‹´ì•„ë‘˜ ë¦¬ìŠ¤íŠ¸
+    /// °ø°İ°¡´ÉÇÑ ¹üÀ§ÀÇ Å¸ÀÏµéÀ» ´ã¾ÆµÑ ¸®½ºÆ®
     /// </summary>
     [SerializeField]
     List<Tile> attackRangeTiles;
 
     /// <summary>
-    /// ê³µê²©ë²”ìœ„ í‘œì‹œí•˜ê¸°ì „ì— ì €ì¥í•´ë‘˜ íƒ€ì¼ íƒ€ì…
-    /// attackRangeTiles ê³¼ ìˆœì„œë¥¼ ë§ì¶°ì¤˜ì•¼í•œë‹¤.
+    /// °ø°İ¹üÀ§ Ç¥½ÃÇÏ±âÀü¿¡ ÀúÀåÇØµÑ Å¸ÀÏ Å¸ÀÔ
+    /// attackRangeTiles °ú ¼ø¼­¸¦ ¸ÂÃçÁà¾ßÇÑ´Ù.
     /// </summary>
     [SerializeField]
     List<Tile.TileExistType> revertTileTypes;
@@ -87,21 +87,21 @@ public class AttackRange : MonoBehaviour
 
 
 
-    //---------- ìŠ¤í‚¬(ì¼ë°˜ê³µê²©) ë²”ìœ„ í‘œì‹œìš© ë³€ìˆ˜
+    //---------- ½ºÅ³(ÀÏ¹İ°ø°İ) ¹üÀ§ Ç¥½Ã¿ë º¯¼ö
     /// <summary>
-    /// ê³µê²©ì´ë‚˜ ìŠ¤í‚¬ì´ í‘œì‹œë  íƒ€ì¼ë¦¬ìŠ¤íŠ¸
+    /// °ø°İÀÌ³ª ½ºÅ³ÀÌ Ç¥½ÃµÉ Å¸ÀÏ¸®½ºÆ®
     /// </summary>
     List<Tile> activeAttackTiles;
     
     /// <summary>
-    /// ê³µê²©íƒ€ì…ì—ë”°ë¥¸ ë³µì›ì‹œí‚¬ ì´ì „íƒ€ì¼ì†ì„±  
-    /// activeAttackTiles ê³¼ ìˆœì„œë¥¼ ë§ì¶°ì•¼í•œë‹¤.
+    /// °ø°İÅ¸ÀÔ¿¡µû¸¥ º¹¿ø½ÃÅ³ ÀÌÀüÅ¸ÀÏ¼Ó¼º  
+    /// activeAttackTiles °ú ¼ø¼­¸¦ ¸ÂÃç¾ßÇÑ´Ù.
     /// </summary>
     List<Tile.TileExistType> revertAttackRangeTileType;
 
 
     /// <summary>
-    /// ê³µê²©ë²”ìœ„ í‘œì‹œí•´ì¤„ íƒ€ì¼ ìœ„ì¹˜
+    /// °ø°İ¹üÀ§ Ç¥½ÃÇØÁÙ Å¸ÀÏ À§Ä¡
     /// </summary>
     [SerializeField]
     Tile attackCurrentTile;
@@ -110,10 +110,10 @@ public class AttackRange : MonoBehaviour
         get => attackCurrentTile;
         set
         {
-            if (attackCurrentTile != value) //íƒ€ì¼ì´ ë§¤ë²ˆë“¤ì–´ì˜¤ê²Ÿì§€ë§Œ ë¹„êµí•´ì„œ ë‹¤ë¥¸íƒ€ì¼ì¼ë•Œë§Œ 
+            if (attackCurrentTile != value) //Å¸ÀÏÀÌ ¸Å¹øµé¾î¿À°ÙÁö¸¸ ºñ±³ÇØ¼­ ´Ù¸¥Å¸ÀÏÀÏ¶§¸¸ 
             {
                 attackCurrentTile = value;
-                //ë¡œì§ì‹¤í–‰í•˜ì
+                //·ÎÁ÷½ÇÇàÇÏÀÚ
                 SkillRange_Tile_View(value);
 
             }
@@ -121,7 +121,7 @@ public class AttackRange : MonoBehaviour
     }
 
     ///// <summary>
-    ///// í˜„ì¬ ê³µê²©ë²”ìœ„í‘œì‹œí•´ì¤„ íƒ€ì… 
+    ///// ÇöÀç °ø°İ¹üÀ§Ç¥½ÃÇØÁÙ Å¸ÀÔ 
     ///// </summary>
     //[SerializeField]
     //AttackRangeType attackType = AttackRangeType.None;
@@ -133,13 +133,13 @@ public class AttackRange : MonoBehaviour
     //        if (attackType != value)
     //        {
     //            attackType = value;
-    //            //ì‚¬ìš© ìŠ¤í‚¬ì„ êµì²´í•˜ë©´ ì‹¤í–‰ 
+    //            //»ç¿ë ½ºÅ³À» ±³Ã¼ÇÏ¸é ½ÇÇà 
     //        }
     //    }
     //}
 
     /// <summary>
-    /// í˜„ì¬ ê³µê²©ë°©í–¥ì„ ì •í•  ê°’
+    /// ÇöÀç °ø°İ¹æÇâÀ» Á¤ÇÒ °ª
     /// </summary>
     [SerializeField]
     DirectionRangeType attackDir = DirectionRangeType.None;
@@ -151,14 +151,14 @@ public class AttackRange : MonoBehaviour
             if (attackDir != value) 
             {
                 attackDir = value;
-                //íœ ì´ë‚˜ ë°©í–¥ì„ ë°”ê¾¸ëŠ” ì¸í’‹ì´ ë“¤ì–´ì˜¬ë•Œ ì²˜ë¦¬
+                //ÈÙÀÌ³ª ¹æÇâÀ» ¹Ù²Ù´Â ÀÎÇ²ÀÌ µé¾î¿Ã¶§ Ã³¸®
                 SkillRange_Tile_View(attackCurrentTile);
             }
         }
     }
 
     /// <summary>
-    /// í˜„ì¬ ê³µê²©ì„ í–‰í•˜ëŠ” ìœ ë‹› 
+    /// ÇöÀç °ø°İÀ» ÇàÇÏ´Â À¯´Ö 
     /// </summary>
     BattleMapPlayerBase player_Unit;
     BattleMapPlayerBase Player_Unit 
@@ -166,14 +166,14 @@ public class AttackRange : MonoBehaviour
         get => player_Unit;
         set 
         {
-            if (player_Unit != value) //ë‹¤ë¥¸ìºë¦­ìœ¼ë¡œ ë°”ê¼ˆìœ¼ë©´ 
+            if (player_Unit != value) //´Ù¸¥Ä³¸¯À¸·Î ¹Ù²¼À¸¸é 
             {
-                if (player_Unit != null)  //ê¸°ì¡´ìºë¦­í„° ìˆì„ë•Œ 
+                if (player_Unit != null)  //±âÁ¸Ä³¸¯ÅÍ ÀÖÀ»¶§ 
                 {
-                    player_Unit.CharcterData.on_ActiveSkill = null; //ì•¡ì…˜ì—°ê²°ëŠê³  
+                    player_Unit.CharcterData.on_ActiveSkill = null; //¾×¼Ç¿¬°á²÷°í 
                 }
-                player_Unit = value; //ìƒˆë¡­ê²Œ ì»¨íŠ¸ë¡¤í•  ìºë¦­í„° ì…‹íŒ…í•˜ê³  
-                player_Unit.CharcterData.on_ActiveSkill = ActiveSkill; //ì•¡ì…˜ì—°ê²° ë‹¤ì‹œí•œë‹¤.
+                player_Unit = value; //»õ·Ó°Ô ÄÁÆ®·ÑÇÒ Ä³¸¯ÅÍ ¼ÂÆÃÇÏ°í 
+                player_Unit.CharcterData.on_ActiveSkill = ActiveSkill; //¾×¼Ç¿¬°á ´Ù½ÃÇÑ´Ù.
                 
             }
         }
@@ -182,7 +182,7 @@ public class AttackRange : MonoBehaviour
     public Func<Player_> playerCharcter;
 
     /// <summary>
-    /// ìœ ë‹›ì´ ì‚¬ìš©í•˜ê³ ìˆëŠ” ìŠ¤í‚¬ 
+    /// À¯´ÖÀÌ »ç¿ëÇÏ°íÀÖ´Â ½ºÅ³ 
     /// </summary>
     SkillData currentSkill;
     SkillData CurrentSkill 
@@ -190,27 +190,27 @@ public class AttackRange : MonoBehaviour
         get=> currentSkill;
         set 
         {
-            if (currentSkill != value)  //ì‚¬ìš©ì¤‘ì¸ ìŠ¤í‚¬ì´ ë°”ë€”ë•Œ
+            if (currentSkill != value)  //»ç¿ëÁßÀÎ ½ºÅ³ÀÌ ¹Ù²ğ¶§
             {
-                currentSkill = value;                   // ê°’ì…‹íŒ…í•˜ê³  
-                SkillRange_Tile_View(attackCurrentTile);// ë²”ìœ„í‘œì‹œë‹¤ì‹œì²˜ë¦¬
+                currentSkill = value;                   // °ª¼ÂÆÃÇÏ°í 
+                SkillRange_Tile_View(attackCurrentTile);// ¹üÀ§Ç¥½Ã´Ù½ÃÃ³¸®
             }
         }
     }
     /// <summary>
-    /// 8ë°©í–¥ ì¢Œí‘œê°’ ìˆœì„œë¡œ ì €ì¥í•´ë†“ê¸° 
-    /// ê´€í†µ(Penetrate)ì„¤ì •ì‹œ ì‚¬ìš© 
+    /// 8¹æÇâ ÁÂÇ¥°ª ¼ø¼­·Î ÀúÀåÇØ³õ±â 
+    /// °üÅë(Penetrate)¼³Á¤½Ã »ç¿ë 
     /// </summary>
     Vector2Int[] eightWayRotateValues = new Vector2Int[]
     {
-        new Vector2Int(0,1),    //ë¶
-        new Vector2Int(1,1),    //ë¶ë™
-        new Vector2Int(1,0),    //ë™
-        new Vector2Int(1,-1),   //ë‚¨ë™
-        new Vector2Int(0,-1),   //ë‚¨
-        new Vector2Int(-1,-1),  //ë‚¨ì„œ
-        new Vector2Int(-1,0),   //ì„œ
-        new Vector2Int(-1,1)    //ë¶ì„œ
+        new Vector2Int(0,1),    //ºÏ
+        new Vector2Int(1,1),    //ºÏµ¿
+        new Vector2Int(1,0),    //µ¿
+        new Vector2Int(1,-1),   //³²µ¿
+        new Vector2Int(0,-1),   //³²
+        new Vector2Int(-1,-1),  //³²¼­
+        new Vector2Int(-1,0),   //¼­
+        new Vector2Int(-1,1)    //ºÏ¼­
     };
 
     private void Awake()
@@ -222,13 +222,13 @@ public class AttackRange : MonoBehaviour
 
         tileLayerIndex = LayerMask.NameToLayer("Ground");
 
-        SpaceSurvival_GameManager.Instance.GetAttackRangeComp = () => this; //ë°ì´í„° ì—°ê²°í•˜ê¸° 
+        SpaceSurvival_GameManager.Instance.GetAttackRangeComp = () => this; //µ¥ÀÌÅÍ ¿¬°áÇÏ±â 
     }
 
     /// <summary>
-    /// í„´ ì‹œì‘í• ë•Œ ì´ˆê¸°í™”í•  í•¨ìˆ˜
+    /// ÅÏ ½ÃÀÛÇÒ¶§ ÃÊ±âÈ­ÇÒ ÇÔ¼ö
     /// </summary>
-    /// <param name="controllUnit">ì»¨íŠ¸ë¡¤í•  ìœ ë‹›</param>
+    /// <param name="controllUnit">ÄÁÆ®·ÑÇÒ À¯´Ö</param>
     public void InitDataSet(BattleMapPlayerBase controllUnit) 
     {
         if (controllUnit != null) 
@@ -243,11 +243,11 @@ public class AttackRange : MonoBehaviour
         SetAttackDir(context.ReadValue<float>());
     }
     /// <summary>
-    /// ë¡œì§ì§œê¸°ê·€ì°®ì•„ì„œ ìŠ¤ìœ„ì¹˜ë¡œ ì²˜ë¦¬..
-    /// ë°©í–¥í‘œì‹œê°€ ì—†ëŠ”êµ¬ê°„ë„ìˆìœ¼ë‹ˆ ë¬´ì¡°ê±´ ì²˜ë¦¬í•˜ëŠ”ê²Œì•„ë‹ˆë¼ ë°©í–¥ì²˜ë¦¬ì—†ëŠ” ê³³ì€ ê±´ë„ˆë›°ëŠ”ë¡œì§ë„ í•„ìš”í• ë“¯ì‹¶ë‹¤ .
-    /// ê·¸ëŸ´ë ¤ë©´ ë²”ìœ„í‘œì‹œí•˜ëŠ”ê³³ì—ì„œ ì¹´ìš´íŒ…í•œ ê°’ì„ 8ë°©í–¥ ë§Œí¼ ì „ë¶€ì €ì¥í•˜ê³  0ì¼ë•ŒëŠ” ê±´ë„ˆë›°ëŠ”ë¡œì§ì´ í•„ìš”.
+    /// ·ÎÁ÷Â¥±â±ÍÂú¾Æ¼­ ½ºÀ§Ä¡·Î Ã³¸®..
+    /// ¹æÇâÇ¥½Ã°¡ ¾ø´Â±¸°£µµÀÖÀ¸´Ï ¹«Á¶°Ç Ã³¸®ÇÏ´Â°Ô¾Æ´Ï¶ó ¹æÇâÃ³¸®¾ø´Â °÷Àº °Ç³Ê¶Ù´Â·ÎÁ÷µµ ÇÊ¿äÇÒµí½Í´Ù .
+    /// ±×·²·Á¸é ¹üÀ§Ç¥½ÃÇÏ´Â°÷¿¡¼­ Ä«¿îÆÃÇÑ °ªÀ» 8¹æÇâ ¸¸Å­ ÀüºÎÀúÀåÇÏ°í 0ÀÏ¶§´Â °Ç³Ê¶Ù´Â·ÎÁ÷ÀÌ ÇÊ¿ä.
     /// </summary>
-    /// <param name="mouseWheelValue">íœ ë°©í–¥</param>
+    /// <param name="mouseWheelValue">ÈÙ¹æÇâ</param>
     private void SetAttackDir(float mouseWheelValue) 
     {
         if (mouseWheelValue > 0) 
@@ -314,33 +314,33 @@ public class AttackRange : MonoBehaviour
     }
 
     /// <summary>
-    /// ìºë¦­í„° ìª½ì—ì„œ ìŠ¤í‚¬ì„ ëˆ„ë¥´ê±°ë‚˜ ë‹¨ì¶•í‚¤ë¡œ ìŠ¤í‚¬ì„ ì‚¬ìš©í• ë•Œ ë°œë™í•˜ëŠ” í•¨ìˆ˜ 
-    /// ë‚´ìª½ì—ì„œëŠ” ë“¤ì–´ì˜¨ ìŠ¤í‚¬ë¡œ ë²”ìœ„ë¥¼ êµ¬ë¶„í•´ì„œ í‘œì‹œí•´ì£¼ë©´ëœë‹¤.
+    /// Ä³¸¯ÅÍ ÂÊ¿¡¼­ ½ºÅ³À» ´©¸£°Å³ª ´ÜÃàÅ°·Î ½ºÅ³À» »ç¿ëÇÒ¶§ ¹ßµ¿ÇÏ´Â ÇÔ¼ö 
+    /// ³»ÂÊ¿¡¼­´Â µé¾î¿Â ½ºÅ³·Î ¹üÀ§¸¦ ±¸ºĞÇØ¼­ Ç¥½ÃÇØÁÖ¸éµÈ´Ù.
     /// </summary>
-    /// <param name="skillData">ìŠ¤í‚¬ì—ëŒ€í•œ ì •ë³´ë¥¼ ê°€ì§€ê³ ìˆëŠ” ë°ì´í„°</param>
+    /// <param name="skillData">½ºÅ³¿¡´ëÇÑ Á¤º¸¸¦ °¡Áö°íÀÖ´Â µ¥ÀÌÅÍ</param>
     private void ActiveSkill(SkillData skillData)
     {
         currentSkill = skillData;
-        if (isAttacRange) //ê¸°ì¡´ì— ìŠ¤í‚¬ì‚¬ìš©ì¤‘ ì¼ë•Œë¥¼ ì²´í¬í•´ì„œ 
+        if (isAttacRange) //±âÁ¸¿¡ ½ºÅ³»ç¿ëÁß ÀÏ¶§¸¦ Ã¼Å©ÇØ¼­ 
         {
-            ClearLineRenderer();        //ê¸°ì¡´ì— ì‚¬ìš©ì¤‘ì¸ ë²”ìœ„ ë°ì´í„° ì§€ìš°ê³  
-            isAttacRange = false;       //ì‚¬ìš© ì œì–´ë¥¼ë„ê³  
+            ClearLineRenderer();        //±âÁ¸¿¡ »ç¿ëÁßÀÎ ¹üÀ§ µ¥ÀÌÅÍ Áö¿ì°í 
+            isAttacRange = false;       //»ç¿ë Á¦¾î¸¦²ô°í 
 
         }
-        if (TurnManager.Instance.CurrentTurn is PlayerTurnObject pto) //í˜„ì¬ í„´ì¸ì§€ ì²´í¬í•˜ê³  í˜•ë³€í™˜ê°€ëŠ¥í•˜ë©´true ë‹ˆê¹ ì•„êµ°í„´
+        if (TurnManager.Instance.CurrentTurn is PlayerTurnObject pto) //ÇöÀç ÅÏÀÎÁö Ã¼Å©ÇÏ°í Çüº¯È¯°¡´ÉÇÏ¸étrue ´Ï±ñ ¾Æ±ºÅÏ
         {
-            BattleMapPlayerBase player = (BattleMapPlayerBase)pto.CurrentUnit; //ì•„êµ°í„´ì´ë©´ ì•„êµ°ìœ ë‹›ì´ ë¬´ì¡°ê±´ìˆìŒìœ¼ë¡œ ê·¸ëƒ¥í˜•ë³€í™˜ì‹œí‚¨ë‹¤.
-            SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(player.CurrentTile); //ì´ë™ ì§€ìš°ê³  
+            BattleMapPlayerBase player = (BattleMapPlayerBase)pto.CurrentUnit; //¾Æ±ºÅÏÀÌ¸é ¾Æ±ºÀ¯´ÖÀÌ ¹«Á¶°ÇÀÖÀ½À¸·Î ±×³ÉÇüº¯È¯½ÃÅ²´Ù.
+            SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(player.CurrentTile); //ÀÌµ¿ Áö¿ì°í 
             switch (currentSkill.SkillType)
             {
                 case SkillType.Sniping:
                 case SkillType.Normal:
-                    AttackRangeTileView(player.CurrentTile, skillData.AttackRange); //ê³µê²©ë²”ìœ„í‘œì‹œ
+                    AttackRangeTileView(player.CurrentTile, skillData.AttackRange); //°ø°İ¹üÀ§Ç¥½Ã
                     AttackDir = DirectionRangeType.None;
                     break;
 
                 case SkillType.Penetrate:
-                    PenetrateAttackRangeTileView(player.CurrentTile, skillData.AttackRange); //ê´€í†µê³µê²©ë²”ìœ„ í‘œì‹œ
+                    PenetrateAttackRangeTileView(player.CurrentTile, skillData.AttackRange); //°üÅë°ø°İ¹üÀ§ Ç¥½Ã
                     AttackDir = DirectionRangeType.North;
                     break;
 
@@ -349,13 +349,13 @@ public class AttackRange : MonoBehaviour
                 default:
                     break;
             }
-            CurrentSkill = skillData;   // ë²”ìœ„ì…‹íŒ…í–ˆìœ¼ë©´ ìŠ¤í‚¬ë°ì´í„°ë„ ê°±ì‹ 
+            CurrentSkill = skillData;   // ¹üÀ§¼ÂÆÃÇßÀ¸¸é ½ºÅ³µ¥ÀÌÅÍµµ °»½Å
         }
        
     }
 
     /// <summary>
-    /// ë§ˆìš°ìŠ¤ ì´ë™ ê°ì§€ìš© ì¸í’‹ì‹œìŠ¤í…œ ì—°ê²° í•¨ìˆ˜
+    /// ¸¶¿ì½º ÀÌµ¿ °¨Áö¿ë ÀÎÇ²½Ã½ºÅÛ ¿¬°á ÇÔ¼ö
     /// </summary>
     private void OnMouseMove(InputAction.CallbackContext context)
     {
@@ -364,33 +364,33 @@ public class AttackRange : MonoBehaviour
     }
 
     /// <summary>
-    /// ë§ˆìš°ìŠ¤ ìœ„ì¹˜ì—ë”°ë¥¸ íƒ€ì¼ ì°¾ê¸°
+    /// ¸¶¿ì½º À§Ä¡¿¡µû¸¥ Å¸ÀÏ Ã£±â
     /// </summary>
-    /// <param name="mouseScreenPos">ë§ˆìš°ìŠ¤ì˜ ìŠ¤í¬ë¦° ì¢Œí‘œ</param>
+    /// <param name="mouseScreenPos">¸¶¿ì½ºÀÇ ½ºÅ©¸° ÁÂÇ¥</param>
     private void AttackRangeView(Vector2 mouseScreenPos)
     {
-        if (!isClear) //íƒ€ì¼ê°±ì‹ ì¤‘ì— ì¤‘ë³µì‹¤í–‰ë˜ë©´ ì•ˆë˜ë‹ˆ ì²´í¬
+        if (!isClear) //Å¸ÀÏ°»½ÅÁß¿¡ Áßº¹½ÇÇàµÇ¸é ¾ÈµÇ´Ï Ã¼Å©
         {
-            Ray ray = Camera.main.ScreenPointToRay(mouseScreenPos);      // í™”ë©´ì—ì„œ í˜„ì¬ ë§ˆìš°ìŠ¤ì˜ ìœ„ì¹˜ë¡œ ì˜ëŠ” ë¹›
-            Debug.DrawRay(ray.origin, ray.direction * ray_Range, Color.black, 1.0f);              // ë””ë²„ê·¸ìš© ë ˆì´ì €
+            Ray ray = Camera.main.ScreenPointToRay(mouseScreenPos);      // È­¸é¿¡¼­ ÇöÀç ¸¶¿ì½ºÀÇ À§Ä¡·Î ½î´Â ºû
+            Debug.DrawRay(ray.origin, ray.direction * ray_Range, Color.black, 1.0f);              // µğ¹ö±×¿ë ·¹ÀÌÀú
 
-            RaycastHit[] hitObjets = Physics.RaycastAll(ray, ray_Range); //ë ˆì´ë¥¼ ì´ì„œ ì¶©ëŒí•œ ì˜¤ë¸Œì íŠ¸ ë¦¬ìŠ¤íŠ¸ë¥¼ ë°›ì•„ì˜¨ë‹¤.
+            RaycastHit[] hitObjets = Physics.RaycastAll(ray, ray_Range); //·¹ÀÌ¸¦ ½÷¼­ Ãæµ¹ÇÑ ¿ÀºêÁ§Æ® ¸®½ºÆ®¸¦ ¹Ş¾Æ¿Â´Ù.
 
-            foreach (RaycastHit hit in hitObjets) // ë‚´ìš©ì´ ìˆëŠ”ê²½ìš° ë‚´ìš©ì„ ì‹¤í–‰í•œë‹¤.
+            foreach (RaycastHit hit in hitObjets) // ³»¿ëÀÌ ÀÖ´Â°æ¿ì ³»¿ëÀ» ½ÇÇàÇÑ´Ù.
             {
-                if (hit.collider.gameObject.layer == tileLayerIndex) //íƒ€ì¼ì¸ì§€ ì²´í¬í•˜ê³  
+                if (hit.collider.gameObject.layer == tileLayerIndex) //Å¸ÀÏÀÎÁö Ã¼Å©ÇÏ°í 
                 {
                     Tile cusorTile = hit.transform.GetComponent<Tile>();
                     if (cusorTile.ExistType == Tile.TileExistType.AttackRange ||
                         cusorTile.ExistType == Tile.TileExistType.Attack_OR_Skill
-                        ) //ê³µê²©ë²”ìœ„ì•ˆì—ì„œë§Œ ë³´ì—¬ì•¼í•œë‹¤. 
+                        ) //°ø°İ¹üÀ§¾È¿¡¼­¸¸ º¸¿©¾ßÇÑ´Ù. 
                     {
-                        AttackCurrentTile = cusorTile; //ì°¾ì€ íƒ€ì¼ì„ ê³„ì† ì…ë ¥í•´ì¤€ë‹¤!!!
+                        AttackCurrentTile = cusorTile; //Ã£Àº Å¸ÀÏÀ» °è¼Ó ÀÔ·ÂÇØÁØ´Ù!!!
 
                     }
-                    //ë‹¤ë¥¸ë°©ë²•ì—†ë‚˜..? êµ¬ì¡°ë¥¼ë°”ê¿”ì•¼..ë˜ë‚˜?
-                    //ë‹¤ë¥¸ë°©ë²• Tile í´ë˜ìŠ¤ ë‚´ë¶€ì—ë‹¤ê°€ OnMouseEnter í•¨ìˆ˜ë¥¼ ì´ìš©í•´ì„œ ë°ì´í„°ë¥¼ ë®ì–´ì”Œìš°ëŠ”ë°©ë²•ë„ìˆê¸´í•œë°.. ì–´ë–¤ê±¸ì“¸ê°€..
-                    break; //í•œë²ˆì°¾ìœ¼ë©´ ë”ì´ìƒ ì°¾ì„í•„ìš”ì—†ìœ¼ë‹ˆ ë‚˜ê°€ì.
+                    //´Ù¸¥¹æ¹ı¾ø³ª..? ±¸Á¶¸¦¹Ù²ã¾ß..µÇ³ª?
+                    //´Ù¸¥¹æ¹ı Tile Å¬·¡½º ³»ºÎ¿¡´Ù°¡ OnMouseEnter ÇÔ¼ö¸¦ ÀÌ¿ëÇØ¼­ µ¥ÀÌÅÍ¸¦ µ¤¾î¾º¿ì´Â¹æ¹ıµµÀÖ±äÇÑµ¥.. ¾î¶²°É¾µ°¡..
+                    break; //ÇÑ¹øÃ£À¸¸é ´õÀÌ»ó Ã£À»ÇÊ¿ä¾øÀ¸´Ï ³ª°¡ÀÚ.
                 }
             }
         }
@@ -398,17 +398,17 @@ public class AttackRange : MonoBehaviour
 
 
     /// <summary>
-    /// ìŠ¤í‚¬ì˜ ê³µê²©ë²”ìœ„ë¥¼ í‘œì‹œí•  í•¨ìˆ˜ ì¼ë°˜ê³µê²© í¬í•¨ 
-    /// ì‹¤í–‰íƒ€ì´ë° : íƒ€ì¼ì´ ë°”ë€Œê±°ë‚˜ ìŠ¤í‚¬ì´ ë°”ë€”ë•Œ í˜¸ì¶œë¨
+    /// ½ºÅ³ÀÇ °ø°İ¹üÀ§¸¦ Ç¥½ÃÇÒ ÇÔ¼ö ÀÏ¹İ°ø°İ Æ÷ÇÔ 
+    /// ½ÇÇàÅ¸ÀÌ¹Ö : Å¸ÀÏÀÌ ¹Ù²î°Å³ª ½ºÅ³ÀÌ ¹Ù²ğ¶§ È£ÃâµÊ
     /// </summary>
-    /// <param name="targetTile">ê³µê²©í•  ì›ì ìœ„ì¹˜</param>
+    /// <param name="targetTile">°ø°İÇÒ ¿øÁ¡À§Ä¡</param>
     private void SkillRange_Tile_View(Tile targetTile)
     {
-        //ê³µê²©ë²”ìœ„ê°€ í™œì„±í™” ëœ ìƒíƒœì—ì„œ ì‹¤í–‰ë˜ê²Œ ì„¤ì •
-        //í™œì„±í™” ëœ ìƒíƒœë¼ê³  í•˜ë”ë¼ë„ ê³µê²©ë²”ìœ„ì¼ê²½ìš° ë‹¤ì‹œ íƒ€ì¼ì„ ê·¸ë ¤ì•¼í•œë‹¤. 
+        //°ø°İ¹üÀ§°¡ È°¼ºÈ­ µÈ »óÅÂ¿¡¼­ ½ÇÇàµÇ°Ô ¼³Á¤
+        //È°¼ºÈ­ µÈ »óÅÂ¶ó°í ÇÏ´õ¶óµµ °ø°İ¹üÀ§ÀÏ°æ¿ì ´Ù½Ã Å¸ÀÏÀ» ±×·Á¾ßÇÑ´Ù. 
         if (isAttacRange || targetTile.ExistType == Tile.TileExistType.Attack_OR_Skill) 
         {
-            //íƒ€ì¼ì´ì´ë™ë˜ë©´ ê¸°ì¡´ë²”ìœ„í‘œì‹œ ì‚­ì œí•˜ê³  
+            //Å¸ÀÏÀÌÀÌµ¿µÇ¸é ±âÁ¸¹üÀ§Ç¥½Ã »èÁ¦ÇÏ°í 
             if (revertAttackRangeTileType.Count > 0)
             {
                 for (int i = 0; i < revertAttackRangeTileType.Count; i++)
@@ -418,10 +418,10 @@ public class AttackRange : MonoBehaviour
                 revertAttackRangeTileType.Clear();
                 activeAttackTiles.Clear();
             }
-            //ìƒˆë¡­ê²Œ ë²”ìœ„ ì…‹íŒ…
+            //»õ·Ó°Ô ¹üÀ§ ¼ÂÆÃ
             switch (currentSkill.SkillType)
             {
-                //í•œì  í‘œì‹œ 
+                //ÇÑÁ¡ Ç¥½Ã 
                 case SkillType.Sniping:
                 case SkillType.Normal:
                     activeAttackTiles.Add(targetTile);
@@ -429,12 +429,12 @@ public class AttackRange : MonoBehaviour
                     targetTile.ExistType = Tile.TileExistType.Attack_OR_Skill;
 
                     break;
-                //ì¼ì§ì„  í‘œì‹œ 
+                //ÀÏÁ÷¼± Ç¥½Ã 
                 case SkillType.Penetrate:
                     Set_Penetrate_Attack(player_Unit.CurrentTile, currentSkill.AttackRange);
                     break;
-                // ë‚´ ìºë¦­í„° ê¸°ì¤€ìœ¼ë¡œ ì •ë©´ë°©í–¥ ,
-                // ì›ì ìœ¼ë¡œ ë¶€í„° 5ì¹¸ 3ì¹¸ í‘œì‹œ 
+                // ³» Ä³¸¯ÅÍ ±âÁØÀ¸·Î Á¤¸é¹æÇâ ,
+                // ¿øÁ¡À¸·Î ºÎÅÍ 5Ä­ 3Ä­ Ç¥½Ã 
                 case SkillType.rampage:
                     break;
                 default:
@@ -445,13 +445,13 @@ public class AttackRange : MonoBehaviour
 
 
     /// <summary>
-    /// ê³µê²© ë²”ìœ„ í‘œì‹œí•˜ê¸° 
+    /// °ø°İ ¹üÀ§ Ç¥½ÃÇÏ±â 
     /// </summary>
     private void OpenLineRenderer()
     {
         if (!isClear)
         {
-            InputSystemController.InputSystem.Mouse.Get_Position.performed += OnMouseMove; //ë ˆì´ë¥¼ ì˜ëŠ”ì‘ì—… ì‹œì‘ ì›ì  íƒ€ì¼ê°€ì ¸ì˜¤ê¸°ì‘ì—…
+            InputSystemController.InputSystem.Mouse.Get_Position.performed += OnMouseMove; //·¹ÀÌ¸¦ ½î´ÂÀÛ¾÷ ½ÃÀÛ ¿øÁ¡ Å¸ÀÏ°¡Á®¿À±âÀÛ¾÷
 
             foreach (Tile tile in attackRangeTiles)
             {
@@ -462,121 +462,123 @@ public class AttackRange : MonoBehaviour
     }
 
     /// <summary>
-    /// ê³µê²©ë²”ìœ„ ì´ˆê¸°í™” í•˜ê¸° .
-    /// ê¸°ì¡´ì— ì´ˆê¸°í™”í•  ë‚´ìš©ì´ ìˆëŠ”ê²½ìš°ë§Œ ë¡œì§ì´ ì‹¤í–‰ëœë‹¤.
+    /// °ø°İ¹üÀ§ ÃÊ±âÈ­ ÇÏ±â .
+    /// ±âÁ¸¿¡ ÃÊ±âÈ­ÇÒ ³»¿ëÀÌ ÀÖ´Â°æ¿ì¸¸ ·ÎÁ÷ÀÌ ½ÇÇàµÈ´Ù.
     /// </summary>
     public void ClearLineRenderer()
     {
-        if (!isClear)   //ì²­ì†Œë¥¼ ì¤‘ë³µìœ¼ë¡œí•˜ë©´ì•ˆë˜ë‹ˆ ì²´í¬í•œë²ˆí•˜ê³  
+        if (!isClear)   //Ã»¼Ò¸¦ Áßº¹À¸·ÎÇÏ¸é¾ÈµÇ´Ï Ã¼Å©ÇÑ¹øÇÏ°í 
         {
-            isClear = true; //ì²­ì†Œì‹œì‘ ì…‹íŒ…
-            if (revertAttackRangeTileType.Count > 0) //ìŠ¤í‚¬ ê³µê²©ë²”ìœ„ê°€ ì¡´ì¬í•˜ë©´ 
+            isClear = true; //Ã»¼Ò½ÃÀÛ ¼ÂÆÃ
+            if (revertAttackRangeTileType.Count > 0) //½ºÅ³ °ø°İ¹üÀ§°¡ Á¸ÀçÇÏ¸é 
             {
-                for (int i = 0; i < revertAttackRangeTileType.Count; i++) //ì›ë³µ ë¦¬ìŠ¤íŠ¸ ì°¾ì•„ì„œ 
+                for (int i = 0; i < revertAttackRangeTileType.Count; i++) //¿øº¹ ¸®½ºÆ® Ã£¾Æ¼­ 
                 {
-                    activeAttackTiles[i].ExistType = revertAttackRangeTileType[i]; //ì›ë³µì‹œí‚¤ê³  
+                    activeAttackTiles[i].ExistType = revertAttackRangeTileType[i]; //¿øº¹½ÃÅ°°í 
                 }
-                revertAttackRangeTileType.Clear(); //ì´ˆê¸°í™”í•œë‹¤
-                activeAttackTiles.Clear();          //ì´ˆê¸°í™”
+                revertAttackRangeTileType.Clear(); //ÃÊ±âÈ­ÇÑ´Ù
+                activeAttackTiles.Clear();          //ÃÊ±âÈ­
             }
 
-            InputSystemController.InputSystem.Mouse.Get_Position.performed -= OnMouseMove; //ë ˆì´ë¥¼ ì˜ëŠ” ì‘ì—… ë„ê¸° ì›ì íƒ€ì¼ê°€ì ¸ì˜¤ëŠ”ì‘ì—…
+            InputSystemController.InputSystem.Mouse.Get_Position.performed -= OnMouseMove; //·¹ÀÌ¸¦ ½î´Â ÀÛ¾÷ ²ô±â ¿øÁ¡Å¸ÀÏ°¡Á®¿À´ÂÀÛ¾÷
 
-            if (revertTileTypes.Count > 0) //ì´ˆê¸°í™” í•  íƒ€ì¼ì´ìˆì„ë•Œë§Œ  
+            if (revertTileTypes.Count > 0) //ÃÊ±âÈ­ ÇÒ Å¸ÀÏÀÌÀÖÀ»¶§¸¸  
             {
-                int listSize = revertTileTypes.Count; //ê°¯ìˆ˜ê°€ì ¸ì™€ì„œ
+                int listSize = revertTileTypes.Count; //°¹¼ö°¡Á®¿Í¼­
                 for (int i = 0; i < listSize; i++)
                 {
-                    attackRangeTiles[i].ExistType = revertTileTypes[i]; // ê¸°ì¡´ì— ì €ì¥í•´ë’€ë˜ ê°’ìœ¼ë¡œ ë‹¤ì‹œëŒë¦¬ê³  
+                    attackRangeTiles[i].ExistType = revertTileTypes[i]; // ±âÁ¸¿¡ ÀúÀåÇØµ×´ø °ªÀ¸·Î ´Ù½Ãµ¹¸®°í 
                 }
-                attackRangeTiles.Clear();  // ë‚´ìš© ë¹„ìš°ê³   clear í•¨ìˆ˜ëŠ” ë‚´ë¶€ ë°°ì—´ìš”ì†Œë§Œ ì´ˆê¸°í™”í•˜ê¸°ë•Œë¬¸ì— nullë³´ë‹¤ ë‚«ë‹¤.
-                revertTileTypes.Clear();    // ë‚´ìš© ë¹„ìš´ë‹¤.
+                attackRangeTiles.Clear();  // ³»¿ë ºñ¿ì°í  clear ÇÔ¼ö´Â ³»ºÎ ¹è¿­¿ä¼Ò¸¸ ÃÊ±âÈ­ÇÏ±â¶§¹®¿¡ nullº¸´Ù ³´´Ù.
+                revertTileTypes.Clear();    // ³»¿ë ºñ¿î´Ù.
             }
-            isClear = false;//ì²­ì†Œë ì…‹íŒ…
+            isClear = false;//Ã»¼Ò³¡ ¼ÂÆÃ
         }
     }
 
     /// <summary>
-    /// ê³µê²©ë²”ìœ„ ì„ íƒì„ í–ˆì„ì‹œ 
-    /// ì ë¦¬ìŠ¤íŠ¸ë¥¼ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
+    /// °ø°İ¹üÀ§ ¼±ÅÃÀ» ÇßÀ»½Ã 
+    /// Àû¸®½ºÆ®¸¦ ¹İÈ¯ÇÏ´Â ÇÔ¼ö
     /// </summary>
-    /// <returns>ì ì´ìˆìœ¼ë©´ ë°°ì—´ë¡œë°˜í™˜ ì—†ìœ¼ë©´ nullë°˜í™˜</returns>
+    /// <returns>ÀûÀÌÀÖÀ¸¸é ¹è¿­·Î¹İÈ¯ ¾øÀ¸¸é null¹İÈ¯</returns>
     public ICharcterBase[] GetEnemyArray(out float LastDamage)
     {
         if (activeAttackTiles.Count > 0)
         {
-            LastDamage = currentSkill.FinalDamage;  //ëª¬ìŠ¤í„°í•œí…Œ ì¤„ ë°ë¯¸ì§€ ì…‹íŒ…
+            LastDamage = currentSkill.FinalDamage;  //¸ó½ºÅÍÇÑÅ× ÁÙ µ¥¹ÌÁö ¼ÂÆÃ
 
-            ICharcterBase[] enemyArray = SpaceSurvival_GameManager.Instance.EnemyTeam; //ë°°í‹€ë§µì˜ ëª¹ì •ë³´ë¥¼ ì „ë¶€ ë“¤ê³  
+            ICharcterBase[] enemyArray = SpaceSurvival_GameManager.Instance.EnemyTeam; //¹èÆ²¸ÊÀÇ ¸÷Á¤º¸¸¦ ÀüºÎ µé°í 
 
-            int enemySize = enemyArray.Length;      // ë°°í‹€ë§µì— ë‚˜ì™€ìˆëŠ” ëª¬ìŠ¤í„°ì˜ ê°¯ìˆ˜ ê°€ì ¸ì˜¤ê³ 
+            int enemySize = enemyArray.Length;      // ¹èÆ²¸Ê¿¡ ³ª¿ÍÀÖ´Â ¸ó½ºÅÍÀÇ °¹¼ö °¡Á®¿À°í
 
-            List<ICharcterBase> resultEnemyList = new List<ICharcterBase>(enemySize); //ìµœëŒ€í¬ê¸°ëŠ” ëª¬ìŠ¤í„° ë¦¬ìŠ¤íŠ¸ë³´ë‹¤ í´ìˆ˜ì—†ìŒìœ¼ë¡œ ê·¸ëƒ¥ ìµœëŒ€ë¡œì¡ì
+            List<ICharcterBase> resultEnemyList = new List<ICharcterBase>(enemySize); //ÃÖ´ëÅ©±â´Â ¸ó½ºÅÍ ¸®½ºÆ®º¸´Ù Å¬¼ö¾øÀ½À¸·Î ±×³É ÃÖ´ë·ÎÀâÀÚ
 
-            foreach (Tile attackTile in activeAttackTiles) //ê³µê²©ë²”ìœ„ë§Œí¼ ê²€ìƒ‰í•˜ê³ 
+            foreach (Tile attackTile in activeAttackTiles) //°ø°İ¹üÀ§¸¸Å­ °Ë»öÇÏ°í
             {
-                for (int i = 0; i < enemySize; i++) //ì ë“¤ì„ ê²€ìƒ‰ì„ ì§„í–‰ 
+                for (int i = 0; i < enemySize; i++) //ÀûµéÀ» °Ë»öÀ» ÁøÇà 
                 {
                     if (enemyArray[i].CurrentTile.width == attackTile.width &&
-                        enemyArray[i].CurrentTile.length == attackTile.length) //íƒ€ì¼ì´ ê°™ìœ¼ë©´ 
+                        enemyArray[i].CurrentTile.length == attackTile.length) //Å¸ÀÏÀÌ °°À¸¸é 
                     {
-                        resultEnemyList.Add(enemyArray[i]); //ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€
-                        break;//ë‹¤ìŒíƒ€ì¼ê²€ìƒ‰ì„ìœ„í•´ ë¹ ì ¸ë‚˜ê°
+                        resultEnemyList.Add(enemyArray[i]); //¸®½ºÆ®¿¡ Ãß°¡
+                        break;//´ÙÀ½Å¸ÀÏ°Ë»öÀ»À§ÇØ ºüÁ®³ª°¨
                     }
                 }
             }
             return resultEnemyList.ToArray();
         }
-        //ì—¬ê¸´ ê³µê²©í• ì ì´ì—†ì„ë•Œ ì˜¤ëŠ”ê³³
-        LastDamage = 0.0f;  //ê¸°ëƒ¥ ì´ˆê¸°í™”ê°’
+        //¿©±ä °ø°İÇÒÀûÀÌ¾øÀ»¶§ ¿À´Â°÷
+        LastDamage = 0.0f;  //±â³É ÃÊ±âÈ­°ª
         return null;
     }
 
 
 
 
-    // ----------------------------- ê³µê²© ë²”ìœ„ í‘œì‹œí•˜ëŠ” í•¨ìˆ˜ë“¤
+    // ----------------------------- °ø°İ ¹üÀ§ Ç¥½ÃÇÏ´Â ÇÔ¼öµé
 
     /// <summary>
-    /// ì‚¬ê±°ë¦¬ì•ˆì˜ ë²”ìœ„ë¥¼ ì „ë¶€ í‘œì‹œí•´ì£¼ëŠ” í•¨ìˆ˜
-    /// ë‹¨ì¼ íƒ€ê²Ÿ ìš©ìœ¼ë¡œ ì“°ì¸ë‹¤. (ì €ê²©,ì¼ë°˜ê³µê²©)
+    /// »ç°Å¸®¾ÈÀÇ ¹üÀ§¸¦ ÀüºÎ Ç¥½ÃÇØÁÖ´Â ÇÔ¼ö
+    /// ´ÜÀÏ Å¸°Ù ¿ëÀ¸·Î ¾²ÀÎ´Ù. (Àú°İ,ÀÏ¹İ°ø°İ)
     /// </summary>
-    /// <param name="playerTile">ìºë¦­í„°ê°€ ìˆëŠ” íƒ€ì¼ ìœ„ì¹˜</param>
-    /// <param name="size">ê³µê²©ê°€ëŠ¥í•œ ì‚¬ê±°ë¦¬ ë²”ìœ„ (ê¸°ë³¸ê°’ì€ 1)</param>
+    /// <param name="playerTile">Ä³¸¯ÅÍ°¡ ÀÖ´Â Å¸ÀÏ À§Ä¡</param>
+    /// <param name="size">°ø°İ°¡´ÉÇÑ »ç°Å¸® ¹üÀ§ (±âº»°ªÀº 1)</param>
     private void AttackRangeTileView(Tile playerTile, float size = 1.0f)
     {
         if (!isAttacRange)
         {
-            isAttacRange = true;                                                 //ê³µê²©ë²”ìœ„í‘œì‹œ ì‹œì‘ ì²´í¬
-            ClearLineRenderer();                                                // ê¸°ì¡´ì˜ ë¦¬ìŠ¤íŠ¸ ì´ˆê¸°í™”í•˜ê³  
-            SetAttackSize(playerTile, size);                                       // ì…‹íŒ…í•˜ê³  
-            OpenLineRenderer();                                                 // ë³´ì—¬ì¤€ë‹¤
+            isAttacRange = true;                                                 //°ø°İ¹üÀ§Ç¥½Ã ½ÃÀÛ Ã¼Å©
+            ClearLineRenderer();                                                // ±âÁ¸ÀÇ ¸®½ºÆ® ÃÊ±âÈ­ÇÏ°í 
+            SetAttackSize(playerTile, size);                                       // ¼ÂÆÃÇÏ°í 
+            OpenLineRenderer();                                                 // º¸¿©ÁØ´Ù
         }
     }
 
 
+
+
     /// <summary>
-    /// ê´€í†µê´€ë ¨ ê³µê²©ë²”ìœ„ í‘œì‹œìš© í•¨ìˆ˜
+    /// °üÅë°ü·Ã °ø°İ¹üÀ§ Ç¥½Ã¿ë ÇÔ¼ö
     /// </summary>
-    /// <param name="playerTile">ìºë¦­í„°ê°€ ìˆëŠ” íƒ€ì¼ ìœ„ì¹˜</param>
-    /// <param name="size">ê³µê²©ê°€ëŠ¥í•œ ì‚¬ê±°ë¦¬ ë²”ìœ„ (ê¸°ë³¸ê°’ì€ 1)</param>
+    /// <param name="playerTile">Ä³¸¯ÅÍ°¡ ÀÖ´Â Å¸ÀÏ À§Ä¡</param>
+    /// <param name="size">°ø°İ°¡´ÉÇÑ »ç°Å¸® ¹üÀ§ (±âº»°ªÀº 1)</param>
     private void PenetrateAttackRangeTileView(Tile playerTile, float size = 1.0f)
     {
         if (!isAttacRange)
         {
-            isAttacRange = true;                                                 //ê³µê²©ë²”ìœ„í‘œì‹œ ì‹œì‘ ì²´í¬
-            ClearLineRenderer();                                                // ê¸°ì¡´ì˜ ë¦¬ìŠ¤íŠ¸ ì´ˆê¸°í™”í•˜ê³  
-            PenetrateSetAttackSize(playerTile, size);                                       // ì…‹íŒ…í•˜ê³  
-            OpenLineRenderer();                                                 // ë³´ì—¬ì¤€ë‹¤
+            isAttacRange = true;                                                 //°ø°İ¹üÀ§Ç¥½Ã ½ÃÀÛ Ã¼Å©
+            ClearLineRenderer();                                                // ±âÁ¸ÀÇ ¸®½ºÆ® ÃÊ±âÈ­ÇÏ°í 
+            PenetrateSetAttackSize(playerTile, size);                                       // ¼ÂÆÃÇÏ°í 
+            OpenLineRenderer();                                                 // º¸¿©ÁØ´Ù
         }
     }
 
     /// <summary>
-    /// ê´€í†µë¡œì§
-    /// ì§ì„  ê³µê²©ë²”ìœ„ í‘œì‹œìš© í•¨ìˆ˜
+    /// °üÅë·ÎÁ÷
+    /// Á÷¼± °ø°İ¹üÀ§ Ç¥½Ã¿ë ÇÔ¼ö
     /// </summary>
-    /// <param name="playerTile">í”Œë ˆì´ì–´ìœ ë‹› ìœ„ì¹˜</param>
-    /// <param name="size">ë²”ìœ„ê°’</param>
+    /// <param name="playerTile">ÇÃ·¹ÀÌ¾îÀ¯´Ö À§Ä¡</param>
+    /// <param name="size">¹üÀ§°ª</param>
     private void PenetrateSetAttackSize(Tile playerTile, float size = 1.0f)
     {
         Tile[] mapTiles = SpaceSurvival_GameManager.Instance.BattleMap;
@@ -587,74 +589,76 @@ public class AttackRange : MonoBehaviour
         int searchIndex = 0;
         int forSize = 0;
         Tile addTile = null;
-        int rotateSize = eightWayRotateValues.Length;   //8ë°©í–¥ íšŒì „ì—ëŒ€í•œ ë°°ì—´í¬ê¸° ê°€ì ¸ì˜¤ê¸°
+        int rotateSize = eightWayRotateValues.Length;   //8¹æÇâ È¸Àü¿¡´ëÇÑ ¹è¿­Å©±â °¡Á®¿À±â
         for (int i = 0; i < rotateSize; i++)
         {
-            //ë¯¸ë¦¬ì„ ì–¸í•´ë‘” 8ë°©í–¥ Vector2Int ë°°ì—´ ì„ ê°€ì§€ê³  ê³„ì‚°í•œë‹¤.
-            //ê³µê²©í‘œì‹œí•  ë²”ìœ„ê°’ ê°€ì ¸ì™€ì„œ 
+            //¹Ì¸®¼±¾ğÇØµĞ 8¹æÇâ Vector2Int ¹è¿­ À» °¡Áö°í °è»êÇÑ´Ù.
+            //°ø°İÇ¥½ÃÇÒ ¹üÀ§°ª °¡Á®¿Í¼­ 
             forSize = SetRangeSizeCheck(currentX, currentY, eightWayRotateValues[i].x, eightWayRotateValues[i].y, tileSizeX, tileSizeY, size);
-            //Debug.Log($" í¬ë¬¸íšŸìˆ˜ : {i}ë²ˆì§¸  í”Œë ˆì´ì–´ìœ„ì¹˜ :{playerTile}");
-            forSize += 1; //í¬ë¬¸ì‹œì‘ì„ 1ë¶€í„° ì‹œì‘í•˜ê¸°ë•Œë¬¸ì— ì¶”ê°€
-            for (int j = 1; j < forSize; j++) 
+            //Debug.Log($" Æ÷¹®È½¼ö : {i}¹øÂ°  ÇÃ·¹ÀÌ¾îÀ§Ä¡ :{playerTile}");
+            forSize += 1; //Æ÷¹®½ÃÀÛÀ» 1ºÎÅÍ ½ÃÀÛÇÏ±â¶§¹®¿¡ Ãß°¡
+            for (int j = 1; j < forSize; j++) // Æ÷¹®¼ø¼­´Â »ó°ü¾ø´Âµ¥ ¹İ´ë·Î ÇØ”f´Ù.
             {
-                searchIndex = (currentX + (eightWayRotateValues[i].x * j)) + ((currentY + (eightWayRotateValues[i].y * j)) * tileSizeX); //ì¸ë±ìŠ¤êµ¬í•˜ê¸° 
-                //Debug.Log($"ì¸ë±ìŠ¤ê°’ : {searchIndex} forSize :{forSize} , ê³µê²©ë²”ìœ„{size}");
+                searchIndex = (currentX + (eightWayRotateValues[i].x * j)) + ((currentY + (eightWayRotateValues[i].y * j)) * tileSizeX); //ÀÎµ¦½º±¸ÇÏ±â 
+                //Debug.Log($"ÀÎµ¦½º°ª : {searchIndex} forSize :{forSize} , °ø°İ¹üÀ§{size}");
                 //Debug.Log($"X :{(currentX + (eightWayRotateValues[i].x * j))} , Y:{(currentY + (eightWayRotateValues[i].y * j))} , sX:{eightWayRotateValues[i].x} ,sY:{eightWayRotateValues[i].y}, i:{i},j:{j} , tileSizeX:{tileSizeX}");
                 addTile = mapTiles[searchIndex];
-                if (addTile.ExistType == Tile.TileExistType.Prop) break;    //ì¥ì• ë¬¼ ì´ë©´ ì´í›„ì—ëŠ” ì¶”ê°€ë˜ë©´ì•ˆëœë‹¤
-                attackRangeTiles.Add(addTile); //ë°˜í™˜ ì‹œí‚¬ ë¦¬ìŠ¤íŠ¸ë¡œ ì¶”ê°€í•œë‹¤.
+                if (addTile.ExistType == Tile.TileExistType.Prop) break;    //Àå¾Ö¹° ÀÌ¸é ÀÌÈÄ¿¡´Â Ãß°¡µÇ¸é¾ÈµÈ´Ù
+                attackRangeTiles.Add(addTile); //¹İÈ¯ ½ÃÅ³ ¸®½ºÆ®·Î Ãß°¡ÇÑ´Ù.
             }
         }
     }
+    //ÀÎµ¦½º°ª : -24 forSize :3 , °ø°İ¹üÀ§4
+    //X :0 , Y:-1 , sX:-1 ,sY:-1, i:5,j:2 , tileSizeY:24
 
 
     /// <summary>
-    /// ê´€í†µë¡œì§
-    /// ì¼ì§ì„  í‘œì‹œ 
+    /// °üÅë·ÎÁ÷
+    /// ÀÏÁ÷¼± Ç¥½Ã 
     /// </summary>
-    /// <param name="currentTile">ìºë¦­í„°ê°€ìˆëŠ” íƒ€ì¼ìœ„ì¹˜</param>
-    /// <param name="size">ê³µê²© íƒ€ì…ì—ë”°ë¥¸ ë²”ìœ„ (ê¸°ë³¸ê°’ì€ 1)</param>
+    /// <param name="currentTile">Ä³¸¯ÅÍ°¡ÀÖ´Â Å¸ÀÏÀ§Ä¡</param>
+    /// <param name="size">°ø°İ Å¸ÀÔ¿¡µû¸¥ ¹üÀ§ (±âº»°ªÀº 1)</param>
     private void Set_Penetrate_Attack(Tile currentTile, float size = 1.0f)
     {
         if (!isClear)
         {
-            Vector2Int wayValue = Vector2Int.zero; //ë°©í–¥ ì…‹íŒ…í•  ê°’ 
+            Vector2Int wayValue = Vector2Int.zero; //¹æÇâ ¼ÂÆÃÇÒ °ª 
             switch (attackDir)
             {
                 case DirectionRangeType.None:
-                    //ë¹„í‘œì‹œ
-                    return; //ë¹„í‘œì‹œë•ŒëŠ” ë°”ë¡œë¦¬í„´
+                    //ºñÇ¥½Ã
+                    return; //ºñÇ¥½Ã¶§´Â ¹Ù·Î¸®ÅÏ
                 case DirectionRangeType.North:
                     wayValue = eightWayRotateValues[0];
-                    //ë¶ìª½ìœ¼ë¡œ ì­ˆìš± í‘œì‹œ 
+                    //ºÏÂÊÀ¸·Î ÂŞ¿í Ç¥½Ã 
                     break;
                 case DirectionRangeType.North | DirectionRangeType.East:
                     wayValue = eightWayRotateValues[1];
-                    //ë¶ë™ìª½ í‘œì‹œ
+                    //ºÏµ¿ÂÊ Ç¥½Ã
                     break;
                 case DirectionRangeType.East:
                     wayValue = eightWayRotateValues[2];
-                    //ë™ìª½ìœ¼ë¡œ ì­ˆìš± í‘œì‹œ
+                    //µ¿ÂÊÀ¸·Î ÂŞ¿í Ç¥½Ã
                     break;
                 case DirectionRangeType.East | DirectionRangeType.South:
                     wayValue = eightWayRotateValues[3];
-                    //ë‚¨ë™ìª½ìœ¼ë¡œ ì­ˆìš± í‘œì‹œ
+                    //³²µ¿ÂÊÀ¸·Î ÂŞ¿í Ç¥½Ã
                     break;
                 case DirectionRangeType.South:
                     wayValue = eightWayRotateValues[4];
-                    //ë‚¨ìª½ìœ¼ë¡œ ì­ˆìš± í‘œì‹œ
+                    //³²ÂÊÀ¸·Î ÂŞ¿í Ç¥½Ã
                     break;
                 case DirectionRangeType.West | DirectionRangeType.South:
                     wayValue = eightWayRotateValues[5];
-                    //ë‚¨ì„œìª½ìœ¼ë¡œ ì­ˆìš± í‘œì‹œ
+                    //³²¼­ÂÊÀ¸·Î ÂŞ¿í Ç¥½Ã
                     break;
                 case DirectionRangeType.West:
                     wayValue = eightWayRotateValues[6];
-                    //ì„œìª½ìœ¼ë¡œ ì­ˆìš± í‘œì‹œ
+                    //¼­ÂÊÀ¸·Î ÂŞ¿í Ç¥½Ã
                     break;
                 case DirectionRangeType.North | DirectionRangeType.West:
                     wayValue = eightWayRotateValues[7];
-                    //ë¶ì„œìª½ í‘œì‹œ
+                    //ºÏ¼­ÂÊ Ç¥½Ã
                     break;
                 default:
                     break;
@@ -667,13 +671,13 @@ public class AttackRange : MonoBehaviour
             int currentY = currentTile.length;
             int searchIndex = 0;
             int forSize = SetRangeSizeCheck(currentX, currentY, wayValue.x, wayValue.y, tileSizeX, tileSizeY, size);
-            forSize += 1;//í¬ë¬¸ì‹œì‘ì„ 1ë¶€í„° ì‹œì‘í•˜ê¸°ë•Œë¬¸ì— ì¶”ê°€
+            forSize += 1;//Æ÷¹®½ÃÀÛÀ» 1ºÎÅÍ ½ÃÀÛÇÏ±â¶§¹®¿¡ Ãß°¡
             for (int j = 1; j < forSize; j++)
             {
-                searchIndex = (currentX + (wayValue.x * j)) + ((currentY + (wayValue.y * j)) * tileSizeX); //ì¸ë±ìŠ¤êµ¬í•˜ê¸° 
+                searchIndex = (currentX + (wayValue.x * j)) + ((currentY + (wayValue.y * j)) * tileSizeX); //ÀÎµ¦½º±¸ÇÏ±â 
                 //Debug.Log($"{currentX + (wayValue.x * j)} , {currentY + (wayValue.y * j)} , {tileSizeX} ,{j},{searchIndex}");
                 addTile = mapTiles[searchIndex];
-                if (addTile.ExistType == Tile.TileExistType.AttackRange) //ê³µê²©ë²”ìœ„ì•ˆì—ìˆìœ¼ë©´ 
+                if (addTile.ExistType == Tile.TileExistType.AttackRange) //°ø°İ¹üÀ§¾È¿¡ÀÖÀ¸¸é 
                 {
                     activeAttackTiles.Add(addTile);
                     revertAttackRangeTileType.Add(addTile.ExistType);
@@ -685,44 +689,44 @@ public class AttackRange : MonoBehaviour
 
 
     /// <summary>
-    /// ê´€í†µë¡œì§ì— ì‚¬ìš©ë¨
-    /// ê³µê²©ë²”ìœ„ê°€ ë§µëì¸ì§€ ì²´í¬í•˜ê³  ë§µëê¹Œì§€ì˜ ë‚¨ì€ ê°¯ìˆ˜ë¥¼ ë°˜í™˜í•œë‹¤.
-    /// ê³µê²©ë²”ìœ„ float ì´ë¼ ì†Œìˆ˜ì ì´í•˜ëŠ” ë‚ ë¼ê°ˆìˆ˜ë„ìˆë‹¤. ì¢Œí‘œëŠ” int ë¼ì„œ 
-    /// ê³µê²©í•  ë²”ìœ„ë¥¼ ì •í•  í•¨ìˆ˜ 
+    /// °üÅë·ÎÁ÷¿¡ »ç¿ëµÊ
+    /// °ø°İ¹üÀ§°¡ ¸Ê³¡ÀÎÁö Ã¼Å©ÇÏ°í ¸Ê³¡±îÁöÀÇ ³²Àº °¹¼ö¸¦ ¹İÈ¯ÇÑ´Ù.
+    /// °ø°İ¹üÀ§ float ÀÌ¶ó ¼Ò¼öÁ¡ÀÌÇÏ´Â ³¯¶ó°¥¼öµµÀÖ´Ù. ÁÂÇ¥´Â int ¶ó¼­ 
+    /// °ø°İÇÒ ¹üÀ§¸¦ Á¤ÇÒ ÇÔ¼ö 
     /// </summary>
-    /// <param name="currentX">í˜„ì¬ìœ„ì¹˜ xì¢Œí‘œê°’</param>
-    /// <param name="currentY">í˜„ì¬ìœ„ì¹˜ yì¢Œí‘œê°’</param>
-    /// <param name="searchX">ê²€ìƒ‰x ë²”ìœ„ (-1,0,1)</param>
-    /// <param name="searchY">ê²€ìƒ‰y ë²”ìœ„ (-1,0,1)</param>
-    /// <param name="tileMaxX">íƒ€ì¼ ê°€ë¡œ ìµœëŒ€ ê°¯ìˆ˜</param>
-    /// <param name="tileMaxY">íƒ€ì¼ ì„¸ë¡œ ìµœëŒ€ ê°¯ìˆ˜</param>
-    /// <param name="rangeSize">í˜„ì¬ ê³µê²©ë²”ìœ„</param>
-    /// <returns>ìºë¦­í„°ì˜ íƒ€ì¼ì´ í¬í•©ë˜ì§€ì•Šì€ ë²”ìœ„ê°’ì„ ë°˜í™˜</returns>
+    /// <param name="currentX">ÇöÀçÀ§Ä¡ xÁÂÇ¥°ª</param>
+    /// <param name="currentY">ÇöÀçÀ§Ä¡ yÁÂÇ¥°ª</param>
+    /// <param name="searchX">°Ë»öx ¹üÀ§ (-1,0,1)</param>
+    /// <param name="searchY">°Ë»öy ¹üÀ§ (-1,0,1)</param>
+    /// <param name="tileMaxX">Å¸ÀÏ °¡·Î ÃÖ´ë °¹¼ö</param>
+    /// <param name="tileMaxY">Å¸ÀÏ ¼¼·Î ÃÖ´ë °¹¼ö</param>
+    /// <param name="rangeSize">ÇöÀç °ø°İ¹üÀ§</param>
+    /// <returns>Ä³¸¯ÅÍÀÇ Å¸ÀÏÀÌ Æ÷ÇÕµÇÁö¾ÊÀº ¹üÀ§°ªÀ» ¹İÈ¯</returns>
     private int SetRangeSizeCheck(int currentX, int currentY , int searchX , int searchY, int tileMaxX, int tileMaxY , float rangeSize)
     {
-        //ë²”ìœ„ìµœì¢…ìœ„ì¹˜ê°€ ì‚¬ì´ë“œì¸ì§€ ì²´í¬í•´ì„œ ê³„ì‚°
-        float tempIndex = currentX + (searchX * rangeSize); // ì¢Œìš° ê³„ì‚°ê°’ 
+        //¹üÀ§ÃÖÁ¾À§Ä¡°¡ »çÀÌµåÀÎÁö Ã¼Å©ÇØ¼­ °è»ê
+        float tempIndex = currentX + (searchX * rangeSize); // ÁÂ¿ì °è»ê°ª 
         int resultValue = (int)rangeSize;
-        if (tempIndex < 0) //ì™¼ìª½ëì„ ë„˜ì–´ê°“ëŠ”ì§€ ì²´í¬   
+        if (tempIndex < 0) //¿ŞÂÊ³¡À» ³Ñ¾î°«´ÂÁö Ã¼Å©   
         {
-            Debug.Log($"ì¢Œì¸¡ ë {currentX}");
+            Debug.Log($"ÁÂÃø ³¡ {currentX}");
             resultValue = currentX; 
         }
-        else if(tempIndex > tileMaxX - 1)  //ì˜¤ë¥¸ìª½ì„ ë„˜ì–´ê°“ëŠ”ì§€ ì²´í¬
+        else if(tempIndex > tileMaxX - 1)  //¿À¸¥ÂÊÀ» ³Ñ¾î°«´ÂÁö Ã¼Å©
         {
-            Debug.Log($"ìš°ì¸¡ ë {(tileMaxX - 1) - currentX} ");
+            Debug.Log($"¿ìÃø ³¡ {(tileMaxX - 1) - currentX} ");
             resultValue = (tileMaxX - 1) - currentX; 
         }
 
-        tempIndex = currentY + (searchY * rangeSize);   //ìœ„ì•„ë˜ ê³„ì‚°ê°’
-        if (tempIndex < 0) //ì•„ë˜ë¥¼ ë„˜ì–´ê°“ëŠ”ì§€ ì²´í¬   
+        tempIndex = currentY + (searchY * rangeSize);   //À§¾Æ·¡ °è»ê°ª
+        if (tempIndex < 0) //¾Æ·¡¸¦ ³Ñ¾î°«´ÂÁö Ã¼Å©   
         {
-            Debug.Log($"ì•„ë˜ ë {currentY}");
+            Debug.Log($"¾Æ·¡ ³¡ {currentY}");
             resultValue = currentY > resultValue ? resultValue : currentY; 
         }
-        else if (tempIndex > tileMaxY - 1)  //ìœ„ë¥¼ ë„˜ì–´ê°“ëŠ”ì§€ ì²´í¬
+        else if (tempIndex > tileMaxY - 1)  //À§¸¦ ³Ñ¾î°«´ÂÁö Ã¼Å©
         {
-            Debug.Log($"ìœ„ ë {(tileMaxY - 1) - currentY}");
+            Debug.Log($"À§ ³¡ {(tileMaxY - 1) - currentY}");
             int temp = (tileMaxY - 1) - currentY;
             resultValue = resultValue > temp ? temp : resultValue; 
         }
@@ -754,49 +758,49 @@ public class AttackRange : MonoBehaviour
 
 
     /// <summary>
-    /// í˜„ì¬ ìœ„ì¹˜ì§€ì ì—ì„œ ì‚¬ê±°ë¦¬ ê¸°ì¤€ ê³µê²© ê°€ëŠ¥í•œ ë²”ìœ„ ì˜ ì¢Œí‘œë¦¬ìŠ¤íŠ¸ë¥¼ ê°€ì ¸ì˜¤ê¸°ìœ„í•œ í•¨ìˆ˜
-    /// ì¼ë°˜ê³µê²© , ì €ê²© ê³¼ê°™ì€ ê³µê²©í• ìˆ˜ ìˆëŠ” ë²”ìœ„ê°€ ì „ë¶€í‘œì‹œë˜ì•¼ë˜ëŠ” ìŠ¤í‚¬ì— ì‚¬ìš©ë  í•¨ìˆ˜
+    /// ÇöÀç À§Ä¡ÁöÁ¡¿¡¼­ »ç°Å¸® ±âÁØ °ø°İ °¡´ÉÇÑ ¹üÀ§ ÀÇ ÁÂÇ¥¸®½ºÆ®¸¦ °¡Á®¿À±âÀ§ÇÑ ÇÔ¼ö
+    /// ÀÏ¹İ°ø°İ , Àú°İ °ú°°Àº °ø°İÇÒ¼ö ÀÖ´Â ¹üÀ§°¡ ÀüºÎÇ¥½ÃµÇ¾ßµÇ´Â ½ºÅ³¿¡ »ç¿ëµÉ ÇÔ¼ö
     /// </summary>
-    /// <param name="currentNode">í˜„ì¬ìœ„ì¹˜ íƒ€ì¼ ì •ë³´</param>
-    /// <param name="attackCheck">ê³µê²©ê°€ëŠ¥í•œ ê±°ë¦¬ ê°’</param>
-    /// <returns>ìºë¦­í„°ê°€ ê³µê²©ê°€ëŠ¥í•œ ë…¸ë“œë¦¬ìŠ¤íŠ¸</returns>
+    /// <param name="currentNode">ÇöÀçÀ§Ä¡ Å¸ÀÏ Á¤º¸</param>
+    /// <param name="attackCheck">°ø°İ°¡´ÉÇÑ °Å¸® °ª</param>
+    /// <returns>Ä³¸¯ÅÍ°¡ °ø°İ°¡´ÉÇÑ ³ëµå¸®½ºÆ®</returns>
     private void SetAttackSize(Tile currentNode, float attackCheck)
     {
-        List<Tile> openList = new List<Tile>();   // íƒìƒ‰ì´ í•„ìš”í•œ ë…¸ë“œ ë¦¬ìŠ¤íŠ¸ 
-        List<Tile> closeList = new List<Tile>();  // ì´ë¯¸ ê³„ì‚°ì´ ì™„ë£Œë˜ì„œ ë”ì´ìƒ íƒìƒ‰ì„ ì•ˆí•  ë¦¬ìŠ¤íŠ¸ 
+        List<Tile> openList = new List<Tile>();   // Å½»öÀÌ ÇÊ¿äÇÑ ³ëµå ¸®½ºÆ® 
+        List<Tile> closeList = new List<Tile>();  // ÀÌ¹Ì °è»êÀÌ ¿Ï·áµÇ¼­ ´õÀÌ»ó Å½»öÀ» ¾ÈÇÒ ¸®½ºÆ® 
         Tile[] mapTiles = SpaceSurvival_GameManager.Instance.BattleMap;
         int tileSizeX = SpaceSurvival_GameManager.Instance.MapSizeX;
         int tileSizeY = SpaceSurvival_GameManager.Instance.MapSizeY;
         foreach (Tile node in mapTiles)
         {
-            node.H = 1000.0f; //ë„ì°©ì§€ì ì´ ì—†ëŠ”ìƒíƒœë¼ì„œ ë§¥ìŠ¤ê°’ ë„£ìœ¼ë‹ˆ ì œëŒ€ë¡œ ì•ˆëŒì•„ê°„ë‹¤.
+            node.H = 1000.0f; //µµÂøÁöÁ¡ÀÌ ¾ø´Â»óÅÂ¶ó¼­ ¸Æ½º°ª ³ÖÀ¸´Ï Á¦´ë·Î ¾Èµ¹¾Æ°£´Ù.
             node.AttackCheckG = 1000.0f;
         }
 
         openList.Add(currentNode);
 
-        currentNode.AttackCheckG = 0.0f; //ë‚´ìœ„ì¹˜ëŠ” g ê°€ 0ì´ë‹¤
+        currentNode.AttackCheckG = 0.0f; //³»À§Ä¡´Â g °¡ 0ÀÌ´Ù
 
         while (openList.Count > 0)
         {
             currentNode = openList[0];
-            openList.Remove(currentNode); // íƒìƒ‰ê°€ëŠ¥í•œ ëª©ë¡ì—ì„œ í˜„ì¬ íƒìƒ‰ì¤‘ì¸ ëª©ë¡ì„ ì œê±°í•˜ê³  
-            closeList.Add(currentNode);   // íƒìƒ‰ì¢…ë£Œí•œ ë¦¬ìŠ¤íŠ¸ì— í˜„ì¬ ëª©ë¡ì„ ë‹´ëŠ”ë‹¤.
+            openList.Remove(currentNode); // Å½»ö°¡´ÉÇÑ ¸ñ·Ï¿¡¼­ ÇöÀç Å½»öÁßÀÎ ¸ñ·ÏÀ» Á¦°ÅÇÏ°í 
+            closeList.Add(currentNode);   // Å½»öÁ¾·áÇÑ ¸®½ºÆ®¿¡ ÇöÀç ¸ñ·ÏÀ» ´ã´Â´Ù.
 
-            if (currentNode.AttackCheckG > attackCheck) //G ê°’ì´ í˜„ì¬ ì´ë™ ê°€ëŠ¥í•œ ê±°ë¦¬ë³´ë‹¤ ë†’ìœ¼ë©´  ë”ì´ìƒ íƒìƒ‰ì´ í•„ìš”ì—†ìŒìœ¼ë¡œ 
+            if (currentNode.AttackCheckG > attackCheck) //G °ªÀÌ ÇöÀç ÀÌµ¿ °¡´ÉÇÑ °Å¸®º¸´Ù ³ôÀ¸¸é  ´õÀÌ»ó Å½»öÀÌ ÇÊ¿ä¾øÀ½À¸·Î 
             {
-                continue; //ë‹¤ìŒê±° íƒìƒ‰ 
+                continue; //´ÙÀ½°Å Å½»ö 
             }
-            else // ì´ë™ê°€ëŠ¥í•œ ê±°ë¦¬ë©´ 
+            else // ÀÌµ¿°¡´ÉÇÑ °Å¸®¸é 
             {
-                if (!attackRangeTiles.Contains(currentNode)) //ì¤‘ë³µê°’ë°©ì§€
+                if (!attackRangeTiles.Contains(currentNode)) //Áßº¹°ª¹æÁö
                 {
-                    attackRangeTiles.Add(currentNode); //ë°˜í™˜ ì‹œí‚¬ ë¦¬ìŠ¤íŠ¸ë¡œ ì¶”ê°€í•œë‹¤.
+                    attackRangeTiles.Add(currentNode); //¹İÈ¯ ½ÃÅ³ ¸®½ºÆ®·Î Ãß°¡ÇÑ´Ù.
                 }
             }
 
-            OpenListAdd(mapTiles, tileSizeX, tileSizeY, currentNode, openList, closeList); //ì£¼ë³€ 8ë°©í–¥ì˜ ë…¸ë“œë¥¼ ì°¾ì•„ì„œ Gê°’ ìˆ˜ì •í•˜ê³   ì˜¤í”ˆë¦¬ìŠ¤íŠ¸ì— ë‹´ì„ìˆ˜ìˆìœ¼ë©´ ë‹´ëŠ”ë‹¤.
-            openList.Sort();            //ì°¾ì€ Gê°’ì¤‘ ê°€ì¥ ì‘ì€ê°’ë¶€í„° ì¬íƒìƒ‰ì´ëœë‹¤.
+            OpenListAdd(mapTiles, tileSizeX, tileSizeY, currentNode, openList, closeList); //ÁÖº¯ 8¹æÇâÀÇ ³ëµå¸¦ Ã£¾Æ¼­ G°ª ¼öÁ¤ÇÏ°í  ¿ÀÇÂ¸®½ºÆ®¿¡ ´ãÀ»¼öÀÖÀ¸¸é ´ã´Â´Ù.
+            openList.Sort();            //Ã£Àº G°ªÁß °¡Àå ÀÛÀº°ªºÎÅÍ ÀçÅ½»öÀÌµÈ´Ù.
         }
     }
     private void OpenListAdd(Tile[] mapTiles, int tileSizeX, int tileSizeY, Tile currentNode, List<Tile> open, List<Tile> close)
@@ -808,23 +812,23 @@ public class AttackRange : MonoBehaviour
         {
             for (int x = -1; x < 2; x++)
             {
-                if (currentNode.Width + x < 0 || currentNode.Width + x > tileSizeX - 1 || // ì‚¬ì´ë“œ ê²€ìƒ‰ 
-                    currentNode.Length + y < 0 || currentNode.Length + y > tileSizeY - 1) //ì‚¬ì´ë“œ ê²€ìƒ‰
+                if (currentNode.Width + x < 0 || currentNode.Width + x > tileSizeX - 1 || // »çÀÌµå °Ë»ö 
+                    currentNode.Length + y < 0 || currentNode.Length + y > tileSizeY - 1) //»çÀÌµå °Ë»ö
                     continue;
 
-                adjoinTile = Cho_BattleMap_AStar.GetTile(mapTiles, currentNode.Width + x, currentNode.Length + y, tileSizeX);    // ì¸ì ‘í•œ íƒ€ì¼ ê°€ì ¸ì˜¤ê¸°
+                adjoinTile = Cho_BattleMap_AStar.GetTile(mapTiles, currentNode.Width + x, currentNode.Length + y, tileSizeX);    // ÀÎÁ¢ÇÑ Å¸ÀÏ °¡Á®¿À±â
 
-                if (adjoinTile == currentNode)                                          // ì¸ì ‘í•œ íƒ€ì¼ì´ (0, 0)ì¸ ê²½ìš°
+                if (adjoinTile == currentNode)                                          // ÀÎÁ¢ÇÑ Å¸ÀÏÀÌ (0, 0)ÀÎ °æ¿ì
                     continue;
-                if (adjoinTile.ExistType == Tile.TileExistType.Prop)                // ì¸ì ‘í•œ íƒ€ì¼ì´ ì¥ì• ë¬¼ì¼ë•Œ
+                if (adjoinTile.ExistType == Tile.TileExistType.Prop)                // ÀÎÁ¢ÇÑ Å¸ÀÏÀÌ Àå¾Ö¹°ÀÏ¶§
                     continue;
-                bool isDiagonal = (x * y != 0);                                     // ëŒ€ê°ì„  ìœ ë¬´ í™•ì¸
-                if (isDiagonal &&                                                   // ëŒ€ê°ì„ ì´ê³  í˜„ì¬ íƒ€ì¼ì˜ ìƒí•˜ì¢Œìš°ê°€ ë²½ì¼ ë•Œ
+                bool isDiagonal = (x * y != 0);                                     // ´ë°¢¼± À¯¹« È®ÀÎ
+                if (isDiagonal &&                                                   // ´ë°¢¼±ÀÌ°í ÇöÀç Å¸ÀÏÀÇ »óÇÏÁÂ¿ì°¡ º®ÀÏ ¶§
                     Cho_BattleMap_AStar.GetTile(mapTiles, currentNode.Width + x, currentNode.Length, tileSizeX).ExistType == Tile.TileExistType.Prop ||
                     Cho_BattleMap_AStar.GetTile(mapTiles, currentNode.Width, currentNode.Length + y, tileSizeX).ExistType == Tile.TileExistType.Prop
                     )
                     continue;
-                //ëŒ€ê°ì„  ì²´í¬ ì´ìœ ëŠ” ì´ë™ë„ ì•ˆë˜ëŠ”ë° ê³µê²©ì€ ë˜ë©´ ì•ˆë ê±°ê°™ì•„ì„œ ë‚¨ê²¨ë’€ë‹¤.
+                //´ë°¢¼± Ã¼Å© ÀÌÀ¯´Â ÀÌµ¿µµ ¾ÈµÇ´Âµ¥ °ø°İÀº µÇ¸é ¾ÈµÉ°Å°°¾Æ¼­ ³²°Üµ×´Ù.
                 float distance;
                 if (isDiagonal)
                 {
