@@ -76,12 +76,12 @@ public class PlayerTurnObject : TurnBaseObject
                 go.name = $"Player_{i}";
                 go.SetTile(SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Charcter));
                 go.transform.position = go.CurrentTile.transform.position; //셋팅된 타일위치로 이동시킨다.
+
             }
             WindowList.Instance.TeamBorderManager.ViewTeamInfo(testPlayerLength); //팀 상시 유아이 보여주기 
 
         }
 
-   
     }
 
     /// <summary>
@@ -140,6 +140,112 @@ public class PlayerTurnObject : TurnBaseObject
 
             currentUnit.CharcterMove(seletedTile);//이동로직 실행
            
+        }
+    }
+   
+    /// <summary>
+    /// 아군을 클릭했을때 처리할 로직 
+    /// </summary>
+    /// <param name="clickedTile">클릭한 타일</param>
+    public void OnClickPlayer(Tile clickedTile)
+    {
+        //if (currentUnit == null) //플레이어가 설정안되있으면 
+        //{
+        //    foreach (ICharcterBase playerUnit in charcterList) //플레이어 유닛위치인지 체크하기위해 플레이어를 뒤진다.
+        //    {
+        //        if (clickedTile.width == playerUnit.CurrentTile.width &&
+        //            clickedTile.length == playerUnit.CurrentTile.length) //클릭한 타일이 플레이어 유닛 위치면 
+        //        {
+        //            currentUnit = playerUnit; //플레이어 설정을하고 
+        //            currentUnit.IsControll = true; //컨트롤 할수있게 설정한다.
+        //            cot.Target = currentUnit.transform; //카메라 포커스 맞추기 
+        //            SelectControllUnit();
+        //            return;
+        //        }
+        //    }
+        //}
+        currentUnit.IsControll = true; //컨트롤 할수있게 설정한다.
+        cot.Target = currentUnit.transform; //카메라 포커스 맞추기 
+        if (!currentUnit.IsMoveCheck)// 캐릭터 이동중인지 체크해서 이동끝날때만 로직 실행 
+        {
+            if (currentUnit == null || //컨트롤중인 유닛이 없거나 
+                clickedTile.width != currentUnit.CurrentTile.width ||
+                clickedTile.length != currentUnit.CurrentTile.length
+                )//컨트롤 중인 유닛의 위치와 다를경우 
+            {
+                foreach (ICharcterBase playerUnit in charcterList) //플레이어 유닛위치인지 체크하기위해 플레이어를 뒤진다.
+                {
+                    if (clickedTile.width == playerUnit.CurrentTile.width &&
+                        clickedTile.length == playerUnit.CurrentTile.length) //클릭한 타일이 플레이어 유닛 위치면 
+                    {
+                        if (currentUnit != null) //기존에 컨트롤 중인 유닛이 있을때  
+                        {
+                            currentUnit.IsControll = false; //기존값은 컨트롤 해제하고 
+                            //SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentUnit.CurrentTile); //이동범위 리셋시킨다.
+                        }
+                        TurnActionValue -= currentUnit.CurrentTile.MoveCheckG;  //이동한값만큼 감소시키기
+                        currentUnit = playerUnit; //다른 아군을 담고
+                        currentUnit.IsControll = true; //컨트롤 할수있게 설정한다.
+                        cot.Target = currentUnit.transform; //카메라 포커스 맞추기 
+                        miniMapCam.player = currentUnit.transform;
+                        SelectControllUnit();
+                        return;
+                    }
+                }
+            }
+            else //현재 컨트롤 중인 유닛이 있는 타일이 클릭됬을경우  
+            {
+                PlayerSelect();
+            }
+        }
+        else 
+        {
+            Debug.LogWarning("캐릭터가 이동중입니다.");
+        }
+    }
+
+    /// <summary>
+    /// 캐릭터가 선택된 상태에서 다시 선택될때 처리할로직 
+    /// </summary>
+    private void PlayerSelect()
+    {
+        Debug.Log($"컨트롤유닛 {currentUnit.transform.name} 을 다시 선택했다.");
+    }
+
+    /// <summary>
+    /// 컨트롤 유닛으로 선택 될때 처리할로직 
+    /// </summary>
+    private void SelectControllUnit()
+    {
+        //currentUnit.MoveSize = TurnActionValue; //새로운캐릭터 이동가능범위 셋팅
+        MoveActionButton.IsMoveButtonClick = false; //귀찮아서 스태틱
+        //Debug.Log($"컨트롤유닛 : {currentUnit.transform.name} 선택했다.");
+    }
+
+    public override void ResetData()
+    {
+        if (currentUnit != null) //현재 진행중인 유닛이 있는경우 
+        {
+            currentUnit.IsControll = false; //컨트롤 해제 한다.
+            currentUnit = null;
+        }
+        base.ResetData();//그리고 데이터 초기화 한다.
+    }
+
+    /// <summary>
+    /// 현재 컨트롤 중인 유닛이 있을때 컨트롤중인유닛 이동로직 연결하기 
+    /// </summary>
+    /// <param name="seletedTile">선택된 타일</param>
+    private void OnUnitMove(Tile seletedTile) 
+    {
+        if (EventSystem.current.IsPointerOverGameObject())//포인터가 UI 위에 Mouse Over된 경우 return;
+        {
+           // Debug.Log("UI 감지");
+            return;
+        }
+        if (currentUnit != null && currentUnit.IsControll) //현재 컨트롤인경우만 
+        {
+            currentUnit.CharcterMove(seletedTile);//이동로직 실행
         }
     }
    
