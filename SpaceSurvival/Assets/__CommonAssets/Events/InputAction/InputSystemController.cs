@@ -69,15 +69,15 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
 
     //UI_Inven 액션맵
 
-    public Action OnUI_Inven_Equip_Item;
+    public Action OnUI_Inven_DoubleClick;
     public Action OnUI_Inven_ItemPickUp;
     public Action OnUI_Inven_Click;
     public Action OnUI_Inven_Click_Cancel;
     public Action<InputAction.CallbackContext> OnUI_Inven_Shift; //per 에서한번 cancel한번 
     public Action OnUI_Inven_EquipBox_Open;
+    public Action OnUI_SkillBox_Open;
     public Action OnUI_Inven_Inven_Open;
     public Action OnUI_Inven_MouseClickRight;
-
     //QuickSlot
 
     public Action OnQuickSlot_Popup;
@@ -132,7 +132,7 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
         inputSystem.Mouse.MouseClickRight.performed += (_) => { OnUI_Inven_MouseClickRight?.Invoke(); };
 
 
-        inputSystem.UI_Inven.Equip_Item.performed += (_) => { OnUI_Inven_Equip_Item?.Invoke(); };
+        inputSystem.UI_Inven.DoubleClick.performed += (_) => { OnUI_Inven_DoubleClick?.Invoke(); };
         inputSystem.UI_Inven.ItemPickUp.performed += (_) => { OnUI_Inven_ItemPickUp?.Invoke(); };
         inputSystem.UI_Inven.Click.performed += (_) => { OnUI_Inven_Click?.Invoke(); };
         inputSystem.UI_Inven.Click.canceled += (_) => { OnUI_Inven_Click_Cancel?.Invoke(); };
@@ -140,6 +140,7 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
         inputSystem.UI_Inven.Shift.canceled += (context) => { OnUI_Inven_Shift?.Invoke(context); };
         inputSystem.UI_Inven.EquipBox_Open.performed += (_) => { OnUI_Inven_EquipBox_Open?.Invoke(); };
         inputSystem.UI_Inven.InvenKey.performed += (_) => { OnUI_Inven_Inven_Open?.Invoke(); };
+        inputSystem.UI_Inven.SkillBox_Open.performed += (_) => { OnUI_SkillBox_Open?.Invoke(); };
 
 
         inputSystem.Camera.RightRotate.performed += (_) => { OnCamera_RightRotate?.Invoke(); };
@@ -180,6 +181,7 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
                 inputSystem.BattleMap_Player.Enable();
                 inputSystem.Options.Enable();
                 inputSystem.Camera.Enable();
+                inputSystem.Mouse.Enable();
                 break;
             
             case HotKey_Use.Use_TownMap:                                    // 마을 진입시

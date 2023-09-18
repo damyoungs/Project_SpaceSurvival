@@ -107,7 +107,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
 
         foreach (QuickSlot quickSlot in quickSlot_Manager.QuickSlots)
         {
-            quickSlot.onSetData += Binding_Slots; 
+            quickSlot.onSet_ItemData += Binding_Slots; 
         }
 
         inven = GameManager.Inventory;
@@ -300,7 +300,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         }
         else if (potion != null)
         {
-            potion.Consume(GameManager.Player__);
+            potion.Consume(GameManager.Player_);
             RemoveItem(data, index);
         }
         else

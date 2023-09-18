@@ -42,7 +42,7 @@ public class Item_Enhancer_UI : MonoBehaviour, IPopupSortWindow, IPointerClickHa
         get => darkForceCount;
         set
         {
-            darkForceCount = Math.Clamp(value, MinDarkForceCount, (uint)GameManager.Player__.DarkForce);
+            darkForceCount = Math.Clamp(value, MinDarkForceCount, (uint)GameManager.Player_.DarkForce);
             amountText.text = darkForceCount.ToString();    // 인풋 필드에 적용
             amountSlider.value = darkForceCount;
             onDarkForceValueChange?.Invoke(itemEnhancer.ItemData);
@@ -134,7 +134,7 @@ public class Item_Enhancer_UI : MonoBehaviour, IPopupSortWindow, IPointerClickHa
             itemLevel = itemEnhancer.ItemData.Itemlevel;
             beforelevelText.text = $"{itemLevel}";
             afterlevelText.text = $"{itemLevel + 1}";
-            amountSlider.maxValue = GameManager.Player__.DarkForce;
+            amountSlider.maxValue = GameManager.Player_.DarkForce;
             UpdateSuccessRate(itemData);
         }
     }
