@@ -83,7 +83,6 @@ public class InitCharcterSetting : MonoBehaviour
 
                 miniCam.player = tbo.CharcterList[0].transform; //미니맵 활성화용 수정필요 
                 cameraOriginTarget.Target = tbo.CharcterList[0].transform;
-               
             }
             else //그이외에는 몬스터나 중립 을 넣으면된다 조건문 추가필요 
             {
@@ -93,7 +92,7 @@ public class InitCharcterSetting : MonoBehaviour
                 tbo.InitData();
                 
             }
-            //tbo.TurnActionValue = 10.0f; // -테스트값 설정
+            tbo.TurnActionValue = 10.0f; // -테스트값 설정
             teamArray[i] = tbo;
         }
 
@@ -112,7 +111,7 @@ public class InitCharcterSetting : MonoBehaviour
 
 
         TurnManager.Instance.InitTurnData(teamArray);
-        
+
         GameManager.QuickSlot_Manager.gameObject.SetActive(true);
     }
 

@@ -14,7 +14,7 @@ public class EnemyTurnObject : TurnBaseObject
     /// <summary>
     /// 캐릭터 데이터는 외부에서 셋팅하기때문에 해당 델리게이트 연결해줘야함
     /// </summary>
-    public Func<BattleMapEnemyBase[]> initEnemy;
+    public Func<ICharcterBase[]> initEnemy;
 
     public Action turnStart; 
 
@@ -24,7 +24,7 @@ public class EnemyTurnObject : TurnBaseObject
     public override void InitData()
     {
 
-        BattleMapEnemyBase[] enemyList = initEnemy?.Invoke(); //외부에서 몬스터 배열이 들어왔는지 체크
+        ICharcterBase[] enemyList = initEnemy?.Invoke(); //외부에서 몬스터 배열이 들어왔는지 체크
         if (enemyList == null || enemyList.Length == 0) //몬스터 초기화가 안되있으면 
         {
             //테스트 데이터 생성
@@ -41,12 +41,12 @@ public class EnemyTurnObject : TurnBaseObject
         }
         else // 외부에서 데이터가 들어왔을경우  이경우가 정상적인경우다  내가 데이서 셋팅안할것이기때문에...
         {
-            foreach (BattleMapEnemyBase enemy in enemyList)
+            foreach (ICharcterBase enemy in enemyList)
             {
                 charcterList.Add(enemy); //턴관리할 몹 셋팅
             }
         }
-        SpaceSurvival_GameManager.Instance.GetEnemeyTeam = () => charcterList.ToArray();
+        SpaceSurvival_GameManager.Instance.GetEnemeyTeam = () => enemyList;  //싱글톤메니저쪽에 데이터 셋팅 
     }
     public override void TurnStartAction()
     {

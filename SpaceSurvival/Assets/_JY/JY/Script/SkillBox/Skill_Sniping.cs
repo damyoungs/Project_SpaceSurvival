@@ -14,7 +14,7 @@ public class Skill_Sniping : SkillData
         SkillLevel = 1;
         //AnimClip
         //audioClip
-        AttackRange = 7;
+        AttackRange = 1;
         Require_Force_For_skillLevelUp = 1;
         Require_Stamina_For_UsingSkill = 1;
         SkillPower = 1.5f;
