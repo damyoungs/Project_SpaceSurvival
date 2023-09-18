@@ -244,6 +244,8 @@ public class AttackRange : MonoBehaviour
     }
     /// <summary>
     /// 로직짜기귀찮아서 스위치로 처리..
+    /// 방향표시가 없는구간도있으니 무조건 처리하는게아니라 방향처리없는 곳은 건너뛰는로직도 필요할듯싶다 .
+    /// 그럴려면 범위표시하는곳에서 카운팅한 값을 8방향 만큼 전부저장하고 0일때는 건너뛰는로직이 필요.
     /// </summary>
     /// <param name="mouseWheelValue">휠방향</param>
     private void SetAttackDir(float mouseWheelValue) 
@@ -308,7 +310,7 @@ public class AttackRange : MonoBehaviour
                     break;
             }
         }
-        Debug.Log(attackDir.ToString());
+        //Debug.Log(mouseWheelValue);
     }
 
     /// <summary>
@@ -588,25 +590,26 @@ public class AttackRange : MonoBehaviour
         int forSize = 0;
         Tile addTile = null;
         int rotateSize = eightWayRotateValues.Length;   //8방향 회전에대한 배열크기 가져오기
-        for (int i = 0; i < rotateSize; i++)    
+        for (int i = 0; i < rotateSize; i++)
         {
             //미리선언해둔 8방향 Vector2Int 배열 을 가지고 계산한다.
             //공격표시할 범위값 가져와서 
             forSize = SetRangeSizeCheck(currentX, currentY, eightWayRotateValues[i].x, eightWayRotateValues[i].y, tileSizeX, tileSizeY, size);
             //Debug.Log($" 포문횟수 : {i}번째  플레이어위치 :{playerTile}");
-            for (int j = forSize; j > 0; j--) // 포문순서는 상관없는데 반대로 해봣다.
+            forSize += 1; //포문시작을 1부터 시작하기때문에 추가
+            for (int j = 1; j < forSize; j++) // 포문순서는 상관없는데 반대로 해봣다.
             {
                 searchIndex = (currentX + (eightWayRotateValues[i].x * j)) + ((currentY + (eightWayRotateValues[i].y * j)) * tileSizeX); //인덱스구하기 
                 //Debug.Log($"인덱스값 : {searchIndex} forSize :{forSize} , 공격범위{size}");
-                //Debug.Log($"X :{(currentX + (eightWayRotateValues[i].x * j))} , Y:{(currentY + (eightWayRotateValues[i].y * j))} , sX:{eightWayRotateValues[i].x} ,sY:{eightWayRotateValues[i].y}, i:{i},j:{j} , tileSizeY:{tileSizeY}");
+                //Debug.Log($"X :{(currentX + (eightWayRotateValues[i].x * j))} , Y:{(currentY + (eightWayRotateValues[i].y * j))} , sX:{eightWayRotateValues[i].x} ,sY:{eightWayRotateValues[i].y}, i:{i},j:{j} , tileSizeX:{tileSizeX}");
                 addTile = mapTiles[searchIndex];
-                if (addTile.ExistType != Tile.TileExistType.Prop) //장애물 제외하고  
-                {
-                    attackRangeTiles.Add(addTile); //반환 시킬 리스트로 추가한다.
-                }
+                if (addTile.ExistType == Tile.TileExistType.Prop) break;    //장애물 이면 이후에는 추가되면안된다
+                attackRangeTiles.Add(addTile); //반환 시킬 리스트로 추가한다.
             }
         }
     }
+    //인덱스값 : -24 forSize :3 , 공격범위4
+    //X :0 , Y:-1 , sX:-1 ,sY:-1, i:5,j:2 , tileSizeY:24
 
 
     /// <summary>
@@ -667,10 +670,12 @@ public class AttackRange : MonoBehaviour
             int currentX = currentTile.width;
             int currentY = currentTile.length;
             int searchIndex = 0;
-            int forSize = SetRangeSizeCheck(currentX, currentY, wayValue.x, wayValue.y, tileSizeX, tileSizeY, size) + 1;
-            for (int j = 0; j < forSize; j++)
+            int forSize = SetRangeSizeCheck(currentX, currentY, wayValue.x, wayValue.y, tileSizeX, tileSizeY, size);
+            forSize += 1;//포문시작을 1부터 시작하기때문에 추가
+            for (int j = 1; j < forSize; j++)
             {
                 searchIndex = (currentX + (wayValue.x * j)) + ((currentY + (wayValue.y * j)) * tileSizeX); //인덱스구하기 
+                //Debug.Log($"{currentX + (wayValue.x * j)} , {currentY + (wayValue.y * j)} , {tileSizeX} ,{j},{searchIndex}");
                 addTile = mapTiles[searchIndex];
                 if (addTile.ExistType == Tile.TileExistType.AttackRange) //공격범위안에있으면 
                 {
@@ -685,7 +690,7 @@ public class AttackRange : MonoBehaviour
 
     /// <summary>
     /// 관통로직에 사용됨
-    /// 공격범위가 맵끝인지 체크하는 로직 
+    /// 공격범위가 맵끝인지 체크하고 맵끝까지의 남은 갯수를 반환한다.
     /// 공격범위 float 이라 소수점이하는 날라갈수도있다. 좌표는 int 라서 
     /// 공격할 범위를 정할 함수 
     /// </summary>
@@ -696,37 +701,38 @@ public class AttackRange : MonoBehaviour
     /// <param name="tileMaxX">타일 가로 최대 갯수</param>
     /// <param name="tileMaxY">타일 세로 최대 갯수</param>
     /// <param name="rangeSize">현재 공격범위</param>
-    /// <returns>for문돌릴 사이즈값을 반환</returns>
+    /// <returns>캐릭터의 타일이 포합되지않은 범위값을 반환</returns>
     private int SetRangeSizeCheck(int currentX, int currentY , int searchX , int searchY, int tileMaxX, int tileMaxY , float rangeSize)
     {
         //범위최종위치가 사이드인지 체크해서 계산
         float tempIndex = currentX + (searchX * rangeSize); // 좌우 계산값 
+        int resultValue = (int)rangeSize;
         if (tempIndex < 0) //왼쪽끝을 넘어갓는지 체크   
         {
-            //Debug.Log($"좌측 끝 {currentX}");
-            return currentX; 
+            Debug.Log($"좌측 끝 {currentX}");
+            resultValue = currentX; 
         }
         else if(tempIndex > tileMaxX - 1)  //오른쪽을 넘어갓는지 체크
         {
-            //Debug.Log($"우측 끝 {(tileMaxX - 1) - currentX} ");
-            return (tileMaxX - 1) - currentX; 
+            Debug.Log($"우측 끝 {(tileMaxX - 1) - currentX} ");
+            resultValue = (tileMaxX - 1) - currentX; 
         }
 
         tempIndex = currentY + (searchY * rangeSize);   //위아래 계산값
         if (tempIndex < 0) //아래를 넘어갓는지 체크   
         {
-            //Debug.Log($"아래 끝 {currentY}");
-            return currentY; 
+            Debug.Log($"아래 끝 {currentY}");
+            resultValue = currentY > resultValue ? resultValue : currentY; 
         }
         else if (tempIndex > tileMaxY - 1)  //위를 넘어갓는지 체크
         {
-            //Debug.Log($"위 끝 {(tileMaxY - 1) - currentY}");
-            return (tileMaxY -1) - currentY; // x 계산법과 동일
+            Debug.Log($"위 끝 {(tileMaxY - 1) - currentY}");
+            int temp = (tileMaxY - 1) - currentY;
+            resultValue = resultValue > temp ? temp : resultValue; 
         }
 
-        return (int)rangeSize; //위에 조건이 안걸리면 그냥 설정값 반환
+        return resultValue;
     }
-
 
 
 
