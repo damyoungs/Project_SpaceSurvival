@@ -26,7 +26,7 @@ public class Cho_PlayerMove : MonoBehaviour
     Vector3 moveDir = Vector3.zero;
     float curRotateY = 0.0f;
     float gravity = 0.0f;
-    bool isJump = false;
+    bool isJumping = false;
 
     PlayerState state = PlayerState.Idle;
     PlayerState State
@@ -98,6 +98,10 @@ public class Cho_PlayerMove : MonoBehaviour
 
         //controller.Move(Time.fixedDeltaTime * speed * transform.TransformDirection(moveDir));
         controller.SimpleMove(speed * transform.TransformDirection(moveDir));
+        if (isJumping)
+        {
+            gravity += 9.81f * Time.fixedDeltaTime;
+        }
     }
 
     private void OnMove(UnityEngine.InputSystem.InputAction.CallbackContext context)
@@ -133,6 +137,8 @@ public class Cho_PlayerMove : MonoBehaviour
     {
         //rigid.velocity = Vector3.zero;
         //rigid.AddForce(jumpHeight * transform.up, ForceMode.Impulse);
+        moveDir.y = jumpHeight;
+        isJumping = true;
         animator.SetTrigger("IsJump");
     }
 
@@ -169,7 +175,8 @@ public class Cho_PlayerMove : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-
+            isJumping = false;
+            gravity = 0.0f;
         }
     }
 }
