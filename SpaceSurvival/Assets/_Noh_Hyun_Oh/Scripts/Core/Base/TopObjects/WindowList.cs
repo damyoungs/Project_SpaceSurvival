@@ -139,7 +139,7 @@ public class WindowList : Singleton<WindowList> {
     private void OnOffWindowOption()
     {
         //씬로딩이아닌경우만 실행한다. 
-        if (!LoadingScean.IsLoading){ 
+        if (!LoadingScene.IsLoading){ 
             popupOnOff(mainWindow);
         }
     }
@@ -169,7 +169,7 @@ public class WindowList : Singleton<WindowList> {
     private void OnOffStateWindow()
     {
         //씬로딩이아닌경우만 실행한다. 
-        if (!LoadingScean.IsLoading)
+        if (!LoadingScene.IsLoading)
         {
             popupOnOff(optionsPopupWindow);
 
@@ -179,7 +179,7 @@ public class WindowList : Singleton<WindowList> {
     private void OffPopupWindow()
     {
         //씬로딩이아닌경우만 실행한다. 
-        if (!LoadingScean.IsLoading)
+        if (!LoadingScene.IsLoading)
         {
             popupManager.PopupClose();
         }

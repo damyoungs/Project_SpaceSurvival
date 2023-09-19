@@ -13,7 +13,7 @@ using System;
 ///        싱글톤 사용시 Awake 함수에서 맴버 변수에 접근하여 로직수행시 제대로 안될수있다.
 ///     2. 팩토리 사용시 
 /// </summary>
-public class LoadingScean : MonoBehaviour
+public class LoadingScene : MonoBehaviour
 {
     /// <summary>
     /// 로딩상황을 체크하는변수

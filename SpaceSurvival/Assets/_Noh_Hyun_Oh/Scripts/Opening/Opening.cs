@@ -93,7 +93,7 @@ public class Opening : MonoBehaviour
 
         TextMeshPro speedUpText = buttons.GetComponentInChildren<TextMeshPro>();
         buttons.skipButton += (text) => {
-            LoadingScean.SceanLoading(EnumList.SceanName.TITLE); //스킵이면 씬이동
+            LoadingScene.SceanLoading(EnumList.SceanName.TITLE); //스킵이면 씬이동
         };
 
         elaspadSpeed = cameraMoveSpeed; //이동속도 기본속도로 셋팅
@@ -129,7 +129,7 @@ public class Opening : MonoBehaviour
             yield return null;
         }
         //도착이니 다음 화면으로 이동
-        LoadingScean.SceanLoading(EnumList.SceanName.TITLE); 
+        LoadingScene.SceanLoading(EnumList.SceanName.TITLE); 
     }
     string enterText = "//";
 

@@ -10,6 +10,6 @@ public class NewGameButton: MonoBehaviour
 {
     public void OnClickNewStart()
     {
-        LoadingScean.SceanLoading(EnumList.SceanName.TITLE);
+        LoadingScene.SceanLoading(EnumList.SceanName.TITLE);
     }
 }
