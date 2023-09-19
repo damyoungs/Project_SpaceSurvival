@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.XR.OpenVR;
 using UnityEngine;
 
@@ -46,7 +47,8 @@ public class EnemyTurnObject : TurnBaseObject
                 charcterList.Add(enemy); //턴관리할 몹 셋팅
             }
         }
-        SpaceSurvival_GameManager.Instance.GetEnemeyTeam = () => charcterList.ToArray();
+
+        SpaceSurvival_GameManager.Instance.GetEnemeyTeam = () => charcterList.OfType<BattleMapEnemyBase>().ToArray();
     }
     public override void TurnStartAction()
     {
