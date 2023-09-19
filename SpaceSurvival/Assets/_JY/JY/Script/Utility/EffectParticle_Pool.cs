@@ -50,7 +50,7 @@ public class EffectParticle_Pool : MonoBehaviour
     public GameObject GetObject(SkillType type, Vector3 position)
     {
         GameObject result = pools[(int)type].Dequeue();
-        position.y += 2;
+        position.y += 1;
         result.transform.position = position;
         result.SetActive(true);
         if (type == SkillType.Blessing)

@@ -345,7 +345,6 @@ public class Player_ : MonoBehaviour, IBattle
     }
     public void SkillPostProcess()//skillAction 실행 후 grid 에서 호출할 함수 
     {
-        GameManager.PS_Pool.GetObject(SkillType.Sniping, transform.position);
         Stamina--;
         on_CursorChange?.Invoke(false);
         

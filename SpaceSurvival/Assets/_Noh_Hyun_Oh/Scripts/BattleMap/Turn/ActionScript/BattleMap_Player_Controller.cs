@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -191,13 +193,53 @@ public class BattleMap_Player_Controller : MonoBehaviour
             }
         }
     }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="skillRangeTile">공격할 범위</param>
+    /// <param name="skill">사용할 스킬의 데이터</param>
     private void AttackEffectOn(Tile[] skillRangeTile, SkillData skill)
     {
+        switch (skill.SkillType)
+        {
+            case SkillType.Penetrate:
+                StartCoroutine(Penetrate(skillRangeTile, skill));
+                return;
+            case SkillType.rampage:
+                StartCoroutine(Rampage(skillRangeTile, skill));
+                return;
+            default:
+                break;
+        }
+
+
         int forSize = skillRangeTile.Length;
         for (int i = 0; i < forSize; i++)
         {
             GameManager.PS_Pool.GetObject(skill.SkillType, skillRangeTile[i].transform.position);
         }
+    }
+    IEnumerator Penetrate(Tile[] skillRangeTile, SkillData skillData)
+    {
+        for (int i = 0; i < skillRangeTile.Length; i++)
+        {
+            GameManager.PS_Pool.GetObject(skillData.SkillType, skillRangeTile[i].transform.position);
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+    IEnumerator Rampage(Tile[] skillRangeTile, SkillData skillData)
+    {
+        WaitForSeconds waitForSeconds = new WaitForSeconds(0.025f);
+        Util.Shuffle(skillRangeTile);
+        int i = 0;
+        while(i < skillRangeTile.Length * 3)
+        {
+            GameManager.PS_Pool.GetObject(skillData.SkillType, skillRangeTile[i].transform.position);
+            yield return waitForSeconds;
+            i++;
+            i %= skillRangeTile.Length;
+        }
+     
     }
 }
   
