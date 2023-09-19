@@ -53,8 +53,8 @@ public class EnemyTurnObject : TurnBaseObject
     {
         turnStart?.Invoke();
         Debug.Log($"적군턴시작 행동력 :{TurnActionValue}");
-        //TurnActionValue -= UnityEngine.Random.Range(5.0f, 10.0f);// 행동력 소모후 테스트 용 
-        // Debug.Log($"적군턴끝 행동력 :{TurnActionValue}");
+        TurnActionValue -= UnityEngine.Random.Range(5.0f, 10.0f);// 행동력 소모후 테스트 용 
+        Debug.Log($"적군턴끝 행동력 :{TurnActionValue}");
         
 
         TurnEndAction();
