@@ -25,6 +25,8 @@ public class Cho_PlayerMove : MonoBehaviour
 
     Vector3 moveDir = Vector3.zero;
     float curRotateY = 0.0f;
+    float gravity = 0.0f;
+    bool isJump = false;
 
     PlayerState state = PlayerState.Idle;
     PlayerState State
@@ -41,10 +43,10 @@ public class Cho_PlayerMove : MonoBehaviour
 
 
     InputKeyMouse inputActions;
-    Rigidbody rigid;
+    //Rigidbody rigid;
     Animator animator;
     Transform cameraPos;
-    //CharacterController controller;
+    CharacterController controller;
 
     readonly int Speed_Hash = Animator.StringToHash("Speed");
 
@@ -54,10 +56,10 @@ public class Cho_PlayerMove : MonoBehaviour
     private void Awake()
     {
         inputActions = new InputKeyMouse();
-        rigid = GetComponent<Rigidbody>();
+        //rigid = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         cameraPos = transform.GetChild(21);
-        //controller = GetComponent<CharacterController>();
+        controller = GetComponent<CharacterController>();
     }
 
     private void Start()
@@ -91,11 +93,11 @@ public class Cho_PlayerMove : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rigid.MovePosition(rigid.position + transform.TransformDirection(Time.fixedDeltaTime * speed * moveDir));
+        //rigid.MovePosition(rigid.position + transform.TransformDirection(Time.fixedDeltaTime * speed * moveDir));
         //rigid.MovePosition(rigid.position + Time.fixedDeltaTime * speed * moveDir);
 
         //controller.Move(Time.fixedDeltaTime * speed * transform.TransformDirection(moveDir));
-        //controller.SimpleMove(speed * transform.TransformDirection(moveDir));
+        controller.SimpleMove(speed * transform.TransformDirection(moveDir));
     }
 
     private void OnMove(UnityEngine.InputSystem.InputAction.CallbackContext context)
@@ -129,8 +131,8 @@ public class Cho_PlayerMove : MonoBehaviour
 
     private void OnJump(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        rigid.velocity = Vector3.zero;
-        rigid.AddForce(jumpHeight * transform.up, ForceMode.Impulse);
+        //rigid.velocity = Vector3.zero;
+        //rigid.AddForce(jumpHeight * transform.up, ForceMode.Impulse);
         animator.SetTrigger("IsJump");
     }
 
@@ -154,12 +156,20 @@ public class Cho_PlayerMove : MonoBehaviour
     {
         Vector2 temp = context.ReadValue<Vector2>();
         float rotateX = temp.x * rotateSensitiveX * Time.fixedDeltaTime;
-        rigid.MoveRotation(rigid.rotation * Quaternion.AngleAxis(rotateX, Vector3.up));
-        //transform.Rotate(Vector3.up, rotateX);
+        //rigid.MoveRotation(rigid.rotation * Quaternion.AngleAxis(rotateX, Vector3.up));
+        transform.Rotate(Vector3.up, rotateX);
 
         float rotateY = temp.y * rotateSensitiveY * Time.fixedDeltaTime;
         curRotateY -= rotateY;
         curRotateY = Mathf.Clamp(curRotateY, -60.0f, 60.0f);
         cameraPos.rotation = Quaternion.Euler(curRotateY, cameraPos.eulerAngles.y, cameraPos.eulerAngles.z);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+
+        }
     }
 }
