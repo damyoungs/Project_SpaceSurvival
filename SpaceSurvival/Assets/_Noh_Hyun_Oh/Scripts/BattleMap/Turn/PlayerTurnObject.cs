@@ -106,12 +106,13 @@ public class PlayerTurnObject : TurnBaseObject
         Player_ currentPlayer = currentCharcter.CharcterData;
         currentPlayer.Stamina = TurnActionValue;
         float moveSize = currentUnit.MoveSize < TurnActionValue ? currentUnit.MoveSize : TurnActionValue;//이동범위 최대 크기잡아놓은만큼만 표시하기위한 값
-        Debug.Log(TurnActionValue);
+        //Debug.Log(TurnActionValue);
         //상시유아이 갱신
 
         TeamBorderStateUI uiComp = WindowList.Instance.TeamBorderManager.TeamStateUIs[0];
         uiComp.SetHpGaugeAndText(currentPlayer.HP, currentPlayer.MaxHp);
         uiComp.SetStmGaugeAndText(currentPlayer.Stamina, currentPlayer.Max_Stamina);
+
 
 
         SelectControllUnit(); //유닛 선택로직 실행
@@ -120,6 +121,7 @@ public class PlayerTurnObject : TurnBaseObject
         if (currentUnit.BattleUI != null)
         {
 
+            currentUnit.BattleUI.TrunActionStateChange(); //턴시작시 상태이상 들을 게이지 진행시킨다
             currentUnit.BattleUI.stmGaugeSetting(TurnActionValue, currentPlayer.Max_Stamina);
             currentUnit.BattleUI.hpGaugeSetting(currentPlayer.HP, currentPlayer.MaxHp);
         }

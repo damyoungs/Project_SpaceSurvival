@@ -11,6 +11,8 @@ public class EtcObjects : Singleton<EtcObjects>
     UICamera[] teamCharcterView; //캐릭터 상시상태쪽에 보일카메라 3개
     public UICamera TeamCharcterView => cameraQueue.Dequeue(); //카메라 줄땐 큐에서 꺼내서준다.
     Queue<UICamera> cameraQueue; //카메라 관리할 큐
+    TeamBorderManager teamBorderManager;
+    public TeamBorderManager TeamBorderManager => teamBorderManager;
     protected override void Awake()
     {
         base.Awake();
@@ -23,7 +25,7 @@ public class EtcObjects : Singleton<EtcObjects>
     }
     private void Start()
     {
-        TeamBorderManager teamBorderManager = WindowList.Instance.GetComponentInChildren<TeamBorderManager>(true);
+        teamBorderManager = WindowList.Instance.GetComponentInChildren<TeamBorderManager>(true);
         RawImage[] rawImages = teamBorderManager.GetComponentsInChildren<RawImage>(true);
         int i = 0;
         foreach (UICamera camera in teamCharcterView) //돌면서

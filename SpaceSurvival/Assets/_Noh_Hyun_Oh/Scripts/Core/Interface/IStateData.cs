@@ -14,13 +14,12 @@ public interface IStateData
     /// <summary>
     /// 상태이상 타입
     /// </summary>
-    EnumList.StateType Type { get; set; }
+    //EnumList.StateType Type { get; set; }
     
     /// <summary>
-    /// 아이콘 이미지
+    /// 스킬 데이터
     /// </summary>
-    Sprite Icon { get; }
-
+    SkillData SkillData { get; set; }
     /// <summary>
     /// 한턴당 감소되는 수치 
     /// </summary>

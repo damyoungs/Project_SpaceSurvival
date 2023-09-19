@@ -75,16 +75,13 @@ public class TeamBorderStateUI : MonoBehaviour
         Image image;
         for (int i = 0; i < childCount; i++)
         {
-            image = child.GetChild(i).GetComponent<Image>();
+            image = child.GetChild(i).GetChild(0).GetComponent<Image>(); //이미지 아이콘 보여줄 스프라이트 객체 가져오기 
+            stateTimer[i] = child.GetChild(i).GetComponent<Image>();
             imgIconArray[i] = image; //남은시간 보여줄 이미지 객체 
-            stateTimer[i] = child.GetChild(i).GetChild(0).GetComponent<Image>(); //이미지 아이콘 보여줄 스프라이트 객체 가져오기 
+            
         }
         hpGauge = HP_GaugeSetting(0.0f, 0.0f);
         stmGauge = Stm_GaugeSetting(0.0f, 0.0f);
-
-
-
-
 
     }
     public void SetStmGaugeAndText(float changeValue , float maxValue) 
@@ -181,50 +178,33 @@ public class TeamBorderStateUI : MonoBehaviour
         isStm_Change = false;
     }
 
-    /// <summary>
-    /// 버프 UI 갱신 함수 
-    /// </summary>
-    /// <param name="buffSkill">갱신할 버프데이터</param>
-    public void InitBuffSetting(SkillData buffSkill) 
-    {
-        int size = imgIconArray.Length;
-        for (int i = 0; i < size; i++)
-        {
-            if (imgIconArray[i] == null &&              //해당위치에 셋팅이안되있고 
-                !state_UI_Datas.Contains(buffSkill))    //등록된 것이 없으면  
-            {
-                AddState(i, buffSkill);//추가
-                //셋팅 
-                break;
-            }
-            else 
-            {
 
-            }
-        }
-    }
-
+    // 상태이상은 진짜 .. 기존에짜둔거 수정하기 너무 양이많아서 하드코딩이많다.. 어짜피 한개뿐이라..
     /// <summary>
     /// 버프 UI 셋팅 
     /// </summary>
     /// <param name="i">UI 순번</param>
     /// <param name="sprite">상태이상 아이콘</param>
-    private void AddState(int i, SkillData skill)
+    public void AddState(SkillData skill)
     {
-        state_UI_Datas[i] = skill;
-        imgIconArray[i].sprite = skill.skill_sprite;
-        stateTimer[i].fillAmount = 1.0f;
+        state_UI_Datas.Add(skill);
+        imgIconArray[0].sprite = skill.skill_sprite;
+        stateTimer[0].fillAmount = 0.0f;
     }
 
+    public void TrunActionValueSetting(float value) 
+    {
+        stateTimer[0].fillAmount = value;
+    }
     /// <summary>
     /// 버프 UI 초기화
     /// </summary>
     /// <param name="i">UI 순번</param>
     /// <param name="sprite">상태이상 아이콘</param>
-    private void RemoveState(int i)
+    public void RemoveState()
     {
-        state_UI_Datas[i] = null;
-        imgIconArray[i].sprite = null;
-        stateTimer[i].fillAmount = 0.0f;
+        state_UI_Datas.Clear();
+        imgIconArray[0].sprite = null;
+        stateTimer[0].fillAmount = 0.0f;
     }
 }

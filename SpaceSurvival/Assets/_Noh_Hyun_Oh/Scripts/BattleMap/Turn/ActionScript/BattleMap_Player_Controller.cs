@@ -117,7 +117,7 @@ public class BattleMap_Player_Controller : MonoBehaviour
         }
         else if (SpaceSurvival_GameManager.Instance.IsUICheck) 
         {
-            Debug.Log("UI 사용중입니당");
+            //Debug.Log("UI 사용중입니당");
             return;
         }
             //Debug.Log($"인풋시스템에서는 클릭한 곳의 오브젝트까지는 못가져온다 그래서 레이로 쏴서 가져와야한다.");

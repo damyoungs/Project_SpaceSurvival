@@ -37,12 +37,12 @@ public class TestStateBase : ScriptableObject
     Sprite stateIcon;
     public Sprite StateIcon => stateIcon;   
 
-    /// <summary>
-    /// 상태이상 타입
-    /// </summary>
-    [SerializeField]
-    StateType stateType;
-    public StateType StateType => stateType;
+    ///// <summary>
+    ///// 상태이상 타입
+    ///// </summary>
+    //[SerializeField]
+    //StateType stateType;
+    //public StateType StateType => stateType;
 
 
 
