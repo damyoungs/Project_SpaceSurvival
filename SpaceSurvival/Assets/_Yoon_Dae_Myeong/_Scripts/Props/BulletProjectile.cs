@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BulletProjectile : MonoBehaviour
 {
-	float moveSpeed = 200f;
+	public float moveSpeed = 200f;
 
 	private void Start()
 	{

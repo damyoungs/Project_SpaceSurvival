@@ -10,10 +10,7 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class CameraOriginTarget : MonoBehaviour
 {
-    /// <summary>
-    /// 키입력 처리할 것들
-    /// </summary>
-    InputKeyMouse inputAction;
+
     /// <summary>
     /// 회전속도
     /// </summary>
@@ -41,10 +38,24 @@ public class CameraOriginTarget : MonoBehaviour
     /// </summary>
     Vector3 screenHalfPosition = Vector3.zero;
 
+    float rotateValue = 0.0f;
+    float RotateValue 
+    {
+        get => rotateValue;
+        set 
+        {
+            if (rotateValue != value) 
+            {
+                rotateValue = value > 359.0f ? 0.0f : value < 1.0f ? 0.0f : value; //값이 0~ 360 까지만 셋팅된다.
+                onCameraRotateValue?.Invoke(rotateValue);
+            } 
+        }
+    }
+
     /// <summary>
-    /// 신호받으면 움직이는 코루틴 연결할때 사용 할 델리게이트
+    /// 회전값을 전달할 델리게이트
     /// </summary>
-    //public Action<Transform> onCameraOriginMove;
+    public Action<float> onCameraRotateValue;
 
     /// <summary>
     /// 카메라 이동속도
@@ -59,12 +70,16 @@ public class CameraOriginTarget : MonoBehaviour
 
     private void Awake()
     {
-        inputAction = new();
         screenHalfPosition.x = Screen.width * 0.5f;
         screenHalfPosition.z = 0.0f;
         screenHalfPosition.y = Screen.height * 0.5f;
-    }
 
+    }
+    private void Start()
+    {
+        InputSystemController.Instance.OnCamera_LeftRotate += OnLeftRotate;
+        InputSystemController.Instance.OnCamera_RightRotate += OnRightRotate;
+    }
     private void LateUpdate()
     {
         ///문제가 있을거같지만 일단 동작은 잘하네..?
@@ -72,20 +87,7 @@ public class CameraOriginTarget : MonoBehaviour
         //transform.Translate(target.transform.position ,Space.World);
     }
 
-    private void OnEnable()
-    {
-        inputAction.Camera.Enable();
-        inputAction.Camera.RightRotate.performed += OnRightRotate;
-        inputAction.Camera.LeftRotate.performed += OnLeftRotate;
-    }
-    
-    private void OnDisable()
-    {
-        inputAction.Camera.LeftRotate.performed -= OnLeftRotate;
-        inputAction.Camera.RightRotate.performed -= OnRightRotate;
-        inputAction.Camera.Disable();
-    }
-    private void OnLeftRotate(InputAction.CallbackContext context)
+    private void OnLeftRotate()
     {
         if (!isRotate)
         {
@@ -94,7 +96,7 @@ public class CameraOriginTarget : MonoBehaviour
         }
     }
 
-    private void OnRightRotate(InputAction.CallbackContext context)
+    private void OnRightRotate()
     {
         if (!isRotate)
         {
@@ -109,8 +111,8 @@ public class CameraOriginTarget : MonoBehaviour
     /// <returns></returns>
     IEnumerator RotateCourutine(float rotateValue) 
     {
+        RotateValue += rotateValue;// 순순히 처음회전값이 0도 로 가정한상태로 얼마나돌아갔는지 체크하기위한 변수 
         isRotate = true;//회전끝날때까지 입력들어와도 막는용
-
         //Debug.Log(transform.rotation.eulerAngles.y);
         float time = transform.rotation.eulerAngles.y; //시작값 셋팅
         rotateValue += time; //도착값 셋팅

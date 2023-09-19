@@ -6,12 +6,12 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using static UnityEngine.UI.GridLayoutGroup;
 
-public class TempSlot : Slot, IPointerUpHandler,IPointerClickHandler,IPointerDownHandler
+public class TempSlot : Slot, IPointerClickHandler,IPointerDownHandler
 {
     /// <summary>
     /// 이 인벤토리를 가진 플레이어(아이템 드랍 때문에 필요)
     /// </summary>
-    PlayerDummy owner;
+    Player_ owner;
 
     /// <summary>
     /// 임시 슬롯이 열리고 닫힐 때 실행되는 함수
@@ -26,7 +26,7 @@ public class TempSlot : Slot, IPointerUpHandler,IPointerClickHandler,IPointerDow
     public override void InitializeSlot(Slot slot)
     {
         base.InitializeSlot(slot);
-        owner = GameManager.playerDummy;
+        owner = GameManager.Player_;
     }
     /// <summary>
     /// 임시 슬롯 초기화하는 함수
@@ -90,13 +90,4 @@ public class TempSlot : Slot, IPointerUpHandler,IPointerClickHandler,IPointerDow
 
     }
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
-       
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        Debug.Log("감지");
-    }
 }

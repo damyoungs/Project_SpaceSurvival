@@ -29,7 +29,14 @@ public class ItemSpawner : TestBase
     }
     private void Start()
     {
-        player = GameManager.playerDummy;
+        player = GameManager.Player_;
+        StartCoroutine(TestInit());
+    }
+    IEnumerator TestInit() 
+    {
+        yield return null;
+
+        GetItem_For_Test();
     }
     void SetDropTable()
     {
@@ -81,19 +88,32 @@ public class ItemSpawner : TestBase
     {
         GameManager.SlotManager.AddItem(itemCode);
     }
-    public void ClearInventory()//itemdata 참조 불필요 현재 선택된 탭의 인벤토리를 기준으로 클리어
-    {
-        GameManager.SlotManager.ClearInventory();
-    }
+   
     public void ClearSlot()
     {
         ItemData data = GameManager.Itemdata[itemCode];
         GameManager.SlotManager.ClearSlot(data, index);
     }
-    public void GetItemBow()
+    public void GetItem_For_Test()
     {
+        int i = 0;
+        while(i < 50)
+        {
+            GameManager.SlotManager.AddItem(ItemCode.HpPotion);
+            GameManager.SlotManager.AddItem(ItemCode.MpPotion);
+            i++;
+        }
+        GameManager.SlotManager.AddItem(ItemCode.Enhancable_shotGun);
+        GameManager.SlotManager.AddItem(ItemCode.Enhancable_Pistol);
+        GameManager.SlotManager.AddItem(ItemCode.Enhancable_Rifle);
+        GameManager.SlotManager.AddItem(ItemCode.Captains_Hat);
+        GameManager.SlotManager.AddItem(ItemCode.Crews_Hat);
+        GameManager.SlotManager.AddItem(ItemCode.Big_Space_Armor);
+        GameManager.SlotManager.AddItem(ItemCode.Space_Armor);
+        GameManager.SlotManager.AddItem(ItemCode.Intermidiate_Green_Crystal);
+        GameManager.SlotManager.AddItem(ItemCode.Advanced_Red_Crystal);
     }
-    public void GetItemHpPotion()
+    public void GetItemH()
     {
         GameManager.SlotManager.AddItem(ItemCode.HpPotion);
     }
@@ -161,10 +181,10 @@ public class ItemSpawner : TestBase
     {
         equipBox.Set_ItemData_For_Drag(GameManager.Itemdata[ItemCode.HpPotion]);
     }
-    PlayerDummy player;
+    Player_ player;
     protected override void Test5(InputAction.CallbackContext context)
     {
- 
+        GameManager.SlotManager.Inven_Clear();
 
     }
     protected override void Test6(InputAction.CallbackContext context)

@@ -7,7 +7,7 @@ public class ItemData_Cash : ItemData, IConsumable
 {
     public void Consume(GameObject target)
     {
-        PlayerDummy player = target.GetComponent<PlayerDummy>();
+        Player_ player = target.GetComponent<Player_>();
         if (player != null)
         {
             player.Money += (int)price;

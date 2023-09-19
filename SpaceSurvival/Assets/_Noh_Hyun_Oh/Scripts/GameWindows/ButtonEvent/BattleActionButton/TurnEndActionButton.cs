@@ -16,9 +16,17 @@ public class TurnEndActionButton : BattleActionButtonBase
         //테스트코드 
         if (node.CurrentUnit != null)
         {
+            SpaceSurvival_GameManager.Instance.AttackRange.ClearLineRenderer(); //공격범위 초기화한다.
+            SpaceSurvival_GameManager.Instance.AttackRange.isAttacRange = false;
+            SpaceSurvival_GameManager.Instance.AttackRange.isSkillAndAttack = false;
+            
             SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(node.CurrentUnit.CurrentTile); //이동범위 리셋시킨다.
             node.CurrentUnit = null;
         }
+        
+
+
+        
         if (!node.IsMove) 
         {
             node.IsTurn = false;
@@ -28,6 +36,8 @@ public class TurnEndActionButton : BattleActionButtonBase
             node.TurnEndAction(); //턴완료 델리게이트를 실행한다 .
         
         }
+
+
     }
 
 }

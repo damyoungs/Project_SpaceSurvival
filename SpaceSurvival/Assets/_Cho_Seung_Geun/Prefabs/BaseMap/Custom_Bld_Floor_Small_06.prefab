@@ -48,6 +48,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
+  lineRendererMaterials:
+  - {fileID: 2100000, guid: e2ed928efadb9684a9fdaf5d7e28172b, type: 2}
+  - {fileID: 2100000, guid: 0b3deb454bd70994bb315d6ed5adf4c3, type: 2}
+  - {fileID: 2100000, guid: ad98d733bf2c95d49b0fc0ece98bedb9, type: 2}
   existType: 0
   width: 0
   length: 0
@@ -89,7 +93,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c6a855170ad6f4abebeaeb950c68e124, type: 2}
+  - {fileID: 2100000, guid: e2ed928efadb9684a9fdaf5d7e28172b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

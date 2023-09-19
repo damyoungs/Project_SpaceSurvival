@@ -37,7 +37,7 @@ public class EquipBox_Slot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHa
         if (itemData == null)
         {
             itemIcon.color = Color.clear;
-            itemIcon.sprite = null;
+           // itemIcon.sprite = null;
         }
         else
         {

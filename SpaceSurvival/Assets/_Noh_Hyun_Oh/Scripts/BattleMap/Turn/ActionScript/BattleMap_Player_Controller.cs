@@ -1,10 +1,10 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+using Unity.VisualScripting;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// 배틀맵에서 플레이어의 이벤트핸들러내용을 정의할 컴포넌트  
@@ -12,10 +12,6 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class BattleMap_Player_Controller : MonoBehaviour
 {
-    /// <summary>
-    /// 키입력 처리가져오기
-    /// </summary>
-    InputKeyMouse inputSystem;
 
     /// <summary>
     /// 레이가 타일에 충돌됬을때 체크할 레이어 값
@@ -23,13 +19,20 @@ public class BattleMap_Player_Controller : MonoBehaviour
     ///  LayerMask.GetMask();// 2진코드로 작성되있어서 값이 0,1,2,4,8,16 처럼 2의 배수로 순차적으로 저장되있다 
     ///  LayerMask.NameToLayer("");// 겟마스크와다르게 저장된순번 을가져온다 0,1,2,3,4,5,6,7 .... 
     ///  GameObject.Layer 는 순번이 저장되있다 
-    ///  readOnly 로 미리 검색시도했더니 
+    ///  readOnly 로 미리 검색시도했더니 에러남 레이어셋팅은 게임시작하고나서 진행되는듯.
     /// </summary>
     [SerializeField]
     int tileLayerIndex;
 
+    //[SerializeField]
+    //int uiLayerIndex;
+
+    /// <summary>
+    /// 공격 여부 확인용 
+    /// </summary>
     [SerializeField]
-    int uiLayerIndex;
+    bool isAttack = false;
+
 
     /// <summary>
     /// 플레이어가 턴인지 확인하기위해 가져오는 오브젝트
@@ -80,39 +83,34 @@ public class BattleMap_Player_Controller : MonoBehaviour
     public Action<Tile> onClickPlayer;
 
     /// <summary>
-    /// 이벤트 제어 하기위한 델리게이트 나중에 메니저 만들어서 처리할때 필요 
+    /// 공격 범위가 표시된상태로 클릭시 처리할 액션 
     /// </summary>
-    //public Action<Tile> onOffEventHandle;
+    public Action<BattleMapEnemyBase[], float> onAttackAction;
 
     private void Awake()
     {
         tileLayerIndex = LayerMask.NameToLayer("Ground");
-        uiLayerIndex = LayerMask.NameToLayer("UI");
-        inputSystem = new();
-        inputSystem.BattleMap_Player.Enable();
-        inputSystem.BattleMap_Player.UnitMove.performed += OnMove;
+        //uiLayerIndex = LayerMask.NameToLayer("UI");
+
        
     }
-
-    private void OnDestroy()
+    private void Start()
     {
-        inputSystem.BattleMap_Player.UnitMove.performed -= OnMove;
-        inputSystem.BattleMap_Player.Disable();
-
+        InputSystemController.Instance.OnBattleMap_Player_UnitMove += OnMove;
     }
-    
+
     /// <summary>
     /// 클릭했을때 레이를 쏴서 레이에 충돌한 객체들을 가져오고 
     /// 레이어로 나눠서 처리를 하는 로직 
     /// </summary>
-    private void OnMove(InputAction.CallbackContext _)
+    private void OnMove()
     {
-        if (PlayerTurnObject == null) //플레이어가 현재 턴인경우만 실행하도록 체크
+        if (PlayerTurnObject == null) //플레이어가 현재 셋팅이 되있는지 체크
         {
-            Debug.Log($"{playerTurnObject}플레이어가 셋팅 안되있거나 플레이어가 현재 턴이아닙니다.");
+            Debug.Log($"{playerTurnObject}플레이어가 셋팅 안되있습니다.");
             return;
         }
-        else if (!playerTurnObject.IsTurn)
+        else if (!playerTurnObject.IsTurn)  
         {
             Debug.Log($"턴아니라고 그만클릭해 {playerTurnObject.IsTurn}");
             return;
@@ -130,10 +128,6 @@ public class BattleMap_Player_Controller : MonoBehaviour
         
         foreach (RaycastHit hit in hitObjets) // 내용이 있는경우 내용을 실행한다.
         {
-            if (hit.collider.gameObject.layer == uiLayerIndex) 
-            {
-                Debug.Log($"{hit.collider.name}오브젝트는 UI다");
-            }
             if (hit.collider.gameObject.layer == tileLayerIndex) //타일인지 체크하고 
             {
                 OnTileClick(hit); //타일 클릭되있을때 로직을 실행 
@@ -158,13 +152,13 @@ public class BattleMap_Player_Controller : MonoBehaviour
                 case Tile.TileExistType.None:
                     break;
                 case Tile.TileExistType.Charcter:
-                    Debug.Log($"이동불가 캐릭터: 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
+                  //  Debug.Log($"이동불가 캐릭터: 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
                     onClickPlayer?.Invoke(targetTile); 
                     break;
                 case Tile.TileExistType.Monster:
                     onClickMonster?.Invoke(targetTile);
                     //몬스터 클릭시 몬스터에대한 정보가 나오던 뭔가 액션이필요
-                    Debug.Log($"이동불가 몬스터: 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
+                   // Debug.Log($"이동불가 몬스터: 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
                     break;
                 case Tile.TileExistType.Item:
                     onMoveActive?.Invoke(targetTile);//이동로직 실행
@@ -172,31 +166,82 @@ public class BattleMap_Player_Controller : MonoBehaviour
                     // 아이템이 타일에있는경우 아이템 에대한 정보를 띄우던 뭔가을 액션 
                     break;
                 case Tile.TileExistType.Prop:
-                    Debug.Log($"이동불가 장애물 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
+                   // Debug.Log($"이동불가 장애물 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
                     break;
                 case Tile.TileExistType.Move:
                     //Debug.Log(targetTile);
                     onMoveActive?.Invoke(targetTile);//이동로직 실행
-                    Debug.Log($"이동가능 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
+                    //Debug.Log($"이동가능 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
+                    break;
+                case Tile.TileExistType.Attack_OR_Skill:
+                    BattleMapEnemyBase[] attackArray = SpaceSurvival_GameManager.Instance.AttackRange.GetEnemyArray(out SkillData skill); //
+                    //if (attackArray != null && attackArray.Length > 0) //공격할적이있을땐 
+                    //{
+                   
+                    onAttackAction?.Invoke(attackArray, skill.FinalDamage);//공격로직 실행 적군 데미지처리는 알아서하도록 데이터만넘기자
+                    
+                    AttackEffectOn(SpaceSurvival_GameManager.Instance.AttackRange.GetEnemyArray(), skill);
+                    Debug.Log($"공격 했다 최종데미지{skill?.FinalDamage} 맞춘 인원수 {attackArray?.Length} ");
+                        
+                    SpaceSurvival_GameManager.Instance.To_AttackRange_From_MoveRange(); //타일 범위표시 초기화 함수실행
+                    //}
+                   // Debug.Log($"이동가능 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
                     break;
                 default:
-                    Debug.Log($"접근되면 안된다.");
+                    //Debug.Log($"접근되면 안된다.");
                     break;
             }
         }
     }
-
     /// <summary>
-    /// 나중에 이벤트 핸들러 컨트롤을하기위한 온오프 함수
+    /// 
     /// </summary>
-    private void EventHandlerOn()
+    /// <param name="skillRangeTile">공격할 범위</param>
+    /// <param name="skill">사용할 스킬의 데이터</param>
+    private void AttackEffectOn(Tile[] skillRangeTile, SkillData skill)
     {
-        inputSystem.BattleMap_Player.Enable();
-    }
-    private void EventHandlerOff()
-    {
-        inputSystem.BattleMap_Player.Disable();
-    }
+        switch (skill.SkillType)
+        {
+            case SkillType.Penetrate:
+                StartCoroutine(Penetrate(skillRangeTile, skill));
+                return;
+            case SkillType.rampage:
+                StartCoroutine(Rampage(skillRangeTile, skill));
+                return;
+            default:
+                break;
+        }
 
+
+        int forSize = skillRangeTile.Length;
+        for (int i = 0; i < forSize; i++)
+        {
+            GameManager.PS_Pool.GetObject(skill.SkillType, skillRangeTile[i].transform.position);
+        }
+    }
+    IEnumerator Penetrate(Tile[] skillRangeTile, SkillData skillData)
+    {
+        for (int i = 0; i < skillRangeTile.Length; i++)
+        {
+            GameManager.PS_Pool.GetObject(skillData.SkillType, skillRangeTile[i].transform.position);
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+    IEnumerator Rampage(Tile[] skillRangeTile, SkillData skillData)
+    {
+        WaitForSeconds waitForSeconds = new WaitForSeconds(0.025f);
+        Util.Shuffle(skillRangeTile);
+        int i = 0;
+        while(i < 3)
+        {
+            foreach (var tile in skillRangeTile)
+            {
+                GameManager.PS_Pool.GetObject(skillData.SkillType, tile.transform.position);
+                yield return waitForSeconds;
+            }
+            i++;
+        }
+ 
+    }
 }
   

@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-public class Item_Mixer_UI : MonoBehaviour, IPopupSortWindow
+public class Item_Mixer_UI : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
 { 
     CanvasGroup canvasGroup;
     Item_Mixer mixer;
@@ -40,7 +41,7 @@ public class Item_Mixer_UI : MonoBehaviour, IPopupSortWindow
         get => darkForceCount;
         set
         {
-            darkForceCount = Math.Clamp(value, MinDarkForceCount, (uint)GameManager.playerDummy.DarkForce);
+            darkForceCount = Math.Clamp(value, MinDarkForceCount, (uint)GameManager.Player_.DarkForce);
             amountText.text = darkForceCount.ToString();    // 인풋 필드에 적용
             amountSlider.value = darkForceCount;
             onDarkForceValueChange?.Invoke(Result_Slot.ItemData);
@@ -140,6 +141,7 @@ public class Item_Mixer_UI : MonoBehaviour, IPopupSortWindow
         canvasGroup.alpha = 1.0f;
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
+        DarkForceCount = 0;
         ClearMixerUI();
         PopupSorting?.Invoke(this);
     }
@@ -148,7 +150,6 @@ public class Item_Mixer_UI : MonoBehaviour, IPopupSortWindow
         canvasGroup.alpha = 0.0f;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
-        DarkForceCount = 0;
       //  mixer.ItemData = null;
         mixer.LeftSlotData= null;
         mixer.MiddleSlotData = null;
@@ -159,7 +160,7 @@ public class Item_Mixer_UI : MonoBehaviour, IPopupSortWindow
     {
         if (resultData != null)
         {
-            amountSlider.maxValue = GameManager.playerDummy.DarkForce;
+            amountSlider.maxValue = GameManager.Player_.DarkForce;
             UpdateSuccessRate(resultData);
         }
     }
@@ -239,7 +240,8 @@ public class Item_Mixer_UI : MonoBehaviour, IPopupSortWindow
     {
         Close();
     }
-    private void OnMouseDown()
+
+    public void OnPointerClick(PointerEventData eventData)
     {
         PopupSorting?.Invoke(this);
     }

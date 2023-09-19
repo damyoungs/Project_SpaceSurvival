@@ -49,17 +49,20 @@ public class InitCharcterSetting : MonoBehaviour
         brainCam = Camera.main.GetComponent<CinemachineBrain>();//브레인 카메라 찾고 
         cameraMoveComp.GetCineBrainCam = () => brainCam; //브레인카메라 찾아서 연결해주기
         cameraMoveComp.gameObject.SetActive(true); //카메라 이동은 배틀맵에서만 사용하기때문에 따로안뺏다.
+
+
     }
     private void Start()
     {
         TestInit();
+        
     }
     /// <summary>
     /// 테스트용 데이터 생성 
     /// </summary>
     public void TestInit()
     {
-        SpaceSurvival_GameManager.Instance.GetBattleMapInit = () => this;
+        SpaceSurvival_GameManager.Instance.GetBattleMapInit = () => this; //배틀맵 데이터 연결
         if (teamArray == null) 
         {
             teamArray = new ITurnBaseData[teamLength]; //배열 크기잡고
@@ -80,6 +83,7 @@ public class InitCharcterSetting : MonoBehaviour
 
                 miniCam.player = tbo.CharcterList[0].transform; //미니맵 활성화용 수정필요 
                 cameraOriginTarget.Target = tbo.CharcterList[0].transform;
+               
             }
             else //그이외에는 몬스터나 중립 을 넣으면된다 조건문 추가필요 
             {
@@ -87,15 +91,18 @@ public class InitCharcterSetting : MonoBehaviour
                 tbo.UnitBattleIndex = i;
                 tbo.gameObject.name = $"ENEMY_Team_{i}";
                 tbo.InitData();
+                
             }
-            tbo.TurnActionValue = UnityEngine.Random.Range(0.0f, 8.0f); // -테스트값 설정
+            //tbo.TurnActionValue = 10.0f; // -테스트값 설정
             teamArray[i] = tbo;
         }
 
         //데이터 초기화끝나면 턴시작 
 
         battleActionButtons = WindowList.Instance.BattleActionButtons;
+
         int childCount = battleActionButtons.childCount;
+
         for (int i = 0; i < childCount; i++)
         {
             battleActionButtons.GetChild(i).gameObject.SetActive(true);
@@ -105,9 +112,15 @@ public class InitCharcterSetting : MonoBehaviour
 
 
         TurnManager.Instance.InitTurnData(teamArray);
+        
+        GameManager.QuickSlot_Manager.gameObject.SetActive(true);
     }
 
-    public void TestReset() 
+    /// <summary>
+    /// 배틀맵 데이터를 초기화 하는 함수
+    /// </summary>
+    /// <param name="isBattleLoaded">씬이동이 배틀맵에서 배틀맵으로 데이터 초기화시 체크하는 변수</param>
+    public void TestReset(bool isBattleLoaded = false) 
     {
         miniCam.gameObject.SetActive(false); //미니맵 활성화 수정필요 
         cameraOriginTarget.gameObject.SetActive(false);
@@ -125,6 +138,7 @@ public class InitCharcterSetting : MonoBehaviour
         {
             WindowList.Instance.TurnGaugeUI.gameObject.SetActive(false); //비활성화 처리
         }
+        SpaceSurvival_GameManager.Instance.BattleMap_ResetData(isBattleLoaded);
     }
 
 }

@@ -32,7 +32,6 @@ public class BattleActionUIController : MonoBehaviour
     /// </summary>
     float[] moveValues;
 
-
     /// <summary>
     /// 버튼들의 기본 높이값 구하기 
     /// </summary>

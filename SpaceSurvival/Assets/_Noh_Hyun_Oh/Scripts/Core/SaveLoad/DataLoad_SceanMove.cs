@@ -24,93 +24,23 @@ public class DataLoad_SceanMove : MonoBehaviour
         //여기에 파싱작업이필요하다 실제로사용되는 작업
         if (data != null)
         {
-            setData(data);
+            SaveLoadManager.Instance.ParsingProcess.LoadParsing(data);
             Debug.Log($"{data} 파일이 정상로드됬습니다 , {data.SceanName} 파싱작업후 맵이동 작성을 해야하니 맵이 필요합니다.");
-            if (SpaceSurvival_GameManager.Instance.GetBattleMapInit != null) //배틀맵데이터가 셋팅되있으면
-            {
-                SpaceSurvival_GameManager.Instance.BattleMapInitClass.TestReset();  //초기화 하기
-            }
             LoadingScean.SceanLoading(data.SceanName);
-
-        }
-    }
-    public void setData(JsonGameData data) 
-    {
-        //slotManager.Initialize();
-        Slot temp = null;
-        ItemData_Enhancable tempEnchan;
-
-        List<Slot> slots = slotManager.slots[Current_Inventory_State.Equip];
-
-        for (int slotIndex = 0; slotIndex  < data.EquipSlotLength; slotIndex ++)
-        {
-            slotManager.Make_Slot(Current_Inventory_State.Equip);
-        }
-
-        foreach (CharcterItems equipData in data.EquipData)
-        {
-            temp = slots[(int)equipData.SlotIndex];
-            temp.ItemData = GameManager.Itemdata[equipData.ItemIndex];
-            temp.ItemCount = equipData.Values;
-            if (equipData.ItemEnhanceValue > 0) 
+            if (TurnManager.Instance.TurnIndex > 0) //배틀맵에서 로드한거면 
             {
-                tempEnchan = temp.ItemData as ItemData_Enhancable;
-                if (tempEnchan != null) 
+                if (data.SceanName == EnumList.SceanName.TestBattleMap) // 불러오는곳이 배틀맵이면  
                 {
-                    for (int i = 1; i < equipData.ItemEnhanceValue; i++)
-                    {
-                        tempEnchan.LevelUpItemStatus(temp);
-                    }
+                    SpaceSurvival_GameManager.Instance.BattleMapInitClass.TestReset(true);  //배틀맵 데이터 초기화 
+                    SpaceSurvival_GameManager.Instance.BattleMapInitClass.TestInit();  //데이터 리셋
                 }
-                
+                else 
+                {
+                    SpaceSurvival_GameManager.Instance.BattleMapInitClass.TestReset();  //배틀맵 데이터 초기화 
+                }
             }
+
         }
-
-
-        slots = slotManager.slots[Current_Inventory_State.Consume];
-
-        for (int slotIndex = 0; slotIndex < data.ConsumeSlotLength; slotIndex++)
-        {
-            slotManager.Make_Slot(Current_Inventory_State.Consume);
-        }
-
-        foreach (CharcterItems consumeData in data.ConsumeData)
-        {
-            temp = slots[(int)consumeData.SlotIndex];
-            temp.ItemData = GameManager.Itemdata[consumeData.ItemIndex];
-            temp.ItemCount = consumeData.Values;
-        }
-
-
-
-        slots = slotManager.slots[Current_Inventory_State.Etc];
-
-        for (int slotIndex = 0; slotIndex < data.EtcSlotLength; slotIndex++)
-        {
-            slotManager.Make_Slot(Current_Inventory_State.Etc);
-        }
-
-        foreach (CharcterItems etcData in data.EtcData)
-        {
-            temp = slots[(int)etcData.SlotIndex];
-            temp.ItemData = GameManager.Itemdata[etcData.ItemIndex];
-            temp.ItemCount = etcData.Values;
-        }
-
-        slots = slotManager.slots[Current_Inventory_State.Craft];
-
-        for (int slotIndex = 0; slotIndex < data.CraftSlotLength; slotIndex++)
-        {
-            slotManager.Make_Slot(Current_Inventory_State.Craft);
-        }
-
-        foreach (CharcterItems craftData in data.CraftData)
-        {
-            temp = slots[(int)craftData.SlotIndex];
-            temp.ItemData = GameManager.Itemdata[craftData.ItemIndex];
-            temp.ItemCount = craftData.Values;
-        }
-
-        
     }
+ 
 }

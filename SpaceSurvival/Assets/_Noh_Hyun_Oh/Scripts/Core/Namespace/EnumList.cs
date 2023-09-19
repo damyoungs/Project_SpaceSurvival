@@ -11,13 +11,14 @@ namespace EnumList
     public enum SceanName
     {
         NONE = -1,//셋팅안됬을때의값 이값셋팅되면안된다 기본적으로.
+        OPENING,
         TITLE,
         LOADING,
-        OPENING,
         ENDING,
         //Item_Test,//인벤창쪽으로넘어가나확인
         //CreateCharcter, //아직안만듬
         TestBattleMap,  //맵은 종류가많음 가장밑에 추가
+        meage,  //맵은 종류가많음 가장밑에 추가
     }
     /// <summary>
     /// 로딩화면에 보여줄 이미지 종류리스트

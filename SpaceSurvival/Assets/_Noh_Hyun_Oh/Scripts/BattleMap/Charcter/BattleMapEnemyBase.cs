@@ -30,6 +30,7 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
     /// <summary>
     /// 현재 자신의 위치의 타일
     /// </summary>
+    [SerializeField]
     Tile currentTile;
     public Tile CurrentTile
     {
@@ -96,7 +97,7 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
     /// 셋팅전의 값으로 돌리기
     /// 값을 초기화 시키고 풀로 돌리고 큐로 돌린다.
     /// </summary>
-    public void ResetData()
+    public virtual void ResetData()
     {
         if (BattleUI != null) //배틀 UI가 셋팅되있으면 
         {
@@ -114,5 +115,6 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
 
     public void CharcterMove(Tile selectedTile)
     {
+
     }
 }

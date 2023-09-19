@@ -6,6 +6,18 @@ using System.ComponentModel;
 using UnityEngine;
 
 /// <summary>
+/// 마우스가 화면 가장자리의 어디를 향하는지에대한 설정값
+/// </summary>
+public enum Screen_Side_Mouse_Direction : byte
+{
+    None = 0,
+    Left = 1,
+    Right = 2,
+    Top = 4,
+    Bottom = 8,
+}
+
+/// <summary>
 ///  배틀맵  시네머신 버츄얼 카메라 이동 클래스
 /// </summary>
 public class Camera_Move : MonoBehaviour
@@ -14,7 +26,7 @@ public class Camera_Move : MonoBehaviour
     /// 캐릭터 따라다니는 기본카메라
     /// </summary>
     [SerializeField]
-    CinemachineVirtualCamera originCam;
+    CinemachineVirtualCamera originFollowCameraObject;
     /// <summary>
     /// 화면 밖을 마우스 올렸을때 이동할 카메라
     /// </summary>
@@ -59,7 +71,7 @@ public class Camera_Move : MonoBehaviour
     /// <summary>
     /// 카메라 이동감지 받아올 델리게이트
     /// </summary>
-    public Action<Vector2> moveCamera;
+    public Action<Screen_Side_Mouse_Direction> moveCamera;
 
     [SerializeField]
     /// <summary>
@@ -67,11 +79,19 @@ public class Camera_Move : MonoBehaviour
     /// </summary>
     Vector3 tempMoveDir = Vector3.zero;
 
+    /// <summary>
+    /// 카메라 회전관리할 오브젝트
+    /// </summary>
+    Transform cameraOriginObject;
+
     private void Awake()
     {
         //위에 카메라 가져오는거 여기서 가져오기 
         //나중에 카메라 픽스되면 여기에 찾는로직추가
         moveCamera += OnMove;
+
+        //Follow 한이유는 awake 에서는 Vcam 이 제대로된 회전값이 셋팅이 안되기때문이다
+
     }
     private void OnEnable()
     {
@@ -79,67 +99,74 @@ public class Camera_Move : MonoBehaviour
     }
     public void OnInitPos() 
     {
-        moveCam.transform.position = originCam.transform.position; //일단 위치 기본카메라로
-        moveCam.transform.rotation = originCam.transform.rotation; //카메라이동시 이상하지않게 시작점잡기
-    
+        moveCam.transform.position = originFollowCameraObject.transform.position; //일단 위치 기본카메라로
+        moveCam.transform.rotation = originFollowCameraObject.transform.rotation; //카메라이동시 이상하지않게 시작점잡기
+        cameraOriginObject = originFollowCameraObject.Follow;
     }
     /// <summary>
     /// 카메라 이동 관련 값셋팅
     /// </summary>
-    /// <param name="dir"></param>
-    private void OnMove(Vector2 dir)
+    /// <param name="dir">마우스가 위치한 스크린 방향</param>
+    private void OnMove(Screen_Side_Mouse_Direction dir)
     {
         // 회전기준이되는 카메라의 회전값을 가져온다
-        float angle = originCam.transform.eulerAngles.y;
+        switch (dir)
+        {
+            case Screen_Side_Mouse_Direction.None:
+                tempMoveDir = Vector3.zero;
+                moveCam.Priority = closeIndex; //메인카메라로 우선순위넘기기
+                break;
 
-        //Debug.Log(tempMoveDir);
-        if (angle > -1.0f && angle < 1.0f) //0도 회전
-        {
-            Debug.Log("0도");
-            tempMoveDir.x = dir.x;
-            tempMoveDir.z = dir.y;
-        }
-        else
-        if (angle > 89.0f && angle < 91.0f) //90도 회전
-        {
+            case Screen_Side_Mouse_Direction.Left | Screen_Side_Mouse_Direction.Top:
+                moveCam.Priority = viewIndex; //우선순위 가져오기
+                tempMoveDir = -cameraOriginObject.transform.right;
+                tempMoveDir += cameraOriginObject.transform.forward;
+                break;
+            case Screen_Side_Mouse_Direction.Right | Screen_Side_Mouse_Direction.Top:
+                moveCam.Priority = viewIndex; //우선순위 가져오기
+                tempMoveDir = cameraOriginObject.transform.right;
+                tempMoveDir += cameraOriginObject.transform.forward;
+                break;
 
-            tempMoveDir.x = dir.y;
-            tempMoveDir.z = -dir.x;
-        }
-        else
-        if (angle > 179.0f && angle < 181.0f) //180도 회전
-        {
+            case Screen_Side_Mouse_Direction.Left | Screen_Side_Mouse_Direction.Bottom:
+                moveCam.Priority = viewIndex; //우선순위 가져오기
+                tempMoveDir = -cameraOriginObject.transform.right;
+                tempMoveDir -= cameraOriginObject.transform.forward;
+                break;
+            case Screen_Side_Mouse_Direction.Right | Screen_Side_Mouse_Direction.Bottom:
+                moveCam.Priority = viewIndex; //우선순위 가져오기
+                tempMoveDir = cameraOriginObject.transform.right;
+                tempMoveDir -= cameraOriginObject.transform.forward;
+                break;
 
-            tempMoveDir.x = -dir.x;
-            tempMoveDir.z = -dir.y;
-            Debug.Log("180도");
+            case Screen_Side_Mouse_Direction.Left:
+                moveCam.Priority = viewIndex; //우선순위 가져오기
+                tempMoveDir = -cameraOriginObject.transform.right; 
+                break;
+            case Screen_Side_Mouse_Direction.Right:
+                moveCam.Priority = viewIndex; //우선순위 가져오기
+                tempMoveDir = cameraOriginObject.transform.right;
+                break;
+            case Screen_Side_Mouse_Direction.Top:
+                moveCam.Priority = viewIndex; //우선순위 가져오기
+                tempMoveDir = cameraOriginObject.transform.forward;
+                break;
+            case Screen_Side_Mouse_Direction.Bottom:
+                moveCam.Priority = viewIndex; //우선순위 가져오기
+                tempMoveDir = -cameraOriginObject.transform.forward;
+                break;
+            default:
+                break;
         }
-        else
-        if (angle > 269.0f && angle < 271.0f) //270도 회전
-        {
-            tempMoveDir.x = -dir.y;
-            tempMoveDir.z = dir.x;
-        }
-        //회전이되면 이동방향이 틀어짐으로 조절이필요 
-
-        //Debug.Log(dir);
-        if (dir == Vector2.zero) //화면 이동끝난것을 zero 로 체크중
-        {
-            moveCam.Priority = closeIndex; //메인카메라로 우선순위넘기기
-        }
-        else //화면 이동중이면 
-        {
-            moveCam.Priority = viewIndex; //우선순위 가져오기
-        }
-
-        //기본적으로 같이 움직이기때문에 화면밖으로 벗어나는것을 방지하기위해 브레인을 따라다니게 셋팅한다.
+        
         moveCam.transform.position = Brain.transform.position;
+        //기본적으로 같이 움직이기때문에 화면밖으로 벗어나는것을 방지하기위해 브레인을 따라다니게 셋팅한다.
 
     }
     //이동및 회전 셋팅
     private void Update()
     {
-        moveCam.transform.rotation = originCam.transform.rotation;
+        moveCam.transform.rotation = originFollowCameraObject.transform.rotation;
         moveCam.transform.position += Time.deltaTime * moveSpeed * tempMoveDir;
     }
 

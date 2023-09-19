@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public enum Current_Inventory_State
@@ -14,7 +15,7 @@ public enum Current_Inventory_State
     Craft
 }
 
-public class Inventory : MonoBehaviour, IPopupSortWindow
+public class Inventory : MonoBehaviour, IPopupSortWindow,IPointerClickHandler
 {
     GameObject Equip_Inven;
     GameObject Consume_Inven;
@@ -42,7 +43,7 @@ public class Inventory : MonoBehaviour, IPopupSortWindow
     Image craftButtonColor;
 
     CanvasGroup canvasGroup;
-
+    AudioSource audioSource;
     public delegate void Inventory_State_Changed(Current_Inventory_State state); //state가 바뀌면 setter가 호출할 delegate
     Inventory_State_Changed inventory_changed;
 
@@ -64,6 +65,7 @@ public class Inventory : MonoBehaviour, IPopupSortWindow
 
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         toolBar = transform.GetChild(4);
         close_Button = toolBar.GetChild(0).GetComponent<Button>();
         add_Button = toolBar.GetChild(1).GetComponent<Button>();
@@ -118,12 +120,10 @@ public class Inventory : MonoBehaviour, IPopupSortWindow
         Craft_Inven = transform.GetChild(3).gameObject;
         ItemEnhancer = GameManager.Enhancer;
         mixer = GameManager.Mixer;
-        PlayerDummy player = GameManager.playerDummy;
 
 
         add_Button.onClick.AddListener(GameManager.SlotManager.Make_Slot);
         enhance_Button.onClick.AddListener(Open_Enhancer);//enable, Awake에서는 안됨
-        player.onOpenInven += Open_Inventory;
         GameManager.SlotManager.Initialize();
     }
     void Open_Enhancer()
@@ -187,7 +187,7 @@ public class Inventory : MonoBehaviour, IPopupSortWindow
         // 인벤토리 열기
         // 장비창
         // 퀵슬롯 팝업
-
+        audioSource.Play();
         if (canvasGroup.alpha < 1.0f)
         {
             canvasGroup.alpha = 1.0f;
@@ -220,7 +220,8 @@ public class Inventory : MonoBehaviour, IPopupSortWindow
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
     }
-    private void OnMouseDown()
+
+    public void OnPointerClick(PointerEventData eventData)
     {
         PopupSorting.Invoke(this);
     }

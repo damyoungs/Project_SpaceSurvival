@@ -99,8 +99,9 @@ public class Slot : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandle
     }
     public void ClearSlotItem()
     {
-        ItemData = null;
         ItemCount = 0;
+        onItemCountChange?.Invoke(BindingSlot, ItemData);
+        ItemData = null;
         IsEquipped = false;
         //Debug.Log($"인벤토리 {slotIndex}번 슬롯을 비웁니다.");
     }
@@ -118,6 +119,7 @@ public class Slot : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandle
     }
     public void OnPointerClick(PointerEventData eventData)// itemdata가 null 이 되는 문제
     {
+        Debug.Log("슬롯클릭");
         onClick?.Invoke(ItemData, Index);
     }
     public void OnPointerExit(PointerEventData eventData)
