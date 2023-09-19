@@ -27,7 +27,6 @@ public class Player_ : MonoBehaviour, IBattle
     public AnimatorOverrideController no_Weapon_AC;
 
 
-    Line_Renderer lineRenderer;
     public enum WeaponType
     {
         None,
@@ -45,12 +44,10 @@ public class Player_ : MonoBehaviour, IBattle
             switch (weaponType)
             {
                 case WeaponType.None:
-                    lineRenderer.State = Attack_State.DeSelect;
                     on_Attack = Basic_Attack;
                     anim.runtimeAnimatorController = no_Weapon_AC;
                     break;
                 case WeaponType.Pistol:
-                    lineRenderer.State = Attack_State.Normal_Attack;
                     on_Attack = Pistol_Attack;
                     weapon_Parent_Transform.localPosition = pistol_Pos;
                     weapon_Parent_Transform.localRotation = pistol_Rotation;
@@ -265,7 +262,6 @@ public class Player_ : MonoBehaviour, IBattle
     bool duringBuffSkill = false;
     private void Awake()
     {
-        lineRenderer = GetComponent<Line_Renderer>();
         //inputActions = new InputKeyMouse();
         anim = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
