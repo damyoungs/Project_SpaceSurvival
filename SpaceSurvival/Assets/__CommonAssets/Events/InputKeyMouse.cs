@@ -62,6 +62,15 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""28cc21d0-8c95-4dfe-8ffa-293de065a395"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -152,6 +161,17 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""action"": ""MoveMode_Change"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c1d09559-5d32-4d93-ac05-bed70b8280b3"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -191,6 +211,15 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""9da44067-4413-4f8e-97e2-6fabd82ff84c"",
                     ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MouseVector2"",
+                    ""type"": ""Value"",
+                    ""id"": ""17c065cf-d0fe-494b-8d47-eb65286792af"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -238,6 +267,17 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""KeyMouse"",
                     ""action"": ""MouseWheel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""02abe5bd-c0ba-41e8-a65a-afef668c6706"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyMouse"",
+                    ""action"": ""MouseVector2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1016,12 +1056,14 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Run = m_Player.FindAction("Run", throwIfNotFound: true);
         m_Player_MoveMode_Change = m_Player.FindAction("MoveMode_Change", throwIfNotFound: true);
+        m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         // Mouse
         m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
         m_Mouse_MouseClick = m_Mouse.FindAction("MouseClick", throwIfNotFound: true);
         m_Mouse_MouseClickRight = m_Mouse.FindAction("MouseClickRight", throwIfNotFound: true);
         m_Mouse_Get_Position = m_Mouse.FindAction("Get_Position", throwIfNotFound: true);
         m_Mouse_MouseWheel = m_Mouse.FindAction("MouseWheel", throwIfNotFound: true);
+        m_Mouse_MouseVector2 = m_Mouse.FindAction("MouseVector2", throwIfNotFound: true);
         // Test
         m_Test = asset.FindActionMap("Test", throwIfNotFound: true);
         m_Test_Test1 = m_Test.FindAction("Test1", throwIfNotFound: true);
@@ -1135,6 +1177,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Run;
     private readonly InputAction m_Player_MoveMode_Change;
+    private readonly InputAction m_Player_Dash;
     public struct PlayerActions
     {
         private @InputKeyMouse m_Wrapper;
@@ -1143,6 +1186,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Run => m_Wrapper.m_Player_Run;
         public InputAction @MoveMode_Change => m_Wrapper.m_Player_MoveMode_Change;
+        public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1164,6 +1208,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @MoveMode_Change.started += instance.OnMoveMode_Change;
             @MoveMode_Change.performed += instance.OnMoveMode_Change;
             @MoveMode_Change.canceled += instance.OnMoveMode_Change;
+            @Dash.started += instance.OnDash;
+            @Dash.performed += instance.OnDash;
+            @Dash.canceled += instance.OnDash;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1180,6 +1227,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @MoveMode_Change.started -= instance.OnMoveMode_Change;
             @MoveMode_Change.performed -= instance.OnMoveMode_Change;
             @MoveMode_Change.canceled -= instance.OnMoveMode_Change;
+            @Dash.started -= instance.OnDash;
+            @Dash.performed -= instance.OnDash;
+            @Dash.canceled -= instance.OnDash;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1205,6 +1255,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     private readonly InputAction m_Mouse_MouseClickRight;
     private readonly InputAction m_Mouse_Get_Position;
     private readonly InputAction m_Mouse_MouseWheel;
+    private readonly InputAction m_Mouse_MouseVector2;
     public struct MouseActions
     {
         private @InputKeyMouse m_Wrapper;
@@ -1213,6 +1264,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         public InputAction @MouseClickRight => m_Wrapper.m_Mouse_MouseClickRight;
         public InputAction @Get_Position => m_Wrapper.m_Mouse_Get_Position;
         public InputAction @MouseWheel => m_Wrapper.m_Mouse_MouseWheel;
+        public InputAction @MouseVector2 => m_Wrapper.m_Mouse_MouseVector2;
         public InputActionMap Get() { return m_Wrapper.m_Mouse; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1234,6 +1286,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @MouseWheel.started += instance.OnMouseWheel;
             @MouseWheel.performed += instance.OnMouseWheel;
             @MouseWheel.canceled += instance.OnMouseWheel;
+            @MouseVector2.started += instance.OnMouseVector2;
+            @MouseVector2.performed += instance.OnMouseVector2;
+            @MouseVector2.canceled += instance.OnMouseVector2;
         }
 
         private void UnregisterCallbacks(IMouseActions instance)
@@ -1250,6 +1305,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @MouseWheel.started -= instance.OnMouseWheel;
             @MouseWheel.performed -= instance.OnMouseWheel;
             @MouseWheel.canceled -= instance.OnMouseWheel;
+            @MouseVector2.started -= instance.OnMouseVector2;
+            @MouseVector2.performed -= instance.OnMouseVector2;
+            @MouseVector2.canceled -= instance.OnMouseVector2;
         }
 
         public void RemoveCallbacks(IMouseActions instance)
@@ -1820,6 +1878,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
         void OnMoveMode_Change(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
     }
     public interface IMouseActions
     {
@@ -1827,6 +1886,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         void OnMouseClickRight(InputAction.CallbackContext context);
         void OnGet_Position(InputAction.CallbackContext context);
         void OnMouseWheel(InputAction.CallbackContext context);
+        void OnMouseVector2(InputAction.CallbackContext context);
     }
     public interface ITestActions
     {
