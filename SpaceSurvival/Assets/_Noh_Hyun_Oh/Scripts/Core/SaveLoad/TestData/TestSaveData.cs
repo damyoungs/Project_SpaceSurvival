@@ -167,7 +167,7 @@ public class TestSaveData<T> : JsonGameData  // 상속받은 것도 같이 json으로 파싱
 
     public void SaveDataParsing(JsonGameData OriginData) {
         int a =  OriginData.DataIndex;
-        EnumList.SceanName o = OriginData.SceanName;
+        EnumList.SceneName o = OriginData.SceanName;
         string time = OriginData.SaveTime;
        
 

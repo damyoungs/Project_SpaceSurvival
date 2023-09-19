@@ -8,7 +8,7 @@ namespace EnumList
     /// 씬리스트 
     /// 맴버변수명을 씬이름으로맞춰야한다. 그리고 빌드쪽에 순서도 맞춰야한다.
     /// </summary>
-    public enum SceanName
+    public enum SceneName
     {
         NONE = -1,//셋팅안됬을때의값 이값셋팅되면안된다 기본적으로.
         OPENING,
@@ -19,6 +19,7 @@ namespace EnumList
         //CreateCharcter, //아직안만듬
         TestBattleMap,  //맵은 종류가많음 가장밑에 추가
         meage,  //맵은 종류가많음 가장밑에 추가
+
     }
     /// <summary>
     /// 로딩화면에 보여줄 이미지 종류리스트

@@ -75,8 +75,8 @@ public class SaveGameObject : SaveData_PoolObj
     /// <summary>
     /// 저장화면에 보일 씬정보
     /// </summary>
-    private EnumList.SceanName sceanName;
-    public EnumList.SceanName SceanName {
+    private EnumList.SceneName sceanName;
+    public EnumList.SceneName SceanName {
         get => sceanName;
         set { 
             sceanName = value;

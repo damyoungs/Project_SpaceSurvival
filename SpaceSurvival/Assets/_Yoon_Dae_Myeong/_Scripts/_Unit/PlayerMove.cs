@@ -174,17 +174,17 @@ public class PlayerMove : MonoBehaviour
 
     }
 
-    private void FixedUpdate()
-	{
-		MoveByKeyBoard();
-    }
-	void MoveByKeyBoard()//update 호출
-	{
-        transform.Translate(Time.fixedDeltaTime * moveSpeed * moveDirection, Space.World);
-		transform.rotation = Quaternion.Slerp(transform.rotation, moveDir, Time.fixedDeltaTime * rotateSpeed);
-		//transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetObj.position - transform.position), Time.fixedDeltaTime * rotateSpeed);
+ //   private void FixedUpdate()
+	//{
+	//	//MoveByKeyBoard();
+ //   }
+	//void MoveByKeyBoard()//update 호출
+	//{
+ //       transform.Translate(Time.fixedDeltaTime * moveSpeed * moveDirection, Space.World);
+	//	transform.rotation = Quaternion.Slerp(transform.rotation, moveDir, Time.fixedDeltaTime * rotateSpeed);
+	//	//transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetObj.position - transform.position), Time.fixedDeltaTime * rotateSpeed);
 
 
-	}
+	//}
 
 }

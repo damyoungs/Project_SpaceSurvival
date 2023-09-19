@@ -79,8 +79,8 @@ public class JsonGameData
     /// 불러오기시 사용될 씬정보 
     /// </summary>
     [SerializeField]
-    EnumList.SceanName sceanName;
-    public EnumList.SceanName SceanName
+    EnumList.SceneName sceanName;
+    public EnumList.SceneName SceanName
     {
         get => sceanName;
         set

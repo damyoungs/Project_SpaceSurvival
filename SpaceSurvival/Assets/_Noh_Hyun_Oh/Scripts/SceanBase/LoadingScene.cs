@@ -58,10 +58,10 @@ public class LoadingScene : MonoBehaviour
     /// </summary>
     /// <param name="sceanName">이동할 씬 이름</param>
     /// <param name="type">진행 상황 표기할 progressType  EnumList의 값을확인</param>
-    public static void SceanLoading(EnumList.SceanName sceanName = EnumList.SceanName.TITLE, 
+    public static void SceneLoading(EnumList.SceneName sceanName = EnumList.SceneName.TITLE, 
                 EnumList.ProgressType type = EnumList.ProgressType.BAR)
     {
-        if (sceanName != EnumList.SceanName.NONE) { //씬 셋팅이 되어있고
+        if (sceanName != EnumList.SceneName.NONE) { //씬 셋팅이 되어있고
             if (!isLoading) { //로딩이 안됬을경우 
                 isLoading = true;//로딩 시작플래그
                 nextSceanindex = (int)sceanName; //다음씬 인덱스 셋팅하고 
@@ -70,7 +70,7 @@ public class LoadingScene : MonoBehaviour
                 if (SceneManager.GetActiveScene().buildIndex != nextSceanindex) //현재씬이아닌 다른씬갈때는 로딩창을 가도록 수정 
                 {
                     progressType = type; //프로그래스 타입설정.
-                    SceneManager.LoadSceneAsync((int)EnumList.SceanName.LOADING);
+                    SceneManager.LoadSceneAsync((int)EnumList.SceneName.LOADING);
                 }
                 else 
                 {
@@ -96,7 +96,7 @@ public class LoadingScene : MonoBehaviour
         isLoading = true; // 로딩화면에서부터 게임시작하면 필요한 구문
         SetDisavleObjects(); //열려있는창 닫아버리기
         StopAllCoroutines();//로딩이 연속으로 이러나는경우에 기존코루틴을 멈추고 새로시작한다.
-        StartCoroutine(LoadSceanProcess());
+        StartCoroutine(LoadSceneProcess());
     }
 
 
@@ -116,7 +116,7 @@ public class LoadingScene : MonoBehaviour
     /// 로딩화면에서 다음씬이 로딩이 완료됬는지 확인하기위해 처리하는작업
     /// </summary>
     /// <returns></returns>
-    IEnumerator LoadSceanProcess()
+    IEnumerator LoadSceneProcess()
     {
         //비동기 씬로딩정보를 받기위해 가져오는 변수
         AsyncOperation op = SceneManager.LoadSceneAsync(nextSceanindex, LoadSceneMode.Single); //기본 single => 마지막 로딩완료된것만 열린다
@@ -183,14 +183,14 @@ public class LoadingScene : MonoBehaviour
     /// </summary>
     private static void SetInputSetting()
     {
-        EnumList.SceanName nextSceanName = (EnumList.SceanName)nextSceanindex;
+        EnumList.SceneName nextSceanName = (EnumList.SceneName)nextSceanindex;
         switch (nextSceanName)
         {
-            case EnumList.SceanName.TestBattleMap:
+            case EnumList.SceneName.TestBattleMap:
                 InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_BattleMap);
                 InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_InvenView);
                 break;
-            case EnumList.SceanName.meage:
+            case EnumList.SceneName.meage:
                 InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_BattleMap);
                 InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_InvenView);
                 break;
