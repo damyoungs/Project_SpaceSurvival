@@ -339,13 +339,16 @@ public class Player_ : MonoBehaviour, IBattle
             on_Buff_Start?.Invoke(skill_Blessing);// TurnBuffCount 프로퍼티로 몇턴 동안 버프가 유지될 것인지 설정되어 있습니다.
             duringBuffSkill = true;//버프스킬 발동중 표시
             on_CursorChange?.Invoke(false);
+            GameManager.PS_Pool.GetObject(SkillType.Blessing,transform.position);
             return;
         }
     }
     public void SkillPostProcess()//skillAction 실행 후 grid 에서 호출할 함수 
     {
+        GameManager.PS_Pool.GetObject(SkillType.Sniping, transform.position);
         Stamina--;
         on_CursorChange?.Invoke(false);
+        
     }
     void DeBuff()//버프스킬 적용 해제
     {
