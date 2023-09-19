@@ -540,7 +540,10 @@ public class AttackRange : MonoBehaviour
         skill  = currentSkill;  //기냥 초기화값
         return null;
     }
-
+    public Tile[] GetEnemyArray() 
+    {
+        return activeAttackTiles.ToArray();
+    }
 
     /// <summary>
     /// 타일의 좌표값으로 인덱스 구하는함수 

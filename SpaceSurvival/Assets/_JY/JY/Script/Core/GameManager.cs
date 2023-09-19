@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour
         }
     }
     
-    void ChangeCursor(bool duringSkill)
+    public void ChangeCursor(bool duringSkill)
     {
 
         if (duringSkill)

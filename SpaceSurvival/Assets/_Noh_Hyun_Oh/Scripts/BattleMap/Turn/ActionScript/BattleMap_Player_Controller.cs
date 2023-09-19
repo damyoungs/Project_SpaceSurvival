@@ -175,12 +175,10 @@ public class BattleMap_Player_Controller : MonoBehaviour
                     BattleMapEnemyBase[] attackArray = SpaceSurvival_GameManager.Instance.AttackRange.GetEnemyArray(out SkillData skill); //
                     //if (attackArray != null && attackArray.Length > 0) //공격할적이있을땐 
                     //{
-                    if (skill != null)
-                    {
-                        onAttackAction?.Invoke(attackArray, skill.FinalDamage);//공격로직 실행 적군 데미지처리는 알아서하도록 데이터만넘기자
-
-                    }
+                   
                     onAttackAction?.Invoke(attackArray, skill.FinalDamage);//공격로직 실행 적군 데미지처리는 알아서하도록 데이터만넘기자
+                    
+                    AttackEffectOn(SpaceSurvival_GameManager.Instance.AttackRange.GetEnemyArray(), skill);
                     Debug.Log($"공격 했다 최종데미지{skill?.FinalDamage} 맞춘 인원수 {attackArray?.Length} ");
                         
                     SpaceSurvival_GameManager.Instance.To_AttackRange_From_MoveRange(); //타일 범위표시 초기화 함수실행
@@ -193,12 +191,12 @@ public class BattleMap_Player_Controller : MonoBehaviour
             }
         }
     }
-    private void AttackEffectOn(BattleMapEnemyBase[] enemyArray, SkillData skill)
+    private void AttackEffectOn(Tile[] skillRangeTile, SkillData skill)
     {
-        int forSize = enemyArray.Length;
+        int forSize = skillRangeTile.Length;
         for (int i = 0; i < forSize; i++)
         {
-            //GameManager.Inst. enemyArray[i].CurrentTile.transform.position;
+            GameManager.PS_Pool.GetObject(skill.SkillType, skillRangeTile[i].transform.position);
         }
     }
 }

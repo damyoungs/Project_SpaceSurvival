@@ -24,10 +24,27 @@ public class TeamBorderStateUI : MonoBehaviour
     TextMeshProUGUI stmText;
     TextMeshProUGUI stmMaxText;
 
+
+
+    [SerializeField]
+    int buffMaxSize = 4;
+
+    /// <summary>
+    /// 버프타입
+    /// </summary>
+    [SerializeField]
+    SkillType[] buffType;
+
+    /// <summary>
+    /// 타이머 조절할 이미지
+    /// </summary>
     [SerializeField]
     Image[] stateTimer;
     public Image[] StateIconTimer => stateTimer;
     
+    /// <summary>
+    /// 버프 아이콘 보여줄 이미지
+    /// </summary>
     [SerializeField]
     Image[] imgIconArray;
     public Image[] StateIconImg => imgIconArray;
@@ -42,10 +59,12 @@ public class TeamBorderStateUI : MonoBehaviour
         hpSlider = child.GetChild(0).GetComponent<Slider>();
         hpText = child.GetChild(1).GetComponent<TextMeshProUGUI>(); // 현재피
         hpMaxText = child.GetChild(3).GetComponent<TextMeshProUGUI>() ; // 최대피
+        
         child = transform.GetChild(1);  //stm
         stmText = child.GetChild(1).GetComponent<TextMeshProUGUI>(); // 현재스태미나
         stmMaxText = child.GetChild(3).GetComponent<TextMeshProUGUI>(); // 최대스태미나
         stmSlider = child.GetChild(0).GetComponent<Slider>();
+        
         child = transform.GetChild(2); //상태이상 
         int childCount = child.childCount;
         imgIconArray = new Image[childCount];
@@ -59,6 +78,10 @@ public class TeamBorderStateUI : MonoBehaviour
         }
         hpGauge = HP_GaugeSetting(0.0f, 0.0f);
         stmGauge = Stm_GaugeSetting(0.0f, 0.0f);
+
+
+
+
 
     }
     public void SetStmGaugeAndText(float changeValue , float maxValue) 
@@ -155,48 +178,23 @@ public class TeamBorderStateUI : MonoBehaviour
         isStm_Change = false;
     }
 
-    //IEnumerator GaugeView(Slider  slider ,TextMeshProUGUI currentValueText, TextMeshProUGUI maxValueText  , float changeValue ,float maxValue , bool isHp = false) 
-    //{
-    //    float timeElaspad = 0.0f;
-    //    float currentValue = isHp ? viewHpValue : viewStmValue;
-    //    if (changeValue > currentValue) //증가
-    //    {
+    public void InitBuffSetting(SkillData buffSkill) 
+    {
+        int currentBuffSize = buffType.Length;
+        if (currentBuffSize > 0) //적용중인 버프가있는경우  
+        {
+            //입력된 값의 버프가 사용중인지 체크 
+        }
+        else 
+        {
+        }
 
-    //        while (changeValue > timeElaspad)
-    //        {
-    //            timeElaspad += Time.deltaTime * gaugeSpeed;
-    //            yield return null;
-    //            currentValueText.text = $"{timeElaspad:f0}";
-    //            maxValueText.text = $"{maxValue}";
-    //            slider.value = timeElaspad;
-    //        }
-    //        slider.value = changeValue;
-    //        currentValueText.text = $"{changeValue:f0}";
-    //        maxValueText.text = $"{maxValue}";
-    //        Debug.Log($"증가 : {slider.transform.parent.name} 값은 : {changeValue}");
-    //    }
-    //    else if (currentValue > changeValue) //감소
-    //    {
-    //        while (changeValue < timeElaspad)
-    //        {
-    //            timeElaspad -= Time.deltaTime * gaugeSpeed;
-    //            yield return null;
-    //            currentValueText.text = $"{timeElaspad:f0}";
-    //            maxValueText.text = $"{maxValue}";
-    //            slider.value = timeElaspad;
-    //        }
-    //        slider.value = changeValue;
-    //        currentValueText.text = $"{changeValue:f0}";
-    //        maxValueText.text = $"{maxValue}";
-    //        Debug.Log($"감소 : {slider.transform.parent.name} 값은 : {changeValue}");
-    //    }
-    //    else 
-    //    {
-    //        Debug.Log($"같다 : {slider.transform.parent.name} 값은 : {changeValue}");
-    //        slider.value = changeValue;
-    //        currentValueText.text = $"{changeValue:f0}";
-    //        maxValueText.text = $"{maxValue}";
-    //    }
-    //}
+        for (int i = 0; i < currentBuffSize; i++)
+        {
+
+        }
+         //buffSkill.skill_sprite;
+
+    }
 
 }
