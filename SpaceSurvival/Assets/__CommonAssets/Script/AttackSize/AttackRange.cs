@@ -1007,7 +1007,7 @@ public class AttackRange : MonoBehaviour
     /// <param name="currentNode">현재위치 타일 정보</param>
     /// <param name="attackCheck">공격가능한 거리 값</param>
     /// <returns>캐릭터가 공격가능한 노드리스트</returns>
-    private void SetAttackSize(Tile currentNode, float attackCheck)
+     void SetAttackSize(Tile currentNode, float attackCheck)
     {
         List<Tile> openList = new List<Tile>();   // 탐색이 필요한 노드 리스트 
         List<Tile> closeList = new List<Tile>();  // 이미 계산이 완료되서 더이상 탐색을 안할 리스트 
