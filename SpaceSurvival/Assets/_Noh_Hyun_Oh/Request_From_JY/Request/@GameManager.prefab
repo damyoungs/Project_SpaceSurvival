@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 961323495}
+  - component: {fileID: 917187561}
   m_Layer: 0
   m_Name: ObjectPool
   m_TagString: Untagged
@@ -31,6 +32,29 @@ Transform:
   m_Father: {fileID: 7473743051139603170}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &917187561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961323494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc31323640205a143b17ae06d912401f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PoolPrefabs:
+  - prefab: {fileID: 2955328388721237795, guid: c8863ae699e09b043ae48d7381916730, type: 3}
+    poolSize: 4
+  - prefab: {fileID: 4632531957336121179, guid: a29e0c71631240948b80342e058c8258, type: 3}
+    poolSize: 16
+  - prefab: {fileID: 612590868587144651, guid: b83ecb231c12d034d8d2806044e95dbe, type: 3}
+    poolSize: 32
+  - prefab: {fileID: 8347045926051677472, guid: 858aba4ad40236340b417cf9ec2cd9aa, type: 3}
+    poolSize: 4
+  - prefab: {fileID: 1874617074840363371, guid: 15304d415dc7afd43be52263fe835a09, type: 3}
+    poolSize: 4
 --- !u!1 &2974450839133645706
 GameObject:
   m_ObjectHideFlags: 0
