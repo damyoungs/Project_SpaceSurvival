@@ -169,5 +169,5 @@ public class Tile : MonoBehaviour, IComparable<Tile>
             return 1;
         return F.CompareTo(other.F);
     }
-   
+
 }

@@ -5,10 +5,6 @@ using UnityEngine;
 
 public class EffectParticle_Pool : MonoBehaviour
 {
-    public GameObject[] prefab;
-    Queue<GameObject>[] pools;
-
-
     [System.Serializable]
     public class PoolPrefab
     {
@@ -18,34 +14,67 @@ public class EffectParticle_Pool : MonoBehaviour
     }
 
     public PoolPrefab[] PoolPrefabs;
-
-
+    Queue<GameObject>[] pools;
+    GameObject[] parents;
+    private void Start()
+    {
+        Init();
+    }
     void Init()
     {
         pools = new Queue<GameObject>[PoolPrefabs.Length];
+        parents = new GameObject[PoolPrefabs.Length];
+
         for (int  i = 0; i < PoolPrefabs.Length; i++)
         {
-            GameObject[] arr = new GameObject[PoolPrefabs[i].poolSize];
             GameObject prefab = PoolPrefabs[i].prefab;
             Transform parent = new GameObject($"{PoolPrefabs[i].prefab.name}_Pool").transform;
-            for (int j = 0; j < PoolPrefabs[i].poolSize; j++)
+            parents[i] = parent.gameObject;
+            parent.transform.SetParent(this.transform);
+            pools[i] = new Queue<GameObject>(PoolPrefabs[i].poolSize);
+            for (int j = 0; j < PoolPrefabs[i].poolSize + 1; j++)
             {
                 GameObject obj = Instantiate(prefab, parent);
                 obj.name = $"{prefab.name}_{j}";
-                arr[j] = prefab;
-
+                obj.AddComponent<Pooled_Obj>();
+                obj.SetActive(false);
+                Pooled_Obj poolObj = obj.GetComponent<Pooled_Obj>();
+                poolObj.on_ReturnPool += ReturnPool;
+                poolObj.poolIndex = i;
+              
+                pools[i].Enqueue(obj);
             }
-           // pools[i] = arr;
         }
 
     }
-    public GameObject GetObject()
+    public GameObject GetObject(SkillType type, Vector3 position)
     {
+        GameObject result = pools[(int)type].Dequeue();
+        position.y += 2;
+        result.transform.position = position;
+        result.SetActive(true);
+        if (type == SkillType.Blessing)
+        {
+            result.transform.SetParent(GameManager.Player_.transform);
+        }
+
+
         return null;
     }
-    void ReturnPool()
+    void ReturnPool(Pooled_Obj obj)
     {
+        Queue<GameObject> queue = pools[obj.poolIndex];
+        queue.Enqueue(obj.gameObject);
 
+        if (obj.poolIndex == 3)
+        {
+            StartCoroutine(SetParent(obj));
+        }
+    }
+    IEnumerator SetParent(Pooled_Obj obj)
+    {
+        yield return null;
+        obj.transform.SetParent(parents[3].transform);
     }
     void GenerateObject()
     {
