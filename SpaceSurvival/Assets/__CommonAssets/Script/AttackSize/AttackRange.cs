@@ -510,11 +510,11 @@ public class AttackRange : MonoBehaviour
     /// 적리스트를 반환하는 함수
     /// </summary>
     /// <returns>적이있으면 배열로반환 없으면 null반환</returns>
-    public BattleMapEnemyBase[] GetEnemyArray(out float LastDamage)
+    public BattleMapEnemyBase[] GetEnemyArray(out SkillData skill)
     {
         if (activeAttackTiles.Count > 0)
         {
-            LastDamage = currentSkill.FinalDamage;  //몬스터한테 줄 데미지 셋팅
+            skill = currentSkill; 
 
             BattleMapEnemyBase[] enemyArray = SpaceSurvival_GameManager.Instance.EnemyTeam; //배틀맵의 몹정보를 전부 들고 
 
@@ -537,7 +537,7 @@ public class AttackRange : MonoBehaviour
             return resultEnemyList.ToArray();
         }
         //여긴 공격할적이없을때 오는곳
-        LastDamage = 0.0f;  //기냥 초기화값
+        skill  = currentSkill;  //기냥 초기화값
         return null;
     }
 

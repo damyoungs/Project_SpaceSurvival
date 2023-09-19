@@ -172,14 +172,19 @@ public class BattleMap_Player_Controller : MonoBehaviour
                     //Debug.Log($"이동가능 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
                     break;
                 case Tile.TileExistType.Attack_OR_Skill:
-                    BattleMapEnemyBase[] attackArray = SpaceSurvival_GameManager.Instance.AttackRange.GetEnemyArray(out float lastDamage); //
-                    if (attackArray != null && attackArray.Length > 0) //공격할적이있을땐 
+                    BattleMapEnemyBase[] attackArray = SpaceSurvival_GameManager.Instance.AttackRange.GetEnemyArray(out SkillData skill); //
+                    //if (attackArray != null && attackArray.Length > 0) //공격할적이있을땐 
+                    //{
+                    if (skill != null)
                     {
-                        onAttackAction?.Invoke(attackArray, lastDamage);//공격로직 실행 적군 데미지처리는 알아서하도록 데이터만넘기자
-                        Debug.Log($"공격 했다 최종데미지{lastDamage} 맞춘 인원수 {attackArray.Length} ");
+                        onAttackAction?.Invoke(attackArray, skill.FinalDamage);//공격로직 실행 적군 데미지처리는 알아서하도록 데이터만넘기자
 
-                        SpaceSurvival_GameManager.Instance.To_AttackRange_From_MoveRange();
                     }
+                    onAttackAction?.Invoke(attackArray, skill.FinalDamage);//공격로직 실행 적군 데미지처리는 알아서하도록 데이터만넘기자
+                    Debug.Log($"공격 했다 최종데미지{skill?.FinalDamage} 맞춘 인원수 {attackArray?.Length} ");
+                        
+                    SpaceSurvival_GameManager.Instance.To_AttackRange_From_MoveRange(); //타일 범위표시 초기화 함수실행
+                    //}
                    // Debug.Log($"이동가능 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
                     break;
                 default:
@@ -188,7 +193,13 @@ public class BattleMap_Player_Controller : MonoBehaviour
             }
         }
     }
-
-
+    private void AttackEffectOn(BattleMapEnemyBase[] enemyArray, SkillData skill)
+    {
+        int forSize = enemyArray.Length;
+        for (int i = 0; i < forSize; i++)
+        {
+            //GameManager.Inst. enemyArray[i].CurrentTile.transform.position;
+        }
+    }
 }
   
