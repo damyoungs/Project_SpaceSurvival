@@ -10,7 +10,7 @@ public class EnemyTurnObject : TurnBaseObject
     /// 테스트용 변수 
     /// </summary>
     [SerializeField]
-    int testPlayerLength = 5;
+    int testPlayerLength = 2;
     /// <summary>
     /// 캐릭터 데이터는 외부에서 셋팅하기때문에 해당 델리게이트 연결해줘야함
     /// </summary>
@@ -35,6 +35,7 @@ public class EnemyTurnObject : TurnBaseObject
                 charcterList.Add(go);
                 
                 go.name = $"Enemy_{i}";
+                go.EnemyNumB = i;
                 go.GetCurrentTile = () => (SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Monster)); //데이터 연결 
                 go.transform.position = go.CurrentTile.transform.position; //셋팅된 타일위치로 이동시킨다.
             }

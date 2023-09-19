@@ -9,6 +9,15 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
     /// 몬스터는 컨트롤할수없으니 형식만 맞춰두자
     /// </summary>
     public bool IsControll { get; set; }
+<<<<<<< HEAD
+=======
+
+    Enemy_Psionic psionicData;
+    public Enemy_Psionic PsionicData => psionicData;
+
+    public int EnemyNumB;
+
+>>>>>>> 988048293938567302b8ea19254b36ce3819b1b5
     public bool IsMoveCheck { get; }
     /// <summary>
     /// 추적형 UI 
@@ -50,12 +59,34 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
     /// 행동력 혹은 이동가능 거리
     /// </summary>
     protected float moveSize = 3.0f;
+<<<<<<< HEAD
     public float MoveSize 
     {
         get => moveSize;
         set => moveSize = value;
     } 
 
+=======
+    public float MoveSize => moveSize;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        psionicData = GetComponentInChildren<Enemy_Psionic>();
+        psionicData.on_Enemy_Stamina_Change += (stmValue) =>
+        {
+            float currentMoveSize = stmValue > moveSize? moveSize : stmValue;
+            TurnManager.Instance.CurrentTurn.TurnActionValue = stmValue;
+            if(stmValue < 1.0f)
+            {
+                TurnManager.Instance.CurrentTurn.TurnEndAction();
+            }
+        };
+
+        EnemyNumB = GetComponentInChildren<Enemy_Psionic>().EnemyNumBe;
+        //desTile = 
+    }
+>>>>>>> 988048293938567302b8ea19254b36ce3819b1b5
 
     private void Start()
     {
@@ -90,8 +121,11 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
         }
     }
 
+<<<<<<< HEAD
     
 
+=======
+>>>>>>> 988048293938567302b8ea19254b36ce3819b1b5
     /// <summary>
     /// 셋팅전의 값으로 돌리기
     /// 값을 초기화 시키고 풀로 돌리고 큐로 돌린다.
@@ -112,8 +146,16 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
         gameObject.SetActive(false); // 큐를 돌린다.
     }
 
+    Tile desTile;
+
     public void CharcterMove(Tile selectedTile)
     {
+<<<<<<< HEAD
 
+=======
+        List<Tile> path = Cho_BattleMap_AStar.PathFind(
+            SpaceSurvival_GameManager.Instance.BattleMap, SpaceSurvival_GameManager.Instance.MapSizeX,
+            SpaceSurvival_GameManager.Instance.MapSizeY, this.currentTile, desTile);
+>>>>>>> 988048293938567302b8ea19254b36ce3819b1b5
     }
 }
