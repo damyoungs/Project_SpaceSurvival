@@ -10,8 +10,6 @@ public class Enemy_ : MonoBehaviour, IBattle
     public Action<float> on_Enemy_HP_Change;
     public Action onDie { get; set; }
 
-    public int EnemyNumber;
-
     float hp = 200;
     float maxHP = 200;
     public float MaxHp => maxHP;

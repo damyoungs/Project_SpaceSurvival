@@ -13,7 +13,7 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
     Enemy_Psionic psionicData;
     public Enemy_Psionic PsionicData => psionicData;
 
-    public int EnemyNumB;
+    public int EnemyNum;
 
     public bool IsMoveCheck { get; }
     /// <summary>
@@ -36,7 +36,7 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
     /// <summary>
     /// 현재 자신의 위치의 타일
     /// </summary>
-    Tile currentTile;
+    public Tile currentTile;
     public Tile CurrentTile
     {
         get 
@@ -71,9 +71,6 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
                 TurnManager.Instance.CurrentTurn.TurnEndAction();
             }
         };
-
-        EnemyNumB = GetComponentInChildren<Enemy_Psionic>().EnemyNumBe;
-        //desTile = 
     }
 
     private void Start()
@@ -128,10 +125,15 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
         transform.SetParent(poolTransform); //풀로 돌린다
         gameObject.SetActive(false); // 큐를 돌린다.
     }
-    public BattleMapPlayerBase battle;
-    public Tile desTile;
     public void CharcterMove(Tile selectedTile)
     {
+        /*
+        여기서 조작하고 부르기
+
+
+
+
+        */
         //desTile = battle.CurrentTile;
         //List<Tile> path = Cho_BattleMap_AStar.PathFind(
         //    SpaceSurvival_GameManager.Instance.BattleMap, SpaceSurvival_GameManager.Instance.MapSizeX,

@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
 {
+    //public static BattleMapPlayerBase instance;
     /// <summary>
     /// 현재 캐릭이 컨트롤할수있는상태인지 체크
     /// </summary>
@@ -43,7 +44,7 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
     /// <summary>
     /// 현재 내위치에있는 타일
     /// </summary>
-    Tile currentTile;
+    public Tile currentTile;
     public Tile CurrentTile
     {
         get

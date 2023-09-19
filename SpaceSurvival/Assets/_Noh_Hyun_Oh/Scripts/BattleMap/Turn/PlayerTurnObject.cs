@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -47,6 +48,7 @@ public class PlayerTurnObject : TurnBaseObject
         bpc.onMoveActive = OnUnitMove;                           // 타일을 클릭했을때 플레이어가 움직이도록 로직연결
         bpc.GetPlayerTurnObject = () => this;                    // 초기값 데이터 연결 
 
+        SpaceSurvival_GameManager.Instance.GetPlayerTeam = () => charcterList.Cast<BattleMapPlayerBase>().ToArray();
         if (initPlayer != null) //외부 함수가 연결되 있으면
         {
             ICharcterBase[] playerList = initPlayer(); //데이터 요청을 하고 
@@ -78,7 +80,8 @@ public class PlayerTurnObject : TurnBaseObject
                 go.transform.position = go.CurrentTile.transform.position; //셋팅된 타일위치로 이동시킨다.
                 bpc.onAttackAction = (_,_) => { 
                     go.CharcterData.SkillPostProcess(); 
-                }; 
+                };
+                
             }
             WindowList.Instance.TeamBorderManager.ViewTeamInfo(testPlayerLength); //팀 상시 유아이 보여주기 
 
