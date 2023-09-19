@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -49,6 +50,7 @@ public class TeamBorderStateUI : MonoBehaviour
     Image[] imgIconArray;
     public Image[] StateIconImg => imgIconArray;
 
+    List<SkillData> state_UI_Datas;
     IEnumerator hpGauge;
     IEnumerator stmGauge;
 
@@ -69,6 +71,7 @@ public class TeamBorderStateUI : MonoBehaviour
         int childCount = child.childCount;
         imgIconArray = new Image[childCount];
         stateTimer = new Image[childCount];
+        state_UI_Datas = new List<SkillData>(childCount);
         Image image;
         for (int i = 0; i < childCount; i++)
         {
@@ -178,23 +181,50 @@ public class TeamBorderStateUI : MonoBehaviour
         isStm_Change = false;
     }
 
+    /// <summary>
+    /// 버프 UI 갱신 함수 
+    /// </summary>
+    /// <param name="buffSkill">갱신할 버프데이터</param>
     public void InitBuffSetting(SkillData buffSkill) 
     {
-        int currentBuffSize = buffType.Length;
-        if (currentBuffSize > 0) //적용중인 버프가있는경우  
+        int size = imgIconArray.Length;
+        for (int i = 0; i < size; i++)
         {
-            //입력된 값의 버프가 사용중인지 체크 
-        }
-        else 
-        {
-        }
+            if (imgIconArray[i] == null &&              //해당위치에 셋팅이안되있고 
+                !state_UI_Datas.Contains(buffSkill))    //등록된 것이 없으면  
+            {
+                AddState(i, buffSkill);//추가
+                //셋팅 
+                break;
+            }
+            else 
+            {
 
-        for (int i = 0; i < currentBuffSize; i++)
-        {
-
+            }
         }
-         //buffSkill.skill_sprite;
-
     }
 
+    /// <summary>
+    /// 버프 UI 셋팅 
+    /// </summary>
+    /// <param name="i">UI 순번</param>
+    /// <param name="sprite">상태이상 아이콘</param>
+    private void AddState(int i, SkillData skill)
+    {
+        state_UI_Datas[i] = skill;
+        imgIconArray[i].sprite = skill.skill_sprite;
+        stateTimer[i].fillAmount = 1.0f;
+    }
+
+    /// <summary>
+    /// 버프 UI 초기화
+    /// </summary>
+    /// <param name="i">UI 순번</param>
+    /// <param name="sprite">상태이상 아이콘</param>
+    private void RemoveState(int i)
+    {
+        state_UI_Datas[i] = null;
+        imgIconArray[i].sprite = null;
+        stateTimer[i].fillAmount = 0.0f;
+    }
 }
