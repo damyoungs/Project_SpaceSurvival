@@ -148,7 +148,7 @@ public class AttackRange : MonoBehaviour
             if (attackDir != value)
             {
                 attackDir = value;
-                if (attackCurrentTile.ExistType == Tile.TileExistType.AttackRange ||
+                if ( attackCurrentTile.ExistType == Tile.TileExistType.AttackRange ||
                     attackCurrentTile.ExistType == Tile.TileExistType.Attack_OR_Skill)
                 {
                     SkillRange_Tile_View(attackCurrentTile);
@@ -238,7 +238,7 @@ public class AttackRange : MonoBehaviour
         if (controllUnit != null)
         {
             Player_Unit = controllUnit;
-
+            attackCurrentTile = player_Unit.CurrentTile;
         }
     }
 
@@ -443,7 +443,7 @@ public class AttackRange : MonoBehaviour
                     if (targetTile == player_Unit.CurrentTile) return; //내위치는 선택안되야됨
                     if (targetTile.ExistType == Tile.TileExistType.AttackRange) //범위안에서만 표시되야한다. 
                     {
-                        RampageAttackRange(targetTile, currentSkill.AttackRange);
+                        RampageAttackRange(currentSkill.AttackRange);
                     }
                     break;
                 default:
@@ -510,17 +510,17 @@ public class AttackRange : MonoBehaviour
     /// 적리스트를 반환하는 함수
     /// </summary>
     /// <returns>적이있으면 배열로반환 없으면 null반환</returns>
-    public ICharcterBase[] GetEnemyArray(out float LastDamage)
+    public BattleMapEnemyBase[] GetEnemyArray(out SkillData skill)
     {
         if (activeAttackTiles.Count > 0)
         {
-            LastDamage = currentSkill.FinalDamage;  //몬스터한테 줄 데미지 셋팅
+            skill = currentSkill; 
 
-            ICharcterBase[] enemyArray = SpaceSurvival_GameManager.Instance.EnemyTeam; //배틀맵의 몹정보를 전부 들고 
+            BattleMapEnemyBase[] enemyArray = SpaceSurvival_GameManager.Instance.EnemyTeam; //배틀맵의 몹정보를 전부 들고 
 
             int enemySize = enemyArray.Length;      // 배틀맵에 나와있는 몬스터의 갯수 가져오고
 
-            List<ICharcterBase> resultEnemyList = new List<ICharcterBase>(enemySize); //최대크기는 몬스터 리스트보다 클수없음으로 그냥 최대로잡자
+            List<BattleMapEnemyBase> resultEnemyList = new List<BattleMapEnemyBase>(enemySize); //최대크기는 몬스터 리스트보다 클수없음으로 그냥 최대로잡자
 
             foreach (Tile attackTile in activeAttackTiles) //공격범위만큼 검색하고
             {
@@ -537,10 +537,13 @@ public class AttackRange : MonoBehaviour
             return resultEnemyList.ToArray();
         }
         //여긴 공격할적이없을때 오는곳
-        LastDamage = 0.0f;  //기냥 초기화값
+        skill  = currentSkill;  //기냥 초기화값
         return null;
     }
-
+    public Tile[] GetEnemyArray() 
+    {
+        return activeAttackTiles.ToArray();
+    }
 
     /// <summary>
     /// 타일의 좌표값으로 인덱스 구하는함수 
@@ -747,35 +750,36 @@ public class AttackRange : MonoBehaviour
     /// <summary>
     /// 선택된 타일에 난사범위만큼 표시해주는 함수
     /// </summary>
-    /// <param name="currentTile">현재 마우스로 지정한 타일</param>
     /// <param name="attackRange">난사 스킬의 최대로 표시할 타일의 갯수</param>
-    private void RampageAttackRange(Tile currentTile, float attackRange) 
+    private void RampageAttackRange(float attackRange) 
     {
         if (!isClear)
         {
-          
             int tileSizeX = SpaceSurvival_GameManager.Instance.MapSizeX;
             int tileSizeY = SpaceSurvival_GameManager.Instance.MapSizeY;
-            int currentX = currentTile.width;
-            int currentY = currentTile.length;
+            int currentX = attackCurrentTile.width;
+            int currentY = attackCurrentTile.length;
 
             //선택된 타일이 캐릭터기준 동서남북 방향을 얻고 방향을 저장해둔다 .
-            SetRampageDirection(currentTile);
+            SetRampageDirection(attackCurrentTile);
+
             int outSideLength = (int)(attackRange * 0.375f);  // 비율이 5/8 : 3/8 이니 37.5%만큼의 값을 가져오고 
             int inSideLength = (int)(attackRange * 0.625f);   // 나머지값(62.5%)을 안쪽값으로한다.
+
             // 비율에 대한값은 스킬데이터에 저장해두는게 좋을듯싶다 . 여기서 일일이 계산하는것보다
             // 미리 스킬데이터에 정확한값을 저장해두고 불러다가 쓰는게 효율적이다.
+
             int tempInt = inSideLength / 2;
             
-            int inSideStartIndex = -tempInt;
-            int inSideEndIndex = tempInt;
+            int inSideStartIndex = -tempInt;    //  attackRange 가 8이면 -2 가 저장
+            int inSideEndIndex = tempInt;       //  attackRange 가 8이면 +2 가 저장  
             
             tempInt = outSideLength / 2;
             
-            int outSideStartIndex = -tempInt;
-            int outSideEndIndex = tempInt;
+            int outSideStartIndex = -tempInt;   //  attackRange 가 8이면 -1 이 저장
+            int outSideEndIndex = tempInt;      //  attackRange 가 8이면 +1 이 저장
             //Debug.Log($"{attackRange} , {inSideLength} , {outSideLength} ");
-            //Debug.Log($"{inSideStartIndex},{inSideEndIndex} : {outSideStartIndex},{outSideEndIndex}");
+            Debug.Log($"{attackDir} =  {inSideStartIndex},{inSideEndIndex} : {outSideStartIndex},{outSideEndIndex}");
             switch (attackDir)
             {
                 case DirectionRangeType.None:
@@ -792,9 +796,10 @@ public class AttackRange : MonoBehaviour
                     {
                         inSideStartIndex = CheckRampageRangeX(inSideStartIndex, tileSizeX);
                         inSideEndIndex = CheckRampageRangeX(inSideEndIndex, tileSizeX) + 1;
+                        SetRampageTilesX(inSideStartIndex, inSideEndIndex, 0);
+
                         outSideStartIndex = CheckRampageRangeX(outSideStartIndex, tileSizeX);
                         outSideEndIndex = CheckRampageRangeX(outSideEndIndex, tileSizeX) + 1;
-                        SetRampageTilesX(inSideStartIndex, inSideEndIndex, 0);
                         SetRampageTilesX(outSideStartIndex, outSideEndIndex, 1);
                     }
                     break;
@@ -809,9 +814,10 @@ public class AttackRange : MonoBehaviour
                     {
                         inSideStartIndex = CheckRampageRangeY(inSideStartIndex, tileSizeY);
                         inSideEndIndex = CheckRampageRangeY(inSideEndIndex, tileSizeY) + 1;
+                        SetRampageTilesY(inSideStartIndex, inSideEndIndex, 0);
+
                         outSideStartIndex = CheckRampageRangeY(outSideStartIndex, tileSizeY);
                         outSideEndIndex = CheckRampageRangeY(outSideEndIndex, tileSizeY) + 1;
-                        SetRampageTilesY(inSideStartIndex, inSideEndIndex, 0);
                         SetRampageTilesY(outSideStartIndex, outSideEndIndex, 1);
                     }
                     break;
@@ -826,9 +832,10 @@ public class AttackRange : MonoBehaviour
                     {
                         inSideStartIndex = CheckRampageRangeX(inSideStartIndex, tileSizeX);
                         inSideEndIndex = CheckRampageRangeX(inSideEndIndex, tileSizeX) + 1;
+                        SetRampageTilesX(inSideStartIndex, inSideEndIndex, 0);
+
                         outSideStartIndex = CheckRampageRangeX(outSideStartIndex, tileSizeX);
                         outSideEndIndex = CheckRampageRangeX(outSideEndIndex, tileSizeX) + 1;
-                        SetRampageTilesX(inSideStartIndex, inSideEndIndex, 0);
                         SetRampageTilesX(outSideStartIndex, outSideEndIndex, -1);
                     }
                     break;
@@ -843,9 +850,10 @@ public class AttackRange : MonoBehaviour
                     {
                         inSideStartIndex = CheckRampageRangeY(inSideStartIndex, tileSizeY);
                         inSideEndIndex = CheckRampageRangeY(inSideEndIndex, tileSizeY) + 1;
+                        SetRampageTilesY(inSideStartIndex, inSideEndIndex, 0);
+
                         outSideStartIndex = CheckRampageRangeY(outSideStartIndex, tileSizeY);
                         outSideEndIndex = CheckRampageRangeY(outSideEndIndex, tileSizeY) + 1;
-                        SetRampageTilesY(inSideStartIndex, inSideEndIndex, 0);
                         SetRampageTilesY(outSideStartIndex, outSideEndIndex, -1);
                     }
                     break;
@@ -928,7 +936,7 @@ public class AttackRange : MonoBehaviour
         attackDir = tempDir; //프로퍼티 안쓴이유는 프로퍼티에 연결된 함수에서 이함수를 사용하기때문이다. 무한재귀호출 가능성을 없앴다.
     }
     /// <summary>
-    /// 좌우 체크로직
+    /// 좌우 체크로직 
     /// </summary>
     /// <param name="x">체크할 좌표값</param>
     /// <param name="maxX">가로 최대갯수</param>
@@ -939,11 +947,12 @@ public class AttackRange : MonoBehaviour
             (maxX - 1) - attackCurrentTile.width :      //마지막 타일값에서 현재 타일값을 뺀값을 반환
             
             attackCurrentTile.width + x < 0 ?           //현재 타일에서 추가될값의 합이 0보다 작으면 
-            attackCurrentTile.width :                   //현재 타일값 반환 
+            -attackCurrentTile.width :                  //현재 타일인덱스의 -값을 반환 
             
             x;                                          // 그이외에는 입력값 그대로 반환
         return x;
     }
+    // -2 1 0 
     /// <summary>
     /// 위아래  체크로직
     /// </summary>
@@ -956,7 +965,7 @@ public class AttackRange : MonoBehaviour
          (maxY - 1) - attackCurrentTile.length :            //마지막 타일값에서 현재 타일값을 뺀값을 반환
 
          attackCurrentTile.length + y < 0 ?                 //현재 타일에서 추가될값의 합이 0보다 작으면 
-         attackCurrentTile.length :                         //현재 타일값 반환 
+         -attackCurrentTile.length :                        //현재 타일인덱스의 -값을 반환 
 
          y;                                                 // 그이외에는 입력값 그대로 반환
         return y;

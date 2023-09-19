@@ -136,7 +136,7 @@ public class LoadingScean : MonoBehaviour
             case EnumList.ProgressType.BAR:
                 //진행바이미지 셋팅을위해 가져오기
                 progressImg = ProgressList.Instance.GetProgress(EnumList.ProgressType.BAR, transform)
-                                .transform.GetChild(1).GetComponent<Image>(); //Prefab 에 순서1번째로 지정해두었다  
+                                .transform.GetChild(0).GetComponent<Image>(); //Prefab 에 순서1번째로 지정해두었다  
 
                 while (!op.isDone)  //isDone 으로 다음씬 로딩이 끝낫는지 체크할수있다.
                 {

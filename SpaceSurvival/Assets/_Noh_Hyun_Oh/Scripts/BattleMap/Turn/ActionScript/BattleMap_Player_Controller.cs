@@ -83,7 +83,7 @@ public class BattleMap_Player_Controller : MonoBehaviour
     /// <summary>
     /// 공격 범위가 표시된상태로 클릭시 처리할 액션 
     /// </summary>
-    public Action<ICharcterBase[], float> onAttackAction;
+    public Action<BattleMapEnemyBase[], float> onAttackAction;
 
     private void Awake()
     {
@@ -172,14 +172,17 @@ public class BattleMap_Player_Controller : MonoBehaviour
                     //Debug.Log($"이동가능 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
                     break;
                 case Tile.TileExistType.Attack_OR_Skill:
-                    ICharcterBase[] attackArray = SpaceSurvival_GameManager.Instance.AttackRange.GetEnemyArray(out float lastDamage); //
-                    if (attackArray != null && attackArray.Length > 0) //공격할적이있을땐 
-                    {
-                        onAttackAction?.Invoke(attackArray, lastDamage);//공격로직 실행 적군 데미지처리는 알아서하도록 데이터만넘기자
-                        Debug.Log($"공격 했다 최종데미지{lastDamage} 맞춘 인원수 {attackArray.Length} ");
-
-                        SpaceSurvival_GameManager.Instance.To_AttackRange_From_MoveRange();
-                    }
+                    BattleMapEnemyBase[] attackArray = SpaceSurvival_GameManager.Instance.AttackRange.GetEnemyArray(out SkillData skill); //
+                    //if (attackArray != null && attackArray.Length > 0) //공격할적이있을땐 
+                    //{
+                   
+                    onAttackAction?.Invoke(attackArray, skill.FinalDamage);//공격로직 실행 적군 데미지처리는 알아서하도록 데이터만넘기자
+                    
+                    AttackEffectOn(SpaceSurvival_GameManager.Instance.AttackRange.GetEnemyArray(), skill);
+                    Debug.Log($"공격 했다 최종데미지{skill?.FinalDamage} 맞춘 인원수 {attackArray?.Length} ");
+                        
+                    SpaceSurvival_GameManager.Instance.To_AttackRange_From_MoveRange(); //타일 범위표시 초기화 함수실행
+                    //}
                    // Debug.Log($"이동가능 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
                     break;
                 default:
@@ -188,7 +191,13 @@ public class BattleMap_Player_Controller : MonoBehaviour
             }
         }
     }
-
-
+    private void AttackEffectOn(Tile[] skillRangeTile, SkillData skill)
+    {
+        int forSize = skillRangeTile.Length;
+        for (int i = 0; i < forSize; i++)
+        {
+            GameManager.PS_Pool.GetObject(skill.SkillType, skillRangeTile[i].transform.position);
+        }
+    }
 }
   

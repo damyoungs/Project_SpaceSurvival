@@ -249,7 +249,6 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
             }
             isOpen = true;
         }
-
     }
     void PopUp()
     {
@@ -385,18 +384,37 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
 
     public void OpenWindow()
     {
-        if (gameObject.activeSelf)
+     
+        if (isOpen)
         {
-            QuickSlot_PopUp();
+            StartCoroutine(PopUpOpenCoroutine());
             PopupSorting(this);
         }
     }
 
     public void CloseWindow()
     {
-        if (gameObject.activeSelf)
+        if (!isOpen)
         {
-            QuickSlot_PopUp();
+            StartCoroutine(PopUpCloseCoroutine());
+        }
+    }
+    IEnumerator PopUpCloseCoroutine()
+    {
+        isOpen = false;
+        while (transform.position.y > hidePos.y)
+        {
+            transform.position += popUpSpeed * -Vector3.up;
+            yield return null;
+        }
+    }
+    IEnumerator PopUpOpenCoroutine()
+    {
+        isOpen = true;
+        while (transform.position.y < 0.0f)
+        {
+            transform.position += popUpSpeed * Vector3.up;
+            yield return null;
         }
     }
 }
