@@ -232,14 +232,26 @@ public class BattleMap_Player_Controller : MonoBehaviour
         WaitForSeconds waitForSeconds = new WaitForSeconds(0.025f);
         Util.Shuffle(skillRangeTile);
         int i = 0;
-        while(i < skillRangeTile.Length * 3)
+        while(i < skillRangeTile.Length)
         {
             GameManager.PS_Pool.GetObject(skillData.SkillType, skillRangeTile[i].transform.position);
             yield return waitForSeconds;
             i++;
-            i %= skillRangeTile.Length;
         }
-     
+        i = 0;
+        while (i < skillRangeTile.Length)
+        {
+            GameManager.PS_Pool.GetObject(skillData.SkillType, skillRangeTile[i].transform.position);
+            yield return waitForSeconds;
+            i++;
+        }
+        i = 0;
+        while (i < skillRangeTile.Length)
+        {
+            GameManager.PS_Pool.GetObject(skillData.SkillType, skillRangeTile[i].transform.position);
+            yield return waitForSeconds;
+            i++;
+        }
     }
 }
   
