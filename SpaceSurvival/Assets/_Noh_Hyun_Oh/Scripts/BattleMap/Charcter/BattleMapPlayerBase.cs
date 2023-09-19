@@ -73,9 +73,6 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
     
     public float MoveSize => moveSize;
 
-
-
-
     /// <summary>
     /// 좌측상단에있는 캐릭터 상태창
     /// </summary>
@@ -95,15 +92,15 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
         };
         charcterData.on_Player_Stamina_Change += (stmValue) => {
             
-            //float currentMoveSize = stmValue > moveSize ? moveSize : stmValue;
+            float currentMoveSize = stmValue > moveSize ? moveSize : stmValue;
             TurnManager.Instance.CurrentTurn.TurnActionValue = stmValue;
             //moveSize = stmValue;
             if (battleUI != null) 
             {
                 BattleUI.stmGaugeSetting(stmValue, charcterData.Max_Stamina); //소모된 행동력 표시
             }
-            //SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentTile);
-            //SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(currentTile, currentMoveSize);//이동범위표시해주기 
+            SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentTile);
+            SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(currentTile, currentMoveSize);//이동범위표시해주기 
             if (stmValue < 1.0f) //최소행동값? 보다 낮으면 
             {
                 TurnManager.Instance.CurrentTurn.TurnEndAction();//턴종료 

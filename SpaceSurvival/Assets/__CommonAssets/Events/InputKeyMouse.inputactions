@@ -163,6 +163,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "MouseWheel",
+                    "type": "Value",
+                    "id": "9da44067-4413-4f8e-97e2-6fabd82ff84c",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -194,8 +203,19 @@
                     "path": "<Mouse>/position",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "KeyMouse",
                     "action": "Get_Position",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e992225a-4c95-4191-ae94-a3dc1bb6fe31",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyMouse",
+                    "action": "MouseWheel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -696,7 +716,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Equip_Item",
+                    "name": "DoubleClick",
                     "type": "Button",
                     "id": "c0ba7cde-33c5-4edf-a931-744590f725c1",
                     "expectedControlType": "Button",
@@ -757,6 +777,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SkillBox_Open",
+                    "type": "Button",
+                    "id": "f1d1648e-58dc-4225-96e5-f17be279868f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -800,18 +829,7 @@
                     "interactions": "MultiTap(tapDelay=0.4)",
                     "processors": "",
                     "groups": "",
-                    "action": "Equip_Item",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "943db113-03f8-44dd-a57a-01a663b79d79",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ItemPickUp",
+                    "action": "DoubleClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -878,6 +896,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "EquipBox_Open",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "22fbffa0-e087-4181-91f4-1f2ce0d840e2",
+                    "path": "<Keyboard>/k",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SkillBox_Open",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

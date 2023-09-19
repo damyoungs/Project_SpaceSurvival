@@ -8,12 +8,24 @@ using Cinemachine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+
+public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 방어력을 저장. 버프사용, 사용중 장비, 해제 시 다시 설정할 때 사용
+{
+    public uint base_ATT;
+    public uint base_DP;
+    public Base_Status(Player_ player)
+    {
+        base_ATT = player.ATT;
+        base_DP = player.DP;
+    }
+}
 public class Player_ : MonoBehaviour, IBattle
 {
     public AnimatorOverrideController pistol_AC;
     public AnimatorOverrideController shotGun_AC;
     public AnimatorOverrideController rifle_AC;
     public AnimatorOverrideController no_Weapon_AC;
+
 
     Line_Renderer lineRenderer;
     public enum WeaponType
@@ -29,36 +41,33 @@ public class Player_ : MonoBehaviour, IBattle
         get => weaponType;
         set
         {
-            if (weaponType != value)
+            weaponType = value;
+            switch (weaponType)
             {
-                weaponType = value;
-                switch (weaponType)
-                {
-                    case WeaponType.None:
-                        lineRenderer.State = Attack_State.DeSelect;
-                        on_Attack = Basic_Attack;
-                        anim.runtimeAnimatorController = no_Weapon_AC;
-                        break;
-                    case WeaponType.Pistol:
-                        lineRenderer.State = Attack_State.Normal_Attack;
-                        on_Attack = Pistol_Attack;
-                        weapon_Parent_Transform.localPosition = pistol_Pos;
-                        weapon_Parent_Transform.localRotation = pistol_Rotation;
-                        anim.runtimeAnimatorController = pistol_AC;
-                        break;
-                    case WeaponType.Rifle:
-                        on_Attack = Rifle_Attack;
-                        weapon_Parent_Transform.localPosition = rifle_Pos;
-                        weapon_Parent_Transform.localRotation = rifle_Rotation;
-                        anim.runtimeAnimatorController = rifle_AC;
-                        break;
-                    case WeaponType.ShotGun:
-                        on_Attack = ShotGun_Attack;
-                        anim.runtimeAnimatorController = shotGun_AC;
-                        break;
-                    default:
-                        break;
-                }
+                case WeaponType.None:
+                    lineRenderer.State = Attack_State.DeSelect;
+                    on_Attack = Basic_Attack;
+                    anim.runtimeAnimatorController = no_Weapon_AC;
+                    break;
+                case WeaponType.Pistol:
+                    lineRenderer.State = Attack_State.Normal_Attack;
+                    on_Attack = Pistol_Attack;
+                    weapon_Parent_Transform.localPosition = pistol_Pos;
+                    weapon_Parent_Transform.localRotation = pistol_Rotation;
+                    anim.runtimeAnimatorController = pistol_AC;
+                    break;
+                case WeaponType.Rifle:
+                    on_Attack = Rifle_Attack;
+                    weapon_Parent_Transform.localPosition = rifle_Pos;
+                    weapon_Parent_Transform.localRotation = rifle_Rotation;
+                    anim.runtimeAnimatorController = rifle_AC;
+                    break;
+                case WeaponType.ShotGun:
+                    on_Attack = ShotGun_Attack;
+                    anim.runtimeAnimatorController = shotGun_AC;
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -144,11 +153,15 @@ public class Player_ : MonoBehaviour, IBattle
     public AudioClip potion_Sound;
 
 
-    //InputKeyMouse inputActions;
     Animator anim;
+    SkillBox_Description skill_Description;
     ItemDescription itemDescription;
     EquipBox_Description EquipBox_Description;
     EquipBox equipBox;
+    Base_Status base_Status;
+    Equipments_Total_ATT_DP equipments_Total_ATT_DP;
+    Skill_Blessing skill_Blessing;
+
 
     public Action onOpenInven;
 
@@ -162,6 +175,10 @@ public class Player_ : MonoBehaviour, IBattle
     public Action on_Attack;
     public Action<float> on_Player_Stamina_Change;
     public Action<float> on_Player_HP_Change;
+    public Action on_DarkForce_Change;
+    public Action<SkillData> on_ActiveSkill;
+    public Action<Skill_Blessing> on_Buff_Start;
+    public Action<bool> on_CursorChange;
 
     int attack_Trigger_Hash = Animator.StringToHash("Attack");
     int get_Hit_Hash = Animator.StringToHash("Get_Hit");
@@ -173,7 +190,7 @@ public class Player_ : MonoBehaviour, IBattle
         set
         {
             darkForce = value;
-
+            on_DarkForce_Change?.Invoke();
         }
     }
     int money = 0;
@@ -200,7 +217,6 @@ public class Player_ : MonoBehaviour, IBattle
             if (hp != value)
             {
                 hp = Mathf.Clamp(value, 0, maxHP);
-                Debug.Log($"플레이어 HP : {hp:f0}");
                 on_Player_HP_Change?.Invoke(hp);
             }
         }
@@ -216,7 +232,6 @@ public class Player_ : MonoBehaviour, IBattle
             if (stamina != value)
             {
                 stamina = Mathf.Clamp(value, 0, max_Stamina);
-                Debug.Log($"값수정 체크 : {value}");
                 on_Player_Stamina_Change?.Invoke(stamina);
             }
         }
@@ -247,7 +262,7 @@ public class Player_ : MonoBehaviour, IBattle
             }
         }
     }
-
+    bool duringBuffSkill = false;
     private void Awake()
     {
         lineRenderer = GetComponent<Line_Renderer>();
@@ -266,12 +281,13 @@ public class Player_ : MonoBehaviour, IBattle
         weapon_Parent_Transform = GetComponentInChildren<Weapon_Parent_Transform>().transform;
         jewel_Parent_Transform = GetComponentInChildren<Jewel_Parent_Transform>().transform;
         hat_Parent_Transform = GetComponentInChildren<Hat_Parent_Transform>().transform;
-        hat_Parent_Transform = GetComponentInChildren<BodySuit_Parent_Transform>().transform;
+        suit_Parent_Transform = GetComponentInChildren<BodySuit_Parent_Transform>().transform;
     }
     void Set_ShootPoint_Transform(Transform itemObj)
     {
         shootPointTransform = itemObj.GetChild(1);
     }
+ 
     private void Attack()
     {
         Stamina--;
@@ -279,8 +295,8 @@ public class Player_ : MonoBehaviour, IBattle
     }
     void Basic_Attack()
     {
-        audioSource.PlayOneShot(punch_Sound);
         anim.SetTrigger(attack_Trigger_Hash);
+        audioSource.PlayOneShot(punch_Sound);
         // audioSource.Play();
     }
     void Pistol_Attack()
@@ -301,19 +317,47 @@ public class Player_ : MonoBehaviour, IBattle
         anim.SetTrigger(attack_Trigger_Hash);
         Instantiate(bulletProjectilePrefab, shootPointTransform.position, shootPointTransform.rotation);
     }
-
-    private void OnEnable()
+    public void Skill_Action(SkillData skillData)
     {
-        //inputActions.UI_Inven.Enable();
-        //inputActions.UI_Inven.ItemPickUp.performed      += ItemPickUp;
-        //inputActions.UI_Inven.Equip_Item.performed      += On_Equip_Item;
-        //inputActions.UI_Inven.InvenKey.performed        += OpenInven;
-        //inputActions.Mouse.Enable();
-        //inputActions.Mouse.MouseClickRight.performed    += On_MouseClickRight;
+        skill_Blessing = skillData as Skill_Blessing;
+        if (skill_Blessing == null && Stamina >= skillData.Require_Stamina_For_UsingSkill && this.Weapon_Type != WeaponType.None)
+        {
+            //Stamina -= skillData.Require_Stamina_For_UsingSkill;//그리드에서 신호받아서 처리 할 예정
+            skillData.FinalDamage = this.ATT * skillData.SkillPower;
+            on_ActiveSkill?.Invoke(skillData);
 
+            Debug.Log($"스킬이름 : {skillData.SkillName}\n 데미지 : {skillData.FinalDamage}");
+            on_CursorChange?.Invoke(true);
+        }
+        else if (skill_Blessing != null)//만약 사용한 스킬이 버프스킬이면
+        {
+            Reset_Status();//장비아이템의 능력치가 합산된 플레이어의 공격력, 방어력 적용하기
+            float finalAttackPoint = this.ATT * skill_Blessing.SkillPower;
+            float finalDefencePoint = this.DP * skill_Blessing.SkillPower;
+            this.ATT = (uint)finalAttackPoint; //리셋된 공격력에 스킬의 skillPower만큼 곱해주기
+            this.DP = (uint)finalDefencePoint;
+            on_Buff_Start?.Invoke(skill_Blessing);// TurnBuffCount 프로퍼티로 몇턴 동안 버프가 유지될 것인지 설정되어 있습니다.
+            duringBuffSkill = true;//버프스킬 발동중 표시
+            on_CursorChange?.Invoke(false);
+            return;
+        }
     }
-
-    //private void On_MouseClickRight(InputAction.CallbackContext _)
+    public void SkillPostProcess()//skillAction 실행 후 grid 에서 호출할 함수 
+    {
+        Stamina--;
+        on_CursorChange?.Invoke(false);
+    }
+    void DeBuff()//버프스킬 적용 해제
+    {
+        Reset_Status();
+    }
+    void Reset_Status()
+    {
+        equipments_Total_ATT_DP = equipments_Total_ATT_DP.GetEquipments_Total_ATT_DP();// totalATT, TotalDP 값을 업데이트하는 함수 실행
+        this.ATT = base_Status.base_ATT + equipments_Total_ATT_DP.Total_ATT;//플레이어의 공격력 = 기본공격력 + 장비아이템들의 공격력 총 합
+        this.DP = base_Status.base_DP + equipments_Total_ATT_DP.Total_DP;
+    }
+  
     private void On_MouseClickRight()
     {
         Attack();
@@ -322,10 +366,11 @@ public class Player_ : MonoBehaviour, IBattle
     private void Start()
     {
         InputSystemController.Instance.OnUI_Inven_ItemPickUp += ItemPickUp;
-        InputSystemController.Instance.OnUI_Inven_Equip_Item += On_Equip_Item;
+        InputSystemController.Instance.OnUI_Inven_DoubleClick += On_DoubleClick;
         InputSystemController.Instance.OnUI_Inven_Inven_Open += OpenInven;
         InputSystemController.Instance.OnUI_Inven_MouseClickRight += On_MouseClickRight;
 
+        skill_Description = FindObjectOfType<SkillBox_Description>();
         itemDescription = GameManager.SlotManager.ItemDescription;
         equipBox = GameManager.EquipBox;
         EquipBox_Description = equipBox.Description;
@@ -333,9 +378,9 @@ public class Player_ : MonoBehaviour, IBattle
         onEquipItem += equipBox.Set_ItemData_For_DoubleClick;
         onUnEquipItem += GameManager.SlotManager.UnEquip_Item;
         onOpenInven += GameManager.Inventory.Open_Inventory;
+        GameManager.QuickSlot_Manager.on_Activate_Skill += Skill_Action;
 
-        equipBox.on_Update_Status_For_EquipOrSwap += Update_Status_For_EquipOrSwap;
-        equipBox.on_Update_Status_For_UnEquip += Update_Status_For_UnEquip;
+        equipBox.on_Update_Status += Update_Status;
         equipBox.on_Pass_Item_Transform += Set_ShootPoint_Transform;
 
         armors = new Transform[4];
@@ -343,110 +388,38 @@ public class Player_ : MonoBehaviour, IBattle
         armors[1] = transform.GetChild(17).transform;// Space Armor
         armors[2] = transform.GetChild(20).transform;// Big Armor
         armors[3] = transform.GetChild(19).transform;// 머리
+
+        //초기스펙 설정
+        Weapon_Type = WeaponType.None;
+        this.ATT = 100;
+        this.DP = 100;
+
+        base_Status = new Base_Status(this);
+        equipments_Total_ATT_DP = new Equipments_Total_ATT_DP(equipBox);
+
+
     }
-    //public void Disable_Input() //연결없어서 에러없애기위해 주석처리
-    //{
-    //    inputActions.KeyBoard.InvenKey.performed -= OpenInven; 
-    //}
-    //public void Enable_Input()
-    //{
-    //    inputActions.KeyBoard.InvenKey.performed += OpenInven;
-    //}
-    void Update_Status_For_UnEquip(ItemData legacyData)
+   
+    void Update_Status()
     {
-        ItemData_Hat hat = legacyData as ItemData_Hat;
-        ItemData_Enhancable weapon = legacyData as ItemData_Enhancable;
-        ItemData_Armor armor = legacyData as ItemData_Armor;
-        ItemData_Craft jewel = legacyData as ItemData_Craft;
-        if (hat != null)
+  
+        if (duringBuffSkill)//버프중이면
         {
-            ATT -= hat.attack_Point;
-            DP -= hat.defence_Point;
+            Reset_Status();//장비아이템의 능력치가 합산된 플레이어의 공격력, 방어력 적용하기
+            float finalAttackPoint = this.ATT * skill_Blessing.SkillPower;
+            float finalDefencePoint = this.DP * skill_Blessing.SkillPower;
+            this.ATT = (uint)finalAttackPoint; //리셋된 공격력에 스킬의 skillPower만큼 곱해주기
+            this.DP = (uint)finalDefencePoint;
         }
-        else if (armor != null)
+        else
         {
-            ATT -= armor.attack_Point;
-            DP -= armor.defence_Point;
-        }
-        else if (weapon != null)
-        {
-            ATT -= weapon.attackPoint;
-            DP -= weapon.defencePoint;
-        }
-        else if (jewel != null)
-        {
-            ATT -= jewel.attack_Point;
-            DP -= jewel.defence_Point;
-        }
-    }
-    private void Update_Status_For_EquipOrSwap(ItemData legacyData, ItemData newData)//구조상 인터페이스를 사용했다면 아래와 같이 형변환을 하고 비교하는 과정이 번거롭지는 않았을 것 같다.
-    {
-        ItemData_Hat hat = newData as ItemData_Hat;
-        ItemData_Enhancable weapon = newData as ItemData_Enhancable;
-        ItemData_Armor armor = newData as ItemData_Armor;
-        ItemData_Craft jewel = newData as ItemData_Craft;
-        if (legacyData == null)//장착이 안되어있을 경우 더해주고 끝
-        {
-            if (hat != null)
-            {
-                ATT += hat.attack_Point;
-                DP += hat.defence_Point;
-            }
-            else if (armor != null)
-            {
-                ATT += armor.attack_Point;
-                DP += armor.defence_Point;
-            }
-            else if (weapon != null)
-            {
-                ATT += weapon.attackPoint;
-                DP += weapon.defencePoint;
-            }
-            else if (jewel != null)
-            {
-                ATT += jewel.attack_Point;
-                DP += jewel.defence_Point;
-            }
-        }
-        else//이미 장착되어있었을 경우 스테이터스 더하고 빼기
-        {
-            if (hat != null)
-            {
-                att += hat.attack_Point;
-                dp += hat.defence_Point;
-                hat = legacyData as ItemData_Hat;
-                ATT -= hat.attack_Point;
-                DP -= hat.defence_Point;
-            }
-            else if (armor != null)
-            {
-                att += armor.attack_Point;
-                dp += armor.defence_Point;
-                armor = legacyData as ItemData_Armor;
-                ATT -= armor.attack_Point;
-                DP -= armor.defence_Point;
-            }
-            else if (weapon != null)
-            {
-                att += weapon.attackPoint;
-                dp += weapon.defencePoint;
-                weapon = legacyData as ItemData_Enhancable;
-                ATT -= weapon.attackPoint;
-                DP -= weapon.defencePoint;
-            }
-            else if (jewel != null)
-            {
-                att += jewel.attack_Point;
-                dp += jewel.defence_Point;
-                jewel = legacyData as ItemData_Craft;
-                ATT -= jewel.attack_Point;
-                DP -= jewel.defence_Point;
-            }
+            Reset_Status();
         }
     }
 
+
     //private void On_Equip_Item(InputAction.CallbackContext _)
-    private void On_Equip_Item()
+    private void On_DoubleClick()
     {
         if (itemDescription.ItemData != null)
         {
@@ -457,6 +430,10 @@ public class Player_ : MonoBehaviour, IBattle
         else if (EquipBox_Description.ItemData != null)
         {
             onUnEquipItem?.Invoke(EquipBox_Description.ItemData);
+        }
+        else if (skill_Description.SkillData != null)
+        {
+            Skill_Action(skill_Description.SkillData);
         }
     }
 
@@ -496,7 +473,6 @@ public class Player_ : MonoBehaviour, IBattle
     }
     public void Recovery_Stamina(int recoveryValue, float duration)
     {
-        Stamina--;// stamina 차감
         StartCoroutine(Recovery_Stamina_(recoveryValue, duration));
     }
     IEnumerator Recovery_HP_(int recoveryValue, float duration)

@@ -1,6 +1,8 @@
 using System;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// 배틀맵에서 플레이어의 이벤트핸들러내용을 정의할 컴포넌트  
@@ -22,6 +24,13 @@ public class BattleMap_Player_Controller : MonoBehaviour
 
     //[SerializeField]
     //int uiLayerIndex;
+
+    /// <summary>
+    /// 공격 여부 확인용 
+    /// </summary>
+    [SerializeField]
+    bool isAttack = false;
+
 
     /// <summary>
     /// 플레이어가 턴인지 확인하기위해 가져오는 오브젝트
@@ -72,9 +81,9 @@ public class BattleMap_Player_Controller : MonoBehaviour
     public Action<Tile> onClickPlayer;
 
     /// <summary>
-    /// 이벤트 제어 하기위한 델리게이트 나중에 메니저 만들어서 처리할때 필요 
+    /// 공격 범위가 표시된상태로 클릭시 처리할 액션 
     /// </summary>
-    //public Action<Tile> onOffEventHandle;
+    public Action<ICharcterBase[], float> onAttackAction;
 
     private void Awake()
     {
@@ -87,18 +96,19 @@ public class BattleMap_Player_Controller : MonoBehaviour
     {
         InputSystemController.Instance.OnBattleMap_Player_UnitMove += OnMove;
     }
+
     /// <summary>
     /// 클릭했을때 레이를 쏴서 레이에 충돌한 객체들을 가져오고 
     /// 레이어로 나눠서 처리를 하는 로직 
     /// </summary>
     private void OnMove()
     {
-        if (PlayerTurnObject == null) //플레이어가 현재 턴인경우만 실행하도록 체크
+        if (PlayerTurnObject == null) //플레이어가 현재 셋팅이 되있는지 체크
         {
             Debug.Log($"{playerTurnObject}플레이어가 셋팅 안되있습니다.");
             return;
         }
-        else if (!playerTurnObject.IsTurn)
+        else if (!playerTurnObject.IsTurn)  
         {
             Debug.Log($"턴아니라고 그만클릭해 {playerTurnObject.IsTurn}");
             return;
@@ -140,13 +150,13 @@ public class BattleMap_Player_Controller : MonoBehaviour
                 case Tile.TileExistType.None:
                     break;
                 case Tile.TileExistType.Charcter:
-                    Debug.Log($"이동불가 캐릭터: 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
+                  //  Debug.Log($"이동불가 캐릭터: 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
                     onClickPlayer?.Invoke(targetTile); 
                     break;
                 case Tile.TileExistType.Monster:
                     onClickMonster?.Invoke(targetTile);
                     //몬스터 클릭시 몬스터에대한 정보가 나오던 뭔가 액션이필요
-                    Debug.Log($"이동불가 몬스터: 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
+                   // Debug.Log($"이동불가 몬스터: 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
                     break;
                 case Tile.TileExistType.Item:
                     onMoveActive?.Invoke(targetTile);//이동로직 실행
@@ -154,15 +164,26 @@ public class BattleMap_Player_Controller : MonoBehaviour
                     // 아이템이 타일에있는경우 아이템 에대한 정보를 띄우던 뭔가을 액션 
                     break;
                 case Tile.TileExistType.Prop:
-                    Debug.Log($"이동불가 장애물 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
+                   // Debug.Log($"이동불가 장애물 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
                     break;
                 case Tile.TileExistType.Move:
                     //Debug.Log(targetTile);
                     onMoveActive?.Invoke(targetTile);//이동로직 실행
-                    Debug.Log($"이동가능 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
+                    //Debug.Log($"이동가능 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
+                    break;
+                case Tile.TileExistType.Attack_OR_Skill:
+                    ICharcterBase[] attackArray = SpaceSurvival_GameManager.Instance.AttackRange.GetEnemyArray(out float lastDamage); //
+                    if (attackArray != null && attackArray.Length > 0) //공격할적이있을땐 
+                    {
+                        onAttackAction?.Invoke(attackArray, lastDamage);//공격로직 실행 적군 데미지처리는 알아서하도록 데이터만넘기자
+                        Debug.Log($"공격 했다 최종데미지{lastDamage} 맞춘 인원수 {attackArray.Length} ");
+
+                        SpaceSurvival_GameManager.Instance.To_AttackRange_From_MoveRange();
+                    }
+                   // Debug.Log($"이동가능 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
                     break;
                 default:
-                    Debug.Log($"접근되면 안된다.");
+                    //Debug.Log($"접근되면 안된다.");
                     break;
             }
         }
