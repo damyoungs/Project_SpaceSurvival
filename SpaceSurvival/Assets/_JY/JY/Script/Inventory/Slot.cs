@@ -105,13 +105,7 @@ public class Slot : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandle
         IsEquipped = false;
         //Debug.Log($"인벤토리 {slotIndex}번 슬롯을 비웁니다.");
     }
-    public void UseItem(GameObject target)
-    {
-    }
-
-    public void EquipItem(GameObject target)
-    {
-    }
+  
     
     public void OnPointerEnter(PointerEventData eventData)
     {
