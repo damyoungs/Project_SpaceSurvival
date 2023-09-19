@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.InputSystem;
@@ -155,6 +152,7 @@ public class Cho_PlayerMove : MonoBehaviour
     private void OnMouseDelta(InputAction.CallbackContext context)
     {
         Vector2 temp = context.ReadValue<Vector2>();
+        Debug.Log(temp);
         float rotateX = temp.x * rotateSensitiveX * Time.fixedDeltaTime;
         //rigid.MoveRotation(rigid.rotation * Quaternion.AngleAxis(rotateX, Vector3.up));
         transform.Rotate(Vector3.up, rotateX);
