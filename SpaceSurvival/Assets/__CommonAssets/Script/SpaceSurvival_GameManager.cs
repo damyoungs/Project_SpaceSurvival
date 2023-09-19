@@ -94,8 +94,8 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
     /// <summary>
     /// 적군 목록을 저장해둔다.
     /// </summary>
-    ICharcterBase[] enemyTeam;
-    public ICharcterBase[] EnemyTeam
+    BattleMapEnemyBase[] enemyTeam;
+    public BattleMapEnemyBase[] EnemyTeam
     {
         get
         {
@@ -103,7 +103,7 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
             return enemyTeam;
         }
     }
-    public Func<ICharcterBase[]> GetEnemeyTeam;
+    public Func<BattleMapEnemyBase[]> GetEnemeyTeam;
 
     /// <summary>
     /// 이동범위 표시하는 컴포넌트 가져온다.
@@ -196,5 +196,7 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
         }
         playerTeam = null;
         GetPlayerTeam = null;
+        enemyTeam = null;
+        GetEnemeyTeam = null;
     }
 }

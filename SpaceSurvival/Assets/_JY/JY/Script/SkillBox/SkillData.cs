@@ -71,7 +71,7 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
     }
     protected virtual void Init()
     {
-        player = GameManager.Player__;
+        player = GameManager.Player_;
         skillBox_Description = transform.parent.GetChild(12).GetComponent<SkillBox_Description>();
         skill_Icon = transform.GetChild(1).GetChild(0).GetComponent<Image>();
         skillLevel_Text = transform.GetChild(2).GetComponent<TextMeshProUGUI>();

@@ -97,7 +97,7 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
     IEnumerator Get_Player_Reference()
     {
         yield return null;
-        player = GameManager.Player__;
+        player = GameManager.Player_;
         equip_Parent_Transform = new Transform[4];
         equip_Parent_Transform[0] = player.Hat_Parent_Transform;
         equip_Parent_Transform[1] = player.Weapon_Parent_Transform;

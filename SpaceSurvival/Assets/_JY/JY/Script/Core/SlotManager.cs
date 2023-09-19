@@ -300,7 +300,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         }
         else if (potion != null)
         {
-            potion.Consume(GameManager.Player__);
+            potion.Consume(GameManager.Player_);
             RemoveItem(data, index);
         }
         else

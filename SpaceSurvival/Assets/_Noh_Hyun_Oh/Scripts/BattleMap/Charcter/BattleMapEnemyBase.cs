@@ -30,6 +30,7 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
     /// <summary>
     /// 현재 자신의 위치의 타일
     /// </summary>
+    [SerializeField]
     Tile currentTile;
     public Tile CurrentTile
     {
