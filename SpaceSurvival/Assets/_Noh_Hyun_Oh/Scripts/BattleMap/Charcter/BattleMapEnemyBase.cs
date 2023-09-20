@@ -127,17 +127,16 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
     }
     public void CharcterMove(Tile selectedTile)
     {
-        /*
-        여기서 조작하고 부르기
-
-
-
-
-        */
         //desTile = battle.CurrentTile;
         //List<Tile> path = Cho_BattleMap_AStar.PathFind(
         //    SpaceSurvival_GameManager.Instance.BattleMap, SpaceSurvival_GameManager.Instance.MapSizeX,
         //    SpaceSurvival_GameManager.Instance.MapSizeY, this.currentTile, desTile);
+
+    }
+
+    public void TestCl()
+    {
+        Debug.Log($"{transform.name}");
 
     }
 }
