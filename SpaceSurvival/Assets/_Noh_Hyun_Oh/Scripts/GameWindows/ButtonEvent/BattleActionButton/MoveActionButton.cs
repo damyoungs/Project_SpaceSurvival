@@ -53,6 +53,7 @@ public class MoveActionButton : BattleActionButtonBase
                     SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(player.CurrentTile);
                     SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(player.CurrentTile, moveSize);//이동범위표시해주기 
                     isMoveButtonClick = true;
+                    GameManager.Inst.ChangeCursor(false);
                 }
             }
             else //공격 상태면 

@@ -13,7 +13,7 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
     /// <summary>
     /// 유아이 사용시 마우스 이벤트 막기위한 변수 
     /// </summary>
-    public bool IsUICheck = false;
+    //public bool IsUICheck = false;
 
     /// <summary>
     /// 배틀맵 시작시 셋팅할 맵의 타일 변수 

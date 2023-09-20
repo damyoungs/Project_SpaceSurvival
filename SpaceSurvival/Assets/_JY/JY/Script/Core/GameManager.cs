@@ -77,6 +77,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         player = FindObjectOfType<Player_>(true);
+        
         player.on_CursorChange += ChangeCursor;
         ChangeCursor(false);
         cursorHotspot = new Vector2(skillCursor.width * 0.5f, skillCursor.height * 0.5f);

@@ -102,15 +102,15 @@ namespace EnumList
     /// <summary>
     /// 화상 감전 동상 중독 공포 
     /// </summary>
-    public enum StateType
-    {
-        None = 0, //빈값
-        ElectricShock, //감전
-        Freeze, //동상
-        Poison, //중독
-        Fear, //공포
-        Burns //화상
-    }
+    //public enum StateType
+    //{
+    //    None = 0, //빈값
+    //    ElectricShock, //감전
+    //    Freeze, //동상
+    //    Poison, //중독
+    //    Fear, //공포
+    //    Burns //화상
+    //}
 
     /// <summary>
     /// 캐릭터 카메라 

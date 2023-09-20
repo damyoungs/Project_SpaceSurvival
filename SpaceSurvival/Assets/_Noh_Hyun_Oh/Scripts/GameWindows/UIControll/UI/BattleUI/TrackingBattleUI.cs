@@ -1,8 +1,10 @@
 using EnumList;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// 추적형 UI 기능 클래스 
@@ -113,15 +115,12 @@ public class TrackingBattleUI : TrackingBattleUIObject_PoolObj
     /// </summary>
     Transform stateGroup;
 
-    /// <summary>
-    /// 상태이상이 걸려서 추가 되는 경우 호출
-    /// </summary>
-    public Action<StateType> statusAbnormalities;
 
     /// <summary>
     /// 지속시간이 지나거나 아이템을 사용해서 상태가 해제된 경우 호출
+    /// 지금은 스킬데이터 안씀
     /// </summary>
-    public Action<IStateData> releaseStatus;
+    public Action<SkillData> releaseStatus;
 
     /// <summary>
     /// 상태이상 최대갯수 
@@ -151,6 +150,7 @@ public class TrackingBattleUI : TrackingBattleUIObject_PoolObj
     private IStateData[] states;
     public IStateData[] States => states;
 
+    private List<SkillData> stateSkillDatas;
 
     /// <summary>
     /// 체력 게이지 조절할 렉트
@@ -211,9 +211,9 @@ public class TrackingBattleUI : TrackingBattleUIObject_PoolObj
         bottomDefaultSize = rtBottom.sizeDelta;
 
 
-        statusAbnormalities += AddOfStatus; // 상태이상이 추가될때 호출될 함수등록
 
         states = new IStateData[stateSize]; // 상태이상의 배열크기를 잡아둔다.
+        stateSkillDatas = new(stateSize);
 
         stmRect = tempChild.GetChild(1).GetChild(0).GetComponent<RectTransform>(); // stm rect
         hpChangeCoroutine = HP_GaugeSetting();
@@ -420,79 +420,68 @@ public class TrackingBattleUI : TrackingBattleUIObject_PoolObj
         {
             if (states[i] == null) continue; //빈값이면 다음으로 
             states[i].CurrentDuration += states[i].ReducedDuration; //값이 존재하면 상태이상 갱신
-            if (states[i].CurrentDuration < 0.0f) // 상태이상 지속시간이 끝났으면 
+            if (states[i].CurrentDuration == states[i].MaxDuration) // 상태이상 지속시간이 끝났으면 
             {
-                releaseStatus?.Invoke(states[i]);//상태해제됬다고 신호를 보낸다.
+                releaseStatus?.Invoke(states[i].SkillData);//상태해제됬다고 신호를 보낸다.
+                stateSkillDatas.Remove(states[i].SkillData);
+                states[i].ResetData();//상태 초기화 하고 
                 states[i] = null; //배열에서 삭제
-            } 
+
+            }
         }
 
     }
 
-    /// <summary>
-    /// 상태변화 발생(추가)시 UI 추가 
-    /// 유닛쪽에서 호출 하는 함수 
-    /// </summary>
-    /// <param name="stateData">상태이상 의 타입</param>
-    public void AddOfStatus(EnumList.StateType type)
-    {
-        IStateData stateData = SettingStateUI(type); //풀에서 객체가져와서 UI셋팅
-        AddStateArray(stateData); //데이터셋팅
-        
-    }
 
     /// <summary>
     /// 현재 진행중인 상태이상 데이터 셋팅
     /// 배열에 추가하고 관리한다.
     /// </summary>
     /// <param name="addData">상태이상의 정보</param>
-    private void AddStateArray(IStateData addData) 
+    public void AddOfStatus(SkillData skillData) 
     {
-        for(int i=0; i< StateSize; i++)//전체검색해보고 
+        if (stateSkillDatas.Contains(skillData)) //추가된 값이있으면 
         {
-            if (states[i] == null) //빈곳이있는경우 
+            foreach (IStateData state in states)
             {
-                states[i] = addData;//추가하고
-                return;//빠져나간다.
+                if (state != null && state.SkillData == skillData)
+                {
+                    ((StateObject_PoolObj)state).InitData(skillData);
+                    return;
+                }
             }
         }
-        StateSize++; //상태리스트 꽉차있으면 배열 사이즈늘리고 
-        AddStateArray(addData); // 함수를 다시호출해서 배열에 추가시킨다.
+        else 
+        {
+            for(int i=0; i< StateSize; i++)//전체검색해보고 
+            {
+                if (states[i] == null) //빈곳이있는경우 
+                {
+                    IStateData stateData = SettingStateUI(skillData);//풀에서 객체가져와서 UI셋팅
+                    stateData.SkillData = skillData;
+                    states[i] = stateData;//추가하고
+                    stateSkillDatas.Add(skillData);
+                    return;//빠져나간다.
+                }
+            }
+        }
+        //StateSize++; //상태리스트 꽉차있으면 배열 사이즈늘리고 
+        //AddStateArray(addData); // 함수를 다시호출해서 배열에 추가시킨다.
     }
 
     /// <summary>
     /// 상태이상이 발동시 호출될 함수 
     /// 상태이상별로 UI처리관련 내용을 추가할예정
     /// </summary>
-    /// <param name="type">추가된 상태이상타입</param>
+    /// <param name="skillData">스킬 정보</param>
     /// <returns>상태이상의 정보를 생성해서 반환</returns>
-    private IStateData SettingStateUI(EnumList.StateType type)
+    private IStateData SettingStateUI(SkillData skillData)
     {
         StateObject_PoolObj poolObj = (StateObject_PoolObj)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.STATE_POOL); //풀에서 꺼내고
         poolObj.transform.SetParent(stateGroup);// 부모 셋팅하고 
-
-        ///밑에는 이미지 셋팅 
-        switch (type)
-        {
-            case EnumList.StateType.ElectricShock:
-                //이미지셋팅
-                break;
-            case EnumList.StateType.Poison:
-
-                break;
-            case EnumList.StateType.Freeze:
-
-                break;
-            case EnumList.StateType.Burns:
-
-                break;
-            case EnumList.StateType.Fear:
-
-                break;
-            default:
-                break;
-        }
+        poolObj.InitData(skillData);    //스킬 데이터 넘겨서 초기화 함수실행
         return poolObj;
+
     }
 
     /// <summary>
@@ -503,12 +492,10 @@ public class TrackingBattleUI : TrackingBattleUIObject_PoolObj
     public  void ResetData() 
     {
         //델리게이트 초기화 
-        statusAbnormalities = null;
         releaseStatus = null;
         //거리재기위한 카메라와 기준점이될 플레이어 참조를 해제 
         //mainCamera = null;
         Player = null;
-
         for (int i = 0; i < StateSize; i++) //상태이상 내용을 전부
         {
             if (states[i] != null) //값이 들어 있는것들 찾아서

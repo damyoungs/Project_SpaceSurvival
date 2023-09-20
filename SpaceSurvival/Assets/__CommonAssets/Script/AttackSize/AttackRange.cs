@@ -103,7 +103,7 @@ public class AttackRange : MonoBehaviour
     /// </summary>
     [SerializeField]
     Tile attackCurrentTile;
-    Tile AttackCurrentTile
+    public Tile AttackCurrentTile
     {
         get => attackCurrentTile;
         set
@@ -112,11 +112,12 @@ public class AttackRange : MonoBehaviour
             {
                 attackCurrentTile = value;
                 //로직실행하자
+                getCurrentTilePos?.Invoke(value.transform.position);
                 SkillRange_Tile_View(value);
             }
         }
     }
-
+    public Action<Vector3> getCurrentTilePos;
     ///// <summary>
     ///// 현재 공격범위표시해줄 타입 
     ///// </summary>
@@ -227,7 +228,9 @@ public class AttackRange : MonoBehaviour
         tileLayerIndex = LayerMask.NameToLayer("Ground");
 
         SpaceSurvival_GameManager.Instance.GetAttackRangeComp = () => this; //데이터 연결하기 
+        //getCurrentTilePos = () => { GameManager.Player_.}; 
     }
+
 
     /// <summary>
     /// 턴 시작할때 초기화할 함수

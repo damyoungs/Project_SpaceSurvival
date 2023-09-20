@@ -364,7 +364,7 @@ public class Player_ : MonoBehaviour, IBattle
         on_CursorChange?.Invoke(false);
         
     }
-    void DeBuff()//버프스킬 적용 해제
+    public void DeBuff()//버프스킬 적용 해제
     {
         Reset_Status();
     }

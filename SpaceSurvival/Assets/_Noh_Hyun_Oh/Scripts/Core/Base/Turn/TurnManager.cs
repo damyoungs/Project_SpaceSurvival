@@ -123,6 +123,7 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
     /// <param name="turnEndObj">턴종료한 유닛</param>
     private void TurnEnd()
     {
+        GameManager.Inst.ChangeCursor(false);
         currentTurn.TurnEndAction = null;
         currentTurn.TurnRemove = null;
         currentTurn.IsTurn = false; //턴종료를 설정한다 .
