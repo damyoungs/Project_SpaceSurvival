@@ -62,7 +62,6 @@ public class PopupSortManager : MonoBehaviour
     {
         popupLList.Remove(target);
         target.CloseWindow();
-
     }
 
     /// <summary>
@@ -86,6 +85,7 @@ public class PopupSortManager : MonoBehaviour
         {
             go.CloseWindow();
             popupLList.Remove(go);
+
         }
     }
     

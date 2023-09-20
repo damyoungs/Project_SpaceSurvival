@@ -1,10 +1,9 @@
 using System;
 using System.Collections;
-using Unity.VisualScripting;
-using UnityEditor.PackageManager;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 /// <summary>
 /// 배틀맵에서 플레이어의 이벤트핸들러내용을 정의할 컴포넌트  
@@ -105,6 +104,7 @@ public class BattleMap_Player_Controller : MonoBehaviour
     /// </summary>
     private void OnMove()
     {
+        Debug.Log(Cursor.lockState);
         if (PlayerTurnObject == null) //플레이어가 현재 셋팅이 되있는지 체크
         {
             Debug.Log($"{playerTurnObject}플레이어가 셋팅 안되있습니다.");
@@ -115,11 +115,27 @@ public class BattleMap_Player_Controller : MonoBehaviour
             Debug.Log($"턴아니라고 그만클릭해 {playerTurnObject.IsTurn}");
             return;
         }
-        else if (SpaceSurvival_GameManager.Instance.IsUICheck) 
+        else if (EventSystem.current.IsPointerOverGameObject())//포인터가 UI 위에 Mouse Over된 경우 return;
         {
-            //Debug.Log("UI 사용중입니당");
+            PointerEventData point = new PointerEventData(EventSystem.current);
+            point.position = Mouse.current.position.value;
+            List<RaycastResult> raycastHits = new();
+            EventSystem.current.RaycastAll(point,raycastHits);
+            if (raycastHits.Count > 0) 
+            {
+                foreach (RaycastResult hit in raycastHits)
+                {
+                    Debug.Log(hit.gameObject.name,hit.gameObject);
+                }
+            }
+            Debug.Log("UI 감지");
             return;
         }
+        //else if (SpaceSurvival_GameManager.Instance.IsUICheck) 
+        //{
+        //    //Debug.Log("UI 사용중입니당");
+        //    return;
+        //}
             //Debug.Log($"인풋시스템에서는 클릭한 곳의 오브젝트까지는 못가져온다 그래서 레이로 쏴서 가져와야한다.");
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());      // 화면에서 현재 마우스의 위치로 쏘는 빛
         Debug.DrawRay(ray.origin, ray.direction * ray_Range, Color.red, 1.0f);              // 디버그용 레이저
@@ -180,9 +196,9 @@ public class BattleMap_Player_Controller : MonoBehaviour
                    
                     onAttackAction?.Invoke(attackArray, skill.FinalDamage);//공격로직 실행 적군 데미지처리는 알아서하도록 데이터만넘기자
                     
+                    GameManager.Inst.ChangeCursor(false);
                     AttackEffectOn(SpaceSurvival_GameManager.Instance.AttackRange.GetEnemyArray(), skill);
                     Debug.Log($"공격 했다 최종데미지{skill?.FinalDamage} 맞춘 인원수 {attackArray?.Length} ");
-                        
                     SpaceSurvival_GameManager.Instance.To_AttackRange_From_MoveRange(); //타일 범위표시 초기화 함수실행
                     //}
                    // Debug.Log($"이동가능 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
