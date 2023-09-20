@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.InputSystem;
@@ -25,7 +24,7 @@ public class Cho_PlayerMove : MonoBehaviour
 
     Vector3 moveDir = Vector3.zero;
     float curRotateY = 0.0f;
-    float gravity = 0.0f;
+    float gravity = 9.81f;
     bool isJumping = false;
 
     PlayerState state = PlayerState.Idle;
@@ -91,17 +90,24 @@ public class Cho_PlayerMove : MonoBehaviour
         inputActions.Player.Disable();
     }
 
+    private void Update()
+    {
+        Debug.Log($"time : {Time.time}");
+        Debug.Log($"fixedtime : {Time.fixedTime}");
+    }
+
     private void FixedUpdate()
     {
         //rigid.MovePosition(rigid.position + transform.TransformDirection(Time.fixedDeltaTime * speed * moveDir));
         //rigid.MovePosition(rigid.position + Time.fixedDeltaTime * speed * moveDir);
 
-        //controller.Move(Time.fixedDeltaTime * speed * transform.TransformDirection(moveDir));
-        controller.SimpleMove(speed * transform.TransformDirection(moveDir));
-        if (isJumping)
+        //controller.SimpleMove(speed * transform.TransformDirection(moveDir));
+
+        if (!controller.isGrounded)
         {
-            gravity += 9.81f * Time.fixedDeltaTime;
+        moveDir.y -= gravity * Time.fixedDeltaTime;
         }
+        controller.Move(Time.fixedDeltaTime * speed * transform.TransformDirection(moveDir));
     }
 
     private void OnMove(UnityEngine.InputSystem.InputAction.CallbackContext context)
@@ -177,6 +183,32 @@ public class Cho_PlayerMove : MonoBehaviour
         {
             isJumping = false;
             gravity = 0.0f;
+            moveDir.y = 0.0f;
         }
     }
+    
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isJumping = true;
+            gravity = 0.0f;
+            moveDir.y = 0.0f;
+        }
+    }
+
+
+    //private void OnControllerColliderHit(ControllerColliderHit hit)
+    //{
+    //    if (hit.gameObject.CompareTag("Ground"))
+    //    {
+    //        if (hit.point.y > controller.center.y - controller.height * 0.5f)
+    //        {
+    //
+    //        }
+    //        isJumping = false;
+    //        moveDir.y = 0.0f;
+    //    }
+    //
+    //}
 }
