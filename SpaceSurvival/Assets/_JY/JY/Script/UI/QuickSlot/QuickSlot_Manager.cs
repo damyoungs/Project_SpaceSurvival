@@ -37,7 +37,7 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
     public QuickSlot[] QuickSlots => quickSlots;
 
     Vector2 hidePos = Vector2.zero;
-    public float popUpSpeed = 7.0f;
+    public float popUpSpeed = 100.0f;
     bool isOpen = false;
 
     ItemData_Potion shiftSlot_Data;
@@ -235,7 +235,7 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
         {
             while (transform.position.y > hidePos.y)
             {
-                transform.position += popUpSpeed * -Vector3.up;
+                transform.position += popUpSpeed * Time.deltaTime * -Vector3.up;
                 yield return null;
             }
             isOpen = false;
@@ -244,7 +244,7 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
         {
             while (transform.position.y < 0.0f)
             {
-                transform.position += popUpSpeed * Vector3.up;
+                transform.position += popUpSpeed * Time.deltaTime * Vector3.up;
                 yield return null;
             }
             isOpen = true;
