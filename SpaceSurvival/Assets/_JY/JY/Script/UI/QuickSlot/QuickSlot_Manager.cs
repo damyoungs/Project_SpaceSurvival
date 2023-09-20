@@ -27,7 +27,7 @@ public class Save_PotionData
 {
     public ItemData_Potion PotionData;
     public uint itemCount;
-    public QuickSlot_Type bindingSlot;
+    public Slot bindingSlot;
     public SkillType skillType;
     public Save_PotionData(QuickSlot slot)
     {
@@ -35,7 +35,7 @@ public class Save_PotionData
         {
             this.PotionData = slot.ItemData;
             this.itemCount = slot.ItemCount;
-            this.bindingSlot = slot.type;
+            //this.bindingSlot = slot.type;
             this.skillType = slot.SkillData.SkillType;
         }
     }
@@ -256,6 +256,7 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
 
     IEnumerator PopUpCoroutine()
     {
+        Vector2 newPos = Vector2.zero;
         if (isOpen)
         {
             while (transform.position.y > hidePos.y)
@@ -263,6 +264,9 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
                 transform.position += popUpSpeed * Time.deltaTime * -Vector3.up;
                 yield return null;
             }
+            newPos = transform.position;
+            newPos.y = -280.0f;
+            transform.position = newPos;
             isOpen = false;
         }
         else
@@ -272,6 +276,9 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
                 transform.position += popUpSpeed * Time.deltaTime * Vector3.up;
                 yield return null;
             }
+            newPos = transform.position;
+            newPos.y = 0;
+            transform.position = newPos;
             isOpen = true;
         }
     }
@@ -429,7 +436,8 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
         isOpen = false;
         while (transform.position.y > hidePos.y)
         {
-            transform.position += popUpSpeed * -Vector3.up;
+            transform.Translate((Time.deltaTime * popUpSpeed) * -Vector2.up);
+           // transform.position += popUpSpeed * -Vector3.up;
             yield return null;
         }
     }
@@ -438,7 +446,8 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
         isOpen = true;
         while (transform.position.y < 0.0f)
         {
-            transform.position += popUpSpeed * Vector3.up;
+            transform.Translate((Time.deltaTime * popUpSpeed) * Vector2.up);
+            //transform.position += popUpSpeed * Vector3.up;
             yield return null;
         }
     }
