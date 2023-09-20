@@ -10,7 +10,6 @@ public class QuestManager : MonoBehaviour
 {
     public static QuestManager instance;
     public TalkData talkData;   // 대사 모음
-    public int Npcid;           // 고유 id
     private int ItemNumber;     // 퀘스트 보상 아이템&골드
 
     // UI상태 체크
@@ -40,13 +39,14 @@ public class QuestManager : MonoBehaviour
     // 캔버스 위치
     GameObject CanvasLocation;
 
+    NpcBase NpcMe;
+
     private void Awake()
     {
-        Npcid = 1000;
         talkData = GameObject.FindAnyObjectByType<TalkData>();
         Buttons = new GameObject[3];
 
-        CanvasLocation = transform.GetChild(0).gameObject;
+        CanvasLocation = GameObject.Find("Canvas");
         TalkPanel = CanvasLocation.transform.GetChild(0).gameObject;
         QuestPanel = CanvasLocation.transform.GetChild(1).gameObject;
         MyQuestPanel=CanvasLocation.transform.GetChild(2).gameObject;
@@ -58,7 +58,7 @@ public class QuestManager : MonoBehaviour
         MyQeustBox = MyQuestPanel.GetComponentsInChildren<TextMeshProUGUI>()[0];
         for(int i = 0; i < 3; i++)
             Buttons[i] = QuestPanel.GetComponentsInChildren<Button>()[i].gameObject;
-
+        NpcMe = GetComponentInChildren<NpcBase>();
 
         if (instance == null)
             instance = this;
@@ -68,11 +68,11 @@ public class QuestManager : MonoBehaviour
     }
 
     // 화면 중앙 대화하기 버튼
-    public void Action()
+    public void Action(int npc)
     {
         //ItemNumber = (int)QuestManager.instance.quests[CharBase.instance.questChapter].questReward.RewardItem;
 
-        Talk(QuestManager.instance.Npcid);
+        Talk(npc);
     }
 
     /// <summary>
@@ -83,9 +83,9 @@ public class QuestManager : MonoBehaviour
     {
         if (!isTalk)
         {
-            if (CharBase.instance.myquest.questClear.clearType == QuestClear.ClearType.Comunication)
+            if (PlayerQuest.instance.myquest.questClear.clearType == QuestClear.ClearType.Comunication)
             {
-                CharBase.instance.myquest.isSucess = true;
+                PlayerQuest.instance.myquest.isSucess = true;
             }
 
             NameBox.text = transform.name;
@@ -107,31 +107,31 @@ public class QuestManager : MonoBehaviour
         if (!isNpcQuest)
         {
             // 퀘스트 클리어X, 진행X
-            if (quests[CharBase.instance.questChapter].isSucess == false && quests[CharBase.instance.questChapter].isProgress == false)
+            if (quests[PlayerQuest.instance.questCount].isSucess == false && quests[PlayerQuest.instance.questCount].isProgress == false)
             {
                 ForQuest();
                 isNpcQuest = true;
-                TitleBox.text = quests[CharBase.instance.questChapter].Title;
-                DescriptionBox.text = quests[CharBase.instance.questChapter].Description;
-                ClearBox.text = quests[CharBase.instance.questChapter].Clear;
+                TitleBox.text = quests[PlayerQuest.instance.questCount].Title;
+                DescriptionBox.text = quests[PlayerQuest.instance.questCount].Description;
+                ClearBox.text = quests[PlayerQuest.instance.questCount].Clear;
             }
             // 퀘스트 클리어X, 진행O
-            else if (quests[CharBase.instance.questChapter].isProgress == true && quests[CharBase.instance.questChapter].isSucess == false)
+            else if (quests[PlayerQuest.instance.questCount].isProgress == true && quests[PlayerQuest.instance.questCount].isSucess == false)
             {
                 ProgressQuest();
                 isNpcQuest = true;
-                TitleBox.text = CharBase.instance.myquest.Title;
-                DescriptionBox.text = CharBase.instance.myquest.Description;
-                ClearBox.text = CharBase.instance.myquest.Clear;
+                TitleBox.text = PlayerQuest.instance.myquest.Title;
+                DescriptionBox.text = PlayerQuest.instance.myquest.Description;
+                ClearBox.text = PlayerQuest.instance.myquest.Clear;
             }
             // 퀘스트 클리어O, 진행O
-            else if (quests[CharBase.instance.questChapter].isProgress == true && quests[CharBase.instance.questChapter].isSucess == true)
+            else if (quests[PlayerQuest.instance.questCount].isProgress == true && quests[PlayerQuest.instance.questCount].isSucess == true)
             {
                 SucessQuest();
                 isNpcQuest = true;
-                TitleBox.text = CharBase.instance.myquest.Title;
-                DescriptionBox.text = CharBase.instance.myquest.Description;
-                ClearBox.text = CharBase.instance.myquest.Clear;
+                TitleBox.text = PlayerQuest.instance.myquest.Title;
+                DescriptionBox.text = PlayerQuest.instance.myquest.Description;
+                ClearBox.text = PlayerQuest.instance.myquest.Clear;
             }
         }
         //퀘스트 초기화
@@ -150,7 +150,7 @@ public class QuestManager : MonoBehaviour
         {
             if (QuestManager.instance.quests[i].isSucess == false && QuestManager.instance.quests[i].isProgress == false)
             {
-                CharBase.instance.myquest = QuestManager.instance.quests[i];
+                PlayerQuest.instance.myquest = QuestManager.instance.quests[i];
                 QuestManager.instance.quests[i].isProgress = true;
                 ResetNpcQuest();
                 break;
@@ -171,7 +171,7 @@ public class QuestManager : MonoBehaviour
     public void SucessButton()
     {
         ResetNpcQuest();
-        CharBase.instance.myquest.Description = "";
+        PlayerQuest.instance.myquest.Description = "";
 
         // 퀘스트 클리어 보상 수령
         //var itemC = (ItemCode)ItemNumber;
@@ -187,7 +187,7 @@ public class QuestManager : MonoBehaviour
         if (!isMyQuest)
         {
             isMyQuest = true;
-            MyQeustBox.text = CharBase.instance.myquest.Description;
+            MyQeustBox.text = PlayerQuest.instance.myquest.Description;
         }
         else
             isMyQuest = false;
@@ -215,7 +215,7 @@ public class QuestManager : MonoBehaviour
         Buttons[1].SetActive(false); // 거절
         Buttons[2].SetActive(true);  // 완료
 
-        CharBase.instance.questChapter += 1;
+        PlayerQuest.instance.questCount += 1;
     }
 
     /// <summary>

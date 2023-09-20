@@ -48,7 +48,7 @@ public class Multiple_Factory : ChildComponentSingeton<Multiple_Factory>
    
 
     Pool_PlayerUnit playerUnitPool;
-    Pool_EnemyUnit enemyUnitPool;
+    public Pool_EnemyUnit enemyUnitPool;
 
     TileMapPool tileMapPool;
     /// <summary>
