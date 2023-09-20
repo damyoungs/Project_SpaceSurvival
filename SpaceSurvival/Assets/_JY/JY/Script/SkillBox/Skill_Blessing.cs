@@ -11,6 +11,7 @@ public class Skill_Blessing : SkillData
     {
         base.Init();
         button = transform.parent.GetChild(8).GetComponent<Button>();
+        button.onClick.RemoveAllListeners();
         button.onClick.AddListener(Skill_LevelUp);
         SkillName = "ºí·¹½Ì";
         SkillLevel = 1;

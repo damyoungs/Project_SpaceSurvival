@@ -181,6 +181,13 @@ public class SaveDataParsing : MonoBehaviour
             temp = slots[(int)consumeData.SlotIndex];
             temp.ItemData = GameManager.Itemdata[consumeData.ItemIndex];
             temp.ItemCount = consumeData.Values;
+
+            ItemData_Potion potion = temp.ItemData as ItemData_Potion;
+            if (temp.BindingSlot != null && potion != null)
+            {
+
+            }
+         
         }
 
 

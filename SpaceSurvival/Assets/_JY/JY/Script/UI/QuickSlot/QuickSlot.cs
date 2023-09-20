@@ -226,6 +226,10 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
             }
         }
         tempSlot.Close();
- 
+    }
+    public Save_SkillData Save_Skill_Data(QuickSlot quickSlot)
+    {
+        Save_SkillData _SkillData = new Save_SkillData(this);
+        return null;
     }
 }

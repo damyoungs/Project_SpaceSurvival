@@ -34,6 +34,7 @@ public class Slot : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandle
             if (isEquipped != value)
             {
                 isEquipped = value;
+                
             }
         }
     }

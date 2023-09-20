@@ -6,6 +6,40 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+public class Save_SkillData
+{
+    public SkillData skillData;
+    public int skillLevel;
+    public QuickSlot_Type bindingSlot;
+    public SkillType skillType;
+    public Save_SkillData(QuickSlot slot)
+    {
+        if (slot.SkillData != null)
+        {
+            this.skillData = slot.SkillData;
+            this.skillLevel = slot.SkillData.SkillLevel;
+            this.bindingSlot = slot.type;
+            this.skillType = slot.SkillData.SkillType;
+        }
+    }
+}
+public class Save_PotionData
+{
+    public ItemData_Potion PotionData;
+    public uint itemCount;
+    public QuickSlot_Type bindingSlot;
+    public SkillType skillType;
+    public Save_PotionData(QuickSlot slot)
+    {
+        if (slot.SkillData != null)
+        {
+            this.PotionData = slot.ItemData;
+            this.itemCount = slot.ItemCount;
+            this.bindingSlot = slot.type;
+            this.skillType = slot.SkillData.SkillType;
+        }
+    }
+}
 public enum QuickSlotList
 {
     Shift = 0,
@@ -27,6 +61,7 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
 {
     Player_ player;
     SlotManager slotManager;
+    SkillBox skillBox;
 
     Button popupButton;
     TextMeshProUGUI buttonText;
@@ -35,6 +70,7 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
     public RectTransform QuickSlotBox_RectTransform => rectTransform;
     QuickSlot[] quickSlots;
     public QuickSlot[] QuickSlots => quickSlots;
+
 
     Vector2 hidePos = Vector2.zero;
     public float popUpSpeed = 100.0f;
@@ -95,19 +131,7 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
         }
 
     }
-    //private void OnEnable()
-    //{
-        //inputAction.QuickSlot.Enable();
-        //inputAction.QuickSlot.PopUp.performed += QuickSlot_PopUp;
-        //inputAction.QuickSlot.Shift.performed += Shift_performed;
-        //inputAction.QuickSlot.Eight.performed += Eight_performed;
-        //inputAction.QuickSlot.Nine.performed += Nine_performed;
-        //inputAction.QuickSlot.Zero.performed += Zero_performed;
-        //inputAction.QuickSlot.Ctrl.performed += Ctrl_performed;
-        //inputAction.QuickSlot.Alt.performed += Alt_performed;
-        //inputAction.QuickSlot.Space.performed += Space_performed;
-        //inputAction.QuickSlot.Insert.performed += Insert_performed;
-    //}
+   
     private void Start()
     {
         InputSystemController.Instance.OnQuickSlot_Popup += QuickSlot_PopUp;
@@ -119,6 +143,7 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
         yield return null;
         player = GameManager.Player_;
         slotManager = GameManager.SlotManager;
+        skillBox = GameManager.SkillBox;
     }
 
     public void Set_ItemDataTo_QuickSlot(ItemData_Potion data)
@@ -415,6 +440,57 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
         {
             transform.position += popUpSpeed * Vector3.up;
             yield return null;
+        }
+    }
+    public Save_SkillData[] SaveSkillData()
+    {
+        Save_SkillData[] datas = new Save_SkillData[quickSlots.Length];
+        int i = 0;
+        while(i < quickSlots.Length)
+        {
+            datas[i] = new Save_SkillData(quickSlots[i]);
+            i++;
+        }
+        return datas;
+    }
+    public void LoadSkillData_In_QuickSlot(Save_SkillData[] datas)
+    {
+        for (int  i = 0; i < datas.Length; i++)
+        {
+            if (datas[i].skillData != null)
+            {
+                QuickSlot quickSlot = quickSlots[(int)datas[i].bindingSlot];//저장죈 연결 슬롯 가져오기
+                SkillData skillData = skillBox.SkillDatas[(int)datas[i].skillType];//datas에 저장된 타입에 맞는 초기 셋팅된 스킬데이터 가져오기
+                quickSlot.SkillData = skillData;
+                if (skillData.SkillLevel < datas[i].skillLevel)
+                {
+                    while(skillData.SkillLevel < datas[i].skillLevel)
+                    {
+                        skillData.on_Skill_LevelUp?.Invoke();
+                    }
+                }
+            }
+        }
+    }
+    Save_SkillData[] SkillDatas;// 세이브용 스킬 데이터
+
+    public void TestSave()
+    {
+        SkillDatas = SaveSkillData();
+    }
+    public void TestLoadData()
+    {
+        LoadSkillData_In_QuickSlot(SkillDatas);
+    }
+    public void QuickSlots_Clear()
+    {
+        foreach(var slot in quickSlots)
+        {
+            slot.SkillData = null;
+        }
+        foreach(var skillData in GameManager.SkillBox.SkillDatas)
+        {
+            skillData.TestInit();
         }
     }
 }

@@ -165,27 +165,20 @@ public class ItemSpawner : TestBase
     }
     protected override void Test1(InputAction.CallbackContext _)
     {
-       
-        SpawnItemPrefab();
+        GameManager.QuickSlot_Manager.TestSave();
+        Debug.Log("저장완료");
     }
     protected override void Test2(InputAction.CallbackContext context)
     {
-        GetItem();
-        // GetItemHpPotion();
+        GameManager.QuickSlot_Manager.QuickSlots_Clear();
+    }
+    protected override void Test3(InputAction.CallbackContext context)
+    {
+        GameManager.QuickSlot_Manager.TestLoadData();
     }
     protected  void OpenInven(InputAction.CallbackContext _)
     {
 
-    }
-    protected override void Test3(InputAction.CallbackContext context)
-    {
-        int i = 0;
-        while(i < 200)
-        {
-            GetItem();
-            i++;
-        }
-       // GameManager.playerDummy.RecoveryHP_(300, 0.5f);
     }
 
     protected override void Test4(InputAction.CallbackContext context)

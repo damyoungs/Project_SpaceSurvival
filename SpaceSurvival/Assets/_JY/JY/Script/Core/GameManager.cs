@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
     ItemDataManager itemDataManager;
     EquipBox equipBox;
     EffectParticle_Pool particlePool;
+    SkillBox skillBox;
 
     Vector2 cursorHotspot;
     
@@ -59,6 +60,7 @@ public class GameManager : MonoBehaviour
     public static QuickSlot_Manager QuickSlot_Manager => Inst.quickSlot_Box;
     public static EquipBox EquipBox => Inst.equipBox; 
     public static EffectParticle_Pool PS_Pool => Inst.particlePool;
+    public static SkillBox SkillBox => Inst.skillBox;
 
     private void Awake()
     {
@@ -73,6 +75,7 @@ public class GameManager : MonoBehaviour
         quickSlot_Box = FindObjectOfType<QuickSlot_Manager>();
         equipBox = FindObjectOfType<EquipBox>();
         particlePool = GetComponentInChildren<EffectParticle_Pool>();
+        skillBox = FindAnyObjectByType<SkillBox>();
     }
     private void Start()
     {

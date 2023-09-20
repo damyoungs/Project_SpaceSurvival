@@ -9,12 +9,22 @@ public class SkillBox : MonoBehaviour, IPopupSortWindow
     CanvasGroup canvasGroup;
     TextMeshProUGUI darkForce_Text;
 
+    SkillData[] skillDatas;
+    public SkillData[] SkillDatas => skillDatas;
+
     public Action<IPopupSortWindow> PopupSorting { get; set; }
 
     private void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
         darkForce_Text = transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
+        skillDatas = new SkillData[5];
+        int i = 0; 
+        while (i < skillDatas.Length)
+        {
+            skillDatas[i] = transform.GetChild(i + 2).GetComponent<SkillData>();
+            i++;
+        }
     }
 
 
