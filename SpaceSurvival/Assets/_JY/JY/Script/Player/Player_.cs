@@ -402,11 +402,11 @@ public class Player_ : MonoBehaviour, IBattle
 
         base_Status = new Base_Status(this);
         equipments_Total_ATT_DP = new Equipments_Total_ATT_DP(equipBox);
-
-
+        
+        
     }
-   
-    void Update_Status()
+
+     void Update_Status()
     {
   
         if (duringBuffSkill)//버프중이면
