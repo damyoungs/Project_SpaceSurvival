@@ -18,13 +18,13 @@ public class Cho_PlayerMove : MonoBehaviour
     public float speed = 0.0f;
     public float walkSpeed = 5.0f;
     public float runSpeed = 8.0f;
-    public float jumpHeight = 5.0f;
+    public float jumpHeight = 8.0f;
     public float rotateSensitiveX = 30.0f;
     public float rotateSensitiveY = 30.0f;
+    public float gravity = 15.0f;
 
     Vector3 moveDir = Vector3.zero;
     float curRotateY = 0.0f;
-    float gravity = 9.81f;
     bool isJumping = false;
 
     PlayerState state = PlayerState.Idle;
@@ -92,8 +92,8 @@ public class Cho_PlayerMove : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log($"time : {Time.time}");
-        Debug.Log($"fixedtime : {Time.fixedTime}");
+        //Debug.Log($"time : {Time.time}");
+        //Debug.Log($"fixedtime : {Time.fixedTime}");
     }
 
     private void FixedUpdate()
@@ -103,11 +103,13 @@ public class Cho_PlayerMove : MonoBehaviour
 
         //controller.SimpleMove(speed * transform.TransformDirection(moveDir));
 
-        if (!controller.isGrounded)
+        if (!IsGrounded())
         {
-        moveDir.y -= gravity * Time.fixedDeltaTime;
+            moveDir.y -= gravity * Time.fixedDeltaTime;
         }
-        controller.Move(Time.fixedDeltaTime * speed * transform.TransformDirection(moveDir));
+
+        controller.Move(Time.fixedDeltaTime * speed * transform.TransformDirection(new Vector3(moveDir.x, 0.0f, moveDir.z)));
+        controller.Move(Time.fixedDeltaTime * new Vector3(0.0f, moveDir.y, 0.0f));
     }
 
     private void OnMove(UnityEngine.InputSystem.InputAction.CallbackContext context)
@@ -177,38 +179,54 @@ public class Cho_PlayerMove : MonoBehaviour
         cameraPos.rotation = Quaternion.Euler(curRotateY, cameraPos.eulerAngles.y, cameraPos.eulerAngles.z);
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isJumping = false;
-            gravity = 0.0f;
-            moveDir.y = 0.0f;
-        }
-    }
-    
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isJumping = true;
-            gravity = 0.0f;
-            moveDir.y = 0.0f;
-        }
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.gameObject.CompareTag("Ground"))
+    //    {
+    //        isJumping = false;
+    //        gravity = 0.0f;
+    //        moveDir.y = 0.0f;
+    //    }
+    //}
+    //
+    //private void OnCollisionExit(Collision collision)
+    //{
+    //    if (collision.gameObject.CompareTag("Ground"))
+    //    {
+    //        isJumping = true;
+    //        gravity = 0.0f;
+    //        moveDir.y = 0.0f;
+    //    }
+    //}
 
 
     //private void OnControllerColliderHit(ControllerColliderHit hit)
     //{
     //    if (hit.gameObject.CompareTag("Ground"))
     //    {
-    //        if (hit.point.y > controller.center.y - controller.height * 0.5f)
+    //
+    //        Vector3 groundCheckPosition = new Vector3(transform.position.x, controller.center.y - controller.height * 0.5f, transform.position.z);
+    //        if (Physics.CheckSphere(groundCheckPosition, controller.radius, groundLayer))
     //        {
-    //
+    //            moveDir.y = -2.0f;
+    //            isJumping = false;
     //        }
-    //        isJumping = false;
-    //        moveDir.y = 0.0f;
     //    }
-    //
     //}
+
+    private bool IsGrounded()
+    {
+        Vector3 groundCheckPosition = new Vector3(transform.position.x, transform.position.y + controller.radius * 0.5f, transform.position.z);
+        if (Physics.CheckSphere(groundCheckPosition, controller.radius, LayerMask.GetMask("Ground")))
+        {
+            if (moveDir.y < jumpHeight)
+            {
+                moveDir.y = -0.01f;
+            }
+            isJumping = false;
+            return true;
+        }
+
+        return false;
+    }
 }
