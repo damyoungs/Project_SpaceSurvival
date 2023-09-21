@@ -55,7 +55,7 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
     /// <summary>
     /// 행동력 혹은 이동가능 거리
     /// </summary>
-    protected float moveSize = 3.0f;
+    protected float moveSize = 2.0f;
     public float MoveSize => moveSize;
 
     protected override void Awake()
@@ -125,18 +125,18 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
         transform.SetParent(poolTransform); //풀로 돌린다
         gameObject.SetActive(false); // 큐를 돌린다.
     }
+
+    public void EnemyAi()
+    {
+        Debug.Log($"{transform.name}턴 시작 행동력 : {psionicData.Stamina}");
+        psionicData.Stamina -= 10;
+    }
+
+
     public void CharcterMove(Tile selectedTile)
     {
-        //desTile = battle.CurrentTile;
-        //List<Tile> path = Cho_BattleMap_AStar.PathFind(
-        //    SpaceSurvival_GameManager.Instance.BattleMap, SpaceSurvival_GameManager.Instance.MapSizeX,
-        //    SpaceSurvival_GameManager.Instance.MapSizeY, this.currentTile, desTile);
 
     }
 
-    public void TestCl()
-    {
-        Debug.Log($"{transform.name}");
 
-    }
 }
