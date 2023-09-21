@@ -24,7 +24,7 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
     Image slotIcon;
     TextMeshProUGUI quickSlotText;
     ItemData_Potion itemData = null;
-    TempSlot_For_QuickSlot tempSlot;
+    TempSlot_For_QuickSlot_ tempSlot;
 
     //---------------------------------------------- description 팝업 관련
     public Action<ItemData> onPointerEnter;
@@ -87,10 +87,12 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
                 {
                     on_SkillSet?.Invoke(this);//QuickSlotManager에 인풋컨트롤러로 델리게이트 연결 요청
                     ItemData = null;
+                    skillData.BindingSlot = this;
                 }
                 else
                 {
                     on_Clear_Quickslot_Data?.Invoke(this);//연결 해제 요청
+                    skillData.BindingSlot = null;
                 }
             }
         }
@@ -117,7 +119,7 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
         slotIcon = transform.GetChild(1).GetComponent<Image>();
         quickSlotText = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         index = 99999;
-        tempSlot = transform.parent.GetChild(9).GetComponent<TempSlot_For_QuickSlot>();
+        tempSlot = transform.parent.GetChild(9).GetComponent<TempSlot_For_QuickSlot_>();
     }
     void Refresh_Icon()
     {

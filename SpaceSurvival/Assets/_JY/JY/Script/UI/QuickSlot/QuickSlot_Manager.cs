@@ -6,23 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class Save_SkillData
-{
-    public SkillData skillData;
-    public int skillLevel;
-    public QuickSlot_Type bindingSlot;
-    public SkillType skillType;
-    public Save_SkillData(QuickSlot slot)
-    {
-        if (slot.SkillData != null)
-        {
-            this.skillData = slot.SkillData;
-            this.skillLevel = slot.SkillData.SkillLevel;
-            this.bindingSlot = slot.type;
-            this.skillType = slot.SkillData.SkillType;
-        }
-    }
-}
+
 public class Save_PotionData
 {
     public ItemData_Potion PotionData;
@@ -399,7 +383,7 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
 
     void Init()
     {
-        TempSlot_For_QuickSlot tempSlot = transform.GetChild(9).GetComponent<TempSlot_For_QuickSlot>();
+        TempSlot_For_QuickSlot_ tempSlot = transform.GetChild(9).GetComponent<TempSlot_For_QuickSlot_>();
 
         // quickSlots = new QuickSlot[8];
         for (int i = 0; i < quickSlots.Length; i++)
@@ -451,46 +435,8 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
             yield return null;
         }
     }
-    public Save_SkillData[] SaveSkillData()
-    {
-        Save_SkillData[] datas = new Save_SkillData[quickSlots.Length];
-        int i = 0;
-        while(i < quickSlots.Length)
-        {
-            datas[i] = new Save_SkillData(quickSlots[i]);
-            i++;
-        }
-        return datas;
-    }
-    public void LoadSkillData_In_QuickSlot(Save_SkillData[] datas)
-    {
-        for (int  i = 0; i < datas.Length; i++)
-        {
-            if (datas[i].skillData != null)
-            {
-                QuickSlot quickSlot = quickSlots[(int)datas[i].bindingSlot];//저장죈 연결 슬롯 가져오기
-                SkillData skillData = skillBox.SkillDatas[(int)datas[i].skillType];//datas에 저장된 타입에 맞는 초기 셋팅된 스킬데이터 가져오기
-                quickSlot.SkillData = skillData;
-                if (skillData.SkillLevel < datas[i].skillLevel)
-                {
-                    while(skillData.SkillLevel < datas[i].skillLevel)
-                    {
-                        skillData.on_Skill_LevelUp?.Invoke();
-                    }
-                }
-            }
-        }
-    }
-    Save_SkillData[] SkillDatas;// 세이브용 스킬 데이터
 
-    public void TestSave()
-    {
-        SkillDatas = SaveSkillData();
-    }
-    public void TestLoadData()
-    {
-        LoadSkillData_In_QuickSlot(SkillDatas);
-    }
+  
     public void QuickSlots_Clear()
     {
         foreach(var slot in quickSlots)

@@ -15,7 +15,20 @@ public enum SkillType
     Normal
 
 }
-
+public class Save_SkillData
+{
+    public SkillData skillData;
+    public int skillLevel;
+    public QuickSlot bindingSlot;
+    public SkillType skillType;
+    public Save_SkillData(SkillData data)
+    {
+        this.skillData = data;
+        this.skillLevel = data.SkillLevel;
+        this.bindingSlot = data.BindingSlot;
+        this.skillType = data.SkillType;
+    }
+}
 
 public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandler, IPointerMoveHandler,IPointerExitHandler,IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -26,6 +39,16 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
     int require_Stamina_For_UsingSkill;      public int Require_Stamina_For_UsingSkill { get => require_Stamina_For_UsingSkill; protected set { require_Stamina_For_UsingSkill = value; } }
     float finalDamage;                       public float FinalDamage { get => finalDamage; set { finalDamage = value; } }
     float skillPower;                        public float SkillPower { get => skillPower; set { skillPower = value; } }
+
+    QuickSlot bindingSlot = null;
+    public QuickSlot BindingSlot
+    {
+        get => bindingSlot; 
+        set
+        {
+            bindingSlot = value;
+        }
+    }
 
     public Sprite skill_sprite;
 
@@ -172,5 +195,45 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
             }
         }
     
+    }
+    public Save_SkillData[] SaveSkillData()
+    {
+        SkillData skillData;
+        Save_SkillData[] datas = new Save_SkillData[8];
+        int i = 0;
+        while (i < 8)
+        {
+            skillData = transform.parent.GetChild(i + 2).GetComponent<SkillData>();
+            datas[i] = new Save_SkillData(skillData);
+            i++;
+        }
+        return datas;
+    }
+    public void LoadSkillData_In_QuickSlot(Save_SkillData[] datas)
+    {
+        for (int i = 0; i < datas.Length; i++)
+        {
+            QuickSlot bindingSlot = datas[i].bindingSlot;//저장죈 연결 슬롯 가져오기
+            SkillData skillData = datas[i].skillData;
+            bindingSlot.SkillData = skillData;
+            if (skillData.SkillLevel < datas[i].skillLevel)
+            {
+                while (skillData.SkillLevel < datas[i].skillLevel)
+                {
+                    skillData.on_Skill_LevelUp?.Invoke();
+                }
+            }
+            
+        }
+    }
+    Save_SkillData[] SkillDatas;// 세이브용 스킬 데이터
+
+    public void TestSave()
+    {
+        SkillDatas = SaveSkillData();
+    }
+    public void TestLoadData()
+    {
+        LoadSkillData_In_QuickSlot(SkillDatas);
     }
 }
