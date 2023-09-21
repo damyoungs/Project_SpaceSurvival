@@ -165,7 +165,7 @@ public class ItemSpawner : TestBase
     }
     protected override void Test1(InputAction.CallbackContext _)
     {
-        GameManager.QuickSlot_Manager.TestSave();
+        GameManager.SkillBox.TestSave();
         Debug.Log("저장완료");
     }
     protected override void Test2(InputAction.CallbackContext context)
@@ -174,7 +174,7 @@ public class ItemSpawner : TestBase
     }
     protected override void Test3(InputAction.CallbackContext context)
     {
-        GameManager.QuickSlot_Manager.TestLoadData();
+        GameManager.SkillBox.TestLoadData();
     }
     protected  void OpenInven(InputAction.CallbackContext _)
     {

@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 public enum QuickSlot_Type
 {
+    None,
     Shift,
     _8,
     _9,
@@ -81,18 +82,21 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
         {
             if (skillData != value)
             {
+                if (value == null)
+                {
+                    skillData.BindingSlot = QuickSlot_Type.None;
+                }
                 skillData = value;
                 Refresh_Icon();
                 if (skillData != null)
                 {
                     on_SkillSet?.Invoke(this);//QuickSlotManager에 인풋컨트롤러로 델리게이트 연결 요청
                     ItemData = null;
-                    skillData.BindingSlot = this;
+                    skillData.BindingSlot = this.type;
                 }
                 else
                 {
                     on_Clear_Quickslot_Data?.Invoke(this);//연결 해제 요청
-                    skillData.BindingSlot = null;
                 }
             }
         }
@@ -120,6 +124,7 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
         quickSlotText = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         index = 99999;
         tempSlot = transform.parent.GetChild(9).GetComponent<TempSlot_For_QuickSlot_>();
+
     }
     void Refresh_Icon()
     {

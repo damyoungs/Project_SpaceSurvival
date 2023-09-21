@@ -55,7 +55,6 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
     QuickSlot[] quickSlots;
     public QuickSlot[] QuickSlots => quickSlots;
 
-
     Vector2 hidePos = Vector2.zero;
     public float popUpSpeed = 100.0f;
     bool isOpen = false;

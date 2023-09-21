@@ -4,6 +4,19 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+public class Save_SkillData
+{
+    public int skillLevel;
+    public QuickSlot_Type bindingSlot;
+    public SkillType skillType;
+    public Save_SkillData(SkillData data)
+    {
+        this.skillLevel = data.SkillLevel;
+        this.bindingSlot = data.BindingSlot;
+        this.skillType = data.SkillType;
+    }
+}
+
 public class SkillBox : MonoBehaviour, IPopupSortWindow
 {
     CanvasGroup canvasGroup;
@@ -72,5 +85,49 @@ public class SkillBox : MonoBehaviour, IPopupSortWindow
     public void CloseWindow()
     {
         Close();
+    }
+    public Save_SkillData[] SaveSkillData()
+    {
+        SkillData skillData;
+        Save_SkillData[] datas = new Save_SkillData[5];
+        int i = 0;
+        while (i < 5)
+        {
+            skillData = transform.GetChild(i + 2).GetComponent<SkillData>();
+            datas[i] = new Save_SkillData(skillData);
+            i++;
+        }
+        return datas;
+    }
+    public void LoadSkillData_In_QuickSlot(Save_SkillData[] datas)
+    {
+        for (int i = 0; i < datas.Length; i++)
+        {
+            QuickSlot bindingSlot = null;
+            SkillData skillData = skillDatas[(int)datas[i].skillType];
+            if (datas[i].bindingSlot != QuickSlot_Type.None)
+            {
+                bindingSlot = GameManager.QuickSlot_Manager.QuickSlots[(int)datas[i].bindingSlot - 1];//저장된 연결 슬롯 가져오기
+                bindingSlot.SkillData = skillData;
+            }
+            if (skillData.SkillLevel < datas[i].skillLevel)//저장된 레벨이 현재 레벨과 다르면 레벨업
+            {
+                while (skillData.SkillLevel < datas[i].skillLevel)
+                {
+                    skillData.on_Skill_LevelUp?.Invoke();
+                }
+            }
+
+        }
+    }
+    Save_SkillData[] SkillDatas_;// 세이브용 스킬 데이터
+
+    public void TestSave()
+    {
+        SkillDatas_ = SaveSkillData();
+    }
+    public void TestLoadData()
+    {
+        LoadSkillData_In_QuickSlot(SkillDatas_);
     }
 }
