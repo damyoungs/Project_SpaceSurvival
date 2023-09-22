@@ -98,8 +98,10 @@ public class ItemDataManager : MonoBehaviour
 
     public ItemData[] itemDatas = null;
 
+
     public ItemData this[ItemCode code]
     {
+        
         get
         {
             ItemData itemdata = itemDatas[(int)code];

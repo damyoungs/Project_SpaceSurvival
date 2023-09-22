@@ -35,6 +35,13 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
     /// </summary>
     ITurnBaseData currentTurn;
     public ITurnBaseData CurrentTurn => currentTurn;
+
+    /// <summary>
+    /// 행동력값 추가하기전에 다음턴이 진행될수있는 유닛이있으면 담아둔다 
+    /// 큐안쓰고 하기위해 작성 
+    /// </summary>
+    ITurnBaseData nextTurn;
+
     /// <summary>
     /// 턴게이지 보여줄지 여부
     /// </summary>
@@ -97,7 +104,14 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
 
         turnIndex++; //턴시작마다 카운트 시킨다.
 
-        currentTurn = turnObjectList.First.Value; //처음 턴유닛을 찾아와서 
+        if (nextTurn == null)
+        {
+            currentTurn = turnObjectList.First.Value; //처음 턴유닛을 찾아와서 
+        }
+        else 
+        {
+            currentTurn = nextTurn;
+        }
 
 
         if (turnStartValue < currentTurn.TurnActionValue) //턴진행 할수있는 값이 됬으면 턴진행
@@ -126,7 +140,8 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
         GameManager.Inst.ChangeCursor(false);
         currentTurn.TurnEndAction = null;
         currentTurn.TurnRemove = null;
-        currentTurn.IsTurn = false; //턴종료를 설정한다 .
+        currentTurn.IsTurn = false; //턴종료를 설정한다 .\
+        CheckNextTurn(); //행동력추가후 정렬이기때문에 회복이빠른유닛은 무조건 먼저될수밖에없다 그러니 다음 행동가능한유닛 미리빼둬서 이를 방지한다.
         SetTurnValue();// 턴종료시마다 리스트의 유닛들의 행동력 값을 추가해주는 기능
         
         // TurnSorting(turnEndObj); // 값이 변경된 오브젝트의 정렬기능 실행 -- 턴종료마다 행동력증가폭이 같으면 해당함수가 실행되는의미가있다.
@@ -136,6 +151,20 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
 
 
         TurnStart(); // 다음턴 실행
+    }
+
+    /// <summary>
+    /// 행동력추가하기전에 리스트에 등록된 다음차례유닛이 시작 할수있는지 체크하고
+    /// 시작할수있으면 다음턴에 시작할수있게 셋팅
+    /// </summary>
+    private void CheckNextTurn() 
+    {
+        if (turnStartValue < turnObjectList.Find(currentTurn).Next.Value.TurnActionValue) 
+        {
+            nextTurn = turnObjectList.Find(currentTurn).Next.Value;
+            return;
+        }
+        nextTurn = null;
     }
 
     /// <summary>

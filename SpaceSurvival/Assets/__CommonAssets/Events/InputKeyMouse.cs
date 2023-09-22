@@ -1014,6 +1014,15 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Quest"",
+                    ""type"": ""Button"",
+                    ""id"": ""93efd5a5-6301-43ac-b2ce-d6946cc9e048"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1025,6 +1034,17 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""KeyMouse"",
                     ""action"": ""Options"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""917edf11-6df7-4c77-9e22-f0b640c16601"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyMouse"",
+                    ""action"": ""Quest"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1112,6 +1132,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         // Options
         m_Options = asset.FindActionMap("Options", throwIfNotFound: true);
         m_Options_Options = m_Options.FindAction("Options", throwIfNotFound: true);
+        m_Options_Quest = m_Options.FindAction("Quest", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1822,11 +1843,13 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Options;
     private List<IOptionsActions> m_OptionsActionsCallbackInterfaces = new List<IOptionsActions>();
     private readonly InputAction m_Options_Options;
+    private readonly InputAction m_Options_Quest;
     public struct OptionsActions
     {
         private @InputKeyMouse m_Wrapper;
         public OptionsActions(@InputKeyMouse wrapper) { m_Wrapper = wrapper; }
         public InputAction @Options => m_Wrapper.m_Options_Options;
+        public InputAction @Quest => m_Wrapper.m_Options_Quest;
         public InputActionMap Get() { return m_Wrapper.m_Options; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1839,6 +1862,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @Options.started += instance.OnOptions;
             @Options.performed += instance.OnOptions;
             @Options.canceled += instance.OnOptions;
+            @Quest.started += instance.OnQuest;
+            @Quest.performed += instance.OnQuest;
+            @Quest.canceled += instance.OnQuest;
         }
 
         private void UnregisterCallbacks(IOptionsActions instance)
@@ -1846,6 +1872,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @Options.started -= instance.OnOptions;
             @Options.performed -= instance.OnOptions;
             @Options.canceled -= instance.OnOptions;
+            @Quest.started -= instance.OnQuest;
+            @Quest.performed -= instance.OnQuest;
+            @Quest.canceled -= instance.OnQuest;
         }
 
         public void RemoveCallbacks(IOptionsActions instance)
@@ -1942,5 +1971,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     public interface IOptionsActions
     {
         void OnOptions(InputAction.CallbackContext context);
+        void OnQuest(InputAction.CallbackContext context);
     }
 }

@@ -4,19 +4,36 @@ using UnityEngine;
 
 public class PlayerQuest_Gyu : MonoBehaviour
 {
-    public static PlayerQuest instance;
+    /// <summary>
+    /// 수락할수있는 퀘스트의 갯수 
+    /// </summary>
+    [SerializeField] 
+    int questMaxLength = 10; 
+    public int QuestMaxLength => questMaxLength;
 
-    public int questCount = 0;  // 퀘스트 갯수
+    /// <summary>
+    /// 캐릭터가 수행중인 퀘스트 목록
+    /// </summary>
+    List<Gyu_QuestBaseData> currentQuests;
+    public List<Gyu_QuestBaseData> CurrentQuests => currentQuests; 
 
-    public Quest myquest;   // 퀘스트 1개만 받기
-    //public List<Quest> myquests;  // 퀘스트 여러개 받기
+    /// <summary>
+    /// 캐릭터가 완료한 퀘스트 목록 
+    /// </summary>
+    List<Gyu_QuestBaseData> clearQuestList;
+    public List<Gyu_QuestBaseData> ClearQuestList => clearQuestList;
+    
 
     private void Awake()
     {
-        //if (instance == null)
-            //instance = this;
+        currentQuests = new List<Gyu_QuestBaseData>(questMaxLength);
+        clearQuestList = new List<Gyu_QuestBaseData>(questMaxLength);
     }
     
-
+    public void ResetData() 
+    {
+        currentQuests.Clear();
+        clearQuestList.Clear();
+    }
 
 }
