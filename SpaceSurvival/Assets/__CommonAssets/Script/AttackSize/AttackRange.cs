@@ -228,7 +228,7 @@ public class AttackRange : MonoBehaviour
         tileLayerIndex = LayerMask.NameToLayer("Ground");
 
         SpaceSurvival_GameManager.Instance.GetAttackRangeComp = () => this; //데이터 연결하기 
-        //getCurrentTilePos = () => { GameManager.Player_.}; 
+        getCurrentTilePos = GameManager.Player_.Rotate;
     }
 
 

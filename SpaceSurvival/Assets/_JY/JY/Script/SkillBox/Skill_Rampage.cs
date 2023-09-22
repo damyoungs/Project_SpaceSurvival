@@ -9,6 +9,7 @@ public class Skill_Rampage : SkillData
     {
         base.Init();
         button = transform.parent.GetChild(9).GetComponent<Button>();
+        button.onClick.RemoveAllListeners();
         button.onClick.AddListener(Skill_LevelUp);
         SkillName = "³­»ç";
         SkillLevel = 1;

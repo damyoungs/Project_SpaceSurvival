@@ -29,15 +29,27 @@ public class ItemSpawner : TestBase
     }
     private void Start()
     {
-        player = GameManager.Player_;
         StartCoroutine(TestInit());
     }
+
     IEnumerator TestInit() 
     {
         yield return null;
-
+        player = GameManager.Player_;
         GetItem_For_Test();
+        SetSkillData_For_Test();
     }
+
+    private void SetSkillData_For_Test()
+    {
+        SkillBox skillBox = FindObjectOfType<SkillBox>();
+        for (int  i = 0; i < 5; i++)
+        {
+            SkillData skillData = skillBox.transform.GetChild(i + 2).GetComponent<SkillData>();
+            GameManager.QuickSlot_Manager.QuickSlots[i].SkillData = skillData;
+        }
+    }
+
     void SetDropTable()
     {
         if (prefabs.Length != Enum.GetValues(typeof(ItemCode)).Length)
@@ -153,33 +165,24 @@ public class ItemSpawner : TestBase
     }
     protected override void Test1(InputAction.CallbackContext _)
     {
-       
-        SpawnItemPrefab();
+        GameManager.QuickSlot_Manager.TestSave();
+        Debug.Log("저장완료");
     }
     protected override void Test2(InputAction.CallbackContext context)
     {
-        GetItem();
-        // GetItemHpPotion();
+        GameManager.QuickSlot_Manager.QuickSlots_Clear();
+    }
+    protected override void Test3(InputAction.CallbackContext context)
+    {
+        GameManager.QuickSlot_Manager.TestLoadData();
     }
     protected  void OpenInven(InputAction.CallbackContext _)
     {
 
     }
-    protected override void Test3(InputAction.CallbackContext context)
-    {
-        int i = 0;
-        while(i < 200)
-        {
-            GetItem();
-            i++;
-        }
-       // GameManager.playerDummy.RecoveryHP_(300, 0.5f);
-    }
 
-    public EquipBox equipBox;
     protected override void Test4(InputAction.CallbackContext context)
     {
-        equipBox.Set_ItemData_For_Drag(GameManager.Itemdata[ItemCode.HpPotion]);
     }
     Player_ player;
     protected override void Test5(InputAction.CallbackContext context)

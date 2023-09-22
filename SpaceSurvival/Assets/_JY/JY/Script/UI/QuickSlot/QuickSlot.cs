@@ -226,6 +226,6 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
             }
         }
         tempSlot.Close();
- 
     }
+
 }

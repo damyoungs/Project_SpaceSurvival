@@ -8,6 +8,7 @@ public class Skill_Normal_Attack : SkillData
     {
         base.Init();
         button = transform.parent.GetChild(7).GetComponent<Button>();
+        button.onClick.RemoveAllListeners();
         button.onClick.AddListener(Skill_LevelUp);
         SkillName = "일반 공격";
         SkillLevel = 1;

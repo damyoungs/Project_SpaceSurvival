@@ -9,6 +9,7 @@ public class Skill_Sniping : SkillData
     {
         base.Init();
         button = transform.parent.GetChild(11).GetComponent<Button>();
+        button.onClick.RemoveAllListeners();
         button.onClick.AddListener(Skill_LevelUp);
         SkillName = "РњАн";
         SkillLevel = 1;

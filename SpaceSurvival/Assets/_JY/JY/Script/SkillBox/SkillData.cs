@@ -15,6 +15,8 @@ public enum SkillType
     Normal
 
 }
+
+
 public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandler, IPointerMoveHandler,IPointerExitHandler,IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     string skillName;                        public string SkillName { get => skillName; protected set { skillName = value; } }
@@ -64,8 +66,17 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
     public Action on_PointerExit;
     public Action on_PointerMove;
     public Action<SkillData> on_PointerClick;
+    public Action on_Skill_LevelUp;
 
+    private void Awake()
+    {
+        on_Skill_LevelUp = LevelUpFor_DataLoad;
+    }
     void Start()
+    {
+        Init();
+    }
+    public void TestInit()
     {
         Init();
     }
@@ -77,10 +88,11 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
         skillLevel_Text = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
         require_Force_Text = transform.GetChild(4).GetComponent<TextMeshProUGUI>();
 
+        player.on_DarkForce_Change -= () => button.interactable = Require_Force_For_skillLevelUp < player.DarkForce;
         player.on_DarkForce_Change += () => button.interactable = Require_Force_For_skillLevelUp < player.DarkForce;
-        on_PointerEnter += skillBox_Description.Open;
-        on_PointerExit += skillBox_Description.Close;
-        on_PointerMove += skillBox_Description.MovePosition;
+        on_PointerEnter = skillBox_Description.Open;
+        on_PointerExit = skillBox_Description.Close;
+        on_PointerMove = skillBox_Description.MovePosition;
         skill_Icon.sprite = skill_sprite;
         tempSlot = transform.parent.GetChild(13).GetComponent<Skill_TempSlot>();
     }
@@ -91,6 +103,10 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
             player.DarkForce -= Require_Force_For_skillLevelUp;
             SkillLevel++;
         }
+    }
+    void LevelUpFor_DataLoad()
+    {
+        SkillLevel++;
     }
     protected virtual void SetCurrentLevel_Description_Info(out string info)
     {

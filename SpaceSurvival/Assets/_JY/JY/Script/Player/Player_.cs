@@ -261,12 +261,8 @@ public class Player_ : MonoBehaviour, IBattle
     }
     bool duringBuffSkill = false;
 
-    IEnumerator RotateCoroutine;
-    
     private void Awake()
     {
-        RotateCoroutine = Rotate();
-        //inputActions = new InputKeyMouse();
         anim = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
 
@@ -328,7 +324,7 @@ public class Player_ : MonoBehaviour, IBattle
 
             Debug.Log($"스킬이름 : {skillData.SkillName}\n 데미지 : {skillData.FinalDamage}");
             on_CursorChange?.Invoke(true);
-           // StartCoroutine(RotateCoroutine);
+            //StartCoroutine(RotateCoroutine);
         }
         else if (skill_Blessing != null)//만약 사용한 스킬이 버프스킬이면
         {
@@ -344,22 +340,15 @@ public class Player_ : MonoBehaviour, IBattle
             return;
         }
     }
-    Vector3 mousePos;
-    IEnumerator Rotate()
+
+    public void Rotate(Vector3 position)
     {
-        while (true)
-        {
-            mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-            mousePos.z = mousePos.y;
-            mousePos.y = 1;
-            Debug.Log(mousePos);
-            transform.LookAt(mousePos);
-            yield return null;
-        }
+        //position.y = f;
+        transform.rotation = Quaternion.LookRotation(position - transform.position);
     }
     public void SkillPostProcess()//skillAction 실행 후 grid 에서 호출할 함수 
     {
-      //  StopCoroutine(RotateCoroutine);
+       // StopCoroutine(RotateCoroutine);
         Stamina--;
         on_CursorChange?.Invoke(false);
         
