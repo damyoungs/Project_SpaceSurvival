@@ -59,6 +59,7 @@ public class Cho_PlayerMove : MonoBehaviour
         animator = GetComponent<Animator>();
         cameraPos = transform.GetChild(21);
         controller = GetComponent<CharacterController>();
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Start()
