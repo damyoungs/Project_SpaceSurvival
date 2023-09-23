@@ -9,16 +9,7 @@ using Cinemachine;
 using UnityEditor;
 #endif
 
-public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 방어력을 저장. 버프사용, 사용중 장비, 해제 시 다시 설정할 때 사용
-{
-    public uint base_ATT;
-    public uint base_DP;
-    public Base_Status(Player_ player)
-    {
-        base_ATT = player.ATT;
-        base_DP = player.DP;
-    }
-}
+
 public class Player_ : MonoBehaviour, IBattle
 {
     public AnimatorOverrideController pistol_AC;
@@ -155,7 +146,6 @@ public class Player_ : MonoBehaviour, IBattle
     ItemDescription itemDescription;
     EquipBox_Description EquipBox_Description;
     EquipBox equipBox;
-    Base_Status base_Status;
     Equipments_Total_ATT_DP equipments_Total_ATT_DP;
     Skill_Blessing skill_Blessing;
 
@@ -360,8 +350,8 @@ public class Player_ : MonoBehaviour, IBattle
     void Reset_Status()
     {
         equipments_Total_ATT_DP = equipments_Total_ATT_DP.GetEquipments_Total_ATT_DP();// totalATT, TotalDP 값을 업데이트하는 함수 실행
-        this.ATT = base_Status.base_ATT + equipments_Total_ATT_DP.Total_ATT;//플레이어의 공격력 = 기본공격력 + 장비아이템들의 공격력 총 합
-        this.DP = base_Status.base_DP + equipments_Total_ATT_DP.Total_DP;
+      //@@작업할 것 this.ATT = base_Status.base_ATT + equipments_Total_ATT_DP.Total_ATT;//플레이어의 공격력 = 기본공격력 + 장비아이템들의 공격력 총 합
+      // this.DP = base_Status.base_DP + equipments_Total_ATT_DP.Total_DP;
     }
   
     private void On_MouseClickRight()
@@ -400,7 +390,6 @@ public class Player_ : MonoBehaviour, IBattle
         this.ATT = 100;
         this.DP = 100;
 
-        base_Status = new Base_Status(this);
         equipments_Total_ATT_DP = new Equipments_Total_ATT_DP(equipBox);
         
         
