@@ -16,6 +16,6 @@ public class DataFactory : Singleton<DataFactory> {
     protected override void Awake()
     {
         base.Awake();
-        questScriptableGenerate = FindObjectOfType<QuestScriptableGenerate>();
+        questScriptableGenerate = GetComponent<QuestScriptableGenerate>();
     }
 }
