@@ -7,5 +7,15 @@ using UnityEngine;
 /// 데이터 사용시 공통된것을 넣을까생각중이다
 /// </summary>
 public class DataFactory : Singleton<DataFactory> {
+    /// <summary>
+    /// 퀘스트 원본이있는곳
+    /// </summary>
+    QuestScriptableGenerate questScriptableGenerate;
+    public QuestScriptableGenerate QuestScriptableGenerate;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        questScriptableGenerate = GetComponent<QuestScriptableGenerate>();
+    }
 }
