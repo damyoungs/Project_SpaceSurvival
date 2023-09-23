@@ -9,13 +9,14 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// 퀘스트 타입
+/// 퀘스트 타입 해당 순서 바꾸면 퀘스트 인덱스 값도 같이 바뀌니 조심하자
+/// 자세한건 QuestScriptableGenerate 스크립트 생성 부분참조
 /// </summary>
 public enum QuestType
 {
-    Killcount,              //  토벌퀘스트
-    Gathering,              //  수집퀘스트
-    Story                   //  시나리오 퀘스트
+    Story = 0,                   //  시나리오 퀘스트
+    Killcount ,              //  토벌퀘스트
+    Gathering ,              //  수집퀘스트
 }
 
 /// <summary>
@@ -69,6 +70,18 @@ public class Gyu_QuestManager : MonoBehaviour
     /// 선택된 퀘스트 담아둘 변수
     /// </summary>
     Gyu_QuestBaseData selectQuest;
+    Gyu_QuestBaseData SelectQuest 
+    {
+        get => selectQuest;
+        set 
+        {
+            if (selectQuest != value)
+            {
+                selectQuest = value;
+                onChangeQuest?.Invoke(selectQuest);
+            }
+        }
+    }
 
     /// <summary>
     /// 맵에있는 NPC 들
@@ -82,6 +95,8 @@ public class Gyu_QuestManager : MonoBehaviour
     /// </summary>
     int currentNpcIndex = -1;
     public int CurrentNpcIndex => currentNpcIndex;
+
+    public Action<Gyu_QuestBaseData> onChangeQuest;
 
     /// <summary>
     /// 퀘스트 원본이있는곳 싱글톤으로 나중에빼야한다 지금은 테스트라 이대로 테스트
@@ -99,7 +114,7 @@ public class Gyu_QuestManager : MonoBehaviour
         questUIManager.onSelectedQuest = (quest) => 
         {
             //퀘스트 선택
-            selectQuest = quest;
+            SelectQuest = quest;
         };
 
         questUIManager.onAcceptQuest = () => 
@@ -129,8 +144,11 @@ public class Gyu_QuestManager : MonoBehaviour
     }
     private void Start()
     {
-        questScriptableGenerate = GetComponentInChildren<QuestScriptableGenerate>();
-        //questScriptableGenerate = DataFactory.Instance.QuestScriptableGenerate;
+        questScriptableGenerate = DataFactory.Instance.QuestScriptableGenerate;
+        InitDataSetting();
+    }
+    public void InitDataSetting()
+    {
 
         // 팩토리로 할시 엔피씨 위치를 몇개 후보지역두고 랜덤으로 변경시키는게 더간단할거같다.
         // 초기화 하는것은 여기말고 다른곳으로 빼서 해야될거같다 .. 팩토리 로 생성시킨뒤에 껏다켯다하면 될거같긴한데.. 
@@ -151,6 +169,7 @@ public class Gyu_QuestManager : MonoBehaviour
                 questNPC.InitQuestData(questScriptableGenerate.MainStoryQuestArray,
                                         questScriptableGenerate.KillcountQuestArray,
                                         questScriptableGenerate.GatheringQuestArray); //퀘스트 데이터 처리
+
             }
             //else if () // 상인일경우 초기화처리
             //{

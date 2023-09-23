@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,7 +19,8 @@ public class QuestScriptableGenerate : BaseScriptableObjectGenerate<Gyu_QuestBas
     /// 퀘스트 종류별로 해당 갭이상으로 만들수없게 하기위한 변수
     /// </summary>
     int questIndexGap = 1000;
-
+    public int QuestIndexGap => questIndexGap;
+    
     /// <summary>
     /// 퀘스트의 갯수를 파악할 변수값
     /// </summary>
@@ -74,14 +76,26 @@ public class QuestScriptableGenerate : BaseScriptableObjectGenerate<Gyu_QuestBas
     /// </summary>
     private void SetAllDataIndexing() 
     {
-        questIndex = questIndexGap * 0; // 인덱스 0으로 초기화 
-        ArrayIndexsing(mainStoryQuestArray);
+        int questTypeLength = Enum.GetValues(typeof(QuestType)).Length;     //이넘 갯수를 찾아서  
 
-        questIndex = questIndexGap * 1; // 토벌퀘스트인덱스는 questIndexGap * 1 부터 시작
-        ArrayIndexsing(killcountQuestArray);
-        
-        questIndex = questIndexGap * 2; // 수집퀘스트인덱스는 questIndexGap * 2 부터 시작
-        ArrayIndexsing(gatheringQuestArray);
+        for (int i = 0; i < questTypeLength; i++) 
+        {
+            questIndex = questIndexGap * i; 
+            switch ((QuestType)i)
+            {
+                case QuestType.Story:
+                    ArrayIndexsing(mainStoryQuestArray);
+                    break;
+                case QuestType.Killcount:
+                    ArrayIndexsing(killcountQuestArray);
+                    break;
+                case QuestType.Gathering:
+                    ArrayIndexsing(gatheringQuestArray);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
     /// <summary>
     /// 초기화시 실행되며
@@ -94,7 +108,9 @@ public class QuestScriptableGenerate : BaseScriptableObjectGenerate<Gyu_QuestBas
         foreach (Gyu_QuestBaseData questData in resetDataArray)
         {
             questData.QuestId = questIndex;
+            Debug.Log($"{questData} 는 {questData.QuestId} , {questData.QuestType}");
             questIndex++;
+            
         }
     }
     /// <summary>

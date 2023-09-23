@@ -124,7 +124,7 @@ public class Gyu_QuestBaseData : ScriptableObject
     /// 퀘스트에대한 상태 정보
     /// </summary>
     Quest_State quest_State = Quest_State.None;
-    public virtual Quest_State Quest_state
+    public virtual Quest_State Quest_State
     {
         get => quest_State;
         set 
@@ -144,9 +144,11 @@ public class Gyu_QuestBaseData : ScriptableObject
     /// 결국 Setter 다.. 
     /// </summary>
     /// <param name="countArray">저장된 진행상황데이터</param>
-    public void SaveFileDataPasing(int[] countArray) 
+    /// <param name="state">저장된 상태 데이터</param>
+    public void SaveFileDataPasing(int[] countArray,Quest_State state) 
     {
         currentCount = countArray;
+        quest_State = state;
     }
 
     /// <summary>

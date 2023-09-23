@@ -1,3 +1,5 @@
+using StructList;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -44,7 +46,7 @@ public class PlayerQuest_Gyu : MonoBehaviour
     {
         if (questMaxLength > currentQuests.Count) 
         {
-            addQuest.Quest_state = Quest_State.Quest_Start;
+            addQuest.Quest_State = Quest_State.Quest_Start;
             currentQuests.Add(addQuest);
             return;
         }
@@ -59,7 +61,7 @@ public class PlayerQuest_Gyu : MonoBehaviour
     {
         if (currentQuests.Contains(cancelQuest))
         {
-            cancelQuest.Quest_state = Quest_State.None;
+            cancelQuest.Quest_State = Quest_State.None;
             currentQuests.Remove(cancelQuest);
             return;
         }
@@ -74,7 +76,7 @@ public class PlayerQuest_Gyu : MonoBehaviour
     {
         if (currentQuests.Contains(clearQuest))
         {
-            clearQuest.Quest_state = Quest_State.Quest_Complete;
+            clearQuest.Quest_State = Quest_State.Quest_Complete;
             clearQuestList.Add(clearQuest);
             currentQuests.Remove(clearQuest);
             RewardDataSetting(clearQuest);
@@ -98,13 +100,7 @@ public class PlayerQuest_Gyu : MonoBehaviour
         clearQuestList.Clear();
     }
 
-    /// <summary>
-    /// 로드시 데이터 파싱관련 함수
-    /// </summary>
-    public void SetDataParsing() 
-    {
-        
-    }
+   
 
 
 }

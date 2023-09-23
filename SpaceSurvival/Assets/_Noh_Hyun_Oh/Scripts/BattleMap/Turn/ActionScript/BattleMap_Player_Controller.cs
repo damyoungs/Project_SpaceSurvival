@@ -104,7 +104,7 @@ public class BattleMap_Player_Controller : MonoBehaviour
     /// </summary>
     private void OnMove()
     {
-        Debug.Log(Cursor.lockState);
+        //Debug.Log(Cursor.lockState);
         if (PlayerTurnObject == null) //플레이어가 현재 셋팅이 되있는지 체크
         {
             Debug.Log($"{playerTurnObject}플레이어가 셋팅 안되있습니다.");
@@ -117,6 +117,7 @@ public class BattleMap_Player_Controller : MonoBehaviour
         }
         else if (EventSystem.current.IsPointerOverGameObject())//포인터가 UI 위에 Mouse Over된 경우 return;
         {
+            ///canvas 내부 오브젝트들 에다가 레이를 쏜다고보면된다
             PointerEventData point = new PointerEventData(EventSystem.current);
             point.position = Mouse.current.position.value;
             List<RaycastResult> raycastHits = new();

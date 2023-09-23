@@ -97,13 +97,13 @@ namespace StructList {
         /// 스킬 관련 변수 
         /// </summary>
         [SerializeField]
-        int values;
-        public int Values
+        int levelValue;
+        public int LevelValue
         {
-            get => values;
+            get => levelValue;
             set
             {
-                values = value;
+                levelValue = value;
             }
         }
         /// <summary>
@@ -186,7 +186,7 @@ namespace StructList {
         int[] flagList;
         public int[] FlagList 
         {
-            get=> flagList;
+            get => flagList;
             set => flagList = value;
         }
         /// <summary>
@@ -237,23 +237,38 @@ namespace StructList {
         public int QuestIndex
         {
             get => questIndex;
-            set
-            {
-                questIndex = value;
-            }
+            set => questIndex = value;
+        }
+        
+        /// <summary>
+        /// 퀘스트 타입 파싱을 조금더 간단하게 하기위해저장
+        /// </summary>
+        [SerializeField]
+        QuestType questType;
+        public QuestType QuestType 
+        {
+            get => questType;
+            set => questType = value;
+        }
+        /// <summary>
+        /// 퀘스트 상태 저장
+        /// </summary>
+        [SerializeField]
+        Quest_State questState;
+        public Quest_State QuestState 
+        {
+            get => questState;
+            set => questState = value;
         }
         /// <summary>
         /// 이벤트 진행도
         /// </summary>
         [SerializeField]
-        int questIProgress;
-        public int QuestIProgress
+        int[] questIProgress;
+        public int[] QuestIProgress
         {
             get => questIProgress;
-            set
-            {
-                questIProgress = value;
-            }
+            set => questIProgress = value;
         }
 
 

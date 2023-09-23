@@ -436,7 +436,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
     {
         questBoxPanel.gameObject.SetActive(true);
 
-        if (questData.Quest_state == Quest_State.None)  //퀘스트 시작안됬으면 
+        if (questData.Quest_State == Quest_State.None)  //퀘스트 시작안됬으면 
         {
             ForQuest();
             titleBox.text = questData.Title;
@@ -444,7 +444,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
             clearBox.text = questData.ClearObjectives;
             return;
         }
-        else if (questData.Quest_state != Quest_State.Quest_Complete && questData.IsSucess())    //퀘스트 완료 가능 상태
+        else if (questData.Quest_State != Quest_State.Quest_Complete && questData.IsSucess())    //퀘스트 완료 가능 상태
         {
             SucessQuest();
             titleBox.text = questData.Title;
@@ -452,7 +452,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
             clearBox.text = questData.ClearObjectives;
             return;
         }
-        else if (questData.Quest_state == Quest_State.Quest_Start) // 퀘스트 진행중인상태 
+        else if (questData.Quest_State == Quest_State.Quest_Start) // 퀘스트 진행중인상태 
         {
             ProgressQuest();
             titleBox.text = questData.Title;
@@ -460,7 +460,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
             clearBox.text = questData.ClearObjectives;
             return;
         }
-        else if(questData.Quest_state == Quest_State.Quest_Complete) //완료된 퀘스트 
+        else if(questData.Quest_State == Quest_State.Quest_Complete) //완료된 퀘스트 
         {
             ProgressQuest();
             titleBox.text = questData.Title;

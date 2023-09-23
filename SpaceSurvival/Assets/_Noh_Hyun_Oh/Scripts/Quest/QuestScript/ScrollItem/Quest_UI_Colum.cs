@@ -119,7 +119,7 @@ public class Quest_UI_Colum : MonoBehaviour ,IPointerClickHandler
             if (value != null) 
             {
                 thisQuestData = value;
-                Set_State_UI(thisQuestData.Quest_state);
+                Set_State_UI(thisQuestData.Quest_State);
                 Set_Type_UI(ThisQuestData.QuestType);
             }
         }
