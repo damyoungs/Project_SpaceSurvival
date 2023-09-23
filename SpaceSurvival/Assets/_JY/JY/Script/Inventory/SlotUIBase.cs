@@ -13,6 +13,7 @@ public class SlotUI_Base : MonoBehaviour
 
     public QuickSlot BindingSlot { get; set; }
     public Action<QuickSlot, ItemData> onItemCountChange;
+    public Action<int, ItemCode> on_QuestItem_CountChange;
     public Action<ItemData> onItemDataChange;
     public bool IsEmpty => ItemData == null;//SlotManager에서  빈 슬롯인지 확인할때 쓰일 프로퍼티// 초기 
     private ItemData itemData = null;
@@ -46,6 +47,10 @@ public class SlotUI_Base : MonoBehaviour
                 if (BindingSlot != null)
                 {
                     onItemCountChange?.Invoke(BindingSlot, itemData);
+                }
+                if (ItemData.ItemType == ItemType.Etc)
+                {
+                    on_QuestItem_CountChange?.Invoke((int)itemCount,ItemData.code);
                 }
             }
         }

@@ -568,10 +568,6 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     {
         bool result = false;
         ItemData data = GameManager.Itemdata[code];
-        if (data.ItemType == ItemType.Etc)
-        {
-            data.AddComponent<IQuest_Item>();
-        }
 
         Slot sameDataSlot = FindSameItem(data);
         if (sameDataSlot != null && sameDataSlot.ItemCount < sameDataSlot.ItemData.maxStackCount)
