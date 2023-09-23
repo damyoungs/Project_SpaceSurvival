@@ -131,6 +131,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
             {
                 if (selectedColum != null) 
                 {
+
                     selectedColum.IsSelectedCheck = false;
                 }
                 selectedColum = value;
@@ -423,7 +424,6 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
     /// <param name="selectColum"> 클릭한 퀘스트 UI 오브젝트</param>
     private void QuestItemClick(Gyu_QuestBaseData questData, Quest_UI_Colum selectColum) 
     {
-        
         selectColum.IsSelectedCheck = true;
         NpcQuest(questData);
         onSelectedQuest?.Invoke(questData);

@@ -12,6 +12,7 @@ public class Quest_UI_Colum : MonoBehaviour ,IPointerClickHandler
     /// <summary>
     /// 퀘스트에대한 상태 정보
     /// </summary>
+    [SerializeField]
     Quest_State quest_State = Quest_State.None;
     public Quest_State Quest_State 
     {
@@ -25,7 +26,7 @@ public class Quest_UI_Colum : MonoBehaviour ,IPointerClickHandler
             }
         }
     }
-
+    [SerializeField]
     bool isSelectedCheck = false;
     public bool IsSelectedCheck
     {
@@ -119,7 +120,7 @@ public class Quest_UI_Colum : MonoBehaviour ,IPointerClickHandler
             if (value != null) 
             {
                 thisQuestData = value;
-                Set_State_UI(thisQuestData.Quest_State);
+                Quest_State = thisQuestData.Quest_State;
                 Set_Type_UI(ThisQuestData.QuestType);
             }
         }
