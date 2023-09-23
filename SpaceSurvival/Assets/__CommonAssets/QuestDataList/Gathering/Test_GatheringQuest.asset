@@ -19,8 +19,8 @@ MonoBehaviour:
   clearObjectives: "\uBB34\uC5C7\uC744 \uBA87\uAC1C \uC218\uC9D1\uD574\uC624\uB77C\uB294
     \uB0B4\uC6A9 "
   rewardCoin: 0
-  rewardItem: 02000000
+  rewardItem: 04000000
   itemCount: 04000000
-  requestItem: 0d000000
+  requestItem: 04000000
   questMosters: 
-  requiredCount: 03000000
+  requiredCount: 0a000000

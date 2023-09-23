@@ -112,7 +112,7 @@ public class Gyu_QuestBaseData : ScriptableObject
     /// </summary>
     [SerializeField]
     int[] requiredCount;
-    public int[] RequiredCount => requiredCount;
+    public int[] RequestCount => requiredCount;
 
     /// <summary>
     /// 현재 카운트(갯수)
@@ -153,23 +153,20 @@ public class Gyu_QuestBaseData : ScriptableObject
 
     /// <summary>
     /// 수집 퀘스트 아이템 코드를 가지고 퀘스트 진행값을 늘리는 함수
+    /// 퀘스트 만들때 중복된 아이템을 가져오라고 하면 버그가발생할것이다
     /// </summary>
     /// <param name="requestItemCode">아이템코드</param>
     /// <param name="addCount">증가될 카운트 갯수</param>
-    public void SetCounting(ItemCode requestItemCode, int addCount) 
+    public void SetCounting( int addCount, ItemCode requestItemCode) 
     {
-        
-        int requestItemIndex = -1;
         for (int i = 0; i < requestItem.Length; i++)
         {
             if (requestItem[i] == requestItemCode) 
             {
-                requestItemIndex = i;
-                break; 
+                currentCount[i] = addCount;
+                break;
             }
         }
-        if (requestItemIndex < 0) return; //아이템이 퀘스트에 없는경우 그냥 리턴
-        currentCount[requestItemIndex] += addCount; //아니면 카운팅
     }
 
     /// <summary>
@@ -177,22 +174,20 @@ public class Gyu_QuestBaseData : ScriptableObject
     /// 미완성 몬스터 가완성되야 될듯하다 
     /// 몬스터 종류에따른 이넘값을 인자로받고 인자를 여기클래스에다가 변수로 따로지정해두고 그것을 비교하는로직필요 
     /// 기본적으로 수집 퀘스트 비교랑 동일하다.
+    /// 퀘스트 만들때 중복된 몬스터를을 처리하라고 하면 버그가발생할것이다
     /// </summary>
     /// <param name="monsterType">몬스터 종류</param>
     /// <param name="addCount">추가될 카운트</param>
     public void SetCounting(Monster_Type monsterType, int addCount) 
     {
-        int questMosterIndex = -1;
         for (int i = 0; i < questMosters.Length; i++)
         {
             if (questMosters[i] == monsterType)
             {
-                questMosterIndex = i;
+                currentCount[i] += addCount; //아니면 카운팅
                 break;
             }
         }
-        if (questMosterIndex < 0) return; //토벌몬스터가 퀘스트에 없는경우 그냥 리턴
-        currentCount[questMosterIndex] += addCount; //아니면 카운팅
     }
 
     /// <summary>

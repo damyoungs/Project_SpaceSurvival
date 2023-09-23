@@ -510,6 +510,12 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
         if (questData != null)  //진행중인 퀘스트가 있는경우 
         {
             myQuestBox.text = questData.Description;
+            myQuestBox.text += "\r\n";
+            int forSize = questData.CurrentCount.Length;
+            for (int i = 0; i < forSize; i++)
+            {
+                myQuestBox.text += $"진행상황 : {questData.CurrentCount[i]} / {questData.RequestCount[i]}";
+            }
         }
         else //없는경우 
         {

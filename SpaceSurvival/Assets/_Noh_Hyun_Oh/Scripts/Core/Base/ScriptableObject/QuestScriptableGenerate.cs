@@ -108,7 +108,6 @@ public class QuestScriptableGenerate : BaseScriptableObjectGenerate<Gyu_QuestBas
         foreach (Gyu_QuestBaseData questData in resetDataArray)
         {
             questData.QuestId = questIndex;
-            Debug.Log($"{questData} 는 {questData.QuestId} , {questData.QuestType}");
             questIndex++;
             
         }
@@ -133,5 +132,40 @@ public class QuestScriptableGenerate : BaseScriptableObjectGenerate<Gyu_QuestBas
         {
             questData.ResetData();
         }
+    }
+
+    /// <summary>
+    /// 아이템 갯수가 변경되면 실행될 함수 
+    /// </summary>
+    public void InventoryItemCountSetting(int itemCount, ItemCode itemCode) 
+    {
+        //모든 퀘스트의 내용을 변경시키자.
+        int questTypeLength = Enum.GetValues(typeof(QuestType)).Length;     //이넘 갯수를 찾아서  
+
+        for (int i = 0; i < questTypeLength; i++)
+        {
+            switch ((QuestType)i)
+            {
+                case QuestType.Story:
+                    QuestCurrentCountingSetting(mainStoryQuestArray);
+                    break;
+                case QuestType.Killcount:
+                    QuestCurrentCountingSetting(killcountQuestArray);
+                    break;
+                case QuestType.Gathering:
+                    QuestCurrentCountingSetting(gatheringQuestArray);
+                    break;
+            }
+        }
+
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="questArray"></param>
+    private void QuestCurrentCountingSetting(Gyu_QuestBaseData[] questArray) 
+    {
+
     }
 }

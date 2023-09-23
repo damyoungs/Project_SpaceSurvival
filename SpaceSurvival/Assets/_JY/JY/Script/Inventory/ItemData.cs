@@ -23,5 +23,17 @@ public class ItemData : ScriptableObject
     public uint price = 0;                    
     public uint maxStackCount = 1;            
     public string itemDescription;
- 
+
+    public Gyu_QuestBaseData[] questBinding = null;
+   
+    public void ItemCountBinding(int bindCount) 
+    {
+        if (questBinding != null) 
+        {
+            foreach (var item in questBinding)
+            {
+                item.SetCounting(bindCount,code);
+            }
+        }
+    }
 }

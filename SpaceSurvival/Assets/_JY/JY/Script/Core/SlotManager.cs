@@ -233,6 +233,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             slotComp.onPointerMove += OnSlotPointerMove;
             slotComp.Index = (uint)slots[GameManager.Inventory.State].Count - 1;
             slotComp.onSet_Just_ChangeSlot += (slot) => just_ChangeSlot = slot;
+
         }
     }
 
@@ -628,6 +629,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             //Debug.Log($"아이템 감소 실패 : {slotIndex}는 없는 인덱스입니다.");
         }
     }
+  
     public void ClearSlot(ItemData data, uint slotIndex)
     {
         List<Slot> slots = GetItemTab(data);
@@ -844,7 +846,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             return true;
         }
         return false;
-    } 
+    }
 
     private List<Slot> GetItemTab(ItemData item = null)
     {
@@ -866,7 +868,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             }
         }
         else
-        {      
+        {
             switch (GameManager.Inventory.State)
             {
                 case Current_Inventory_State.Equip:
@@ -883,5 +885,43 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         }
         Debug.Log($"{slotList.Count} 인덱스오류왜떠");
         return null;
+    }
+
+
+    /// <summary>
+    /// 보상 받고 퀘스트 에 들어간 아이템 삭제하기위해 아래 두함수 추가 
+    /// </summary>
+    /// <param name="code"></param>
+    /// <returns></returns>
+    private List<Slot> GetItemTab(ItemCode code)
+    {
+        List<Slot> slotList = null;
+        switch (GameManager.Itemdata[code].ItemType) // null 이 아니면 Inventory 클래스에서 현재 어떤 탭이 선택되었든 관계없이 item의 itemType에 따라 리스트를 결정 한다.
+        {
+            case ItemType.Equip:
+                return slotList = slots[Current_Inventory_State.Equip];
+            case ItemType.Consume:
+                return slotList = slots[Current_Inventory_State.Consume];
+            case ItemType.Etc:
+                return slotList = slots[Current_Inventory_State.Etc];
+            case ItemType.Craft:
+                return slotList = slots[Current_Inventory_State.Craft];
+            default:
+                break;
+        }
+        return slotList;
+    }
+    public void RemoveItem(ItemCode code, int removeCount)
+    {
+        List<Slot> slots = GetItemTab(code);
+        foreach (var item in slots)
+        {
+            if (item.ItemData != null && item.ItemData.code == code)
+            {
+                item.DecreaseSlotItem((uint)removeCount);
+                break;
+            }
+        }
+
     }
 }

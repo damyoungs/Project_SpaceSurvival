@@ -183,6 +183,8 @@ public class ItemSpawner : TestBase
 
     protected override void Test4(InputAction.CallbackContext context)
     {
+        GameManager.SlotManager.AddItem(ItemCode.SecretPotion);
+        GameManager.SlotManager.AddItem(ItemCode.SpellBook);
     }
     Player_ player;
     protected override void Test5(InputAction.CallbackContext context)

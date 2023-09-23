@@ -92,6 +92,27 @@ public class PlayerQuest_Gyu : MonoBehaviour
     private void RewardDataSetting(Gyu_QuestBaseData clearData)
     {
         // 보상처리를위해 캐릭터 인벤토리에 연결을해서 처리해야한다.
+        int forSize = clearData.RewardItem.Length;
+        int rewardSize = 0;
+        for (int i = 0; i < forSize; i++)
+        {
+            rewardSize = clearData.ItemCount[i];//보상 갯수만큼 
+            for (int j = 0; j < rewardSize; j++) 
+            {
+                GameManager.SlotManager.AddItem(clearData.RewardItem[i]); //하나씩 증가 
+            }
+        }
+        GameManager.Player_.DarkForce += (uint)clearData.RewardCoin; //다크포스 증가시키기
+
+        /// 퀘스트 아이템 감소 시키기 
+        if (clearData.QuestType == QuestType.Gathering)
+        {
+            forSize = clearData.RequestItem.Length;
+            for (int i = 0; i < forSize; i++)
+            {
+                GameManager.SlotManager.RemoveItem(clearData.RequestItem[i], clearData.RequestCount[i]);
+            }
+        }
     }
 
     public void ResetData() 

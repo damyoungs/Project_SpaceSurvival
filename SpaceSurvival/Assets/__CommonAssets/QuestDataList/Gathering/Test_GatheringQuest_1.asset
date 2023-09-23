@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db4e79a31082550468168bc6955ff779, type: 3}
+  m_Name: Test_GatheringQuest_1
+  m_EditorClassIdentifier: 
+  type: 2
+  iconImage: {fileID: 21300000, guid: 7cea976e1ace4444f9ba08733394d76a, type: 3}
+  title: "\uC218\uC9D1\uD14C\uC2A4\uD2B8"
+  description: "\uD14C\uC2A4\uD2B8\uC57C\uC694 \uC218\uC9D1\uC774\uC57C\uC694 \uC9DC\uC99D\uB098\uC694 "
+  clearObjectives: "\uB300\uCDA9\uC801\uC5B4 \uD544\uC694\uD55C\uAC70\uBA87\uAC1C\uBA87\uAC1C\uD574\uC11C "
+  rewardCoin: 0
+  rewardItem: 03000000
+  itemCount: 01000000
+  requestItem: 03000000
+  questMosters: 
+  requiredCount: 0f000000
