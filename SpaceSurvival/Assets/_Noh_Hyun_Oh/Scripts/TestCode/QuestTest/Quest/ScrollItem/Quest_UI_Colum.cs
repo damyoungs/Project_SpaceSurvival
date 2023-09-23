@@ -9,7 +9,7 @@ public enum Quest_State
 {
     None = 0,               // 퀘스트 수락하지않은상태
     Quest_Start,            // 퀘스트 수락상태
-    Quest_Cancel,           // 퀘스트 수락하고 취소한 상태
+    //Quest_Cancel,           // 퀘스트 수락하고 취소한 상태
     Quest_Complete,         // 퀘스트 완료한 상태
 }
 
@@ -172,18 +172,18 @@ public class Quest_UI_Colum : MonoBehaviour ,IPointerClickHandler
         questTitle.text = $"{questData.Title}";
         if (questData.RewardItem.Length > 1) //보상아이템이 한개이상이면  
         {
-            rewardItemCount.text = $"{questData.RewardItem.Length}개";
+            rewardItemCount.text = $"외 {questData.RewardItem.Length}개";
         }
         else 
         {
-            rewardItemCount.text = $"{questData.RewardItem[0]}";
+            rewardItemCount.text = $"{questData.ItemCount[0]} 개";
         }
         //rewardItemIcon.sprite = GameManager.Itemdata.itemDatas[(int)questData.RewardItem[0]].itemIcon; //아이템순번이 이넘순번과같으니 그냥 인트로 변경해서 사용 
         rewardItemIcon.sprite = testDataManager.itemDatas[(int)questData.RewardItem[0]].itemIcon; //아이템순번이 이넘순번과같으니 그냥 인트로 변경해서 사용 
 
         //rewardCoinIcon.sprite = GameManager.Itemdata.itemDatas[0].itemIcon; //0번이 코인이니 코인아이콘 가져온다 
         rewardCoinIcon.sprite = testDataManager.itemDatas[0].itemIcon; //0번이 코인이니 코인아이콘 가져온다 
-        rewardCoinCount.text = $"{questData.RewardCoin}";
+        rewardCoinCount.text = $"{questData.RewardCoin} G";
 
         gameObject.SetActive(true); //셋팅 끝낫으면 활성화시켜서 보여준다 
     }
@@ -202,8 +202,8 @@ public class Quest_UI_Colum : MonoBehaviour ,IPointerClickHandler
             case Quest_State.Quest_Start:
                 iconBackGroundImg.color = quest_Start_Color;
                 break;
-            case Quest_State.Quest_Cancel:
-                iconBackGroundImg.color = quest_Cancel_Color;
+            //case Quest_State.Quest_Cancel:
+            //    iconBackGroundImg.color = quest_Cancel_Color;
                 break;
             case Quest_State.Quest_Complete:
                 iconBackGroundImg.color = quest_Complete_Color;
@@ -239,6 +239,8 @@ public class Quest_UI_Colum : MonoBehaviour ,IPointerClickHandler
         questTitle.text = "";
         rewardCoinCount.text = "";
         rewardItemCount.text = "";
+
+        onClick = null;
 
         gameObject.SetActive(false);
     }

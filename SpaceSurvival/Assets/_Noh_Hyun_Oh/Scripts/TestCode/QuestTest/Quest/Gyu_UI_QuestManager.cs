@@ -131,7 +131,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour
     /// <summary>
     /// 대화 내용을 가져온다.
     /// </summary>
-    public Func<string[]> getTalkDataArray;
+    public Func<int, string[]> getTalkDataArray;
     
     /// <summary>
     /// 퀘스트 수락이됬다고 알려주는 델리게이트
@@ -143,6 +143,15 @@ public class Gyu_UI_QuestManager : MonoBehaviour
     /// </summary>
     public Action   onSucessQuest;
 
+    /// <summary>
+    /// 퀘스트가 취소 됬다고 알려주는 델리게이트
+    /// </summary>
+    public Action onCancelQuest;
+
+    /// <summary>
+    /// 퀘스트 리스트에서 퀘스트가 선택됬다고 알리는 델리게이트
+    /// </summary>
+    public Action<Gyu_QuestBaseData> onSelectedQuest;
 
     private void Awake()
     {
@@ -172,7 +181,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour
         talkBox = talkBoxPanel.GetChild(2).GetComponent<TextMeshProUGUI>();
         
         questConfirm = talkBoxPanel.GetChild(3).GetComponent<Button>();
-        questConfirm.onClick.AddListener(QuestListPanelToggle);
+        questConfirm.onClick.AddListener(ToNpcQuestListPanelToggle);
 
         talkEndButton = talkBoxPanel.GetChild(4).GetComponent<Button>();
         talkEndButton.onClick.AddListener(initialize);
@@ -188,7 +197,6 @@ public class Gyu_UI_QuestManager : MonoBehaviour
         questListPanel = transform.GetChild(4);
         questListContentPanel = questListPanel.GetComponentInChildren<VerticalLayoutGroup>().transform;
         quest_UI_Array = questListContentPanel.GetComponentsInChildren<Quest_UI_Colum>(true);
-
         initialize();
 
        
@@ -196,19 +204,26 @@ public class Gyu_UI_QuestManager : MonoBehaviour
 
         InputSystemController.InputSystem.Options.Quest.performed += (_) => {
             //현재진행중인 퀘스트를 어디에 저장할지 정한뒤에 가져오는 로직 추가해야됨 
-
-            MyQuestButton(questManager.Array_NPC[questManager.CurrentNpcIndex].CurrentQuest);
-
+            //Gyu_QuestBaseData questData  =  questManager.Player.CurrentQuests[0];
+            //MyQuestButton(questData);
+            //리스트를 띄워준다.
+            ToPlayerQuestListPanelToggle();
         };
 
     }
 
-    // 화면 중앙 대화하기 버튼 활성화하기 
+
+    /// <summary>
+    /// 엔피씨 근처로 갔을경우 대화하기 버튼 활성화 시키기 
+    /// </summary>
     public void TalkEnableButton()
     {
         npcTalkButton.gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// 엔피씨 에서 멀어질 경우 퀘스트 UI 초기화 시키기 
+    /// </summary>
     public void TalkDisableButton()
     {
         initialize();
@@ -228,7 +243,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour
                 npcTalkButton.gameObject.SetActive(false);
                 talkBoxPanel.gameObject.SetActive(true);
                 nameBox.text = npc.name;
-                string[] talkString = getTalkDataArray?.Invoke();
+                string[] talkString = getTalkDataArray?.Invoke(0);
                 if (talkString != null &&  talkString.Length > 0) 
                 {
                     StartCoroutine(Typing(talkString));
@@ -237,27 +252,79 @@ public class Gyu_UI_QuestManager : MonoBehaviour
         }
     }
 
-    public void QuestListPanelToggle()
+    /// <summary>
+    /// 캐릭터가 수락한 퀘스트 리스트를 보여주는 함수
+    /// </summary>
+    public void ToPlayerQuestListPanelToggle() 
     {
-        QuestListDataReset();
-        NpcBase_Gyu currentNpc = questManager.Array_NPC[questManager.CurrentNpcIndex]; //현재 대화중인 엔피씨데이터 가져오기
-        QuestListWindowOpenAndDataSetting(currentNpc.OwnQuestList);
+        questBoxPanel.gameObject.SetActive(false); //퀘스트 상세 내용은 끄고 
+        QuestListDataReset();   //기존 데이터리셋 
+        ToPlayerQuestListWindowOpenAndDataSetting(questManager.Player.CurrentQuests); //데이터 셋팅후 열기 
     }
 
-    private void QuestListWindowOpenAndDataSetting(List<Gyu_QuestBaseData> questDataList) 
+    /// <summary>
+    /// 퀘스트 리스트 데이터 셋팅후 활성화 시키는 함수 
+    /// </summary>
+    /// <param name="questDataList">셋팅할 퀘스트 리스트</param>
+    private void ToPlayerQuestListWindowOpenAndDataSetting(List<Gyu_QuestBaseData> questDataList)
+    {
+        int questIndexCount = 0;
+        int checkCount = quest_UI_Array.Length - 1;   //ui갯수 이상 데이터 셋팅하지않게 체크할 변수잡아두고
+        foreach (Gyu_QuestBaseData quest_UI in questDataList)   //퀘스트 데이터 다긁어와서 
+        {
+            quest_UI_Array[questIndexCount].SetData(quest_UI);          // 데이터 셋팅하고 
+            quest_UI_Array[questIndexCount].onClick = ToPlayerQuestItemClick;   // 액션 연결하고 
+            //UI를 동적으로 생성을안하고있어서 체크하는 로직 추가 
+            questIndexCount++;
+            if (questIndexCount > checkCount) break;
+        }
+        questListPanel.gameObject.SetActive(true);
+    }
+
+    /// <summary>
+    /// 플레이어의 퀘스트리스트에서 
+    /// 퀘스트리스트에서 원하는 퀘스트를 클릭했을때 실행할 내용 
+    /// </summary>
+    /// <param name="questData"> 클릭한 퀘스트 데이터</param>
+    private void ToPlayerQuestItemClick(Gyu_QuestBaseData questData)
+    {
+        MyQuestButton(questData);
+    }
+
+    /// <summary>
+    /// NPC 가 수락 가능한 Quest List 를 출력해주는 창 열고 데이터 셋팅하기
+    /// </summary>
+    public void ToNpcQuestListPanelToggle()
+    {
+        myQuestBoxPanel.gameObject.SetActive(false);
+        QuestListDataReset();   //기존 데이터리셋 
+        QuestNPC currentNpc = (QuestNPC)questManager.Array_NPC[questManager.CurrentNpcIndex]; //현재 대화중인 엔피씨데이터 가져오기
+        ToNpcQuestListWindowOpenAndDataSetting(currentNpc.OwnQuestList); //데이터 셋팅후 열기 
+    }
+
+    /// <summary>
+    /// 퀘스트 리스트 데이터 셋팅후 활성화 시키는 함수 
+    /// </summary>
+    /// <param name="questDataList">셋팅할 퀘스트 리스트</param>
+    private void ToNpcQuestListWindowOpenAndDataSetting(List<Gyu_QuestBaseData> questDataList) 
     {
         int questIndexCount = 0;
         int checkCount = quest_UI_Array.Length-1;   //ui갯수 이상 데이터 셋팅하지않게 체크할 변수잡아두고
         foreach (Gyu_QuestBaseData quest_UI in questDataList)   //퀘스트 데이터 다긁어와서 
         {
+            Debug.Log($"퀘스트 인덱스는: {quest_UI.QuestId} , 퀘스트 제목은: {quest_UI.Title}");
             quest_UI_Array[questIndexCount].SetData(quest_UI);          // 데이터 셋팅하고 
-            quest_UI_Array[questIndexCount].onClick = questItemClick;   // 액션 연결하고 
+            quest_UI_Array[questIndexCount].onClick = QuestItemClick;   // 액션 연결하고 
             //UI를 동적으로 생성을안하고있어서 체크하는 로직 추가 
             questIndexCount++;
             if (questIndexCount > checkCount) break;
         }
+        questListPanel.gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// 퀘스트 리스트 UI 데이터 초기화 시키는함수
+    /// </summary>
     private void QuestListDataReset() 
     {
         foreach (Quest_UI_Colum quest_UI in quest_UI_Array)
@@ -267,30 +334,36 @@ public class Gyu_UI_QuestManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 아이템 클릭했을때 실행할 내용 
+    /// 퀘스트리스트에서 원하는 퀘스트를 클릭했을때 실행할 내용 
     /// </summary>
-    private void questItemClick(Gyu_QuestBaseData questData) 
+    /// <param name="questData"> 클릭한 퀘스트 데이터</param>
+    private void QuestItemClick(Gyu_QuestBaseData questData) 
     {
         NpcQuest(questData);
+        onSelectedQuest?.Invoke(questData);
     }
+
+
     // Npc 상호작용 - 퀘스트 수락, 거절, 완료
     public void NpcQuest(Gyu_QuestBaseData questData)
     {
         questBoxPanel.gameObject.SetActive(true);
-            
+
         if (questData.Quest_state == Quest_State.None)  //퀘스트 시작안됬으면 
         {
             ForQuest();
             titleBox.text = questData.Title;
             descriptionBox.text = questData.Description;
             clearBox.text = questData.ClearObjectives;
+            return;
         }
-        else if (questData.IsSucess())    //퀘스트 완료 가능 상태
+        else if (questData.Quest_state != Quest_State.Quest_Complete && questData.IsSucess())    //퀘스트 완료 가능 상태
         {
             SucessQuest();
             titleBox.text = questData.Title;
             descriptionBox.text = questData.Description;
             clearBox.text = questData.ClearObjectives;
+            return;
         }
         else if (questData.Quest_state == Quest_State.Quest_Start) // 퀘스트 진행중인상태 
         {
@@ -298,8 +371,16 @@ public class Gyu_UI_QuestManager : MonoBehaviour
             titleBox.text = questData.Title;
             descriptionBox.text = questData.Description;
             clearBox.text = questData.ClearObjectives;
+            return;
         }
-        // 퀘스트 완료할수있는 상태
+        else if(questData.Quest_state == Quest_State.Quest_Complete) //완료된 퀘스트 
+        {
+            ProgressQuest();
+            titleBox.text = questData.Title;
+            descriptionBox.text = questData.Description;
+            clearBox.text = questData.ClearObjectives;
+            return;
+        }
     }
 
     // 퀘스트 수락 버튼
@@ -309,7 +390,6 @@ public class Gyu_UI_QuestManager : MonoBehaviour
         {
             questBoxPanel.gameObject.SetActive(false);
             onAcceptQuest?.Invoke();
-            Debug.Log("퀘스트 수락 버튼 클릭 ");
         }
     }
 
@@ -319,8 +399,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour
         if (questBoxPanel.gameObject.activeSelf)
         {
             questBoxPanel.gameObject.SetActive(false);
-            Debug.Log("퀘스트 취소버튼");
-            //거절은 무슨상태? 다시 퀘스트있는 상태? 아니면 거절한퀘스트는 다시는못받는상태?
+            onCancelQuest?.Invoke();
         }
     }
 
@@ -331,30 +410,21 @@ public class Gyu_UI_QuestManager : MonoBehaviour
         {
             questBoxPanel.gameObject.SetActive(false);
             onSucessQuest?.Invoke();
-            
-            Debug.Log("퀘스트 완료버튼");
         }
     }
 
     // 현재 진행중인 퀘스트 보기
     public void MyQuestButton(Gyu_QuestBaseData questData)
     {
-        if (!myQuestBoxPanel.gameObject.activeSelf)
+        myQuestBoxPanel.gameObject.SetActive(true);
+        if (questData != null)  //진행중인 퀘스트가 있는경우 
         {
-            myQuestBoxPanel.gameObject.SetActive(true);
-            if (questData != null)  //진행중인 퀘스트가 있는경우 
-            {
-                myQuestBox.text = questData.Description;
-            }
-            else //없는경우 
-            {
-                myQuestBox.text = "진행중인 내용이 없습니다."; //이값도 따로 빼둬야하는데 일단 은 이렇게 해두자
-            }
-
+            myQuestBox.text = questData.Description;
         }
-        else
+        else //없는경우 
         {
-            myQuestBoxPanel.gameObject.SetActive(false);
+            myQuestBox.text = "진행중인 내용이 없습니다."; 
+            //이값도 따로 빼둬야하는데 일단 은 이렇게 해두자
         }
     }
 
@@ -389,12 +459,9 @@ public class Gyu_UI_QuestManager : MonoBehaviour
     }
 
 
-
-    
-
-
-
-    // 모든.Panel 초기화
+    /// <summary>
+    /// 퀘스트 UI 초기화 시키는 함수
+    /// </summary>
     public void initialize()
     {
         titleBox.text = "";
@@ -408,6 +475,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour
         myQuestBoxPanel.gameObject.SetActive(false);
         questBoxPanel.gameObject.SetActive(false);
         talkBoxPanel.gameObject.SetActive(false);
+        questListPanel.gameObject.SetActive(false);
 
         //quests = null;
         //array_NPC = null;

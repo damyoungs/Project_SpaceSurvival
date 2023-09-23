@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db4e79a31082550468168bc6955ff779, type: 3}
   m_Name: Test_GatheringQuest
   m_EditorClassIdentifier: 
-  questId: 1
   type: 1
   iconImage: {fileID: 21300000, guid: 82179a193b1b04fb283c790342edb447, type: 3}
   title: "\uC218\uC9D1\uD018\uC2A4\uD2B8 \uC774\uB984"
@@ -22,5 +21,6 @@ MonoBehaviour:
   rewardCoin: 0
   rewardItem: 02000000
   itemCount: 04000000
-  requestItem: 01000000
-  requiredCount: 0000000000000000000000000000000000000000
+  requestItem: 0d000000
+  questMosters: 
+  requiredCount: 03000000

@@ -12,23 +12,7 @@ public class NpcBase_Gyu : MonoBehaviour
     int npcId;
     public int Npcid => npcId;
 
-    /// <summary>
-    /// 현재 NPC가  진행중인 퀘스트
-    /// </summary>
-    protected Gyu_QuestBaseData currentQuest;
-    public Gyu_QuestBaseData CurrentQuest => currentQuest;
-
-    /// <summary>
-    /// 퀘스트 리스트 초기 크기 잡기용 에디터상에서 설정
-    /// </summary>
-    [SerializeField]
-    int questCapasity = 4;
-
-    /// <summary>
-    /// 이엔피씨가 가지고있는 퀘스트 리스트
-    /// </summary>
-    protected List<Gyu_QuestBaseData> ownQuestList;
-    public List<Gyu_QuestBaseData> OwnQuestList => ownQuestList;
+   
     /// <summary>
     /// 엔피씨의 현재 대화종류
     /// </summary>
@@ -67,47 +51,16 @@ public class NpcBase_Gyu : MonoBehaviour
     {
         npcCharcterCamera = transform.GetComponentInChildren<Camera>();
         npcCharcterCamera.targetTexture = new RenderTexture(512, 512, 16, RenderTextureFormat.ARGB32);
+        npcCharcterCamera.targetTexture.name = $"{name}_의 텍스쳐";
     }
 
     /// <summary>
-    /// 엔피씨가 들고 있어야할 데이터 
+    /// 엔피씨 초기화용 함수 
     /// </summary>
     /// <param name="npcIndex">엔피씨 번호부여할 값</param>
-    /// <param name="mainStoryQuestArray">메인 퀘스트</param>
-    /// <param name="killcountQuestArray">토벌 퀘스트</param>
-    /// <param name="gatheringQuestArray">수집 퀘스트</param>
-    public void InitData(int npcIndex , Gyu_QuestBaseData[] mainStoryQuestArray, Gyu_QuestBaseData[] killcountQuestArray, Gyu_QuestBaseData[] gatheringQuestArray) 
+    public virtual void InitData(int npcIndex) 
     {
         npcId = npcIndex;
-        ownQuestList = new(questCapasity);
-        SetMainStoryQuest(mainStoryQuestArray);
-        SetKillcountQuest(killcountQuestArray);
-        SetGatheringQuest(gatheringQuestArray);
-    }
-
-    /// <summary>
-    /// 이 엔피씨가 가지고있는 메인스토리 셋팅용 함수 
-    /// </summary>
-    /// <param name="mainStoryQuestArray">게임상에 존재하는 메인스토리 배열</param>
-    protected virtual void SetMainStoryQuest(Gyu_QuestBaseData[] mainStoryQuestArray)
-    {
-
-    }
-    /// <summary>
-    /// 이 엔피씨가 가지고있는 토벌 퀘스트 셋팅용 함수
-    /// </summary>
-    /// <param name="killcountQuestArray">게임상에 존재하는 토벌 퀘스트 배열</param>
-    protected virtual void SetKillcountQuest(Gyu_QuestBaseData[] killcountQuestArray)
-    {
-
-    }
-    /// <summary>
-    /// 이 엔피씨가 가지고 있는 수집 퀘스트 셋팅용 함수 
-    /// </summary>
-    /// <param name="gatheringQuestArray">게임상에 존재하는 수집 퀘스트 배열</param>
-    protected virtual void SetGatheringQuest(Gyu_QuestBaseData[] gatheringQuestArray)
-    {
-
     }
 
     // 퀘스트 리스트중에 어떤값을 가져올지 가져오는 기능도 필요 

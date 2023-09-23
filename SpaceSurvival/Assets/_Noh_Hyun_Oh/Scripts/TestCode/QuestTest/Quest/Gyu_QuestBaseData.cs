@@ -2,16 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Quest Data",menuName = "Scriptable Object/QuestDatas/Quest", order = 1)]
-public class Gyu_QuestBaseData :ScriptableObject
+/// <summary>
+/// 세이브 할때 필요한데이터 
+/// id , quest_State, currentCount 이 3개의데이터만 저장한다.
+/// </summary>
+[CreateAssetMenu(fileName = "New Quest Data", menuName = "Scriptable Object/QuestDatas/Quest", order = 1)]
+public class Gyu_QuestBaseData : ScriptableObject
 {
     [Header("퀘스트의 기본정보")]
     /// <summary>
     /// 퀘스트 id
     /// </summary>
-    [SerializeField]
     int questId = -1;
-    public int QuestId => questId;
+    public int QuestId
+    {
+        get => questId;
+        set
+        {
+            //이셋프로퍼티는 맨처음 데이터셋팅할때 한번만 실행하도록 구조를짠다.
+            if (questId < 0) // 퀘스트아이디가 -1 즉 초기값일때만 값을 셋팅하도록 한다.
+            {
+                questId = value;
+            }
+        }
+    }
 
     /// <summary>
     /// 퀘스트 타입
@@ -19,14 +33,14 @@ public class Gyu_QuestBaseData :ScriptableObject
     [SerializeField]
     QuestType type;
     public QuestType QuestType => type;
-    
+
     /// <summary>
     /// 퀘스트 아이콘
     /// </summary>
     [SerializeField]
     Sprite iconImage;
     public Sprite IconImage => iconImage;
-    
+
     /// <summary>
     /// 퀘스트 제목
     /// </summary>
@@ -37,17 +51,17 @@ public class Gyu_QuestBaseData :ScriptableObject
     /// <summary>
     /// 퀘스트 내용
     /// </summary>
-    [SerializeField] 
+    [SerializeField]
     string description;
-    public string Description => description;   
-    
+    public string Description => description;
+
     /// <summary>
     /// 퀘스트 목표
     /// </summary>
-    [SerializeField] 
+    [SerializeField]
     string clearObjectives;
     public string ClearObjectives => clearObjectives;
-   
+
     //--------------------------- 보상관련 변수 
     [Header("퀘스트의 보상 관련 정보")]
     /// <summary>
@@ -66,6 +80,7 @@ public class Gyu_QuestBaseData :ScriptableObject
 
     /// <summary>
     /// 보상아이템의 갯수
+    /// 사용시 위의 퀘스트보상 배열과 1:1로 인덱스 매칭시켜야한다.
     /// </summary>
     [SerializeField]
     int[] itemCount;
@@ -77,14 +92,20 @@ public class Gyu_QuestBaseData :ScriptableObject
 
     [Header("퀘스트의 수행에 관련된 정보")]
     /// <summary>
-    /// 퀘스트에 필요한 아이템
+    /// 수집 퀘스트에 필요한 아이템
     /// </summary> 
     [SerializeField]
     ItemCode[] requestItem;
     public ItemCode[] RequestItem => requestItem;
-    
-    
-    [Header("토벌시 몬스터정보셋팅이 필요함")]
+
+    /// <summary>
+    /// 토벌 퀘스트에 필요한 몬스터 목록
+    /// </summary>
+    [SerializeField]
+    Monster_Type[] questMosters;
+    public Monster_Type[] QuestMosters => questMosters;
+
+
     /// <summary>
     /// 클리어까지 필요한 카운트(갯수)
     /// </summary>
@@ -95,13 +116,13 @@ public class Gyu_QuestBaseData :ScriptableObject
     /// <summary>
     /// 현재 카운트(갯수)
     /// </summary>
-    protected int[] currentCount;
+    int[] currentCount;
     public int[] CurrentCount => currentCount;
 
     /// <summary>
     /// 퀘스트에대한 상태 정보
     /// </summary>
-    protected Quest_State quest_State = Quest_State.None;
+    Quest_State quest_State = Quest_State.None;
     public virtual Quest_State Quest_state
     {
         get => quest_State;
@@ -109,6 +130,55 @@ public class Gyu_QuestBaseData :ScriptableObject
         {
             quest_State = value;
         }
+    }
+
+
+    private void Awake()
+    {
+       currentCount = new int[requiredCount.Length];
+    }
+
+    /// <summary>
+    /// 수집 퀘스트 아이템 코드를 가지고 퀘스트 진행값을 늘리는 함수
+    /// </summary>
+    /// <param name="requestItemCode">아이템코드</param>
+    /// <param name="addCount">증가될 카운트 갯수</param>
+    public void SetCounting(ItemCode requestItemCode, int addCount) 
+    {
+        int requestItemIndex = -1;
+        for (int i = 0; i < requestItem.Length; i++)
+        {
+            if (requestItem[i] == requestItemCode) 
+            {
+                requestItemIndex = i;
+                break; 
+            }
+        }
+        if (requestItemIndex < 0) return; //아이템이 퀘스트에 없는경우 그냥 리턴
+        currentCount[requestItemIndex] += addCount; //아니면 카운팅
+    }
+
+    /// <summary>
+    /// 토벌 퀘스트 카운팅 증가용 
+    /// 미완성 몬스터 가완성되야 될듯하다 
+    /// 몬스터 종류에따른 이넘값을 인자로받고 인자를 여기클래스에다가 변수로 따로지정해두고 그것을 비교하는로직필요 
+    /// 기본적으로 수집 퀘스트 비교랑 동일하다.
+    /// </summary>
+    /// <param name="monsterType">몬스터 종류</param>
+    /// <param name="addCount">추가될 카운트</param>
+    public void SetCounting(Monster_Type monsterType, int addCount) 
+    {
+        int questMosterIndex = -1;
+        for (int i = 0; i < questMosters.Length; i++)
+        {
+            if (questMosters[i] == monsterType)
+            {
+                questMosterIndex = i;
+                break;
+            }
+        }
+        if (questMosterIndex < 0) return; //토벌몬스터가 퀘스트에 없는경우 그냥 리턴
+        currentCount[questMosterIndex] += addCount; //아니면 카운팅
     }
 
     /// <summary>
@@ -127,6 +197,10 @@ public class Gyu_QuestBaseData :ScriptableObject
         }
         return true; // 클리어 됬으면 true 로주자
     }
+
+    /// <summary>
+    /// 진행상황을 초기화 하는 함수
+    /// </summary>
     public void ResetData() 
     {
         int length = currentCount.Length;

@@ -112,7 +112,7 @@ public class StateObject_PoolObj : Base_PoolObj, IStateData
             gaugeImg.fillAmount = 0.0f;
             computationalScale = (1 / MaxDuration); //배율 미리구해두기
             this.skillData = skillData;
-            stateBoard = EtcObjects.Instance.TeamBorderManager.TeamStateUIs[0]; //귀찮아 하나만할거니 걍 0번연결
+            stateBoard = WindowList.Instance.TeamBorderManager.TeamStateUIs[0]; //귀찮아 하나만할거니 걍 0번연결
             stateBoard.AddState(skillData);
             return;
         }
