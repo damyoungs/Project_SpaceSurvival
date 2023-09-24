@@ -68,6 +68,7 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
     public Action on_PointerMove;
     public Action<SkillData> on_PointerClick;
     public Action on_Skill_LevelUp;
+    public Action on_ResetData;
 
     private void Awake()
     {
@@ -96,6 +97,12 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
         on_PointerMove = skillBox_Description.MovePosition;
         skill_Icon.sprite = skill_sprite;
         tempSlot = transform.parent.GetChild(13).GetComponent<Skill_TempSlot>();
+        InitSkillData();
+        on_ResetData = InitSkillData;
+    }
+    protected virtual void InitSkillData()
+    {
+
     }
     protected virtual void Skill_LevelUp()
     {
