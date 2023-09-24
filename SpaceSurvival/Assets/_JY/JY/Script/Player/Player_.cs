@@ -146,8 +146,8 @@ public class Player_ : MonoBehaviour, IBattle
     ItemDescription itemDescription;
     EquipBox_Description EquipBox_Description;
     EquipBox equipBox;
-    Equipments_Total_ATT_DP equipments_Total_ATT_DP;
     Skill_Blessing skill_Blessing;
+    Player_Status player_Status;
 
 
     public Action onOpenInven;
@@ -308,21 +308,20 @@ public class Player_ : MonoBehaviour, IBattle
         skill_Blessing = skillData as Skill_Blessing;
         if (skill_Blessing == null && Stamina >= skillData.Require_Stamina_For_UsingSkill && this.Weapon_Type != WeaponType.None)
         {
-            //Stamina -= skillData.Require_Stamina_For_UsingSkill;//그리드에서 신호받아서 처리 할 예정
-            skillData.FinalDamage = this.ATT * skillData.SkillPower;
+            skillData.FinalDamage = player_Status.ATT * skillData.SkillPower;
             on_ActiveSkill?.Invoke(skillData);
 
             Debug.Log($"스킬이름 : {skillData.SkillName}\n 데미지 : {skillData.FinalDamage}");
             on_CursorChange?.Invoke(true);
             //StartCoroutine(RotateCoroutine);
         }
-        else if (skill_Blessing != null)//만약 사용한 스킬이 버프스킬이면
+        else if (skill_Blessing != null)//만약 사용한 스킬이 버프스킬이면@@@// PlayerStatus에 신호보내 적용하기
         {
-            Reset_Status();//장비아이템의 능력치가 합산된 플레이어의 공격력, 방어력 적용하기
-            float finalAttackPoint = this.ATT * skill_Blessing.SkillPower;
-            float finalDefencePoint = this.DP * skill_Blessing.SkillPower;
-            this.ATT = (uint)finalAttackPoint; //리셋된 공격력에 스킬의 skillPower만큼 곱해주기
-            this.DP = (uint)finalDefencePoint;
+            player_Status.Reset_Status();//장비아이템의 능력치가 합산된 플레이어의 공격력, 방어력 적용하기
+            float finalAttackPoint = player_Status.ATT * skill_Blessing.SkillPower;
+            float finalDefencePoint = player_Status.DP * skill_Blessing.SkillPower;
+            player_Status.ATT = (uint)finalAttackPoint; //리셋된 공격력에 스킬의 skillPower만큼 곱해주기
+            player_Status.DP = (uint)finalDefencePoint;
             on_Buff_Start?.Invoke(skill_Blessing);// TurnBuffCount 프로퍼티로 몇턴 동안 버프가 유지될 것인지 설정되어 있습니다.
             duringBuffSkill = true;//버프스킬 발동중 표시
             on_CursorChange?.Invoke(false);
@@ -345,11 +344,11 @@ public class Player_ : MonoBehaviour, IBattle
     }
     public void DeBuff()//버프스킬 적용 해제
     {
-        Reset_Status();
+        player_Status.Reset_Status();
     }
     void Reset_Status()
     {
-        equipments_Total_ATT_DP = equipments_Total_ATT_DP.GetEquipments_Total_ATT_DP();// totalATT, TotalDP 값을 업데이트하는 함수 실행
+       // equipments_Total_ATT_DP = equipments_Total_ATT_DP.GetEquipments_Total_ATT_DP();// totalATT, TotalDP 값을 업데이트하는 함수 실행
       //@@작업할 것 this.ATT = base_Status.base_ATT + equipments_Total_ATT_DP.Total_ATT;//플레이어의 공격력 = 기본공격력 + 장비아이템들의 공격력 총 합
       // this.DP = base_Status.base_DP + equipments_Total_ATT_DP.Total_DP;
     }
@@ -367,6 +366,7 @@ public class Player_ : MonoBehaviour, IBattle
         InputSystemController.Instance.OnUI_Inven_MouseClickRight += On_MouseClickRight;
 
         skill_Description = FindObjectOfType<SkillBox_Description>();
+        player_Status = GameManager.PlayerStatus;
         itemDescription = GameManager.SlotManager.ItemDescription;
         equipBox = GameManager.EquipBox;
         EquipBox_Description = equipBox.Description;
@@ -390,7 +390,6 @@ public class Player_ : MonoBehaviour, IBattle
         this.ATT = 100;
         this.DP = 100;
 
-        equipments_Total_ATT_DP = new Equipments_Total_ATT_DP(equipBox);
         
         
     }
@@ -400,15 +399,15 @@ public class Player_ : MonoBehaviour, IBattle
   
         if (duringBuffSkill)//버프중이면
         {
-            Reset_Status();//장비아이템의 능력치가 합산된 플레이어의 공격력, 방어력 적용하기
-            float finalAttackPoint = this.ATT * skill_Blessing.SkillPower;
-            float finalDefencePoint = this.DP * skill_Blessing.SkillPower;
+            player_Status.Reset_Status();//장비아이템의 능력치가 합산된 플레이어의 공격력, 방어력 적용하기
+            float finalAttackPoint = player_Status.ATT * skill_Blessing.SkillPower;
+            float finalDefencePoint = player_Status.DP * skill_Blessing.SkillPower;
             this.ATT = (uint)finalAttackPoint; //리셋된 공격력에 스킬의 skillPower만큼 곱해주기
             this.DP = (uint)finalDefencePoint;
         }
         else
         {
-            Reset_Status();
+            player_Status.Reset_Status();
         }
     }
 
