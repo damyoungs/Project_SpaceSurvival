@@ -190,9 +190,13 @@ public class Opening : MonoBehaviour
     /// <returns>연속된 글자의 배열</returns>
     private string[] TextFileRead() 
     {
+#if UNITY_EDITOR //유니티 에디터에서만의 설정
         string filePath = $"{Application.dataPath}/__CommonAssets/TextFile/";
+        //Application.dataPath 런타임때 결정된다.
+#else //유니티에디터가 아닐때의 설정 
+        string filePath = $"{Application.persistentDataPath}/__CommonAssets/TextFile/";
+#endif
         string fileFullPath = filePath + "Synopsis.txt";
-
         string[] textArray = null; //반환할값 선언
         
         try

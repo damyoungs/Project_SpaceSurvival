@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.UI;
 public enum Quest_State
@@ -288,7 +287,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
             ToPlayerCompleteQuestListPanelOpen();
         });
 
-        questListContentPanel = questListPanel.GetComponentInChildren<VerticalLayoutGroup>().transform;
+        questListContentPanel = questListPanel.GetComponentInChildren<VerticalLayoutGroup>(true).transform;
         quest_UI_Array = questListContentPanel.GetComponentsInChildren<Quest_UI_Colum>(true);
 
         logPanel = transform.GetChild(5);
@@ -375,6 +374,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
     public void ToPlayerCurrentQuestListPanelOpen()
     {
         questBoxPanel.gameObject.SetActive(false); //퀘스트 상세 내용은 끄고 
+        questListPanel.gameObject.SetActive(true);
         QuestListDataReset();   //기존 데이터리셋 
         ToPlayerQuestListWindowOpenAndDataSetting(questManager.Player.CurrentQuests); //데이터 셋팅후 열기 
     }
@@ -385,6 +385,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
     public void ToPlayerCompleteQuestListPanelOpen()
     {
         questBoxPanel.gameObject.SetActive(false); //퀘스트 상세 내용은 끄고 
+        questListPanel.gameObject.SetActive(true);
         QuestListDataReset();   //기존 데이터리셋 
         ToPlayerQuestListWindowOpenAndDataSetting(questManager.Player.ClearQuestList); //데이터 셋팅후 열기 
     }
@@ -405,7 +406,6 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
             questIndexCount++;
             if (questIndexCount > checkCount) break;
         }
-        questListPanel.gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -428,6 +428,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
     public void ToNpcQuestListPanelToggle()
     {
         myQuestBoxPanel.gameObject.SetActive(false);
+        questListPanel.gameObject.SetActive(true);
         QuestListDataReset();   //기존 데이터리셋 
         QuestNPC currentNpc = (QuestNPC)questManager.Array_NPC[questManager.CurrentNpcIndex]; //현재 대화중인 엔피씨데이터 가져오기
         ToNpcQuestListWindowOpenAndDataSetting(currentNpc.OwnQuestList); //데이터 셋팅후 열기 
@@ -450,7 +451,6 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
             questIndexCount++;
             if (questIndexCount > checkCount) break;
         }
-        questListPanel.gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -460,6 +460,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
     {
         foreach (Quest_UI_Colum quest_UI in quest_UI_Array)
         {
+            quest_UI.gameObject.SetActive(true);
             quest_UI.ResetData();
         }
     }
