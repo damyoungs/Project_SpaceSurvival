@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 64665735187016352}
   - component: {fileID: 64779326029690278}
   - component: {fileID: 64579439239619908}
+  - component: {fileID: 5334635551936382431}
   m_Layer: 0
   m_Name: SM_Bld_Wall_Pods_01
   m_TagString: Untagged
@@ -129,6 +130,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43796276112682170, guid: 932af67eca07a6543ad72d4328f2a6d3, type: 2}
+--- !u!65 &5334635551936382431
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1250276201810454}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.0000014, y: 4.9954405, z: 1.5288597}
+  m_Center: {x: -2.4999993, y: 1.5022796, z: 0.3796795}
 --- !u!1 &1670570837253690
 GameObject:
   m_ObjectHideFlags: 0

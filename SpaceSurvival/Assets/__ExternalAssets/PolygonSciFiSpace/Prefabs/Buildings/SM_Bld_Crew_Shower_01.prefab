@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 33103162675564780}
   - component: {fileID: 23903049715671506}
   - component: {fileID: 64193727678812814}
+  - component: {fileID: 6149446482761444162}
   m_Layer: 0
   m_Name: SM_Bld_Crew_Shower_01
   m_TagString: Untagged
@@ -180,6 +181,19 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 0
   serializedVersion: 4
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 43838517991451142, guid: 062b800a97b44764c93c0a1769cdedb6, type: 2}
+--- !u!65 &6149446482761444162
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1832962937524806}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.5000005, y: 4.9999995, z: 1.4235022}
+  m_Center: {x: -1.2500002, y: 1.5045592, z: -0.008666277}

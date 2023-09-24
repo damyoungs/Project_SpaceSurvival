@@ -110,7 +110,6 @@ GameObject:
   - component: {fileID: 33534115162757688}
   - component: {fileID: 23908939371226508}
   - component: {fileID: 64901914835444864}
-  - component: {fileID: 64110232121674656}
   m_Layer: 0
   m_Name: SM_Bld_Wall_Doorframe_05
   m_TagString: Untagged
@@ -194,21 +193,7 @@ MeshCollider:
   m_GameObject: {fileID: 1447055634158578}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 10964ff089748344db1179dc274ce4d6, type: 3}
---- !u!64 &64110232121674656
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1447055634158578}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
