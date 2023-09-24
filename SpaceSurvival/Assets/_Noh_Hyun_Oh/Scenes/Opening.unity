@@ -347,7 +347,7 @@ GameObject:
   - component: {fileID: 50167009}
   - component: {fileID: 50167008}
   m_Layer: 5
-  m_Name: Avoidvility_Text
+  m_Name: DodgeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6525,7 +6525,7 @@ GameObject:
   - component: {fileID: 1123231532}
   - component: {fileID: 1123231531}
   m_Layer: 5
-  m_Name: Avoidvility
+  m_Name: DodgeRate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

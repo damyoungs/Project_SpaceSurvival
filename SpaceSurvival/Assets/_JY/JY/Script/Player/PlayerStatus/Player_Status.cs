@@ -8,23 +8,44 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
 {
     public string name;
     public uint level;
-    public uint base_HP;
-    public uint base_Stamina;
     public uint base_ATT;
     public uint base_DP;
     public uint base_STR;
     public uint base_INT;
     public uint base_LUK;
-    
-    public Base_Status(Player_ player)
+    public uint base_DEX;
+    public uint abilityPoint;
+
+    //detail
+    public uint base_HP;
+    public uint base_Stamina;
+    public uint damage;
+    public uint critical_Min;
+    public uint critical_Max;
+    public uint criticalRate;
+    public uint dodgeRate;
+    //detail
+    public Base_Status()
     {
-        base_ATT = player.ATT;
-        base_DP = player.DP;
+        name = "Player";
+        base_HP = 100;
+        base_Stamina = 100;
+
+        base_ATT = 10;
+        base_DP = 10;
+        base_STR = 5;
+        base_INT = 5;
+        base_LUK = 5;
+        base_DEX = 5;
+        abilityPoint = 5;
+
+
     }
 }
-public class Player_Status : MonoBehaviour
+public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서 신호받아서 Base_Status의 내용 업데이트
+                                          // 버튼을 눌었을 때 및 레벨업시 Base_Status의 능력치를 업데이트하는 함수 작성
 {
-     CanvasGroup canvasGroup;
+    CanvasGroup canvasGroup;
      CanvasGroup detailCanvasGroup;
     
      TextMeshProUGUI nameText;
@@ -41,15 +62,18 @@ public class Player_Status : MonoBehaviour
      TextMeshProUGUI damageText;
      TextMeshProUGUI criticalDamageText;
      TextMeshProUGUI criticalRateText;
-     TextMeshProUGUI avoidbilityText;
+     TextMeshProUGUI dodgeRateText;
 
      Base_Status base_Status;
+
 
 
     private void Awake()
     {
         GetComponents();
     }
+
+
     void GetComponents()
     {
         canvasGroup = GetComponent<CanvasGroup>();
@@ -69,6 +93,7 @@ public class Player_Status : MonoBehaviour
         damageText = transform.GetChild(2).GetChild(2).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
         criticalDamageText = transform.GetChild(2).GetChild(3).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
         criticalRateText = transform.GetChild(2).GetChild(4).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
-        avoidbilityText = transform.GetChild(2).GetChild(5).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
+        dodgeRateText = transform.GetChild(2).GetChild(5).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
     }
+
 }
