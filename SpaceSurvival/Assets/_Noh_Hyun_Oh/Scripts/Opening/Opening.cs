@@ -194,20 +194,17 @@ public class Opening : MonoBehaviour
         string filePath = Path.Combine(Application.streamingAssetsPath, "TextFile"); // 상대 경로 설정
 
         string fileFullPath = filePath + "/Synopsis.txt";
-        Debug.Log(fileFullPath);
         string[] textArray = null; //반환할값 선언
         
         try
         {
             string readText = string.Empty;
-            if (Directory.Exists(filePath))
+            if (!Directory.Exists(filePath))
             {
+                Debug.Log(filePath);
                 Directory.CreateDirectory(filePath);
             }
-            if( File.Exists(fileFullPath))
-            {
-                readText = File.ReadAllText(fileFullPath);
-            }
+            readText = File.ReadAllText(fileFullPath);
             textArray = readText.Split(' ','\r','\n'); //구간별로 나눠서 배열로 담는다.
             //foreach (string text in textArray) 
             //{

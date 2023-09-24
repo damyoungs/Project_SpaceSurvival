@@ -1,16 +1,10 @@
 {
     "dataIndex": 1,
-    "saveTime": "2023-09-23 오후 11:04:20",
+    "saveTime": "2023-09-24 오후 9:30:52",
     "sceanName": 4,
     "charcterInfo": [],
     "equipSlotLength": 0,
     "equipData": [
-        {
-            "values": 1,
-            "itemIndex": 11,
-            "slotIndex": 0,
-            "itemEnhanceValue": 1
-        },
         {
             "values": 1,
             "itemIndex": 9,
@@ -80,7 +74,33 @@
             "itemEnhanceValue": 0
         }
     ],
-    "skillList": [],
+    "skillDatas": [
+        {
+            "skillLevel": 1,
+            "bindingSlot": 1,
+            "skillType": 0
+        },
+        {
+            "skillLevel": 3,
+            "bindingSlot": 2,
+            "skillType": 1
+        },
+        {
+            "skillLevel": 1,
+            "bindingSlot": 3,
+            "skillType": 2
+        },
+        {
+            "skillLevel": 1,
+            "bindingSlot": 4,
+            "skillType": 3
+        },
+        {
+            "skillLevel": 1,
+            "bindingSlot": 5,
+            "skillType": 4
+        }
+    ],
     "questList": [
         {
             "questIndex": 1000,
@@ -110,14 +130,6 @@
             "questIndex": 2000,
             "questType": 2,
             "questState": 1,
-            "questIProgress": [
-                0
-            ]
-        },
-        {
-            "questIndex": 1004,
-            "questType": 1,
-            "questState": 2,
             "questIProgress": [
                 0
             ]

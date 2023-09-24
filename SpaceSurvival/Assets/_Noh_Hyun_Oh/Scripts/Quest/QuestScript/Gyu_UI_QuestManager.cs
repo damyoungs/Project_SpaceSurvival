@@ -444,7 +444,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
         int checkCount = quest_UI_Array.Length-1;   //ui갯수 이상 데이터 셋팅하지않게 체크할 변수잡아두고
         foreach (Gyu_QuestBaseData quest_UI in questDataList)   //퀘스트 데이터 다긁어와서 
         {
-            Debug.Log($"퀘스트 인덱스는: {quest_UI.QuestId} , 퀘스트 제목은: {quest_UI.Title}");
+            //Debug.Log($"퀘스트 인덱스는: {quest_UI.QuestId} , 퀘스트 제목은: {quest_UI.Title}");
             quest_UI_Array[questIndexCount].SetData(quest_UI);          // 데이터 셋팅하고 
             quest_UI_Array[questIndexCount].onClick = QuestItemClick;   // 액션 연결하고 
             //UI를 동적으로 생성을안하고있어서 체크하는 로직 추가 
