@@ -43,13 +43,9 @@ public class TalkData_Gyu : MonoBehaviour
 
     private void Awake()
     {
-#if UNITY_EDITOR //유니티 에디터에서만의 설정
-        filePath = $"{Application.dataPath}/__CommonAssets/TextFile/NPC_TalkData/";
-        //Application.dataPath 런타임때 결정된다.
-#else //유니티에디터가 아닐때의 설정 
-        string filePath = $"{Application.persistentDataPath}/__CommonAssets/TextFile/NPC_TalkData/";
-#endif
-        //filePath =  Path.Combine(Application.streamingAssetsPath, "__CommonAssets/TextFile/NPC_TalkData/");
+        //StreamingAssets폴더 사용하는방법으로 변경 
+        filePath = Path.Combine(Application.streamingAssetsPath, "TextFile/NPC_TalkData"); // 상대 경로 설정
+        
         talkData = new string[Enum.GetValues(typeof(TalkType)).Length][]; //이넘크기만큼 배열 잡아두고 
         FileRead_And_SplitFileData(); //외부 파일읽어서 대화목록 불러오기 
     }
