@@ -10,12 +10,13 @@ public class DataFactory : Singleton<DataFactory> {
     /// <summary>
     /// 퀘스트 원본이있는곳
     /// </summary>
+    [SerializeField]
     QuestScriptableGenerate questScriptableGenerate;
-    public QuestScriptableGenerate QuestScriptableGenerate;
+    public QuestScriptableGenerate QuestScriptableGenerate => questScriptableGenerate;
 
     protected override void Awake()
     {
         base.Awake();
-        questScriptableGenerate = GetComponent<QuestScriptableGenerate>();
+        questScriptableGenerate = GetComponentInChildren<QuestScriptableGenerate>();
     }
 }

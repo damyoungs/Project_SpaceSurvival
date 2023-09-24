@@ -1,3 +1,5 @@
+using StructList;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -44,7 +46,7 @@ public class PlayerQuest_Gyu : MonoBehaviour
     {
         if (questMaxLength > currentQuests.Count) 
         {
-            addQuest.Quest_state = Quest_State.Quest_Start;
+            addQuest.Quest_State = Quest_State.Quest_Start;
             currentQuests.Add(addQuest);
             return;
         }
@@ -59,7 +61,7 @@ public class PlayerQuest_Gyu : MonoBehaviour
     {
         if (currentQuests.Contains(cancelQuest))
         {
-            cancelQuest.Quest_state = Quest_State.None;
+            cancelQuest.Quest_State = Quest_State.None;
             currentQuests.Remove(cancelQuest);
             return;
         }
@@ -74,7 +76,7 @@ public class PlayerQuest_Gyu : MonoBehaviour
     {
         if (currentQuests.Contains(clearQuest))
         {
-            clearQuest.Quest_state = Quest_State.Quest_Complete;
+            clearQuest.Quest_State = Quest_State.Quest_Complete;
             clearQuestList.Add(clearQuest);
             currentQuests.Remove(clearQuest);
             RewardDataSetting(clearQuest);
@@ -90,6 +92,27 @@ public class PlayerQuest_Gyu : MonoBehaviour
     private void RewardDataSetting(Gyu_QuestBaseData clearData)
     {
         // 보상처리를위해 캐릭터 인벤토리에 연결을해서 처리해야한다.
+        int forSize = clearData.RewardItem.Length;
+        int rewardSize = 0;
+        for (int i = 0; i < forSize; i++)
+        {
+            rewardSize = clearData.ItemCount[i];//보상 갯수만큼 
+            for (int j = 0; j < rewardSize; j++) 
+            {
+                GameManager.SlotManager.AddItem(clearData.RewardItem[i]); //하나씩 증가 
+            }
+        }
+        GameManager.Player_.DarkForce += (uint)clearData.RewardCoin; //다크포스 증가시키기
+
+        /// 퀘스트 아이템 감소 시키기 
+        if (clearData.QuestType == QuestType.Gathering)
+        {
+            forSize = clearData.RequestItem.Length;
+            for (int i = 0; i < forSize; i++)
+            {
+                GameManager.SlotManager.RemoveItem(clearData.RequestItem[i], clearData.RequestCount[i]);
+            }
+        }
     }
 
     public void ResetData() 
@@ -98,13 +121,7 @@ public class PlayerQuest_Gyu : MonoBehaviour
         clearQuestList.Clear();
     }
 
-    /// <summary>
-    /// 로드시 데이터 파싱관련 함수
-    /// </summary>
-    public void SetDataParsing() 
-    {
-        
-    }
+   
 
 
 }

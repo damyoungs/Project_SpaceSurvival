@@ -1,67 +1,126 @@
 {
     "dataIndex": 1,
-    "saveTime": "2023-09-08 오전 12:40:40",
+    "saveTime": "2023-09-23 오후 11:04:20",
     "sceanName": 4,
     "charcterInfo": [],
-    "equipSlotLength": 3,
+    "equipSlotLength": 0,
     "equipData": [
         {
             "values": 1,
-            "itemIndex": 10,
+            "itemIndex": 11,
+            "slotIndex": 0,
+            "itemEnhanceValue": 1
+        },
+        {
+            "values": 1,
+            "itemIndex": 9,
             "slotIndex": 1,
             "itemEnhanceValue": 1
         },
         {
             "values": 1,
             "itemIndex": 10,
+            "slotIndex": 2,
+            "itemEnhanceValue": 1
+        },
+        {
+            "values": 1,
+            "itemIndex": 46,
             "slotIndex": 3,
             "itemEnhanceValue": 1
         },
         {
             "values": 1,
-            "itemIndex": 10,
+            "itemIndex": 47,
+            "slotIndex": 4,
+            "itemEnhanceValue": 1
+        },
+        {
+            "values": 1,
+            "itemIndex": 51,
             "slotIndex": 5,
-            "itemEnhanceValue": 3
+            "itemEnhanceValue": 1
         },
         {
             "values": 1,
-            "itemIndex": 10,
-            "slotIndex": 7,
-            "itemEnhanceValue": 3
-        },
-        {
-            "values": 1,
-            "itemIndex": 10,
-            "slotIndex": 9,
-            "itemEnhanceValue": 2
+            "itemIndex": 50,
+            "slotIndex": 6,
+            "itemEnhanceValue": 1
         }
     ],
-    "consumeSlotLength": 1,
+    "consumeSlotLength": 0,
     "consumeData": [
         {
-            "values": 20,
+            "values": 50,
             "itemIndex": 1,
-            "slotIndex": 6,
+            "slotIndex": 0,
             "itemEnhanceValue": 0
         },
         {
-            "values": 30,
+            "values": 50,
             "itemIndex": 2,
-            "slotIndex": 8,
+            "slotIndex": 1,
             "itemEnhanceValue": 0
         }
     ],
-    "etcSlotLength": 4,
+    "etcSlotLength": 0,
     "etcData": [],
-    "craftSlotLength": 5,
+    "craftSlotLength": 0,
     "craftData": [
         {
-            "values": 8,
-            "itemIndex": 28,
+            "values": 1,
+            "itemIndex": 21,
+            "slotIndex": 0,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 27,
             "slotIndex": 1,
             "itemEnhanceValue": 0
         }
     ],
     "skillList": [],
-    "questList": []
+    "questList": [
+        {
+            "questIndex": 1000,
+            "questType": 1,
+            "questState": 1,
+            "questIProgress": [
+                0
+            ]
+        },
+        {
+            "questIndex": 1002,
+            "questType": 1,
+            "questState": 1,
+            "questIProgress": [
+                0
+            ]
+        },
+        {
+            "questIndex": 0,
+            "questType": 0,
+            "questState": 1,
+            "questIProgress": [
+                0
+            ]
+        },
+        {
+            "questIndex": 2000,
+            "questType": 2,
+            "questState": 1,
+            "questIProgress": [
+                0
+            ]
+        },
+        {
+            "questIndex": 1004,
+            "questType": 1,
+            "questState": 2,
+            "questIProgress": [
+                0
+            ]
+        }
+    ]
 }

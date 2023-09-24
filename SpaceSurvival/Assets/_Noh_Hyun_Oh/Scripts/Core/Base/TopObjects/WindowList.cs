@@ -85,8 +85,12 @@ public class WindowList : Singleton<WindowList> {
     /// </summary>
     TeamBorderManager teamBorderManager;
     public TeamBorderManager TeamBorderManager => teamBorderManager;
-
-
+    
+    /// <summary>
+    /// 퀘스트 매니저
+    /// </summary>
+    Gyu_QuestManager gyu_QuestManager;
+    public Gyu_QuestManager Gyu_QuestManager => gyu_QuestManager;
     /// <summary>
     /// 윈도우리스트는 항상가지고다니는것이기때문에 여기에서 이벤트처리를 진행.
     /// </summary>
@@ -102,6 +106,7 @@ public class WindowList : Singleton<WindowList> {
         optionsPopupWindow = transform.GetComponentInChildren<OptionsPopupWindow>(true);
         turnGaugeUI = transform.GetComponentInChildren<TurnGaugeOnOff>(true);
         teamBorderManager = transform.GetComponentInChildren<TeamBorderManager>(true);
+        gyu_QuestManager = transform.GetComponentInChildren<Gyu_QuestManager>(true);
         battleActionButtons = transform.GetChild(0).GetChild(1); //나중에 수정필요 
 
     }

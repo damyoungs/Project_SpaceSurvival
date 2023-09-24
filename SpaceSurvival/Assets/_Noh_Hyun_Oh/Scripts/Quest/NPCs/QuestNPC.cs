@@ -25,6 +25,19 @@ public class QuestNPC : NpcBase_Gyu
     public List<Gyu_QuestBaseData> OwnQuestList => ownQuestList;
 
     /// <summary>
+    /// 퀘스트 매니저 가져오기
+    /// </summary>
+    Gyu_QuestManager questManager;
+
+    private void Start()
+    {
+        questManager = WindowList.Instance.Gyu_QuestManager;
+        questManager.onChangeQuest += (value) =>
+        {
+            currentQuest = value;
+        };
+    }
+    /// <summary>
     /// 엔피씨가 들고 있어야할 데이터 
     /// </summary>
     /// <param name="mainStoryQuestArray">메인 퀘스트</param>
@@ -37,6 +50,7 @@ public class QuestNPC : NpcBase_Gyu
         SetKillcountQuest(killcountQuestArray);
         SetGatheringQuest(gatheringQuestArray);
     }
+
 
     private void SetGatheringQuest(Gyu_QuestBaseData[] gatheringQuestArray)
     {

@@ -24,6 +24,7 @@ public class DataLoad_SceanMove : MonoBehaviour
         //여기에 파싱작업이필요하다 실제로사용되는 작업
         if (data != null)
         {
+
             SaveLoadManager.Instance.ParsingProcess.LoadParsing(data);
             Debug.Log($"{data} 파일이 정상로드됬습니다 , {data.SceanName} 파싱작업후 맵이동 작성을 해야하니 맵이 필요합니다.");
             LoadingScene.SceneLoading(data.SceanName);

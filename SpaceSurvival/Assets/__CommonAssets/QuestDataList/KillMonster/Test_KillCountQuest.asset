@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db4e79a31082550468168bc6955ff779, type: 3}
   m_Name: Test_KillCountQuest
   m_EditorClassIdentifier: 
-  type: 0
+  type: 1
   iconImage: {fileID: 1809714329, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
   title: "\uD1A0\uBC8C\uD018\uC2A4\uD2B8 \uC81C\uBAA9"
   description: "\uD1A0\uBC8C\uD018\uC2A4\uD2B8 \uB0B4\uC6A9 \uC3FC\uB77C\uC3FC\uB77C

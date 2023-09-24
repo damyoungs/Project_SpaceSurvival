@@ -8,7 +8,7 @@ using UnityEngine;
 /// <summary>
 /// 게임에서 필요한 데이터 및 공통된 기능을 담을 메니저 클래스 
 /// </summary>
-public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
+public class SpaceSurvival_GameManager : ChildComponentSingeton<SpaceSurvival_GameManager>
 {
     /// <summary>
     /// 유아이 사용시 마우스 이벤트 막기위한 변수 

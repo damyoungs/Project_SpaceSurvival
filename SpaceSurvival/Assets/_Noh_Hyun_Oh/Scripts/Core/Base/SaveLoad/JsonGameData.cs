@@ -206,7 +206,7 @@ public class JsonGameData
     public StructList.CharcterQuest[] QuestList
     {
         get => questList;
-        protected set
+        set
         {
             questList = value;
         }

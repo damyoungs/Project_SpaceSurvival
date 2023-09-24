@@ -138,13 +138,13 @@ public class TestSaveData<T> : JsonGameData  // 상속받은 것도 같이 json으로 파싱
         base.QuestList = new StructList.CharcterQuest[500];
         for (int i = 0; i < base.QuestList.Length; i++)
         {
-            base.QuestList[i].QuestIProgress = i * 5;
+            //base.QuestList[i].QuestIProgress = i * 5;
             base.QuestList[i].QuestIndex = i ;
         }
         base.SkillList = new StructList.CharcterSkills[100];
         for (int i = 0; i < base.SkillList.Length; i++)
         {
-            base.SkillList[i].Values = i * 500;
+            base.SkillList[i].LevelValue = i * 500;
             base.SkillList[i].SkillIndex = i ;
 
         }
