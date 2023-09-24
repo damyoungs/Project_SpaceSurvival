@@ -46,33 +46,42 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
                                           // 버튼을 눌었을 때 및 레벨업시 Base_Status의 능력치를 업데이트하는 함수 작성
 {
     CanvasGroup canvasGroup;
-     CanvasGroup detailCanvasGroup;
-    
-     TextMeshProUGUI nameText;
-     TextMeshProUGUI levelText;
-     TextMeshProUGUI attText;
-     TextMeshProUGUI dpText;
-     TextMeshProUGUI strText;
-     TextMeshProUGUI intText;
-     TextMeshProUGUI lukText;
-     TextMeshProUGUI dexText;
-     TextMeshProUGUI abilityPoint_Text;
-     TextMeshProUGUI hpText;
-     TextMeshProUGUI staminaText;
-     TextMeshProUGUI damageText;
-     TextMeshProUGUI criticalDamageText;
-     TextMeshProUGUI criticalRateText;
-     TextMeshProUGUI dodgeRateText;
+    CanvasGroup detailCanvasGroup;
+   
+    TextMeshProUGUI nameText;
+    TextMeshProUGUI levelText;
+    TextMeshProUGUI attText;
+    TextMeshProUGUI dpText;
+    TextMeshProUGUI strText;
+    TextMeshProUGUI intText;
+    TextMeshProUGUI lukText;
+    TextMeshProUGUI dexText;
+    TextMeshProUGUI abilityPoint_Text;
+    TextMeshProUGUI hpText;
+    TextMeshProUGUI staminaText;
+    TextMeshProUGUI damageText;
+    TextMeshProUGUI criticalDamageText;
+    TextMeshProUGUI criticalRateText;
+    TextMeshProUGUI dodgeRateText;
+    Button detailOpen_Button;
 
-     Base_Status base_Status;
+    Base_Status base_Status;
 
 
 
     private void Awake()
     {
         GetComponents();
-    }
 
+        detailOpen_Button.onClick.AddListener(ToggleDetail_OpenClose);
+
+        closeDetail();
+        Close();
+    }
+    private void Start()
+    {
+        InputSystemController.Instance.On_StatusOpen = ToggleOpenClose;
+    }
 
     void GetComponents()
     {
@@ -94,6 +103,53 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         criticalDamageText = transform.GetChild(2).GetChild(3).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
         criticalRateText = transform.GetChild(2).GetChild(4).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
         dodgeRateText = transform.GetChild(2).GetChild(5).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
+        detailOpen_Button = transform.GetChild(1).GetChild(9).GetChild(0).GetChild(0).GetComponent<Button>();
+    }
+    void Open()
+    {
+        canvasGroup.alpha = 1.0f;
+        canvasGroup.blocksRaycasts = true;
+        canvasGroup.interactable = true;
+    }
+    void Close()
+    {
+        canvasGroup.alpha = 0;
+        canvasGroup.blocksRaycasts = false;
+        canvasGroup.interactable = false;
     }
 
+    void OpenDetail()
+    {
+        detailCanvasGroup.alpha = 1.0f;
+        detailCanvasGroup.blocksRaycasts = true;
+        detailCanvasGroup.interactable = true;
+    }
+    void closeDetail()
+    {
+        detailCanvasGroup.alpha = 0;
+        detailCanvasGroup.blocksRaycasts = false;
+        detailCanvasGroup.interactable = false;
+    }
+    void ToggleOpenClose()
+    {
+        if (canvasGroup.alpha == 1)
+        {
+            Close();
+        }
+        else
+        {
+            Open();
+        }
+    }
+    void ToggleDetail_OpenClose()
+    {
+        if (detailCanvasGroup.alpha == 1)
+        {
+            closeDetail();
+        }
+        else
+        {
+            OpenDetail();
+        }
+    }
 }
