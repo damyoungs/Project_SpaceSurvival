@@ -21,10 +21,13 @@ public class SaveDataParsing : MonoBehaviour
     /// </summary>
     PlayerQuest_Gyu playerQuest;
 
+    SkillBox playerSkill;
+
     private void Awake()
     {
         slotManager = FindObjectOfType<SlotManager>();
         playerQuest = FindObjectOfType<PlayerQuest_Gyu>();
+        playerSkill = FindObjectOfType<SkillBox>();
     }
 
     /// <summary>
@@ -33,10 +36,10 @@ public class SaveDataParsing : MonoBehaviour
     public void SaveParsing()
     {
         saveData = new JsonGameData();                              //저장할 객체 생성
-
+        saveData.SkillDatas = playerSkill.SaveSkillData();
         SaveInvenDataParsing();                                     //인벤토리 에서 데이터 가져오기 
         SaveDataSetting();                                          //퀘스트 캐릭터한테 퀘스트 데이터 가져오기
-
+        
         SaveLoadManager.Instance.GameSaveData = saveData;           //저장로직에사용될 객체에 담기
     }
     /// <summary>
@@ -46,8 +49,12 @@ public class SaveDataParsing : MonoBehaviour
     public void LoadParsing(JsonGameData data)
     {
         LoadInvenDataParsing(data);
-        LoadDataParsing(data.QuestList);        
+        LoadDataParsing(data.QuestList);
+        playerSkill.LoadSkillData_In_QuickSlot(data.SkillDatas);    
+        RefreshData();
     }
+
+  
 
     /// <summary>
     /// 게임저장시 인벤토리내용 접근해서 데이터로 만드는 작업 
@@ -323,6 +330,18 @@ public class SaveDataParsing : MonoBehaviour
             }
         }
 
+    }
+
+
+
+
+    /// <summary>
+    /// 데이터가 갱신은 됬으나 UI 에 연결안되는것들을 한번에 처리하는 함수 
+    /// 데이터 처리 끝난뒤에 진행 
+    /// </summary>
+    private void RefreshData()
+    {
+        //퀘스트 현재진행중인 값이 연결안되서 연결시켜줘야함.
     }
 
 }

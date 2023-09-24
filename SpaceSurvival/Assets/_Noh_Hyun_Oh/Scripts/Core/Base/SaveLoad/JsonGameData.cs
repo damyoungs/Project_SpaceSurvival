@@ -184,20 +184,17 @@ public class JsonGameData
         get => craftData;
         set => craftData = value;
     }
+
     /// <summary>
-    /// 캐릭터습득 기술 정보리스트
+    /// 중용씨가 만든 클래스 연결 
     /// </summary>
     [SerializeField]
-    StructList.CharcterSkills[] skillList;
-    public StructList.CharcterSkills[] SkillList
+    Save_SkillData[] skillDatas;
+    public Save_SkillData[] SkillDatas 
     {
-        get => skillList;
-        protected set
-        {
-            skillList = value;
-        }
+        get => skillDatas;
+        set => skillDatas = value;
     }
-
     /// <summary>
     /// 캐릭터 퀘스트정보 리스트
     /// </summary>

@@ -141,13 +141,7 @@ public class TestSaveData<T> : JsonGameData  // 상속받은 것도 같이 json으로 파싱
             //base.QuestList[i].QuestIProgress = i * 5;
             base.QuestList[i].QuestIndex = i ;
         }
-        base.SkillList = new StructList.CharcterSkills[100];
-        for (int i = 0; i < base.SkillList.Length; i++)
-        {
-            base.SkillList[i].LevelValue = i * 500;
-            base.SkillList[i].SkillIndex = i ;
-
-        }
+      
         /*
          * 해당코드 실행시 순한 참조가 발생하여 아래에러를 발생하여 직렬화가 안된다 
          * Serialization depth limit 10 exceeded at 'MyClass.otherInstance'. There may be an object composition cycle in one or more of your serialized classes.

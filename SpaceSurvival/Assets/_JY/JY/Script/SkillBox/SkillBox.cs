@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+[Serializable]
 public class Save_SkillData
 {
     public int skillLevel;

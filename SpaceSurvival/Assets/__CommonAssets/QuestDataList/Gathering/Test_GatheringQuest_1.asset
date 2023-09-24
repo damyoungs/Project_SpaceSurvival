@@ -20,6 +20,6 @@ MonoBehaviour:
   rewardCoin: 0
   rewardItem: 03000000
   itemCount: 01000000
-  requestItem: 03000000
+  requestItem: 02000000
   questMosters: 
   requiredCount: 0f000000
