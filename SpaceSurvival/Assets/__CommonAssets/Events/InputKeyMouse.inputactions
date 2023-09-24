@@ -826,6 +826,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Status_Open",
+                    "type": "Button",
+                    "id": "76f9b5d2-2a4e-4f02-b86c-3aa34252cff7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -947,6 +956,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "SkillBox_Open",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "437f4ef8-29b1-49bc-ba45-2489fc5dccf5",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyMouse",
+                    "action": "Status_Open",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
