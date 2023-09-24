@@ -140,6 +140,9 @@ public class Gyu_QuestManager : MonoBehaviour
         {
             return talkData.GetTalk(array_NPC[currentNpcIndex].TalkType, talkIndex);  
         };
+        questUIManager.getLogTalkDataArray = (talkIndex) => {
+            return talkData.GetLog(array_NPC[currentNpcIndex].TalkType, talkIndex);
+        };
 
     }
     private void Start()

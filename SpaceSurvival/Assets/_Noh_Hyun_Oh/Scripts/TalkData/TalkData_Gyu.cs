@@ -109,19 +109,47 @@ public class TalkData_Gyu : MonoBehaviour
     /// <param name="type">대화 종류</param>
     /// <param name="talkIndex">대화 순번</param>
     /// <returns>대화 순번에 대한 대화목록 반환</returns>
-    public string[] GetTalk(TalkType type , int talkIndex)
+    public string[] GetTalk(TalkType type, int talkIndex)
     {
         string[] result = new string[talkQuestArrayLength];      // 반환할 대화목록 크기정하고
         int startIndex = talkQuestArrayLength * talkIndex;       // talkIndex 를가지고 시작배열 위치잡고
         int endIndex = startIndex + talkQuestArrayLength;        // 종료위치도 구하고 
-        int textIndex = 0;                                       // 배열 순차적으로담기위해 임시변수선언하고 
         int typeIndex = (int)type;
+        endIndex = endIndex < talkData[typeIndex].Length ? endIndex : talkData[typeIndex].Length;
+        int textIndex = 0;                                       // 배열 순차적으로담기위해 임시변수선언하고 
         for (int i = startIndex; i < endIndex; i++)              // 포문돌면서 
         {
             result[textIndex] = talkData[typeIndex][i];          // 임시변수로 반환할 목록에 순차적으로 배열위치 만큼 가져온다
             textIndex++;                                         // 순차적으로 넣기위해 갱신
         }
-
-        return result;
+        if (textIndex > 0)
+        {
+            return result;
+        }
+        return null;
+    }
+    /// <summary>
+    /// 0번부터 현재 대화 인덱스까지 모든 문자열을 반환하는 함수
+    /// </summary>
+    /// <param name="type">대화 종류</param>
+    /// <param name="talkIndex">대화 순번</param>
+    /// <returns>대화 순번에 대한 대화목록 반환</returns>
+    public string[] GetLog(TalkType type, int talkIndex)
+    {
+        int endIndex = talkQuestArrayLength * talkIndex + talkQuestArrayLength;        // 종료위치도 구하고 
+        int typeIndex = (int)type;
+        endIndex = endIndex  < talkData[typeIndex].Length ? endIndex : talkData[typeIndex].Length;    
+        string[] result = new string[endIndex];      // 반환할 대화목록 크기정하고
+        int textIndex = 0;                                       // 배열 순차적으로담기위해 임시변수선언하고 
+        for (int i = 0; i < endIndex; i++)              // 포문돌면서 
+        {
+            result[textIndex] = talkData[typeIndex][i];          // 임시변수로 반환할 목록에 순차적으로 배열위치 만큼 가져온다
+            textIndex++;                                         // 순차적으로 넣기위해 갱신
+        }
+        if (textIndex > 0) 
+        {
+            return result;  
+        }
+        return null;
     }
 }

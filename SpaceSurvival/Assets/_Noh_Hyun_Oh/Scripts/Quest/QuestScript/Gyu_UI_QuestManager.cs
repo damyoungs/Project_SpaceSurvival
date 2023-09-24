@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.UI;
 public enum Quest_State
@@ -89,7 +90,33 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
     /// </summary>
     Transform talkBoxPanel;
 
+    
+    /// <summary>
+    /// 다음 대사로 넘기는 버튼
+    /// </summary>
+    Button nextButton;
 
+    /// <summary>
+    /// 로그 토글 버튼 
+    /// </summary>
+    Button logButton;
+
+    /// <summary>
+    /// 로그 보여줄 창의 트랜스폼
+    /// </summary>
+    Transform logPanel;
+
+    /// <summary>
+    /// 로그창에 로그 텍스트 부모위치
+    /// </summary>
+    RectTransform logTextParent;
+
+    /// <summary>
+    /// 로그 텍스트 프리팹
+    /// </summary>
+    [SerializeField]
+    TextMeshProUGUI textPrefab;
+    float textPrefabHeight;
 
     /// <summary>
     /// 진행중인 퀘스트 내용 
@@ -163,7 +190,17 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
     /// 대화 내용을 가져온다.
     /// </summary>
     public Func<int, string[]> getTalkDataArray;
-    
+
+    /// <summary>
+    /// 현재 대화순번 
+    /// </summary>
+    int currentTalkIndex = 0;
+
+    /// <summary>
+    /// 로그목록을 가져온다.
+    /// </summary>
+    public Func<int, string[]> getLogTalkDataArray;
+
     /// <summary>
     /// 퀘스트 수락이됬다고 알려주는 델리게이트
     /// </summary>
@@ -227,13 +264,19 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
         talkEndButton = talkBoxPanel.GetChild(4).GetComponent<Button>();
         talkEndButton.onClick.AddListener(initialize);
 
+        nextButton = talkBoxPanel.GetChild(5).GetComponent<Button>();
+        nextButton.onClick.AddListener(() => Talk(currentTalkIndex + 1));
+
+        logButton = talkBoxPanel.GetChild(6).GetComponent<Button>();
+        logButton.onClick.AddListener(LogBoxSetting);
+
 
         myQuestBoxPanel = transform.GetChild(2); 
         myQuestBox = myQuestBoxPanel.GetChild(1).GetComponent<TextMeshProUGUI>();
 
 
         npcTalkButton = transform.GetChild(3).GetComponent<Button>();
-        npcTalkButton.onClick.AddListener(Talk);
+        npcTalkButton.onClick.AddListener(()=>Talk(0));
 
         questListPanel = transform.GetChild(4);
         questList_CurrentViewBtn = questListPanel.GetChild(2).GetComponent<Button>();
@@ -247,10 +290,13 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
 
         questListContentPanel = questListPanel.GetComponentInChildren<VerticalLayoutGroup>().transform;
         quest_UI_Array = questListContentPanel.GetComponentsInChildren<Quest_UI_Colum>(true);
-        initialize();
 
-       
-        
+        logPanel = transform.GetChild(5);
+        logTextParent = logPanel.GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetComponent<RectTransform>();//content 위치
+
+        textPrefabHeight = textPrefab.rectTransform.sizeDelta.y;    
+
+        initialize();
     }
     private void Start()
     {
@@ -293,7 +339,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
     /// <summary>
     /// Npc 대사를 출력
     /// </summary>
-    public void Talk()
+    public void Talk(int talkIndex)
     {
         if (!isTalking)
         {
@@ -304,12 +350,13 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
                 npcTalkButton.gameObject.SetActive(false);
                 talkBoxPanel.gameObject.SetActive(true);
                 nameBox.text = npc.name;
-                string[] talkString = getTalkDataArray?.Invoke(0);
+                string[] talkString = getTalkDataArray?.Invoke(talkIndex);
                 if (talkString != null &&  talkString.Length > 0) 
                 {
-                    StartCoroutine(Typing(talkString));
+                    StartCoroutine(Typing(talkString,talkIndex));
                 }
             }
+      
             OpenWindow();
         }
     }
@@ -563,7 +610,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
         titleBox.text = "";
         descriptionBox.text = "";
         clearBox.text = "";
-
+        currentTalkIndex = 0;
         npcImg.texture = null;
         nameBox.text = "";
         talkBox.text = "";
@@ -572,6 +619,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
         questBoxPanel.gameObject.SetActive(false);
         talkBoxPanel.gameObject.SetActive(false);
         questListPanel.gameObject.SetActive(false);
+        logPanel.gameObject.SetActive(false);
         //quests = null;
         //array_NPC = null;
         npcTalkButton.gameObject.SetActive(false);
@@ -582,7 +630,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
     /// </summary>
     /// <param name="textArray"></param>
     /// <returns></returns>
-    IEnumerator Typing(string[] textArray)
+    IEnumerator Typing(string[] textArray,int talkIndex)
     {
         isTalking = true;
         talkBox.text = "";
@@ -595,8 +643,56 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
             }
             talkBox.text += "\r\n";
         }
+        currentTalkIndex = talkIndex;
         isTalking = false;
     }
+
+    /// <summary>
+    /// 로그박스 셋팅용 함수
+    /// </summary>
+    private void LogBoxSetting() 
+    {
+        if (logPanel.gameObject.activeSelf) //열려있으면 닫아야되고
+        {
+            logPanel.gameObject.SetActive(false);
+        }
+        else //닫혀있으며 열어야한다 
+        {
+            TextMeshProUGUI[] logTexts;
+            if (logTextParent.childCount > 0) 
+            {
+                logTexts = logTextParent.GetComponentsInChildren<TextMeshProUGUI>();
+                foreach (var text in logTexts)
+                {
+                    text.text = "";
+                }
+                //기존값 존재하면 초기화 
+            }
+            string[] logTextArray =  getLogTalkDataArray?.Invoke(currentTalkIndex);
+            if (logTextArray != null) //출력할 내용이 존재하면 
+            {
+                int logDataLength = logTextArray.Length;
+                if (logTextParent.childCount < logDataLength) //기존 로그 생성해둔 값을 비교하고 
+                {
+                    int createCount = logDataLength - logTextParent.childCount;
+                    for (int i = 0; i < createCount; i++) //부족한만큼 
+                    {
+                        Instantiate<TextMeshProUGUI>(textPrefab, logTextParent); //추가생성
+                    }
+                }
+
+                logTexts = logTextParent.GetComponentsInChildren<TextMeshProUGUI>(); 
+                
+                for (int i = 0; i < logTextArray.Length; i++)
+                {
+                    logTexts[i].text = $"{logTextArray[i]}\r\n";
+                }
+                logTextParent.sizeDelta = new Vector2(logTextParent.sizeDelta.x, textPrefabHeight * logTexts.Length);
+                logPanel.gameObject.SetActive(true);
+            }
+        }
+    }
+
 
     public void OpenWindow()
     {
