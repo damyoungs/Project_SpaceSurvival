@@ -18,6 +18,8 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
     uint abilityPoint;
 
     //detail
+    uint exp;
+    uint expMax;
     uint base_MaxHP;
     uint base_HP;
     uint base_Stamina;
@@ -63,6 +65,34 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
         {
             base_MaxStamina = value;
             OnMaxStaminaChange?.Invoke(base_MaxStamina);
+        }
+    }
+    public uint Exp
+    {
+        get => exp;
+        set
+        {
+            uint expOver = 0; ;
+            if (value > expMax)
+            {
+                expOver = value - expMax;
+            }
+            exp = (uint)Mathf.Clamp(value, 0, expMax); 
+            if (exp >= expMax)
+            {
+                OnLevelUp?.Invoke();
+                Exp += expOver;
+            }
+            OnExpChange?.Invoke(exp);
+        }
+    }
+    public uint ExpMax
+    {
+        get => expMax;
+        set
+        {
+            expMax = value;
+            OnMaxExpChange?.Invoke(expMax);
         }
     }
     public uint BaseATT
@@ -119,7 +149,7 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
         set
         {
             base_DEX = value;
-            DodgeRate += base_DEX * 0.3f;
+            DodgeRate = base_DEX * 0.3f;
             OnBaseDEXChange?.Invoke(base_DEX);
         }
     }
@@ -196,12 +226,15 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
         }
     }
 
-
+    public Action OnLevelUp;
     public Action<string> OnNameChange;
     public Action<uint> OnLevelChange;
     public Action<uint> OnMaxHPChange;
     public Action<uint> OnMaxStaminaChange;
 
+    public Action<uint> OnExpChange;
+    public Action<uint> OnMaxExpChange;
+    public Action<uint> OnMaxHP_Change;
     public Action<uint> OnBaseATTChange;
     public Action<float> OnBaseDPChange;
     public Action<uint> OnBaseSTRChange;
@@ -216,12 +249,16 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
     public Action<uint> OnCriticalMaxChange;
     public Action<float> OnCriticalRateChange;
     public Action<float> OnDodgeRateChange;
+
     public void Init()
     {
         Name = "Player";
-        BaseHP = 100;
-        BaseStamina = 100;
-
+        BaseMaxHP = 100;
+        BaseHP = BaseMaxHP;
+        BaseMaxStamina = 100;
+        BaseStamina = BaseMaxStamina;
+        ExpMax = 50;
+        Exp = 0;
         BaseATT = 10;
         BaseDP = 10;
         BaseSTR = 5;
@@ -254,6 +291,8 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
     TextMeshProUGUI criticalDamageText;
     TextMeshProUGUI criticalRateText;
     TextMeshProUGUI dodgeRateText;
+    TextMeshProUGUI expText;
+    TextMeshProUGUI expMax_Text;
 
     Button strButton;
     Button intButton;
@@ -270,16 +309,28 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         GetComponents();
 
         detailOpen_Button.onClick.AddListener(ToggleDetail_OpenClose);
-
+        strButton.onClick.AddListener(RiseStrength);
+        intButton.onClick.AddListener(RiseIntelligence);
+        lukButton.onClick.AddListener(RiseLuck);
+        dexButton.onClick.AddListener(Rise_Dexterity);
         closeDetail();
         Close();
     }
     private void Start()
     {
+        Init();
+
+    }
+
+    private void Init()
+    {
         InputSystemController.Instance.On_StatusOpen = ToggleOpenClose;
         base_Status = new();
+        base_Status.OnLevelUp += LevelUp;
         base_Status.OnNameChange += (name) => nameText.text = name;
         base_Status.OnLevelChange += (level) => levelText.text = $"{level}";
+        base_Status.OnExpChange += (exp) => expText.text = $"{exp}";
+        base_Status.OnMaxExpChange += (expMax) => expMax_Text.text = $"/ {expMax}";
         base_Status.OnBaseATTChange += (att) => attText.text = $"{att}";
         base_Status.OnBaseDPChange += (dp) => dpText.text = $"{dp:f1}";
         base_Status.OnBaseSTRChange += (str) => strText.text = $"{str}";
@@ -288,21 +339,16 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         base_Status.OnBaseDEXChange += (dex) => dexText.text = $"{dex}";
         base_Status.OnAbilityPointChange += (ap) => abilityPoint_Text.text = $"{ap}";
         base_Status.OnBaseHPChange += (hp) => hpText.text = $"{hp}";
-        base_Status.OnMaxHPChange += (maxHP) => maxHP_Text.text =$"{maxHP}";
+        base_Status.OnMaxHPChange += (maxHP) => maxHP_Text.text = $"/ {maxHP}";
         base_Status.OnBaseStaminaChange += (stamina) => staminaText.text = $"{stamina}";
-        base_Status.OnMaxStaminaChange += (maxStamina) => maxStamina_Text.text = $"{maxStamina}";
+        base_Status.OnMaxStaminaChange += (maxStamina) => maxStamina_Text.text = $"/ {maxStamina}";
         base_Status.OnDamageChange += (damage) => damageText.text = $"{damage}";
         base_Status.OnCriticalMinChange += (critMin) => criticalDamageText.text = $"{critMin}"; // CriticalMin이 표시될 Text를 추측함
         base_Status.OnCriticalMaxChange += (critMax) => criticalDamageText.text = $"{critMax}"; // CriticalMax가 표시될 Text를 추측함
-        base_Status.OnCriticalRateChange += (critRate) => criticalRateText.text = $"{critRate:f1}";
-        base_Status.OnDodgeRateChange += (dodgeRate) => dodgeRateText.text = $"{dodgeRate:f1}";
+        base_Status.OnCriticalRateChange += (critRate) => criticalRateText.text = $"{critRate:f1}%";
+        base_Status.OnDodgeRateChange += (dodgeRate) => dodgeRateText.text = $"{dodgeRate:f1}%";
 
         base_Status.Init();
-
-        strButton.onClick.AddListener(RiseStrength);
-        intButton.onClick.AddListener(RiseIntelligence);
-        lukButton.onClick.AddListener(RiseLuck);
-        dexButton.onClick.AddListener(Rise_Dexterity);
     }
 
     void GetComponents()
@@ -319,14 +365,16 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         lukText = transform.GetChild(1).GetChild(6).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
         dexText = transform.GetChild(1).GetChild(7).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
         abilityPoint_Text = transform.GetChild(1).GetChild(8).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
-        hpText = transform.GetChild(2).GetChild(0).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
-        maxHP_Text = transform.GetChild(2).GetChild(0).GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
-        staminaText = transform.GetChild(2).GetChild(1).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
-        maxStamina_Text = transform.GetChild(2).GetChild(1).GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
-        damageText = transform.GetChild(2).GetChild(2).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
-        criticalDamageText = transform.GetChild(2).GetChild(3).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
-        criticalRateText = transform.GetChild(2).GetChild(4).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
-        dodgeRateText = transform.GetChild(2).GetChild(5).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
+        expText = transform.GetChild(2).GetChild(0).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
+        expMax_Text = transform.GetChild(2).GetChild(0).GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
+        hpText = transform.GetChild(2).GetChild(1).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
+        maxHP_Text = transform.GetChild(2).GetChild(1).GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
+        staminaText = transform.GetChild(2).GetChild(2).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
+        maxStamina_Text = transform.GetChild(2).GetChild(2).GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
+        damageText = transform.GetChild(2).GetChild(3).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
+        criticalDamageText = transform.GetChild(2).GetChild(4).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
+        criticalRateText = transform.GetChild(2).GetChild(5).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
+        dodgeRateText = transform.GetChild(2).GetChild(6).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
         detailOpen_Button = transform.GetChild(1).GetChild(9).GetChild(0).GetChild(0).GetComponent<Button>();
         strButton = transform.GetChild(1).GetChild(4).GetChild(1).GetChild(1).GetComponent<Button>();
         intButton = transform.GetChild(1).GetChild(5).GetChild(1).GetChild(1).GetComponent<Button>();
@@ -383,7 +431,26 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
 
     void LevelUp()
     {
-
+        base_Status.Level++;
+        base_Status.AbilityPoint += 5;
+        base_Status.BaseMaxHP += increaseMaxHP();
+        base_Status.BaseHP = base_Status.BaseMaxHP;
+        base_Status.BaseMaxStamina += increaseMaxStamina();
+        base_Status.BaseStamina = base_Status.BaseMaxStamina;
+        base_Status.Exp = 0;
+        base_Status.ExpMax = (uint)(base_Status.ExpMax * 1.2f);
+    }
+    uint increaseMaxHP()
+    {
+        float increaseBase= 10;
+        float result = increaseBase + base_Status.BaseSTR;
+        return (uint)result;
+    }
+    uint increaseMaxStamina()
+    {
+        float increaseBase = 1;
+        float result = increaseBase + (base_Status.BaseINT * 0.5f);
+        return (uint)result;
     }
     void Rise_Dexterity()
     {
@@ -416,5 +483,9 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
             base_Status.AbilityPoint--;
             base_Status.BaseLUK++;
         }
+    }
+    public void GetExp(uint exp)
+    {
+        base_Status.Exp += exp;
     }
 }
