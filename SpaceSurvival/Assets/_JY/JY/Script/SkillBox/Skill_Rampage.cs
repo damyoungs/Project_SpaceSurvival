@@ -11,15 +11,19 @@ public class Skill_Rampage : SkillData
         button = transform.parent.GetChild(9).GetComponent<Button>();
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(Skill_LevelUp);
+
+    }
+    protected override void InitSkillData()
+    {
         SkillName = "³­»ç";
         SkillLevel = 1;
-        //AnimClip
-        //audioClip
         AttackRange = 8;
         Require_Force_For_skillLevelUp = 1;
         Require_Stamina_For_UsingSkill = 1;
         SkillPower = 0.7f;
         SkillType = SkillType.rampage;
+        //AnimClip
+        //audioClip
     }
     protected override void LevelUp_Skill_Info()
     {

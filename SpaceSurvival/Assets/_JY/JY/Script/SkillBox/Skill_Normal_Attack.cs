@@ -10,6 +10,10 @@ public class Skill_Normal_Attack : SkillData
         button = transform.parent.GetChild(7).GetComponent<Button>();
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(Skill_LevelUp);
+
+    }
+    protected override void InitSkillData()
+    {
         SkillName = "일반 공격";
         SkillLevel = 1;
         //AnimClip

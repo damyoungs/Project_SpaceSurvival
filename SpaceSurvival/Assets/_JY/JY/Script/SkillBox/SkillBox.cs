@@ -110,8 +110,9 @@ public class SkillBox : MonoBehaviour, IPopupSortWindow
                 bindingSlot = GameManager.QuickSlot_Manager.QuickSlots[(int)datas[i].bindingSlot - 1];//저장된 연결 슬롯 가져오기
                 bindingSlot.SkillData = skillData;
             }
-            if (skillData.SkillLevel < datas[i].skillLevel)//저장된 레벨이 현재 레벨과 다르면 레벨업
+            if (skillData.SkillLevel != datas[i].skillLevel)//저장된 레벨이 현재 레벨과 다르면 레벨업
             {
+                skillData.on_ResetData?.Invoke();
                 while (skillData.SkillLevel < datas[i].skillLevel)
                 {
                     skillData.on_Skill_LevelUp?.Invoke();

@@ -11,6 +11,10 @@ public class Skill_Sniping : SkillData
         button = transform.parent.GetChild(11).GetComponent<Button>();
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(Skill_LevelUp);
+
+    }
+    protected override void InitSkillData()
+    {
         SkillName = "РњАн";
         SkillLevel = 1;
         //AnimClip
