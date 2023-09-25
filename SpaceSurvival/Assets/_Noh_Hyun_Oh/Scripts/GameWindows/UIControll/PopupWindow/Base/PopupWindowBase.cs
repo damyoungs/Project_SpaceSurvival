@@ -108,7 +108,7 @@ public class PopupWindowBase : MonoBehaviour,
         //Debug.Log("awake 테스트");
         rectTransform = GetComponent<RectTransform>(); //팝업창 크기조절용으로 가져온다
 
-        try //위치 틀려서 무조건에러나는것들이 존재한다. 게임오브젝트 구조를 바꾸면 무조껀 난다.
+        try //위치 틀려서 무조건에러나는것들이 존재한다.
         {
             contentPanel = transform.GetChild(0).GetChild(0).GetComponent<RectTransform>(); //컨텐츠패널 RectTransform 가져온다
         

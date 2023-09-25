@@ -1,10 +1,16 @@
 {
     "dataIndex": 0,
-    "saveTime": "2023-09-25 오전 11:58:07",
+    "saveTime": "2023-09-24 오후 8:55:51",
     "sceanName": 4,
     "charcterInfo": [],
     "equipSlotLength": 0,
     "equipData": [
+        {
+            "values": 1,
+            "itemIndex": 11,
+            "slotIndex": 0,
+            "itemEnhanceValue": 1
+        },
         {
             "values": 1,
             "itemIndex": 9,
@@ -45,7 +51,7 @@
     "consumeSlotLength": 0,
     "consumeData": [
         {
-            "values": 40,
+            "values": 50,
             "itemIndex": 1,
             "slotIndex": 0,
             "itemEnhanceValue": 0
@@ -58,14 +64,7 @@
         }
     ],
     "etcSlotLength": 0,
-    "etcData": [
-        {
-            "values": 4,
-            "itemIndex": 4,
-            "slotIndex": 0,
-            "itemEnhanceValue": 0
-        }
-    ],
+    "etcData": [],
     "craftSlotLength": 0,
     "craftData": [
         {
@@ -110,11 +109,19 @@
     ],
     "questList": [
         {
-            "questIndex": 2001,
-            "questType": 2,
+            "questIndex": 1000,
+            "questType": 1,
             "questState": 1,
             "questIProgress": [
-                40
+                0
+            ]
+        },
+        {
+            "questIndex": 1002,
+            "questType": 1,
+            "questState": 1,
+            "questIProgress": [
+                0
             ]
         },
         {
@@ -126,25 +133,9 @@
             ]
         },
         {
-            "questIndex": 1003,
-            "questType": 1,
-            "questState": 2,
-            "questIProgress": [
-                0
-            ]
-        },
-        {
             "questIndex": 2000,
             "questType": 2,
-            "questState": 2,
-            "questIProgress": [
-                40
-            ]
-        },
-        {
-            "questIndex": 1001,
-            "questType": 1,
-            "questState": 2,
+            "questState": 1,
             "questIProgress": [
                 0
             ]
