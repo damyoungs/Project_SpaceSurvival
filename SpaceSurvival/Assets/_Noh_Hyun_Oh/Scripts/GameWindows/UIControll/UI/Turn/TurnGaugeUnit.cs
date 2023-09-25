@@ -7,7 +7,7 @@ using UnityEngine.UI;
 ///  턴 게이지에 보일 유닛오브젝트
 ///  유닛 오브젝트는 추가되서 활성화되면 자동으로 위치를 잡는다 
 /// </summary>
-public class TurnGaugeUnit : TurnGaugeObject_PoolObj
+public class TurnGaugeUnit : Base_PoolObj
 {
     /// <summary>
     /// 게이지가 움직이는 시간 늘릴수록 빠르다

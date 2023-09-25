@@ -12,7 +12,7 @@ using UnityEngine;
 ///     - 이동될 객체가 활성화 상태에서 이동될 transform을 기준으로 상위객체들이 비활성화 되있는경우 자동으로 OnDisable 이 호출된다 .
 ///     - 활성화 객체 -> 비활성화 부모  반대로 비활성화 객체 -> 활성화 부모 각각 상태변화가 자동으로 이루어져 OnEnable과 OnDisable 함수가 호출된다.
 /// </summary>
-public class TurnBaseObject : BattleMapTurnUnit_PoolObj, ITurnBaseData
+public class TurnBaseObject : Base_PoolObj, ITurnBaseData
 {
     /// <summary>
     /// 맵에 생성된 턴을 사용할 오브젝트의 인덱스  매니저에서 해당 오브젝트 생성할때 인덱스를 줄것이다.

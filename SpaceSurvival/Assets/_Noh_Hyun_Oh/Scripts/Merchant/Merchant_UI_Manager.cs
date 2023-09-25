@@ -6,8 +6,15 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Merchant_UI_Manager : PopupWindowBase , IPopupSortWindow
+
+
+public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
 {
+
+   
+    
+
+
     /// <summary>
     /// 다크포스값 보여줄 텍스트
     /// </summary>
@@ -99,11 +106,15 @@ public class Merchant_UI_Manager : PopupWindowBase , IPopupSortWindow
         
         buyButton = topPanel.GetChild(1).GetChild(0).GetComponent<Button>(); 
         buyButton.onClick.AddListener(() => {
-            
+            Debug.Log(buyButton);
+            merchant_Manager.Selected = Merchant_Selected.Buy;
+
         });
         
         sellButton = topPanel.GetChild(1).GetChild(1).GetComponent<Button>(); 
         sellButton.onClick.AddListener(() => { 
+            Debug.Log(sellButton);
+            merchant_Manager.Selected = Merchant_Selected.Sell;
             
         });
 
@@ -115,21 +126,25 @@ public class Merchant_UI_Manager : PopupWindowBase , IPopupSortWindow
 
         equipButton = contentPanel.GetChild(0).GetChild(0).GetComponent<Button>();
         equipButton.onClick.AddListener(() => { 
+            Debug.Log(equipButton);
         
         });
 
         consumeButton = contentPanel.GetChild(0).GetChild(1).GetComponent<Button>();
         consumeButton.onClick.AddListener(() => { 
+            Debug.Log(consumeButton);
         
         });
 
         etcButton = contentPanel.GetChild(0).GetChild(2).GetComponent<Button>();
         etcButton.onClick.AddListener(() => { 
+            Debug.Log(etcButton);
         
         });
 
         craftButton = contentPanel.GetChild(0).GetChild(3).GetComponent<Button>();
         craftButton.onClick.AddListener(() => { 
+            Debug.Log(craftButton);
         
         });
 
@@ -141,10 +156,12 @@ public class Merchant_UI_Manager : PopupWindowBase , IPopupSortWindow
 
         talkNextButton = contentPanel.GetChild(2).GetChild(3).GetComponent<Button>();
         talkNextButton.onClick.AddListener(() => { 
+            Debug.Log(talkNextButton);
         
         });
-        talkLogButton = contentPanel.GetChild(2).GetChild(3).GetComponent<Button>();
+        talkLogButton = contentPanel.GetChild(2).GetChild(4).GetComponent<Button>();
         talkLogButton.onClick.AddListener(() => { 
+            Debug.Log(talkLogButton);
         
         });
     }
@@ -160,7 +177,7 @@ public class Merchant_UI_Manager : PopupWindowBase , IPopupSortWindow
 
     private void ResetData() 
     {
-
+        this.gameObject.SetActive(false);
     }
 
 
@@ -177,7 +194,7 @@ public class Merchant_UI_Manager : PopupWindowBase , IPopupSortWindow
 
     public void CloseWindow()
     {
-        this.gameObject.SetActive(false);
+        ResetData();
     }
 
 

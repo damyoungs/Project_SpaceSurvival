@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
+public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
 {
     /// <summary>
     /// 몬스터는 컨트롤할수없으니 형식만 맞춰두자

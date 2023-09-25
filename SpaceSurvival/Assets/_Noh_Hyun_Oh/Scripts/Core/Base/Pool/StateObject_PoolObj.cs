@@ -5,11 +5,6 @@ using UnityEngine.UI;
 public class StateObject_PoolObj : Base_PoolObj, IStateData
 {
     /// <summary>
-    /// 씬이동 또는 상태이상이 끝났을경우 풀로 돌릴수있도록 위치값 저장
-    /// </summary>
-    public Transform PoolTransform => poolTransform;
-
-    /// <summary>
     /// 상태이상의 종류
     /// </summary>
     //StateType stateType;

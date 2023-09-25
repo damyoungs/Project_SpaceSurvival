@@ -46,11 +46,27 @@ public class Multiple_Factory : ChildComponentSingeton<Multiple_Factory>
     Pool_BattleMapTurnUnit battleMapEnemyPool;
 
    
-
+    /// <summary>
+    /// 전투맵 플레이어 캐릭터 생성할풀 하나라서 딱히 필요없긴하다..
+    /// </summary>
     Pool_PlayerUnit playerUnitPool;
-    public Pool_EnemyUnit enemyUnitPool;
 
+    /// <summary>
+    /// 전투맵 몬스터 생성할 풀 사용하려나?
+    /// </summary>
+    Pool_EnemyUnit enemyUnitPool;
+    
+    /// <summary>
+    /// 상점에서의 아이템슬롯 생성용으로 사용할 풀
+    /// </summary>
+    Pool_MerchantItem merchantItemPool;
+
+
+    /// <summary>
+    /// 타일맵 풀 테스트용으로 사용하려고 넣어놧다 신경쓰지않아오됨
+    /// </summary>
     TileMapPool tileMapPool;
+
     /// <summary>
     /// 팩토리 생성시 초기화 함수
     /// </summary>
@@ -65,6 +81,7 @@ public class Multiple_Factory : ChildComponentSingeton<Multiple_Factory>
         statePool = GetComponentInChildren<Pool_State>(true);
         playerUnitPool = GetComponentInChildren<Pool_PlayerUnit>(true);
         enemyUnitPool = GetComponentInChildren<Pool_EnemyUnit>(true);
+        merchantItemPool = GetComponentInChildren<Pool_MerchantItem>(true);
         saveDataPool.Initialize();
         savePageButtonPool.Initialize();
         turnGaugeUnitPool.Initialize();  
@@ -72,6 +89,7 @@ public class Multiple_Factory : ChildComponentSingeton<Multiple_Factory>
         statePool.Initialize();
         playerUnitPool.Initialize();
         enemyUnitPool.Initialize();
+        merchantItemPool.Initialize();  
 
         tileMapPool = GetComponentInChildren<TileMapPool>(true);
         tileMapPool.Initialize();

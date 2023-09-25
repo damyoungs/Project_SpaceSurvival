@@ -11,7 +11,7 @@ using UnityEngine;
 /// 포지션은 (0,20,-70)
 /// 로테이션 (45,0,0)
 /// </summary>
-public class Opening : MonoBehaviour
+public class OpeningStart : MonoBehaviour
 { 
 
     /// <summary>
@@ -91,7 +91,6 @@ public class Opening : MonoBehaviour
             }
         };
 
-        TextMeshPro speedUpText = buttons.GetComponentInChildren<TextMeshPro>();
         buttons.skipButton += (text) => {
             LoadingScene.SceneLoading(EnumList.SceneName.TITLE); //스킵이면 씬이동
         };

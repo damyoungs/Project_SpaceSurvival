@@ -10,7 +10,7 @@ using UnityEngine.UIElements;
 /// 추적형 UI 기능 클래스 
 /// 상태이상 과 체력 관련 UI 기능 들어있는 컴퍼넌트
 /// </summary>
-public class TrackingBattleUI : TrackingBattleUIObject_PoolObj 
+public class TrackingBattleUI : Base_PoolObj
 {
 #if UNITY_EDITOR
     public bool isDebug = false; //디버그 표시해줄 체크박스 에디터에 추가하자
@@ -505,7 +505,7 @@ public class TrackingBattleUI : TrackingBattleUIObject_PoolObj
             }
         }
        
-        transform.SetParent(PoolTransform);//풀로 돌린다
+        transform.SetParent(poolTransform);//풀로 돌린다
         gameObject.SetActive(false); //큐로 돌리고 
         //초기화 마지막에 풀로 돌린다.
 

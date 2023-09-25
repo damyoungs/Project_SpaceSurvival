@@ -59,7 +59,7 @@ public class TalkData_Gyu : MonoBehaviour
     {
         string fullFilePath = $"{filePath}{fileFirstName}{typeName}{fileType}";
         //string fullFilePath = $"{filePath}{fileFirstName}{typeName}{fileType}";
-        Debug.Log(fullFilePath);
+        //Debug.Log(fullFilePath);
         try
         {
             if (!Directory.Exists(filePath))

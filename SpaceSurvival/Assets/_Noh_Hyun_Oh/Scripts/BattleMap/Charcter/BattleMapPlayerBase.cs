@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
+public class BattleMapPlayerBase : Base_PoolObj, ICharcterBase
 {
     //public static BattleMapPlayerBase instance;
     /// <summary>
