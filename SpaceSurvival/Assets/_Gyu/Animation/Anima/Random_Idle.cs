@@ -17,7 +17,7 @@ public class Random_Idle : StateMachineBehaviour
         int select = 0;
 
         float num = Random.value;
-        if (num < 0.5f)
+        if (num < 0.75f)
         {
             select = 0;
         }

@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 
 public class Enemy_ : MonoBehaviour, IBattle
@@ -14,28 +16,47 @@ public class Enemy_ : MonoBehaviour, IBattle
         Size_L,
         Boss,
     }
+    Monster_Type type = Monster_Type.Base;
+
+    public Monster_Type Type
+    {
+        get => type;
+        set
+        {
+            type = value;
+        }
+    }
+
+
+    public enum WeaponType
+    {
+        None = 0,
+        Riffle,
+    }
+    WeaponType weaponType = WeaponType.None;
+    Animator Anima;
 
     public Action AC_Attack;
     public Action<float> on_Enemy_Stamina_Change;
     public Action<float> on_Enemy_HP_Change;
     public Action onDie { get; set; }
 
+    int Go_Attack = Animator.StringToHash("Attack");
+    int OnHit = Animator.StringToHash("Hit");
     
     float hp = 200;
-    float maxHP = 200;
+    public float maxHP = 200;
     public float MaxHp => maxHP;
     public float HP
     {
         get => hp;
-        private set
+        set
         {
-            hp = value;
-            if(hp <= 0)
+            if(hp != value)
             {
-                Die();
+                hp = Mathf.Clamp(value, 0, maxHP);
+                on_Enemy_HP_Change(hp);
             }
-            hp = Mathf.Clamp(value, 0, maxHP);
-            on_Enemy_HP_Change(hp);
         }
     }
 
@@ -83,36 +104,28 @@ public class Enemy_ : MonoBehaviour, IBattle
 
     private void Awake()
     {
-        
+        Anima = GetComponent<Animator>();
     }
 
     private void Attack()
     {
         stamina--;
-        AC_Attack();
-    }
+        Anima.SetTrigger(Go_Attack);
 
-    public void Die()
-    {
-        StartCoroutine(EnemyDead());
-        onDie?.Invoke();
-    }
-
-    IEnumerator EnemyDead()
-    {
-        yield return null;
-
-        Destroy(this.transform);
     }
 
     public void Attack_Enemy(IBattle target)
     {
-        target.Defence(AttackPower);
         Attack();
+        if(target != null)
+        {
+            target.Defence(AttackPower);
+        }
     }
 
     public void Defence(float damage)
     {
+        Anima.SetTrigger(OnHit);
         HP -= Mathf.Max(0, damage - defencePower);
     }
 }

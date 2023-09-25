@@ -13,7 +13,9 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
     Enemy_Psionic psionicData;
     public Enemy_Psionic PsionicData => psionicData;
 
-    public int EnemyNum;
+    Enemy_ enemy_;
+    public Enemy_ Enemy => enemy_;
+
 
     public bool IsMoveCheck { get; }
     /// <summary>
@@ -131,7 +133,7 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
     {
         Debug.Log($"{transform.name}턴 시작 행동력 : {psionicData.Stamina}\n좌표{CurrentTile.transform.position}, {currentTile.name}");
 
-        
+
         
     }
 

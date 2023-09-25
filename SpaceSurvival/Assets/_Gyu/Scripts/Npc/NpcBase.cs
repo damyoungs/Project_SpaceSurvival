@@ -5,6 +5,12 @@ using UnityEngine;
 public class NpcBase : MonoBehaviour
 {
     public int Npcid;
+    Animation anima;
+    private void Awake()
+    {
+        anima = GetComponent<Animation>();
+    }
+
     //public GameObject Button;
     //SphereCollider sphereCollider ;
 
