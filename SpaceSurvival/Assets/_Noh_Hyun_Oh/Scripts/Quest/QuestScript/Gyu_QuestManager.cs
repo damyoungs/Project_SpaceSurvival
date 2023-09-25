@@ -103,11 +103,18 @@ public class Gyu_QuestManager : MonoBehaviour
     /// </summary>
     QuestScriptableGenerate questScriptableGenerate;
 
+    /// <summary>
+    /// 로그 관리할 컴포넌트
+    /// </summary>
+    LogManager logManager;
+
     private void Awake()
     {
         player = FindObjectOfType<PlayerQuest_Gyu>();
 
         talkData = FindAnyObjectByType<TalkData_Gyu>();
+
+        logManager = FindObjectOfType<LogManager>();
 
         questUIManager = GetComponent<Gyu_UI_QuestManager>();   //기능분리를 위해 스크립트를 따로뺏다.
 
@@ -140,7 +147,7 @@ public class Gyu_QuestManager : MonoBehaviour
         {
             return talkData.GetTalk(array_NPC[currentNpcIndex].TalkType, talkIndex);  
         };
-        questUIManager.getLogTalkDataArray = (talkIndex) => {
+        logManager.getLogTalkDataArray = (talkIndex) => {
             return talkData.GetLog(array_NPC[currentNpcIndex].TalkType, talkIndex);
         };
 

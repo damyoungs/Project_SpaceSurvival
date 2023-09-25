@@ -44,7 +44,7 @@ public class TalkData_Gyu : MonoBehaviour
     private void Awake()
     {
         //StreamingAssets폴더 사용하는방법으로 변경 
-        filePath = Path.Combine(Application.streamingAssetsPath, "TextFile/NPC_TalkData"); // 상대 경로 설정
+        filePath = Path.Combine(Application.streamingAssetsPath, "TextFile/NPC_TalkData/"); // 상대 경로 설정
         
         talkData = new string[Enum.GetValues(typeof(TalkType)).Length][]; //이넘크기만큼 배열 잡아두고 
         FileRead_And_SplitFileData(); //외부 파일읽어서 대화목록 불러오기 
@@ -57,8 +57,9 @@ public class TalkData_Gyu : MonoBehaviour
     /// <returns>읽어온 내용</returns>
     private string File_IO_TalkData_Read(string typeName)
     {
-        string fullFilePath =  Path.Combine(filePath, $"{fileFirstName}{typeName}{fileType}");
+        string fullFilePath = $"{filePath}{fileFirstName}{typeName}{fileType}";
         //string fullFilePath = $"{filePath}{fileFirstName}{typeName}{fileType}";
+        Debug.Log(fullFilePath);
         try
         {
             if (!Directory.Exists(filePath))
