@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:SpaceSurvival/Assets/_Cho_Seung_Geun.meta
 guid: 9ca6bbc7bda3fa34fa71150d6d22a15f
+========
+guid: 9810858c8f546ba4cafdd196c8264e5a
+>>>>>>>> main:SpaceSurvival/Assets/_Noh_Hyun_Oh.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
