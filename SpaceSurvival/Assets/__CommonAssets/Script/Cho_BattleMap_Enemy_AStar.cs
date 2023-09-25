@@ -10,7 +10,7 @@ using UnityEngine;
 public static class Cho_BattleMap_Enemy_AStar
 {
 
-    public static List<Tile> PathFind(Tile[] map, int sizeX, int sizeY, Tile start, Tile end)
+    public static List<Tile> PathFind(Tile[] map, int sizeX, int sizeY, Tile start, Tile end)//¸Ê,Å©±â, Å©±â, ½ÃÀÛ, µµÂø
     {
         int tileLength = sizeX * sizeY;
         const float sideDistance = 1.0f;

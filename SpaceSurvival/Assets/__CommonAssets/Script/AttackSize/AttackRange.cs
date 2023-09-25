@@ -89,7 +89,7 @@ public class AttackRange : MonoBehaviour
     /// <summary>
     /// 공격이나 스킬이 표시될 타일리스트
     /// </summary>
-    List<Tile> activeAttackTiles;
+    public List<Tile> activeAttackTiles;
 
     /// <summary>
     /// 공격타입에따른 복원시킬 이전타일속성  

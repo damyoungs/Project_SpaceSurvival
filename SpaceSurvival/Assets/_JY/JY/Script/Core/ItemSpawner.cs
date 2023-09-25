@@ -71,7 +71,7 @@ public class ItemSpawner : TestBase
         }
 
         // Initialize the enemy drop table
-        enemyDropTable.Add(typeof(Enemy1), new List<(ItemCode, float)>
+        enemyDropTable.Add(typeof(Enemy_Psionic.Monster_Type), new List<(ItemCode, float)>
             {
                 (ItemCode.Enhancable_shotGun, 0.9f),
                 (ItemCode.Enhancable_Rifle, 0.99f),

@@ -3,13 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Enemy_ : MonoBehaviour, IBattle
 {
+    public enum Monster_Type
+    {
+        Base = 0,
+        Size_S,
+        Size_M,
+        Size_L,
+        Boss,
+    }
+
     public Action AC_Attack;
     public Action<float> on_Enemy_Stamina_Change;
     public Action<float> on_Enemy_HP_Change;
     public Action onDie { get; set; }
 
+    
     float hp = 200;
     float maxHP = 200;
     public float MaxHp => maxHP;

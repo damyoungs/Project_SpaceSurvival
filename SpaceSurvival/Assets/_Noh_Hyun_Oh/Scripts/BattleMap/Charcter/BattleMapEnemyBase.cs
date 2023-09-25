@@ -65,11 +65,12 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
         psionicData.on_Enemy_Stamina_Change += (stmValue) =>
         {
             float currentMoveSize = stmValue > moveSize? moveSize : stmValue;
-            TurnManager.Instance.CurrentTurn.TurnActionValue = stmValue;
-            if(stmValue < 1.0f)
-            {
-                TurnManager.Instance.CurrentTurn.TurnEndAction();
-            }
+            //TurnManager.Instance.CurrentTurn.TurnActionValue = stmValue;
+            TurnManager.Instance.CurrentTurn.TurnActionValue = 20;
+            //if(stmValue < 1.0f)
+            //{
+            //    TurnManager.Instance.CurrentTurn.TurnEndAction();
+            //}
         };
     }
 
@@ -126,11 +127,14 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
         gameObject.SetActive(false); // 큐를 돌린다.
     }
 
-    public void EnemyAi()
+    public void EnemyAi(Tile PlayerTile)
     {
-        Debug.Log($"{transform.name}턴 시작 행동력 : {psionicData.Stamina}");
-        psionicData.Stamina -= 10;
+        Debug.Log($"{transform.name}턴 시작 행동력 : {psionicData.Stamina}\n좌표{CurrentTile.transform.position}, {currentTile.name}");
+
+        
+        
     }
+
 
 
     public void CharcterMove(Tile selectedTile)

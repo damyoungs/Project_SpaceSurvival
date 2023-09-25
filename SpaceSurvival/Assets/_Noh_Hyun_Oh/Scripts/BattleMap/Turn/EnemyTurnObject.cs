@@ -52,22 +52,26 @@ public class EnemyTurnObject : TurnBaseObject
 
         SpaceSurvival_GameManager.Instance.GetEnemeyTeam = () => charcterList.OfType<BattleMapEnemyBase>().ToArray();
     }
-    public Tile Des;
     float AttackRange;
-    //public BattleMapEnemyBase Ene;
+
+    Tile PlayerTileIndex;
     
     public override void TurnStartAction()
     {
         turnStart?.Invoke();
-        Des = SpaceSurvival_GameManager.Instance.PlayerTeam[0].currentTile;
-        //for (int i = 0; i < testPlayerLength; i++)
-        //{
-        //    Debug.Log("123");
-        //}
-            BattleMapEnemyBase Ene = (BattleMapEnemyBase)charcterList[0];
-            Ene.EnemyAi();
-        TurnActionValue -= UnityEngine.Random.Range(2.0f, 3.0f);
+        TurnManager.Instance.CurrentTurn.TurnActionValue = 20.0f;
+
+        PlayerTileIndex = SpaceSurvival_GameManager.Instance.PlayerTeam[0].currentTile;
+        BattleMapEnemyBase Ene;
+        
+        for (int i = 0; i < testPlayerLength; i++)
+        {
+            Ene = (BattleMapEnemyBase)charcterList[i];
+            Ene.EnemyAi(PlayerTileIndex);
+        }
+        //TurnActionValue -= UnityEngine.Random.Range(5.0f, 10.0f);
 
         Debug.Log($"적군턴끝 행동력 :{TurnActionValue}");
+        //TurnEndAction();
     }
 }
