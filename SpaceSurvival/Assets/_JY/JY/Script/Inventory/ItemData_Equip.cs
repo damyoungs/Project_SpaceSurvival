@@ -8,7 +8,18 @@ public class ItemData_Equip : ItemData, IEquippable
     [Header("장비아이템 데이터")]
     public uint attackPoint;
     public uint defencePoint;
+    public uint STR;
+    public uint INT;
+    public uint LUK;
+    public uint DEX;
 
+
+
+
+    uint IEquippable.STR => STR;
+    uint IEquippable.INT => INT;
+    uint IEquippable.LUK => LUK;
+    uint IEquippable.DEX => DEX;
     uint IEquippable.ATT => attackPoint;
     uint IEquippable.DP => defencePoint;
 }

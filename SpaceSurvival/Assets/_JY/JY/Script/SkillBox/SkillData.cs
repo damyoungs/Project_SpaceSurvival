@@ -52,7 +52,7 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
         }
     }
 
-    Player_ player;
+    Player_Status player;
     SkillBox_Description skillBox_Description;
     Skill_TempSlot tempSlot;
     SkillType skillType; public SkillType SkillType { get => skillType; protected set { skillType = value; } }
@@ -84,14 +84,14 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
     }
     protected virtual void Init()
     {
-        player = GameManager.Player_;
+        player = GameManager.PlayerStatus;
         skillBox_Description = transform.parent.GetChild(12).GetComponent<SkillBox_Description>();
         skill_Icon = transform.GetChild(1).GetChild(0).GetComponent<Image>();
         skillLevel_Text = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
         require_Force_Text = transform.GetChild(4).GetComponent<TextMeshProUGUI>();
 
-        player.on_DarkForce_Change -= () => button.interactable = Require_Force_For_skillLevelUp < player.DarkForce;
-        player.on_DarkForce_Change += () => button.interactable = Require_Force_For_skillLevelUp < player.DarkForce;
+        player.Base_Status.on_DarkForceChange -= (darkForce) => button.interactable = Require_Force_For_skillLevelUp < darkForce;
+        player.Base_Status.on_DarkForceChange += (darkForce) => button.interactable = Require_Force_For_skillLevelUp < darkForce;
         on_PointerEnter = skillBox_Description.Open;
         on_PointerExit = skillBox_Description.Close;
         on_PointerMove = skillBox_Description.MovePosition;
@@ -108,7 +108,7 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
     {
         if (Require_Force_For_skillLevelUp < player.DarkForce)
         {
-            player.DarkForce -= Require_Force_For_skillLevelUp;
+            player.Base_Status.Base_DarkForce -= Require_Force_For_skillLevelUp;
             SkillLevel++;
         }
     }

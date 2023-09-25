@@ -14,6 +14,10 @@ public class Equipments_Data_Server//플레이어가 원하는 타이밍에 언제든 현재 장비
     public uint Total_ATT => total_ATT;
     uint total_DP;
     public uint Total_DP => total_DP;
+    public uint Total_STR;
+    public uint Total_INT;
+    public uint Total_LUK;
+    public uint Total_DEX;
     public Equipments_Data_Server(EquipBox equipBox)
     {
         equipBox_ = equipBox;
@@ -24,7 +28,10 @@ public class Equipments_Data_Server//플레이어가 원하는 타이밍에 언제든 현재 장비
         IEquippable itemData;
         this.total_ATT = 0;
         this.total_DP = 0;
-
+        Total_STR = 0;
+        Total_INT = 0;
+        Total_LUK = 0;
+        Total_DEX = 0;
         foreach (var equipSlot in equipBox_.EquipBox_Slots)
         {
             itemData = equipSlot.ItemData as IEquippable;
@@ -32,6 +39,10 @@ public class Equipments_Data_Server//플레이어가 원하는 타이밍에 언제든 현재 장비
             {
                 total_ATT += itemData.ATT;
                 total_DP += itemData.DP;
+                Total_STR += itemData.STR;
+                Total_INT += itemData.INT;
+                Total_DEX += itemData.DEX;
+                Total_LUK += itemData.LUK;
             }
         }
 

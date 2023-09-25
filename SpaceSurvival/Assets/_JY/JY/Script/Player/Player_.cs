@@ -313,7 +313,6 @@ public class Player_ : MonoBehaviour, IBattle
 
             Debug.Log($"스킬이름 : {skillData.SkillName}\n 데미지 : {skillData.FinalDamage}");
             on_CursorChange?.Invoke(true);
-            //StartCoroutine(RotateCoroutine);
         }
         else if (skill_Blessing != null)//만약 사용한 스킬이 버프스킬이면@@@// PlayerStatus에 신호보내 적용하기
         {
@@ -346,12 +345,7 @@ public class Player_ : MonoBehaviour, IBattle
     {
         player_Status.Reset_Status();
     }
-    void Reset_Status()
-    {
-       // equipments_Total_ATT_DP = equipments_Total_ATT_DP.GetEquipments_Total_ATT_DP();// totalATT, TotalDP 값을 업데이트하는 함수 실행
-      //@@작업할 것 this.ATT = base_Status.base_ATT + equipments_Total_ATT_DP.Total_ATT;//플레이어의 공격력 = 기본공격력 + 장비아이템들의 공격력 총 합
-      // this.DP = base_Status.base_DP + equipments_Total_ATT_DP.Total_DP;
-    }
+
   
     private void On_MouseClickRight()
     {

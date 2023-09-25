@@ -4,38 +4,204 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static Player_;
 
 public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 방어력을 저장. 버프사용, 사용중 장비, 해제 시 다시 설정할 때와 데이터를 Save, Load 할 때 사용
 {
-    public uint AbilityPoint { get; set; }
+    //프로퍼티의 setter가 private이면 기준이 될 데이터 이기 때문에 실시간으로 변경해서는 안되는 데이터이다.
+    //프로퍼티의 setter가 private이 아니면 버프스킬, 장비착용 등에 영향을 받지 않는 데이터이므로 실시간으로 변경이 가능하다.
+
+    Player_Status playerStatus;
+    uint abilityPoint;
+    public uint AbilityPoint
+    {
+        get => abilityPoint;
+        set
+        {
+            abilityPoint = value;
+            playerStatus.AbilityPoint = abilityPoint;
+        }
+    }
+
+    string playerName;
+    public string Name 
+    {
+        get => playerName;
+        set
+        {
+            playerName = value;
+            playerStatus.Name = playerName;
+        }
+    }
+
+    uint level;
+    public uint Level 
+    {
+        get => level;
+        set
+        {
+            level = value;
+            playerStatus.Level = level;
+        }
+    }
     uint exp;
+    public uint Exp
+    {
+        get => exp;
+        set
+        {
+            uint expOver = 0;
+            if (value > ExpMax)
+            {
+                expOver = value - ExpMax;
+                playerStatus.LevelUp();
+                Exp += expOver;
+            }
+            else
+            {
+                exp = (uint)Mathf.Clamp(value, 0, ExpMax);
+            }
+            playerStatus.Exp = exp;
+            on_ExpChange?.Invoke(exp);//UI 에서 받을 신호 
+        }
+    }
+    public Action<uint> on_ExpChange;
 
-    public string Name { get; set; }
+    uint expMax;
+    public uint ExpMax 
+    {
+        get => expMax;
+        private set
+        {
+            expMax = value;
+            playerStatus.ExpMax = expMax;
+            on_MaxExp_Change?.Invoke();
+        }
+    }
+    float base_MaxHP;
+    public float Base_MaxHP
+    { 
+        get => base_MaxHP;
+        private set
+        {
+            base_MaxHP = value;
+            on_MaxHP_Change?.Invoke();
+        }
+    }
+    float currentHP;
+    public float CurrentHP 
+    {
+        get => currentHP;
+        set
+        {
+            currentHP = value;
+            playerStatus.HP = currentHP;
+            on_CurrentHP_Change?.Invoke(currentHP);//UI
+        }
+    }
+    public Action<float> on_CurrentHP_Change;
 
-    public uint Level { get; set; }
-    public uint Exp { get; set; }
-    public uint ExpMax { get; set; }
-    public uint Base_MaxHP { get; set; }
-    public uint Base_HP { get; set; }
-    public uint Base_Stamina { get; set; }
-    public uint Base_MaxStamina { get; set; }
-    public uint Base_DarkForce { get; set; }
+    float current_Stamina;
+    public float Current_Stamina 
+    {
+        get => current_Stamina;
+        set
+        {
+            current_Stamina = value;
+            playerStatus.Stamina = current_Stamina;
+            on_CurrentStamina_Change?.Invoke(current_Stamina);//UI
+        }
+    }
+    public Action<float> on_CurrentStamina_Change;
+
+    float base_MaxStamina;
+    public float Base_MaxStamina 
+    {
+        get => base_MaxStamina;
+        private set
+        {
+            base_MaxStamina = value;
+            on_MaxStamina_Change?.Invoke();//UI
+        }
+    }
+    uint BaseDarkForce;
+    public uint Base_DarkForce
+    {
+        get => BaseDarkForce;
+        set
+        {
+            BaseDarkForce = value;
+            playerStatus.DarkForce = BaseDarkForce;
+            on_DarkForceChange?.Invoke(BaseDarkForce);//UI
+        }
+    }
+    public Action<uint> on_DarkForceChange;
+
     public uint Base_ATT { get; set; }
     public uint Base_DP { get; set; }
-    public uint Base_STR { get; set; }
-
-    public uint Base_INT { get; set; }
-    public uint Base_LUK { get; set; }
-    public uint Base_DEX { get; set; }
+    uint base_STR;
+    public uint Base_STR 
+    {
+        get => base_STR;
+        private set
+        {
+            base_STR = value;
+            on_ResetStatus?.Invoke();
+        }
+    }
+    uint base_INT;
+    public uint Base_INT 
+    {
+        get => base_INT;
+        private set
+        {
+            base_INT = value;
+            on_ResetStatus?.Invoke();
+        }
+    }
+    uint base_LUK;
+    public uint Base_LUK 
+    {
+        get => base_LUK;
+        private set
+        {
+            base_LUK = value;
+            on_ResetStatus?.Invoke();
+        }
+    }
+    uint base_DEX;
+    public uint Base_DEX 
+    {
+        get => base_DEX;
+        private set
+        {
+            base_DEX = value;
+            on_ResetStatus?.Invoke();
+        }
+    }
     public uint Base_CriticalDamage { get; set; }
 
     public float Base_CriticalRate { get; set; }
     public float Base_DodgeRate { get; set; }
 
-    public Action OnLevelUp;
-    public Action<uint> OnExpChange;
-   
+    public Action on_ResetStatus;
+    public Action on_MaxHP_Change;
+    public Action on_MaxStamina_Change;
+    public Action on_MaxExp_Change;
+    public Action on_LevelChange;
+    public Action on_AbilityPointChange;
+    public Base_Status(Player_Status player_Status)
+    {
+        this.playerStatus = player_Status;
+        playerStatus.on_increase_ExpMax += (result) => ExpMax = result;
+        playerStatus.on_increase_MaxHP += (increase) => Base_MaxHP += increase;
+        playerStatus.on_increase_MaxStamina += (increase) => Base_MaxStamina += increase;
+        playerStatus.on_Rise_STR += () => Base_STR++;
+        playerStatus.on_Rise_INT += () => Base_INT++;
+        playerStatus.on_Rise_LUK += () => Base_LUK++;
+        playerStatus.on_Rise_DEX += () => Base_DEX++;
+
+
+    }
 
     public void Init()
     {
@@ -43,7 +209,6 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
         Base_MaxHP = 100;
         Base_MaxStamina = 100;
         ExpMax = 50;
-        Exp = 0;
         Base_ATT = 10;
         Base_DP = 10;
         Base_STR = 5;
@@ -51,6 +216,7 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
         Base_LUK = 5;
         Base_DEX = 5;
         AbilityPoint = 50;
+        Base_DarkForce = 500;
     }
 }
 public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서 신호받아서 Base_Status의 내용 업데이트
@@ -88,10 +254,11 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
     Equipments_Data_Server equipments_DataServer;
     EquipBox equipBox;
 
+    public Base_Status Base_Status => base_Status;
     string playerName;
-    uint hp;
+    float hp;
     uint exp;
-    uint stamina;
+    float stamina;
     uint str;
     uint intelligence;
     uint luk;
@@ -103,18 +270,25 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
     uint abilityPoint;
     uint expMax;
     uint level;
-    uint maxHP;
-    uint maxStamina;
+    float maxHP;
+    float maxStamina;
     float dodgeRate;
+    uint darkForce;
 
-    public Action<uint> on_ExpChange;
+    public uint DarkForce
+    {
+        get => darkForce;
+        set
+        {
+            darkForce = value;
+        }
+    }
     public uint AbilityPoint//프로퍼티 바뀔 때 UI 업데이트 및 Base_Status에 저장
     {
         get => abilityPoint;
         set
         {
             abilityPoint = value;
-            base_Status.AbilityPoint = value;
             abilityPoint_Text.text = $"{abilityPoint}";
         }
     }
@@ -123,13 +297,8 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         get => exp;
         set
         {
-            uint expOver = 0; ;
-            if (value > ExpMax)
-            {
-                expOver = value - ExpMax;
-                LevelUp();
-                exp = ((uint)Mathf.Clamp(value, 0, ExpMax)) + expOver;
-            }
+            exp = value;
+            expText.text = $"{exp}";
         }
     }
     public uint ExpMax
@@ -138,7 +307,7 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         set
         {
             expMax = value;
-            // 추가 로직
+            expMax_Text.text = $"/ {expMax}";
         }
     }
     public string Name
@@ -156,36 +325,46 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         set
         {
             level = value;
+            levelText.text = $"{level}";
         }
     }
 
 
-
-    public uint MaxHP
+    public float HP
+    {
+        get => hp;
+        set
+        {
+            hp = value;
+            hpText.text = $"{hp}";
+        }
+    }
+    public float MaxHP
     {
         get => maxHP;
         set
         {
             maxHP = value;
-            // 추가 로직
+            maxHP_Text.text = $"/ {maxHP}";
         }
     }
 
-    public uint MaxStamina
+    public float MaxStamina
     {
         get => maxStamina;
         set
         {
             maxStamina = value;
-            // 추가 로직
+            maxStamina_Text.text = $"/ {maxStamina}";
         }
     }
-    public uint Stamina
+    public float Stamina
     {
         get => stamina;
         set
         {
             stamina = value;
+            staminaText.text = $"{stamina}";
         }
     }
     public uint ATT
@@ -194,7 +373,7 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         set
         {
             att = value;
-            // 추가 로직
+            attText.text = $"{att}";
         }
     }
 
@@ -204,7 +383,7 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         set
         {
             dp = value;
-            // 추가 로직
+            dpText.text = $"{dp}";
         }
     }
 
@@ -214,7 +393,7 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         set
         {
             str = value;
-            // 추가 로직
+            strText.text = $"{str}";
         }
     }
 
@@ -224,7 +403,7 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         set
         {
             intelligence = value;
-            // 추가 로직
+            intText.text = $"{intelligence}";
         }
     }
 
@@ -234,7 +413,7 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         set
         {
             luk = value;
-            // 추가 로직
+            lukText.text = $"{luk}";
         }
     }
 
@@ -244,19 +423,11 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         set
         {
             dex = value;
-            // 추가 로직
+            dexText.text = $"{dex}";
         }
     }
 
-    public uint HP
-    {
-        get => hp;
-        set
-        {
-            hp = value;
-            // 추가 로직
-        }
-    }
+
 
     public uint CriticalDamage
     {
@@ -264,7 +435,7 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         set
         {
             criticalDamage = value;
-            // 추가 로직
+            criticalDamageText.text = $"{criticalDamage * 0.7f:f0} / {criticalDamage}";
         }
     }
 
@@ -274,7 +445,7 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         set
         {
             criticalRate = value;
-            // 추가 로직
+            criticalRateText.text = $"{criticalRate:f1} %";
         }
     }
 
@@ -284,7 +455,7 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         set
         {
             dodgeRate = value;
-            // 추가 로직
+            dodgeRateText.text = $"{dodgeRate:f1} %";
         }
     }
  
@@ -316,26 +487,25 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         player = GameManager.Player_;
         equipBox = GameManager.EquipBox;
         equipments_DataServer = new(equipBox);
-        base_Status = new();
-        base_Status.OnLevelUp += LevelUp;
+        base_Status = new(this);
 
         base_Status.Init();
-   
-        Name = "Player";
-        MaxHP = 100;
-        MaxStamina = 100;
-        ExpMax = 50;
-        Exp = 0;
-        ATT = 10;
-        DP = 10;
-        STR = 5;
-        INT = 5;
-        LUK = 5;
-        DEX = 5;
-        AbilityPoint = 50;
-        
-    }
 
+        base_Status.on_ResetStatus = Reset_Status;
+        base_Status.on_MaxHP_Change += Update_MaxHP;
+        base_Status.on_MaxStamina_Change += Update_MaxStamina;
+        base_Status.on_AbilityPointChange += () => AbilityPoint = base_Status.AbilityPoint;
+
+        Reset_Status();
+    }
+    void Update_MaxHP()
+    {
+        this.MaxHP = base_Status.Base_MaxHP;
+    }
+    void Update_MaxStamina()
+    {
+        this.MaxStamina = base_Status.Base_MaxStamina;
+    }
     void GetComponents()
     {
         canvasGroup = GetComponent<CanvasGroup>();
@@ -414,26 +584,42 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         }
     }
 
-    void LevelUp()
+    public void LevelUp()
     {
-        Level++;
-        AbilityPoint += 5;
-        MaxHP += increaseMaxHP();
+        base_Status.Level++;
+        base_Status.AbilityPoint += 5;
+        on_increase_MaxHP?.Invoke(increaseMaxHP()); 
         HP = MaxHP;
-        MaxStamina += increaseMaxStamina();
+        on_increase_MaxStamina?.Invoke(increaseMaxStamina());
         Stamina = MaxStamina;
-        Exp = 0;
-        ExpMax = (uint)(ExpMax * 1.2f);
+        base_Status.Exp = 0;
+        on_increase_ExpMax?.Invoke((uint)(ExpMax * 1.2f));
     }
-
+    public Action<uint> on_increase_MaxHP;
+    public Action<uint> on_increase_MaxStamina;
+    public Action<uint> on_increase_ExpMax;
+    public Action on_Rise_STR;
+    public Action on_Rise_INT;
+    public Action on_Rise_LUK;
+    public Action on_Rise_DEX;
     // totalATT, TotalDP 값을 업데이트하는 함수 실행
     //@@작업할 것 this.ATT = base_Status.base_ATT + equipments_Total_ATT_DP.Total_ATT;//플레이어의 공격력 = 기본공격력 + 장비아이템들의 공격력 총 합
     // this.DP = base_Status.base_DP + equipments_Total_ATT_DP.Total_DP;
     public void Reset_Status()
     {
+        //실제 적용될 스테이터스는 BaseStatus + 장비의 합을 항상 적용받고있어야 한다.
         equipments_DataServer = equipments_DataServer.GetEquipments_Total_ATT_DP();
-        this.ATT = equipments_DataServer.Total_ATT + base_Status.Base_ATT;
-        this.DP = equipments_DataServer.Total_DP + base_Status.Base_DP;
+
+        //방어력, 크리티컬확률, 회피율 등 다른 스텟의 영향을 받는 스텟을 업데이트 하기 전 STR, INT, LUK, DEX 기본스텟을 먼저 Base + 장비스텟 적용 후 나머지 능력치를 이에 맞춰 셋팅한다.
+        //this.STR,INT,DEX,LUK = base + Equip
+        this.STR = equipments_DataServer.Total_STR + base_Status.Base_STR;
+        this.INT = equipments_DataServer.Total_INT + base_Status.Base_INT;
+        this.LUK = equipments_DataServer.Total_LUK + base_Status.Base_LUK;
+        this.DEX = equipments_DataServer.Total_DEX + base_Status.Base_DEX;
+        this.ATT = (uint)(DEX * 0.5f) + base_Status.Base_ATT + equipments_DataServer.Total_ATT + base_Status.Base_ATT;
+        this.DP = base_Status.Base_DP + equipments_DataServer.Total_DP + (uint)(STR * 0.5f);
+        this.CriticalRate = LUK * 0.3f;
+        this.DodgeRate = DEX * 0.3f;
     }
 
     uint increaseMaxHP()
@@ -453,7 +639,7 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         if (base_Status.AbilityPoint > 0)
         {
             base_Status.AbilityPoint--;
-            base_Status.Base_DEX++;
+            on_Rise_DEX?.Invoke();
         }
     }
     void RiseStrength()
@@ -461,7 +647,7 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         if (base_Status.AbilityPoint > 0)
         {
             base_Status.AbilityPoint--;
-            base_Status.Base_STR++;
+            on_Rise_STR?.Invoke();
         }
     }
     void RiseIntelligence()
@@ -469,7 +655,7 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         if (base_Status.AbilityPoint > 0)
         {
             base_Status.AbilityPoint--;
-            base_Status.Base_INT++;
+            on_Rise_INT?.Invoke();
         }
     }
     void RiseLuck()
@@ -477,7 +663,7 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         if (base_Status.AbilityPoint > 0)
         {
             base_Status.AbilityPoint--;
-            base_Status.Base_LUK++;
+            on_Rise_LUK?.Invoke();
         }
     }
     public void GetExp(uint exp)
