@@ -23,10 +23,10 @@ public enum QuestType
 /// </summary>
 public enum TalkType
 {
-    KillCount = 0,              //  토벌퀘스트
-    Gathering,              //  수집퀘스트
-    Comunication,           //  일반대화
-    Story,                   //  시나리오 퀘스트
+    Comunication = 0,           //  일반대화
+    Story,                      //  시나리오 퀘스트
+    KillCount,                  //  토벌퀘스트
+    Gathering,                  //  수집퀘스트
 }
 
 /// <summary>
@@ -78,6 +78,7 @@ public class Gyu_QuestManager : MonoBehaviour
             {
                 selectQuest = value;
                 onChangeQuest?.Invoke(selectQuest);
+
             }
         }
     }

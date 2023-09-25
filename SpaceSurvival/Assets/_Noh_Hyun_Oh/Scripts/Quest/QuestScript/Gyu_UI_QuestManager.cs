@@ -264,7 +264,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
         talkEndButton.onClick.AddListener(initialize);
 
         nextButton = talkBoxPanel.GetChild(5).GetComponent<Button>();
-        nextButton.onClick.AddListener(() => Talk(currentTalkIndex + 1));
+        nextButton.onClick.AddListener(() => QuestTalk(currentTalkIndex + 1));
 
         logButton = talkBoxPanel.GetChild(6).GetComponent<Button>();
         logButton.onClick.AddListener(LogBoxSetting);
@@ -275,7 +275,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
 
 
         npcTalkButton = transform.GetChild(3).GetComponent<Button>();
-        npcTalkButton.onClick.AddListener(()=>Talk(0));
+        npcTalkButton.onClick.AddListener(()=>QuestTalk(0));
 
         questListPanel = transform.GetChild(4);
         questList_CurrentViewBtn = questListPanel.GetChild(2).GetComponent<Button>();
@@ -338,7 +338,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
     /// <summary>
     /// Npc 대사를 출력
     /// </summary>
-    public void Talk(int talkIndex)
+    public void QuestTalk(int talkIndex)
     {
         if (!isTalking)
         {
@@ -352,6 +352,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
                 string[] talkString = getTalkDataArray?.Invoke(talkIndex);
                 if (talkString != null &&  talkString.Length > 0) 
                 {
+                  
                     StartCoroutine(Typing(talkString,talkIndex));
                 }
             }
@@ -360,7 +361,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
         }
     }
 
-    /// <summary>
+   /// <summary>
     /// 퀘스트 리스트 닫기 함수
     /// </summary>
     private void QuestListPanelClose() 
@@ -420,6 +421,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
         MyQuestButton(questData);
 
         SelectedColum = selectColum;
+ 
     }
 
     /// <summary>
@@ -476,6 +478,11 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
         NpcQuest(questData);
         onSelectedQuest?.Invoke(questData);
         SelectedColum = selectColum;
+
+        isTalking = false;
+        currentTalkIndex = 0;
+        StopAllCoroutines();
+        QuestTalk(currentTalkIndex);
     }
 
 
@@ -608,6 +615,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
     /// </summary>
     public void initialize()
     {
+        onSelectedQuest?.Invoke(null);
         titleBox.text = "";
         descriptionBox.text = "";
         clearBox.text = "";
