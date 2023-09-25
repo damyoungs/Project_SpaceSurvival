@@ -48,13 +48,13 @@ public class SaveDataParsing : MonoBehaviour
     /// <param name="data"></param>
     public void LoadParsing(JsonGameData data)
     {
+        ResetData();
         LoadInvenDataParsing(data);
-        LoadDataParsing(data.QuestList);
+        LoadQuestDataParsing(data.QuestList);
         playerSkill.LoadSkillData_In_QuickSlot(data.SkillDatas);    
         RefreshData();
     }
 
-  
 
     /// <summary>
     /// 게임저장시 인벤토리내용 접근해서 데이터로 만드는 작업 
@@ -160,7 +160,7 @@ public class SaveDataParsing : MonoBehaviour
     /// <param name="data">저장파일에서 가져온데이터 </param>
     private void LoadInvenDataParsing(JsonGameData data) 
     {
-        slotManager.SaveFileLoadedResetSlots(); //기존데이터 싹다날리고 초기값으로 셋팅
+      
         Slot temp = null; //슬롯내용물셋팅할 임시변수
         ItemData_Enhancable tempEnchan; //인첸장비인지 체크할 임시변수
 
@@ -277,11 +277,8 @@ public class SaveDataParsing : MonoBehaviour
     /// <summary>
     /// 로드시 퀘스트 데이터 파싱관련 함수
     /// </summary>
-    private void LoadDataParsing(CharcterQuest[] quests)
+    private void LoadQuestDataParsing(CharcterQuest[] quests)
     {
-        //기존데이터 날리고 
-        playerQuest.CurrentQuests.Clear();
-        playerQuest.ClearQuestList.Clear();
         //저장한데이터 셋팅하기
         int loadDataQuestSize = quests.Length;
         for (int i = 0; i < loadDataQuestSize; i++) //저장된 데이터만큼 돌리고 
@@ -334,7 +331,15 @@ public class SaveDataParsing : MonoBehaviour
 
 
 
-
+    /// <summary>
+    /// 게임 로드시 데이터를 초기화 시키는 함수 
+    /// 초기화된 데이터에다가 로드한 데이터를 입력해야한다.
+    /// </summary>
+    private void ResetData()
+    {
+        slotManager.SaveFileLoadedResetSlots(); //기존데이터 싹다날리고 초기값으로 셋팅
+        playerQuest.ResetData();                //퀘스트 데이터 날리기
+    }
     /// <summary>
     /// 데이터가 갱신은 됬으나 UI 에 연결안되는것들을 한번에 처리하는 함수 
     /// 데이터 처리 끝난뒤에 진행 

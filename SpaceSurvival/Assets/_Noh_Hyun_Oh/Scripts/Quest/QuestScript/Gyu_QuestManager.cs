@@ -23,10 +23,10 @@ public enum QuestType
 /// </summary>
 public enum TalkType
 {
-    KillCount = 0,              //  토벌퀘스트
-    Gathering,              //  수집퀘스트
-    Comunication,           //  일반대화
-    Story,                   //  시나리오 퀘스트
+    Comunication = 0,           //  일반대화
+    Story,                      //  시나리오 퀘스트
+    KillCount,                  //  토벌퀘스트
+    Gathering,                  //  수집퀘스트
 }
 
 /// <summary>
@@ -78,6 +78,7 @@ public class Gyu_QuestManager : MonoBehaviour
             {
                 selectQuest = value;
                 onChangeQuest?.Invoke(selectQuest);
+
             }
         }
     }
@@ -102,21 +103,28 @@ public class Gyu_QuestManager : MonoBehaviour
     /// </summary>
     QuestScriptableGenerate questScriptableGenerate;
 
+    /// <summary>
+    /// 로그 관리할 컴포넌트
+    /// </summary>
+    LogManager logManager;
+
     private void Awake()
     {
         player = FindObjectOfType<PlayerQuest_Gyu>();
 
         talkData = FindAnyObjectByType<TalkData_Gyu>();
 
+        logManager = FindObjectOfType<LogManager>(true);
+
         questUIManager = GetComponent<Gyu_UI_QuestManager>();   //기능분리를 위해 스크립트를 따로뺏다.
 
-        questUIManager.onSelectedQuest = (quest) => 
+        questUIManager.onSelectedQuest = (quest) =>
         {
             //퀘스트 선택
             SelectQuest = quest;
         };
 
-        questUIManager.onAcceptQuest = () => 
+        questUIManager.onAcceptQuest = () =>
         {
             //퀘스트 추가
             player.AppendQuest(selectQuest);
@@ -127,25 +135,25 @@ public class Gyu_QuestManager : MonoBehaviour
             //퀘스트 완료 
             player.ClearQuest(selectQuest);
         };
-        questUIManager.onCancelQuest = () => 
+        questUIManager.onCancelQuest = () =>
         {
             //퀘스트 취소 
             player.CancelQuest(selectQuest);
         };
-        
+
         questUIManager.onTalkClick = () => array_NPC[currentNpcIndex];
 
-        questUIManager.getTalkDataArray = (talkIndex) => 
+        questUIManager.getTalkDataArray = (talkIndex) =>
         {
-            return talkData.GetTalk(array_NPC[currentNpcIndex].TalkType, talkIndex);  
+            return talkData.GetTalk(array_NPC[currentNpcIndex].TalkType, talkIndex);
         };
-        questUIManager.getLogTalkDataArray = (talkIndex) => {
+        logManager.getLogTalkDataArray = (talkIndex) => {
             return talkData.GetLog(array_NPC[currentNpcIndex].TalkType, talkIndex);
         };
-
     }
     private void Start()
     {
+      
         questScriptableGenerate = DataFactory.Instance.QuestScriptableGenerate;
         InitDataSetting();
     }

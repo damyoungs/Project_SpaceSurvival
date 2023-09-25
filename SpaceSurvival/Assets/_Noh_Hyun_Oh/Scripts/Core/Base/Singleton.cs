@@ -74,6 +74,7 @@ public class Singleton<T> : MonoBehaviour where T : Component
         if (instance == null)
         { //씬에 배치되어있는 첫번째 싱글톤  게임오브젝트
             instance = this as T;
+    
             DontDestroyOnLoad(instance.gameObject); //씬이 사라질때 게임오브젝트가 삭제되지 안하게하는 함수
         }
         else

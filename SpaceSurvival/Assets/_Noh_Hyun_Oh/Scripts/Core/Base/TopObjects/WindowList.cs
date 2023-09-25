@@ -91,6 +91,7 @@ public class WindowList : Singleton<WindowList> {
     /// </summary>
     Gyu_QuestManager gyu_QuestManager;
     public Gyu_QuestManager Gyu_QuestManager => gyu_QuestManager;
+
     /// <summary>
     /// 윈도우리스트는 항상가지고다니는것이기때문에 여기에서 이벤트처리를 진행.
     /// </summary>
@@ -98,7 +99,7 @@ public class WindowList : Singleton<WindowList> {
     {
         base.Awake();
         //오브젝트 순서 계속바껴서 걍무겁더라도 GetComponentInChildren<Type>(true) 으로 찾아둘란다.. 매번 이거때매 고치기귀찮.
-        defencePanel = transform.GetComponentInChildren<DefenceEvent>(true); 
+        defencePanel = transform.GetComponentInChildren<DefenceEvent>(true);
         invenWindow = transform.GetComponentInChildren<Inventory>(true);
         saveLoadPopupWindow = transform.GetComponentInChildren<SaveLoadPopupWindow>(true);
         mainWindow = transform.GetComponentInChildren<SaveWindowManager>(true);
