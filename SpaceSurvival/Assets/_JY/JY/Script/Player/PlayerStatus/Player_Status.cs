@@ -14,31 +14,13 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
     public string Name { get; set; }
 
     public uint Level { get; set; }
-    public uint Exp
-    {
-        get => exp;
-        set
-        {
-            uint expOver = 0; ;
-            if (value > ExpMax)
-            {
-                expOver = value - ExpMax;
-            }
-            exp = (uint)Mathf.Clamp(value, 0, ExpMax); 
-            if (exp >= ExpMax)
-            {
-                OnLevelUp?.Invoke();
-                Exp += expOver;
-            }
-            OnExpChange?.Invoke(exp);
-        }
-    }
+    public uint Exp { get; set; }
     public uint ExpMax { get; set; }
     public uint Base_MaxHP { get; set; }
     public uint Base_HP { get; set; }
     public uint Base_Stamina { get; set; }
     public uint Base_MaxStamina { get; set; }
-
+    public uint Base_DarkForce { get; set; }
     public uint Base_ATT { get; set; }
     public uint Base_DP { get; set; }
     public uint Base_STR { get; set; }
@@ -108,6 +90,7 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
 
     string playerName;
     uint hp;
+    uint exp;
     uint stamina;
     uint str;
     uint intelligence;
@@ -124,16 +107,40 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
     uint maxStamina;
     float dodgeRate;
 
-
-    public uint AbilityPoint
+    public Action<uint> on_ExpChange;
+    public uint AbilityPoint//프로퍼티 바뀔 때 UI 업데이트 및 Base_Status에 저장
     {
         get => abilityPoint;
         set
         {
             abilityPoint = value;
+            base_Status.AbilityPoint = value;
+            abilityPoint_Text.text = $"{abilityPoint}";
         }
     }
-
+    public uint Exp
+    {
+        get => exp;
+        set
+        {
+            uint expOver = 0; ;
+            if (value > ExpMax)
+            {
+                expOver = value - ExpMax;
+                LevelUp();
+                exp = ((uint)Mathf.Clamp(value, 0, ExpMax)) + expOver;
+            }
+        }
+    }
+    public uint ExpMax
+    {
+        get => expMax;
+        set
+        {
+            expMax = value;
+            // 추가 로직
+        }
+    }
     public string Name
     {
         get => playerName;
@@ -152,15 +159,7 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         }
     }
 
-    public uint ExpMax
-    {
-        get => expMax;
-        set
-        {
-            expMax = value;
-            // 추가 로직
-        }
-    }
+
 
     public uint MaxHP
     {
@@ -321,6 +320,20 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         base_Status.OnLevelUp += LevelUp;
 
         base_Status.Init();
+   
+        Name = "Player";
+        MaxHP = 100;
+        MaxStamina = 100;
+        ExpMax = 50;
+        Exp = 0;
+        ATT = 10;
+        DP = 10;
+        STR = 5;
+        INT = 5;
+        LUK = 5;
+        DEX = 5;
+        AbilityPoint = 50;
+        
     }
 
     void GetComponents()
@@ -403,14 +416,14 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
 
     void LevelUp()
     {
-        base_Status.Level++;
-        base_Status.AbilityPoint += 5;
-        base_Status.Base_MaxHP += increaseMaxHP();
-        base_Status.Base_HP = base_Status.Base_MaxHP;
-        base_Status.Base_MaxStamina += increaseMaxStamina();
-        base_Status.Base_Stamina = base_Status.Base_MaxStamina;
-        base_Status.Exp = 0;
-        base_Status.ExpMax = (uint)(base_Status.ExpMax * 1.2f);
+        Level++;
+        AbilityPoint += 5;
+        MaxHP += increaseMaxHP();
+        HP = MaxHP;
+        MaxStamina += increaseMaxStamina();
+        Stamina = MaxStamina;
+        Exp = 0;
+        ExpMax = (uint)(ExpMax * 1.2f);
     }
 
     // totalATT, TotalDP 값을 업데이트하는 함수 실행
