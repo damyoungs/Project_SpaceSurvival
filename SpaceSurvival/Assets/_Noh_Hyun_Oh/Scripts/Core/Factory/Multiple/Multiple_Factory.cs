@@ -144,6 +144,9 @@ public class Multiple_Factory : ChildComponentSingeton<Multiple_Factory>
             case EnumList.MultipleFactoryObjectList.TILE_POOL:
                 obj = tileMapPool?.GetObject();
                 break;
+            case EnumList.MultipleFactoryObjectList.MERCHANT_iTEM_POLL:
+                obj = merchantItemPool?.GetObject();
+                break;
             default:
 
                 break;

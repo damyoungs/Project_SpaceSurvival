@@ -23,6 +23,7 @@ public class Merchant_Manager : MonoBehaviour
         {
             if (selected != value)
             {
+                selected = value;
                 switch (selected)
                 {
                     case Merchant_Selected.None:
@@ -42,6 +43,35 @@ public class Merchant_Manager : MonoBehaviour
         }
     }
 
+    Current_Inventory_State merchant_State;
+    public Current_Inventory_State Merchant_State 
+    {
+        get => merchant_State;
+        set 
+        {
+            if (merchant_State != value)
+            {
+                merchant_State = value;
+                switch (merchant_State)
+                {
+                    case Current_Inventory_State.None:
+                        break;
+                    case Current_Inventory_State.Equip:
+                        break;
+                    case Current_Inventory_State.Consume:
+                        break;
+                    case Current_Inventory_State.Etc:
+                        break;
+                    case Current_Inventory_State.Craft:
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
+
     /// <summary>
     /// 상인이 판매중인 아이템목록 
     /// </summary>
@@ -53,8 +83,8 @@ public class Merchant_Manager : MonoBehaviour
     /// 판매중인 목록의 아이템 갯수 
     /// merchantItemArray 와 인덱스가 같게 셋팅할예정이다 
     /// </summary>
-    int[] merchantItemCountArray;
-    public int[] MerchantItemCountArray => merchantItemCountArray;
+    uint[] merchantItemCountArray;
+    public uint[] MerchantItemCountArray => merchantItemCountArray;
 
     /// <summary>
     /// 상인이 해당물품을 얼마나 싸게 혹은 비싸게 셋팅할지에대한 최종값을 저장할 배열
@@ -77,6 +107,6 @@ public class Merchant_Manager : MonoBehaviour
     List<int> merchantSellCountArray;
     public List<int> MerchantSellCountArray => merchantSellCountArray;
 
-
+    
 
 }

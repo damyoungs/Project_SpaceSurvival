@@ -86,6 +86,7 @@ namespace EnumList
         CHARCTER_PLAYER_POOL,
         CHARCTER_ENEMY_POOL,
         TILE_POOL,
+        MERCHANT_iTEM_POLL,
     }
 
 
