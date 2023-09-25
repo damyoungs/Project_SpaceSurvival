@@ -91,7 +91,6 @@ public class WindowList : Singleton<WindowList> {
     /// </summary>
     Gyu_QuestManager gyu_QuestManager;
     public Gyu_QuestManager Gyu_QuestManager => gyu_QuestManager;
-
     /// <summary>
     /// 윈도우리스트는 항상가지고다니는것이기때문에 여기에서 이벤트처리를 진행.
     /// </summary>

@@ -85,7 +85,6 @@ public class GameManager : MonoBehaviour
         ChangeCursor(false);
         cursorHotspot = new Vector2(skillCursor.width * 0.5f, skillCursor.height * 0.5f);
     }
-   
     static void Init()
     {
         

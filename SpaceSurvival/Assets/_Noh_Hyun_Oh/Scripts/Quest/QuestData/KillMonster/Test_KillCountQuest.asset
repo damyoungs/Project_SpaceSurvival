@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db4e79a31082550468168bc6955ff779, type: 3}
+  m_Name: Test_KillCountQuest
+  m_EditorClassIdentifier: 
+  type: 0
+  iconImage: {fileID: 1809714329, guid: 7c4692057e49c9b4bb3fe1a0d8736b1d, type: 3}
+  title: "\uD1A0\uBC8C\uD018\uC2A4\uD2B8 \uC81C\uBAA9"
+  description: "\uD1A0\uBC8C\uD018\uC2A4\uD2B8 \uB0B4\uC6A9 \uC3FC\uB77C\uC3FC\uB77C
+    \uC3FC\uB77C\uC3FC\uB77C \uC6B0\uB8E8\uB8E8\uB8F0\uB258\uC544\u315C\uB9AC\uB098\u315C\uB9AC\uB098\uC6B0\uB9AC\u314F\uB219\uB9AC\u314F\u3134\uC704\uB77C\uB204\uC774\u314F\uB8EC\uC774\u314F\uB93C\u314F\u3134\uC6B0\uB9AC\u314F\u3134\uC6B8"
+  clearObjectives: "\uD55C \uB2E4\uC12F\uB9C8\uB9AC\uC7A1\uC544\uBD10"
+  rewardCoin: 15
+  rewardItem: 00000000
+  itemCount: 00000000
+  requestItem: 
+  questMosters: 00000000
+  requiredCount: 00000000

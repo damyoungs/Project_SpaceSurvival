@@ -21,7 +21,7 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
     string skillName;                        public string SkillName { get => skillName; protected set { skillName = value; } }
     AnimationClip animClip;                  public AnimationClip AnimClip { get => animClip; protected set {  animClip = value; } }
     AudioClip audioClip;                     public AudioClip AudioClip { get => audioClip; protected set { audioClip = value; } }
-    int attackRange = 3;                     public int AttackRange { get => attackRange; protected set { attackRange = value; } }
+    int attackRange;                         public int AttackRange { get => attackRange; protected set { attackRange = value; } }
     int require_Stamina_For_UsingSkill;      public int Require_Stamina_For_UsingSkill { get => require_Stamina_For_UsingSkill; protected set { require_Stamina_For_UsingSkill = value; } }
     float finalDamage;                       public float FinalDamage { get => finalDamage; set { finalDamage = value; } }
     float skillPower;                        public float SkillPower { get => skillPower; set { skillPower = value; } }
@@ -76,11 +76,6 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
     }
     void Start()
     {
-        StartCoroutine(RateInit());
-    }
-    IEnumerator RateInit() 
-    {
-        yield return null;
         Init();
     }
     public void TestInit()
