@@ -10,9 +10,6 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
     /// </summary>
     public bool IsControll { get; set; }
 
-    Enemy_Psionic psionicData;
-    public Enemy_Psionic PsionicData => psionicData;
-
     Enemy_ enemy_;
     public Enemy_ Enemy => enemy_;
 
@@ -63,8 +60,8 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
     protected override void Awake()
     {
         base.Awake();
-        psionicData = GetComponentInChildren<Enemy_Psionic>();
-        psionicData.on_Enemy_Stamina_Change += (stmValue) =>
+        enemy_ = GetComponentInChildren<Enemy_>();
+        enemy_.on_Enemy_Stamina_Change += (stmValue) =>
         {
             float currentMoveSize = stmValue > moveSize? moveSize : stmValue;
             //TurnManager.Instance.CurrentTurn.TurnActionValue = stmValue;
@@ -73,6 +70,24 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
             //{
             //    TurnManager.Instance.CurrentTurn.TurnEndAction();
             //}
+            if (battleUI != null)
+            {
+                BattleUI.stmGaugeSetting(stmValue, enemy_.MaxStamina); //소모된 행동력 표시
+            }
+        };
+        enemy_.on_Enemy_HP_Change += (hpValue) =>
+        {
+            if (battleUI != null)
+            {
+                BattleUI.hpGaugeSetting(hpValue, enemy_.MaxHp); //소모된 행동력 표시
+            }
+        };
+        enemy_.on_Enemy_HP_Change += (hpValue) =>
+        {
+            if(enemy_.HP <= 0)
+            {
+                ResetData();
+            }
         };
     }
 
@@ -131,10 +146,8 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
 
     public void EnemyAi(Tile PlayerTile)
     {
-        Debug.Log($"{transform.name}턴 시작 행동력 : {psionicData.Stamina}\n좌표{CurrentTile.transform.position}, {currentTile.name}");
-
-
-        
+        Debug.Log($"{transform.name}턴 시작 - [체력:{enemy_.HP}] / [행동력:{enemy_.Stamina}]\n[좌표:{CurrentTile.transform.position}] / [{currentTile.name}]");
+        Cho_BattleMap_Enemy_AStar.PathFind(SpaceSurvival_GameManager.Instance.BattleMap, SpaceSurvival_GameManager.Instance.MapSizeX, SpaceSurvival_GameManager.Instance.MapSizeY, currentTile, PlayerTile);
     }
 
 

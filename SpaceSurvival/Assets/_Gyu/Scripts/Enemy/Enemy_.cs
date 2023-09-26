@@ -18,7 +18,7 @@ public class Enemy_ : MonoBehaviour, IBattle
     }
     Monster_Type type = Monster_Type.Base;
 
-    public Monster_Type Type
+    public Monster_Type mType
     {
         get => type;
         set
@@ -45,8 +45,15 @@ public class Enemy_ : MonoBehaviour, IBattle
     int OnHit = Animator.StringToHash("Hit");
     
     float hp = 200;
-    public float maxHP = 200;
-    public float MaxHp => maxHP;
+    float maxHP = 200;
+    public float MaxHp
+    {
+        get => maxHP;
+        set
+        {
+            maxHP = value;
+        }
+    }
     public float HP
     {
         get => hp;

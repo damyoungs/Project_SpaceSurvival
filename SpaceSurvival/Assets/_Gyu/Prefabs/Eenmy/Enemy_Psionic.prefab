@@ -5397,8 +5397,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4766037116338723569}
-  - component: {fileID: 3479455773198146502}
+  - component: {fileID: 8982501961485674328}
   - component: {fileID: 1541620915100649215}
+  - component: {fileID: 7847042522048801220}
   m_Layer: 0
   m_Name: emymy
   m_TagString: Enemy
@@ -5442,7 +5443,7 @@ Transform:
   m_Father: {fileID: 3507285989751255585}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3479455773198146502
+--- !u!114 &8982501961485674328
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5451,7 +5452,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4771271621447685421}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af2ead46272df00458bec7ce796fafe4, type: 3}
+  m_Script: {fileID: 11500000, guid: 784f4bbe2ccf1104f93b10a42aa12bce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!95 &1541620915100649215
@@ -5475,6 +5476,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7847042522048801220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4771271621447685421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af2ead46272df00458bec7ce796fafe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4771279585146020275
 GameObject:
   m_ObjectHideFlags: 0
@@ -5784,7 +5797,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee1d69ad1a83466498b6f11e54ba6415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyNum: 0
   currentTile: {fileID: 0}
 --- !u!1001 &4770833413191016090
 PrefabInstance:
