@@ -51,16 +51,16 @@ public class Base_Status//¾Æ¹«°Íµµ ÀåºñÇÏÁö ¾ÊÀº »óÅÂÀÇ ÇÃ·¹ÀÌ¾îÀÇ ±âº» °ø°Ý·Â, 
         set
         {
             uint expOver = 0;
-            if (value > ExpMax)
+            if (value >= ExpMax)
             {
                 expOver = value - ExpMax;
-                playerStatus.LevelUp();
-                Exp += expOver;
+                Level++;
             }
             else
             {
                 exp = (uint)Mathf.Clamp(value, 0, ExpMax);
             }
+            exp += expOver;
             playerStatus.Exp = exp;
             on_ExpChange?.Invoke(exp);//UI ¿¡¼­ ¹ÞÀ» ½ÅÈ£ 
         }
@@ -75,7 +75,7 @@ public class Base_Status//¾Æ¹«°Íµµ ÀåºñÇÏÁö ¾ÊÀº »óÅÂÀÇ ÇÃ·¹ÀÌ¾îÀÇ ±âº» °ø°Ý·Â, 
         {
             expMax = value;
             playerStatus.ExpMax = expMax;
-            on_MaxExp_Change?.Invoke();
+            on_MaxExp_Change?.Invoke(expMax);
         }
     }
     float base_MaxHP;
@@ -85,7 +85,8 @@ public class Base_Status//¾Æ¹«°Íµµ ÀåºñÇÏÁö ¾ÊÀº »óÅÂÀÇ ÇÃ·¹ÀÌ¾îÀÇ ±âº» °ø°Ý·Â, 
         private set
         {
             base_MaxHP = value;
-            on_MaxHP_Change?.Invoke();
+            playerStatus.MaxHP = base_MaxHP;
+            on_MaxHP_Change?.Invoke(base_MaxHP);
         }
     }
     float currentHP;
@@ -121,7 +122,8 @@ public class Base_Status//¾Æ¹«°Íµµ ÀåºñÇÏÁö ¾ÊÀº »óÅÂÀÇ ÇÃ·¹ÀÌ¾îÀÇ ±âº» °ø°Ý·Â, 
         private set
         {
             base_MaxStamina = value;
-            on_MaxStamina_Change?.Invoke();//UI
+            playerStatus.MaxStamina = base_MaxStamina;
+            on_MaxStamina_Change?.Invoke(base_MaxStamina);//UI
         }
     }
     uint BaseDarkForce;
@@ -201,17 +203,11 @@ public class Base_Status//¾Æ¹«°Íµµ ÀåºñÇÏÁö ¾ÊÀº »óÅÂÀÇ ÇÃ·¹ÀÌ¾îÀÇ ±âº» °ø°Ý·Â, 
         }
     }
 
-    public uint Base_CriticalDamage { get; set; }
-
-    public float Base_CriticalRate { get; set; }
-    public float Base_DodgeRate { get; set; }
-
     public Action on_ResetStatus;
-    public Action on_MaxHP_Change;
-    public Action on_MaxStamina_Change;
-    public Action on_MaxExp_Change;
+    public Action<float> on_MaxHP_Change;
+    public Action<float> on_MaxStamina_Change;
+    public Action<uint> on_MaxExp_Change;
     public Action on_LevelChange;
-    public Action on_AbilityPointChange;
     public Base_Status(Player_Status player_Status)
     {
         this.playerStatus = player_Status;
@@ -226,12 +222,34 @@ public class Base_Status//¾Æ¹«°Íµµ ÀåºñÇÏÁö ¾ÊÀº »óÅÂÀÇ ÇÃ·¹ÀÌ¾îÀÇ ±âº» °ø°Ý·Â, 
 
     }
 
+    public void LoadData(Base_Status saveData)
+    {
+        this.ExpMax = saveData.ExpMax;
+        this.Level = saveData.Level;
+        this.Exp = saveData.Exp;
+        this.Base_ATT = saveData.Base_ATT;
+        this.Base_DP = saveData.Base_DP;
+        this.Base_STR = saveData.Base_STR;//´Ù¸¥ ´É·ÂÄ¡¿¡ ¿µÇâÀ» ÁÖ´Â ´É·ÂÄ¡¸¦ ¸ÕÀú ¾÷µ¥ÀÌÆ® ÇØ¾ß ÇÔ.
+        this.Base_INT = saveData.Base_INT;
+        this.Base_LUK = saveData.Base_LUK;
+        this.Base_DEX = saveData.Base_DEX;
+        this.AbilityPoint = saveData.AbilityPoint;
+        this.Name = saveData.Name;
+        this.CurrentHP = saveData.CurrentHP;
+        this.Current_Stamina = saveData.Current_Stamina;
+        this.Base_MaxStamina = saveData.Base_MaxStamina;
+        this.Base_DarkForce = saveData.Base_DarkForce;
+        this.BaseCriticalPower = saveData.BaseCriticalPower;
+        this.Damage_Min = saveData.Damage_Min;
+        this.ExpMax = saveData.ExpMax;//expMAx´Â LevelUp ÇÒ ¶§ º¯°æµÇ±â ¶§¹®¿¡ ÇÑ¹ø ´õ ¾÷µ¥ÀÌÆ® ÇÊ¿ä
+    }
     public void Init()
     {
         Name = "Player";
+        ExpMax = 50;
+        Level = 1;
         Base_MaxHP = 100;
         Base_MaxStamina = 100;
-        ExpMax = 50;
         Base_ATT = 10;
         Base_DP = 10;
         Base_STR = 5;
@@ -242,6 +260,7 @@ public class Base_Status//¾Æ¹«°Íµµ ÀåºñÇÏÁö ¾ÊÀº »óÅÂÀÇ ÇÃ·¹ÀÌ¾îÀÇ ±âº» °ø°Ý·Â, 
         AbilityPoint = 50;
         Base_DarkForce = 500;
         Damage_Min = 0.5f;
+        
     }
 }
 public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»ç¿ë½Ã ÇÃ·¹ÀÌ¾î¿¡¼­ ½ÅÈ£¹Þ¾Æ¼­ Base_StatusÀÇ ³»¿ë ¾÷µ¥ÀÌÆ®
@@ -363,6 +382,7 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
         {
             level = value;
             levelText.text = $"{level}";
+            LevelUp();
         }
     }
 
@@ -544,22 +564,10 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
         base_Status = new(this);
 
         base_Status.Init();
-
         base_Status.on_ResetStatus = Reset_Status;
-        base_Status.on_MaxHP_Change += Update_MaxHP;
-        base_Status.on_MaxStamina_Change += Update_MaxStamina;
-        base_Status.on_AbilityPointChange += () => AbilityPoint = base_Status.AbilityPoint;
-
         Reset_Status();
     }
-    void Update_MaxHP()
-    {
-        this.MaxHP = base_Status.Base_MaxHP;
-    }
-    void Update_MaxStamina()
-    {
-        this.MaxStamina = base_Status.Base_MaxStamina;
-    }
+ 
     void GetComponents()
     {
         canvasGroup = GetComponent<CanvasGroup>();
@@ -640,11 +648,10 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
 
     public void LevelUp()
     {
-        base_Status.Level++;
         base_Status.AbilityPoint += 5;
         on_increase_MaxHP?.Invoke(increaseMaxHP()); 
-        HP = MaxHP;
         on_increase_MaxStamina?.Invoke(increaseMaxStamina());
+        HP = MaxHP;
         Stamina = MaxStamina;
         base_Status.Exp = 0;
         on_increase_ExpMax?.Invoke((uint)(ExpMax * 1.2f));
@@ -768,5 +775,11 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
     public void CloseWindow()
     {
         Close();
+    }
+
+    public Base_Status SaveData()
+    {
+        Base_Status result = this.Base_Status;
+        return result;
     }
 }
