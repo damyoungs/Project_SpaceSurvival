@@ -7,6 +7,6 @@ public class Cho_SceneLoading : TestBase
 {
     protected override void Test1(InputAction.CallbackContext context)
     {
-        LoadingScean.SceanLoading(EnumList.SceanName.TestBattleMap);
+        LoadingScene.SceneLoading(EnumList.SceneName.TestBattleMap);
     }
 }
