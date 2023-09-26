@@ -138,6 +138,7 @@ public class NpcTalkController : MonoBehaviour
         {
             gameObject.SetActive(true);
             openTalkWindow?.Invoke();
+            Debug.Log($"값이 없으면 안되는데 ? : {openTalkWindow}");
             NpcBase_Gyu npc = onTalkClick?.Invoke();
             npcImg.texture = npc.GetTexture;
             if (npc != null)
@@ -186,5 +187,6 @@ public class NpcTalkController : MonoBehaviour
         talkBox.text = "";
         logManager.ResetData();
         gameObject.SetActive(false);
+        isTalking = false;
     }
 }

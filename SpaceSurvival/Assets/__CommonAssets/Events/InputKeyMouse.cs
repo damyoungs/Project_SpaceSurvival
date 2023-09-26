@@ -759,15 +759,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""ActionTest"",
-                    ""type"": ""Button"",
-                    ""id"": ""188320bd-b061-426c-b4f4-bc2c92520813"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -779,17 +770,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""KeyMouse"",
                     ""action"": ""UnitMove"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""46ba5825-da9b-410d-aa4c-2cb26ccdc5bc"",
-                    ""path"": ""<Keyboard>/f"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyMouse"",
-                    ""action"": ""ActionTest"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1175,7 +1155,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         // BattleMap_Player
         m_BattleMap_Player = asset.FindActionMap("BattleMap_Player", throwIfNotFound: true);
         m_BattleMap_Player_UnitMove = m_BattleMap_Player.FindAction("UnitMove", throwIfNotFound: true);
-        m_BattleMap_Player_ActionTest = m_BattleMap_Player.FindAction("ActionTest", throwIfNotFound: true);
         // UI_Inven
         m_UI_Inven = asset.FindActionMap("UI_Inven", throwIfNotFound: true);
         m_UI_Inven_Click = m_UI_Inven.FindAction("Click", throwIfNotFound: true);
@@ -1704,13 +1683,11 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_BattleMap_Player;
     private List<IBattleMap_PlayerActions> m_BattleMap_PlayerActionsCallbackInterfaces = new List<IBattleMap_PlayerActions>();
     private readonly InputAction m_BattleMap_Player_UnitMove;
-    private readonly InputAction m_BattleMap_Player_ActionTest;
     public struct BattleMap_PlayerActions
     {
         private @InputKeyMouse m_Wrapper;
         public BattleMap_PlayerActions(@InputKeyMouse wrapper) { m_Wrapper = wrapper; }
         public InputAction @UnitMove => m_Wrapper.m_BattleMap_Player_UnitMove;
-        public InputAction @ActionTest => m_Wrapper.m_BattleMap_Player_ActionTest;
         public InputActionMap Get() { return m_Wrapper.m_BattleMap_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1723,9 +1700,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @UnitMove.started += instance.OnUnitMove;
             @UnitMove.performed += instance.OnUnitMove;
             @UnitMove.canceled += instance.OnUnitMove;
-            @ActionTest.started += instance.OnActionTest;
-            @ActionTest.performed += instance.OnActionTest;
-            @ActionTest.canceled += instance.OnActionTest;
         }
 
         private void UnregisterCallbacks(IBattleMap_PlayerActions instance)
@@ -1733,9 +1707,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @UnitMove.started -= instance.OnUnitMove;
             @UnitMove.performed -= instance.OnUnitMove;
             @UnitMove.canceled -= instance.OnUnitMove;
-            @ActionTest.started -= instance.OnActionTest;
-            @ActionTest.performed -= instance.OnActionTest;
-            @ActionTest.canceled -= instance.OnActionTest;
         }
 
         public void RemoveCallbacks(IBattleMap_PlayerActions instance)
@@ -2038,7 +2009,6 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     public interface IBattleMap_PlayerActions
     {
         void OnUnitMove(InputAction.CallbackContext context);
-        void OnActionTest(InputAction.CallbackContext context);
     }
     public interface IUI_InvenActions
     {

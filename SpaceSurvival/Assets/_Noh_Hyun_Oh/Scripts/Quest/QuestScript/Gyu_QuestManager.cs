@@ -95,7 +95,7 @@ public class Gyu_QuestManager : MonoBehaviour
     /// <summary>
     /// 대화 가능한지 체크하기
     /// </summary>
-    bool isTalking = false;
+    public bool isTalking = false;
 
     public Action<Gyu_QuestBaseData> onChangeQuest;
 
@@ -144,25 +144,18 @@ public class Gyu_QuestManager : MonoBehaviour
             player.CancelQuest(selectQuest);
         };
 
-        talkController.onTalkClick = () => array_NPC[currentNpcIndex];
-
-        talkController.getTalkDataArray = (talkIndex) =>
-        {
-            return talkController.TalkData.GetTalk(array_NPC[currentNpcIndex].TalkType, talkIndex);
-        };
-        talkController.LogManager.getLogTalkDataArray = (talkIndex) => {
-            return talkController.TalkData.GetLog(array_NPC[currentNpcIndex].TalkType, talkIndex);
-        };
+       
 
         questScriptableGenerate = DataFactory.Instance.QuestScriptableGenerate;
         InitDataSetting();
-        InputSystemController.InputSystem.BattleMap_Player.ActionTest.performed += (_) => {
+        InputSystemController.InputSystem.Player.Action.performed += (_) => {
             if (isTalking)
             {
                 isTalking = false;
                 talkController.Talk(0);
             }
         };
+
     }
     public void InitDataSetting()
     {
@@ -176,14 +169,30 @@ public class Gyu_QuestManager : MonoBehaviour
             array_NPC[i].InitData(i); //npc 를 초기화 시킨다.
             array_NPC[i].onTalkDisableButton += () => 
             {
-                talkController.ResetData();
                 isTalking = false;
+                talkController.ResetData();
+                talkController.openTalkWindow = null;
+                talkController.closeTalkWindow = null;
+                talkController.onTalkClick = null;
+                talkController.getTalkDataArray = null;
+                talkController.LogManager.getLogTalkDataArray = null;
             }; 
             array_NPC[i].onTalkEnableButton = (npcId) =>
             {
+                Cursor.lockState = CursorLockMode.None;
                 talkController.ResetData();
-                talkController.openTalkWindow += () => questUIManager.OnQuestNpc();
+                talkController.openTalkWindow = () => questUIManager.OnQuestNpc();
+                talkController.closeTalkWindow = () => questUIManager.initialize();
                 currentNpcIndex = npcId;
+                talkController.onTalkClick = () => array_NPC[currentNpcIndex];
+
+                talkController.getTalkDataArray = (talkIndex) =>
+                {
+                    return talkController.TalkData.GetTalk(array_NPC[currentNpcIndex].TalkType, talkIndex);
+                };
+                talkController.LogManager.getLogTalkDataArray = (talkIndex) => {
+                    return talkController.TalkData.GetLog(array_NPC[currentNpcIndex].TalkType, talkIndex);
+                };
                 isTalking = true;
             };
 

@@ -12,11 +12,7 @@ using UnityEngine.UI;
 
 public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
 {
-
    
-    
-
-
     /// <summary>
     /// 다크포스값 보여줄 텍스트
     /// </summary>
@@ -61,32 +57,6 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
 
 
     /// <summary>
-    /// NPC 모습 보여줄 로우 이미지
-    /// </summary>
-    RawImage rawImage;
-
-    /// <summary>
-    /// npc 이름이 들어갈 위치
-    /// </summary>
-    TextMeshProUGUI npcName;
-
-    /// <summary>
-    /// 대화내용이 저장될 위치
-    /// </summary>
-    TextMeshProUGUI talkBox;
-
-    /// <summary>
-    /// 다음 대화내용으로넘기는버튼
-    /// </summary>
-    Button talkNextButton;
-
-    /// <summary>
-    /// 로그 버튼 
-    /// </summary>
-    Button talkLogButton;
-
-
-    /// <summary>
     /// 판매 목록 의 아이템이 들어갈 컨텐츠 위치 
     /// </summary>
     Transform content;
@@ -102,10 +72,10 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
     float defaultItemSizeY;
 
 
-    /// <summary>
-    /// 엔피씨 근처로갈때 보여줄 버튼
-    /// </summary>
-    Button NpcTalk;
+    ///// <summary>
+    ///// 엔피씨 근처로갈때 보여줄 버튼
+    ///// </summary>
+    //Button NpcTalk;
 
 
 
@@ -122,7 +92,6 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
 
     public Action<IPopupSortWindow> PopupSorting { get; set; }
 
-    NpcTalkController talkController;
 
     protected override void Awake()
     {
@@ -130,13 +99,7 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
         
         merchant_Manager = GetComponent<Merchant_Manager>();
 
-        talkController = FindObjectOfType<NpcTalkController>();
-        talkController.openTalkWindow += () => {
-            gameObject.SetActive(true);
-        };
-        talkController.closeTalkWindow += () => {
-            ResetData();  
-        };
+        
 
         popup = transform.parent.GetComponentInChildren<MerchantModalPopup>(true);
 
@@ -187,21 +150,6 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
         content = contentPanel.GetComponentInChildren<VerticalLayoutGroup>().transform;
         contentRect = content.transform.GetComponent<RectTransform>();
 
-        rawImage = contentPanel.GetChild(2).GetComponentInChildren<RawImage>();
-        npcName = contentPanel.GetChild(2).GetChild(1).GetComponent<TextMeshProUGUI>();
-        talkBox = contentPanel.GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>();
-
-        talkNextButton = contentPanel.GetChild(2).GetChild(3).GetComponent<Button>();
-        talkNextButton.onClick.AddListener(() => { 
-            Debug.Log(talkNextButton);
-        
-        });
-        talkLogButton = contentPanel.GetChild(2).GetChild(4).GetComponent<Button>();
-        talkLogButton.onClick.AddListener(() => { 
-            Debug.Log(talkLogButton);
-        
-        });
-
 
         //최소 한개넣어두고 미리 사이즈구해둔다 
         defaultItemSizeY = content.GetChild(0).GetComponent<RectTransform>().sizeDelta.y;
@@ -210,7 +158,7 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
     }
     private void Start()
     {
-       ResetData();
+        CloseWindow();
     }
 
 
@@ -372,7 +320,7 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
         {
             item.ResetData();
         }
-        gameObject.SetActive(false);
+        merchant_Manager.isTalking = true;
     }
 
 
@@ -384,13 +332,19 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
 
     public void OpenWindow()
     {
-        this.gameObject.SetActive(true);
+        transform.GetChild(0).gameObject.SetActive(true);
+        transform.GetChild(1).gameObject.SetActive(true);
     }
 
     public void CloseWindow()
     {
+        transform.GetChild(0).gameObject.SetActive(false);
+        transform.GetChild(1).gameObject.SetActive(false);
         ResetData();
     }
-
+    protected override void OnCloseButtonClick()
+    {
+        CloseWindow();
+    }
 
 }

@@ -504,7 +504,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
         questConfirm.gameObject.SetActive(false);
         questListPanel.gameObject.SetActive(false);
       
-      
+        questManager.isTalking = true;
         //quests = null;
         //array_NPC = null;
   

@@ -737,15 +737,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
-                },
-                {
-                    "name": "ActionTest",
-                    "type": "Button",
-                    "id": "188320bd-b061-426c-b4f4-bc2c92520813",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -757,17 +748,6 @@
                     "processors": "",
                     "groups": "KeyMouse",
                     "action": "UnitMove",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "46ba5825-da9b-410d-aa4c-2cb26ccdc5bc",
-                    "path": "<Keyboard>/f",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyMouse",
-                    "action": "ActionTest",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

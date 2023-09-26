@@ -18,13 +18,13 @@ public class Merchant_Manager : MonoBehaviour
     /// <summary>
     /// 대화 가능한지 체크하기
     /// </summary>
-    bool isTalking = false;
+    public bool isTalking = false;
 
 
     /// <summary>
     /// 마지막에 창을 열고있던 NPC 인덱스
     /// </summary>
-    int currentNpcIndex = -1;
+    int currentNpcIndex = 0;
     public int CurrentNpcIndex => currentNpcIndex;
 
 
@@ -224,7 +224,7 @@ public class Merchant_Manager : MonoBehaviour
     private void Start()
     {
         merchantNPCs = FindObjectsOfType<MerchantNPC>(true);
-        InputSystemController.InputSystem.BattleMap_Player.ActionTest.performed += (_) => {
+        InputSystemController.InputSystem.Player.Action.performed += (_) => {
             if (isTalking)
             {
                 isTalking = false;
@@ -273,14 +273,30 @@ public class Merchant_Manager : MonoBehaviour
             array_NPC[i].InitData(i); //npc 를 초기화 시킨다.
             array_NPC[i].onTalkDisableButton += () =>
             {
-                talkController.ResetData();
                 isTalking = false;
+                talkController.ResetData();
+                talkController.openTalkWindow = null;
+                talkController.closeTalkWindow = null;
+                talkController.onTalkClick = null;
+                talkController.getTalkDataArray = null;
+                talkController.LogManager.getLogTalkDataArray = null;
             };
             array_NPC[i].onTalkEnableButton = (npcId) =>
             {
+                Cursor.lockState = CursorLockMode.None;
                 talkController.ResetData();
-                talkController.openTalkWindow += () => { };
+                talkController.openTalkWindow = merchant_UI_Manager.OpenWindow;
+                talkController.closeTalkWindow = merchant_UI_Manager.CloseWindow;
                 currentNpcIndex = npcId;
+                talkController.onTalkClick = () => array_NPC[currentNpcIndex];
+
+                talkController.getTalkDataArray = (talkIndex) =>
+                {
+                    return talkController.TalkData.GetTalk(array_NPC[currentNpcIndex].TalkType, talkIndex);
+                };
+                talkController.LogManager.getLogTalkDataArray = (talkIndex) => {
+                    return talkController.TalkData.GetLog(array_NPC[currentNpcIndex].TalkType, talkIndex);
+                };
                 isTalking = true;
             };
 
