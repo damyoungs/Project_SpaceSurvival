@@ -11,7 +11,8 @@ public class QuestNPCTest : MonoBehaviour
         Tile[] battleMap = SpaceSurvival_GameManager.Instance.BattleMap;
         int maxX = SpaceSurvival_GameManager.Instance.MapSizeX;
         int maxY = SpaceSurvival_GameManager.Instance.MapSizeY;
-        Instantiate(questNPCPrefab, Vector3.zero, Quaternion.identity);
+        float a =  Random.Range(0.0f, 10.0f);
+        Instantiate(questNPCPrefab, new Vector3(a,a,a), Quaternion.identity);
         //go.SetTile(SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Monster));
     }
 }

@@ -8,7 +8,7 @@ using UnityEngine.UI;
 /// <summary>
 /// 팝업 처리용 클래스
 /// </summary>
-public class SaveLoadPopupWindow : MonoBehaviour
+public class ModalPopupWindow : MonoBehaviour
 {
     /// <summary>
     /// 저장 확인버튼
@@ -34,7 +34,7 @@ public class SaveLoadPopupWindow : MonoBehaviour
     /// <summary>
     /// 확인팝업창 
     /// </summary>
-    Transform proccessPopup;
+    Transform saveProccessPopup;
 
     /// <summary>
     /// 게임오브젝트 클릭했을때 처리할 델리게이트
@@ -101,18 +101,21 @@ public class SaveLoadPopupWindow : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        proccessPopup = transform.GetChild(transform.childCount - 1);//무조건 마지막 위치에다가 둬야한다!!!!!!!
-        saveButton =    proccessPopup.GetChild(1).gameObject;
-        loadButton =    proccessPopup.GetChild(2).gameObject;
-        copyButton =    proccessPopup.GetChild(3).gameObject;
-        deleteButton =  proccessPopup.GetChild(4).gameObject;
-        windowText =    proccessPopup.GetChild(6).GetComponent<TextMeshProUGUI>();
+        saveProccessPopup = transform.GetChild(transform.childCount - 1);//무조건 마지막 위치에다가 둬야한다!!!!!!!
+        saveButton =    saveProccessPopup.GetChild(1).gameObject;
+        loadButton =    saveProccessPopup.GetChild(2).gameObject;
+        copyButton =    saveProccessPopup.GetChild(3).gameObject;
+        deleteButton =  saveProccessPopup.GetChild(4).gameObject;
+        windowText =    saveProccessPopup.GetChild(6).GetComponent<TextMeshProUGUI>();
+
+
+
     }
     /// <summary>
     /// 처리로직 
     /// </summary>
     /// <param name="type">어떤버튼눌렀는지 그에맞는 팝업창 활성화</param>
-    public void OpenPopupAction(EnumList.SaveLoadButtonList type)
+    public void SaveProccessOpenPopupAction(EnumList.SaveLoadButtonList type)
     {
         if (newIndex > -1) { 
             buttonType = type;
@@ -131,7 +134,7 @@ public class SaveLoadPopupWindow : MonoBehaviour
                     break;
             }
             windowText.text = $"{type} 하시겠습니까 ?";
-            proccessPopup.gameObject.SetActive(true); //키이벤트 클릭이벤트 막는 창띄우기
+            saveProccessPopup.gameObject.SetActive(true); //키이벤트 클릭이벤트 막는 창띄우기
         }
     }
 }

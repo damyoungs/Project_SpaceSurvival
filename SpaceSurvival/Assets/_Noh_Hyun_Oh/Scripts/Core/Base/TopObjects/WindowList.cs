@@ -52,8 +52,8 @@ public class WindowList : Singleton<WindowList> {
     /// <summary>
     /// 저장 삭제 복사 로드 실행여부 묻는 창 가져오기
     /// </summary>
-    SaveLoadPopupWindow saveLoadPopupWindow;
-    public SaveLoadPopupWindow IOPopupWindow => saveLoadPopupWindow;
+    ModalPopupWindow saveLoadPopupWindow;
+    public ModalPopupWindow IOPopupWindow => saveLoadPopupWindow;
 
     /// <summary>
     /// 테스트용 옵션 팝업윈도우
@@ -101,7 +101,7 @@ public class WindowList : Singleton<WindowList> {
         //오브젝트 순서 계속바껴서 걍무겁더라도 GetComponentInChildren<Type>(true) 으로 찾아둘란다.. 매번 이거때매 고치기귀찮.
         defencePanel = transform.GetComponentInChildren<DefenceEvent>(true);
         invenWindow = transform.GetComponentInChildren<Inventory>(true);
-        saveLoadPopupWindow = transform.GetComponentInChildren<SaveLoadPopupWindow>(true);
+        saveLoadPopupWindow = transform.GetComponentInChildren<ModalPopupWindow>(true);
         mainWindow = transform.GetComponentInChildren<SaveWindowManager>(true);
         popupManager = transform.GetComponentInChildren<PopupSortManager>(true);
         optionsPopupWindow = transform.GetComponentInChildren<OptionsPopupWindow>(true);
