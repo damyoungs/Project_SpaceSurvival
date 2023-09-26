@@ -190,13 +190,15 @@ public class LoadingScean : MonoBehaviour
                 InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_BattleMap);
                 InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_InvenView);
                 break;
-            case EnumList.SceanName.meage:
+            case EnumList.SceanName.SpaceShip:
                 InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_BattleMap);
                 InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_InvenView);
                 break;
             default:
                 break;
         }
+
+        Cursor.lockState = CursorLockMode.None;
     }
 
 }

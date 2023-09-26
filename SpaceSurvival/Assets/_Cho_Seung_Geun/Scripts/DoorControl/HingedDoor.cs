@@ -6,6 +6,9 @@ public class HingedDoor : MonoBehaviour
 {
     public float speed = 4.0f;
 
+    float rotateDir = 0.0f;
+    //float localRotation = 0.0f;
+
     Transform door;
     MeshCollider doorCollider;
 
@@ -19,6 +22,17 @@ public class HingedDoor : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            //other.ClosestPoint(transform.position);
+
+            if (other.transform.position.z - transform.position.z > 0)
+            {
+                rotateDir = 1.0f;
+            }
+            else
+            {
+                rotateDir = -1.0f;
+            }
+
             StopAllCoroutines();
             StartCoroutine(Open());
         }
@@ -36,11 +50,12 @@ public class HingedDoor : MonoBehaviour
     IEnumerator Open()
     {
         doorCollider.enabled = false;
-        while (door.localRotation.eulerAngles.y < 120.0f)
+        while (door.localEulerAngles.y < 120.0f)
         {
-            door.rotation *= Quaternion.Euler(0.0f, Time.deltaTime * speed, 0.0f);
+            door.rotation *= Quaternion.Euler(0.0f, Time.deltaTime * speed * rotateDir, 0.0f);
             yield return null;
         }
+        Debug.Log(door.localEulerAngles);
         doorCollider.enabled = true;
     }
 
@@ -49,12 +64,13 @@ public class HingedDoor : MonoBehaviour
         doorCollider.enabled = false;
         float rotate = Time.deltaTime * speed;
 
-        while (door.localRotation.eulerAngles.y > rotate)
+        while (door.localEulerAngles.y > rotate)
         {
             door.rotation *= Quaternion.Euler(0.0f, -rotate, 0.0f);
             yield return null;
         }
-        door.localRotation = Quaternion.Euler(door.localRotation.x, 0.0f, door.localRotation.z);
+        Debug.Log(door.localEulerAngles);
+        door.localRotation = Quaternion.Euler(door.localEulerAngles.x, 0.0f, door.localEulerAngles.z);
         doorCollider.enabled = true;
     }
 }

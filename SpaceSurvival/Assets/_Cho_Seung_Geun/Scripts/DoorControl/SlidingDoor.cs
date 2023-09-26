@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SlidingDoor : MonoBehaviour
 {
-    public float speed = 2.0f;
+    public float speed = 4.0f;
     public Transform Icon;
     public Transform Icon2;
 
