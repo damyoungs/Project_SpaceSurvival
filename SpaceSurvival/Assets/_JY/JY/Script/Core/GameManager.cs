@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
     public Texture2D skillCursor;
 
     Player_ player;
+    Player_Status status;
     Inventory inventory;
     SlotManager slotManager;
     ItemSpawner itemSpawner;
@@ -45,6 +46,7 @@ public class GameManager : MonoBehaviour
     ItemDataManager itemDataManager;
     EquipBox equipBox;
     EffectParticle_Pool particlePool;
+    SkillBox skillBox;
 
     Vector2 cursorHotspot;
     
@@ -53,12 +55,14 @@ public class GameManager : MonoBehaviour
     public static SlotManager SlotManager => Inst.slotManager;
     public static ItemSpawner Item_Spawner => Inst.itemSpawner;
     public static Player_ Player_ => Inst.player;
+    public static Player_Status PlayerStatus => Inst.status;
     public static Item_Enhancer Enhancer => Inst.enhancer;
     public static Item_Mixer Mixer => Inst.mixer;
     public static Item_Mixing_Table Mixing_Table => Inst.mixingTable;
     public static QuickSlot_Manager QuickSlot_Manager => Inst.quickSlot_Box;
     public static EquipBox EquipBox => Inst.equipBox; 
     public static EffectParticle_Pool PS_Pool => Inst.particlePool;
+    public static SkillBox SkillBox => Inst.skillBox;
 
     private void Awake()
     {
@@ -73,14 +77,18 @@ public class GameManager : MonoBehaviour
         quickSlot_Box = FindObjectOfType<QuickSlot_Manager>();
         equipBox = FindObjectOfType<EquipBox>();
         particlePool = GetComponentInChildren<EffectParticle_Pool>();
+        skillBox = FindAnyObjectByType<SkillBox>();
+        status = FindAnyObjectByType<Player_Status>();
     }
     private void Start()
     {
         player = FindObjectOfType<Player_>(true);
+        
         player.on_CursorChange += ChangeCursor;
         ChangeCursor(false);
         cursorHotspot = new Vector2(skillCursor.width * 0.5f, skillCursor.height * 0.5f);
     }
+   
     static void Init()
     {
         

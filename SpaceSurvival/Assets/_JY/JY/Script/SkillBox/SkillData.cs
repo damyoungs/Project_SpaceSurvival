@@ -15,15 +15,18 @@ public enum SkillType
     Normal
 
 }
+
 public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandler, IPointerMoveHandler,IPointerExitHandler,IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     string skillName;                        public string SkillName { get => skillName; protected set { skillName = value; } }
     AnimationClip animClip;                  public AnimationClip AnimClip { get => animClip; protected set {  animClip = value; } }
     AudioClip audioClip;                     public AudioClip AudioClip { get => audioClip; protected set { audioClip = value; } }
-    int attackRange;                         public int AttackRange { get => attackRange; protected set { attackRange = value; } }
+    int attackRange = 3;                     public int AttackRange { get => attackRange; protected set { attackRange = value; } }
     int require_Stamina_For_UsingSkill;      public int Require_Stamina_For_UsingSkill { get => require_Stamina_For_UsingSkill; protected set { require_Stamina_For_UsingSkill = value; } }
     float finalDamage;                       public float FinalDamage { get => finalDamage; set { finalDamage = value; } }
     float skillPower;                        public float SkillPower { get => skillPower; set { skillPower = value; } }
+
+    QuickSlot_Type bindingSlot = QuickSlot_Type.None; public QuickSlot_Type BindingSlot { get => bindingSlot; set { bindingSlot = value; } }
 
     public Sprite skill_sprite;
 
@@ -49,7 +52,7 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
         }
     }
 
-    Player_ player;
+    Player_Status player;
     SkillBox_Description skillBox_Description;
     Skill_TempSlot tempSlot;
     SkillType skillType; public SkillType SkillType { get => skillType; protected set { skillType = value; } }
@@ -64,33 +67,59 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
     public Action on_PointerExit;
     public Action on_PointerMove;
     public Action<SkillData> on_PointerClick;
+    public Action on_Skill_LevelUp;
+    public Action on_ResetData;
 
+    private void Awake()
+    {
+        on_Skill_LevelUp = LevelUpFor_DataLoad;
+    }
     void Start()
+    {
+        StartCoroutine(RateInit());
+    }
+    IEnumerator RateInit() 
+    {
+        yield return null;
+        Init();
+    }
+    public void TestInit()
     {
         Init();
     }
     protected virtual void Init()
     {
-        player = GameManager.Player_;
+        player = GameManager.PlayerStatus;
         skillBox_Description = transform.parent.GetChild(12).GetComponent<SkillBox_Description>();
         skill_Icon = transform.GetChild(1).GetChild(0).GetComponent<Image>();
         skillLevel_Text = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
         require_Force_Text = transform.GetChild(4).GetComponent<TextMeshProUGUI>();
 
-        player.on_DarkForce_Change += () => button.interactable = Require_Force_For_skillLevelUp < player.DarkForce;
-        on_PointerEnter += skillBox_Description.Open;
-        on_PointerExit += skillBox_Description.Close;
-        on_PointerMove += skillBox_Description.MovePosition;
+        player.Base_Status.on_DarkForceChange -= (darkForce) => button.interactable = Require_Force_For_skillLevelUp < darkForce;
+        player.Base_Status.on_DarkForceChange += (darkForce) => button.interactable = Require_Force_For_skillLevelUp < darkForce;
+        on_PointerEnter = skillBox_Description.Open;
+        on_PointerExit = skillBox_Description.Close;
+        on_PointerMove = skillBox_Description.MovePosition;
         skill_Icon.sprite = skill_sprite;
         tempSlot = transform.parent.GetChild(13).GetComponent<Skill_TempSlot>();
+        InitSkillData();
+        on_ResetData = InitSkillData;
+    }
+    protected virtual void InitSkillData()
+    {
+
     }
     protected virtual void Skill_LevelUp()
     {
         if (Require_Force_For_skillLevelUp < player.DarkForce)
         {
-            player.DarkForce -= Require_Force_For_skillLevelUp;
+            player.Base_Status.Base_DarkForce -= Require_Force_For_skillLevelUp;
             SkillLevel++;
         }
+    }
+    void LevelUpFor_DataLoad()
+    {
+        SkillLevel++;
     }
     protected virtual void SetCurrentLevel_Description_Info(out string info)
     {
@@ -157,4 +186,5 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
         }
     
     }
+
 }

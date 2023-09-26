@@ -54,7 +54,7 @@ public class OptionsListButton : MonoBehaviour
         {
             SpaceSurvival_GameManager.Instance.BattleMapInitClass.TestReset();  //초기화 하기
         }
-        LoadingScean.SceanLoading(EnumList.SceanName.TITLE);
+        LoadingScene.SceneLoading(EnumList.SceneName.TITLE);
     }
 
     

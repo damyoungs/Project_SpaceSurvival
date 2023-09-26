@@ -10,13 +10,13 @@ using UnityEngine.InputSystem;
 public class ContinueButton : MonoBehaviour
 {
     [SerializeField]
-    EnumList.SceanName sceanName;
+    EnumList.SceneName sceneName;
     private void Awake()
     {
-        sceanName = EnumList.SceanName.TestBattleMap;
+        sceneName = EnumList.SceneName.TestBattleMap;
     }
     public void OnClickContinue()
     {
-        LoadingScean.SceanLoading(sceanName);
+        LoadingScene.SceneLoading(sceneName);
     }
 }

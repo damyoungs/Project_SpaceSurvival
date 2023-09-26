@@ -8,18 +8,23 @@ using UnityEngine.UI;
 /// </summary>
 public class EtcObjects : Singleton<EtcObjects>
 {
-    UICamera[] teamCharcterView; //캐릭터 상시상태쪽에 보일카메라 3개
+    /// <summary>
+    /// 카메라 관리할 큐
+    /// </summary>
+    Queue<UICamera> cameraQueue;
+
+    /// <summary>
+    /// 캐릭터 상시상태쪽에 보일카메라 3개
+    /// </summary>
+    UICamera[] teamCharcterView; 
     public UICamera TeamCharcterView => cameraQueue.Dequeue(); //카메라 줄땐 큐에서 꺼내서준다.
-    Queue<UICamera> cameraQueue; //카메라 관리할 큐
+
+    
     protected override void Awake()
     {
         base.Awake();
-        WindowList windowList = FindObjectOfType<WindowList>();
-        //Debug.Log($"{windowList}{teamBorderManager}{rawImages.Length}");
         teamCharcterView = GetComponentsInChildren<UICamera>(true); //EtcObject 밑에는 항시 3개만 존재 위치바껴도찾기위해 걍 이렇게 찾는다.
         cameraQueue = new Queue<UICamera>(teamCharcterView.Length); //찾은 갯수로 큐만들어두고 
-        
-        
     }
     private void Start()
     {

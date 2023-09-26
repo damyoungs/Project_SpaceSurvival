@@ -11,7 +11,7 @@ public class EnemyTurnObject : TurnBaseObject
     /// 테스트용 변수 
     /// </summary>
     [SerializeField]
-    int testPlayerLength = 5;
+    int testPlayerLength = 2;
     /// <summary>
     /// 캐릭터 데이터는 외부에서 셋팅하기때문에 해당 델리게이트 연결해줘야함
     /// </summary>
@@ -24,7 +24,6 @@ public class EnemyTurnObject : TurnBaseObject
     /// </summary>
     public override void InitData()
     {
-
         BattleMapEnemyBase[] enemyList = initEnemy?.Invoke(); //외부에서 몬스터 배열이 들어왔는지 체크
         if (enemyList == null || enemyList.Length == 0) //몬스터 초기화가 안되있으면 
         {
@@ -36,6 +35,8 @@ public class EnemyTurnObject : TurnBaseObject
                 charcterList.Add(go);
                 
                 go.name = $"Enemy_{i}";
+                //go.EnemyNum = i;
+                
                 go.GetCurrentTile = () => (SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Monster)); //데이터 연결 
                 go.transform.position = go.CurrentTile.transform.position; //셋팅된 타일위치로 이동시킨다.
             }
@@ -50,12 +51,20 @@ public class EnemyTurnObject : TurnBaseObject
 
         SpaceSurvival_GameManager.Instance.GetEnemeyTeam = () => charcterList.OfType<BattleMapEnemyBase>().ToArray();
     }
+    public Tile Des;
+    float AttackRange;
     public override void TurnStartAction()
     {
         turnStart?.Invoke();
-        Debug.Log($"적군턴시작 행동력 :{TurnActionValue}");
+        Des = SpaceSurvival_GameManager.Instance.PlayerTeam[0].currentTile;        
+        for(int i = 0; i >= testPlayerLength; i++)
+        {
+            
+
+        }
+
+
         TurnActionValue -= UnityEngine.Random.Range(5.0f, 10.0f);// 행동력 소모후 테스트 용 
-        
         Debug.Log($"적군턴끝 행동력 :{TurnActionValue}");
         TurnEndAction();
     }

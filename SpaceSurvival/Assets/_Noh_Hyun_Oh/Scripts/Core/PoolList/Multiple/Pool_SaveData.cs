@@ -6,7 +6,7 @@ using UnityEngine;
 /// 저장데이터화면에 보여줄 오브젝트 생산클래스
 /// 오브젝트풀에 없다고 동작안하는것은 아니다.
 /// </summary>
-public class Pool_SaveData : Base_Pool_Multiple<SaveData_PoolObj>
+public class Pool_SaveData : Base_Pool_Multiple<SaveGameObject>
 {
 
     /// <summary>

@@ -85,7 +85,12 @@ public class WindowList : Singleton<WindowList> {
     /// </summary>
     TeamBorderManager teamBorderManager;
     public TeamBorderManager TeamBorderManager => teamBorderManager;
-
+    
+    /// <summary>
+    /// 퀘스트 매니저
+    /// </summary>
+    Gyu_QuestManager gyu_QuestManager;
+    public Gyu_QuestManager Gyu_QuestManager => gyu_QuestManager;
 
     /// <summary>
     /// 윈도우리스트는 항상가지고다니는것이기때문에 여기에서 이벤트처리를 진행.
@@ -94,7 +99,7 @@ public class WindowList : Singleton<WindowList> {
     {
         base.Awake();
         //오브젝트 순서 계속바껴서 걍무겁더라도 GetComponentInChildren<Type>(true) 으로 찾아둘란다.. 매번 이거때매 고치기귀찮.
-        defencePanel = transform.GetComponentInChildren<DefenceEvent>(true); 
+        defencePanel = transform.GetComponentInChildren<DefenceEvent>(true);
         invenWindow = transform.GetComponentInChildren<Inventory>(true);
         saveLoadPopupWindow = transform.GetComponentInChildren<SaveLoadPopupWindow>(true);
         mainWindow = transform.GetComponentInChildren<SaveWindowManager>(true);
@@ -102,6 +107,7 @@ public class WindowList : Singleton<WindowList> {
         optionsPopupWindow = transform.GetComponentInChildren<OptionsPopupWindow>(true);
         turnGaugeUI = transform.GetComponentInChildren<TurnGaugeOnOff>(true);
         teamBorderManager = transform.GetComponentInChildren<TeamBorderManager>(true);
+        gyu_QuestManager = transform.GetComponentInChildren<Gyu_QuestManager>(true);
         battleActionButtons = transform.GetChild(0).GetChild(1); //나중에 수정필요 
 
     }
@@ -139,7 +145,7 @@ public class WindowList : Singleton<WindowList> {
     private void OnOffWindowOption()
     {
         //씬로딩이아닌경우만 실행한다. 
-        if (!LoadingScean.IsLoading){ 
+        if (!LoadingScene.IsLoading){ 
             popupOnOff(mainWindow);
         }
     }
@@ -169,7 +175,7 @@ public class WindowList : Singleton<WindowList> {
     private void OnOffStateWindow()
     {
         //씬로딩이아닌경우만 실행한다. 
-        if (!LoadingScean.IsLoading)
+        if (!LoadingScene.IsLoading)
         {
             popupOnOff(optionsPopupWindow);
 
@@ -179,7 +185,7 @@ public class WindowList : Singleton<WindowList> {
     private void OffPopupWindow()
     {
         //씬로딩이아닌경우만 실행한다. 
-        if (!LoadingScean.IsLoading)
+        if (!LoadingScene.IsLoading)
         {
             popupManager.PopupClose();
         }

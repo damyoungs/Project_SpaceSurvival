@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -39,6 +40,7 @@ public class PlayerTurnObject : TurnBaseObject
     /// </summary>
     public override void InitData()
     {
+        //InputSystemController.InputSystem
         //해당오브젝트는 팩토리에서 생성하지만 
         bpc = FindObjectOfType<BattleMap_Player_Controller>();   // 컨트롤러는 배틀맵에서만 있는 컴포넌트라서 초기화 할때 찾아온다
         cot = FindObjectOfType<CameraOriginTarget>(true);        // 컨트롤러는 배틀맵에서만 있는 컴포넌트라서 초기화 할때 찾아온다
@@ -47,6 +49,7 @@ public class PlayerTurnObject : TurnBaseObject
         bpc.onMoveActive = OnUnitMove;                           // 타일을 클릭했을때 플레이어가 움직이도록 로직연결
         bpc.GetPlayerTurnObject = () => this;                    // 초기값 데이터 연결 
 
+        SpaceSurvival_GameManager.Instance.GetPlayerTeam  = () =>  charcterList.Cast<BattleMapPlayerBase>().ToArray(); //일반포문돌려서 새로배열만들어서 집어넣는방법을하는게 조금더 가볍다.
         if (initPlayer != null) //외부 함수가 연결되 있으면
         {
             ICharcterBase[] playerList = initPlayer(); //데이터 요청을 하고 
@@ -103,12 +106,13 @@ public class PlayerTurnObject : TurnBaseObject
         Player_ currentPlayer = currentCharcter.CharcterData;
         currentPlayer.Stamina = TurnActionValue;
         float moveSize = currentUnit.MoveSize < TurnActionValue ? currentUnit.MoveSize : TurnActionValue;//이동범위 최대 크기잡아놓은만큼만 표시하기위한 값
-        Debug.Log(TurnActionValue);
+        //Debug.Log(TurnActionValue);
         //상시유아이 갱신
 
         TeamBorderStateUI uiComp = WindowList.Instance.TeamBorderManager.TeamStateUIs[0];
         uiComp.SetHpGaugeAndText(currentPlayer.HP, currentPlayer.MaxHp);
         uiComp.SetStmGaugeAndText(currentPlayer.Stamina, currentPlayer.Max_Stamina);
+
 
 
         SelectControllUnit(); //유닛 선택로직 실행
@@ -117,6 +121,7 @@ public class PlayerTurnObject : TurnBaseObject
         if (currentUnit.BattleUI != null)
         {
 
+            currentUnit.BattleUI.TrunActionStateChange(); //턴시작시 상태이상 들을 게이지 진행시킨다
             currentUnit.BattleUI.stmGaugeSetting(TurnActionValue, currentPlayer.Max_Stamina);
             currentUnit.BattleUI.hpGaugeSetting(currentPlayer.HP, currentPlayer.MaxHp);
         }
@@ -133,11 +138,7 @@ public class PlayerTurnObject : TurnBaseObject
     /// <param name="seletedTile">선택된 타일</param>
     private void OnUnitMove(Tile seletedTile)
     {
-        if (EventSystem.current.IsPointerOverGameObject())//포인터가 UI 위에 Mouse Over된 경우 return;
-        {
-            Debug.Log("UI 감지");
-            return;
-        }
+
         if (currentUnit != null && currentUnit.IsControll) //현재 컨트롤인경우만 
         {
 

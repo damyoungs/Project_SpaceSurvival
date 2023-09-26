@@ -12,6 +12,6 @@ public class LoadingOpening : MonoBehaviour
     }
     IEnumerator returnTitle() { 
         yield return new WaitForSeconds(1.0f);
-        LoadingScean.SceanLoading(); //다시 타이틀로 이동시킨다.
+        LoadingScene.SceneLoading(); //다시 타이틀로 이동시킨다.
     }
 }

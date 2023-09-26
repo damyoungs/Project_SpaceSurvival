@@ -3,13 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
+public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
 {
     /// <summary>
     /// 몬스터는 컨트롤할수없으니 형식만 맞춰두자
     /// </summary>
     public bool IsControll { get; set; }
+
+    Enemy_Psionic psionicData;
+    public Enemy_Psionic PsionicData => psionicData;
+
+    public int EnemyNum;
+
     public bool IsMoveCheck { get; }
+
     /// <summary>
     /// 추적형 UI 
     /// </summary>
@@ -30,8 +37,7 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
     /// <summary>
     /// 현재 자신의 위치의 타일
     /// </summary>
-    [SerializeField]
-    Tile currentTile;
+    public Tile currentTile;
     public Tile CurrentTile
     {
         get 
@@ -51,12 +57,22 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
     /// 행동력 혹은 이동가능 거리
     /// </summary>
     protected float moveSize = 3.0f;
-    public float MoveSize 
-    {
-        get => moveSize;
-        set => moveSize = value;
-    } 
+    public float MoveSize => moveSize;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        psionicData = GetComponentInChildren<Enemy_Psionic>();
+        psionicData.on_Enemy_Stamina_Change += (stmValue) =>
+        {
+            float currentMoveSize = stmValue > moveSize? moveSize : stmValue;
+            TurnManager.Instance.CurrentTurn.TurnActionValue = stmValue;
+            if(stmValue < 1.0f)
+            {
+                TurnManager.Instance.CurrentTurn.TurnEndAction();
+            }
+        };
+    }
 
     private void Start()
     {
@@ -71,6 +87,7 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
             InitUI();//초기화
         }
     }
+
     /// <summary>
     /// 추적형 UI 초기화 함수 셋팅
     /// </summary>
@@ -90,8 +107,6 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
             battleUI.Player = transform.GetChild(0);     //UI 는 유닛과 1:1 매치가 되있어야 됨으로 담아둔다.
         }
     }
-
-    
 
     /// <summary>
     /// 셋팅전의 값으로 돌리기
@@ -115,6 +130,17 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
 
     public void CharcterMove(Tile selectedTile)
     {
+        /*
+        여기서 조작하고 부르기
+
+
+
+
+        */
+        //desTile = battle.CurrentTile;
+        //List<Tile> path = Cho_BattleMap_AStar.PathFind(
+        //    SpaceSurvival_GameManager.Instance.BattleMap, SpaceSurvival_GameManager.Instance.MapSizeX,
+        //    SpaceSurvival_GameManager.Instance.MapSizeY, this.currentTile, desTile);
 
     }
 }

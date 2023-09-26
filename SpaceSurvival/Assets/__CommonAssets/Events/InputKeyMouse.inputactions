@@ -826,6 +826,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Status_Open",
+                    "type": "Button",
+                    "id": "76f9b5d2-2a4e-4f02-b86c-3aa34252cff7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -949,6 +958,17 @@
                     "action": "SkillBox_Open",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "437f4ef8-29b1-49bc-ba45-2489fc5dccf5",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyMouse",
+                    "action": "Status_Open",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -992,6 +1012,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Quest",
+                    "type": "Button",
+                    "id": "93efd5a5-6301-43ac-b2ce-d6946cc9e048",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1003,6 +1032,17 @@
                     "processors": "",
                     "groups": "KeyMouse",
                     "action": "Options",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "917edf11-6df7-4c77-9e22-f0b640c16601",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyMouse",
+                    "action": "Quest",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

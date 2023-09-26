@@ -8,7 +8,7 @@ namespace EnumList
     /// 씬리스트 
     /// 맴버변수명을 씬이름으로맞춰야한다. 그리고 빌드쪽에 순서도 맞춰야한다.
     /// </summary>
-    public enum SceanName
+    public enum SceneName
     {
         NONE = -1,//셋팅안됬을때의값 이값셋팅되면안된다 기본적으로.
         OPENING,
@@ -85,6 +85,7 @@ namespace EnumList
         CHARCTER_PLAYER_POOL,
         CHARCTER_ENEMY_POOL,
         TILE_POOL,
+        MERCHANT_iTEM_POLL,
     }
 
 
@@ -101,15 +102,15 @@ namespace EnumList
     /// <summary>
     /// 화상 감전 동상 중독 공포 
     /// </summary>
-    public enum StateType
-    {
-        None = 0, //빈값
-        ElectricShock, //감전
-        Freeze, //동상
-        Poison, //중독
-        Fear, //공포
-        Burns //화상
-    }
+    //public enum StateType
+    //{
+    //    None = 0, //빈값
+    //    ElectricShock, //감전
+    //    Freeze, //동상
+    //    Poison, //중독
+    //    Fear, //공포
+    //    Burns //화상
+    //}
 
     /// <summary>
     /// 캐릭터 카메라 

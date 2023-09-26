@@ -114,6 +114,8 @@ public class InitCharcterSetting : MonoBehaviour
         TurnManager.Instance.InitTurnData(teamArray);
         
         GameManager.QuickSlot_Manager.gameObject.SetActive(true);
+
+        WindowList.Instance.Gyu_QuestManager.InitDataSetting();
     }
 
     /// <summary>

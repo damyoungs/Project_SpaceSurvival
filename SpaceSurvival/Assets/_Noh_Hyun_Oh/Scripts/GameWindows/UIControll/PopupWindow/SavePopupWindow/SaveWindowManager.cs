@@ -376,7 +376,7 @@ public class SaveWindowManager : PopupWindowBase ,IPopupSortWindow ,IPointerDown
             sd.name = "";
             sd.CreateTime = "";
             sd.Money = 0;
-            sd.SceanName = EnumList.SceanName.NONE;
+            sd.SceanName = EnumList.SceneName.NONE;
         }
     }
 

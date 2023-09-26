@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
+public class BattleMapPlayerBase : Base_PoolObj, ICharcterBase
 {
+    //public static BattleMapPlayerBase instance;
     /// <summary>
     /// 현재 캐릭이 컨트롤할수있는상태인지 체크
     /// </summary>
@@ -43,7 +44,7 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
     /// <summary>
     /// 현재 내위치에있는 타일
     /// </summary>
-    Tile currentTile;
+    public Tile currentTile;
     public Tile CurrentTile
     {
         get
@@ -119,9 +120,14 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
                 BattleUI.hpGaugeSetting(hpValue, charcterData.MaxHp); //소모된 행동력 표시
             }
         };
+        //
+        charcterData.on_Buff_Start += (buffValue) =>
+        {
+            battleUI.AddOfStatus(buffValue);
+        };
+        
 
-      
-     
+
 
     }
 
@@ -158,6 +164,7 @@ public class BattleMapPlayerBase : PlayerBase_PoolObj, ICharcterBase
             battleUI.transform.SetParent(battleUICanvas);//풀은 캔버스 밑에없기때문에 배틀맵UI만 관리할 캔버스 위치 밑으로 이동시킨다.
             battleUI.gameObject.SetActive(true); //활성화 시킨다.
             battleUI.Player = transform.GetChild(0);     //UI 는 유닛과 1:1 매치가 되있어야 됨으로 담아둔다.
+            battleUI.releaseStatus += (_) => { Debug.Log("버프해제"); charcterData.DeBuff(); }; //버프해제 등록
         }
         if (viewPlayerCamera == null)  //카메라 셋팅안되있으면 
         {

@@ -1,16 +1,33 @@
 using StructList;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SaveDataParsing : MonoBehaviour
 {
+    /// <summary>
+    /// json형식으로 저장할 객체
+    /// </summary>
+    JsonGameData saveData; 
+
+    /// <summary>
+    /// 저장할 아이템 데이터 위치
+    /// </summary>
     SlotManager slotManager;
-    JsonGameData saveData; //저장할데이터 파싱할동안 담아둘 변수
+
+    /// <summary>
+    /// 진행중인 퀘스트 정보 위치
+    /// </summary>
+    PlayerQuest_Gyu playerQuest;
+
+    SkillBox playerSkill;
 
     private void Awake()
     {
         slotManager = FindObjectOfType<SlotManager>();
+        playerQuest = FindObjectOfType<PlayerQuest_Gyu>();
+        playerSkill = FindObjectOfType<SkillBox>();
     }
 
     /// <summary>
@@ -19,9 +36,10 @@ public class SaveDataParsing : MonoBehaviour
     public void SaveParsing()
     {
         saveData = new JsonGameData();                              //저장할 객체 생성
-
+        saveData.SkillDatas = playerSkill.SaveSkillData();
         SaveInvenDataParsing();                                     //인벤토리 에서 데이터 가져오기 
-
+        SaveDataSetting();                                          //퀘스트 캐릭터한테 퀘스트 데이터 가져오기
+        
         SaveLoadManager.Instance.GameSaveData = saveData;           //저장로직에사용될 객체에 담기
     }
     /// <summary>
@@ -30,9 +48,13 @@ public class SaveDataParsing : MonoBehaviour
     /// <param name="data"></param>
     public void LoadParsing(JsonGameData data)
     {
+        ResetData();
         LoadInvenDataParsing(data);
-
+        LoadQuestDataParsing(data.QuestList);
+        playerSkill.LoadSkillData_In_QuickSlot(data.SkillDatas);    
+        RefreshData();
     }
+
 
     /// <summary>
     /// 게임저장시 인벤토리내용 접근해서 데이터로 만드는 작업 
@@ -138,7 +160,7 @@ public class SaveDataParsing : MonoBehaviour
     /// <param name="data">저장파일에서 가져온데이터 </param>
     private void LoadInvenDataParsing(JsonGameData data) 
     {
-        slotManager.SaveFileLoadedResetSlots(); //기존데이터 싹다날리고 초기값으로 셋팅
+      
         Slot temp = null; //슬롯내용물셋팅할 임시변수
         ItemData_Enhancable tempEnchan; //인첸장비인지 체크할 임시변수
 
@@ -181,6 +203,13 @@ public class SaveDataParsing : MonoBehaviour
             temp = slots[(int)consumeData.SlotIndex];
             temp.ItemData = GameManager.Itemdata[consumeData.ItemIndex];
             temp.ItemCount = consumeData.Values;
+
+            ItemData_Potion potion = temp.ItemData as ItemData_Potion;
+            if (temp.BindingSlot != null && potion != null)
+            {
+
+            }
+         
         }
 
 
@@ -214,6 +243,110 @@ public class SaveDataParsing : MonoBehaviour
         }
 
 
+    }
+
+
+    //----------------------------- 퀘스트 저장및 불러오기 ------------------------------------
+    /// <summary>
+    /// 저장할 퀘스트 데이터 셋팅 하는 함수
+    /// </summary>
+    private void SaveDataSetting()
+    {
+        int saveQuestSize = playerQuest.CurrentQuests.Count + playerQuest.ClearQuestList.Count;
+        CharcterQuest[] saveDataSetting = new CharcterQuest[saveQuestSize];
+        int arrayIndex = 0;
+        foreach (Gyu_QuestBaseData questData in playerQuest.CurrentQuests)
+        {
+            saveDataSetting[arrayIndex].QuestIndex = questData.QuestId;
+            saveDataSetting[arrayIndex].QuestIProgress = questData.CurrentCount;
+            saveDataSetting[arrayIndex].QuestType = questData.QuestType;
+            saveDataSetting[arrayIndex].QuestState= questData.Quest_State;
+
+            arrayIndex++;
+        }
+        foreach (Gyu_QuestBaseData questData in playerQuest.ClearQuestList)
+        {
+            saveDataSetting[arrayIndex].QuestIndex = questData.QuestId;
+            saveDataSetting[arrayIndex].QuestIProgress = questData.CurrentCount;
+            saveDataSetting[arrayIndex].QuestType = questData.QuestType;
+            saveDataSetting[arrayIndex].QuestState= questData.Quest_State;
+            arrayIndex++;
+        }
+        saveData.QuestList = saveDataSetting;
+    }
+    /// <summary>
+    /// 로드시 퀘스트 데이터 파싱관련 함수
+    /// </summary>
+    private void LoadQuestDataParsing(CharcterQuest[] quests)
+    {
+        //저장한데이터 셋팅하기
+        int loadDataQuestSize = quests.Length;
+        for (int i = 0; i < loadDataQuestSize; i++) //저장된 데이터만큼 돌리고 
+        {
+            switch (quests[i].QuestType)
+            {
+                case QuestType.Story:
+                    SetQuestData(DataFactory.Instance.QuestScriptableGenerate.MainStoryQuestArray, quests[i].QuestIndex, quests[i].QuestIProgress, quests[i].QuestState);
+                    break;
+                case QuestType.Killcount:
+                    SetQuestData(DataFactory.Instance.QuestScriptableGenerate.KillcountQuestArray, quests[i].QuestIndex, quests[i].QuestIProgress, quests[i].QuestState);
+                    break;
+                case QuestType.Gathering:
+                    SetQuestData(DataFactory.Instance.QuestScriptableGenerate.GatheringQuestArray, quests[i].QuestIndex, quests[i].QuestIProgress, quests[i].QuestState);
+                    break;
+            }
+        }
+
+    }
+
+    /// <summary>
+    /// 퀘스트 데이터와 불러온 데이터를 비교해서 완료 퀘스트리스트 나 진행중인 퀘스트리스트에 넣는 함수
+    /// </summary>
+    /// <param name="questArray">원본 퀘스트</param>
+    /// <param name="checkIndex">파일에서 불러온 퀘스트 인덱스값</param>
+    /// <param name="setValues">파일에서 불러온 퀘스트 진행도값</param>
+    private void SetQuestData(Gyu_QuestBaseData[] questArray, int checkIndex, int[] setValues, Quest_State questState)
+    {
+        int questSize = questArray.Length;
+        Gyu_QuestBaseData tempData;
+        for (int i = 0; i < questSize; i++) // 현재 퀘스트 종류 내에 존재하는 배열 을 전부 돌린다 .
+        {
+            tempData = questArray[i];
+            if (checkIndex == tempData.QuestId)    // 퀘스트 목록중에 아이디가 같은게있는지 체크해서 
+            {
+                tempData.SaveFileDataPasing(setValues,questState); //데이터 셋팅하고 
+                if (questState == Quest_State.Quest_Complete) //완료 된거면 
+                {
+                    playerQuest.ClearQuestList.Add(tempData);       //완료 퀘스트 쪽에 넣는다.
+                }
+                else  //완료 안된거면 
+                {
+                    playerQuest.CurrentQuests.Add(tempData);                // 진행중인 퀘스트쪽으로 넣고 
+                }
+                return;      //함수를 끝낸다. 
+            }
+        }
+
+    }
+
+
+
+    /// <summary>
+    /// 게임 로드시 데이터를 초기화 시키는 함수 
+    /// 초기화된 데이터에다가 로드한 데이터를 입력해야한다.
+    /// </summary>
+    private void ResetData()
+    {
+        slotManager.SaveFileLoadedResetSlots(); //기존데이터 싹다날리고 초기값으로 셋팅
+        playerQuest.ResetData();                //퀘스트 데이터 날리기
+    }
+    /// <summary>
+    /// 데이터가 갱신은 됬으나 UI 에 연결안되는것들을 한번에 처리하는 함수 
+    /// 데이터 처리 끝난뒤에 진행 
+    /// </summary>
+    private void RefreshData()
+    {
+        //퀘스트 현재진행중인 값이 연결안되서 연결시켜줘야함.
     }
 
 }

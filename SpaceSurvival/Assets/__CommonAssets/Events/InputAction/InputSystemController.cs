@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using Unity.VisualScripting;
-using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -78,6 +77,7 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
     public Action OnUI_SkillBox_Open;
     public Action OnUI_Inven_Inven_Open;
     public Action OnUI_Inven_MouseClickRight;
+    public Action On_StatusOpen;
     //QuickSlot
 
     public Action OnQuickSlot_Popup;
@@ -141,6 +141,7 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
         inputSystem.UI_Inven.EquipBox_Open.performed += (_) => { OnUI_Inven_EquipBox_Open?.Invoke(); };
         inputSystem.UI_Inven.InvenKey.performed += (_) => { OnUI_Inven_Inven_Open?.Invoke(); };
         inputSystem.UI_Inven.SkillBox_Open.performed += (_) => { OnUI_SkillBox_Open?.Invoke(); };
+        inputSystem.UI_Inven.Status_Open.performed += (_) => On_StatusOpen?.Invoke(); 
 
 
         inputSystem.Camera.RightRotate.performed += (_) => { OnCamera_RightRotate?.Invoke(); };

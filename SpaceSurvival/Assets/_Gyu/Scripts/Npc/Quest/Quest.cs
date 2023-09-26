@@ -6,6 +6,11 @@ using UnityEngine;
 public class Quest
 {
     /// <summary>
+    /// Npcid + 퀘스트 번호Quest[]
+    /// </summary>
+    public int QuestIndex;
+
+    /// <summary>
     /// 클리어 여부 확인
     /// </summary>
     public bool isSucess;
