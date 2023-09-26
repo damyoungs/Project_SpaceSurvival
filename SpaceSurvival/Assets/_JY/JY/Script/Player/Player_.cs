@@ -308,14 +308,15 @@ public class Player_ : MonoBehaviour, IBattle
         skill_Blessing = skillData as Skill_Blessing;
         if (skill_Blessing == null && Stamina >= skillData.Require_Stamina_For_UsingSkill && this.Weapon_Type != WeaponType.None)
         {
-            if (player_Status.IsCritical(skillData, out float criticalDamage))
+            if (player_Status.IsCritical(skillData))
             {
+                on_ActiveSkill?.Invoke(skillData);
 
             }
-            skillData.FinalDamage = player_Status.ATT * skillData.SkillPower;
-            on_ActiveSkill?.Invoke(skillData);
-
-            Debug.Log($"스킬이름 : {skillData.SkillName}\n 데미지 : {skillData.FinalDamage}");
+            else
+            {
+                on_ActiveSkill?.Invoke(skillData);
+            }
             on_CursorChange?.Invoke(true);
         }
         else if (skill_Blessing != null)//만약 사용한 스킬이 버프스킬이면@@@// PlayerStatus에 신호보내 적용하기
