@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
     public Texture2D skillCursor;
 
     Player_ player;
+    Player_Status status;
     Inventory inventory;
     SlotManager slotManager;
     ItemSpawner itemSpawner;
@@ -54,6 +55,7 @@ public class GameManager : MonoBehaviour
     public static SlotManager SlotManager => Inst.slotManager;
     public static ItemSpawner Item_Spawner => Inst.itemSpawner;
     public static Player_ Player_ => Inst.player;
+    public static Player_Status PlayerStatus => Inst.status;
     public static Item_Enhancer Enhancer => Inst.enhancer;
     public static Item_Mixer Mixer => Inst.mixer;
     public static Item_Mixing_Table Mixing_Table => Inst.mixingTable;
@@ -76,6 +78,7 @@ public class GameManager : MonoBehaviour
         equipBox = FindObjectOfType<EquipBox>();
         particlePool = GetComponentInChildren<EffectParticle_Pool>();
         skillBox = FindAnyObjectByType<SkillBox>();
+        status = FindAnyObjectByType<Player_Status>();
     }
     private void Start()
     {

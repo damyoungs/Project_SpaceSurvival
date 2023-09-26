@@ -165,8 +165,7 @@ public class ItemSpawner : TestBase
     }
     protected override void Test1(InputAction.CallbackContext _)
     {
-        GameManager.SkillBox.TestSave();
-        Debug.Log("저장완료");
+        GameManager.PlayerStatus.GetExp(20);
     }
     protected override void Test2(InputAction.CallbackContext context)
     {

@@ -10,7 +10,18 @@ public class ItemData_Armor : ItemData, IEquippable
     public EquipType EquipType;
     public uint attack_Point;
     public uint defence_Point;
+    public uint STR;
+    public uint INT;
+    public uint LUK;
+    public uint DEX;
 
-    uint IEquippable.ATT { get { return attack_Point; } }
-    uint IEquippable.DP { get { return defence_Point; } }
+
+
+
+    uint IEquippable.STR => STR;
+    uint IEquippable.INT => INT;
+    uint IEquippable.LUK => LUK;
+    uint IEquippable.DEX => DEX;
+    uint IEquippable.ATT => attack_Point;
+    uint IEquippable.DP => defence_Point;
 }
