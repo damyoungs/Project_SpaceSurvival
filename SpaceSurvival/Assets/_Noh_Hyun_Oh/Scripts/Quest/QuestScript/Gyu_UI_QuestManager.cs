@@ -53,51 +53,13 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
 
 
     /// <summary>
-    /// 엔피씨 이미지
-    /// </summary>
-    RawImage npcImg;
-
-    /// <summary>
-    /// 엔피씨 이름
-    /// </summary>
-    TextMeshProUGUI nameBox;
-
-    /// <summary>
-    /// 엔피씨 대화목록
-    /// </summary>
-    TextMeshProUGUI talkBox;
-
-    /// <summary>
     /// 퀘스트 확인 버튼
     /// </summary>
     Button questConfirm;
     public Button QuestConfirm => questConfirm;
-    /// <summary>
-    /// 대화종료 버튼
-    /// </summary>
-    Button talkEndButton;
-    public Button TalkEndButton => talkEndButton;
 
-    /// <summary>
-    /// NPC 대화 버튼 
-    /// </summary>
-    Button npcTalkButton;
-    public Button NpcTalkButton => npcTalkButton;
 
-    /// <summary>
-    /// 대화창의 트랜스폼
-    /// </summary>
-    Transform talkBoxPanel;
 
-    /// <summary>
-    /// 다음 대사로 넘기는 버튼
-    /// </summary>
-    Button nextButton;
-
-    /// <summary>
-    /// 로그 토글 버튼 
-    /// </summary>
-    Button logButton;
 
 
     /// <summary>
@@ -109,6 +71,8 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
     /// 진행중인 텍스트박스의 트랜스폼 
     /// </summary>
     Transform myQuestBoxPanel;
+
+
 
 
     /// <summary>
@@ -150,10 +114,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
 
     public Action<IPopupSortWindow> PopupSorting { get ; set ; }
 
-    /// <summary>
-    /// 대화 코루틴 중복체크용 
-    /// </summary>
-    bool isTalking = false;
+  
 
     //----------------- 퀘스트 메니저(동적 데이터관리하는) 와 연결할 Action들
     /// <summary>
@@ -162,21 +123,9 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
     /// </summary>
     Gyu_QuestManager questManager;
 
-    /// <summary>
-    /// Func은 데이터연결타이밍 맞추기에는 편하지만 기본적으로 null 체크를 해야되고 함수호출로 읽어오는것이라
-    /// 느릴수밖에없다.
-    /// </summary>
-    public Func<NpcBase_Gyu>   onTalkClick;
+  
 
-    /// <summary>
-    /// 대화 내용을 가져온다.
-    /// </summary>
-    public Func<int, string[]> getTalkDataArray;
 
-    /// <summary>
-    /// 현재 대화순번 
-    /// </summary>
-    int currentTalkIndex = 0;
 
     /// <summary>
     /// 퀘스트 수락이됬다고 알려주는 델리게이트
@@ -208,15 +157,20 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
     /// </summary>
     Button questList_ClearViewBtn;
 
+
     /// <summary>
-    /// 로그 관리해줄 컴포넌트
+    /// 대화 관리해줄 컴포넌트
     /// </summary>
-    LogManager logmanager;
+    NpcTalkController npcTalkController;
 
     private void Awake()
     {
+        npcTalkController = FindObjectOfType<NpcTalkController>();
+        
+        npcTalkController.openTalkWindow += () => { };
+        npcTalkController.closeTalkWindow += initialize;
+        
         questManager = GetComponent<Gyu_QuestManager>(); 
-        logmanager = FindObjectOfType<LogManager>();
 
         questBoxPanel = transform.GetChild(0);
         titleBox = questBoxPanel.GetChild(0).GetComponent<TextMeshProUGUI>();
@@ -233,35 +187,18 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
         questSuccessButton.onClick.AddListener(SucessButton);
 
 
-        talkBoxPanel = transform.GetChild(1);
 
-        nextButton = talkBoxPanel.GetChild(5).GetComponent<Button>();
-        nextButton.onClick.AddListener(() => QuestTalk(currentTalkIndex + 1));
-
-        logButton = talkBoxPanel.GetChild(6).GetComponent<Button>();
-        logButton.onClick.AddListener(() => {
-            logmanager.LogBoxSetting(currentTalkIndex);
-        });
-        npcImg = talkBoxPanel.GetChild(0).GetChild(0).GetComponent<RawImage>();
-
-        nameBox = talkBoxPanel.GetChild(1).GetComponent<TextMeshProUGUI>();
-        talkBox = talkBoxPanel.GetChild(2).GetComponent<TextMeshProUGUI>();
-        
-        questConfirm = talkBoxPanel.GetChild(3).GetComponent<Button>();
+        questConfirm = transform.GetChild(1).GetComponent<Button>();
         questConfirm.onClick.AddListener(ToNpcQuestListPanelToggle);
 
-        talkEndButton = talkBoxPanel.GetChild(4).GetComponent<Button>();
-        talkEndButton.onClick.AddListener(initialize);
 
 
         myQuestBoxPanel = transform.GetChild(2); 
         myQuestBox = myQuestBoxPanel.GetChild(1).GetComponent<TextMeshProUGUI>();
 
 
-        npcTalkButton = transform.GetChild(3).GetComponent<Button>();
-        npcTalkButton.onClick.AddListener(()=>QuestTalk(0));
 
-        questListPanel = transform.GetChild(4);
+        questListPanel = transform.GetChild(3);
         questList_CurrentViewBtn = questListPanel.GetChild(2).GetComponent<Button>();
         questList_CurrentViewBtn.onClick.AddListener(() => {
             ToPlayerCurrentQuestListPanelOpen();
@@ -300,46 +237,10 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
         };
     }
 
-    /// <summary>
-    /// 엔피씨 근처로 갔을경우 대화하기 버튼 활성화 시키기 
-    /// </summary>
-    public void TalkEnableButton()
-    {
-        npcTalkButton.gameObject.SetActive(true);
-    }
 
-    /// <summary>
-    /// 엔피씨 에서 멀어질 경우 퀘스트 UI 초기화 시키기 
-    /// </summary>
-    public void TalkDisableButton()
+    public void OnQuestNpc() 
     {
-        initialize();
-    }
-
-    /// <summary>
-    /// Npc 대사를 출력
-    /// </summary>
-    public void QuestTalk(int talkIndex)
-    {
-        if (!isTalking)
-        {
-            NpcBase_Gyu npc =  onTalkClick?.Invoke();
-            npcImg.texture = npc.GetTexture;
-            if (npc != null)
-            {
-                npcTalkButton.gameObject.SetActive(false);
-                talkBoxPanel.gameObject.SetActive(true);
-                nameBox.text = npc.name;
-                string[] talkString = getTalkDataArray?.Invoke(talkIndex);
-                if (talkString != null &&  talkString.Length > 0) 
-                {
-                  
-                    StartCoroutine(Typing(talkString,talkIndex));
-                }
-            }
-      
-            OpenWindow();
-        }
+        questConfirm.gameObject.SetActive(true);
     }
 
    /// <summary>
@@ -459,11 +360,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
         NpcQuest(questData);
         onSelectedQuest?.Invoke(questData);
         SelectedColum = selectColum;
-
-        isTalking = false;
-        currentTalkIndex = 0;
-        StopAllCoroutines();
-        QuestTalk(currentTalkIndex);
+        npcTalkController.ReTalking();
     }
 
 
@@ -600,41 +497,17 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
         titleBox.text = "";
         descriptionBox.text = "";
         clearBox.text = "";
-        currentTalkIndex = 0;
-        npcImg.texture = null;
-        nameBox.text = "";
-        talkBox.text = "";
+       
 
         myQuestBoxPanel.gameObject.SetActive(false);
         questBoxPanel.gameObject.SetActive(false);
-        talkBoxPanel.gameObject.SetActive(false);
+        questConfirm.gameObject.SetActive(false);
         questListPanel.gameObject.SetActive(false);
-        logmanager.ResetData();
+      
+      
         //quests = null;
         //array_NPC = null;
-        npcTalkButton.gameObject.SetActive(false);
-    }
-
-    /// <summary>
-    /// 타이핑 효과가있는 텍스트 출력 하기
-    /// </summary>
-    /// <param name="textArray"></param>
-    /// <returns></returns>
-    IEnumerator Typing(string[] textArray,int talkIndex)
-    {
-        isTalking = true;
-        talkBox.text = "";
-        foreach (string text in textArray)
-        {
-            foreach (char letter in text.ToCharArray())
-            {
-                talkBox.text += letter;
-                yield return new WaitForSeconds(0.05f);
-            }
-            talkBox.text += "\r\n";
-        }
-        currentTalkIndex = talkIndex;
-        isTalking = false;
+  
     }
 
    

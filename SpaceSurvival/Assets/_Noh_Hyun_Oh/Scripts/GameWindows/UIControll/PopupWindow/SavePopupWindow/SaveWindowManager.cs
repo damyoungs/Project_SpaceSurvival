@@ -87,7 +87,7 @@ public class SaveWindowManager : PopupWindowBase ,IPopupSortWindow ,IPointerDown
     /// <summary>
     /// 저장로직실행시 팝업윈도우 위치
     /// </summary>
-    private SaveLoadPopupWindow saveLoadPopupWindow;
+    private ModalPopupWindow saveLoadPopupWindow;
 
 
     //int singletonCheck;

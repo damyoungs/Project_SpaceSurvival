@@ -9,12 +9,12 @@ public class OptionsListButton : MonoBehaviour
 {
     public void SaveAction() 
     {
-        WindowList.Instance.IOPopupWindow.OpenPopupAction(EnumList.SaveLoadButtonList.SAVE);
+        WindowList.Instance.IOPopupWindow.SaveProccessOpenPopupAction(EnumList.SaveLoadButtonList.SAVE);
     }
 
     public void LoadAction()
     {
-        WindowList.Instance.IOPopupWindow.OpenPopupAction(EnumList.SaveLoadButtonList.LOAD);
+        WindowList.Instance.IOPopupWindow.SaveProccessOpenPopupAction(EnumList.SaveLoadButtonList.LOAD);
 
     }
 
@@ -36,7 +36,7 @@ public class OptionsListButton : MonoBehaviour
 
     public void DeleteAction()
     {
-        WindowList.Instance.IOPopupWindow.OpenPopupAction(EnumList.SaveLoadButtonList.DELETE);
+        WindowList.Instance.IOPopupWindow.SaveProccessOpenPopupAction(EnumList.SaveLoadButtonList.DELETE);
        
     }
 

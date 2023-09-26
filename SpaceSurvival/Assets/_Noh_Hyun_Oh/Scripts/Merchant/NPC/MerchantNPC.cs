@@ -12,7 +12,7 @@ public enum Merchant_State
     Low                 // 기분나쁠때 상태 판매물품의 가격이 상승하고 구입할때 더싸게 구입한다
 }
 
-public class MerchantNPC : MonoBehaviour
+public class MerchantNPC : NpcBase_Gyu
 {
     /// <summary>
     /// 상인 엔피씨 현재 기분상태
@@ -21,9 +21,10 @@ public class MerchantNPC : MonoBehaviour
     public Merchant_State Merchant_State => merchant_State;
 
 
-   
     private void Awake()
     {
-
+        Merchant_State temp = (Merchant_State)Random.Range(0, 3);//기분상태 랜덤으로 
+        Debug.Log(temp);
     }
+
 }

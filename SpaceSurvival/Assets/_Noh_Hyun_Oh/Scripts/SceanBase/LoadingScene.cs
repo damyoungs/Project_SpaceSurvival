@@ -197,6 +197,7 @@ public class LoadingScene : MonoBehaviour
             default:
                 break;
         }
+
     }
 
 }
