@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -178,6 +179,17 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
             on_ResetStatus?.Invoke();
         }
     }
+    float baseCriticalPower;
+    public float BaseCriticalPower
+    {
+        get => baseCriticalPower;
+        private set
+        {
+            baseCriticalPower = value;
+            playerStatus.CriticalPower = baseCriticalPower;
+            on_ResetStatus?.Invoke();
+        }
+    }
     public uint Base_CriticalDamage { get; set; }
 
     public float Base_CriticalRate { get; set; }
@@ -199,7 +211,7 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
         playerStatus.on_Rise_INT += () => Base_INT++;
         playerStatus.on_Rise_LUK += () => Base_LUK++;
         playerStatus.on_Rise_DEX += () => Base_DEX++;
-
+        playerStatus.on_Rise_CriticalPower += () => BaseCriticalPower += 0.1f;
 
     }
 
@@ -215,6 +227,7 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
         Base_INT = 5;
         Base_LUK = 5;
         Base_DEX = 5;
+        BaseCriticalPower = 1.8f;
         AbilityPoint = 50;
         Base_DarkForce = 500;
     }
@@ -265,7 +278,8 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
     uint dex;
     uint att;
     uint dp;
-    uint criticalDamage;
+    float criticalDamage;
+    float criticalPower;
     float criticalRate;
     uint abilityPoint;
     uint expMax;
@@ -273,8 +287,18 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
     float maxHP;
     float maxStamina;
     float dodgeRate;
+    float damage;
     uint darkForce;
 
+    public float Damage
+    {
+        get => damage;
+        set
+        {
+            damage = value;
+            damageText.text = $"{damage * 0.7:f0} ~ {damage:f0}";
+        }
+    }
     public uint DarkForce
     {
         get => darkForce;
@@ -428,14 +452,21 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
     }
 
 
-
-    public uint CriticalDamage
+    public float CriticalPower
+    {
+        get => criticalPower;
+        set
+        {
+            criticalPower = value;
+        }
+    }
+    public float CriticalDamage
     {
         get => criticalDamage;
         set
         {
             criticalDamage = value;
-            criticalDamageText.text = $"{criticalDamage * 0.7f:f0} / {criticalDamage}";
+            criticalDamageText.text = $"{criticalDamage * 0.5f:f0} ~ {criticalDamage:f0}";
         }
     }
 
@@ -602,6 +633,7 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
     public Action on_Rise_INT;
     public Action on_Rise_LUK;
     public Action on_Rise_DEX;
+    public Action on_Rise_CriticalPower;
     // totalATT, TotalDP 값을 업데이트하는 함수 실행
     //@@작업할 것 this.ATT = base_Status.base_ATT + equipments_Total_ATT_DP.Total_ATT;//플레이어의 공격력 = 기본공격력 + 장비아이템들의 공격력 총 합
     // this.DP = base_Status.base_DP + equipments_Total_ATT_DP.Total_DP;
@@ -620,6 +652,25 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         this.DP = base_Status.Base_DP + equipments_DataServer.Total_DP + (uint)(STR * 0.5f);
         this.CriticalRate = LUK * 0.3f;
         this.DodgeRate = DEX * 0.3f;
+
+        this.Damage = this.ATT;
+        this.CriticalDamage = this.ATT * 1.8f;
+    }
+
+    public bool IsCritical(SkillData skillData, out float criticalDamage)
+    {
+        bool result = false;
+        float criticalChance = UnityEngine.Random.Range(0, 100);
+        if (this.CriticalRate > criticalChance)
+        {
+            result = true;
+            criticalDamage = (this.ATT * skillData.SkillPower) * CriticalPower;
+        }
+        else
+        {
+            criticalDamage = 0;
+        }
+        return result;
     }
 
     uint increaseMaxHP()
@@ -633,6 +684,10 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         float increaseBase = 1;
         float result = increaseBase + (INT * 0.5f);
         return (uint)result;
+    }
+    void Rise_CriticalPower()
+    {
+        on_Rise_CriticalPower?.Invoke();
     }
     void Rise_Dexterity()
     {

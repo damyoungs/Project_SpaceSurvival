@@ -308,6 +308,10 @@ public class Player_ : MonoBehaviour, IBattle
         skill_Blessing = skillData as Skill_Blessing;
         if (skill_Blessing == null && Stamina >= skillData.Require_Stamina_For_UsingSkill && this.Weapon_Type != WeaponType.None)
         {
+            if (player_Status.IsCritical(skillData, out float criticalDamage))
+            {
+
+            }
             skillData.FinalDamage = player_Status.ATT * skillData.SkillPower;
             on_ActiveSkill?.Invoke(skillData);
 
