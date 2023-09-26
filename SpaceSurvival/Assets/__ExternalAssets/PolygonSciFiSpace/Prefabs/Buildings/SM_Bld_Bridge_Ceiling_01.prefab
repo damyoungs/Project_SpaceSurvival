@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 33508976396102552}
   - component: {fileID: 23759864561837346}
   - component: {fileID: 64160259372326024}
-  - component: {fileID: 3091451962988144245}
   m_Layer: 0
   m_Name: SM_Bld_Bridge_Ceiling_01
   m_TagString: Untagged
@@ -99,16 +98,3 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43535840882008224, guid: cc6386c2a0d2a584488382f6082f74b9, type: 2}
---- !u!65 &3091451962988144245
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1155626946297862}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 15.956445, y: 0.76434875, z: 14.130572}
-  m_Center: {x: -7.4999995, y: 4.0831556, z: 7.065286}

@@ -11,17 +11,8 @@ using UnityEngine.UI;
 /// </summary>
 public class NewGameButton: MonoBehaviour
 {
-    [SerializeField]
-    EnumList.SceneName sceneName;
-    Button button;
-    private void Awake()
+    public void OnClickNewStart()
     {
-        button = GetComponent<Button>();
-        button.onClick.AddListener(LoadScene_NewGame);
-    }
-    public void LoadScene_NewGame()
-    {
-        // LoadingScene.SceneLoading(sceneName);
-        SceneManager.LoadScene("Ship_");
+        LoadingScene.SceneLoading(EnumList.SceneName.SpaceShip);
     }
 }
