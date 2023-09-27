@@ -170,16 +170,7 @@ public class Player_ : MonoBehaviour, IBattle
     int attack_Trigger_Hash = Animator.StringToHash("Attack");
     int get_Hit_Hash = Animator.StringToHash("Get_Hit");
 
-    uint darkForce = 500;
-    public uint DarkForce
-    {
-        get => darkForce;
-        set
-        {
-            darkForce = value;
-            on_DarkForce_Change?.Invoke();
-        }
-    }
+  
     int money = 0;
     public int Money
     {
@@ -386,11 +377,6 @@ public class Player_ : MonoBehaviour, IBattle
 
         //초기스펙 설정
         Weapon_Type = WeaponType.None;
-        this.ATT = 100;
-        this.DP = 100;
-
-        
-        
     }
 
      void Update_Status()
@@ -510,7 +496,7 @@ public class Player_ : MonoBehaviour, IBattle
     {
         anim.SetTrigger(get_Hit_Hash);
         float final_Damage = damage - DP;
-        HP -= final_Damage;
+        GameManager.PlayerStatus.HP -= final_Damage;
     }
 
 

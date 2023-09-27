@@ -165,11 +165,14 @@ public class ItemSpawner : TestBase
     }
     protected override void Test1(InputAction.CallbackContext _)
     {
-        GameManager.PlayerStatus.GetExp(20);
+        // GameManager.PlayerStatus.GetExp(20);
+        GameManager.PlayerStatus.SaveData();
+        Debug.Log("저장");
     }
     protected override void Test2(InputAction.CallbackContext context)
     {
-        GameManager.PlayerStatus.CriticalRate += 1;
+        GameManager.PlayerStatus.LoadData();
+        Debug.Log("로드");
     }
     protected override void Test3(InputAction.CallbackContext context)
     {

@@ -102,7 +102,7 @@ public class PlayerQuest_Gyu : MonoBehaviour
                 GameManager.SlotManager.AddItem(clearData.RewardItem[i]); //하나씩 증가 
             }
         }
-        GameManager.Player_.DarkForce += (uint)clearData.RewardCoin; //다크포스 증가시키기
+        GameManager.PlayerStatus.DarkForce += (uint)clearData.RewardCoin; //다크포스 증가시키기
 
         /// 퀘스트 아이템 감소 시키기 
         if (clearData.QuestType == QuestType.Gathering)
