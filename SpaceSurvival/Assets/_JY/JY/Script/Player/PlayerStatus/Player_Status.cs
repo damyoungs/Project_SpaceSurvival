@@ -1,17 +1,21 @@
+using OpenCover.Framework.Model;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Windows;
 
+[Serializable]
 public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 방어력을 저장. 버프사용, 사용중 장비, 해제 시 다시 설정할 때와 데이터를 Save, Load 할 때 사용
 {
     //프로퍼티의 setter가 private이면 기준이 될 데이터 이기 때문에 실시간으로 변경해서는 안되는 데이터이다.
     //프로퍼티의 setter가 private이 아니면 버프스킬, 장비착용 등에 영향을 받지 않는 데이터이므로 실시간으로 변경이 가능하다.
 
     Player_Status playerStatus;
+    [SerializeField]
     uint abilityPoint;
     public uint AbilityPoint
     {
@@ -22,7 +26,7 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
             playerStatus.AbilityPoint = abilityPoint;
         }
     }
-
+    [SerializeField]
     string playerName;
     public string Name 
     {
@@ -33,40 +37,47 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
             playerStatus.Name = playerName;
         }
     }
-
+    [SerializeField]
     uint level;
     public uint Level 
     {
         get => level;
         set
         {
-            level = value;
-            playerStatus.Level = level;
+            if (level != value)
+            {
+                level = value;
+                playerStatus.Level = level;
+            }
         }
     }
+    [SerializeField]
     uint exp;
     public uint Exp
     {
         get => exp;
         set
         {
-            uint expOver = 0;
-            if (value > ExpMax)
+            if (exp != value)
             {
-                expOver = value - ExpMax;
-                playerStatus.LevelUp();
-                Exp += expOver;
+                uint expOver = 0;
+                if (value >= ExpMax)
+                {
+                    expOver = value - ExpMax;
+                    Level++;
+                }
+                else
+                {
+                    exp = (uint)Mathf.Clamp(value, 0, ExpMax);
+                }
+                exp += expOver;
+                playerStatus.Exp = exp;
+                on_ExpChange?.Invoke(exp);//UI 에서 받을 신호 
             }
-            else
-            {
-                exp = (uint)Mathf.Clamp(value, 0, ExpMax);
-            }
-            playerStatus.Exp = exp;
-            on_ExpChange?.Invoke(exp);//UI 에서 받을 신호 
         }
     }
     public Action<uint> on_ExpChange;
-
+    [SerializeField]
     uint expMax;
     public uint ExpMax 
     {
@@ -75,9 +86,10 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
         {
             expMax = value;
             playerStatus.ExpMax = expMax;
-            on_MaxExp_Change?.Invoke();
+            on_MaxExp_Change?.Invoke(expMax);
         }
     }
+    [SerializeField]
     float base_MaxHP;
     public float Base_MaxHP
     { 
@@ -85,9 +97,11 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
         private set
         {
             base_MaxHP = value;
-            on_MaxHP_Change?.Invoke();
+            playerStatus.MaxHP = base_MaxHP;
+            on_MaxHP_Change?.Invoke(base_MaxHP);
         }
     }
+    [SerializeField]
     float currentHP;
     public float CurrentHP 
     {
@@ -100,7 +114,7 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
         }
     }
     public Action<float> on_CurrentHP_Change;
-
+    [SerializeField]
     float current_Stamina;
     public float Current_Stamina 
     {
@@ -113,7 +127,7 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
         }
     }
     public Action<float> on_CurrentStamina_Change;
-
+    [SerializeField]
     float base_MaxStamina;
     public float Base_MaxStamina 
     {
@@ -121,9 +135,11 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
         private set
         {
             base_MaxStamina = value;
-            on_MaxStamina_Change?.Invoke();//UI
+            playerStatus.MaxStamina = base_MaxStamina;
+            on_MaxStamina_Change?.Invoke(base_MaxStamina);//UI
         }
     }
+    [SerializeField]
     uint BaseDarkForce;
     public uint Base_DarkForce
     {
@@ -137,8 +153,31 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
     }
     public Action<uint> on_DarkForceChange;
 
-    public uint Base_ATT { get; set; }
-    public uint Base_DP { get; set; }
+    [SerializeField]
+    uint base_ATT;
+    public uint Base_ATT
+    {
+        get => base_ATT;
+        set
+        {
+            base_ATT = value;
+            playerStatus.ATT = base_ATT;
+        }
+    }
+
+    [SerializeField]
+    uint base_DP;
+    public uint Base_DP
+    {
+        get => base_DP;
+        set
+        {
+            base_DP = value;
+            playerStatus.DP = base_DP;
+        }
+    }
+
+    [SerializeField]
     uint base_STR;
     public uint Base_STR 
     {
@@ -149,6 +188,7 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
             on_ResetStatus?.Invoke();
         }
     }
+    [SerializeField]
     uint base_INT;
     public uint Base_INT 
     {
@@ -159,6 +199,7 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
             on_ResetStatus?.Invoke();
         }
     }
+    [SerializeField]
     uint base_LUK;
     public uint Base_LUK 
     {
@@ -169,6 +210,7 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
             on_ResetStatus?.Invoke();
         }
     }
+    [SerializeField]
     uint base_DEX;
     public uint Base_DEX 
     {
@@ -179,6 +221,7 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
             on_ResetStatus?.Invoke();
         }
     }
+    [SerializeField]
     float baseCriticalPower;
     public float BaseCriticalPower
     {
@@ -190,6 +233,7 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
             on_ResetStatus?.Invoke();
         }
     }
+    [SerializeField]
     float damage_Min;
     public float Damage_Min
     {
@@ -201,17 +245,11 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
         }
     }
 
-    public uint Base_CriticalDamage { get; set; }
-
-    public float Base_CriticalRate { get; set; }
-    public float Base_DodgeRate { get; set; }
-
     public Action on_ResetStatus;
-    public Action on_MaxHP_Change;
-    public Action on_MaxStamina_Change;
-    public Action on_MaxExp_Change;
+    public Action<float> on_MaxHP_Change;
+    public Action<float> on_MaxStamina_Change;
+    public Action<uint> on_MaxExp_Change;
     public Action on_LevelChange;
-    public Action on_AbilityPointChange;
     public Base_Status(Player_Status player_Status)
     {
         this.playerStatus = player_Status;
@@ -226,12 +264,37 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
 
     }
 
+    public void LoadData(Base_Status saveData)
+    {
+        this.ExpMax = saveData.ExpMax;
+        this.Level = saveData.Level;
+        this.Exp = saveData.Exp;
+        this.Base_ATT = saveData.Base_ATT;
+        this.Base_DP = saveData.Base_DP;
+        this.Base_STR = saveData.Base_STR;//다른 능력치에 영향을 주는 능력치를 먼저 업데이트 해야 함.
+        this.Base_INT = saveData.Base_INT;
+        this.Base_LUK = saveData.Base_LUK;
+        this.Base_DEX = saveData.Base_DEX;
+        this.AbilityPoint = saveData.AbilityPoint;
+        this.Name = saveData.Name;
+        this.CurrentHP = saveData.CurrentHP;
+        this.Base_MaxHP = saveData.Base_MaxHP;
+        this.Current_Stamina = saveData.Current_Stamina;
+        this.Base_MaxStamina = saveData.Base_MaxStamina;
+        this.Base_DarkForce = saveData.Base_DarkForce;
+        this.BaseCriticalPower = saveData.BaseCriticalPower;
+        this.Damage_Min = saveData.Damage_Min;
+        this.ExpMax = saveData.ExpMax;//expMAx는 LevelUp 할 때 변경되기 때문에 한번 더 업데이트 필요
+    }
     public void Init()
     {
         Name = "Player";
-        Base_MaxHP = 100;
-        Base_MaxStamina = 100;
         ExpMax = 50;
+        Level = 1;
+        Base_MaxHP = 100;
+        CurrentHP = Base_MaxHP;
+        Base_MaxStamina = 100;
+        Current_Stamina = Base_MaxStamina;
         Base_ATT = 10;
         Base_DP = 10;
         Base_STR = 5;
@@ -240,8 +303,9 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
         Base_DEX = 5;
         BaseCriticalPower = 1.8f;
         AbilityPoint = 50;
-        Base_DarkForce = 500;
+        Base_DarkForce = 5000000;
         Damage_Min = 0.5f;
+        
     }
 }
 public class Player_Status : MonoBehaviour, IPopupSortWindow// , 장비장착, 버프사용시 플레이어에서 신호받아서 Base_Status의 내용 업데이트
@@ -363,6 +427,7 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , 장비장착, 버프�
         {
             level = value;
             levelText.text = $"{level}";
+            LevelUp();
         }
     }
 
@@ -543,23 +608,14 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , 장비장착, 버프�
         equipments_DataServer = new(equipBox);
         base_Status = new(this);
 
-        base_Status.Init();
-
         base_Status.on_ResetStatus = Reset_Status;
-        base_Status.on_MaxHP_Change += Update_MaxHP;
-        base_Status.on_MaxStamina_Change += Update_MaxStamina;
-        base_Status.on_AbilityPointChange += () => AbilityPoint = base_Status.AbilityPoint;
-
         Reset_Status();
+
+        DarkForceText darkForceText = FindObjectOfType<DarkForceText>();
+        base_Status.on_DarkForceChange = darkForceText.Update_DarkForceText;
+        base_Status.Init();
     }
-    void Update_MaxHP()
-    {
-        this.MaxHP = base_Status.Base_MaxHP;
-    }
-    void Update_MaxStamina()
-    {
-        this.MaxStamina = base_Status.Base_MaxStamina;
-    }
+ 
     void GetComponents()
     {
         canvasGroup = GetComponent<CanvasGroup>();
@@ -640,11 +696,10 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , 장비장착, 버프�
 
     public void LevelUp()
     {
-        base_Status.Level++;
         base_Status.AbilityPoint += 5;
         on_increase_MaxHP?.Invoke(increaseMaxHP()); 
-        HP = MaxHP;
         on_increase_MaxStamina?.Invoke(increaseMaxStamina());
+        HP = MaxHP;
         Stamina = MaxStamina;
         base_Status.Exp = 0;
         on_increase_ExpMax?.Invoke((uint)(ExpMax * 1.2f));
@@ -769,4 +824,33 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , 장비장착, 버프�
     {
         Close();
     }
+
+    public void SaveData()
+    {
+
+        string json = JsonUtility.ToJson(base_Status);
+
+        string path = $"{Application.dataPath}/Save/";
+        if (!UnityEngine.Windows.Directory.Exists(path))
+        {
+            UnityEngine.Windows.Directory.CreateDirectory(path);
+        }
+        string fullPath = $"{path}Save.Json";
+        System.IO.File.WriteAllText(fullPath, json);
+    }
+    public void LoadData()
+    {
+        string path = $"{Application.dataPath}/Save/Save.Json";
+        if (System.IO.File.Exists(path))
+        {
+            string json = System.IO.File.ReadAllText(path);
+            Base_Status loadedData = JsonUtility.FromJson<Base_Status>(json);
+            base_Status.LoadData(loadedData);
+        }
+        else
+        {
+            Debug.LogError("Save file not found.");
+        }
+    }
+
 }
