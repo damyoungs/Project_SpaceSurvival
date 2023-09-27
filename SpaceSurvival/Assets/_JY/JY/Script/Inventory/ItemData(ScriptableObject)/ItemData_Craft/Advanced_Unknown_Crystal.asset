@@ -20,8 +20,13 @@ MonoBehaviour:
   price: 50000
   maxStackCount: 20
   itemDescription: "\uC124\uBA85"
+  questBinding: []
   CraftType: 7
   successRate: 10
   Critical_Success_Item: {fileID: 0}
+  STR: 15
+  INT: 15
+  LUK: 15
+  DEX: 15
   attack_Point: 100
   defence_Point: 100

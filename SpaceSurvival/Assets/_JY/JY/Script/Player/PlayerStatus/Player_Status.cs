@@ -303,7 +303,7 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
         Base_DEX = 5;
         BaseCriticalPower = 1.8f;
         AbilityPoint = 50;
-        Base_DarkForce = 500;
+        Base_DarkForce = 5000000;
         Damage_Min = 0.5f;
         
     }
@@ -608,9 +608,12 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , 장비장착, 버프�
         equipments_DataServer = new(equipBox);
         base_Status = new(this);
 
-        base_Status.Init();
         base_Status.on_ResetStatus = Reset_Status;
         Reset_Status();
+
+        DarkForceText darkForceText = FindObjectOfType<DarkForceText>();
+        base_Status.on_DarkForceChange = darkForceText.Update_DarkForceText;
+        base_Status.Init();
     }
  
     void GetComponents()

@@ -21,8 +21,13 @@ MonoBehaviour:
   maxStackCount: 20
   itemDescription: "\uC660\uC9C0\uBAA8\uB974\uAC8C \uCC28\uAC00\uC6B4 \uAE30\uC6B4\uC774
     \uB290\uAEF4\uC9C0\uB294 \uBCF4\uC11D\uC774\uB2E4."
+  questBinding: []
   CraftType: 0
   successRate: 0
   Critical_Success_Item: {fileID: 0}
+  STR: 0
+  INT: 10
+  LUK: 0
+  DEX: 0
   attack_Point: 10
   defence_Point: 10

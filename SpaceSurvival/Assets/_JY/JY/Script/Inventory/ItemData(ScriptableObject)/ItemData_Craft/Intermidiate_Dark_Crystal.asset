@@ -21,8 +21,13 @@ MonoBehaviour:
   maxStackCount: 20
   itemDescription: "\uC54C \uC218 \uC5C6\uB294 \uAE30\uC6B4\uC774 \uB290\uAEF4\uC9C0\uB294
     \uBCF4\uC11D\uC774\uB2E4.,"
+  questBinding: []
   CraftType: 1
   successRate: 30
   Critical_Success_Item: {fileID: 11400000, guid: 8e10747bae9e9644bbc543eb4bd62e40, type: 2}
+  STR: 20
+  INT: 20
+  LUK: 20
+  DEX: 20
   attack_Point: 30
   defence_Point: 30
