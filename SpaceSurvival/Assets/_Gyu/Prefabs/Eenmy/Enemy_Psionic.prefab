@@ -1,36 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &948275568327832527
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3069337591801939947}
-  m_Layer: 0
-  m_Name: RiffleHinged
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3069337591801939947
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 948275568327832527}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4772553606149959559}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2463438520483513670
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,7 +146,7 @@ Transform:
   m_Children:
   - {fileID: 4772592233021418609}
   m_Father: {fileID: 4772553606149959559}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4769360180955912865
 GameObject:
@@ -1197,7 +1166,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2548073443878094335}
-  - {fileID: 3069337591801939947}
   - {fileID: 4772642183067288155}
   - {fileID: 4772425167245099209}
   - {fileID: 4766448691323950009}
@@ -4446,7 +4414,7 @@ Transform:
   m_Children:
   - {fileID: 4772351859169040823}
   m_Father: {fileID: 4772553606149959559}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4770327898269464675
 GameObject:
@@ -4776,7 +4744,7 @@ Transform:
   m_Children:
   - {fileID: 4772672048103803151}
   m_Father: {fileID: 4772553606149959559}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4770390588252353997
 GameObject:
@@ -5397,9 +5365,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4766037116338723569}
-  - component: {fileID: 8982501961485674328}
   - component: {fileID: 1541620915100649215}
-  - component: {fileID: 7847042522048801220}
+  - component: {fileID: 8982501961485674328}
   m_Layer: 0
   m_Name: emymy
   m_TagString: Enemy
@@ -5443,18 +5410,6 @@ Transform:
   m_Father: {fileID: 3507285989751255585}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8982501961485674328
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4771271621447685421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 784f4bbe2ccf1104f93b10a42aa12bce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!95 &1541620915100649215
 Animator:
   serializedVersion: 5
@@ -5476,7 +5431,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7847042522048801220
+--- !u!114 &8982501961485674328
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5485,9 +5440,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 4771271621447685421}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af2ead46272df00458bec7ce796fafe4, type: 3}
+  m_Script: {fileID: 11500000, guid: 784f4bbe2ccf1104f93b10a42aa12bce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EnemyAc_Basic: {fileID: 9100000, guid: 5a999af03f107b74082e782f2265f68d, type: 2}
+  EnemyAc_Riffle: {fileID: 22100000, guid: 1bc791cd14fe5dd46bab51c792d57ade, type: 2}
+  EnemyAc_Sword: {fileID: 22100000, guid: 792134d6a0db9b04c988b74a300740eb, type: 2}
+  GrapPosition: {fileID: 2548073443878094335}
+  Riffle: {fileID: 1393068208235747337, guid: 3066df790cd6dd84589aab27e76874aa, type: 3}
+  Sword: {fileID: 3538454111887550392, guid: dfe5cd2d934092340bd2798c887ae5c1, type: 3}
+  type: 2
 --- !u!1 &4771279585146020275
 GameObject:
   m_ObjectHideFlags: 0
@@ -5730,7 +5692,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2548073443878094335}
   m_Layer: 0
-  m_Name: SwordHinged
+  m_Name: Grap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

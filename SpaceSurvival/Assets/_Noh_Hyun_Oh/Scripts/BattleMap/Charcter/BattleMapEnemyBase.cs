@@ -146,8 +146,8 @@ public class BattleMapEnemyBase : EnemyBase_PoolObj ,ICharcterBase
 
     public void EnemyAi(Tile PlayerTile)
     {
-        Debug.Log($"{transform.name}턴 시작 - [체력:{enemy_.HP}] / [행동력:{enemy_.Stamina}]\n[좌표:{CurrentTile.transform.position}] / [{currentTile.name}]");
-        Cho_BattleMap_Enemy_AStar.PathFind(SpaceSurvival_GameManager.Instance.BattleMap, SpaceSurvival_GameManager.Instance.MapSizeX, SpaceSurvival_GameManager.Instance.MapSizeY, currentTile, PlayerTile);
+        Debug.Log($"{transform.name}턴 시작 - [체력:{enemy_.HP}] / [행동력:{enemy_.Stamina}] / [타입:{enemy_.mType}]\n[좌표:{CurrentTile.transform.position}] / [{currentTile.name}]");
+
     }
 
 
