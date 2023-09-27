@@ -169,7 +169,7 @@ public class ItemSpawner : TestBase
     }
     protected override void Test2(InputAction.CallbackContext context)
     {
-        GameManager.QuickSlot_Manager.QuickSlots_Clear();
+        GameManager.PlayerStatus.CriticalRate += 1;
     }
     protected override void Test3(InputAction.CallbackContext context)
     {

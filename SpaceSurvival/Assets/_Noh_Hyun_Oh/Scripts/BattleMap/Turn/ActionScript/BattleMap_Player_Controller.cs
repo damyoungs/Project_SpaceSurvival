@@ -129,7 +129,6 @@ public class BattleMap_Player_Controller : MonoBehaviour
                     Debug.Log(hit.gameObject.name,hit.gameObject);
                 }
             }
-            Debug.Log("UI °¨Áö");
             return;
         }
         //else if (SpaceSurvival_GameManager.Instance.IsUICheck) 

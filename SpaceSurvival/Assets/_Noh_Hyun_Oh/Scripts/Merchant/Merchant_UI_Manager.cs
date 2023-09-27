@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,11 +12,7 @@ using UnityEngine.UI;
 
 public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
 {
-
    
-    
-
-
     /// <summary>
     /// 다크포스값 보여줄 텍스트
     /// </summary>
@@ -60,32 +57,6 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
 
 
     /// <summary>
-    /// NPC 모습 보여줄 로우 이미지
-    /// </summary>
-    RawImage rawImage;
-
-    /// <summary>
-    /// npc 이름이 들어갈 위치
-    /// </summary>
-    TextMeshProUGUI npcName;
-
-    /// <summary>
-    /// 대화내용이 저장될 위치
-    /// </summary>
-    TextMeshProUGUI talkBox;
-
-    /// <summary>
-    /// 다음 대화내용으로넘기는버튼
-    /// </summary>
-    Button talkNextButton;
-
-    /// <summary>
-    /// 로그 버튼 
-    /// </summary>
-    Button talkLogButton;
-
-
-    /// <summary>
     /// 판매 목록 의 아이템이 들어갈 컨텐츠 위치 
     /// </summary>
     Transform content;
@@ -95,23 +66,43 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
     /// </summary>
     RectTransform contentRect;
 
+    /// <summary>
+    /// 아이템 컨텐츠 기본 높이 저장해두기 
+    /// </summary>
     float defaultItemSizeY;
+
+
+    ///// <summary>
+    ///// 엔피씨 근처로갈때 보여줄 버튼
+    ///// </summary>
+    //Button NpcTalk;
+
+
+
 
     /// <summary>
     /// 기능분리용 데이터 담겨있는 매니저
     /// </summary>
     Merchant_Manager merchant_Manager;
 
-
+    /// <summary>
+    /// 확인 처리용 팝업창
+    /// </summary>
+    MerchantModalPopup popup;
 
     public Action<IPopupSortWindow> PopupSorting { get; set; }
+
 
     protected override void Awake()
     {
         base.Awake();
         
         merchant_Manager = GetComponent<Merchant_Manager>();
+
         
+
+        popup = transform.parent.GetComponentInChildren<MerchantModalPopup>(true);
+
         buyButton = topPanel.GetChild(1).GetChild(0).GetComponent<Button>(); 
         buyButton.onClick.AddListener(() => {
             Debug.Log(buyButton);
@@ -159,48 +150,45 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
         content = contentPanel.GetComponentInChildren<VerticalLayoutGroup>().transform;
         contentRect = content.transform.GetComponent<RectTransform>();
 
-        rawImage = contentPanel.GetChild(2).GetComponentInChildren<RawImage>();
-        npcName = contentPanel.GetChild(2).GetChild(1).GetComponent<TextMeshProUGUI>();
-        talkBox = contentPanel.GetChild(2).GetChild(2).GetComponent<TextMeshProUGUI>();
-
-        talkNextButton = contentPanel.GetChild(2).GetChild(3).GetComponent<Button>();
-        talkNextButton.onClick.AddListener(() => { 
-            Debug.Log(talkNextButton);
-        
-        });
-        talkLogButton = contentPanel.GetChild(2).GetChild(4).GetComponent<Button>();
-        talkLogButton.onClick.AddListener(() => { 
-            Debug.Log(talkLogButton);
-        
-        });
-
 
         //최소 한개넣어두고 미리 사이즈구해둔다 
         defaultItemSizeY = content.GetChild(0).GetComponent<RectTransform>().sizeDelta.y;
+
+
+    }
+    private void Start()
+    {
+        CloseWindow();
     }
 
 
 
+    public bool IsSelect() 
+    {
+        bool result = false;
 
 
+        return result;
+    }
 
+    private void OnDisable()
+    {
+        popup.OnClose();
+    }
 
 
     /// <summary>
     /// 데이터가변해서 상점UI 전체를 리플래쉬해주는 함수
     /// </summary>
-    private void ReFresh_Merchant_Item() 
+    public void ReFresh_Merchant_Item() 
     {
-        List<Slot> invenSlots;
-        Merchant_UI_Item item = null;
+       
         Merchant_UI_Item[] merchant_UI_Items = null;
         if (merchant_Manager.Selected == Merchant_Selected.Sell)
         {
-            merchant_UI_Items = content.GetComponentsInChildren<Merchant_UI_Item>();
-            foreach (Merchant_UI_Item slotItem in merchant_UI_Items)
-            {
-                slotItem.ResetData();
-            }
+            List<Slot> invenSlots;
+            InitUI();
+
             switch (merchant_Manager.Merchant_State) //현재 상태에 따른 데이터 가져오고 
             {
                 case Current_Inventory_State.None:
@@ -220,6 +208,7 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
                 default:
                     return;
             }
+
             List<Slot> merchantSettingData = new List<Slot>(invenSlots.Count);
             foreach (Slot itemSlot in invenSlots)
             {
@@ -228,50 +217,60 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
                     merchantSettingData.Add(itemSlot);
                 }
             }
-            if (merchantSettingData.Count > content.childCount) //아이템 부족한분만큼 UI 추가 
-            {
-                int forSize = merchantSettingData.Count - content.childCount;
-                for (int i = 0; i < forSize; i++)
-                {
-                    item = (Merchant_UI_Item)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.MERCHANT_iTEM_POLL);
-                    item.transform.SetParent(content);
-                }
-            }
+
+            UI_MerchantItemSetting(merchantSettingData.Count);
+
             merchant_UI_Items = content.GetComponentsInChildren<Merchant_UI_Item>();
 
             int itemIndex = 0;
             foreach (Slot itemSlot in merchantSettingData)
             {
-                merchant_UI_Items[itemIndex].InitData(itemSlot.ItemData, itemSlot.ItemCount);
+                merchant_UI_Items[itemIndex].InitData(itemSlot.ItemData, itemSlot.ItemCount,itemSlot);
+                merchant_UI_Items[itemIndex].onItemClick = popup.OnPopup;// merchant_Manager.ItemClick;
                 merchant_UI_Items[itemIndex].gameObject.SetActive(true);
                 itemIndex++;
             }
         }
         else if (merchant_Manager.Selected == Merchant_Selected.Buy)
         {
-            merchant_UI_Items = content.GetComponentsInChildren<Merchant_UI_Item>();
-            foreach (Merchant_UI_Item slotItem in merchant_UI_Items)
+            InitUI();
+            List<ItemData> merchantList;
+            int[] merchantCountArray;
+            switch (merchant_Manager.Merchant_State) //현재 상태에 따른 데이터 가져오고 
             {
-                slotItem.ResetData();
+                case Current_Inventory_State.None:
+                    return;
+                case Current_Inventory_State.Equip:
+                    merchantList = merchant_Manager.EquipItems;
+                    merchantCountArray = merchant_Manager.EquipItemsCount;
+                    break;
+                case Current_Inventory_State.Consume:
+                    merchantList = merchant_Manager.ConsumeItems;
+                    merchantCountArray = merchant_Manager.ConsumeItemsCount;
+                    break;
+                case Current_Inventory_State.Etc:
+                    merchantList = merchant_Manager.EtcItems;
+                    merchantCountArray = merchant_Manager.EtcItemsCount;
+                    break;
+                case Current_Inventory_State.Craft:
+                    merchantList = merchant_Manager.CraftItems;
+                    merchantCountArray = merchant_Manager.CraftItemsCount;
+                    break;
+                default:
+                    return;
             }
-            if (merchant_Manager.MerchantItemArray.Length > content.childCount) //아이템 부족한분만큼 UI 추가 
-            {
-                int forSize = merchant_Manager.MerchantItemArray.Length - content.childCount;
-                for (int i = 0; i < forSize; i++)
-                {
-                    item = (Merchant_UI_Item)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.MERCHANT_iTEM_POLL);
-                    item.transform.SetParent(content);
-                }
-            }
+            UI_MerchantItemSetting(merchantList.Count);
 
             merchant_UI_Items = content.GetComponentsInChildren<Merchant_UI_Item>();
 
-            int forSize_2 = merchant_UI_Items.Length;
-            for (int i = 0; i < forSize_2; i++)
+            int itemIndex = 0;
+            foreach (ItemData itemSlot in merchantList)
             {
-                merchant_UI_Items[i].InitData(merchant_Manager.MerchantItemArray[i], merchant_Manager.MerchantItemCountArray[i]);
+                merchant_UI_Items[itemIndex].InitData(itemSlot,(uint)merchantCountArray[itemIndex]);
+                merchant_UI_Items[itemIndex].onItemClick = popup.OnPopup;//merchant_Manager.ItemClick;
+                merchant_UI_Items[itemIndex].gameObject.SetActive(true);
+                itemIndex++;
             }
-
         }
         else 
         {
@@ -282,6 +281,38 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, defaultItemSizeY* merchant_UI_Items.Length);
     }
 
+    /// <summary>
+    /// 필요한 갯수만큼 오브젝트 풀에서 가져오는 함수
+    /// 리셋할때 풀로 전부 돌리고있어서 체크하는 부분은 필요가없을거같긴하다..
+    /// </summary>
+    /// <param name="checkCount">보여줄 갯수</param>
+    private void UI_MerchantItemSetting(int checkCount) 
+    {
+        if (checkCount > content.childCount)
+        {
+            Merchant_UI_Item item; 
+            int forSize = checkCount - content.childCount;
+            for (int i = 0; i < forSize; i++)
+            {
+                item = (Merchant_UI_Item)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.MERCHANT_iTEM_POLL);
+                item.transform.SetParent(content);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 기존 UI 데이터 리셋시키기
+    /// </summary>
+    private void InitUI() 
+    {
+        Merchant_UI_Item[] merchant_UI_Items = content.GetComponentsInChildren<Merchant_UI_Item>(); //
+
+        foreach (Merchant_UI_Item slotItem in merchant_UI_Items)
+        {
+            slotItem.ResetData();
+        }
+    }
+
     private void ResetData() 
     {
         Merchant_UI_Item[] merchant_UI_Items = content.GetComponentsInChildren<Merchant_UI_Item>();
@@ -289,7 +320,7 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
         {
             item.ResetData();
         }
-        gameObject.SetActive(false);
+        merchant_Manager.isTalking = true;
     }
 
 
@@ -301,13 +332,19 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
 
     public void OpenWindow()
     {
-        this.gameObject.SetActive(true);
+        transform.GetChild(0).gameObject.SetActive(true);
+        transform.GetChild(1).gameObject.SetActive(true);
     }
 
     public void CloseWindow()
     {
+        transform.GetChild(0).gameObject.SetActive(false);
+        transform.GetChild(1).gameObject.SetActive(false);
         ResetData();
     }
-
+    protected override void OnCloseButtonClick()
+    {
+        CloseWindow();
+    }
 
 }

@@ -97,7 +97,7 @@ public class SaveGameObject : Base_PoolObj
 
     
 
-    SaveLoadPopupWindow proccessManager;
+    ModalPopupWindow proccessManager;
     Image backImg;
     protected override void Awake()
     {
@@ -136,7 +136,7 @@ public class SaveGameObject : Base_PoolObj
 
                 proccessManager.OldIndex = proccessManager.NewIndex; // 카피할 데이터 번호 셋팅
                 proccessManager.NewIndex = fileIndex; //카피될 데이터 번호 셋팅
-                proccessManager.OpenPopupAction(EnumList.SaveLoadButtonList.COPY); //카피실행
+                proccessManager.SaveProccessOpenPopupAction(EnumList.SaveLoadButtonList.COPY); //카피실행
 
             }
             else

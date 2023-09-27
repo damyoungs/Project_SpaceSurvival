@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -59,11 +60,6 @@ public class Gyu_QuestManager : MonoBehaviour
     /// </summary>
     Gyu_UI_QuestManager questUIManager;
 
-    /// <summary>
-    /// 엔피씨 대화목록 관리하는 클래스 
-    /// </summary>
-    TalkData_Gyu talkData;   
-    public TalkData_Gyu TalkData => talkData;
 
     /// <summary>
     /// 선택된 퀘스트 담아둘 변수
@@ -87,14 +83,19 @@ public class Gyu_QuestManager : MonoBehaviour
     /// 맵에있는 NPC 들
     /// </summary>
     [SerializeField]
-    NpcBase_Gyu[] array_NPC;
-    public NpcBase_Gyu[] Array_NPC => array_NPC;
+    QuestNPC[] array_NPC;
+    public QuestNPC[] Array_NPC => array_NPC;
 
     /// <summary>
     /// 마지막에 창을 열고있던 NPC 인덱스
     /// </summary>
     int currentNpcIndex = -1;
     public int CurrentNpcIndex => currentNpcIndex;
+
+    /// <summary>
+    /// 대화 가능한지 체크하기
+    /// </summary>
+    public bool isTalking = false;
 
     public Action<Gyu_QuestBaseData> onChangeQuest;
 
@@ -103,21 +104,23 @@ public class Gyu_QuestManager : MonoBehaviour
     /// </summary>
     QuestScriptableGenerate questScriptableGenerate;
 
-    /// <summary>
-    /// 로그 관리할 컴포넌트
-    /// </summary>
-    LogManager logManager;
+    NpcTalkController talkController;
 
     private void Awake()
     {
         player = FindObjectOfType<PlayerQuest_Gyu>();
 
-        talkData = FindAnyObjectByType<TalkData_Gyu>();
-
-        logManager = FindObjectOfType<LogManager>(true);
+        talkController = FindObjectOfType<NpcTalkController>();
 
         questUIManager = GetComponent<Gyu_UI_QuestManager>();   //기능분리를 위해 스크립트를 따로뺏다.
 
+       
+
+      
+    }
+
+    private void Start()
+    {
         questUIManager.onSelectedQuest = (quest) =>
         {
             //퀘스트 선택
@@ -141,49 +144,63 @@ public class Gyu_QuestManager : MonoBehaviour
             player.CancelQuest(selectQuest);
         };
 
-        questUIManager.onTalkClick = () => array_NPC[currentNpcIndex];
+       
 
-        questUIManager.getTalkDataArray = (talkIndex) =>
-        {
-            return talkData.GetTalk(array_NPC[currentNpcIndex].TalkType, talkIndex);
-        };
-        logManager.getLogTalkDataArray = (talkIndex) => {
-            return talkData.GetLog(array_NPC[currentNpcIndex].TalkType, talkIndex);
-        };
-    }
-    private void Start()
-    {
-      
         questScriptableGenerate = DataFactory.Instance.QuestScriptableGenerate;
         InitDataSetting();
+        InputSystemController.InputSystem.Player.Action.performed += (_) => {
+            if (isTalking)
+            {
+                isTalking = false;
+                talkController.Talk(0);
+            }
+        };
+
     }
     public void InitDataSetting()
     {
 
         // 팩토리로 할시 엔피씨 위치를 몇개 후보지역두고 랜덤으로 변경시키는게 더간단할거같다.
         // 초기화 하는것은 여기말고 다른곳으로 빼서 해야될거같다 .. 팩토리 로 생성시킨뒤에 껏다켯다하면 될거같긴한데.. 
-        array_NPC = FindObjectsOfType<NpcBase_Gyu>(true);   //씬에있는 엔피씨 찾아서 담아두고 ( 찾는 순서가 바뀔수도있으니 다른방법을 찾아보자.)
+        array_NPC = FindObjectsOfType<QuestNPC>(true);   //씬에있는 엔피씨 찾아서 담아두고 ( 찾는 순서가 바뀔수도있으니 다른방법을 찾아보자.)
         for (int i = 0; i < array_NPC.Length; i++)
         {
             //위치와 모양을 변경시키면 될거같기도한데.. 일단 고민좀해보자..
             array_NPC[i].InitData(i); //npc 를 초기화 시킨다.
-            array_NPC[i].onTalkDisableButton = questUIManager.TalkDisableButton;
+            array_NPC[i].onTalkDisableButton += () => 
+            {
+                isTalking = false;
+                talkController.ResetData();
+                talkController.openTalkWindow = null;
+                talkController.closeTalkWindow = null;
+                talkController.onTalkClick = null;
+                talkController.getTalkDataArray = null;
+                talkController.LogManager.getLogTalkDataArray = null;
+            }; 
             array_NPC[i].onTalkEnableButton = (npcId) =>
             {
+                Cursor.lockState = CursorLockMode.None;
+                talkController.ResetData();
+                talkController.openTalkWindow = () => questUIManager.OnQuestNpc();
+                talkController.closeTalkWindow = () => questUIManager.initialize();
                 currentNpcIndex = npcId;
-                questUIManager.TalkEnableButton();
+                talkController.onTalkClick = () => array_NPC[currentNpcIndex];
+
+                talkController.getTalkDataArray = (talkIndex) =>
+                {
+                    return talkController.TalkData.GetTalk(array_NPC[currentNpcIndex].TalkType, talkIndex);
+                };
+                talkController.LogManager.getLogTalkDataArray = (talkIndex) => {
+                    return talkController.TalkData.GetLog(array_NPC[currentNpcIndex].TalkType, talkIndex);
+                };
+                isTalking = true;
             };
 
-            if (array_NPC[i] is QuestNPC questNPC)  //퀘스트 엔피씨일경우 
-            {
-                questNPC.InitQuestData(questScriptableGenerate.MainStoryQuestArray,
-                                        questScriptableGenerate.KillcountQuestArray,
-                                        questScriptableGenerate.GatheringQuestArray); //퀘스트 데이터 처리
+            array_NPC[i].InitQuestData(questScriptableGenerate.MainStoryQuestArray,
+                                    questScriptableGenerate.KillcountQuestArray,
+                                    questScriptableGenerate.GatheringQuestArray); //퀘스트 데이터 처리
 
-            }
-            //else if () // 상인일경우 초기화처리
-            //{
-            //}
+           
         }
     }
 }

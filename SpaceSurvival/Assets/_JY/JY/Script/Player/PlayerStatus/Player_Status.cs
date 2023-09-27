@@ -190,6 +190,17 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
             on_ResetStatus?.Invoke();
         }
     }
+    float damage_Min;
+    public float Damage_Min
+    {
+        get => damage_Min;
+        private set
+        {
+            damage_Min = value;
+            playerStatus.DamageMin = damage_Min;
+        }
+    }
+
     public uint Base_CriticalDamage { get; set; }
 
     public float Base_CriticalRate { get; set; }
@@ -230,9 +241,10 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
         BaseCriticalPower = 1.8f;
         AbilityPoint = 50;
         Base_DarkForce = 500;
+        Damage_Min = 0.5f;
     }
 }
-public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서 신호받아서 Base_Status의 내용 업데이트
+public class Player_Status : MonoBehaviour, IPopupSortWindow// , 장비장착, 버프사용시 플레이어에서 신호받아서 Base_Status의 내용 업데이트
                                           // 버튼을 눌었을 때 및 레벨업시 Base_Status의 능력치를 업데이트하는 함수 작성
 {
     CanvasGroup canvasGroup;
@@ -278,6 +290,8 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
     uint dex;
     uint att;
     uint dp;
+    float damage;
+    float damageMin;
     float criticalDamage;
     float criticalPower;
     float criticalRate;
@@ -287,7 +301,6 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
     float maxHP;
     float maxStamina;
     float dodgeRate;
-    float damage;
     uint darkForce;
 
     public float Damage
@@ -296,7 +309,7 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         set
         {
             damage = value;
-            damageText.text = $"{damage * 0.7:f0} ~ {damage:f0}";
+            damageText.text = $"{damage * DamageMin:f0} ~ {damage:f0}";
         }
     }
     public uint DarkForce
@@ -466,15 +479,23 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         set
         {
             criticalDamage = value;
-            criticalDamageText.text = $"{criticalDamage * 0.5f:f0} ~ {criticalDamage:f0}";
+            criticalDamageText.text = $"{criticalDamage * DamageMin:f0} ~ {criticalDamage:f0}";
         }
     }
-
+    public float DamageMin
+    {
+        get => damageMin;
+        set
+        {
+            damageMin = value;
+        }
+    }
     public float CriticalRate
     {
         get => criticalRate;
         set
         {
+            Debug.Log($"크리티컬확률 {criticalRate}");
             criticalRate = value;
             criticalRateText.text = $"{criticalRate:f1} %";
         }
@@ -489,7 +510,9 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
             dodgeRateText.text = $"{dodgeRate:f1} %";
         }
     }
- 
+
+    public Action<IPopupSortWindow> PopupSorting { get; set; }
+
     //int
 
 
@@ -654,25 +677,36 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
         this.DodgeRate = DEX * 0.3f;
 
         this.Damage = this.ATT;
-        this.CriticalDamage = this.ATT * 1.8f;
+        this.CriticalDamage = this.ATT * CriticalPower;
     }
 
-    public bool IsCritical(SkillData skillData, out float criticalDamage)
+    public bool IsCritical(SkillData skillData)
     {
         bool result = false;
         float criticalChance = UnityEngine.Random.Range(0, 100);
         if (this.CriticalRate > criticalChance)
         {
             result = true;
-            criticalDamage = (this.ATT * skillData.SkillPower) * CriticalPower;
+            float finalDamage = GetFinalDamage((this.ATT * skillData.SkillPower) * CriticalPower);
+            skillData.FinalDamage = finalDamage;
+            Debug.Log($"크리티컬O : {finalDamage}");
         }
         else
         {
-            criticalDamage = 0;
+            float finalDamage = GetFinalDamage(this.ATT * skillData.SkillPower);
+            skillData.FinalDamage = finalDamage;
+            Debug.Log($"크리티컬X : {finalDamage}");
+
         }
         return result;
     }
-
+    float GetFinalDamage(float originalDamage)//min/ max 값 사이의 랜덤한 값을 최종데미지로 설정
+    {
+        float finalDamage = 0;
+        float damageMin = originalDamage * DamageMin;
+        finalDamage = UnityEngine.Random.Range(damageMin, originalDamage);
+        return finalDamage;
+    }
     uint increaseMaxHP()
     {
         float increaseBase= 10;
@@ -724,5 +758,15 @@ public class Player_Status : MonoBehaviour// , 장비장착, 버프사용시 플레이어에서
     public void GetExp(uint exp)
     {
         base_Status.Exp += exp;
+    }
+
+    public void OpenWindow()
+    {
+        Open();
+    }
+
+    public void CloseWindow()
+    {
+        Close();
     }
 }
