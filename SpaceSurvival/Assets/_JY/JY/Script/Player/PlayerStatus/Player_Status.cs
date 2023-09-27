@@ -40,8 +40,11 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
         get => level;
         set
         {
-            level = value;
-            playerStatus.Level = level;
+            if (level != value)
+            {
+                level = value;
+                playerStatus.Level = level;
+            }
         }
     }
     uint exp;
@@ -50,19 +53,22 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
         get => exp;
         set
         {
-            uint expOver = 0;
-            if (value >= ExpMax)
+            if (exp != value)
             {
-                expOver = value - ExpMax;
-                Level++;
+                uint expOver = 0;
+                if (value >= ExpMax)
+                {
+                    expOver = value - ExpMax;
+                    Level++;
+                }
+                else
+                {
+                    exp = (uint)Mathf.Clamp(value, 0, ExpMax);
+                }
+                exp += expOver;
+                playerStatus.Exp = exp;
+                on_ExpChange?.Invoke(exp);//UI 에서 받을 신호 
             }
-            else
-            {
-                exp = (uint)Mathf.Clamp(value, 0, ExpMax);
-            }
-            exp += expOver;
-            playerStatus.Exp = exp;
-            on_ExpChange?.Invoke(exp);//UI 에서 받을 신호 
         }
     }
     public Action<uint> on_ExpChange;
@@ -236,6 +242,7 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
         this.AbilityPoint = saveData.AbilityPoint;
         this.Name = saveData.Name;
         this.CurrentHP = saveData.CurrentHP;
+        this.Base_MaxHP = saveData.Base_MaxHP;
         this.Current_Stamina = saveData.Current_Stamina;
         this.Base_MaxStamina = saveData.Base_MaxStamina;
         this.Base_DarkForce = saveData.Base_DarkForce;
@@ -249,7 +256,9 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
         ExpMax = 50;
         Level = 1;
         Base_MaxHP = 100;
+        CurrentHP = Base_MaxHP;
         Base_MaxStamina = 100;
+        Current_Stamina = Base_MaxStamina;
         Base_ATT = 10;
         Base_DP = 10;
         Base_STR = 5;
@@ -777,9 +786,24 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , 장비장착, 버프�
         Close();
     }
 
-    public Base_Status SaveData()
+    public void SaveData()
     {
-        Base_Status result = this.Base_Status;
-        return result;
+        Base_Status dataToSave = this.Base_Status;
+        string json = JsonUtility.ToJson(dataToSave);
+        System.IO.File.WriteAllText(Application.dataPath + "/saveData.json", json);
+    }
+    public void LoadData()
+    {
+        string path = Application.dataPath + "/saveData.json";
+        if (System.IO.File.Exists(path))
+        {
+            string json = System.IO.File.ReadAllText(path);
+            Base_Status loadedData = JsonUtility.FromJson<Base_Status>(json);
+            base_Status.LoadData(loadedData);
+        }
+        else
+        {
+            Debug.LogError("Save file not found.");
+        }
     }
 }

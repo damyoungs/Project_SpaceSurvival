@@ -984,7 +984,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""437f4ef8-29b1-49bc-ba45-2489fc5dccf5"",
-                    ""path"": ""<Keyboard>/s"",
+                    ""path"": ""<Keyboard>/u"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyMouse"",
