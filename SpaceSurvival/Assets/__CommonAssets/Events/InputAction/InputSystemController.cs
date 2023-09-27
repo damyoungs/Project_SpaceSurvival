@@ -187,7 +187,7 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
             
             case HotKey_Use.Use_TownMap:                                    // 마을 진입시
                 inputSystem.Options.Enable();
-                inputSystem.Player.Enable(); 
+                inputSystem.Player.Enable();
                 break;
             
             case HotKey_Use.Use_InvenView:                                  //인벤 사용가능 할시

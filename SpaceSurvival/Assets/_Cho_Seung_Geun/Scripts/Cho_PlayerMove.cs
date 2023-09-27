@@ -40,7 +40,6 @@ public class Cho_PlayerMove : MonoBehaviour
         }
     }
 
-
     InputKeyMouse inputActions;
     //Rigidbody rigid;
     Animator animator;
@@ -51,6 +50,8 @@ public class Cho_PlayerMove : MonoBehaviour
 
     const float animatorWalkSpeed = 0.5f;
     const float animatorRunSpeed = 1.0f;
+
+    public Action interaction;
 
     private void Awake()
     {
@@ -73,8 +74,9 @@ public class Cho_PlayerMove : MonoBehaviour
         inputActions.Player.Move.performed += OnMove;
         inputActions.Player.Move.canceled += OnMove;
         inputActions.Player.Jump.performed += OnJump;
-        inputActions.Player.Dash.performed += onDash;
-        inputActions.Player.Dash.canceled += onDash;
+        inputActions.Player.Dash.performed += OnDash;
+        inputActions.Player.Dash.canceled += OnDash;
+        inputActions.Player.Action.performed += OnInteract;
         inputActions.Mouse.Enable();
         inputActions.Mouse.MouseVector2.performed += OnMouseDelta;
     }
@@ -83,8 +85,9 @@ public class Cho_PlayerMove : MonoBehaviour
     {
         inputActions.Mouse.MouseVector2.performed -= OnMouseDelta;
         inputActions.Mouse.Disable();
-        inputActions.Player.Dash.canceled -= onDash;
-        inputActions.Player.Dash.performed -= onDash;
+        inputActions.Player.Action.performed -= OnInteract;
+        inputActions.Player.Dash.canceled -= OnDash;
+        inputActions.Player.Dash.performed -= OnDash;
         inputActions.Player.Jump.performed -= OnJump;
         inputActions.Player.Move.canceled -= OnMove;
         inputActions.Player.Move.performed -= OnMove;
@@ -151,7 +154,7 @@ public class Cho_PlayerMove : MonoBehaviour
         animator.SetTrigger("IsJump");
     }
 
-    private void onDash(InputAction.CallbackContext context)
+    private void OnDash(InputAction.CallbackContext context)
     {
         if (context.canceled)
         {
@@ -165,6 +168,11 @@ public class Cho_PlayerMove : MonoBehaviour
             speed = runSpeed;
             animator.SetFloat(Speed_Hash, animatorRunSpeed);
         }
+    }
+
+    private void OnInteract(InputAction.CallbackContext context)
+    {
+        interaction?.Invoke();
     }
 
     private void OnMouseDelta(InputAction.CallbackContext context)
