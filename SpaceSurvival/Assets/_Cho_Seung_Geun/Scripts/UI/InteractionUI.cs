@@ -5,27 +5,33 @@ using UnityEngine;
 
 public class InteractionUI : MonoBehaviour
 {
-    CanvasGroup canvasGroup;
 
     public Action visibleUI;
     public Action invisibleUI;
+
     float speed = 20.0f;
+
+    CanvasGroup canvasGroup;
+    Animator animator;
 
     private void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
+        animator = GetComponent<Animator>();
         visibleUI = OnVisible;
         invisibleUI = OnInvisible;
     }
 
     void OnVisible()
     {
-        StartCoroutine(VisibleUI());
+        //StartCoroutine(VisibleUI());
+        animator.SetBool("IsVisible", true);
     }
 
     void OnInvisible()
     {
-        StartCoroutine(InvisibleUI());
+        //StartCoroutine(InvisibleUI());
+        animator.SetBool("IsVisible", false);
     }
 
     IEnumerator VisibleUI()
