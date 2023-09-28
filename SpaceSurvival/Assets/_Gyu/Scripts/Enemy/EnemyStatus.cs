@@ -68,9 +68,10 @@ public class EnemyStatus : MonoBehaviour, IBattle
         }
     }
 
-    public void Defence(float damage)
+    public void Defence(float damage, bool isCritical = false)
     {
         float final_Damage = damage - DP;
         HP -= final_Damage;
+        GameManager.EffectPool.GetObject(damage, transform, isCritical);
     }
 }

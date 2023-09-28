@@ -100,8 +100,11 @@ public class Enemy_ : MonoBehaviour, IBattle
         Attack();
     }
 
-    public void Defence(float damage)
+
+
+    public void Defence(float damage, bool isCritical = false)
     {
         HP -= Mathf.Max(0, damage - defencePower);
+        GameManager.EffectPool.GetObject(damage, transform, isCritical);
     }
 }
