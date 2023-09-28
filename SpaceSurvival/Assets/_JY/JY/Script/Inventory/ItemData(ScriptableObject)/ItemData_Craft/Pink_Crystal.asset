@@ -25,9 +25,11 @@ MonoBehaviour:
   CraftType: 4
   successRate: 0
   Critical_Success_Item: {fileID: 0}
-  STR: 20
-  INT: 20
-  LUK: 20
-  DEX: 20
+  STR: 0
+  INT: 0
+  LUK: 0
+  DEX: 0
   attack_Point: 0
   defence_Point: 0
+  Critical_Rate: 0
+  Dodge_Rate: 50

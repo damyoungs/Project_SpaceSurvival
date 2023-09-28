@@ -1,6 +1,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -14,7 +15,7 @@ public class MixerDescription : MonoBehaviour
     public TextMeshProUGUI itemName;
     public CanvasGroup canvasGroup;
     public TextMeshProUGUI itemDescription;
-
+    StringBuilder sb;
     bool isPause = false;
 
     public float alphaChangeSpeed = 10.0f;
@@ -31,6 +32,7 @@ public class MixerDescription : MonoBehaviour
     private void Awake()
     {
         itemIcon = transform.GetChild(0).GetChild(0).GetComponent<Image>();
+        sb = new StringBuilder(10);
     }
     //pause, open, close,
     private void Start()
@@ -64,9 +66,50 @@ public class MixerDescription : MonoBehaviour
     {
         if (!isPause && data != null)
         {
+            IEquippable equippable_Item = data as IEquippable;
+            if(equippable_Item != null)
+            {
+                sb.Clear();
+                if (equippable_Item.ATT > 0)
+                {
+                    sb.AppendLine($"공격력 {equippable_Item.ATT} +");
+                }
+                if (equippable_Item.DP > 0)
+                {
+                    sb.AppendLine($"방어력 {equippable_Item.DP} +");
+                }
+                if (equippable_Item.Critical_Rate > 0)
+                {
+                    sb.AppendLine($"크리티컬 {equippable_Item.Critical_Rate}% +");
+                }
+                if (equippable_Item.Dodge_Rate > 0)
+                {
+                    sb.AppendLine($"회피 {equippable_Item.Dodge_Rate}% +");
+                }
+                if (equippable_Item.STR > 0)
+                {
+                    sb.AppendLine($"STR {equippable_Item.STR} +");
+                }
+                if (equippable_Item.INT > 0)
+                {
+                    sb.AppendLine($"INT {equippable_Item.INT} +");
+                }
+                if (equippable_Item.LUK > 0)
+                {
+                    sb.AppendLine($"LUK {equippable_Item.LUK} +");
+                }
+                if (equippable_Item.DEX > 0)
+                {
+                    sb.AppendLine($"DEX {equippable_Item.DEX} +");
+                }
+                itemDescription.text = sb.ToString();
+            }
+            else
+            {
+                itemDescription.text = $"{data.itemDescription}";
+            }
             itemIcon.sprite = data.itemIcon;
             itemName.text = data.itemName;
-            itemDescription.text = $"{data.itemDescription}";
             StopAllCoroutines();
             StartCoroutine(FadeIn());
 

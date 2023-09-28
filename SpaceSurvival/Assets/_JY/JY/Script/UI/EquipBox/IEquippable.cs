@@ -10,4 +10,6 @@ public interface IEquippable
     uint INT { get; }
     uint LUK { get; }
     uint DEX { get; }
+    float Critical_Rate { get; }
+    float Dodge_Rate { get; }
 }
