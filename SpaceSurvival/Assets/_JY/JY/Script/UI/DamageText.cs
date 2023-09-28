@@ -7,6 +7,7 @@ public class DamageText : MonoBehaviour
 {
     public Color NormalColor;
     public Color Critical_Color;
+    public Color LevelUp_Color;
     TextMeshPro damageText;
     float timeElapse = 0;
     float moveSpeed = 2.0f;
@@ -36,7 +37,13 @@ public class DamageText : MonoBehaviour
         }
         damageText.text = $"{damage}";
     }
-
+    public void SetText_LevelUp()
+    {
+        damageText.fontStyle = FontStyles.Bold;
+        damageText.fontSize = 12;
+        damageText.color = LevelUp_Color;
+        damageText.text = "Level Up!!";
+    }
     void Update()
     {
         timeElapse += Time.deltaTime;

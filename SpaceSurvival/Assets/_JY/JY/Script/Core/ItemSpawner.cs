@@ -174,8 +174,7 @@ public class ItemSpawner : TestBase
     }
     protected override void Test2(InputAction.CallbackContext context)
     {
-        GameManager.PlayerStatus.LoadData();
-        Debug.Log("·Îµå");
+        GameManager.EffectPool.GetLevelUp_Effect(GameManager.Player_.transform);
     }
     protected override void Test3(InputAction.CallbackContext context)
     {

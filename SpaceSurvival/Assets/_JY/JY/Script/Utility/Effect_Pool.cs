@@ -17,11 +17,12 @@ public class Effect_Pool : MonoBehaviour
     Queue<GameObject>[] pools;
     GameObject[] parents;
 
-    Vector3 damageText_Position;
+    Vector3 Text_Position;
     private void Start()
     {
         Init();
-        damageText_Position = new Vector3(0, 2, 0);
+        Text_Position = new Vector3(0, 2, 0);
+
     }
     void Init()
     {
@@ -50,6 +51,12 @@ public class Effect_Pool : MonoBehaviour
         }
 
     }
+    /// <summary>
+    /// 스킬이펙트용
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="position"></param>
+    /// <returns></returns>
     public GameObject GetObject(SkillType type, Vector3 position)
     {
         GameObject result = pools[(int)type].Dequeue();
@@ -62,12 +69,52 @@ public class Effect_Pool : MonoBehaviour
         }
         return null;
     }
-    public GameObject GetObject(float damage, Transform target, bool isCritical)//데미지 텍스트용
+    /// <summary>
+    /// 레벨업 이펙트
+    /// </summary>
+    /// <param name="position">플레이어의 포지션</param>
+    /// <returns></returns>
+    public GameObject GetLevelUp_Effect(Transform target)
+    {
+        StartCoroutine(LevelUpTextPopup(target));
+
+        GameObject levelUp_PS = pools[6].Dequeue();
+        levelUp_PS.transform.SetParent(target);
+        levelUp_PS.transform.position = target.position;
+        levelUp_PS.gameObject.SetActive(true);
+
+
+        return null;
+    }
+
+    IEnumerator LevelUpTextPopup(Transform target)
+    {
+        int i = 0;
+        while(i < 4)
+        {
+            GameObject damageText_Prefab = pools[5].Dequeue();
+            DamageText damageText_Comp = damageText_Prefab.GetComponent<DamageText>();
+            damageText_Comp.SetText_LevelUp();
+            damageText_Prefab.transform.SetParent(target);
+            damageText_Prefab.transform.localPosition = Text_Position;
+            damageText_Prefab.SetActive(true);
+            yield return new WaitForSeconds(0.3f);
+            i++;
+        }
+    }
+    /// <summary>
+    /// 데미지 팝업용
+    /// </summary>
+    /// <param name="damage"></param>
+    /// <param name="target"></param>
+    /// <param name="isCritical"></param>
+    /// <returns></returns>
+    public GameObject GetObject(float damage, Transform target, bool isCritical)
     {
         GameObject result = pools[5].Dequeue();
         DamageText damageText = result.GetComponent<DamageText>();
         result.transform.SetParent(target);
-        result.transform.localPosition = damageText_Position;
+        result.transform.localPosition = Text_Position;
         damageText.SetText(damage, isCritical);
         result.SetActive(true);
 
@@ -83,6 +130,10 @@ public class Effect_Pool : MonoBehaviour
             StartCoroutine(SetParent(obj));
         }
         else if (obj.poolIndex == 5) //데미지 텍스트일 경우
+        {
+            StartCoroutine(SetParent(obj));
+        }
+        else if (obj.poolIndex == 6)
         {
             StartCoroutine(SetParent(obj));
         }
