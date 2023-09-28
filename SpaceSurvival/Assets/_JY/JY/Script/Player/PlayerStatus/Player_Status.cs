@@ -560,7 +560,6 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
         get => criticalRate;
         set
         {
-            Debug.Log($"Å©¸®Æ¼ÄÃÈ®·ü {criticalRate}");
             criticalRate = value;
             criticalRateText.text = $"{criticalRate:f1} %";
         }
@@ -728,8 +727,8 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
         this.DEX = equipments_DataServer.Total_DEX + base_Status.Base_DEX;
         this.ATT = (uint)(DEX * 0.5f) + base_Status.Base_ATT + equipments_DataServer.Total_ATT + base_Status.Base_ATT;
         this.DP = base_Status.Base_DP + equipments_DataServer.Total_DP + (uint)(STR * 0.5f);
-        this.CriticalRate = LUK * 0.3f;
-        this.DodgeRate = DEX * 0.3f;
+        this.CriticalRate = equipments_DataServer.Total_CriticalRate + (LUK * 0.3f);
+        this.DodgeRate = equipments_DataServer.Total_DodgeRate + (DEX * 0.3f);
 
         this.Damage = this.ATT;
         this.CriticalDamage = this.ATT * CriticalPower;

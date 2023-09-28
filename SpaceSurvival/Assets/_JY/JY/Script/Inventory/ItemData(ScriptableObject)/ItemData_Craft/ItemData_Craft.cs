@@ -15,8 +15,12 @@ public class ItemData_Craft : ItemData, IEquippable
     public uint DEX;
     public uint attack_Point;
     public uint defence_Point;
+    public float Critical_Rate;
+    public float Dodge_Rate;
 
+    float IEquippable.Critical_Rate => Critical_Rate;
 
+    float IEquippable.Dodge_Rate => Dodge_Rate;
 
     uint IEquippable.STR => STR;
     uint IEquippable.INT => INT;

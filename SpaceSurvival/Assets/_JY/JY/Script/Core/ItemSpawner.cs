@@ -124,6 +124,10 @@ public class ItemSpawner : TestBase
         GameManager.SlotManager.AddItem(ItemCode.Space_Armor);
         GameManager.SlotManager.AddItem(ItemCode.Intermidiate_Green_Crystal);
         GameManager.SlotManager.AddItem(ItemCode.Advanced_Red_Crystal);
+        GameManager.SlotManager.AddItem(ItemCode.Purple_Crystal);
+        GameManager.SlotManager.AddItem(ItemCode.Pink_Crystal);
+        GameManager.SlotManager.AddItem(ItemCode.Red_Crystal);
+        GameManager.SlotManager.AddItem(ItemCode.Red_Crystal);
     }
     public void GetItemH()
     {

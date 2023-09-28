@@ -12,10 +12,11 @@ public class ItemData_Equip : ItemData, IEquippable
     public uint INT;
     public uint LUK;
     public uint DEX;
+    public float Critical_Rate;
+    public float Dodge_Rate;
 
-
-
-
+    float IEquippable.Critical_Rate => Critical_Rate;
+    float IEquippable.Dodge_Rate => Dodge_Rate;
     uint IEquippable.STR => STR;
     uint IEquippable.INT => INT;
     uint IEquippable.LUK => LUK;

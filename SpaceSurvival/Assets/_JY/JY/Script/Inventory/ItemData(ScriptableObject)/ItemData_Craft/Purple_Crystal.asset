@@ -30,3 +30,5 @@ MonoBehaviour:
   DEX: 30
   attack_Point: 0
   defence_Point: 0
+  Critical_Rate: 50
+  Dodge_Rate: 0
