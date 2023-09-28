@@ -4615,6 +4615,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 917187561, guid: 4c13b59fca2a2474ca6c2b1b0b027b33, type: 3}
+      propertyPath: PoolPrefabs.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 917187561, guid: 4c13b59fca2a2474ca6c2b1b0b027b33, type: 3}
+      propertyPath: PoolPrefabs.Array.data[5].prefab
+      value: 
+      objectReference: {fileID: 4611832680593354117, guid: a98d8de53483fc84baa91c2c15f43d8e, type: 3}
+    - target: {fileID: 917187561, guid: 4c13b59fca2a2474ca6c2b1b0b027b33, type: 3}
+      propertyPath: PoolPrefabs.Array.data[5].poolSize
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: 7473743051139603170, guid: 4c13b59fca2a2474ca6c2b1b0b027b33, type: 3}
       propertyPath: m_RootOrder
       value: 4

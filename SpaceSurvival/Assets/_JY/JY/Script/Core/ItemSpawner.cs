@@ -167,11 +167,10 @@ public class ItemSpawner : TestBase
     {
         ItemFactory.MakeItem(itemCode);
     }
+    public bool IsCritical;
     protected override void Test1(InputAction.CallbackContext _)
     {
-        // GameManager.PlayerStatus.GetExp(20);
-        GameManager.PlayerStatus.SaveData();
-        Debug.Log("¿˙¿Â");
+        GameManager.Player_.Defence(UnityEngine.Random.Range(10, 100), IsCritical);
     }
     protected override void Test2(InputAction.CallbackContext context)
     {

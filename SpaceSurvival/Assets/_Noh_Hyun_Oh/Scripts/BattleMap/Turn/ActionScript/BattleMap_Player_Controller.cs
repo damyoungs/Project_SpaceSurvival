@@ -232,14 +232,14 @@ public class BattleMap_Player_Controller : MonoBehaviour
         int forSize = skillRangeTile.Length;
         for (int i = 0; i < forSize; i++)
         {
-            GameManager.PS_Pool.GetObject(skill.SkillType, skillRangeTile[i].transform.position);
+            GameManager.EffectPool.GetObject(skill.SkillType, skillRangeTile[i].transform.position);
         }
     }
     IEnumerator Penetrate(Tile[] skillRangeTile, SkillData skillData)
     {
         for (int i = 0; i < skillRangeTile.Length; i++)
         {
-            GameManager.PS_Pool.GetObject(skillData.SkillType, skillRangeTile[i].transform.position);
+            GameManager.EffectPool.GetObject(skillData.SkillType, skillRangeTile[i].transform.position);
             yield return new WaitForSeconds(0.1f);
         }
     }
@@ -252,7 +252,7 @@ public class BattleMap_Player_Controller : MonoBehaviour
         {
             foreach (var tile in skillRangeTile)
             {
-                GameManager.PS_Pool.GetObject(skillData.SkillType, tile.transform.position);
+                GameManager.EffectPool.GetObject(skillData.SkillType, tile.transform.position);
                 yield return waitForSeconds;
             }
             i++;

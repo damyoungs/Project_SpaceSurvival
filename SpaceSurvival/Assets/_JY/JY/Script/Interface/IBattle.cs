@@ -5,5 +5,5 @@ using UnityEngine;
 public interface IBattle
 {
     void Attack_Enemy(IBattle target);
-    void Defence(float damage);
+    void Defence(float damage, bool isCritical = false);
 }

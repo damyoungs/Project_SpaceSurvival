@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     QuickSlot_Manager quickSlot_Box;
     ItemDataManager itemDataManager;
     EquipBox equipBox;
-    EffectParticle_Pool particlePool;
+    Effect_Pool effectPool;
     SkillBox skillBox;
 
     Vector2 cursorHotspot;
@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
     public static Item_Mixing_Table Mixing_Table => Inst.mixingTable;
     public static QuickSlot_Manager QuickSlot_Manager => Inst.quickSlot_Box;
     public static EquipBox EquipBox => Inst.equipBox; 
-    public static EffectParticle_Pool PS_Pool => Inst.particlePool;
+    public static Effect_Pool EffectPool => Inst.effectPool;
     public static SkillBox SkillBox => Inst.skillBox;
 
     private void Awake()
@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
         mixingTable = FindObjectOfType<Item_Mixing_Table>();
         quickSlot_Box = FindObjectOfType<QuickSlot_Manager>();
         equipBox = FindObjectOfType<EquipBox>();
-        particlePool = GetComponentInChildren<EffectParticle_Pool>();
+        effectPool = GetComponentInChildren<Effect_Pool>();
         skillBox = FindAnyObjectByType<SkillBox>();
         status = FindAnyObjectByType<Player_Status>();
     }
