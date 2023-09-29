@@ -147,6 +147,7 @@ public class Player_ : MonoBehaviour, IBattle
     EquipBox_Description EquipBox_Description;
     EquipBox equipBox;
     Skill_Blessing skill_Blessing;
+    SkillData currentSkillData = null;
     Player_Status player_Status;
 
 
@@ -309,6 +310,7 @@ public class Player_ : MonoBehaviour, IBattle
                 on_ActiveSkill?.Invoke(skillData);
             }
             on_CursorChange?.Invoke(true);
+            this.currentSkillData = skillData; 
         }
         else if (skill_Blessing != null)//만약 사용한 스킬이 버프스킬이면@@@// PlayerStatus에 신호보내 적용하기
         {
@@ -321,6 +323,7 @@ public class Player_ : MonoBehaviour, IBattle
             duringBuffSkill = true;//버프스킬 발동중 표시
             on_CursorChange?.Invoke(false);
             GameManager.EffectPool.GetObject(SkillType.Blessing,transform.position);
+            GameManager.SoundManager.PlayOneShot_Buff();
             return;
         }
     }
@@ -334,8 +337,30 @@ public class Player_ : MonoBehaviour, IBattle
     {
        // StopCoroutine(RotateCoroutine);
         Stamina--;
+        anim.SetTrigger(attack_Trigger_Hash);
         on_CursorChange?.Invoke(false);
-        
+        if (this.currentSkillData is Skill_Sniping)
+        {
+            GameManager.SoundManager.PlayOneShot_Sniping();
+        }
+        else if (this.currentSkillData is Skill_Penetrate)
+        {
+            GameManager.SoundManager.PlayOneShot_Penetrate();
+        }
+        else if (this.currentSkillData is Skill_Rampage)
+        {
+            GameManager.SoundManager.PlayOneShot_Rampage();
+        }
+        else if (this.currentSkillData is Skill_Normal_Attack)
+        {
+            GameManager.SoundManager.PlayOneShot_NormalAttack();
+        }
+
+    }
+    void PopupLevelUp_Effect()
+    {
+        GameManager.SoundManager.PlayOneShot_LevelUp();
+        GameManager.EffectPool.GetLevelUp_Effect(transform);
     }
     public void DeBuff()//버프스킬 적용 해제
     {
@@ -365,6 +390,8 @@ public class Player_ : MonoBehaviour, IBattle
         onUnEquipItem += GameManager.SlotManager.UnEquip_Item;
         onOpenInven += GameManager.Inventory.Open_Inventory;
         GameManager.QuickSlot_Manager.on_Activate_Skill += Skill_Action;
+
+        player_Status.on_LevelUp += PopupLevelUp_Effect;
 
         equipBox.on_Update_Status += Update_Status;
         equipBox.on_Pass_Item_Transform += Set_ShootPoint_Transform;

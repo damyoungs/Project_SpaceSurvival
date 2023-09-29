@@ -253,6 +253,7 @@ public class Base_Status//¾Æ¹«°Íµµ ÀåºñÇÏÁö ¾ÊÀº »óÅÂÀÇ ÇÃ·¹ÀÌ¾îÀÇ ±âº» °ø°Ý·Â, 
     public Base_Status(Player_Status player_Status)
     {
         this.playerStatus = player_Status;
+        
         playerStatus.on_increase_ExpMax += (result) => ExpMax = result;
         playerStatus.on_increase_MaxHP += (increase) => Base_MaxHP += increase;
         playerStatus.on_increase_MaxStamina += (increase) => Base_MaxStamina += increase;
@@ -647,12 +648,14 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
     }
     void Open()
     {
+        GameManager.SoundManager.PlayOneShot_OnOffToggle();
         canvasGroup.alpha = 1.0f;
         canvasGroup.blocksRaycasts = true;
         canvasGroup.interactable = true;
     }
     void Close()
     {
+        GameManager.SoundManager.PlayOneShot_OnOffToggle();
         canvasGroup.alpha = 0;
         canvasGroup.blocksRaycasts = false;
         canvasGroup.interactable = false;
@@ -702,6 +705,7 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
         Stamina = MaxStamina;
         base_Status.Exp = 0;
         on_increase_ExpMax?.Invoke((uint)(ExpMax * 1.2f));
+        on_LevelUp?.Invoke();
     }
     public Action<uint> on_increase_MaxHP;
     public Action<uint> on_increase_MaxStamina;
@@ -711,6 +715,7 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
     public Action on_Rise_LUK;
     public Action on_Rise_DEX;
     public Action on_Rise_CriticalPower;
+    public Action on_LevelUp;
     // totalATT, TotalDP °ªÀ» ¾÷µ¥ÀÌÆ®ÇÏ´Â ÇÔ¼ö ½ÇÇà
     //@@ÀÛ¾÷ÇÒ °Í this.ATT = base_Status.base_ATT + equipments_Total_ATT_DP.Total_ATT;//ÇÃ·¹ÀÌ¾îÀÇ °ø°Ý·Â = ±âº»°ø°Ý·Â + Àåºñ¾ÆÀÌÅÛµéÀÇ °ø°Ý·Â ÃÑ ÇÕ
     // this.DP = base_Status.base_DP + equipments_Total_ATT_DP.Total_DP;

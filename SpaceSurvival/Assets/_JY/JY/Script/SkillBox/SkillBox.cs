@@ -62,12 +62,14 @@ public class SkillBox : MonoBehaviour, IPopupSortWindow
     }
     public void Open()
     {
+        GameManager.SoundManager.PlayOneShot_OnOffToggle();
         canvasGroup.alpha = 1.0f;
         canvasGroup.blocksRaycasts = true;
         canvasGroup.interactable = true;
     }
     public void Close()
     {
+        GameManager.SoundManager.PlayOneShot_OnOffToggle();
         canvasGroup.alpha = 0.0f;
         canvasGroup.blocksRaycasts = false;
         canvasGroup.interactable = false;

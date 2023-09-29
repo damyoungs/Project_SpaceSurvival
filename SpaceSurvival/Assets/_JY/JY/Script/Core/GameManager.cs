@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
     EquipBox equipBox;
     Effect_Pool effectPool;
     SkillBox skillBox;
+    SoundManager soundManager;
 
     Vector2 cursorHotspot;
     
@@ -63,10 +64,16 @@ public class GameManager : MonoBehaviour
     public static EquipBox EquipBox => Inst.equipBox; 
     public static Effect_Pool EffectPool => Inst.effectPool;
     public static SkillBox SkillBox => Inst.skillBox;
+    public static SoundManager SoundManager => Inst.soundManager;
 
     private void Awake()
     {
         Init();
+
+        if (instance != this)
+        {
+            Destroy(this.gameObject);
+        }
         itemDataManager = GetComponent<ItemDataManager>();
         inventory = FindObjectOfType<Inventory>();
         slotManager = FindObjectOfType<SlotManager>();
@@ -79,6 +86,7 @@ public class GameManager : MonoBehaviour
         effectPool = GetComponentInChildren<Effect_Pool>();
         skillBox = FindAnyObjectByType<SkillBox>();
         status = FindAnyObjectByType<Player_Status>();
+        soundManager = GetComponentInChildren<SoundManager>();
     }
     private void Start()
     {
@@ -88,7 +96,8 @@ public class GameManager : MonoBehaviour
         ChangeCursor(false);
         cursorHotspot = new Vector2(skillCursor.width * 0.5f, skillCursor.height * 0.5f);
     }
-   
+
+    //@GameManager 라는 오브젝트의 컴포넌트를instance라고 했기때문에 씬에 다른 Gamemanager가 있더라도 호출되지 않는다
     static void Init()
     {
         
@@ -102,8 +111,8 @@ public class GameManager : MonoBehaviour
             }
             DontDestroyOnLoad(go);
             instance = go.GetComponent<GameManager>();
-    
         }
+
     }
     
     public void ChangeCursor(bool duringSkill)

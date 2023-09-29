@@ -109,6 +109,7 @@ public class Item_Enhancer_UI : MonoBehaviour, IPopupSortWindow, IPointerClickHa
     }
     public void Open()
     {
+        GameManager.SoundManager.PlayOneShot_OnOffToggle();
         canvasGroup.alpha = 1.0f;
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
@@ -119,6 +120,7 @@ public class Item_Enhancer_UI : MonoBehaviour, IPopupSortWindow, IPointerClickHa
     }
     public void Close()
     {
+        GameManager.SoundManager.PlayOneShot_OnOffToggle();
         canvasGroup.alpha = 0.0f;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;

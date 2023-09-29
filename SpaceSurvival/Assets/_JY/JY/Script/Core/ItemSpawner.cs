@@ -174,7 +174,7 @@ public class ItemSpawner : TestBase
     }
     protected override void Test2(InputAction.CallbackContext context)
     {
-        GameManager.EffectPool.GetLevelUp_Effect(GameManager.Player_.transform);
+        GameManager.PlayerStatus.Base_Status.Exp += 20;
     }
     protected override void Test3(InputAction.CallbackContext context)
     {
