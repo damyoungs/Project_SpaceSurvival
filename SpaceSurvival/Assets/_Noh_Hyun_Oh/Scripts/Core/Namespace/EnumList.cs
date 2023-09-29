@@ -19,6 +19,7 @@ namespace EnumList
         //CreateCharcter, //아직안만듬
         TestBattleMap,  //맵은 종류가많음 가장밑에 추가
         SpaceShip,  //맵은 종류가많음 가장밑에 추가
+        BattleShip  // 마을맵 맵핑
     }
     /// <summary>
     /// 로딩화면에 보여줄 이미지 종류리스트

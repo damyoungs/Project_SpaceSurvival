@@ -113,10 +113,6 @@ public class Gyu_QuestManager : MonoBehaviour
         talkController = FindObjectOfType<NpcTalkController>();
 
         questUIManager = GetComponent<Gyu_UI_QuestManager>();   //기능분리를 위해 스크립트를 따로뺏다.
-
-       
-
-      
     }
 
     private void Start()

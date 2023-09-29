@@ -646,6 +646,7 @@ GameObject:
   - component: {fileID: -2537030035661400498}
   - component: {fileID: 1862733212201948527}
   - component: {fileID: 3996946577384458590}
+  - component: {fileID: 1636250467}
   m_Layer: 0
   m_Name: Merchant_NPC
   m_TagString: Npc
@@ -694,10 +695,10 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!135 &3996946577384458590
 SphereCollider:
@@ -712,6 +713,20 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 1.5
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!136 &1636250467
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6620414609025628852}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.2
+  m_Height: 1.8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!1 &6620419838206681564
 GameObject:
   m_ObjectHideFlags: 0
