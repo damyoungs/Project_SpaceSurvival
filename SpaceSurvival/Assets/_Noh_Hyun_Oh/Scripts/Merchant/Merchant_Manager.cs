@@ -22,6 +22,12 @@ public class Merchant_Manager : MonoBehaviour
 
 
     /// <summary>
+    /// 엔피씨가 대화시 바라볼 방향 
+    /// </summary>
+    [SerializeField]
+    PlayerLookTarget lookTarget;
+
+    /// <summary>
     /// 마지막에 창을 열고있던 NPC 인덱스
     /// </summary>
     int currentNpcIndex = 0;
@@ -162,6 +168,7 @@ public class Merchant_Manager : MonoBehaviour
 
     NpcTalkController talkController;
 
+    InteractionUI actionUI;
     private void Awake()
     {
         int capacity = (int)(merchantItemArray.Length * 0.25f);
@@ -229,6 +236,7 @@ public class Merchant_Manager : MonoBehaviour
             {
                 isTalking = false;
                 talkController.Talk(0);
+                actionUI.visibleUI?.Invoke();
             }
         };
     }
@@ -264,9 +272,11 @@ public class Merchant_Manager : MonoBehaviour
     public void InitDataSetting()
     {
 
+        actionUI = FindObjectOfType<InteractionUI>(true);
         // 팩토리로 할시 엔피씨 위치를 몇개 후보지역두고 랜덤으로 변경시키는게 더간단할거같다.
         // 초기화 하는것은 여기말고 다른곳으로 빼서 해야될거같다 .. 팩토리 로 생성시킨뒤에 껏다켯다하면 될거같긴한데.. 
         MerchantNPC[] array_NPC = FindObjectsOfType<MerchantNPC>(true);   //씬에있는 엔피씨 찾아서 담아두고 ( 찾는 순서가 바뀔수도있으니 다른방법을 찾아보자.)
+        lookTarget = FindObjectOfType<PlayerLookTarget>(true);
         for (int i = 0; i < array_NPC.Length; i++)
         {
             //위치와 모양을 변경시키면 될거같기도한데.. 일단 고민좀해보자..
@@ -280,8 +290,9 @@ public class Merchant_Manager : MonoBehaviour
                 talkController.onTalkClick = null;
                 talkController.getTalkDataArray = null;
                 talkController.LogManager.getLogTalkDataArray = null;
+                actionUI.invisibleUI?.Invoke();
             };
-            array_NPC[i].onTalkEnableButton = (npcId) =>
+            array_NPC[i].onTalkEnableButton += (npcId) =>
             {
                 Cursor.lockState = CursorLockMode.None;
                 talkController.ResetData();
@@ -298,10 +309,13 @@ public class Merchant_Manager : MonoBehaviour
                     return talkController.TalkData.GetLog(array_NPC[currentNpcIndex].TalkType, talkIndex);
                 };
                 isTalking = true;
+                actionUI.visibleUI?.Invoke();
             };
 
-           
+            array_NPC[i].MoveProccess.getTarget = () => lookTarget.transform; 
         }
+
+
     }
 
 }

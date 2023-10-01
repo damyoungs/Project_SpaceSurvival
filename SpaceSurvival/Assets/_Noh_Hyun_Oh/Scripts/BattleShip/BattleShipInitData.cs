@@ -7,7 +7,7 @@ public class BattleShipInitData : MonoBehaviour
     Gyu_QuestManager questManager;
     Merchant_Manager merchantManager;
 
-    private void Awake()
+    private void Start()
     {
         questManager = FindObjectOfType<Gyu_QuestManager>(true);
         merchantManager = FindObjectOfType<Merchant_Manager>(true);
