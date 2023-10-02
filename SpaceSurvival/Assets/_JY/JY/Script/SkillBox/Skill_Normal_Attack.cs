@@ -28,7 +28,7 @@ public class Skill_Normal_Attack : SkillData
     {
         Require_Force_For_skillLevelUp += 1;
         Require_Stamina_For_UsingSkill = (int)(SkillLevel * 0.33f);
-        Debug.Log("레벨업 실행");
+        //Debug.Log("레벨업 실행");
     }
     protected override void SetCurrentLevel_Description_Info(out string info)
     {

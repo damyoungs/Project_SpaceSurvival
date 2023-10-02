@@ -125,7 +125,8 @@ public class BattleMapPlayerBase : Base_PoolObj, ICharcterBase
         {
             battleUI.AddOfStatus(buffValue);
         };
-        
+
+       
 
 
 
@@ -137,6 +138,17 @@ public class BattleMapPlayerBase : Base_PoolObj, ICharcterBase
         InitUI();//¸ÇÃ³À½ 
         unitAnimator = transform.GetChild(0).GetComponent<Animator>();
         charcterMove = CharcterMoveCoroutine(null);
+        TeamBorderStateUI uiComp = WindowList.Instance.TeamBorderManager.TeamStateUIs[0];
+        GameManager.PlayerStatus.Base_Status.on_MaxExp_Change += (maxExpValue) => {
+            uiComp.SetExpGaugeAndText(0.0f, maxExpValue);
+
+        };
+
+        GameManager.PlayerStatus.Base_Status.on_ExpChange += (expValue) => {
+            uiComp.SetExpGaugeAndText(expValue, GameManager.PlayerStatus.Base_Status.ExpMax);
+
+        };
+        uiComp.SetExpGaugeAndText(GameManager.PlayerStatus.Base_Status.Exp, GameManager.PlayerStatus.Base_Status.ExpMax);
     }
 
     protected override void OnEnable()

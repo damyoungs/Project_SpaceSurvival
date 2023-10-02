@@ -60,6 +60,7 @@ public class EnemyTurnObject : TurnBaseObject
                             }
                         }
                     }
+                    GameManager.PlayerStatus.GetExp((uint)go.EXP);
                     if (charcterList.Count < 1)
                     {
                         Debug.Log("À¯´ÖÀü¸ê ¸¶À»·ÎÀÌµ¿ÇÏµç ¹»ÇÏµç Ã³¸®");

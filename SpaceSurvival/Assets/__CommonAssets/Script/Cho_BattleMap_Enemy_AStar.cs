@@ -120,7 +120,7 @@ public static class Cho_BattleMap_Enemy_AStar
             current = current.parent;
         }
 
-        Debug.Log($"{current.width},{current.length}, {end.width}, {end.length}");
+        //Debug.Log($"{current.width},{current.length}, {end.width}, {end.length}");
         path.Reverse();
 
         return path;

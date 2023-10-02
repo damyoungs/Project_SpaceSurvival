@@ -189,6 +189,7 @@ public class LoadingScene : MonoBehaviour
             case EnumList.SceneName.TestBattleMap:
                 InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_BattleMap);
                 InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_InvenView);
+                InputSystemController.Instance.EnableHotKey(HotKey_Use.QuickSlot);
                 break;
             case EnumList.SceneName.SpaceShip:
                 InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_TownMap);

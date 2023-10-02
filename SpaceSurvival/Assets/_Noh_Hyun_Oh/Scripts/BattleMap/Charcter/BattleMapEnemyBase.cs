@@ -150,13 +150,14 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase ,IBattle
 
     float maxHp = 100;
 
-    float attData = 0;
+    float attData = 50;
 
     float defData = 0;
 
     int attRange = 3;
 
-
+    float exp = 100.0f;
+    public float EXP => exp; 
 
     /// <summary>
     /// 이동버그가 존재해서 체크하는 변수
@@ -184,7 +185,7 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase ,IBattle
     private void IsAttackAction()
     {
         Tile attackTile = Cho_BattleMap_Enemy_AStar.SetEnemyAttackSize(currentTile, attRange);
-        Debug.Log(SpaceSurvival_GameManager.Instance.PlayerTeam[0]);
+        //Debug.Log(SpaceSurvival_GameManager.Instance.PlayerTeam[0]);
 
         if (attackTile != null)
         {
@@ -207,7 +208,7 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase ,IBattle
     public void OnDie()
     {
         ResetData();
-        onDie?.Invoke(this);
+        onDie?.Invoke(this);  
     }
 
 
