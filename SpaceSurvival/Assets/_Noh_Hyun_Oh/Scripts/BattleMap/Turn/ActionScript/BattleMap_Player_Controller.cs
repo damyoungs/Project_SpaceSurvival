@@ -193,8 +193,13 @@ public class BattleMap_Player_Controller : MonoBehaviour
                     BattleMapEnemyBase[] attackArray = SpaceSurvival_GameManager.Instance.AttackRange.GetEnemyArray(out SkillData skill); //
                     //if (attackArray != null && attackArray.Length > 0) //공격할적이있을땐 
                     //{
-                   
+                    int forSize = attackArray.Length;
+                    for (int i = 0; i < forSize; i++)
+                    {
+                        attackArray[i].Defence(skill.FinalDamage); 
+                    }
                     onAttackAction?.Invoke(attackArray, skill.FinalDamage);//공격로직 실행 적군 데미지처리는 알아서하도록 데이터만넘기자
+                   
                     
                     GameManager.Inst.ChangeCursor(false);
                     AttackEffectOn(SpaceSurvival_GameManager.Instance.AttackRange.GetEnemyArray(), skill);

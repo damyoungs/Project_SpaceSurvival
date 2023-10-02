@@ -17,7 +17,9 @@ public class EnemyTurnObject : TurnBaseObject
     /// </summary>
     public Func<BattleMapEnemyBase[]> initEnemy;
 
-    public Action turnStart; 
+    public Action turnStart;
+
+    BattleMap_Player_Controller bpc;
 
     /// <summary>
     /// 데이터 초기화 함수 
@@ -25,12 +27,13 @@ public class EnemyTurnObject : TurnBaseObject
     public override void InitData()
     {
         BattleMapEnemyBase[] enemyList = initEnemy?.Invoke(); //외부에서 몬스터 배열이 들어왔는지 체크
+        bpc = FindObjectOfType<BattleMap_Player_Controller>();  
         if (enemyList == null || enemyList.Length == 0) //몬스터 초기화가 안되있으면 
         {
             //테스트 데이터 생성
             for (int i = 0; i < testPlayerLength; i++)//캐릭터들 생성해서 셋팅 
             {
-                BattleMapEnemy go = (BattleMapEnemy)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.CHARCTER_ENEMY_POOL);
+                BattleMapEnemyBase go = (BattleMapEnemyBase)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.CHARCTER_ENEMY_POOL);
                 
                 charcterList.Add(go);
                 
@@ -51,7 +54,7 @@ public class EnemyTurnObject : TurnBaseObject
                             {
                                 if (unit.EnemyType == quest.QuestMosters[i]) 
                                 {
-                                    quest.RequestCount[i]++;
+                                    quest.CurrentCount[i]++;
                                 } 
 
                             }
