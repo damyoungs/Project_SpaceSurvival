@@ -17,11 +17,11 @@ MonoBehaviour:
   title: "\uD018\uC2A4\uD2B8\uC81C\uBAA9 : \uBA54\uC778 \uC2DC\uB098\uB9AC\uC624"
   description: "\uD018\uC2A4\uD2B8 \uB0B4\uC6A9 : \uAC8C\uC784\uB05D\uB0B4\uB294
     \uC870\uAC74?"
-  clearObjectives: "\uD018\uC2A4\uD2B8 \uC218\uD589\uD560 \uB0B4\uC6A9 : \uBB34\uC5C7\uC744
-    \uD574\uC57C \uD018\uC2A4\uD2B8\uAC00\uB05D\uB098\uB294\uC9C0 "
+  clearObjectives: "\uD018\uC2A4\uD2B8 \uC218\uD589\uD560 \uB0B4\uC6A9 :  \uBCF4\uC2A4\uB54C\uB824\uC7A1\uC544\uB77C
+    \uD55C\uB9C8\uB9AC"
   rewardCoin: 0
-  rewardItem: 08000000
-  itemCount: 05000000
-  requestItem: 13000000
+  rewardItem: 00000000
+  itemCount: 00000000
+  requestItem: 
   questMosters: 04000000
   requiredCount: 01000000

@@ -84,21 +84,38 @@ public class BattleMapPlayerBase : Base_PoolObj, ICharcterBase
     {
         base.Awake();
         charcterData = GetComponentInChildren<Player_>();
-        charcterData.on_Player_Stamina_Change += (stmValue) =>
-        {
-            //Debug.Log(stmValue);
-            TeamBorderStateUI uiComp = WindowList.Instance.TeamBorderManager.TeamStateUIs[0];
-            uiComp.SetStmGaugeAndText(stmValue, charcterData.Max_Stamina);
+        unitAnimator = transform.GetChild(0).GetComponent<Animator>();
+        charcterMove = CharcterMoveCoroutine(null);
+    }
+
+    private void Start()
+    {
+        battleUICanvas = WindowList.Instance.transform.GetChild(0).GetChild(0);  // TrackingUI 담을 캔버스위치
+        InitUI();//맨처음 
+        TeamBorderStateUI uiComp = WindowList.Instance.TeamBorderManager.TeamStateUIs[0];
+        Base_Status playerData = GameManager.PlayerStatus.Base_Status;
+
+        playerData.on_MaxExp_Change += (maxExpValue) => {
+            uiComp.SetExpGaugeAndText(0.0f, maxExpValue);
 
         };
-        charcterData.on_Player_Stamina_Change += (stmValue) => {
-            
+
+        playerData.on_ExpChange += (expValue) => {
+            uiComp.SetExpGaugeAndText(expValue, playerData.ExpMax);
+
+        };
+        uiComp.SetExpGaugeAndText(playerData.Exp, playerData.ExpMax);
+
+        playerData.on_CurrentStamina_Change += (stmValue) =>
+        {
+            //Debug.Log(stmValue);
+            uiComp.SetStmGaugeAndText(stmValue, playerData.Base_MaxStamina);
             float currentMoveSize = stmValue > moveSize ? moveSize : stmValue;
             TurnManager.Instance.CurrentTurn.TurnActionValue = stmValue;
             //moveSize = stmValue;
-            if (battleUI != null) 
+            if (battleUI != null)
             {
-                BattleUI.stmGaugeSetting(stmValue, charcterData.Max_Stamina); //소모된 행동력 표시
+                BattleUI.stmGaugeSetting(stmValue, playerData.Base_MaxStamina); //소모된 행동력 표시
             }
             SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentTile);
             SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(currentTile, currentMoveSize);//이동범위표시해주기 
@@ -107,48 +124,22 @@ public class BattleMapPlayerBase : Base_PoolObj, ICharcterBase
                 TurnManager.Instance.CurrentTurn.TurnEndAction();//턴종료 
             }
         };
-        charcterData.on_Player_HP_Change += (hpValue) =>
+      
+        playerData.on_CurrentHP_Change += (hpValue) =>
         {
-            TeamBorderStateUI uiComp = WindowList.Instance.TeamBorderManager.TeamStateUIs[0];
-            uiComp.SetHpGaugeAndText(hpValue, charcterData.MaxHp);
-
-        };
-
-        charcterData.on_Player_HP_Change += (hpValue) => {
+            uiComp.SetHpGaugeAndText(hpValue, playerData.Base_MaxHP);
             if (battleUI != null)
             {
-                BattleUI.hpGaugeSetting(hpValue, charcterData.MaxHp); //소모된 행동력 표시
+                BattleUI.hpGaugeSetting(hpValue, playerData.Base_MaxHP); //소모된 행동력 표시
             }
         };
-        //
+
         charcterData.on_Buff_Start += (buffValue) =>
         {
             battleUI.AddOfStatus(buffValue);
         };
 
-       
 
-
-
-    }
-
-    private void Start()
-    {
-        battleUICanvas = WindowList.Instance.transform.GetChild(0).GetChild(0);  // TrackingUI 담을 캔버스위치
-        InitUI();//맨처음 
-        unitAnimator = transform.GetChild(0).GetComponent<Animator>();
-        charcterMove = CharcterMoveCoroutine(null);
-        TeamBorderStateUI uiComp = WindowList.Instance.TeamBorderManager.TeamStateUIs[0];
-        GameManager.PlayerStatus.Base_Status.on_MaxExp_Change += (maxExpValue) => {
-            uiComp.SetExpGaugeAndText(0.0f, maxExpValue);
-
-        };
-
-        GameManager.PlayerStatus.Base_Status.on_ExpChange += (expValue) => {
-            uiComp.SetExpGaugeAndText(expValue, GameManager.PlayerStatus.Base_Status.ExpMax);
-
-        };
-        uiComp.SetExpGaugeAndText(GameManager.PlayerStatus.Base_Status.Exp, GameManager.PlayerStatus.Base_Status.ExpMax);
     }
 
     protected override void OnEnable()
@@ -289,7 +280,7 @@ public class BattleMapPlayerBase : Base_PoolObj, ICharcterBase
         transform.GetChild(0).transform.localPosition = Vector3.zero;
         unitAnimator.SetBool(isWalkingHash, false);
 
-        charcterData.Stamina -= this.currentTile.MoveCheckG; //최종이동한 거리만큼 스태미나를 깍는다.
+        GameManager.PlayerStatus.Base_Status.Current_Stamina -= this.currentTile.MoveCheckG; //최종이동한 거리만큼 스태미나를 깍는다.
 
         isMoveCheck = false; //이동끝낫는지 체크
     }

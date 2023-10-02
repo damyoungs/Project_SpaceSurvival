@@ -509,7 +509,6 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
         questManager.isTalking = false;
         //quests = null;
         //array_NPC = null;
-  
     }
 
    
@@ -522,6 +521,6 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
 
     public void CloseWindow()
     {
-        initialize();
+        npcTalkController.ResetData();
     }
 }

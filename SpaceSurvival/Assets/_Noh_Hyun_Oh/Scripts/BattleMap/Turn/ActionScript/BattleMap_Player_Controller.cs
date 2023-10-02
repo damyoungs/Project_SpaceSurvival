@@ -117,18 +117,18 @@ public class BattleMap_Player_Controller : MonoBehaviour
         }
         else if (EventSystem.current.IsPointerOverGameObject())//포인터가 UI 위에 Mouse Over된 경우 return;
         {
-            ///canvas 내부 오브젝트들 에다가 레이를 쏜다고보면된다
-            PointerEventData point = new PointerEventData(EventSystem.current);
-            point.position = Mouse.current.position.value;
-            List<RaycastResult> raycastHits = new();
-            EventSystem.current.RaycastAll(point,raycastHits);
-            if (raycastHits.Count > 0) 
-            {
-                foreach (RaycastResult hit in raycastHits)
-                {
-                    Debug.Log(hit.gameObject.name,hit.gameObject);
-                }
-            }
+            /////canvas 내부 오브젝트들 에다가 레이를 쏜다고보면된다
+            //PointerEventData point = new PointerEventData(EventSystem.current);
+            //point.position = Mouse.current.position.value;
+            //List<RaycastResult> raycastHits = new();
+            //EventSystem.current.RaycastAll(point,raycastHits);
+            //if (raycastHits.Count > 0) 
+            //{
+            //    foreach (RaycastResult hit in raycastHits)
+            //    {
+            //        Debug.Log(hit.gameObject.name,hit.gameObject);
+            //    }
+            //}
             return;
         }
         //else if (SpaceSurvival_GameManager.Instance.IsUICheck) 

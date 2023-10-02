@@ -93,13 +93,15 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
     public Action<IPopupSortWindow> PopupSorting { get; set; }
 
 
+    NpcTalkController talkController;
+
     protected override void Awake()
     {
         base.Awake();
         
         merchant_Manager = GetComponent<Merchant_Manager>();
 
-        
+        talkController = FindObjectOfType<NpcTalkController>();
 
         popup = transform.parent.GetComponentInChildren<MerchantModalPopup>(true);
 
@@ -321,6 +323,7 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
             item.ResetData();
         }
         merchant_Manager.isTalking = false;
+
     }
 
 
@@ -344,7 +347,7 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
     }
     protected override void OnCloseButtonClick()
     {
-        CloseWindow();
+        talkController.ResetData();
     }
 
 }

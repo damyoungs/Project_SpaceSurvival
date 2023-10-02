@@ -294,7 +294,7 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
         Level = 1;
         Base_MaxHP = 100;
         CurrentHP = Base_MaxHP;
-        Base_MaxStamina = 100;
+        Base_MaxStamina = 15;
         Current_Stamina = Base_MaxStamina;
         Base_ATT = 10;
         Base_DP = 10;
