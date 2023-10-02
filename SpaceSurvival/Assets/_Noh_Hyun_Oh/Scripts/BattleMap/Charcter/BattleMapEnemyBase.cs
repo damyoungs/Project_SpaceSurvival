@@ -15,7 +15,7 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
 
     public int EnemyNum;
 
-    public bool IsMoveCheck { get; }
+    public virtual bool IsMoveCheck { get; }
 
     /// <summary>
     /// 추적형 UI 
@@ -52,6 +52,8 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
 
 
     public Func<Tile> GetCurrentTile { get; set ; }
+
+    public Action<BattleMapEnemy> onDie;
 
     /// <summary>
     /// 행동력 혹은 이동가능 거리
@@ -128,7 +130,7 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
         gameObject.SetActive(false); // 큐를 돌린다.
     }
 
-    public void CharcterMove(Tile selectedTile)
+    public virtual void CharcterMove(Tile selectedTile)
     {
         /*
         여기서 조작하고 부르기

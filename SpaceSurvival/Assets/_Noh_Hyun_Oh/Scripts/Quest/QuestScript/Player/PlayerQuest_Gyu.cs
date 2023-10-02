@@ -38,6 +38,11 @@ public class PlayerQuest_Gyu : MonoBehaviour
         clearQuestList = new List<Gyu_QuestBaseData>(questMaxLength);
     }
 
+    private void Start()
+    {
+        SpaceSurvival_GameManager.Instance.getPlayerQuest = () => this;
+    }
+
     /// <summary>
     /// 퀘스트 수락시 리스트에 추가하는 함수
     /// </summary>

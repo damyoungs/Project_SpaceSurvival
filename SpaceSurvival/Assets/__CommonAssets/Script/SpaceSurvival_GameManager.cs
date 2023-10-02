@@ -11,9 +11,21 @@ using UnityEngine;
 public class SpaceSurvival_GameManager : ChildComponentSingeton<SpaceSurvival_GameManager>
 {
     /// <summary>
-    /// 유아이 사용시 마우스 이벤트 막기위한 변수 
+    /// 플레이어 퀘스트 정보 담아두기
     /// </summary>
-    //public bool IsUICheck = false;
+    PlayerQuest_Gyu playerQuest;
+    public PlayerQuest_Gyu PlayerQuest 
+    {
+        get 
+        {
+            if (playerQuest == null) 
+            {
+                playerQuest = getPlayerQuest?.Invoke();
+            }
+            return playerQuest;
+        }
+    }
+    public Func<PlayerQuest_Gyu> getPlayerQuest;
 
     /// <summary>
     /// 배틀맵 시작시 셋팅할 맵의 타일 변수 

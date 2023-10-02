@@ -19,7 +19,7 @@ public static class Cho_BattleMap_Enemy_AStar
     /// <param name="start"></param>
     /// <param name="end"></param>
     /// <returns></returns>
-    public static List<Tile> PathFind(Tile[] map, int sizeX, int sizeY, Tile start, Tile end)
+    public static List<Tile> PathFind(Tile[] map, int sizeX, int sizeY, Tile start, Tile end, float moveSize = 1000.0f)
     {
         int tileLength = sizeX * sizeY;
         const float sideDistance = 1.0f;
@@ -61,7 +61,6 @@ public static class Cho_BattleMap_Enemy_AStar
                             continue;
 
                         adjoinTile = GetTile(map, current.Width + x, current.Length + y,sizeX);    // 인접한 타일 가져오기
-
                         if (adjoinTile == current)                                          // 인접한 타일이 (0, 0)인 경우
                             continue;
                         if (adjoinTile.ExistType != Tile.TileExistType.None)                // 인접한 타일이 None이 아닐 때
@@ -86,14 +85,15 @@ public static class Cho_BattleMap_Enemy_AStar
                         {
                             distance = sideDistance;
                         }
+                        if (current.G + distance > moveSize) continue; //이동범위 벗어난경우 
 
                         if (adjoinTile.G > current.G + distance)
                         {
                             if (adjoinTile.parent == null)
                             {
-                                adjoinTile.H = GetHeuristic(adjoinTile, end);
                                 open.Add(adjoinTile);
                             }
+                            adjoinTile.H = GetHeuristic(adjoinTile, end);
                             adjoinTile.G = current.G + distance;
                             adjoinTile.parent = current;
                         }
@@ -105,18 +105,23 @@ public static class Cho_BattleMap_Enemy_AStar
                 break;
             }
         }
-
-        if (current == end)
+        path = new List<Tile>();
+        while (close.Count > 0) 
         {
-            path = new List<Tile>();
-            while (current.parent != null)
+            if (current.H > close[0].H) 
             {
-                path.Add(current);
-                current = current.parent;
+                current = close[0];
             }
-
-            path.Reverse();
+            close.RemoveAt(0);
         }
+        while (current.parent != null)
+        {
+            path.Add(current);
+            current = current.parent;
+        }
+
+        Debug.Log($"{current.width},{current.length}, {end.width}, {end.length}");
+        path.Reverse();
 
         return path;
     }
@@ -132,7 +137,7 @@ public static class Cho_BattleMap_Enemy_AStar
         return map[index];
     }
 
-
+  
 
     /// <summary>
     /// 현재 위치지점에서 사거리 기준 공격 가능한 범위 의 좌표리스트를 가져오고 해당 좌표에 

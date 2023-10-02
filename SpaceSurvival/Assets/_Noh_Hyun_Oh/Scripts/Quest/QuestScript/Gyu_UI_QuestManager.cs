@@ -34,11 +34,13 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
     /// </summary>
     Button questAcceptButton;
     public Button QuestAcceptButton => questAcceptButton;
+
     /// <summary>
     /// 퀘스트창 취소 
     /// </summary>
     Button questCancelButton;
     public Button QuestCancelButton => questCancelButton;
+
     /// <summary>
     /// 퀘스트창 확인
     /// </summary>
@@ -504,7 +506,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
         questConfirm.gameObject.SetActive(false);
         questListPanel.gameObject.SetActive(false);
       
-        questManager.isTalking = true;
+        questManager.isTalking = false;
         //quests = null;
         //array_NPC = null;
   

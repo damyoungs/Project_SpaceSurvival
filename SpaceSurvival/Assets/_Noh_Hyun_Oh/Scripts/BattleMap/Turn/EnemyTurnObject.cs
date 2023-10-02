@@ -30,7 +30,7 @@ public class EnemyTurnObject : TurnBaseObject
             //테스트 데이터 생성
             for (int i = 0; i < testPlayerLength; i++)//캐릭터들 생성해서 셋팅 
             {
-                BattleMapEnemyBase go = (BattleMapEnemyBase)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.CHARCTER_ENEMY_POOL);
+                BattleMapEnemy go = (BattleMapEnemy)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.CHARCTER_ENEMY_POOL);
                 
                 charcterList.Add(go);
                 
@@ -39,6 +39,31 @@ public class EnemyTurnObject : TurnBaseObject
                 
                 go.GetCurrentTile = () => (SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Monster)); //데이터 연결 
                 go.transform.position = go.CurrentTile.transform.position; //셋팅된 타일위치로 이동시킨다.
+                go.onDie += (unit) => { 
+                    charcterList.Remove(unit);
+                    PlayerQuest_Gyu playerQuest = SpaceSurvival_GameManager.Instance.PlayerQuest;
+                    foreach (var quest in playerQuest.CurrentQuests) 
+                    {
+                        if (quest.QuestType == QuestType.Killcount) 
+                        {
+                            int forSize = quest.QuestMosters.Length; 
+                            for (int i = 0; i < forSize; i++)
+                            {
+                                if (unit.EnemyType == quest.QuestMosters[i]) 
+                                {
+                                    quest.RequestCount[i]++;
+                                } 
+
+                            }
+                        }
+                    }
+                    if (charcterList.Count < 1)
+                    {
+                        Debug.Log("유닛전멸 마을로이동하든 뭘하든 처리");
+                        LoadingScene.SceneLoading(EnumList.SceneName.BattleShip);
+                    }
+
+                };
             }
         }
         else // 외부에서 데이터가 들어왔을경우  이경우가 정상적인경우다  내가 데이서 셋팅안할것이기때문에...
@@ -51,18 +76,17 @@ public class EnemyTurnObject : TurnBaseObject
 
         SpaceSurvival_GameManager.Instance.GetEnemeyTeam = () => charcterList.OfType<BattleMapEnemyBase>().ToArray();
     }
-    public Tile Des;
+    public Tile des;
     float AttackRange;
     public override void TurnStartAction()
     {
         turnStart?.Invoke();
-        Des = SpaceSurvival_GameManager.Instance.PlayerTeam[0].currentTile;        
-        for(int i = 0; i >= testPlayerLength; i++)
+        des = SpaceSurvival_GameManager.Instance.PlayerTeam[0].currentTile;
+        Debug.Log(charcterList.Count);
+        foreach (var enemy in charcterList) 
         {
-            
-
+            enemy.CharcterMove(des);
         }
-
 
         TurnActionValue -= UnityEngine.Random.Range(5.0f, 10.0f);// 행동력 소모후 테스트 용 
         Debug.Log($"적군턴끝 행동력 :{TurnActionValue}");

@@ -320,7 +320,7 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
         {
             item.ResetData();
         }
-        merchant_Manager.isTalking = true;
+        merchant_Manager.isTalking = false;
     }
 
 
