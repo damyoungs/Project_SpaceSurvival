@@ -10,10 +10,9 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase ,IBattle
     /// </summary>
     public bool IsControll { get; set; }
 
-    Enemy_Psionic psionicData;
-    public Enemy_Psionic PsionicData => psionicData;
+    Enemy_ enemy_;
+    public Enemy_ Enemy => enemy_;
 
-    public int EnemyNum;
 
     public virtual bool IsMoveCheck { get; }
 
@@ -58,20 +57,39 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase ,IBattle
     /// <summary>
     /// 행동력 혹은 이동가능 거리
     /// </summary>
-    protected float moveSize = 3.0f;
+    protected float moveSize = 2.0f;
     public float MoveSize => moveSize;
 
     protected override void Awake()
     {
         base.Awake();
-        psionicData = GetComponentInChildren<Enemy_Psionic>();
-        psionicData.on_Enemy_Stamina_Change += (stmValue) =>
+        enemy_ = GetComponentInChildren<Enemy_>();
+        enemy_.on_Enemy_Stamina_Change += (stmValue) =>
         {
             float currentMoveSize = stmValue > moveSize? moveSize : stmValue;
-            TurnManager.Instance.CurrentTurn.TurnActionValue = stmValue;
-            if(stmValue < 1.0f)
+            //TurnManager.Instance.CurrentTurn.TurnActionValue = stmValue;
+            TurnManager.Instance.CurrentTurn.TurnActionValue = 20;
+            //if(stmValue < 1.0f)
+            //{
+            //    TurnManager.Instance.CurrentTurn.TurnEndAction();
+            //}
+            if (battleUI != null)
             {
-                TurnManager.Instance.CurrentTurn.TurnEndAction();
+                BattleUI.stmGaugeSetting(stmValue, enemy_.MaxStamina); //소모된 행동력 표시
+            }
+        };
+        enemy_.on_Enemy_HP_Change += (hpValue) =>
+        {
+            if (battleUI != null)
+            {
+                BattleUI.hpGaugeSetting(hpValue, enemy_.MaxHp); //소모된 행동력 표시
+            }
+        };
+        enemy_.on_Enemy_HP_Change += (hpValue) =>
+        {
+            if(enemy_.HP <= 0)
+            {
+                ResetData();
             }
         };
     }
@@ -129,7 +147,6 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase ,IBattle
         transform.SetParent(poolTransform); //풀로 돌린다
         gameObject.SetActive(false); // 큐를 돌린다.
     }
-
 
 
     float hp = 100;
@@ -260,5 +277,12 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase ,IBattle
         isMoveCheck = false; //이동끝낫는지 체크
         IsAttackAction(); //공격 범위안에있는지 체크
     }
+
+    public void EnemyAi(Tile PlayerTile)
+    {
+        Debug.Log($"{transform.name}턴 시작 - [체력:{enemy_.HP}] / [행동력:{enemy_.Stamina}] / [타입:{enemy_.mType}]\n[좌표:{CurrentTile.transform.position}] / [{currentTile.name}]");
+
+    }
+
 
 }

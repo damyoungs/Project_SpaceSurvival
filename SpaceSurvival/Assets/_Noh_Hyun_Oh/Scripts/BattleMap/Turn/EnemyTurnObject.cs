@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using Unity.XR.OpenVR;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ public class EnemyTurnObject : TurnBaseObject
     /// 테스트용 변수 
     /// </summary>
     [SerializeField]
-    int testPlayerLength = 2;
+    int testPlayerLength = 5;
     /// <summary>
     /// 캐릭터 데이터는 외부에서 셋팅하기때문에 해당 델리게이트 연결해줘야함
     /// </summary>
@@ -38,8 +39,9 @@ public class EnemyTurnObject : TurnBaseObject
                 charcterList.Add(go);
                 
                 go.name = $"Enemy_{i}";
-                //go.EnemyNum = i;
-                
+                go.Enemy.wType = go.Enemy.wType;
+                go.Enemy.mType = go.Enemy.mType;
+
                 go.GetCurrentTile = () => (SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Monster)); //데이터 연결 
                 go.transform.position = go.CurrentTile.transform.position; //셋팅된 타일위치로 이동시킨다.
                 go.onDie += (unit) => { 
@@ -80,11 +82,16 @@ public class EnemyTurnObject : TurnBaseObject
 
         SpaceSurvival_GameManager.Instance.GetEnemeyTeam = () => charcterList.OfType<BattleMapEnemyBase>().ToArray();
     }
+
     public Tile des;
+
     float AttackRange;
+
+    Tile PlayerTileIndex;
+    
     public override void TurnStartAction()
     {
-        turnStart?.Invoke();
+
         des = SpaceSurvival_GameManager.Instance.PlayerTeam[0].currentTile;
         Debug.Log(charcterList.Count);
         foreach (var enemy in charcterList) 
@@ -95,5 +102,20 @@ public class EnemyTurnObject : TurnBaseObject
         TurnActionValue -= UnityEngine.Random.Range(5.0f, 10.0f);// 행동력 소모후 테스트 용 
         Debug.Log($"적군턴끝 행동력 :{TurnActionValue}");
         TurnEndAction();
+
+        TurnManager.Instance.CurrentTurn.TurnActionValue = 20.0f;
+        PlayerTileIndex = SpaceSurvival_GameManager.Instance.PlayerTeam[0].currentTile;
+        BattleMapEnemyBase Ene;
+        
+        for (int i = 0; i < testPlayerLength; i++)
+        {
+            Ene = (BattleMapEnemyBase)charcterList[i];
+            Ene.EnemyAi(PlayerTileIndex);
+        }
+        //TurnActionValue -= UnityEngine.Random.Range(5.0f, 10.0f);
+
+        Debug.Log($"적군턴끝 행동력 :{TurnActionValue}");
+        //TurnEndAction();
+
     }
 }

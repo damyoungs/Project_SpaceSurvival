@@ -5397,8 +5397,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4766037116338723569}
-  - component: {fileID: 4857105673451251785}
-  - component: {fileID: 7083335460619214778}
+  - component: {fileID: 3479455773198146502}
   m_Layer: 0
   m_Name: emymy
   m_TagString: Enemy
@@ -5442,28 +5441,7 @@ Transform:
   m_Father: {fileID: 3507285989751255585}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &4857105673451251785
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4771271621447685421}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: c8c20564eb982f84a96a0d4d8e357cc5, type: 3}
-  m_Controller: {fileID: 9100000, guid: 02c025c67712671448342076b8c2476d, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7083335460619214778
+--- !u!114 &3479455773198146502
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5475,6 +5453,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af2ead46272df00458bec7ce796fafe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Anima: {fileID: 0}
+  Type_: 2
 --- !u!1 &4771279585146020275
 GameObject:
   m_ObjectHideFlags: 0
@@ -5784,6 +5764,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee1d69ad1a83466498b6f11e54ba6415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EnemyNum: 0
+  currentTile: {fileID: 0}
 --- !u!1001 &4770833413191016090
 PrefabInstance:
   m_ObjectHideFlags: 0
