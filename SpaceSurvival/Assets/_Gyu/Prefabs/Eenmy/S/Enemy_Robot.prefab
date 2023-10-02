@@ -199,7 +199,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4766400447349168681
 Transform:
   m_ObjectHideFlags: 0
@@ -2981,7 +2981,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4772402765401729625
 Transform:
   m_ObjectHideFlags: 0
@@ -5365,10 +5365,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4766037116338723569}
-  - component: {fileID: 1541620915100649215}
-  - component: {fileID: 8982501961485674328}
+  - component: {fileID: 559454117652211379}
+  - component: {fileID: 8529317347594542049}
   m_Layer: 0
-  m_Name: emymy
+  m_Name: enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5410,7 +5410,7 @@ Transform:
   m_Father: {fileID: 3507285989751255585}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &1541620915100649215
+--- !u!95 &559454117652211379
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -5431,7 +5431,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8982501961485674328
+--- !u!114 &8529317347594542049
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5447,9 +5447,9 @@ MonoBehaviour:
   EnemyAc_Riffle: {fileID: 22100000, guid: 1bc791cd14fe5dd46bab51c792d57ade, type: 2}
   EnemyAc_Sword: {fileID: 22100000, guid: 792134d6a0db9b04c988b74a300740eb, type: 2}
   GrapPosition: {fileID: 2548073443878094335}
-  Riffle: {fileID: 1393068208235747337, guid: 3066df790cd6dd84589aab27e76874aa, type: 3}
-  Sword: {fileID: 3538454111887550392, guid: dfe5cd2d934092340bd2798c887ae5c1, type: 3}
-  type: 2
+  Riffle: {fileID: 0}
+  Sword: {fileID: 0}
+  type: 1
 --- !u!1 &4771279585146020275
 GameObject:
   m_ObjectHideFlags: 0
@@ -5658,7 +5658,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 987162227, guid: 1824d658f454fad4faba1ba2b74ff49e, type: 3}
+  m_Sprite: {fileID: -2029046930, guid: 6af5e88758b5d924cb9e09b28759c522, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5724,7 +5724,7 @@ GameObject:
   - component: {fileID: 3507285989751255585}
   - component: {fileID: 3354069118699148264}
   m_Layer: 0
-  m_Name: Enemy_Psionic
+  m_Name: Enemy_Robot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
