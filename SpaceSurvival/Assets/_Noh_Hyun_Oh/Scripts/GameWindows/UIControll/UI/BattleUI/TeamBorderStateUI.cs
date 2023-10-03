@@ -102,7 +102,7 @@ public class TeamBorderStateUI : MonoBehaviour
         expSlider = child.GetChild(0).GetComponent<Slider>();
 
     }
-
+ 
     public void SetStmGaugeAndText(float changeValue , float maxValue) 
     {
         StopCoroutine(stmGauge);

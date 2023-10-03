@@ -23,11 +23,16 @@ public class EnemyTurnObject : TurnBaseObject
     BattleMap_Player_Controller bpc;
 
     /// <summary>
+    /// 몬스터 다죽으면 맵초기화시키기위해 찾아오기
+    /// </summary>
+    InitCharcterSetting battleMapEndAction;
+    /// <summary>
     /// 데이터 초기화 함수 
     /// </summary>
     public override void InitData()
     {
         BattleMapEnemyBase[] enemyList = initEnemy?.Invoke(); //외부에서 몬스터 배열이 들어왔는지 체크
+        battleMapEndAction = FindObjectOfType<InitCharcterSetting>();
         bpc = FindObjectOfType<BattleMap_Player_Controller>();  
         if (enemyList == null || enemyList.Length == 0) //몬스터 초기화가 안되있으면 
         {
@@ -71,7 +76,9 @@ public class EnemyTurnObject : TurnBaseObject
                     if (charcterList.Count < 1)
                     {
                         Debug.Log("유닛전멸 마을로이동하든 뭘하든 처리");
-                        LoadingScene.SceneLoading(EnumList.SceneName.BattleShip);
+                        //기존 작업중인것들 코루틴들이 전부 실행다된후에 초기화 로직이 실행되야한다.
+
+                        StartCoroutine(BattleMapEnd()) ;
                     }
 
                 };
@@ -86,6 +93,13 @@ public class EnemyTurnObject : TurnBaseObject
         }
 
         SpaceSurvival_GameManager.Instance.GetEnemeyTeam = () => charcterList.OfType<BattleMapEnemyBase>().ToArray();
+    }
+
+    IEnumerator BattleMapEnd()
+    {
+        yield return null;
+        battleMapEndAction.TestReset();
+        LoadingScene.SceneLoading(EnumList.SceneName.BattleShip);
     }
 
     Tile PlayerTileIndex;

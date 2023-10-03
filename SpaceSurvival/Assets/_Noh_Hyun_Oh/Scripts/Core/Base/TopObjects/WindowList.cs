@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 /// <summary>
 /// 창관련 최상위 오브젝트에 사용
@@ -92,6 +94,12 @@ public class WindowList : Singleton<WindowList> {
     Gyu_QuestManager gyu_QuestManager;
     public Gyu_QuestManager Gyu_QuestManager => gyu_QuestManager;
 
+    //[SerializeField]
+    int uiLayerIndex;
+
+    GraphicRaycaster uiCheckingComp;
+    List<RaycastResult> uiChcek;
+
     /// <summary>
     /// 윈도우리스트는 항상가지고다니는것이기때문에 여기에서 이벤트처리를 진행.
     /// </summary>
@@ -110,6 +118,10 @@ public class WindowList : Singleton<WindowList> {
         gyu_QuestManager = transform.GetComponentInChildren<Gyu_QuestManager>(true);
         battleActionButtons = transform.GetChild(0).GetChild(1); //나중에 수정필요 
 
+        uiLayerIndex = LayerMask.NameToLayer("UI");
+        uiCheckingComp = GetComponent<GraphicRaycaster>();
+        uiChcek = new List<RaycastResult>();
+
     }
     private void Start()
     {
@@ -121,8 +133,25 @@ public class WindowList : Singleton<WindowList> {
         
         mainWindow.Oninitialize();
     }
-
-    
+    /// <summary>
+    /// 마우스 위치에 UI 가 있는지 체크하는 로직 
+    /// </summary>
+    /// <returns>UI 존재하면 true  존재하지않으면 false </returns>
+    public bool IsUICheck()
+    {
+        uiChcek.Clear();
+        PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
+        pointerEventData.position = Mouse.current.position.value;
+        uiCheckingComp.Raycast(pointerEventData, uiChcek);
+        foreach (var result in uiChcek)
+        {
+            if (result.gameObject.layer == uiLayerIndex) 
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     /// <summary>
     /// 팝업창 버튼을 눌렀을경우 열렸을경우 닫히고 닫혔을경우 열린다.
     /// <param name="target">열릴 팝업창 객체</param>

@@ -48,4 +48,4 @@ MonoBehaviour:
   turnAddValue: 10
   maxTurnValue: 10.1
   turnWaitingValue: 10
-  testPlayerLength: 10
+  testPlayerLength: 1
