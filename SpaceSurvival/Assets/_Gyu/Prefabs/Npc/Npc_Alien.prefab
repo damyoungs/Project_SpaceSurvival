@@ -2917,7 +2917,7 @@ Animator:
   m_GameObject: {fileID: 6620414609025628852}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: c8c20564eb982f84a96a0d4d8e357cc5, type: 3}
-  m_Controller: {fileID: 9100000, guid: a3cfda3fe7503bc448824beb0e9056b2, type: 2}
+  m_Controller: {fileID: 9100000, guid: e8e280a64cae0ae41a0cd21ecbfc5c2c, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -2941,7 +2941,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   talkData: {fileID: 0}
-  Npcid: 0
   Buttons: []
   TalkPanel: {fileID: 0}
   NameBox: {fileID: 0}
@@ -2965,7 +2964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0553a74bc7459f74daea1afe129df4dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Button: {fileID: 0}
+  Npcid: 0
 --- !u!65 &83210039448233875
 BoxCollider:
   m_ObjectHideFlags: 0

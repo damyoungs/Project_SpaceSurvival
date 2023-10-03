@@ -10,10 +10,8 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase ,IBattle
     /// </summary>
     public bool IsControll { get; set; }
 
-    Enemy_Psionic psionicData;
-    public Enemy_Psionic PsionicData => psionicData;
-
-    public int EnemyNum;
+    Enemy_ enemyData;
+    public Enemy_ EnemyData => enemyData;
 
     public virtual bool IsMoveCheck { get; }
 
@@ -64,8 +62,8 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase ,IBattle
     protected override void Awake()
     {
         base.Awake();
-        psionicData = GetComponentInChildren<Enemy_Psionic>();
-        psionicData.on_Enemy_Stamina_Change += (stmValue) =>
+        enemyData = GetComponentInChildren<Enemy_>();
+        enemyData.on_Enemy_Stamina_Change += (stmValue) =>
         {
             float currentMoveSize = stmValue > moveSize? moveSize : stmValue;
             TurnManager.Instance.CurrentTurn.TurnActionValue = stmValue;
@@ -211,6 +209,12 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase ,IBattle
         onDie?.Invoke(this);  
     }
 
+
+    void EnemyAi()
+    {
+        Debug.Log($"{transform.name}턴 시작 - [체력:{enemyData.HP}] / [행동력:{enemyData.Stamina}] / [타입:{enemyData.mType}]\n[좌표:{CurrentTile.transform.position}] / [{currentTile.name}]");
+
+    }
 
     public void CharcterMove(Tile selectedTile)
     {
