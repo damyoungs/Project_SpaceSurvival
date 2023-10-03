@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,14 +5,22 @@ using UnityEngine;
 public class NpcBase : MonoBehaviour
 {
     public int Npcid;
+    Animation anima;
+    private void Awake()
+    {
+        anima = GetComponent<Animation>();
+    }
 
     //public GameObject Button;
-    //SphereCollider sphereCollider;
+    //SphereCollider sphereCollider ;
 
     //public GameObject CanvasLocation;
 
     //private void Awake()
     //{
+    //    CanvasLocation = GameObject.Find("Canvas");
+    //    Button = CanvasLocation.transform.GetChild(3).gameObject;
+    //    Button.gameObject.SetActive(false);
     //    sphereCollider = GetComponent<SphereCollider>();
     //}
 

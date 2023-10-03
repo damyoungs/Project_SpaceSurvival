@@ -1,17 +1,17 @@
 {
     "dataIndex": 0,
-    "saveTime": "2023-10-03 오후 2:42:10",
+    "saveTime": "2023-10-03 오후 3:21:19",
     "sceanName": 4,
     "playerData": {
-        "abilityPoint": 50,
+        "abilityPoint": 55,
         "playerName": "Player",
-        "level": 1,
-        "exp": 0,
-        "expMax": 60,
-        "base_MaxHP": 100.0,
+        "level": 2,
+        "exp": 20,
+        "expMax": 72,
+        "base_MaxHP": 145.0,
         "currentHP": 100.0,
-        "current_Stamina": 24.37200164794922,
-        "base_MaxStamina": 15.0,
+        "current_Stamina": 38.544002532958987,
+        "base_MaxStamina": 33.0,
         "BaseDarkForce": 5000000,
         "base_ATT": 10,
         "base_DP": 10,
@@ -24,12 +24,6 @@
     },
     "equipSlotLength": 0,
     "equipData": [
-        {
-            "values": 1,
-            "itemIndex": 11,
-            "slotIndex": 0,
-            "itemEnhanceValue": 1
-        },
         {
             "values": 1,
             "itemIndex": 9,
@@ -118,12 +112,6 @@
         },
         {
             "values": 1,
-            "itemIndex": 24,
-            "slotIndex": 2,
-            "itemEnhanceValue": 0
-        },
-        {
-            "values": 1,
             "itemIndex": 23,
             "slotIndex": 3,
             "itemEnhanceValue": 0
@@ -168,7 +156,7 @@
             "questType": 1,
             "questState": 1,
             "questIProgress": [
-                0
+                1
             ]
         },
         {

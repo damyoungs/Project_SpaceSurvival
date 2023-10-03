@@ -10,9 +10,14 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
     /// </summary>
     public bool IsControll { get; set; }
 
+<<<<<<< HEAD
     Enemy_ enemy_;
     public Enemy_ Enemy => enemy_;
 
+=======
+    Enemy_ enemyData;
+    public Enemy_ EnemyData => enemyData;
+>>>>>>> _Gyu
 
     public virtual bool IsMoveCheck { get; }
 
@@ -68,8 +73,13 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
     protected override void Awake()
     {
         base.Awake();
+<<<<<<< HEAD
         enemy_ = GetComponentInChildren<Enemy_>();
         enemy_.on_Enemy_Stamina_Change += (stmValue) =>
+=======
+        enemyData = GetComponentInChildren<Enemy_>();
+        enemyData.on_Enemy_Stamina_Change += (stmValue) =>
+>>>>>>> _Gyu
         {
             if (battleUI != null)
             {
@@ -182,6 +192,12 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
         GameManager.EffectPool.GetObject(finalDamage, transform, isCritical);
     }
 
+
+    void EnemyAi()
+    {
+        Debug.Log($"{transform.name}턴 시작 - [체력:{enemyData.HP}] / [행동력:{enemyData.Stamina}] / [타입:{enemyData.mType}]\n[좌표:{CurrentTile.transform.position}] / [{currentTile.name}]");
+
+    }
 
     public void CharcterMove(Tile selectedTile)
     {

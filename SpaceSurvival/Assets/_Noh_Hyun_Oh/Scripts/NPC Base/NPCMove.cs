@@ -146,6 +146,11 @@ public class NPCMove : MonoBehaviour
 
     }
 
+    private void Start()
+    {
+        NpcMovingState = NpcMoveState.moving;
+    }
+
 
     /// <summary>
     /// NPC 捞悼 贸府侩 内风凭 

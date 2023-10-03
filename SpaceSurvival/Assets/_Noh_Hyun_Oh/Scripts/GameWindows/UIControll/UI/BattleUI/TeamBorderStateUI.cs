@@ -138,7 +138,7 @@ public class TeamBorderStateUI : MonoBehaviour
             {
                 hp_UI_Value += Time.deltaTime * hpGaugeSpeed; //부드럽게~
                 hpText.text = $"{hp_UI_Value:f0}";
-                hpSlider.value = hp_UI_Value /maxValue;
+                hpSlider.value = hp_UI_Value / maxValue;
                 yield return null;
             }
             hpText.text = $"{change_HpValue:f0}";
