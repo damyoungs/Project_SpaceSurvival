@@ -298,7 +298,7 @@ public class Player_ : MonoBehaviour, IBattle
     public void Skill_Action(SkillData skillData)
     {
         skill_Blessing = skillData as Skill_Blessing;
-        if (skill_Blessing == null && Stamina >= skillData.Require_Stamina_For_UsingSkill && this.Weapon_Type != WeaponType.None)
+        if (skill_Blessing == null && GameManager.PlayerStatus.Base_Status.Current_Stamina >= skillData.Require_Stamina_For_UsingSkill && this.Weapon_Type != WeaponType.None)
         {
             if (player_Status.IsCritical(skillData))
             {
@@ -336,7 +336,7 @@ public class Player_ : MonoBehaviour, IBattle
     public void SkillPostProcess()//skillAction 실행 후 grid 에서 호출할 함수 
     {
        // StopCoroutine(RotateCoroutine);
-        Stamina--;
+        GameManager.PlayerStatus.Base_Status.Current_Stamina--;
         anim.SetTrigger(attack_Trigger_Hash);
         on_CursorChange?.Invoke(false);
         if (this.currentSkillData is Skill_Sniping)
@@ -523,8 +523,8 @@ public class Player_ : MonoBehaviour, IBattle
     {
         anim.SetTrigger(get_Hit_Hash);
         float final_Damage = damage - DP;
-        GameManager.PlayerStatus.HP -= final_Damage;
-        GameManager.EffectPool.GetObject(damage, transform, isCritical);
+        GameManager.PlayerStatus.Base_Status.CurrentHP -= final_Damage;
+        GameManager.EffectPool.GetObject(final_Damage, transform, isCritical);
     }
 
 

@@ -12,7 +12,7 @@ public class EnemyTurnObject : TurnBaseObject
     /// 테스트용 변수 
     /// </summary>
     [SerializeField]
-    int testPlayerLength = 5;
+    int testPlayerLength = 10;
     /// <summary>
     /// 캐릭터 데이터는 외부에서 셋팅하기때문에 해당 델리게이트 연결해줘야함
     /// </summary>
@@ -31,10 +31,15 @@ public class EnemyTurnObject : TurnBaseObject
         bpc = FindObjectOfType<BattleMap_Player_Controller>();  
         if (enemyList == null || enemyList.Length == 0) //몬스터 초기화가 안되있으면 
         {
+            int enumStartValue = (int)EnumList.MultipleFactoryObjectList.SIZE_S_HUMAN_ENEMY_POOL;
+            int enumEndValue = (int)EnumList.MultipleFactoryObjectList.SIZE_L_ROBOT_ENEMY_POOL+1;
+            int randValue = 0;
             //테스트 데이터 생성
             for (int i = 0; i < testPlayerLength; i++)//캐릭터들 생성해서 셋팅 
             {
-                BattleMapEnemyBase go = (BattleMapEnemyBase)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.CHARCTER_ENEMY_POOL);
+                randValue = UnityEngine.Random.Range(enumStartValue, enumEndValue);
+                BattleMapEnemyBase go = (BattleMapEnemyBase)Multiple_Factory.Instance.GetObject(
+                    (EnumList.MultipleFactoryObjectList)randValue);
                 
                 charcterList.Add(go);
                 
@@ -54,7 +59,7 @@ public class EnemyTurnObject : TurnBaseObject
                             int forSize = quest.QuestMosters.Length; 
                             for (int i = 0; i < forSize; i++)
                             {
-                                if (unit.EnemyType == quest.QuestMosters[i]) 
+                                if (unit.Enemy.mType == quest.QuestMosters[i]) 
                                 {
                                     quest.CurrentCount[i]++;
                                 } 
@@ -62,7 +67,7 @@ public class EnemyTurnObject : TurnBaseObject
                             }
                         }
                     }
-                    GameManager.PlayerStatus.GetExp((uint)go.EXP);
+                    GameManager.PlayerStatus.GetExp((uint)go.Enemy.EnemyExp);
                     if (charcterList.Count < 1)
                     {
                         Debug.Log("유닛전멸 마을로이동하든 뭘하든 처리");
@@ -83,39 +88,22 @@ public class EnemyTurnObject : TurnBaseObject
         SpaceSurvival_GameManager.Instance.GetEnemeyTeam = () => charcterList.OfType<BattleMapEnemyBase>().ToArray();
     }
 
-    public Tile des;
-
-    float AttackRange;
-
     Tile PlayerTileIndex;
     
     public override void TurnStartAction()
     {
-
-        des = SpaceSurvival_GameManager.Instance.PlayerTeam[0].currentTile;
-        Debug.Log(charcterList.Count);
-        foreach (var enemy in charcterList) 
+        PlayerTileIndex = SpaceSurvival_GameManager.Instance.PlayerTeam[0].currentTile;
+        BattleMapEnemyBase Ene;
+        int forSize = charcterList.Count;
+        for (int i = 0; i < forSize; i++)
         {
-            enemy.CharcterMove(des);
+            Ene = (BattleMapEnemyBase)charcterList[i];
+            Ene.EnemyAi(PlayerTileIndex);
         }
 
         TurnActionValue -= UnityEngine.Random.Range(5.0f, 10.0f);// 행동력 소모후 테스트 용 
         Debug.Log($"적군턴끝 행동력 :{TurnActionValue}");
         TurnEndAction();
-
-        TurnManager.Instance.CurrentTurn.TurnActionValue = 20.0f;
-        PlayerTileIndex = SpaceSurvival_GameManager.Instance.PlayerTeam[0].currentTile;
-        BattleMapEnemyBase Ene;
-        
-        for (int i = 0; i < testPlayerLength; i++)
-        {
-            Ene = (BattleMapEnemyBase)charcterList[i];
-            Ene.EnemyAi(PlayerTileIndex);
-        }
-        //TurnActionValue -= UnityEngine.Random.Range(5.0f, 10.0f);
-
-        Debug.Log($"적군턴끝 행동력 :{TurnActionValue}");
-        //TurnEndAction();
 
     }
 }

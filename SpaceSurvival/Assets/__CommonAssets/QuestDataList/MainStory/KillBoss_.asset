@@ -10,18 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db4e79a31082550468168bc6955ff779, type: 3}
-  m_Name: Test_MainStoryQuest
+  m_Name: KillBoss_
   m_EditorClassIdentifier: 
   type: 0
   iconImage: {fileID: 21300006, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
-  title: "\uD018\uC2A4\uD2B8\uC81C\uBAA9 : \uBA54\uC778 \uC2DC\uB098\uB9AC\uC624"
-  description: "\uD018\uC2A4\uD2B8 \uB0B4\uC6A9 : \uAC8C\uC784\uB05D\uB0B4\uB294
-    \uC870\uAC74?"
-  clearObjectives: "\uD018\uC2A4\uD2B8 \uC218\uD589\uD560 \uB0B4\uC6A9 :  \uBCF4\uC2A4\uB54C\uB824\uC7A1\uC544\uB77C
-    \uD55C\uB9C8\uB9AC"
+  title: "\uAC8C\uC784\uB05D\uB0B4\uAE30"
+  description: "\uBCF4\uC2A4\uC7A1\uACE0\uB05D\uB0B4"
+  clearObjectives: "\uB05D\uB0B4\uB77C \uBCF4\uC2A4\uC8FD\uC5EC\uC11C"
   rewardCoin: 0
-  rewardItem: 00000000
-  itemCount: 00000000
+  rewardItem: 04000000
+  itemCount: 01000000
   requestItem: 
   questMosters: 04000000
   requiredCount: 01000000

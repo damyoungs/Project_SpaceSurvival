@@ -5450,6 +5450,7 @@ MonoBehaviour:
   Riffle: {fileID: 1393068208235747337, guid: 3066df790cd6dd84589aab27e76874aa, type: 3}
   Sword: {fileID: 3538454111887550392, guid: dfe5cd2d934092340bd2798c887ae5c1, type: 3}
   type: 2
+  attackRange: 4
 --- !u!1 &4771279585146020275
 GameObject:
   m_ObjectHideFlags: 0
@@ -5760,6 +5761,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentTile: {fileID: 0}
+  moveSize: 4
+  moveSpeed: 2
 --- !u!1001 &4770833413191016090
 PrefabInstance:
   m_ObjectHideFlags: 0

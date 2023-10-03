@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase ,IBattle
+public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase 
 {
     /// <summary>
     /// 몬스터는 컨트롤할수없으니 형식만 맞춰두자
@@ -57,8 +57,13 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase ,IBattle
     /// <summary>
     /// 행동력 혹은 이동가능 거리
     /// </summary>
-    protected float moveSize = 2.0f;
-    public float MoveSize => moveSize;
+    [SerializeField]
+    protected float moveSize = 4.0f;
+    public float MoveSize
+    {
+        get => moveSize;
+        set => moveSize = value;
+    }
 
     protected override void Awake()
     {
@@ -66,13 +71,6 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase ,IBattle
         enemy_ = GetComponentInChildren<Enemy_>();
         enemy_.on_Enemy_Stamina_Change += (stmValue) =>
         {
-            float currentMoveSize = stmValue > moveSize? moveSize : stmValue;
-            //TurnManager.Instance.CurrentTurn.TurnActionValue = stmValue;
-            TurnManager.Instance.CurrentTurn.TurnActionValue = 20;
-            //if(stmValue < 1.0f)
-            //{
-            //    TurnManager.Instance.CurrentTurn.TurnEndAction();
-            //}
             if (battleUI != null)
             {
                 BattleUI.stmGaugeSetting(stmValue, enemy_.MaxStamina); //소모된 행동력 표시
@@ -84,14 +82,14 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase ,IBattle
             {
                 BattleUI.hpGaugeSetting(hpValue, enemy_.MaxHp); //소모된 행동력 표시
             }
-        };
-        enemy_.on_Enemy_HP_Change += (hpValue) =>
-        {
-            if(enemy_.HP <= 0)
+            if (enemy_.HP < 0)
             {
+                GameManager.PlayerStatus.GetExp((uint)enemy_.EnemyExp);
                 ResetData();
+                onDie?.Invoke(this);
             }
         };
+     
     }
 
     private void Start()
@@ -132,14 +130,14 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase ,IBattle
     /// 셋팅전의 값으로 돌리기
     /// 값을 초기화 시키고 풀로 돌리고 큐로 돌린다.
     /// </summary>
-    public virtual void ResetData()
+    public void ResetData()
     {
         if (BattleUI != null) //배틀 UI가 셋팅되있으면 
         {
             BattleUI.ResetData();// 추적형 UI 초기화 
             BattleUI = null; // 비우기
         }
-        Debug.Log("몬스터 초기화 ");
+        Debug.Log($"{currentTile.width},{currentTile.length} ,{currentTile.ExistType}  몬스터 초기화 ");
         currentTile.ExistType = Tile.TileExistType.None; // 속성 돌리고 
         
         currentTile = null; //타일 참조해제
@@ -149,59 +147,20 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase ,IBattle
     }
 
 
-    float hp = 100;
-    float HP
-    {
-        get => hp;
-        set
-        {
-            hp = value;
-            battleUI.hpGaugeSetting(hp,maxHp);
-            if (hp < 0)
-            {
-                OnDie();
-            }
-        }
-    }
-
-
-    float maxHp = 100;
-
-    float attData = 50;
-
-    float defData = 0;
-
-    int attRange = 3;
-
-    float exp = 100.0f;
-    public float EXP => exp; 
+  
 
     /// <summary>
     /// 이동버그가 존재해서 체크하는 변수
     /// </summary>
     bool isMoveCheck = false;
 
-    Monster_Type enemyType = Monster_Type.Size_M;
-    public Monster_Type EnemyType
-    {
-        get => enemyType;
-        set
-        {
-            if (enemyType != value)
-            {
-                enemyType = value;
-
-            }
-
-        }
-    }
-
+  
     /// <summary>
     /// 공격범위안에 있으면 공격하는 함수 
     /// </summary>
     private void IsAttackAction()
     {
-        Tile attackTile = Cho_BattleMap_Enemy_AStar.SetEnemyAttackSize(currentTile, attRange);
+        Tile attackTile = Cho_BattleMap_Enemy_AStar.SetEnemyAttackSize(currentTile, enemy_.AttackRange);
         //Debug.Log(SpaceSurvival_GameManager.Instance.PlayerTeam[0]);
 
         if (attackTile != null)
@@ -213,19 +172,14 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase ,IBattle
 
     public void Attack_Enemy(IBattle target)
     {
-        target.Defence(attData);
+        target.Defence(enemy_.AttackPower);
     }
 
     public void Defence(float damage, bool isCritical = false)
     {
-        HP -= Mathf.Max(0, damage - defData);
-        GameManager.EffectPool.GetObject(damage, transform, isCritical);
-    }
-
-    public void OnDie()
-    {
-        ResetData();
-        onDie?.Invoke(this);  
+        float finalDamage = Mathf.Max(0, damage - enemy_.DefencePower);
+        enemy_.HP -= finalDamage;
+        GameManager.EffectPool.GetObject(finalDamage, transform, isCritical);
     }
 
 
@@ -272,16 +226,17 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase ,IBattle
         transform.GetChild(0).transform.localPosition = Vector3.zero;
         //unitAnimator.SetBool(isWalkingHash, false);
 
-        //charcterData.Stamina -= this.currentTile.MoveCheckG; //최종이동한 거리만큼 스태미나를 깍는다.
+        enemy_.Stamina -= this.currentTile.MoveCheckG; //최종이동한 거리만큼 스태미나를 깍는다.
 
         isMoveCheck = false; //이동끝낫는지 체크
+
+
         IsAttackAction(); //공격 범위안에있는지 체크
     }
 
     public void EnemyAi(Tile PlayerTile)
     {
-        Debug.Log($"{transform.name}턴 시작 - [체력:{enemy_.HP}] / [행동력:{enemy_.Stamina}] / [타입:{enemy_.mType}]\n[좌표:{CurrentTile.transform.position}] / [{currentTile.name}]");
-
+        CharcterMove(PlayerTile);
     }
 
 

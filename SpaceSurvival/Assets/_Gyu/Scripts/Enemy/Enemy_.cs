@@ -20,7 +20,6 @@ public class Enemy_ : MonoBehaviour, IBattle
     public Transform Riffle;
     public Transform Sword;
 
-    public enum Monster_Type { Base = 0, Size_S, Size_M, Size_L, Boss, }
     public Monster_Type type = Monster_Type.Base;
     public Monster_Type mType
     {
@@ -32,21 +31,27 @@ public class Enemy_ : MonoBehaviour, IBattle
             {
                 case Monster_Type.Base:
                     HP = 200;
+                    enemyExp = 30.0f;
                     break;
                 case Monster_Type.Size_S:
                     HP = 100;
+                    enemyExp = 10.0f;
                     break;
                 case Monster_Type.Size_M:
                     HP = 200;
+                    enemyExp = 30.0f;
                     break;
                 case Monster_Type.Size_L:
                     HP = 300;
+                    enemyExp = 80.0f;
                     break;
                 case Monster_Type.Boss:
                     HP = 500;
+                    enemyExp = 100.0f;
                     break;
                 default:
                     HP = 200;
+                    enemyExp = 50.0f;
                     break;
             }
         }
@@ -109,7 +114,7 @@ public class Enemy_ : MonoBehaviour, IBattle
         {
             if (hp != value)
             {
-                hp = Mathf.Clamp(value, 0, maxHP);
+                hp = value > maxHP ? maxHP : value;
                 on_Enemy_HP_Change(hp);
             }
         }
@@ -156,6 +161,13 @@ public class Enemy_ : MonoBehaviour, IBattle
             }
         }
     }
+    [SerializeField]
+    uint attackRange = 4;
+    public uint AttackRange=> attackRange;
+
+    float enemyExp = 50.0f;
+    public float EnemyExp => enemyExp;
+   
 
     private void Attack()
     {
@@ -173,7 +185,7 @@ public class Enemy_ : MonoBehaviour, IBattle
         }
     }
 
-    public void Defence(float damage)
+    public void Defence(float damage, bool isCritical = false)
     {
         Anima.SetTrigger(OnHit);
         HP -= Mathf.Max(0, damage - defencePower);

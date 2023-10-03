@@ -72,7 +72,11 @@ public class BattleMapPlayerBase : Base_PoolObj, ICharcterBase
     [SerializeField]
     float moveSize = 5.0f;
     
-    public float MoveSize => moveSize;
+    public float MoveSize
+    {
+        get => moveSize;
+        set => moveSize = value;
+    }
 
     /// <summary>
     /// 좌측상단에있는 캐릭터 상태창
@@ -203,7 +207,7 @@ public class BattleMapPlayerBase : Base_PoolObj, ICharcterBase
         gameObject.SetActive(false); // 큐를 돌린다.
     }
 
-
+   
     public void SetTile(Tile currentTile) 
     {
         this.currentTile = currentTile;
