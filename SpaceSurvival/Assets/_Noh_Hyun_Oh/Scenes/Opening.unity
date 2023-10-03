@@ -12181,7 +12181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58a40ae82151a7545ba93405ade72b8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  origianlPrefab: {fileID: 8482400436503516018, guid: 1cd0dc757029bb547a5522cda05a6274, type: 3}
+  origianlPrefab: {fileID: 8482400436503516018, guid: 530779ebdf2de1d4a944d80b1f4729a7, type: 3}
   poolSize: 8
 --- !u!1 &1710515407
 GameObject:
@@ -38499,8 +38499,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2667432894602912799}
   m_HandleRect: {fileID: 2667432894602912798}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0
+  m_Value: 1
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

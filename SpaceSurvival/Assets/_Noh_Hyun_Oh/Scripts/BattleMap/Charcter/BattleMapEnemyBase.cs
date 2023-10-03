@@ -10,14 +10,9 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
     /// </summary>
     public bool IsControll { get; set; }
 
-<<<<<<< HEAD
-    Enemy_ enemy_;
-    public Enemy_ Enemy => enemy_;
 
-=======
     Enemy_ enemyData;
     public Enemy_ EnemyData => enemyData;
->>>>>>> _Gyu
 
     public virtual bool IsMoveCheck { get; }
 
@@ -73,28 +68,24 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
     protected override void Awake()
     {
         base.Awake();
-<<<<<<< HEAD
-        enemy_ = GetComponentInChildren<Enemy_>();
-        enemy_.on_Enemy_Stamina_Change += (stmValue) =>
-=======
+
         enemyData = GetComponentInChildren<Enemy_>();
         enemyData.on_Enemy_Stamina_Change += (stmValue) =>
->>>>>>> _Gyu
         {
             if (battleUI != null)
             {
-                BattleUI.stmGaugeSetting(stmValue, enemy_.MaxStamina); //소모된 행동력 표시
+                BattleUI.stmGaugeSetting(stmValue, enemyData.MaxStamina); //소모된 행동력 표시
             }
         };
-        enemy_.on_Enemy_HP_Change += (hpValue) =>
+        enemyData.on_Enemy_HP_Change += (hpValue) =>
         {
             if (battleUI != null)
             {
-                BattleUI.hpGaugeSetting(hpValue, enemy_.MaxHp); //소모된 행동력 표시
+                BattleUI.hpGaugeSetting(hpValue, enemyData.MaxHp); //소모된 행동력 표시
             }
-            if (enemy_.HP < 0)
+            if (enemyData.HP < 0)
             {
-                GameManager.PlayerStatus.GetExp((uint)enemy_.EnemyExp);
+                GameManager.PlayerStatus.GetExp((uint)enemyData.EnemyExp);
                 ResetData();
                 onDie?.Invoke(this);
             }
@@ -170,7 +161,7 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
     /// </summary>
     private void IsAttackAction()
     {
-        Tile attackTile = Cho_BattleMap_Enemy_AStar.SetEnemyAttackSize(currentTile, enemy_.AttackRange);
+        Tile attackTile = Cho_BattleMap_Enemy_AStar.SetEnemyAttackSize(currentTile, enemyData.AttackRange);
         //Debug.Log(SpaceSurvival_GameManager.Instance.PlayerTeam[0]);
 
         if (attackTile != null)
@@ -182,13 +173,13 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
 
     public void Attack_Enemy(IBattle target)
     {
-        target.Defence(enemy_.AttackPower);
+        target.Defence(enemyData.AttackPower);
     }
 
     public void Defence(float damage, bool isCritical = false)
     {
-        float finalDamage = Mathf.Max(0, damage - enemy_.DefencePower);
-        enemy_.HP -= finalDamage;
+        float finalDamage = Mathf.Max(0, damage - enemyData.DefencePower);
+        enemyData.HP -= finalDamage;
         GameManager.EffectPool.GetObject(finalDamage, transform, isCritical);
     }
 
@@ -242,7 +233,7 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
         transform.GetChild(0).transform.localPosition = Vector3.zero;
         //unitAnimator.SetBool(isWalkingHash, false);
 
-        enemy_.Stamina -= this.currentTile.MoveCheckG; //최종이동한 거리만큼 스태미나를 깍는다.
+        enemyData.Stamina -= this.currentTile.MoveCheckG; //최종이동한 거리만큼 스태미나를 깍는다.
 
         isMoveCheck = false; //이동끝낫는지 체크
 

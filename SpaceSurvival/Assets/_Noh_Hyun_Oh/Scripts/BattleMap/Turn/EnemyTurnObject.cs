@@ -12,11 +12,7 @@ public class EnemyTurnObject : TurnBaseObject
     /// 테스트용 변수 
     /// </summary>
     [SerializeField]
-<<<<<<< HEAD
     int testPlayerLength = 10;
-=======
-    int testPlayerLength = 5;
->>>>>>> _Gyu
     /// <summary>
     /// 캐릭터 데이터는 외부에서 셋팅하기때문에 해당 델리게이트 연결해줘야함
     /// </summary>
@@ -48,15 +44,9 @@ public class EnemyTurnObject : TurnBaseObject
                 charcterList.Add(go);
                 
                 go.name = $"Enemy_{i}";
-<<<<<<< HEAD
-                go.Enemy.wType = go.Enemy.wType;
-                go.Enemy.mType = go.Enemy.mType;
-
-=======
                 go.EnemyData.wType = go.EnemyData.wType;
                 go.EnemyData.mType = go.EnemyData.mType;
                 
->>>>>>> _Gyu
                 go.GetCurrentTile = () => (SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Monster)); //데이터 연결 
                 go.transform.position = go.CurrentTile.transform.position; //셋팅된 타일위치로 이동시킨다.
                 go.onDie += (unit) => { 
@@ -69,7 +59,7 @@ public class EnemyTurnObject : TurnBaseObject
                             int forSize = quest.QuestMosters.Length; 
                             for (int i = 0; i < forSize; i++)
                             {
-                                if (unit.Enemy.mType == quest.QuestMosters[i]) 
+                                if (unit.EnemyData.mType == quest.QuestMosters[i]) 
                                 {
                                     quest.CurrentCount[i]++;
                                 } 
