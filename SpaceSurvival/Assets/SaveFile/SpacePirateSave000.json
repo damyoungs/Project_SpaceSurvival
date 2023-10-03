@@ -1,6 +1,6 @@
 {
     "dataIndex": 0,
-    "saveTime": "2023-10-02 오후 10:18:49",
+    "saveTime": "2023-10-03 오후 2:42:10",
     "sceanName": 4,
     "playerData": {
         "abilityPoint": 50,
@@ -10,7 +10,7 @@
         "expMax": 60,
         "base_MaxHP": 100.0,
         "currentHP": 100.0,
-        "current_Stamina": 19.68600082397461,
+        "current_Stamina": 24.37200164794922,
         "base_MaxStamina": 15.0,
         "BaseDarkForce": 5000000,
         "base_ATT": 10,
@@ -65,20 +65,38 @@
             "itemIndex": 50,
             "slotIndex": 6,
             "itemEnhanceValue": 1
+        },
+        {
+            "values": 1,
+            "itemIndex": 9,
+            "slotIndex": 7,
+            "itemEnhanceValue": 1
+        },
+        {
+            "values": 1,
+            "itemIndex": 9,
+            "slotIndex": 8,
+            "itemEnhanceValue": 1
         }
     ],
     "consumeSlotLength": 0,
     "consumeData": [
         {
-            "values": 50,
+            "values": 30,
             "itemIndex": 1,
             "slotIndex": 0,
             "itemEnhanceValue": 0
         },
         {
-            "values": 50,
+            "values": 35,
             "itemIndex": 2,
             "slotIndex": 1,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 3,
+            "slotIndex": 2,
             "itemEnhanceValue": 0
         }
     ],
@@ -144,5 +162,70 @@
             "skillType": 4
         }
     ],
-    "questList": []
+    "questList": [
+        {
+            "questIndex": 1000,
+            "questType": 1,
+            "questState": 1,
+            "questIProgress": [
+                0
+            ]
+        },
+        {
+            "questIndex": 1001,
+            "questType": 1,
+            "questState": 1,
+            "questIProgress": [
+                0
+            ]
+        },
+        {
+            "questIndex": 1002,
+            "questType": 1,
+            "questState": 1,
+            "questIProgress": [
+                0
+            ]
+        },
+        {
+            "questIndex": 1003,
+            "questType": 1,
+            "questState": 1,
+            "questIProgress": [
+                0
+            ]
+        },
+        {
+            "questIndex": 1004,
+            "questType": 1,
+            "questState": 1,
+            "questIProgress": [
+                0
+            ]
+        },
+        {
+            "questIndex": 2000,
+            "questType": 2,
+            "questState": 2,
+            "questIProgress": [
+                35
+            ]
+        },
+        {
+            "questIndex": 2001,
+            "questType": 2,
+            "questState": 2,
+            "questIProgress": [
+                30
+            ]
+        },
+        {
+            "questIndex": 2002,
+            "questType": 2,
+            "questState": 2,
+            "questIProgress": [
+                30
+            ]
+        }
+    ]
 }

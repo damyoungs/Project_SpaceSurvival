@@ -22,5 +22,5 @@ MonoBehaviour:
   rewardItem: 0100000002000000
   itemCount: 0f00000019000000
   requestItem: 
-  questMosters: 02000000
+  questMosters: 03000000
   requiredCount: 01000000
