@@ -232,10 +232,12 @@ public class Player_ : MonoBehaviour, IBattle
         {
             if (player_Status.IsCritical(skillData))
             {
+                skillData.IsCritical = true;
                 on_ActiveSkill?.Invoke(skillData);
             }
             else
             {
+                skillData.IsCritical = false;
                 on_ActiveSkill?.Invoke(skillData);
             }
             on_CursorChange?.Invoke(true);
