@@ -112,7 +112,7 @@ public class Quest_UI_Colum : MonoBehaviour ,IPointerClickHandler
     /// 해당UI 가 가지고있는 퀘스트 정보  일단 나중에 사용할수도있어서 연결해놨다.
     /// </summary>
     Gyu_QuestBaseData thisQuestData;
-    Gyu_QuestBaseData ThisQuestData 
+    public Gyu_QuestBaseData ThisQuestData 
     {
         get => thisQuestData;
         set 

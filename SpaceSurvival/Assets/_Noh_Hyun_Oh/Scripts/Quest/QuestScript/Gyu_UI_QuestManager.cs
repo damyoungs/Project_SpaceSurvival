@@ -435,6 +435,10 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
             questBoxPanel.gameObject.SetActive(false);
             onSucessQuest?.Invoke();
             selectedColum.Quest_State = Quest_State.Quest_Complete;
+            if (selectedColum.ThisQuestData.QuestType == QuestType.Story) 
+            {
+                EndingScene();
+            }
         }
     }
 
@@ -511,8 +515,11 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
         //array_NPC = null;
     }
 
-   
 
+    private void EndingScene() 
+    {
+        LoadingScene.SceneLoading(EnumList.SceneName.ENDING);
+    }
 
     public void OpenWindow()
     {

@@ -2369,7 +2369,8 @@ MonoBehaviour:
   GrapPosition: {fileID: 7799441959937098904}
   Riffle: {fileID: 1393068208235747337, guid: 3066df790cd6dd84589aab27e76874aa, type: 3}
   Sword: {fileID: 3538454111887550392, guid: dfe5cd2d934092340bd2798c887ae5c1, type: 3}
-  type: 3
+  type: 4
+  attackRange: 10
 --- !u!1 &5361794184986557620
 GameObject:
   m_ObjectHideFlags: 0
@@ -2381,7 +2382,7 @@ GameObject:
   - component: {fileID: 5720579745112499350}
   - component: {fileID: 6147539666883422169}
   m_Layer: 0
-  m_Name: Enemy_War_Robot
+  m_Name: Enemy_Boss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2417,6 +2418,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentTile: {fileID: 0}
+  moveSize: 4
   moveSpeed: 3
 --- !u!1 &5654653557125361230
 GameObject:

@@ -6,6 +6,7 @@ using System.Text;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Scripting;
 
 /// <summary>
 /// 포지션은 (0,20,-70)
@@ -106,7 +107,9 @@ public class OpeningStart : MonoBehaviour
         mainCamera.transform.rotation = Quaternion.Euler(cameraRotate);
         //카메라 이동시작
         StartCoroutine(OpeningCameraMove(lineCount));
+     
     }
+
 
     /// <summary>
     /// 카메라가 이동하여 도착지점까지 간다.

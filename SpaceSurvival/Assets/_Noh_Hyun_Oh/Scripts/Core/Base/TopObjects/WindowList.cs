@@ -118,8 +118,9 @@ public class WindowList : Singleton<WindowList> {
         gyu_QuestManager = transform.GetComponentInChildren<Gyu_QuestManager>(true);
         battleActionButtons = transform.GetChild(0).GetChild(1); //나중에 수정필요 
 
-        uiLayerIndex = LayerMask.NameToLayer("UI");
-        uiCheckingComp = GetComponent<GraphicRaycaster>();
+
+        uiLayerIndex = LayerMask.NameToLayer("UI"); // UI 에해당하는 레이어 이넘순번값 가져오고
+        uiCheckingComp = GetComponent<GraphicRaycaster>();  
         uiChcek = new List<RaycastResult>();
 
     }
@@ -128,21 +129,20 @@ public class WindowList : Singleton<WindowList> {
         InputSystemController.Instance.On_Options_Options += OnOffWindowOption; //옵션창 열고 닫기 
         InputSystemController.Instance.On_Common_Esc += OffPopupWindow;          //키입력시 순서대로 닫히게만들기
         
-        //InputSystemController.Instance.OnInput_Action_NoneGame_MouseClick+= ()=> { }; //뭘연결시킬까나.   
-        //InputSystemController.Instance.OnInput_Action_NoneGame_Esc+= ()=> { };        //오프닝에사용할건데 바꿀수도있음  
-        
+       
         mainWindow.Oninitialize();
     }
+
     /// <summary>
     /// 마우스 위치에 UI 가 있는지 체크하는 로직 
     /// </summary>
     /// <returns>UI 존재하면 true  존재하지않으면 false </returns>
     public bool IsUICheck()
     {
-        uiChcek.Clear();
-        PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
-        pointerEventData.position = Mouse.current.position.value;
-        uiCheckingComp.Raycast(pointerEventData, uiChcek);
+        uiChcek.Clear(); //체크할 리스트 초기화하고
+        PointerEventData pointerEventData = new PointerEventData(EventSystem.current);  // 레이에사용할 이벤트데이터 생성
+        pointerEventData.position = Mouse.current.position.value;                       // 스크린좌표 설정해서 이벤트 위치잡고
+        uiCheckingComp.Raycast(pointerEventData, uiChcek);                              // 해당위치에 레이를쏴서 체크할 UI오브젝트를 가져온다
         foreach (var result in uiChcek)
         {
             if (result.gameObject.layer == uiLayerIndex) 

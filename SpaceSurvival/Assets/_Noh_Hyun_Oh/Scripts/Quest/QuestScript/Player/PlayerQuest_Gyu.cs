@@ -53,6 +53,10 @@ public class PlayerQuest_Gyu : MonoBehaviour
         {
             addQuest.Quest_State = Quest_State.Quest_Start;
             currentQuests.Add(addQuest);
+            if (addQuest.QuestType == QuestType.Story) 
+            {
+                SpaceSurvival_GameManager.Instance.IsBoss = true;
+            }
             return;
         }
         Debug.Log("더이상 퀘스트를 수락할수 없습니다.");
