@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+[Serializable]
 public class Equipments_Data_Server//플레이어가 원하는 타이밍에 언제든 현재 장비된 장비들로 인해 추가된 공격력과 방어력을 받아오기위한 클래스
 {
     EquipBox equipBox_;
@@ -20,10 +21,14 @@ public class Equipments_Data_Server//플레이어가 원하는 타이밍에 언제든 현재 장비
     public uint Total_DEX;
     public float Total_CriticalRate;
     public float Total_DodgeRate;
+
+    public ItemData[] itemDatas;
     public Equipments_Data_Server(EquipBox equipBox)
     {
         equipBox_ = equipBox;
+        itemDatas = new ItemData[4];
     }
+
     public Equipments_Data_Server GetEquipments_Total_ATT_DP()
     {
         Equipments_Data_Server result = this;
@@ -397,5 +402,15 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         PopupSorting?.Invoke(this);
+    }
+
+    public Equipments_Data_Server Save_EquipmentsData()
+    {
+        Equipments_Data_Server data_Server = player.Player_Status.Equipments_Data;
+        for(int  i = 0; i < equipBox_Slots.Length; i++)
+        {
+            data_Server.itemDatas[i] = equipBox_Slots[i].ItemData;
+        }
+        return data_Server;
     }
 }

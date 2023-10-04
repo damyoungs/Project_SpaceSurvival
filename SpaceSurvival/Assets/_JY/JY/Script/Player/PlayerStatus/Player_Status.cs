@@ -339,6 +339,7 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
     Player_ player;
     Base_Status base_Status;
     Equipments_Data_Server equipments_DataServer;
+    public Equipments_Data_Server Equipments_Data => equipments_DataServer;
     EquipBox equipBox;
 
     public Base_Status Base_Status => base_Status;

@@ -407,10 +407,7 @@ public class Player_ : MonoBehaviour, IBattle
         audioSource.PlayOneShot(potion_Sound);
     }
    
-    bool IsEquipped()
-    {
-        return false;
-    }
+  
 
     public void Attack_Enemy(IBattle target)
     {

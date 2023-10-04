@@ -174,7 +174,7 @@ public class ItemSpawner : TestBase
     }
     protected override void Test2(InputAction.CallbackContext context)
     {
-        GameManager.PlayerStatus.Base_Status.Exp += 20;
+        GameManager.EquipBox.Save_EquipmentsData();
     }
     protected override void Test3(InputAction.CallbackContext context)
     {
