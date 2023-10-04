@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.Windows;
 
 [Serializable]
 public class Equipments_Data_Server//플레이어가 원하는 타이밍에 언제든 현재 장비된 장비들로 인해 추가된 공격력과 방어력을 받아오기위한 클래스
@@ -404,13 +405,49 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
         PopupSorting?.Invoke(this);
     }
 
-    public Equipments_Data_Server Save_EquipmentsData()
+    public void Save_EquipmentsData()
     {
         Equipments_Data_Server data_Server = player.Player_Status.Equipments_Data;
         for(int  i = 0; i < equipBox_Slots.Length; i++)
         {
             data_Server.itemDatas[i] = equipBox_Slots[i].ItemData;
         }
-        return data_Server;
+        string json = JsonUtility.ToJson(data_Server);
+
+        string path = $"{Application.dataPath}/Save/";
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+        string fullPath = $"{path}EquipData.Json";
+        System.IO.File.WriteAllText(fullPath, json);
+    }
+    public void UnEquipAll_Items()
+    {
+        for (int  i = 0; i < equipBox_Slots.Length; i++)
+        {
+            if (equipBox_Slots[i].ItemData != null)
+            {
+                UnEquip_Item(equipBox_Slots[i].ItemData);
+            }
+        }
+    }
+    public void Load_EquipmentsData()
+    {
+
+        string path = $"{Application.dataPath}/Save/EquipData.Json";
+        if (System.IO.File.Exists(path))
+        {
+            string json = System.IO.File.ReadAllText(path);
+            Equipments_Data_Server loadedData = JsonUtility.FromJson<Equipments_Data_Server>(json);
+            foreach(ItemData data in loadedData.itemDatas)
+            {
+                Set_ItemData_For_DoubleClick(data);
+            }
+        }
+        else
+        {
+            Debug.LogError("Save file not found.");
+        }
     }
 }

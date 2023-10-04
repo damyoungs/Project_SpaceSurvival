@@ -170,15 +170,16 @@ public class ItemSpawner : TestBase
     public bool IsCritical;
     protected override void Test1(InputAction.CallbackContext _)
     {
-        GameManager.Player_.Defence(UnityEngine.Random.Range(10, 100), IsCritical);
+        // GameManager.Player_.Defence(UnityEngine.Random.Range(10, 100), IsCritical);
+        GameManager.EquipBox.Save_EquipmentsData();
     }
     protected override void Test2(InputAction.CallbackContext context)
     {
-        GameManager.EquipBox.Save_EquipmentsData();
+        GameManager.EquipBox.UnEquipAll_Items();
     }
     protected override void Test3(InputAction.CallbackContext context)
     {
-        GameManager.SkillBox.TestLoadData();
+        GameManager.EquipBox.Load_EquipmentsData();
     }
     protected  void OpenInven(InputAction.CallbackContext _)
     {
