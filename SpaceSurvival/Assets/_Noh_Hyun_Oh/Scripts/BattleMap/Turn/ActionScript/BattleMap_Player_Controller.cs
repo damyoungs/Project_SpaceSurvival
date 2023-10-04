@@ -203,7 +203,7 @@ public class BattleMap_Player_Controller : MonoBehaviour
                     int forSize = attackArray.Length;
                     for (int i = 0; i < forSize; i++)
                     {
-                        attackArray[i].Defence(skill.FinalDamage); 
+                        attackArray[i].Defence(skill.FinalDamage,skill.IsCritical); 
                     }
                     onAttackAction?.Invoke(attackArray, skill.FinalDamage);//공격로직 실행 적군 데미지처리는 알아서하도록 데이터만넘기자
                    
