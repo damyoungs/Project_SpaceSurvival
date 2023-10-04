@@ -21,7 +21,7 @@ public class HingedDoor : MonoBehaviour
     Animator animator;
     Cho_PlayerMove player;
     InteractionUI interactionUI;
-
+    AudioSource audioSource;
 
     DoorState doorState = DoorState.Close;
 
@@ -32,6 +32,7 @@ public class HingedDoor : MonoBehaviour
         animator = door.GetComponent<Animator>();
         player = FindObjectOfType<Cho_PlayerMove>();
         interactionUI = FindObjectOfType<InteractionUI>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -79,14 +80,16 @@ public class HingedDoor : MonoBehaviour
 
             if (angle < 90.0f)
             {
-                animator.SetInteger("DoorState", 2);
+                animator.SetInteger("DoorState", 2);                // 뒤로 열기
                 doorState = DoorState.Back;
             }
             else
             {
-                animator.SetInteger("DoorState", 1);
+                animator.SetInteger("DoorState", 1);                // 앞으로 열기
                 doorState = DoorState.Forward;
             }
+
+            audioSource.Play();
         }
         else
         {

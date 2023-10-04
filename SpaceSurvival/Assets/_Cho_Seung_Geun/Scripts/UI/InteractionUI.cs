@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class InteractionUI : MonoBehaviour
 {
-
     public Action visibleUI;
     public Action invisibleUI;
 
@@ -13,6 +12,8 @@ public class InteractionUI : MonoBehaviour
 
     CanvasGroup canvasGroup;
     Animator animator;
+
+    readonly int Hash_Visible = Animator.StringToHash("IsVisible");
 
     private void Awake()
     {
@@ -25,13 +26,13 @@ public class InteractionUI : MonoBehaviour
     void OnVisible()
     {
         //StartCoroutine(VisibleUI());
-        animator.SetBool("IsVisible", true);
+        animator.SetBool(Hash_Visible, true);
     }
 
     void OnInvisible()
     {
         //StartCoroutine(InvisibleUI());
-        animator.SetBool("IsVisible", false);
+        animator.SetBool(Hash_Visible, false);
     }
 
     IEnumerator VisibleUI()
