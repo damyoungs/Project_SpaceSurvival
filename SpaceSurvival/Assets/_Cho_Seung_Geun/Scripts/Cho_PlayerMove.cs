@@ -26,6 +26,7 @@ public class Cho_PlayerMove : MonoBehaviour
     Vector3 moveDir = Vector3.zero;
     float curRotateY = 0.0f;
     bool isJumping = false;
+    int jumpCount = 0;
 
     PlayerState state = PlayerState.Idle;
     PlayerState State
@@ -46,7 +47,8 @@ public class Cho_PlayerMove : MonoBehaviour
     Transform cameraPos;
     CharacterController controller;
 
-    readonly int Speed_Hash = Animator.StringToHash("Speed");
+    readonly int Hash_Speed = Animator.StringToHash("Speed");
+    readonly int Hash_Jump = Animator.StringToHash("IsJump");
 
     const float animatorWalkSpeed = 0.5f;
     const float animatorRunSpeed = 1.0f;
@@ -128,19 +130,20 @@ public class Cho_PlayerMove : MonoBehaviour
             if (speed > runSpeed - 0.01f)
             {
                 State = PlayerState.Run;
-                animator.SetFloat(Speed_Hash, animatorRunSpeed);
+                animator.SetFloat(Hash_Speed, animatorRunSpeed);
             }
             else if (speed > walkSpeed - 0.01f)
             {
                 State = PlayerState.Walk;
-                animator.SetFloat(Speed_Hash, animatorWalkSpeed);
+                animator.SetFloat(Hash_Speed, animatorWalkSpeed);
             }
             
         }
         else
         {
+            speed = walkSpeed;
             State = PlayerState.Idle;
-            animator.SetFloat(Speed_Hash, 0);
+            animator.SetFloat(Hash_Speed, 0);
         }
 
     }
@@ -149,24 +152,31 @@ public class Cho_PlayerMove : MonoBehaviour
     {
         //rigid.velocity = Vector3.zero;
         //rigid.AddForce(jumpHeight * transform.up, ForceMode.Impulse);
-        moveDir.y = jumpHeight;
-        isJumping = true;
-        animator.SetTrigger("IsJump");
+        if (!isJumping && jumpCount < 2)
+        {
+            moveDir.y = jumpHeight;
+            isJumping = true;
+            animator.SetTrigger(Hash_Jump);
+            jumpCount++;
+        }
     }
 
     private void OnDash(InputAction.CallbackContext context)
     {
-        if (context.canceled)
+        if (State == PlayerState.Walk || State == PlayerState.Run)
         {
-            State = PlayerState.Walk;
-            speed = walkSpeed;
-            animator.SetFloat(Speed_Hash, animatorWalkSpeed);
-        }
-        else
-        {
-            State = PlayerState.Run;
-            speed = runSpeed;
-            animator.SetFloat(Speed_Hash, animatorRunSpeed);
+            if (context.canceled)
+            {
+                State = PlayerState.Walk;
+                speed = walkSpeed;
+                animator.SetFloat(Hash_Speed, animatorWalkSpeed);
+            }
+            else
+            {
+                State = PlayerState.Run;
+                speed = runSpeed;
+                animator.SetFloat(Hash_Speed, animatorRunSpeed);
+            }
         }
     }
 
@@ -189,41 +199,6 @@ public class Cho_PlayerMove : MonoBehaviour
         cameraPos.rotation = Quaternion.Euler(curRotateY, cameraPos.eulerAngles.y, cameraPos.eulerAngles.z);
     }
 
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    if (collision.gameObject.CompareTag("Ground"))
-    //    {
-    //        isJumping = false;
-    //        gravity = 0.0f;
-    //        moveDir.y = 0.0f;
-    //    }
-    //}
-    //
-    //private void OnCollisionExit(Collision collision)
-    //{
-    //    if (collision.gameObject.CompareTag("Ground"))
-    //    {
-    //        isJumping = true;
-    //        gravity = 0.0f;
-    //        moveDir.y = 0.0f;
-    //    }
-    //}
-
-
-    //private void OnControllerColliderHit(ControllerColliderHit hit)
-    //{
-    //    if (hit.gameObject.CompareTag("Ground"))
-    //    {
-    //
-    //        Vector3 groundCheckPosition = new Vector3(transform.position.x, controller.center.y - controller.height * 0.5f, transform.position.z);
-    //        if (Physics.CheckSphere(groundCheckPosition, controller.radius, groundLayer))
-    //        {
-    //            moveDir.y = -2.0f;
-    //            isJumping = false;
-    //        }
-    //    }
-    //}
-
     private bool IsGrounded()
     {
         Vector3 groundCheckPosition = new Vector3(transform.position.x, transform.position.y + controller.radius * 0.5f, transform.position.z);
@@ -234,6 +209,7 @@ public class Cho_PlayerMove : MonoBehaviour
                 moveDir.y = -0.01f;
             }
             isJumping = false;
+            jumpCount = 0;
             return true;
         }
 
