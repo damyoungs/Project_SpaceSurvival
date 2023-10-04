@@ -71,14 +71,14 @@ public class ItemSpawner : TestBase
         }
 
         // Initialize the enemy drop table
-        enemyDropTable.Add(typeof(Enemy1), new List<(ItemCode, float)>
+        enemyDropTable.Add(typeof(), new List<(ItemCode, float)>
             {
                 (ItemCode.Enhancable_shotGun, 0.9f),
                 (ItemCode.Enhancable_Rifle, 0.99f),
           
             });
 
-        enemyDropTable.Add(typeof(Enemy2), new List<(ItemCode, float)>
+        enemyDropTable.Add(typeof(), new List<(ItemCode, float)>
             {
                 (ItemCode.Enhancable_Bow, 0.9f),
             });

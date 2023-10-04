@@ -155,7 +155,12 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
     /// </summary>
     bool isMoveCheck = false;
 
-  
+
+    /// <summary>
+    /// 공격상태를 체크하는 변수
+    /// </summary>
+    bool isAttackCheck = false;
+
     /// <summary>
     /// 공격범위안에 있으면 공격하는 함수 
     /// </summary>
@@ -166,6 +171,8 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
 
         if (attackTile != null)
         {
+            isAttackCheck = true;
+            enemyData.Attack();
             Attack_Enemy(SpaceSurvival_GameManager.Instance.PlayerTeam[0].CharcterData);
         }
     }
@@ -183,24 +190,12 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
         GameManager.EffectPool.GetObject(finalDamage, transform, isCritical);
     }
 
-
-    void EnemyAi()
-    {
-        Debug.Log($"{transform.name}턴 시작 - [체력:{enemyData.HP}] / [행동력:{enemyData.Stamina}] / [타입:{enemyData.mType}]\n[좌표:{CurrentTile.transform.position}] / [{currentTile.name}]");
-
-    }
-
     public void CharcterMove(Tile selectedTile)
     {
-        List<Tile> path = Cho_BattleMap_Enemy_AStar.PathFind(
-                                                           SpaceSurvival_GameManager.Instance.BattleMap,
-                                                           SpaceSurvival_GameManager.Instance.MapSizeX,
-                                                           SpaceSurvival_GameManager.Instance.MapSizeY,
-                                                           this.currentTile,
-                                                           selectedTile,
-                                                           moveSize
-                                                           );
+        List<Tile> path = Cho_BattleMap_Enemy_AStar.PathFind(SpaceSurvival_GameManager.Instance.BattleMap, SpaceSurvival_GameManager.Instance.MapSizeX, SpaceSurvival_GameManager.Instance.MapSizeY,
+                                                           this.currentTile, selectedTile, moveSize);
         EnemyMove(path);
+
     }
     //[SerializeField]
     //Animator unitAnimator;
@@ -238,13 +233,21 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
         isMoveCheck = false; //이동끝낫는지 체크
 
 
-        IsAttackAction(); //공격 범위안에있는지 체크
+        //IsAttackAction(); //공격 범위안에있는지 체크
     }
 
-    public void EnemyAi(Tile PlayerTile)
+
+    public void EnemyTurnAction(Tile PlayerTile)
     {
+        Debug.Log($"{transform.name}턴 시작 - [체력:{enemyData.HP}] / [행동력:{enemyData.Stamina}]");
+        
+        IsAttackAction();
         CharcterMove(PlayerTile);
+        if(isAttackCheck == false)
+        {
+            IsAttackAction();
+        }
+        isAttackCheck = false;
     }
-
 
 }

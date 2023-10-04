@@ -145,7 +145,8 @@ public class EnemyTurnObject : TurnBaseObject
         for (int i = 0; i < forSize; i++)
         {
             Ene = (BattleMapEnemyBase)charcterList[i];
-            Ene.EnemyAi(PlayerTileIndex);
+            Ene.EnemyData.Stamina += TurnActionValue;
+            Ene.EnemyTurnAction(PlayerTileIndex);
         }
 
         TurnActionValue -= UnityEngine.Random.Range(5.0f, 10.0f);// 행동력 소모후 테스트 용 

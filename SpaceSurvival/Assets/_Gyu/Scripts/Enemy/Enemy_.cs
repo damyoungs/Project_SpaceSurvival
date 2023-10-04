@@ -19,7 +19,6 @@ public class Enemy_ : MonoBehaviour, IBattle
     public Transform Riffle;
     public Transform Sword;
 
-
     public Monster_Type type = Monster_Type.Base;
     public Monster_Type mType
     {
@@ -162,14 +161,14 @@ public class Enemy_ : MonoBehaviour, IBattle
         }
     }
     [SerializeField]
-    uint attackRange = 4;
+    uint attackRange = 1;
     public uint AttackRange=> attackRange;
 
     float enemyExp = 50.0f;
     public float EnemyExp => enemyExp;
    
 
-    private void Attack()
+    public void Attack()
     {
         stamina--;
         Anima.SetTrigger(Go_Attack);
