@@ -196,6 +196,7 @@ public class BattleMap_Player_Controller : MonoBehaviour
                     break;
                 case Tile.TileExistType.Attack_OR_Skill:
                     BattleMapEnemyBase[] attackArray = SpaceSurvival_GameManager.Instance.AttackRange.GetEnemyArray(out SkillData skill); //
+                    AttackEffectOn(SpaceSurvival_GameManager.Instance.AttackRange.GetEnemyArray(), skill);
                     SpaceSurvival_GameManager.Instance.To_AttackRange_From_MoveRange(); //타일 범위표시 초기화 함수실행
                     //if (attackArray != null && attackArray.Length > 0) //공격할적이있을땐 
                     //{
@@ -208,7 +209,6 @@ public class BattleMap_Player_Controller : MonoBehaviour
                    
                     
                     GameManager.Inst.ChangeCursor(false);
-                    AttackEffectOn(SpaceSurvival_GameManager.Instance.AttackRange.GetEnemyArray(), skill);
                     Debug.Log($"공격 했다 최종데미지{skill?.FinalDamage} 맞춘 인원수 {attackArray?.Length} ");
                     //}
                    // Debug.Log($"이동가능 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
