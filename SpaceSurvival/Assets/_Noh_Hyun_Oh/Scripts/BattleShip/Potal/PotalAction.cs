@@ -17,6 +17,7 @@ public class PotalAction : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             uiComp.OpenWindow();
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 
@@ -24,6 +25,7 @@ public class PotalAction : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            Cursor.lockState = CursorLockMode.Locked;
             uiComp.CloseWindow();
         }
     }

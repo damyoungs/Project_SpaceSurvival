@@ -73,7 +73,7 @@ public class NpcBase_Gyu : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("들어와");
+            //Debug.Log("들어와");
             onTalkEnableButton?.Invoke(Npcid);
         }
     }
@@ -82,7 +82,7 @@ public class NpcBase_Gyu : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("나가");
+            //Debug.Log("나가");
             onTalkDisableButton?.Invoke();
         }
     }

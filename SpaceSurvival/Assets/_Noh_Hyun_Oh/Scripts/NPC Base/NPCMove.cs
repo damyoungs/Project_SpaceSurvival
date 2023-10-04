@@ -180,7 +180,7 @@ public class NPCMove : MonoBehaviour
         moveIndex %= wayPoints.Length;
         yield return couroutineWaitTime;
         NpcMovingState = NpcMoveState.moving;
-        Debug.Log(moveIndex);
+        //Debug.Log(moveIndex);
     }
 
   

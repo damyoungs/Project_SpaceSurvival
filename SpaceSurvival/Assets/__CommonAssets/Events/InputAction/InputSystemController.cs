@@ -192,6 +192,7 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
             
             case HotKey_Use.Use_InvenView:                                  //인벤 사용가능 할시
                 inputSystem.UI_Inven.Enable();
+                Debug.Log(22);
                 break;
 
             case HotKey_Use.QuickSlot:

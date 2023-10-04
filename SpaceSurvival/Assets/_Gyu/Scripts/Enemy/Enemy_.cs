@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using UnityEditor.Animations;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 
@@ -10,7 +9,7 @@ using static UnityEngine.Rendering.DebugUI;
 public class Enemy_ : MonoBehaviour, IBattle
 {
     Animator Anima;
-    public AnimatorController EnemyAc_Basic;
+    //public AnimatorController EnemyAc_Basic;
     public AnimatorOverrideController EnemyAc_Riffle;
     public AnimatorOverrideController EnemyAc_Sword;
     int Go_Attack = Animator.StringToHash("Attack");
@@ -69,7 +68,7 @@ public class Enemy_ : MonoBehaviour, IBattle
             switch (weaponType)
             {
                 case WeaponType.None:
-                    Anima.runtimeAnimatorController = EnemyAc_Basic;
+                    //Anima.runtimeAnimatorController = EnemyAc_Basic;
                     
                     break;
                 case WeaponType.Riffle:
@@ -81,7 +80,7 @@ public class Enemy_ : MonoBehaviour, IBattle
 
                     break;
                 default:
-                    Anima.runtimeAnimatorController = EnemyAc_Basic;
+                    //Anima.runtimeAnimatorController = EnemyAc_Basic;
 
                     break;
             }

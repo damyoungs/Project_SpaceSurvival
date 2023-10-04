@@ -1,12 +1,8 @@
-using OpenCover.Framework.Model;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Windows;
 
 [Serializable]
 public class Base_Status//¾Æ¹«°Íµµ ÀåºñÇÏÁö ¾ÊÀº »óÅÂÀÇ ÇÃ·¹ÀÌ¾îÀÇ ±âº» °ø°Ý·Â, ¹æ¾î·ÂÀ» ÀúÀå. ¹öÇÁ»ç¿ë, »ç¿ëÁß Àåºñ, ÇØÁ¦ ½Ã ´Ù½Ã ¼³Á¤ÇÒ ¶§¿Í µ¥ÀÌÅÍ¸¦ Save, Load ÇÒ ¶§ »ç¿ë
@@ -591,11 +587,14 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
         intButton.onClick.AddListener(RiseIntelligence);
         lukButton.onClick.AddListener(RiseLuck);
         dexButton.onClick.AddListener(Rise_Dexterity);
-        closeDetail();
-        Close();
+        base_Status = new(this);
+
+        base_Status.on_ResetStatus = Reset_Status;
     }
     private void Start()
     {
+        closeDetail();
+        Close();
         Init();
 
     }
@@ -606,9 +605,6 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
         player = GameManager.Player_;
         equipBox = GameManager.EquipBox;
         equipments_DataServer = new(equipBox);
-        base_Status = new(this);
-
-        base_Status.on_ResetStatus = Reset_Status;
         Reset_Status();
 
         DarkForceText darkForceText = FindObjectOfType<DarkForceText>();
@@ -835,9 +831,9 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
         string json = JsonUtility.ToJson(base_Status);
 
         string path = $"{Application.dataPath}/Save/";
-        if (!UnityEngine.Windows.Directory.Exists(path))
+        if (!Directory.Exists(path))
         {
-            UnityEngine.Windows.Directory.CreateDirectory(path);
+            Directory.CreateDirectory(path);
         }
         string fullPath = $"{path}Save.Json";
         System.IO.File.WriteAllText(fullPath, json);

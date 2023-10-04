@@ -250,10 +250,18 @@ public class Merchant_Manager : MonoBehaviour
     {
         if (selected == Merchant_Selected.Buy)
         {
-            for (int i = 0; i < itemCount; i++)
+            if (GameManager.PlayerStatus.Base_Status.Base_DarkForce > item.price*0.1*itemCount) //구입가능하면  
             {
-                GameManager.SlotManager.AddItem(item.code);
+                for (int i = 0; i < itemCount; i++)
+                {
+                    if (GameManager.SlotManager.AddItem(item.code)) //추가가능하면 
+                    {
+                        GameManager.PlayerStatus.Base_Status.Base_DarkForce -= (uint)(item.price * 0.1f); //금액깍는다
+                    }
+                }
+                return;
             }
+            Debug.Log($"보유금액{GameManager.PlayerStatus.Base_Status.Base_DarkForce} 필요 금액 : {item.price * 0.1 * itemCount}");
         } 
         else if (selected == Merchant_Selected.Sell) 
         {
@@ -261,6 +269,7 @@ public class Merchant_Manager : MonoBehaviour
             {
                 GameManager.SlotManager.RemoveItem(slot.ItemData, slot.Index, itemCount);
                 merchant_UI_Manager.ReFresh_Merchant_Item();
+                GameManager.PlayerStatus.Base_Status.Base_DarkForce += (uint)(item.price * 0.1f * itemCount);
                 return;
             }
             Debug.Log("슬롯이 왜없냐? 파는데 ");
@@ -291,6 +300,7 @@ public class Merchant_Manager : MonoBehaviour
                 talkController.getTalkDataArray = null;
                 talkController.LogManager.getLogTalkDataArray = null;
                 actionUI.invisibleUI?.Invoke();
+                Cursor.lockState = CursorLockMode.Locked;
             };
             array_NPC[i].onTalkEnableButton += (npcId) =>
             {

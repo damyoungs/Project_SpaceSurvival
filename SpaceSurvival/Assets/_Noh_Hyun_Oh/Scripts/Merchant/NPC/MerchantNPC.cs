@@ -35,7 +35,7 @@ public class MerchantNPC : NpcBase_Gyu
     private void Start()
     {
         Merchant_State temp = (Merchant_State)Random.Range(0, 3);//기분상태 랜덤으로 
-        Debug.Log(temp);
+        //Debug.Log(temp);
     }
 
 }
