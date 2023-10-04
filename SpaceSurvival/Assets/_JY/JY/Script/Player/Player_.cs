@@ -298,7 +298,7 @@ public class Player_ : MonoBehaviour, IBattle
     public void Skill_Action(SkillData skillData)
     {
         skill_Blessing = skillData as Skill_Blessing;
-        if (skill_Blessing == null && GameManager.PlayerStatus.Base_Status.Current_Stamina >= skillData.Require_Stamina_For_UsingSkill && this.Weapon_Type != WeaponType.None)
+        if (skill_Blessing == null && Stamina >= skillData.Require_Stamina_For_UsingSkill && this.Weapon_Type != WeaponType.None)
         {
             if (player_Status.IsCritical(skillData))
             {
@@ -336,7 +336,7 @@ public class Player_ : MonoBehaviour, IBattle
     public void SkillPostProcess()//skillAction 실행 후 grid 에서 호출할 함수 
     {
        // StopCoroutine(RotateCoroutine);
-        GameManager.PlayerStatus.Base_Status.Current_Stamina--;
+        Stamina--;
         anim.SetTrigger(attack_Trigger_Hash);
         on_CursorChange?.Invoke(false);
         if (this.currentSkillData is Skill_Sniping)
@@ -405,22 +405,27 @@ public class Player_ : MonoBehaviour, IBattle
         //초기스펙 설정
         Weapon_Type = WeaponType.None;
     }
-
-     void Update_Status()
+    void Die()
+    {
+        //인풋막기
+        // dolly Track
+        //LoadingScene
+    }
+    void Update_Status()
     {
   
-        if (duringBuffSkill)//버프중이면
-        {
-            player_Status.Reset_Status();//장비아이템의 능력치가 합산된 플레이어의 공격력, 방어력 적용하기
-            float finalAttackPoint = player_Status.ATT * skill_Blessing.SkillPower;
-            float finalDefencePoint = player_Status.DP * skill_Blessing.SkillPower;
-            this.ATT = (uint)finalAttackPoint; //리셋된 공격력에 스킬의 skillPower만큼 곱해주기
-            this.DP = (uint)finalDefencePoint;
-        }
-        else
-        {
-            player_Status.Reset_Status();
-        }
+       if (duringBuffSkill)//버프중이면
+       {
+           player_Status.Reset_Status();//장비아이템의 능력치가 합산된 플레이어의 공격력, 방어력 적용하기
+           float finalAttackPoint = player_Status.ATT * skill_Blessing.SkillPower;
+           float finalDefencePoint = player_Status.DP * skill_Blessing.SkillPower;
+           this.ATT = (uint)finalAttackPoint; //리셋된 공격력에 스킬의 skillPower만큼 곱해주기
+           this.DP = (uint)finalDefencePoint;
+       }
+       else
+       {
+           player_Status.Reset_Status();
+       }
     }
 
 
@@ -447,6 +452,7 @@ public class Player_ : MonoBehaviour, IBattle
     //private void OpenInven(InputAction.CallbackContext _)
     private void OpenInven()
     {
+        Debug.Log("1");
         onOpenInven?.Invoke();
     }
 
@@ -523,7 +529,7 @@ public class Player_ : MonoBehaviour, IBattle
         anim.SetTrigger(get_Hit_Hash);
         float final_Damage = damage - DP;
         GameManager.PlayerStatus.Base_Status.CurrentHP -= final_Damage;
-        GameManager.EffectPool.GetObject(final_Damage, transform, isCritical);
+        GameManager.EffectPool.GetObject(damage, transform, isCritical);
     }
 
 
