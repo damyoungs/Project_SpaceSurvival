@@ -20,11 +20,22 @@ public class MerchantNPC : NpcBase_Gyu
     Merchant_State merchant_State;
     public Merchant_State Merchant_State => merchant_State;
 
+    /// <summary>
+    /// 이동 로직 연결용 
+    /// </summary>
+    [SerializeField]
+    NPCMove moveProccess;
+    public NPCMove MoveProccess => moveProccess;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        moveProccess = transform.parent.GetComponentInChildren<NPCMove>(true);
+    }
     private void Start()
     {
         Merchant_State temp = (Merchant_State)Random.Range(0, 3);//기분상태 랜덤으로 
-        Debug.Log(temp);
+        //Debug.Log(temp);
     }
 
 }

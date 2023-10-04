@@ -38,6 +38,11 @@ public class PlayerQuest_Gyu : MonoBehaviour
         clearQuestList = new List<Gyu_QuestBaseData>(questMaxLength);
     }
 
+    private void Start()
+    {
+        SpaceSurvival_GameManager.Instance.getPlayerQuest = () => this;
+    }
+
     /// <summary>
     /// 퀘스트 수락시 리스트에 추가하는 함수
     /// </summary>
@@ -48,6 +53,10 @@ public class PlayerQuest_Gyu : MonoBehaviour
         {
             addQuest.Quest_State = Quest_State.Quest_Start;
             currentQuests.Add(addQuest);
+            if (addQuest.QuestType == QuestType.Story) 
+            {
+                SpaceSurvival_GameManager.Instance.IsBoss = true;
+            }
             return;
         }
         Debug.Log("더이상 퀘스트를 수락할수 없습니다.");

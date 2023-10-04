@@ -119,22 +119,22 @@ public class TestSaveData<T> : JsonGameData  // 상속받은 것도 같이 json으로 파싱
     /// </summary>
     public void TestFunc() {
 
-        base.CharcterInfo = new StructList.CharcterInfo[100];
-        for (int i = 0; i < base.CharcterInfo.Length; i++)
-        {
-            base.CharcterInfo[i].Level = 8 * i;
-            base.CharcterInfo[i].CharcterName = $"{i} 번째 홍길동";
-            base.CharcterInfo[i].EXP = i * 99;
-            base.CharcterInfo[i].SceanPositionZ = 99.9f *i;
-            base.CharcterInfo[i].SceanPositionY = 199.9f *i;
-            base.CharcterInfo[i].SceanPositionX = 199.9f * i;
-            base.CharcterInfo[i].Money = i * 5012;
-            base.CharcterInfo[i].FlagList = new int[100];
-            for (int ij = 0; ij < base.CharcterInfo[i].FlagList.Length; ij++)
-            {
-                base.CharcterInfo[i].FlagList[ij] = ij * 857;
-            }
-        }
+        //base.CharcterInfo = new StructList.CharcterInfo[100];
+        //for (int i = 0; i < base.CharcterInfo.Length; i++)
+        //{
+        //    base.CharcterInfo[i].Level = 8 * i;
+        //    base.CharcterInfo[i].CharcterName = $"{i} 번째 홍길동";
+        //    base.CharcterInfo[i].EXP = i * 99;
+        //    base.CharcterInfo[i].SceanPositionZ = 99.9f *i;
+        //    base.CharcterInfo[i].SceanPositionY = 199.9f *i;
+        //    base.CharcterInfo[i].SceanPositionX = 199.9f * i;
+        //    base.CharcterInfo[i].Money = i * 5012;
+        //    base.CharcterInfo[i].FlagList = new int[100];
+        //    for (int ij = 0; ij < base.CharcterInfo[i].FlagList.Length; ij++)
+        //    {
+        //        base.CharcterInfo[i].FlagList[ij] = ij * 857;
+        //    }
+        //}
         base.QuestList = new StructList.CharcterQuest[500];
         for (int i = 0; i < base.QuestList.Length; i++)
         {

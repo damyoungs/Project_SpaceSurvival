@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 /// <summary>
 /// 창관련 최상위 오브젝트에 사용
@@ -92,6 +94,12 @@ public class WindowList : Singleton<WindowList> {
     Gyu_QuestManager gyu_QuestManager;
     public Gyu_QuestManager Gyu_QuestManager => gyu_QuestManager;
 
+    //[SerializeField]
+    int uiLayerIndex;
+
+    GraphicRaycaster uiCheckingComp;
+    List<RaycastResult> uiChcek;
+
     /// <summary>
     /// 윈도우리스트는 항상가지고다니는것이기때문에 여기에서 이벤트처리를 진행.
     /// </summary>
@@ -110,19 +118,40 @@ public class WindowList : Singleton<WindowList> {
         gyu_QuestManager = transform.GetComponentInChildren<Gyu_QuestManager>(true);
         battleActionButtons = transform.GetChild(0).GetChild(1); //나중에 수정필요 
 
+
+        uiLayerIndex = LayerMask.NameToLayer("UI"); // UI 에해당하는 레이어 이넘순번값 가져오고
+        uiCheckingComp = GetComponent<GraphicRaycaster>();  
+        uiChcek = new List<RaycastResult>();
+
     }
     private void Start()
     {
         InputSystemController.Instance.On_Options_Options += OnOffWindowOption; //옵션창 열고 닫기 
         InputSystemController.Instance.On_Common_Esc += OffPopupWindow;          //키입력시 순서대로 닫히게만들기
         
-        //InputSystemController.Instance.OnInput_Action_NoneGame_MouseClick+= ()=> { }; //뭘연결시킬까나.   
-        //InputSystemController.Instance.OnInput_Action_NoneGame_Esc+= ()=> { };        //오프닝에사용할건데 바꿀수도있음  
-        
+       
         mainWindow.Oninitialize();
     }
 
-    
+    /// <summary>
+    /// 마우스 위치에 UI 가 있는지 체크하는 로직 
+    /// </summary>
+    /// <returns>UI 존재하면 true  존재하지않으면 false </returns>
+    public bool IsUICheck()
+    {
+        uiChcek.Clear(); //체크할 리스트 초기화하고
+        PointerEventData pointerEventData = new PointerEventData(EventSystem.current);  // 레이에사용할 이벤트데이터 생성
+        pointerEventData.position = Mouse.current.position.value;                       // 스크린좌표 설정해서 이벤트 위치잡고
+        uiCheckingComp.Raycast(pointerEventData, uiChcek);                              // 해당위치에 레이를쏴서 체크할 UI오브젝트를 가져온다
+        foreach (var result in uiChcek)
+        {
+            if (result.gameObject.layer == uiLayerIndex) 
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     /// <summary>
     /// 팝업창 버튼을 눌렀을경우 열렸을경우 닫히고 닫혔을경우 열린다.
     /// <param name="target">열릴 팝업창 객체</param>

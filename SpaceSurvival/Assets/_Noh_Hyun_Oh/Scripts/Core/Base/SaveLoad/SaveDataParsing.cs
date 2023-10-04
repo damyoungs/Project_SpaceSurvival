@@ -23,11 +23,14 @@ public class SaveDataParsing : MonoBehaviour
 
     SkillBox playerSkill;
 
+    Player_Status player_Status;
     private void Awake()
     {
+
         slotManager = FindObjectOfType<SlotManager>();
         playerQuest = FindObjectOfType<PlayerQuest_Gyu>();
         playerSkill = FindObjectOfType<SkillBox>();
+        player_Status = FindObjectOfType<Player_Status>();
     }
 
     /// <summary>
@@ -37,6 +40,7 @@ public class SaveDataParsing : MonoBehaviour
     {
         saveData = new JsonGameData();                              //저장할 객체 생성
         saveData.SkillDatas = playerSkill.SaveSkillData();
+        saveData.PlayerData = player_Status.Base_Status;
         SaveInvenDataParsing();                                     //인벤토리 에서 데이터 가져오기 
         SaveDataSetting();                                          //퀘스트 캐릭터한테 퀘스트 데이터 가져오기
         
@@ -49,9 +53,11 @@ public class SaveDataParsing : MonoBehaviour
     public void LoadParsing(JsonGameData data)
     {
         ResetData();
+
         LoadInvenDataParsing(data);
         LoadQuestDataParsing(data.QuestList);
-        playerSkill.LoadSkillData_In_QuickSlot(data.SkillDatas);    
+        playerSkill.LoadSkillData_In_QuickSlot(data.SkillDatas);
+        player_Status.Base_Status.LoadData(data.PlayerData);
         RefreshData();
     }
 

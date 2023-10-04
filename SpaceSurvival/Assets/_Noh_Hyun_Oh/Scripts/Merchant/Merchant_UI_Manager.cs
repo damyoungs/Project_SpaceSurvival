@@ -93,26 +93,28 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
     public Action<IPopupSortWindow> PopupSorting { get; set; }
 
 
+    NpcTalkController talkController;
+
     protected override void Awake()
     {
         base.Awake();
         
         merchant_Manager = GetComponent<Merchant_Manager>();
 
-        
+        talkController = FindObjectOfType<NpcTalkController>();
 
         popup = transform.parent.GetComponentInChildren<MerchantModalPopup>(true);
 
         buyButton = topPanel.GetChild(1).GetChild(0).GetComponent<Button>(); 
         buyButton.onClick.AddListener(() => {
-            Debug.Log(buyButton);
+            //Debug.Log(buyButton);
             merchant_Manager.Selected = Merchant_Selected.Buy;
             ReFresh_Merchant_Item();
         });
         
         sellButton = topPanel.GetChild(1).GetChild(1).GetComponent<Button>(); 
         sellButton.onClick.AddListener(() => { 
-            Debug.Log(sellButton);
+            //Debug.Log(sellButton);
             merchant_Manager.Selected = Merchant_Selected.Sell;
             ReFresh_Merchant_Item();
         });
@@ -154,11 +156,11 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
         //최소 한개넣어두고 미리 사이즈구해둔다 
         defaultItemSizeY = content.GetChild(0).GetComponent<RectTransform>().sizeDelta.y;
 
-
     }
     private void Start()
     {
         CloseWindow();
+        GameManager.PlayerStatus.Base_Status.on_DarkForceChange += (value) => { ResourceSetting(0, value); };
     }
 
 
@@ -276,11 +278,22 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
         {
             return;
         }
-        
-        //부모 컨텐츠 사이즈 조절 
-        contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, defaultItemSizeY* merchant_UI_Items.Length);
-    }
 
+        //부모 컨텐츠 사이즈 조절 
+        contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, defaultItemSizeY * merchant_UI_Items.Length);
+        
+        ResourceSetting(0, GameManager.PlayerStatus.DarkForce);
+    }
+    /// <summary>
+    /// 자원 표시해주는함수
+    /// </summary>
+    /// <param name="coin">사용안함</param>
+    /// <param name="darkForce">다크포스</param>
+    private void ResourceSetting(float coin, float darkForce) 
+    {
+        coinText.text = $"{coin} G";
+        darkForceText.text = $"{darkForce} Force";
+    }
     /// <summary>
     /// 필요한 갯수만큼 오브젝트 풀에서 가져오는 함수
     /// 리셋할때 풀로 전부 돌리고있어서 체크하는 부분은 필요가없을거같긴하다..
@@ -320,7 +333,8 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
         {
             item.ResetData();
         }
-        merchant_Manager.isTalking = true;
+        merchant_Manager.isTalking = false;
+
     }
 
 
@@ -338,13 +352,13 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
 
     public void CloseWindow()
     {
+        ResetData();
         transform.GetChild(0).gameObject.SetActive(false);
         transform.GetChild(1).gameObject.SetActive(false);
-        ResetData();
     }
     protected override void OnCloseButtonClick()
     {
-        CloseWindow();
+        talkController.ResetData();
     }
 
 }

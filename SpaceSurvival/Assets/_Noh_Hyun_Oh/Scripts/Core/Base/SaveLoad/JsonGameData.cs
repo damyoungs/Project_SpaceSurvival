@@ -88,21 +88,13 @@ public class JsonGameData
             sceanName = value;
         }
     }
-
-    /// <summary>
-    /// 캐릭터 에대한 정보
-    /// </summary>
     [SerializeField]
-    StructList.CharcterInfo[] charcterInfo;
-    public StructList.CharcterInfo[] CharcterInfo
+    Base_Status playerData;
+    public Base_Status PlayerData 
     {
-        get => charcterInfo;
-        protected set
-        {
-            charcterInfo = value;
-        }
+        get => playerData;
+        set => playerData = value;
     }
-
     /// <summary>
     /// 장비 슬롯갯수 
     /// </summary>

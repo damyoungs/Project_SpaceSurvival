@@ -37,7 +37,7 @@ public class NpcBase_Gyu : MonoBehaviour
     /// </summary>
     public Action onTalkDisableButton;
 
-
+    [SerializeField]
     /// <summary>
     /// NPC 얼굴을 찍을 카메라 
     /// </summary>
@@ -47,7 +47,7 @@ public class NpcBase_Gyu : MonoBehaviour
     /// UI rawImage 에 연결할 렌더러 텍스쳐 
     /// </summary>
     public RenderTexture GetTexture => npcCharcterCamera.targetTexture;
-    private void Awake()
+    protected virtual void Awake()
     {
         npcCharcterCamera = transform.GetComponentInChildren<Camera>();
         npcCharcterCamera.targetTexture = new RenderTexture(512, 512, 16, RenderTextureFormat.ARGB32);
@@ -73,6 +73,7 @@ public class NpcBase_Gyu : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            //Debug.Log("들어와");
             onTalkEnableButton?.Invoke(Npcid);
         }
     }
@@ -81,6 +82,7 @@ public class NpcBase_Gyu : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            //Debug.Log("나가");
             onTalkDisableButton?.Invoke();
         }
     }

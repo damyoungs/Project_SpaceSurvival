@@ -103,15 +103,15 @@ public class PlayerTurnObject : TurnBaseObject
 
         //캐릭터쪽으로 스테미나 데이터 넘기기
         BattleMapPlayerBase currentCharcter = (BattleMapPlayerBase)currentUnit;
-        Player_ currentPlayer = currentCharcter.CharcterData;
-        currentPlayer.Stamina = TurnActionValue;
+        Base_Status playerData = GameManager.PlayerStatus.Base_Status;
+        playerData.Current_Stamina += TurnActionValue;
         float moveSize = currentUnit.MoveSize < TurnActionValue ? currentUnit.MoveSize : TurnActionValue;//이동범위 최대 크기잡아놓은만큼만 표시하기위한 값
         //Debug.Log(TurnActionValue);
         //상시유아이 갱신
 
         TeamBorderStateUI uiComp = WindowList.Instance.TeamBorderManager.TeamStateUIs[0];
-        uiComp.SetHpGaugeAndText(currentPlayer.HP, currentPlayer.MaxHp);
-        uiComp.SetStmGaugeAndText(currentPlayer.Stamina, currentPlayer.Max_Stamina);
+        uiComp.SetHpGaugeAndText(playerData.CurrentHP, playerData.Base_MaxHP);
+        uiComp.SetStmGaugeAndText(playerData.Current_Stamina, playerData.Base_MaxStamina);
 
 
 
@@ -122,8 +122,8 @@ public class PlayerTurnObject : TurnBaseObject
         {
 
             currentUnit.BattleUI.TrunActionStateChange(); //턴시작시 상태이상 들을 게이지 진행시킨다
-            currentUnit.BattleUI.stmGaugeSetting(TurnActionValue, currentPlayer.Max_Stamina);
-            currentUnit.BattleUI.hpGaugeSetting(currentPlayer.HP, currentPlayer.MaxHp);
+            currentUnit.BattleUI.stmGaugeSetting(TurnActionValue, playerData.Base_MaxStamina);
+            currentUnit.BattleUI.hpGaugeSetting(playerData.CurrentHP, playerData.Base_MaxHP);
         }
         SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentUnit.CurrentTile);
         SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(currentUnit.CurrentTile, moveSize);//이동범위표시해주기 

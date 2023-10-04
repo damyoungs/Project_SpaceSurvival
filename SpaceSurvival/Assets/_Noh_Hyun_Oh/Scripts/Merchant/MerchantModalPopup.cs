@@ -79,6 +79,7 @@ public class MerchantModalPopup : MonoBehaviour
         successBtn = transform.GetChild(3).GetComponent<Button>();
         successBtn.onClick.AddListener(() => {
             manager.ItemClick(itemData,(uint)selectedValue, itemSlot);
+
             parentModal.Close();
         });
 

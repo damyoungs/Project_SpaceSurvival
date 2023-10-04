@@ -11,6 +11,7 @@ public class ExitButton : MonoBehaviour
 
     public void OnClickExit()
     {
+        //LoadingScene.SceneLoading(EnumList.SceneName.BattleShip);
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else

@@ -22,7 +22,7 @@ public enum HotKey_Use : byte
     Use_TownMap = 2,                // 마을 에서 사용하기위한 값                   
     Use_BattleMap = 4,              // 배틀맵 에서 사용하기위한 값
     Use_InvenView = 8,              // 인벤창 사용하기위한 값
-    Use_Custom01 = 16,
+    QuickSlot = 16,
     Use_Custom02 = 32,
     Use_Custom03 = 64,
     Use_Custom04 = 128,
@@ -191,11 +191,12 @@ public class InputSystemController : ChildComponentSingeton<InputSystemControlle
                 break;
             
             case HotKey_Use.Use_InvenView:                                  //인벤 사용가능 할시
-                inputSystem.QuickSlot.Enable();
                 inputSystem.UI_Inven.Enable();
+                Debug.Log(22);
                 break;
 
-            case HotKey_Use.Use_Custom01:
+            case HotKey_Use.QuickSlot:
+                inputSystem.QuickSlot.Enable();
                 break;
 
             case HotKey_Use.Use_Custom02:

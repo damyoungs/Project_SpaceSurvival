@@ -52,9 +52,17 @@ public class Gyu_QuestManager : MonoBehaviour
     /// <summary>
     /// 플레이어 데이터 
     /// </summary>
+    [SerializeField]
     PlayerQuest_Gyu player;
     public PlayerQuest_Gyu Player => player;
-     
+
+    /// <summary>
+    /// 엔피씨가 대화시 바라볼방향
+    /// </summary>
+    [SerializeField]
+    PlayerLookTarget looktarget;
+
+
     /// <summary>
     /// UI Action 연결용으로 가져오기 
     /// </summary>
@@ -106,6 +114,8 @@ public class Gyu_QuestManager : MonoBehaviour
 
     NpcTalkController talkController;
 
+    InteractionUI actionUI;
+
     private void Awake()
     {
         player = FindObjectOfType<PlayerQuest_Gyu>();
@@ -113,10 +123,6 @@ public class Gyu_QuestManager : MonoBehaviour
         talkController = FindObjectOfType<NpcTalkController>();
 
         questUIManager = GetComponent<Gyu_UI_QuestManager>();   //기능분리를 위해 스크립트를 따로뺏다.
-
-       
-
-      
     }
 
     private void Start()
@@ -138,6 +144,7 @@ public class Gyu_QuestManager : MonoBehaviour
             //퀘스트 완료 
             player.ClearQuest(selectQuest);
         };
+
         questUIManager.onCancelQuest = () =>
         {
             //퀘스트 취소 
@@ -147,28 +154,31 @@ public class Gyu_QuestManager : MonoBehaviour
        
 
         questScriptableGenerate = DataFactory.Instance.QuestScriptableGenerate;
-        InitDataSetting();
+
         InputSystemController.InputSystem.Player.Action.performed += (_) => {
             if (isTalking)
             {
                 isTalking = false;
                 talkController.Talk(0);
+                actionUI.visibleUI?.Invoke();
             }
         };
 
     }
     public void InitDataSetting()
     {
-
+        actionUI = FindObjectOfType<InteractionUI>(true);
         // 팩토리로 할시 엔피씨 위치를 몇개 후보지역두고 랜덤으로 변경시키는게 더간단할거같다.
         // 초기화 하는것은 여기말고 다른곳으로 빼서 해야될거같다 .. 팩토리 로 생성시킨뒤에 껏다켯다하면 될거같긴한데.. 
         array_NPC = FindObjectsOfType<QuestNPC>(true);   //씬에있는 엔피씨 찾아서 담아두고 ( 찾는 순서가 바뀔수도있으니 다른방법을 찾아보자.)
+        looktarget = FindObjectOfType<PlayerLookTarget>(true);
         for (int i = 0; i < array_NPC.Length; i++)
         {
             //위치와 모양을 변경시키면 될거같기도한데.. 일단 고민좀해보자..
             array_NPC[i].InitData(i); //npc 를 초기화 시킨다.
             array_NPC[i].onTalkDisableButton += () => 
             {
+                Cursor.lockState = CursorLockMode.Locked;
                 isTalking = false;
                 talkController.ResetData();
                 talkController.openTalkWindow = null;
@@ -176,8 +186,9 @@ public class Gyu_QuestManager : MonoBehaviour
                 talkController.onTalkClick = null;
                 talkController.getTalkDataArray = null;
                 talkController.LogManager.getLogTalkDataArray = null;
+                actionUI.invisibleUI?.Invoke();
             }; 
-            array_NPC[i].onTalkEnableButton = (npcId) =>
+            array_NPC[i].onTalkEnableButton += (npcId) =>
             {
                 Cursor.lockState = CursorLockMode.None;
                 talkController.ResetData();
@@ -189,18 +200,20 @@ public class Gyu_QuestManager : MonoBehaviour
                 talkController.getTalkDataArray = (talkIndex) =>
                 {
                     return talkController.TalkData.GetTalk(array_NPC[currentNpcIndex].TalkType, talkIndex);
+
                 };
                 talkController.LogManager.getLogTalkDataArray = (talkIndex) => {
                     return talkController.TalkData.GetLog(array_NPC[currentNpcIndex].TalkType, talkIndex);
                 };
                 isTalking = true;
+                actionUI.visibleUI?.Invoke();
             };
 
             array_NPC[i].InitQuestData(questScriptableGenerate.MainStoryQuestArray,
                                     questScriptableGenerate.KillcountQuestArray,
                                     questScriptableGenerate.GatheringQuestArray); //퀘스트 데이터 처리
 
-           
+            array_NPC[i].MoveProccess.getTarget = () => looktarget.transform;   //바라볼 타겟 연결
         }
     }
 }

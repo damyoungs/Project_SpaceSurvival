@@ -11,9 +11,25 @@ using UnityEngine;
 public class SpaceSurvival_GameManager : ChildComponentSingeton<SpaceSurvival_GameManager>
 {
     /// <summary>
-    /// 유아이 사용시 마우스 이벤트 막기위한 변수 
+    /// 보스 전투인지 체크할변수 
     /// </summary>
-    //public bool IsUICheck = false;
+    public bool IsBoss = false;
+    /// <summary>
+    /// 플레이어 퀘스트 정보 담아두기
+    /// </summary>
+    PlayerQuest_Gyu playerQuest;
+    public PlayerQuest_Gyu PlayerQuest 
+    {
+        get 
+        {
+            if (playerQuest == null) 
+            {
+                playerQuest = getPlayerQuest?.Invoke();
+            }
+            return playerQuest;
+        }
+    }
+    public Func<PlayerQuest_Gyu> getPlayerQuest;
 
     /// <summary>
     /// 배틀맵 시작시 셋팅할 맵의 타일 변수 
@@ -198,6 +214,7 @@ public class SpaceSurvival_GameManager : ChildComponentSingeton<SpaceSurvival_Ga
         GetPlayerTeam = null;
         enemyTeam = null;
         GetEnemeyTeam = null;
+        IsBoss = false;
     }
 
     /// <summary>

@@ -140,7 +140,7 @@ public class PlayerMove : MonoBehaviour
     private void SetCameraRotaion(Quaternion quaternion)
     {
 		lookDir = quaternion;
-		Debug.Log($"카메라가 움직였네 값은: {quaternion}");
+		//Debug.Log($"카메라가 움직였네 값은: {quaternion}");
     }
 
     private void Start()

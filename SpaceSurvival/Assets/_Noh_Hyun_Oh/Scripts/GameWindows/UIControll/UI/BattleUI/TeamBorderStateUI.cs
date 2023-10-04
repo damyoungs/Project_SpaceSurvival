@@ -10,12 +10,16 @@ public class TeamBorderStateUI : MonoBehaviour
     float hpGaugeSpeed = 10.0f;
     [SerializeField]
     float stmGaugeSpeed = 2.0f;
+    [SerializeField]
+    float expGaugeSpeed = 2.0f;
 
     bool isHp_Change = false;
     bool isStm_Change = false;
+    bool isExp_Change = false;
 
     float hp_UI_Value = -1.0f;
     float stm_UI_Value = -1.0f;
+    float exp_UI_Value = -1.0f;
 
     Slider hpSlider;
     TextMeshProUGUI hpText;
@@ -25,6 +29,10 @@ public class TeamBorderStateUI : MonoBehaviour
     TextMeshProUGUI stmText;
     TextMeshProUGUI stmMaxText;
 
+
+    Slider expSlider;
+    TextMeshProUGUI expText;
+    TextMeshProUGUI expMaxText;
 
 
     [SerializeField]
@@ -53,6 +61,7 @@ public class TeamBorderStateUI : MonoBehaviour
     List<SkillData> state_UI_Datas;
     IEnumerator hpGauge;
     IEnumerator stmGauge;
+    IEnumerator expGauge;
 
 
     private void Awake()
@@ -72,6 +81,9 @@ public class TeamBorderStateUI : MonoBehaviour
         imgIconArray = new Image[childCount];
         stateTimer = new Image[childCount];
         state_UI_Datas = new List<SkillData>(childCount);
+
+        child.gameObject.SetActive(false);      //상태이상안쓰고 경험치로 바꾸기위해 가리기
+        
         Image image;
         for (int i = 0; i < childCount; i++)
         {
@@ -82,23 +94,37 @@ public class TeamBorderStateUI : MonoBehaviour
         }
         hpGauge = HP_GaugeSetting(0.0f, 0.0f);
         stmGauge = Stm_GaugeSetting(0.0f, 0.0f);
+        expGauge = Exp_GaugeSetting(0.0f, 0.0f);
+
+        child = transform.GetChild(3);  //exp
+        expText = child.GetChild(1).GetComponent<TextMeshProUGUI>(); // 현재경험치
+        expMaxText = child.GetChild(3).GetComponent<TextMeshProUGUI>(); // 최대경험치
+        expSlider = child.GetChild(0).GetComponent<Slider>();
 
     }
+ 
     public void SetStmGaugeAndText(float changeValue , float maxValue) 
     {
-        //stmGauge = GaugeView(stmSlider,stmText,stmMaxText,changeValue,maxValue);
         StopCoroutine(stmGauge);
         stmGauge = Stm_GaugeSetting(changeValue,maxValue);
         StartCoroutine(stmGauge);
 
-    } 
-    public void SetHpGaugeAndText(float changeValue ,float maxValue)
+    }
+
+    public void SetHpGaugeAndText(float changeValue, float maxValue)
     {
-        //hpGauge = GaugeView(hpSlider,hpText,hpMaxText,changeValue,maxValue);
         StopCoroutine(hpGauge);
-        hpGauge = HP_GaugeSetting(changeValue,maxValue);
+        hpGauge = HP_GaugeSetting(changeValue, maxValue);
         StartCoroutine(hpGauge);
-    
+
+    }
+
+    public void SetExpGaugeAndText(float changeValue, float maxValue)
+    {
+        StopCoroutine(expGauge);
+        expGauge = Exp_GaugeSetting(changeValue, maxValue);
+        StartCoroutine(expGauge);
+
     }
 
     IEnumerator HP_GaugeSetting(float change_HpValue,float maxValue)
@@ -112,7 +138,7 @@ public class TeamBorderStateUI : MonoBehaviour
             {
                 hp_UI_Value += Time.deltaTime * hpGaugeSpeed; //부드럽게~
                 hpText.text = $"{hp_UI_Value:f0}";
-                hpSlider.value = hp_UI_Value /maxValue;
+                hpSlider.value = hp_UI_Value / maxValue;
                 yield return null;
             }
             hpText.text = $"{change_HpValue:f0}";
@@ -137,6 +163,7 @@ public class TeamBorderStateUI : MonoBehaviour
         }
         isHp_Change = false;
     }
+
     /// <summary>
     /// 스테미나 UI 조절용 코루틴
     /// </summary>
@@ -152,7 +179,7 @@ public class TeamBorderStateUI : MonoBehaviour
             {
                 stm_UI_Value += Time.deltaTime * stmGaugeSpeed; //부드럽게~
                 stmText.text = $"{stm_UI_Value:f0}";
-                stmSlider.value = stm_UI_Value /maxValue;
+                stmSlider.value = stm_UI_Value / maxValue;
                 yield return null;
             }
             stmText.text = $"{change_StmValue:f0}";
@@ -176,6 +203,46 @@ public class TeamBorderStateUI : MonoBehaviour
             stm_UI_Value = change_StmValue;
         }
         isStm_Change = false;
+    }
+    /// <summary>
+    /// 경험치 UI 조절용 코루틴
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator Exp_GaugeSetting(float change_ExpValue, float maxValue)
+    {
+        isExp_Change = true; //코루틴 여러번 실행되는것을 방지하기위해 체크
+        if (change_ExpValue > exp_UI_Value) //회복 
+        {
+            expMaxText.text = $"{maxValue}";
+
+            while (exp_UI_Value < change_ExpValue) //들어온값보다 작으면 수치계속변경
+            {
+                exp_UI_Value += Time.deltaTime * expGaugeSpeed; //부드럽게~
+                expText.text = $"{exp_UI_Value:f0}";
+                expSlider.value = exp_UI_Value / maxValue;
+                yield return null;
+            }
+            expText.text = $"{change_ExpValue:f0}";
+            expSlider.value = change_ExpValue / maxValue;
+            exp_UI_Value = change_ExpValue;
+
+        }
+        else if (change_ExpValue < exp_UI_Value) //데미지  
+        {
+            expMaxText.text = $"{maxValue}";
+
+            while (exp_UI_Value > change_ExpValue) //들어온값보다 작으면 수치계속변경
+            {
+                exp_UI_Value -= Time.deltaTime * expGaugeSpeed; //부드럽게~
+                expText.text = $"{exp_UI_Value:f0}";
+                expSlider.value = exp_UI_Value / maxValue;
+                yield return null;
+            }
+            expText.text = $"{change_ExpValue:f0}";
+            expSlider.value = change_ExpValue / maxValue;
+            exp_UI_Value = change_ExpValue;
+        }
+        isExp_Change = false;
     }
 
 
