@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.IO;
 using TMPro;
 using UnityEngine;
@@ -104,7 +105,7 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
         get => currentHP;
         set
         {
-            currentHP = value;
+            currentHP = Mathf.Clamp(value, 0, base_MaxHP);
             playerStatus.HP = currentHP;
             on_CurrentHP_Change?.Invoke(currentHP);//UI
         }
@@ -117,7 +118,7 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
         get => current_Stamina;
         set
         {
-            current_Stamina = value;
+            current_Stamina = Mathf.Clamp(value, 0, base_MaxStamina);
             playerStatus.Stamina = current_Stamina;
             on_CurrentStamina_Change?.Invoke(current_Stamina);//UI
         }
@@ -773,6 +774,38 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , 장비장착, 버프�
         float increaseBase = 1;
         float result = increaseBase + (INT * 0.5f);
         return (uint)result;
+    }
+     public void Recovery_HP(int recoveryValue, float duration)
+    {
+        Stamina--;// stamina 차감
+        StartCoroutine(Recovery_HP_(recoveryValue, duration));
+    }
+    
+    IEnumerator Recovery_HP_(int recoveryValue, float duration)
+    {
+        float regenPerSecond = recoveryValue / duration;
+        float time = 0.0f;
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            base_Status.CurrentHP += regenPerSecond * Time.deltaTime;
+            yield return null;
+        }
+    }
+    public void Recovery_Stamina(int recoveryValue, float duration)
+    {
+        StartCoroutine(Recovery_Stamina_(recoveryValue, duration));
+    }
+    IEnumerator Recovery_Stamina_(int recoveryValue, float duration)
+    {
+        float regenPerSecond = recoveryValue / duration;
+        float time = 0.0f;
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            base_Status.Current_Stamina += regenPerSecond * Time.deltaTime;
+            yield return null;
+        }
     }
     void Rise_CriticalPower()
     {
