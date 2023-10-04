@@ -213,7 +213,6 @@ public class Gyu_QuestManager : MonoBehaviour
                                     questScriptableGenerate.KillcountQuestArray,
                                     questScriptableGenerate.GatheringQuestArray); //퀘스트 데이터 처리
 
-            array_NPC[i].MoveProccess.getTarget = () => looktarget.transform;   //바라볼 타겟 연결
         }
     }
 }
