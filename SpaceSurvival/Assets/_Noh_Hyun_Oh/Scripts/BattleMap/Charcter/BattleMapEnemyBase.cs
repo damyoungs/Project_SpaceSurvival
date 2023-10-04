@@ -200,18 +200,25 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
                                                            selectedTile,
                                                            moveSize
                                                            );
-        EnemyMove(path);
+        StopAllCoroutines();
+        StartCoroutine(EnemyMove(path));
     }
     //[SerializeField]
     //Animator unitAnimator;
     //int isWalkingHash = Animator.StringToHash("IsWalking");
     [SerializeField]
     float moveSpeed = 3.0f;
-    private void EnemyMove(List<Tile> path)
+    IEnumerator EnemyMove(List<Tile> path)
     {
         isMoveCheck = true; //이동 중인지 체크하기 
         Vector3 targetPos = currentTile.transform.position; //길이없는경우 현재 타일위치 고정
         //unitAnimator.SetBool(isWalkingHash, true); //이동애니메이션 재생 시작
+
+        foreach (Tile tile in path) //몬스터 중복 방지 용으로 타일값 미리셋팅해서 체크하자
+        {
+            tile.ExistType = Tile.TileExistType.Monster;
+        }
+
         foreach (Tile tile in path)  // 길이있는경우 
         {
             float timeElaspad = 0.0f;
@@ -221,12 +228,12 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
             //Debug.Log($"{this.currentTile.Index}타일 오브젝트 이동중에 타일 데이터일단 move로변경");
             this.currentTile = tile;
             //Debug.Log($"{this.currentTile.Index}타일 이 데이터가 변경되야된다 charcter 로 ");
-            tile.ExistType = Tile.TileExistType.Monster;
 
             while ((targetPos - transform.position).sqrMagnitude > 0.2f)  //이동시작
             {
                 timeElaspad += Time.deltaTime * moveSpeed;
                 transform.position = Vector3.Lerp(transform.position, targetPos, timeElaspad);
+                yield return null;
             }
         }
         transform.position = targetPos;
