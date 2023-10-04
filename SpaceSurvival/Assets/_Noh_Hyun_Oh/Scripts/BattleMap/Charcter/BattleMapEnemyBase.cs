@@ -179,8 +179,8 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
     public void Defence(float damage, bool isCritical = false)
     {
         float finalDamage = Mathf.Max(0, damage - enemyData.DefencePower);
-        enemyData.HP -= finalDamage;
         GameManager.EffectPool.GetObject(finalDamage, transform, isCritical);
+        enemyData.HP -= finalDamage;
     }
 
 
