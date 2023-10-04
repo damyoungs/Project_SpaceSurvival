@@ -13,6 +13,6 @@ public class NewGameButton: MonoBehaviour
 {
     public void OnClickNewStart()
     {
-        LoadingScene.SceneLoading(EnumList.SceneName.BattleShip);
+        LoadingScene.SceneLoading(EnumList.SceneName.SpaceShip);
     }
 }

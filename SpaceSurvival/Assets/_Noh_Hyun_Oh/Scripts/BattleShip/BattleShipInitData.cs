@@ -13,7 +13,6 @@ public class BattleShipInitData : MonoBehaviour
         merchantManager = FindObjectOfType<Merchant_Manager>(true);
         questManager.InitDataSetting();
         merchantManager.InitDataSetting();
-        
     }
     private void OnEnable()
     {
@@ -21,7 +20,8 @@ public class BattleShipInitData : MonoBehaviour
         InputSystemController.InputSystem.Mouse.MouseClick.performed += (_)=> EscOffAction();
     }
 
-    private void OnDisable()
+
+    private void OnDestroy()
     {
         InputSystemController.InputSystem.Mouse.MouseClick.performed -= (_)=> EscOffAction();
         InputSystemController.InputSystem.Common.Esc.performed -= (_)=> EscOnAction();
