@@ -132,7 +132,7 @@ public class EnemyTurnObject : TurnBaseObject
     {
         yield return null;
         battleMapEndAction.TestReset();
-        LoadingScene.SceneLoading(EnumList.SceneName.BattleShip);
+        LoadingScene.SceneLoading(EnumList.SceneName.SpaceShip);
     }
 
     Tile PlayerTileIndex;
