@@ -95,6 +95,14 @@ public class JsonGameData
         get => playerData;
         set => playerData = value;
     }
+    [SerializeField]
+    Equipments_Data_Server equipments_Data;
+    public Equipments_Data_Server Equipments_Data
+    {
+        get => equipments_Data;
+        set => equipments_Data = value;
+    }
+
     /// <summary>
     /// Àåºñ ½½·Ô°¹¼ö 
     /// </summary>

@@ -405,22 +405,24 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
         PopupSorting?.Invoke(this);
     }
 
-    public void Save_EquipmentsData()
+    public Equipments_Data_Server Save_EquipmentsData()
     {
         Equipments_Data_Server data_Server = player.Player_Status.Equipments_Data;
         for(int  i = 0; i < equipBox_Slots.Length; i++)
         {
             data_Server.itemDatas[i] = equipBox_Slots[i].ItemData;
         }
-        string json = JsonUtility.ToJson(data_Server);
+        return data_Server;
 
-        string path = $"{Application.dataPath}/Save/";
-        if (!Directory.Exists(path))
-        {
-            Directory.CreateDirectory(path);
-        }
-        string fullPath = $"{path}EquipData.Json";
-        System.IO.File.WriteAllText(fullPath, json);
+        //string json = JsonUtility.ToJson(data_Server);
+
+        //string path = $"{Application.dataPath}/Save/";
+        //if (!Directory.Exists(path))
+        //{
+        //    Directory.CreateDirectory(path);
+        //}
+        //string fullPath = $"{path}EquipData.Json";
+        //System.IO.File.WriteAllText(fullPath, json);
     }
     public void UnEquipAll_Items()
     {
@@ -432,22 +434,26 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
             }
         }
     }
-    public void Load_EquipmentsData()
+    public void Load_EquipmentsData(Equipments_Data_Server loadedData)
     {
-
-        string path = $"{Application.dataPath}/Save/EquipData.Json";
-        if (System.IO.File.Exists(path))
+        foreach (ItemData data in loadedData.itemDatas)
         {
-            string json = System.IO.File.ReadAllText(path);
-            Equipments_Data_Server loadedData = JsonUtility.FromJson<Equipments_Data_Server>(json);
-            foreach(ItemData data in loadedData.itemDatas)
+            if (data != null)
             {
                 Set_ItemData_For_DoubleClick(data);
             }
         }
-        else
-        {
-            Debug.LogError("Save file not found.");
-        }
+
+        //string path = $"{Application.dataPath}/Save/EquipData.Json";
+        //if (System.IO.File.Exists(path))
+        //{
+        //    string json = System.IO.File.ReadAllText(path);
+        //    Equipments_Data_Server loadedData = JsonUtility.FromJson<Equipments_Data_Server>(json);
+      
+        //}
+        //else
+        //{
+        //    Debug.LogError("Save file not found.");
+        //}
     }
 }
