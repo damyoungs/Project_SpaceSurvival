@@ -52,6 +52,7 @@ public class ItemSpawner : TestBase
 
     void SetDropTable()
     {
+
         if (prefabs.Length != Enum.GetValues(typeof(ItemCode)).Length)
         {
             Debug.LogError("Enum ÀÇ °¹¼ö¿Í ÇÁ¸®ÆÕ¹è¿­ÀÇ °¹¼ö°¡ ´Ù¸¨´Ï´Ù.");
@@ -71,14 +72,14 @@ public class ItemSpawner : TestBase
         }
 
         // Initialize the enemy drop table
-        enemyDropTable.Add(typeof(), new List<(ItemCode, float)>
+        enemyDropTable.Add(typeof(Enemy1), new List<(ItemCode, float)>
             {
                 (ItemCode.Enhancable_shotGun, 0.9f),
                 (ItemCode.Enhancable_Rifle, 0.99f),
           
             });
 
-        enemyDropTable.Add(typeof(), new List<(ItemCode, float)>
+        enemyDropTable.Add(typeof(Enemy2), new List<(ItemCode, float)>
             {
                 (ItemCode.Enhancable_Bow, 0.9f),
             });

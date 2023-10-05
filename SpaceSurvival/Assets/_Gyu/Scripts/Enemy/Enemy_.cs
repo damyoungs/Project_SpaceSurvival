@@ -8,12 +8,13 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class Enemy_ : MonoBehaviour, IBattle
 {
-    Animator Anima;
+    public Animator Anima;
     //public AnimatorController EnemyAc_Basic;
     public AnimatorOverrideController EnemyAc_Riffle;
     public AnimatorOverrideController EnemyAc_Sword;
     int Go_Attack = Animator.StringToHash("Attack");
     int OnHit = Animator.StringToHash("Hit");
+    public int Moving = Animator.StringToHash("MoveSpeed");
 
     public Transform GrapPosition;
     public Transform Riffle;
@@ -68,7 +69,7 @@ public class Enemy_ : MonoBehaviour, IBattle
             {
                 case WeaponType.None:
                     //Anima.runtimeAnimatorController = EnemyAc_Basic;
-                    
+
                     break;
                 case WeaponType.Riffle:
                     Anima.runtimeAnimatorController = EnemyAc_Riffle;
@@ -93,7 +94,7 @@ public class Enemy_ : MonoBehaviour, IBattle
     private void Awake()
     {
         Anima = GetComponent<Animator>();
-        
+
     }
 
     float hp = 200;
@@ -162,7 +163,18 @@ public class Enemy_ : MonoBehaviour, IBattle
     }
     [SerializeField]
     uint attackRange = 1;
-    public uint AttackRange=> attackRange;
+    public uint AttackRange
+    {
+        get => attackRange;
+        set
+        {
+            if(attackRange != value)
+            {
+                attackRange = value;
+            }
+        }
+
+    }
 
     float enemyExp = 50.0f;
     public float EnemyExp => enemyExp;
@@ -178,10 +190,7 @@ public class Enemy_ : MonoBehaviour, IBattle
     public void Attack_Enemy(IBattle target)
     {
         Attack();
-        if (target != null)
-        {
-            target.Defence(AttackPower);
-        }
+        target.Defence(AttackPower);
     }
 
     public void Defence(float damage, bool isCritical = false)

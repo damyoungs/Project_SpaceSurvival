@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.Controls;
 
 public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase 
 {
@@ -155,7 +156,6 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
     /// </summary>
     bool isMoveCheck = false;
 
-
     /// <summary>
     /// 공격상태를 체크하는 변수
     /// </summary>
@@ -172,15 +172,8 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
         if (attackTile != null)
         {
             isAttackCheck = true;
-            enemyData.Attack();
-            Attack_Enemy(SpaceSurvival_GameManager.Instance.PlayerTeam[0].CharcterData);
+            enemyData.Attack_Enemy(SpaceSurvival_GameManager.Instance.PlayerTeam[0].CharcterData);
         }
-    }
-
-
-    public void Attack_Enemy(IBattle target)
-    {
-        target.Defence(enemyData.AttackPower);
     }
 
     public void Defence(float damage, bool isCritical = false)
@@ -194,17 +187,18 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
     {
         List<Tile> path = Cho_BattleMap_Enemy_AStar.PathFind(SpaceSurvival_GameManager.Instance.BattleMap, SpaceSurvival_GameManager.Instance.MapSizeX, SpaceSurvival_GameManager.Instance.MapSizeY,
                                                            this.currentTile, selectedTile, moveSize);
-        EnemyMove(path);
-
+        StopCoroutine(EnemyMove(null));
+        StartCoroutine(EnemyMove(path));
     }
     //[SerializeField]
     //Animator unitAnimator;
     //int isWalkingHash = Animator.StringToHash("IsWalking");
     [SerializeField]
-    float moveSpeed = 3.0f;
-    private void EnemyMove(List<Tile> path)
+    float moveSpeed = 5.0f;
+    IEnumerator EnemyMove(List<Tile> path)
     {
         isMoveCheck = true; //이동 중인지 체크하기 
+        enemyData.Anima.SetFloat(enemyData.Moving, 1.0f);
         Vector3 targetPos = currentTile.transform.position; //길이없는경우 현재 타일위치 고정
         //unitAnimator.SetBool(isWalkingHash, true); //이동애니메이션 재생 시작
         foreach (Tile tile in path)  // 길이있는경우 
@@ -220,8 +214,9 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
 
             while ((targetPos - transform.position).sqrMagnitude > 0.2f)  //이동시작
             {
-                timeElaspad += Time.deltaTime * moveSpeed;
+                timeElaspad += Time.deltaTime / moveSpeed;
                 transform.position = Vector3.Lerp(transform.position, targetPos, timeElaspad);
+                yield return null;
             }
         }
         transform.position = targetPos;
@@ -231,12 +226,13 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
         enemyData.Stamina -= this.currentTile.MoveCheckG; //최종이동한 거리만큼 스태미나를 깍는다.
 
         isMoveCheck = false; //이동끝낫는지 체크
-
-
+        enemyData.Anima.SetFloat(enemyData.Moving, 0.0f);
         //IsAttackAction(); //공격 범위안에있는지 체크
+
+        yield return new WaitForSeconds(3.0f);
     }
 
-
+    
     public void EnemyTurnAction(Tile PlayerTile)
     {
         Debug.Log($"{transform.name}턴 시작 - [체력:{enemyData.HP}] / [행동력:{enemyData.Stamina}]");

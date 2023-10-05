@@ -30,11 +30,14 @@ public class EnemyTurnObject : TurnBaseObject
     [SerializeField]
     GameObject bossPrefab;
 
+    public CameraOriginTarget cot;
+
     /// <summary>
     /// 데이터 초기화 함수 
     /// </summary>
     public override void InitData()
     {
+        cot = FindObjectOfType<CameraOriginTarget>(true);
         BattleMapEnemyBase[] enemyList = initEnemy?.Invoke(); //외부에서 몬스터 배열이 들어왔는지 체크
         battleMapEndAction = FindObjectOfType<InitCharcterSetting>();
         bpc = FindObjectOfType<BattleMap_Player_Controller>();  
@@ -55,6 +58,7 @@ public class EnemyTurnObject : TurnBaseObject
                 go.name = $"Enemy_{i}";
                 go.EnemyData.wType = go.EnemyData.wType;
                 go.EnemyData.mType = go.EnemyData.mType;
+                go.EnemyData.AttackRange = 1;
                 
                 go.GetCurrentTile = () => (SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Monster)); //데이터 연결 
                 go.transform.position = go.CurrentTile.transform.position; //셋팅된 타일위치로 이동시킨다.
@@ -136,7 +140,6 @@ public class EnemyTurnObject : TurnBaseObject
     }
 
     Tile PlayerTileIndex;
-    
     public override void TurnStartAction()
     {
         PlayerTileIndex = SpaceSurvival_GameManager.Instance.PlayerTeam[0].currentTile;
@@ -146,12 +149,12 @@ public class EnemyTurnObject : TurnBaseObject
         {
             Ene = (BattleMapEnemyBase)charcterList[i];
             Ene.EnemyData.Stamina += TurnActionValue;
+            cot.Target = Ene.transform;
             Ene.EnemyTurnAction(PlayerTileIndex);
         }
-
         TurnActionValue -= UnityEngine.Random.Range(5.0f, 10.0f);// 행동력 소모후 테스트 용 
         Debug.Log($"적군턴끝 행동력 :{TurnActionValue}");
+        
         TurnEndAction();
-
     }
 }
