@@ -192,7 +192,7 @@ public class Item_Enhancer_UI : MonoBehaviour, IPopupSortWindow, IPointerClickHa
             successRateText.text = enhancable.CalculateSuccessRate(DarkForceCount).ToString("f1");
         }
     }
-    void WaitForResult()
+    void WaitForResult()//confirm 버튼을 누른 후
     {
         if (itemEnhancer.ItemData.LevelUp(DarkForceCount))//
         {
@@ -202,6 +202,7 @@ public class Item_Enhancer_UI : MonoBehaviour, IPopupSortWindow, IPointerClickHa
         {
             itemEnhancer.EnhancerState = EnhancerState.Fail;
         }
+        GameManager.PlayerStatus.Base_Status.Base_DarkForce -= DarkForceCount;
     }
     IEnumerator PopUp_ProceedBox(bool levelUp)
     {
