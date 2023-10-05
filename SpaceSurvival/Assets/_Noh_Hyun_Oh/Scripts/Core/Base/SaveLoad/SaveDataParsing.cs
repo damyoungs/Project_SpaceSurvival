@@ -41,6 +41,7 @@ public class SaveDataParsing : MonoBehaviour
         saveData = new JsonGameData();                              //저장할 객체 생성
         saveData.SkillDatas = playerSkill.SaveSkillData();
         saveData.PlayerData = player_Status.Base_Status;
+        saveData.Equipments_Data = GameManager.EquipBox.Save_EquipmentsData();
         SaveInvenDataParsing();                                     //인벤토리 에서 데이터 가져오기 
         SaveDataSetting();                                          //퀘스트 캐릭터한테 퀘스트 데이터 가져오기
         
@@ -58,6 +59,7 @@ public class SaveDataParsing : MonoBehaviour
         LoadQuestDataParsing(data.QuestList);
         playerSkill.LoadSkillData_In_QuickSlot(data.SkillDatas);
         player_Status.Base_Status.LoadData(data.PlayerData);
+        //GameManager.EquipBox.Load_EquipmentsData(data.Equipments_Data);
         RefreshData();
     }
 

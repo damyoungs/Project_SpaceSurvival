@@ -47,8 +47,6 @@ public enum Monster_Type
 /// </summary>
 public class Gyu_QuestManager : MonoBehaviour
 {
-    [SerializeField]
-    int questListCapacity = 10;
     /// <summary>
     /// 플레이어 데이터 
     /// </summary>
@@ -213,7 +211,6 @@ public class Gyu_QuestManager : MonoBehaviour
                                     questScriptableGenerate.KillcountQuestArray,
                                     questScriptableGenerate.GatheringQuestArray); //퀘스트 데이터 처리
 
-            array_NPC[i].MoveProccess.getTarget = () => looktarget.transform;   //바라볼 타겟 연결
         }
     }
 }

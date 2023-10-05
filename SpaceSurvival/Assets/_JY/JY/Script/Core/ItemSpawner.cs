@@ -10,7 +10,7 @@ public class ItemSpawner : TestBase
     public GameObject[] prefabs;
   //  public float dropRate;
     private Dictionary<ItemCode, GameObject> prefabDict = new Dictionary<ItemCode, GameObject>();
-    private Dictionary<Type, List<(ItemCode, float)>> enemyDropTable = new Dictionary<Type, List<(ItemCode, float)>>();//드랍테이블 생성
+    private Dictionary<Monster_Type, List<(ItemCode, float)>> enemyDropTable = new Dictionary<Monster_Type, List<(ItemCode, float)>>();//드랍테이블 생성
     // Enemy의 타입에 따라 PrefabName(아이템) 을 float 확률로 드롭해라. 그 PrefabName에  dictionary로 GameObject를 바인드해서 연결해준다.
 
     public uint index = 0;
@@ -71,21 +71,22 @@ public class ItemSpawner : TestBase
         }
 
         // Initialize the enemy drop table
-        enemyDropTable.Add(typeof(Enemy1), new List<(ItemCode, float)>
+        enemyDropTable.Add(Monster_Type.Size_S, new List<(ItemCode, float)>
             {
                 (ItemCode.Enhancable_shotGun, 0.9f),
                 (ItemCode.Enhancable_Rifle, 0.99f),
-          
+                
             });
 
-        enemyDropTable.Add(typeof(Enemy2), new List<(ItemCode, float)>
+        enemyDropTable.Add(Monster_Type.Size_M, new List<(ItemCode, float)>
             {
                 (ItemCode.Enhancable_Bow, 0.9f),
+                (ItemCode.Purple_Crystal, 0.01f)
             });
     }
-    public void SpawnItem(EnemyBase enemy)//큰 범위에서 분류가 아니라 정확히 어떤 적인지 알아야한다
+    public void SpawnItem(Enemy_ enemy)//큰 범위에서 분류가 아니라 정확히 어떤 적인지 알아야한다
     {
-        List<(ItemCode, float)> dropTable = enemyDropTable[enemy.GetType()];
+        List<(ItemCode, float)> dropTable = enemyDropTable[enemy.mType];
 
         foreach (var (itemtype, droprate)in dropTable)
         {
@@ -170,15 +171,16 @@ public class ItemSpawner : TestBase
     public bool IsCritical;
     protected override void Test1(InputAction.CallbackContext _)
     {
-        GameManager.Player_.Defence(UnityEngine.Random.Range(10, 100), IsCritical);
+        // GameManager.Player_.Defence(UnityEngine.Random.Range(10, 100), IsCritical);
+        GameManager.EquipBox.Save_EquipmentsData();
     }
     protected override void Test2(InputAction.CallbackContext context)
     {
-        GameManager.PlayerStatus.Base_Status.Exp += 20;
+       // GameManager.EquipBox.UnEquipAll_Items();
     }
     protected override void Test3(InputAction.CallbackContext context)
     {
-        GameManager.SkillBox.TestLoadData();
+        GameManager.EquipBox.Load_EquipmentsData();
     }
     protected  void OpenInven(InputAction.CallbackContext _)
     {

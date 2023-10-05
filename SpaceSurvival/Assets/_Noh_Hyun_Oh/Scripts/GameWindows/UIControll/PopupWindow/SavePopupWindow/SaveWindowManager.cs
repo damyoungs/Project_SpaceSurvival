@@ -296,7 +296,7 @@ public class SaveWindowManager : PopupWindowBase ,IPopupSortWindow ,IPointerDown
         }
         if (!isInit)//비동기로 처리하는것때문에 추가 
         {
-            Debug.LogWarning("아직 초기화 안됬다.");
+            //Debug.LogWarning("아직 초기화 안됬다.");
             return;
         }
         int startIndex = pageIndex * pageMaxObject; //페이지시작오브젝트위치값 가져오기
@@ -359,6 +359,7 @@ public class SaveWindowManager : PopupWindowBase ,IPopupSortWindow ,IPointerDown
         int viewObjectNumber = GetGameObjectIndex(fileIndex); //페이지별 오브젝트 위치찾기
 
         SaveGameObject sd = saveWindowObject.transform.GetChild(viewObjectNumber).GetComponent<SaveGameObject>(); //수정된 오브젝트 가져온다.
+        sd.gameObject.SetActive(true);
         sd.ObjectIndex = viewObjectNumber; //오브젝트 넘버링을 해준다 
 
         if (saveData != null) { //저장데이터가 있는지 체크
@@ -393,10 +394,12 @@ public class SaveWindowManager : PopupWindowBase ,IPopupSortWindow ,IPointerDown
         float[] arithmeticValue = new float[2];
         arithmeticValue[0] = 1.0f / pagingMaxObject;// 페이징 버튼 한칸이 차지하는 크기 
         arithmeticValue[1] = pagingMaxObject / 1000.0f;  //페이징 버튼 끼리의 간격조절하기위한 값
-
+        SavePageButton_PoolObj savePageBtn;
         for (int i = 0; i < pagingMaxObject; i++) { //한페이지 다시돌면서 셋팅한다
             PageNumRectSetting(saveWindowPageObject.transform.GetChild(i).GetComponent<RectTransform>(),i, arithmeticValue, pagingMaxObject);
-            saveWindowPageObject.transform.GetChild(i).GetComponent<SavePageButton_PoolObj>().PageIndex = startIndex + i; //페이지 인덱스값 표시
+            savePageBtn = saveWindowPageObject.transform.GetChild(i).GetComponent<SavePageButton_PoolObj>();
+            savePageBtn.gameObject.SetActive(true);
+            savePageBtn.PageIndex = startIndex + i; //페이지 인덱스값 표시
         }
         ResetSaveFocusing();//페이지이동시 초기화
         SetPoolBug(saveWindowPageObject.transform, pagingMaxObject);

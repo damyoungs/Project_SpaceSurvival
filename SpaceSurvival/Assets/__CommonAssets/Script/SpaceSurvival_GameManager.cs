@@ -192,7 +192,7 @@ public class SpaceSurvival_GameManager : ChildComponentSingeton<SpaceSurvival_Ga
         AttackRange.isSkillAndAttack = false;
         //다시 이동범위 표시한다.
         BattleMapPlayerBase player = (BattleMapPlayerBase)TurnManager.Instance.CurrentTurn.CurrentUnit;
-        float moveSize = player.CharcterData.Stamina > player.MoveSize ? player.MoveSize : player.CharcterData.Stamina; //이동거리구하고
+        float moveSize = player.CharcterData.Player_Status.Stamina > player.MoveSize ? player.MoveSize : player.CharcterData.Player_Status.Stamina; //이동거리구하고
         MoveRange.MoveSizeView(player.CurrentTile, moveSize);//이동범위표시해주기 
     }
 

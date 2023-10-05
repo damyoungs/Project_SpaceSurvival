@@ -17,10 +17,10 @@ public class ItemData_Potion : ItemData
         switch (code)
         {
             case ItemCode.HpPotion:
-                player.Recovery_HP(recoveryValue, duration);
+                player.Player_Status.Recovery_HP(recoveryValue, duration);
                 break;
             case ItemCode.MpPotion:
-                player.Recovery_Stamina(recoveryValue, duration);
+                player.Player_Status.Recovery_Stamina(recoveryValue, duration);
                 break;
         }
     }

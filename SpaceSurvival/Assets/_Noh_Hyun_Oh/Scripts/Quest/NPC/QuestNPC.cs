@@ -29,18 +29,8 @@ public class QuestNPC : NpcBase_Gyu
     /// </summary>
     Gyu_QuestManager questManager;
 
-    /// <summary>
-    /// 이동로직 찾아두기 연결용 .
-    /// </summary>
-    [SerializeField]
-    NPCMove moveProccess;
-    public NPCMove MoveProccess => moveProccess;    
+ 
 
-    protected override void Awake()
-    {
-        base.Awake();
-        moveProccess = transform.parent.GetComponentInChildren<NPCMove>(true);
-    }
 
     private void Start()
     {

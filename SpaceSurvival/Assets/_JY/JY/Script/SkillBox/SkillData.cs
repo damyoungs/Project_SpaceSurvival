@@ -26,6 +26,8 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
     float finalDamage;                       public float FinalDamage { get => finalDamage; set { finalDamage = value; } }
     float skillPower;                        public float SkillPower { get => skillPower; set { skillPower = value; } }
 
+    public bool IsCritical { get; set; }
+
     QuickSlot_Type bindingSlot = QuickSlot_Type.None; public QuickSlot_Type BindingSlot { get => bindingSlot; set { bindingSlot = value; } }
 
     public Sprite skill_sprite;

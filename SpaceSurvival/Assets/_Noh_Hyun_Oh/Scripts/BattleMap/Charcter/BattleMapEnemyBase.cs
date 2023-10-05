@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase 
@@ -147,14 +148,10 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
         gameObject.SetActive(false); // 큐를 돌린다.
     }
 
-
-  
-
     /// <summary>
-    /// 이동버그가 존재해서 체크하는 변수
+    /// 공격상태를 체크하는 변수
     /// </summary>
-    bool isMoveCheck = false;
-
+    bool isAttackCheck = false;
   
     /// <summary>
     /// 공격범위안에 있으면 공격하는 함수 
@@ -166,85 +163,87 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
 
         if (attackTile != null)
         {
-            Attack_Enemy(SpaceSurvival_GameManager.Instance.PlayerTeam[0].CharcterData);
+            isAttackCheck = true;
+            transform.rotation = Quaternion.LookRotation(attackTile.transform.position - transform.position);
+            enemyData.Attack_Enemy(SpaceSurvival_GameManager.Instance.PlayerTeam[0].CharcterData);
         }
-    }
-
-
-    public void Attack_Enemy(IBattle target)
-    {
-        target.Defence(enemyData.AttackPower);
     }
 
     public void Defence(float damage, bool isCritical = false)
     {
+        enemyData.onHit();
         float finalDamage = Mathf.Max(0, damage - enemyData.DefencePower);
-        enemyData.HP -= finalDamage;
         GameManager.EffectPool.GetObject(finalDamage, transform, isCritical);
+        enemyData.HP -= finalDamage;
     }
 
-
-    void EnemyAi()
-    {
-        Debug.Log($"{transform.name}턴 시작 - [체력:{enemyData.HP}] / [행동력:{enemyData.Stamina}] / [타입:{enemyData.mType}]\n[좌표:{CurrentTile.transform.position}] / [{currentTile.name}]");
-
-    }
-
-    public void CharcterMove(Tile selectedTile)
+    public void CharcterMove(Tile PlayerTile)
     {
         List<Tile> path = Cho_BattleMap_Enemy_AStar.PathFind(
                                                            SpaceSurvival_GameManager.Instance.BattleMap,
                                                            SpaceSurvival_GameManager.Instance.MapSizeX,
                                                            SpaceSurvival_GameManager.Instance.MapSizeY,
                                                            this.currentTile,
-                                                           selectedTile,
+                                                           PlayerTile,
                                                            moveSize
                                                            );
-        EnemyMove(path);
+        StopAllCoroutines();
+        StartCoroutine(EnemyMove(path));
     }
     //[SerializeField]
     //Animator unitAnimator;
     //int isWalkingHash = Animator.StringToHash("IsWalking");
     [SerializeField]
     float moveSpeed = 3.0f;
-    private void EnemyMove(List<Tile> path)
+    IEnumerator EnemyMove(List<Tile> path)
     {
-        isMoveCheck = true; //이동 중인지 체크하기 
         Vector3 targetPos = currentTile.transform.position; //길이없는경우 현재 타일위치 고정
         //unitAnimator.SetBool(isWalkingHash, true); //이동애니메이션 재생 시작
+
+        foreach (Tile tile in path) //몬스터 중복 방지 용으로 타일값 미리셋팅해서 체크하자
+        {
+            tile.ExistType = Tile.TileExistType.Monster;
+        }
+
         foreach (Tile tile in path)  // 길이있는경우 
         {
             float timeElaspad = 0.0f;
+            enemyData.Move();
             targetPos = tile.transform.position; //새로운 위치잡고 
             transform.rotation = Quaternion.LookRotation(targetPos - transform.position); //해당방향 바라보고 
             this.currentTile.ExistType = Tile.TileExistType.None;
             //Debug.Log($"{this.currentTile.Index}타일 오브젝트 이동중에 타일 데이터일단 move로변경");
             this.currentTile = tile;
             //Debug.Log($"{this.currentTile.Index}타일 이 데이터가 변경되야된다 charcter 로 ");
-            tile.ExistType = Tile.TileExistType.Monster;
 
             while ((targetPos - transform.position).sqrMagnitude > 0.2f)  //이동시작
             {
-                timeElaspad += Time.deltaTime * moveSpeed;
+                timeElaspad += Time.deltaTime / moveSpeed;
                 transform.position = Vector3.Lerp(transform.position, targetPos, timeElaspad);
+                yield return null;
             }
         }
         transform.position = targetPos;
         transform.GetChild(0).transform.localPosition = Vector3.zero;
         //unitAnimator.SetBool(isWalkingHash, false);
 
+        enemyData.Stop();
         enemyData.Stamina -= this.currentTile.MoveCheckG; //최종이동한 거리만큼 스태미나를 깍는다.
-
-        isMoveCheck = false; //이동끝낫는지 체크
-
 
         IsAttackAction(); //공격 범위안에있는지 체크
     }
 
-    public void EnemyAi(Tile PlayerTile)
+    public void EnemyTurnAction(Tile PlayerTile)
     {
-        CharcterMove(PlayerTile);
+        Debug.Log($"{transform.name} - [체력:{enemyData.HP}] / [공격력:{enemyData.AttackPower}] / [무기:{enemyData.wType}] / [타입:{enemyData.mType}]");
+        IsAttackAction();
+        if(isAttackCheck == false)
+        {
+            CharcterMove(PlayerTile);
+        }
+        else
+        {
+            isAttackCheck = false;
+        }
     }
-
-
 }

@@ -13,9 +13,6 @@ public class TeamBorderStateUI : MonoBehaviour
     [SerializeField]
     float expGaugeSpeed = 2.0f;
 
-    bool isHp_Change = false;
-    bool isStm_Change = false;
-    bool isExp_Change = false;
 
     float hp_UI_Value = -1.0f;
     float stm_UI_Value = -1.0f;
@@ -35,8 +32,8 @@ public class TeamBorderStateUI : MonoBehaviour
     TextMeshProUGUI expMaxText;
 
 
-    [SerializeField]
-    int buffMaxSize = 4;
+    //[SerializeField]
+    //int buffMaxSize = 4;
 
     /// <summary>
     /// 버프타입
@@ -108,7 +105,6 @@ public class TeamBorderStateUI : MonoBehaviour
         StopCoroutine(stmGauge);
         stmGauge = Stm_GaugeSetting(changeValue,maxValue);
         StartCoroutine(stmGauge);
-
     }
 
     public void SetHpGaugeAndText(float changeValue, float maxValue)
@@ -129,7 +125,6 @@ public class TeamBorderStateUI : MonoBehaviour
 
     IEnumerator HP_GaugeSetting(float change_HpValue,float maxValue)
     {
-        isHp_Change = true; //코루틴 여러번 실행되는것을 방지하기위해 체크
         if (change_HpValue > hp_UI_Value) //회복 
         {
             hpMaxText.text = $"{maxValue}";
@@ -161,7 +156,6 @@ public class TeamBorderStateUI : MonoBehaviour
             hpSlider.value = change_HpValue / maxValue;
             hp_UI_Value = change_HpValue;
         }
-        isHp_Change = false;
     }
 
     /// <summary>
@@ -170,7 +164,6 @@ public class TeamBorderStateUI : MonoBehaviour
     /// <returns></returns>
     IEnumerator Stm_GaugeSetting(float change_StmValue, float maxValue)
     {
-        isStm_Change = true; //코루틴 여러번 실행되는것을 방지하기위해 체크
         if (change_StmValue > stm_UI_Value) //회복 
         {
             stmMaxText.text = $"{maxValue}";
@@ -202,7 +195,6 @@ public class TeamBorderStateUI : MonoBehaviour
             stmSlider.value = change_StmValue / maxValue;
             stm_UI_Value = change_StmValue;
         }
-        isStm_Change = false;
     }
     /// <summary>
     /// 경험치 UI 조절용 코루틴
@@ -210,7 +202,6 @@ public class TeamBorderStateUI : MonoBehaviour
     /// <returns></returns>
     IEnumerator Exp_GaugeSetting(float change_ExpValue, float maxValue)
     {
-        isExp_Change = true; //코루틴 여러번 실행되는것을 방지하기위해 체크
         if (change_ExpValue > exp_UI_Value) //회복 
         {
             expMaxText.text = $"{maxValue}";
@@ -242,7 +233,6 @@ public class TeamBorderStateUI : MonoBehaviour
             expSlider.value = change_ExpValue / maxValue;
             exp_UI_Value = change_ExpValue;
         }
-        isExp_Change = false;
     }
 
 

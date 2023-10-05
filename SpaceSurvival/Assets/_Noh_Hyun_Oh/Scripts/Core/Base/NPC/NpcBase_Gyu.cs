@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class NpcBase_Gyu : MonoBehaviour
 {
@@ -24,7 +25,13 @@ public class NpcBase_Gyu : MonoBehaviour
     /// </summary>
     protected int talkDepth = 0;
     public int TalkDepth => talkDepth;
-
+   
+    /// <summary>
+    /// 이동로직 찾아두기 연결용 .
+    /// </summary>
+    [SerializeField]
+    NPCMove moveProccess;
+    public NPCMove MoveProccess => moveProccess;
 
 
     /// <summary>
@@ -49,9 +56,18 @@ public class NpcBase_Gyu : MonoBehaviour
     public RenderTexture GetTexture => npcCharcterCamera.targetTexture;
     protected virtual void Awake()
     {
+        moveProccess = transform.parent.GetComponentInChildren<NPCMove>(true);
         npcCharcterCamera = transform.GetComponentInChildren<Camera>();
         npcCharcterCamera.targetTexture = new RenderTexture(512, 512, 16, RenderTextureFormat.ARGB32);
         npcCharcterCamera.targetTexture.name = $"{name}_의 텍스쳐";
+
+        ///카메라 룩 위치 찾기 
+        Transform lookTarget = FindObjectOfType<Cho_PlayerMove>(true).transform;
+
+        moveProccess.getTarget = () => {
+          
+            return lookTarget;
+        };
     }
 
     /// <summary>

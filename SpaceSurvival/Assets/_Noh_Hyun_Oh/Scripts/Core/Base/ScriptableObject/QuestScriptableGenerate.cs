@@ -24,8 +24,9 @@ public class QuestScriptableGenerate : BaseScriptableObjectGenerate<Gyu_QuestBas
     /// <summary>
     /// 퀘스트의 갯수를 파악할 변수값
     /// </summary>
-    [SerializeField]
-    int questCount = 0;
+    //[SerializeField]
+    //int questCount = 0;
+
     /// <summary>
     /// 메인 퀘스트 스크립터블 데이터 원형 배열
     /// </summary>

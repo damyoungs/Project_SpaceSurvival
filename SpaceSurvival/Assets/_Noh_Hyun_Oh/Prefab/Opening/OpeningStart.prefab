@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8504456767639597436}
-  - component: {fileID: 8504456767639597435}
   - component: {fileID: 8504456767639597434}
   m_Layer: 0
   m_Name: OpeningStart
@@ -33,19 +32,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8504456767639597435
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8504456767639597433}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cf819ca3ca242a4ea060d98ceeb99e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scean: 0
 --- !u!114 &8504456767639597434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,5 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textPrefab: {fileID: 7680666831982740565, guid: f2c9ca915c5c25242b003eddb38629fe, type: 3}
+  textPadding: -10
+  shadowPadding: -0.25
+  textSize: 23
+  shadowColor: {r: 0, g: 0, b: 0, a: 0}
   cameraMoveSpeed: 3
-  fileLineSize: 20

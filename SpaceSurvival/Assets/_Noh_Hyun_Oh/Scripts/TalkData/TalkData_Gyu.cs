@@ -79,7 +79,7 @@ public class TalkData_Gyu : MonoBehaviour
         }
         catch (Exception e)
         {
-           Debug.LogWarning($"TalkType 의 {typeName} 값에 해당하는 대화Txt파일이 없습니다 \r\n파일이 필요한위치 :{fullFilePath}");
+           Debug.LogWarning($"TalkType 의 {typeName} 값에 해당하는 대화Txt파일이 없습니다 \r\n파일이 필요한위치 :{fullFilePath} , {e.Message}");
            return null;
         }
     }

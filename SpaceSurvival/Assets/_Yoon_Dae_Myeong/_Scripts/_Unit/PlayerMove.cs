@@ -75,8 +75,8 @@ public class PlayerMove : MonoBehaviour
 
 
     float moveSpeed = 2.0f;
-	float rotateSpeed = 10.0f;
-	BoxCollider target = null;
+	//float rotateSpeed = 10.0f;
+	//BoxCollider target = null;
 	
 	InputKeyMouse inputAction;
 	Rigidbody rb;

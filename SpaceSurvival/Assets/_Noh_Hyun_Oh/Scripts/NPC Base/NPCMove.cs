@@ -95,8 +95,8 @@ public class NPCMove : MonoBehaviour
     /// <summary>
     /// 회전 속도 
     /// </summary>
-    [SerializeField]
-    float rotateSpeed = 0.5f;
+    //[SerializeField]
+    //float rotateSpeed = 0.5f;
 
     /// <summary>
     /// 이동할 웨이포인트 인덱스
