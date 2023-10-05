@@ -24,7 +24,11 @@ public class Equipments_Data_Server//플레이어가 원하는 타이밍에 언제든 현재 장비
     public float Total_DodgeRate;
 
     public ItemCode[] codes;
-    public int weaponItemLevel;
+    public byte weapon_ItemLevel;
+    public uint weapon_AttackPoint;
+    public uint weapon_DefencePoint;
+    public string weapon_ItemName;
+
 
     public Equipments_Data_Server(EquipBox equipBox)
     {
@@ -418,52 +422,62 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
             ItemData data = equipBox_Slots[i].ItemData;
             data_Server.codes[i] = data.code;
             ItemData_Enhancable weaponItem = data as ItemData_Enhancable;
-            if (weaponItem != null)
+            if (weaponItem != null)//강화 가능한 아이템이면 레벨, 이름 , 공격력, 방어력 등 레벨업시 변경되는 데이터를 Json으로 추가 저장
             {
-                data_Server.weaponItemLevel = weaponItem.itemLevel;
+                data_Server.weapon_ItemLevel = weaponItem.itemLevel;
+                data_Server.weapon_AttackPoint = weaponItem.attackPoint;
+                data_Server.weapon_DefencePoint = weaponItem.defencePoint;
+                data_Server.weapon_ItemName = weaponItem.itemName;
             }
         }
 
-        string json = JsonUtility.ToJson(data_Server);
+        //string json = JsonUtility.ToJson(data_Server);
 
-        string path = $"{Application.dataPath}/Save/";
-        if (!Directory.Exists(path))
-        {
-            Directory.CreateDirectory(path);
-        }
-        string fullPath = $"{path}EquipData.Json";
-        System.IO.File.WriteAllText(fullPath, json);
+        //string path = $"{Application.dataPath}/Save/";
+        //if (!Directory.Exists(path))
+        //{
+        //    Directory.CreateDirectory(path);
+        //}
+        //string fullPath = $"{path}EquipData.Json";
+        //System.IO.File.WriteAllText(fullPath, json);
         
         return data_Server;
     }
-    public void UnEquipAll_Items()
+    public void ClearEquipBox()
     {
         for (int  i = 0; i < equipBox_Slots.Length; i++)
         {
             if (equipBox_Slots[i].ItemData != null)
             {
-
-                UnEquip_Item(equipBox_Slots[i].ItemData);
+                UnEquip_Item(equipBox_Slots[i].ItemData);//더블클릭을 해서 장비 해제할 때만 인벤토리에 아이템이 추가된다. 이곳에서 직접 UnEquip할 경우 인벤토리에 아이템이 추가되지 않는다.
             }
         }
     }
-    public void Load_EquipmentsData()
+    public void Load_EquipmentsData(Equipments_Data_Server loadedData)
     {
-        string path = $"{Application.dataPath}/Save/EquipData.Json";
-        if (System.IO.File.Exists(path))
-        {
-            string json = System.IO.File.ReadAllText(path);
-            Equipments_Data_Server loadedData = JsonUtility.FromJson<Equipments_Data_Server>(json);
+        ItemData_Enhancable weaponItem = null;
+        //string path = $"{Application.dataPath}/Save/EquipData.Json";
+        //if (System.IO.File.Exists(path))
+        //{
+        //    string json = System.IO.File.ReadAllText(path);
+          //  Equipments_Data_Server loadedData = JsonUtility.FromJson<Equipments_Data_Server>(json);
             foreach(ItemCode code in loadedData.codes)
             {
                 ItemData data = GameManager.Itemdata[code];
                 GameManager.EquipBox.EquipItem(data);
-
+                weaponItem = data as ItemData_Enhancable;
+                if (weaponItem != null)//로드한 아이템이 강화 가능한 아이템이라면
+                {
+                    weaponItem.itemLevel = loadedData.weapon_ItemLevel;
+                    weaponItem.itemName = loadedData.weapon_ItemName;
+                    weaponItem.attackPoint = loadedData.weapon_AttackPoint;
+                    weaponItem.defencePoint = loadedData.weapon_DefencePoint;
+                }
             }
-        }
-        else
-        {
-            Debug.LogError("Save file not found.");
-        }
+        //}
+        //else
+        //{
+        //    Debug.LogError("Save file not found.");
+        //}
     }
 }
