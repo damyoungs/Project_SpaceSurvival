@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.Windows;
 
 [Serializable]
 public class Equipments_Data_Server//ÇÃ·¹ÀÌ¾î°¡ ¿øÇÏ´Â Å¸ÀÌ¹Ö¿¡ ¾ğÁ¦µç ÇöÀç ÀåºñµÈ Àåºñµé·Î ÀÎÇØ Ãß°¡µÈ °ø°İ·Â°ú ¹æ¾î·ÂÀ» ¹Ş¾Æ¿À±âÀ§ÇÑ Å¬·¡½º
@@ -212,7 +213,10 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
         EquipBox_Slot slot = Find_Slot_By_Type(itemData);
         if (slot != null)
         {
-            GameManager.SlotManager.Just_ChangeSlot.ItemData = null;
+            if (GameManager.SlotManager.Just_ChangeSlot != null)
+            {
+                GameManager.SlotManager.Just_ChangeSlot.ItemData = null;
+            }
             if (itemData.code == ItemCode.Space_Armor)
             {
                 player.ArmorType_ = Player_.ArmorType.SpaceArmor;// enum ?¤ì •??player ?ì„œ ?Œë§?€ ê°‘ì˜·ë§??œì„±?”í•˜ê³??¤ë¥¸ ê°‘ì˜·?€ ë¹„í™œ?±í™”
@@ -411,6 +415,47 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
         {
             data_Server.itemDatas[i] = equipBox_Slots[i].ItemData;
         }
+
+        string json = JsonUtility.ToJson(data_Server);
+
+        string path = $"{Application.dataPath}/Save/";
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+        string fullPath = $"{path}EquipData.Json";
+        System.IO.File.WriteAllText(fullPath, json);
+        
         return data_Server;
+    }
+    public void UnEquipAll_Items()
+    {
+        for (int  i = 0; i < equipBox_Slots.Length; i++)
+        {
+            if (equipBox_Slots[i].ItemData != null)
+            {
+                UnEquip_Item(equipBox_Slots[i].ItemData);
+            }
+        }
+    }
+    public void Load_EquipmentsData()
+    {
+        string path = $"{Application.dataPath}/Save/EquipData.Json";
+        if (System.IO.File.Exists(path))
+        {
+            string json = System.IO.File.ReadAllText(path);
+            Equipments_Data_Server loadedData = JsonUtility.FromJson<Equipments_Data_Server>(json);
+            foreach (ItemData data in loadedData.itemDatas)
+            {
+                if (data != null)
+                {
+                    Set_ItemData_For_DoubleClick(data);
+                }
+            }
+        }
+        else
+        {
+            Debug.LogError("Save file not found.");
+        }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase 
@@ -155,11 +156,10 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
         gameObject.SetActive(false); // 큐를 돌린다.
     }
 
-
-  
-
-
-
+    /// <summary>
+    /// 공격상태를 체크하는 변수
+    /// </summary>
+    bool isAttackCheck = false;
   
     /// <summary>
     /// 공격범위안에 있으면 공격하는 함수 
@@ -171,38 +171,28 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
 
         if (attackTile != null)
         {
-            Attack_Enemy(SpaceSurvival_GameManager.Instance.PlayerTeam[0].CharcterData);
+            isAttackCheck = true;
+            transform.rotation = Quaternion.LookRotation(attackTile.transform.position - transform.position);
+            enemyData.Attack_Enemy(SpaceSurvival_GameManager.Instance.PlayerTeam[0].CharcterData);
         }
-    }
-
-
-    public void Attack_Enemy(IBattle target)
-    {
-        target.Defence(enemyData.AttackPower);
     }
 
     public void Defence(float damage, bool isCritical = false)
     {
+        enemyData.onHit();
         float finalDamage = Mathf.Max(0, damage - enemyData.DefencePower);
         GameManager.EffectPool.GetObject(finalDamage, transform, isCritical);
         enemyData.HP -= finalDamage;
     }
 
-
-    void EnemyAi()
-    {
-        Debug.Log($"{transform.name}턴 시작 - [체력:{enemyData.HP}] / [행동력:{enemyData.Stamina}] / [타입:{enemyData.mType}]\n[좌표:{CurrentTile.transform.position}] / [{currentTile.name}]");
-
-    }
-
-    public void CharcterMove(Tile selectedTile)
+    public void CharcterMove(Tile PlayerTile)
     {
         List<Tile> path = Cho_BattleMap_Enemy_AStar.PathFind(
                                                            SpaceSurvival_GameManager.Instance.BattleMap,
                                                            SpaceSurvival_GameManager.Instance.MapSizeX,
                                                            SpaceSurvival_GameManager.Instance.MapSizeY,
                                                            this.currentTile,
-                                                           selectedTile,
+                                                           PlayerTile,
                                                            moveSize
                                                            );
         StopAllCoroutines();
@@ -226,6 +216,7 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
         foreach (Tile tile in path)  // 길이있는경우 
         {
             float timeElaspad = 0.0f;
+            enemyData.Move();
             targetPos = tile.transform.position; //새로운 위치잡고 
             transform.rotation = Quaternion.LookRotation(targetPos - transform.position); //해당방향 바라보고 
             this.currentTile.ExistType = Tile.TileExistType.None;
@@ -235,7 +226,7 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
 
             while ((targetPos - transform.position).sqrMagnitude > 0.2f)  //이동시작
             {
-                timeElaspad += Time.deltaTime * moveSpeed;
+                timeElaspad += Time.deltaTime / moveSpeed;
                 transform.position = Vector3.Lerp(transform.position, targetPos, timeElaspad);
                 yield return null;
             }
@@ -244,6 +235,8 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
         transform.GetChild(0).transform.localPosition = Vector3.zero;
         //unitAnimator.SetBool(isWalkingHash, false);
 
+        enemyData.Stop();
+     
 
 
         IsAttackAction(); //공격 범위안에있는지 체크해서 공격하기
@@ -251,10 +244,17 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
         onActionEndCheck?.Invoke(); //행동끝났으면 신호보내기
     }
 
-    public void EnemyAi(Tile PlayerTile)
+    public void EnemyTurnAction(Tile PlayerTile)
     {
-        CharcterMove(PlayerTile);
+        Debug.Log($"{transform.name} - [체력:{enemyData.HP}] / [공격력:{enemyData.AttackPower}] / [무기:{enemyData.wType}] / [타입:{enemyData.mType}]");
+        IsAttackAction();
+        if(isAttackCheck == false)
+        {
+            CharcterMove(PlayerTile);
+        }
+        else
+        {
+            isAttackCheck = false;
+        }
     }
-
-
 }

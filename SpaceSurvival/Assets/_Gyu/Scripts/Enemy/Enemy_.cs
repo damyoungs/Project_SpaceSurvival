@@ -9,11 +9,11 @@ using static UnityEngine.Rendering.DebugUI;
 public class Enemy_ : MonoBehaviour, IBattle
 {
     Animator Anima;
-    //public AnimatorController EnemyAc_Basic;
     public AnimatorOverrideController EnemyAc_Riffle;
     public AnimatorOverrideController EnemyAc_Sword;
     int Go_Attack = Animator.StringToHash("Attack");
     int OnHit = Animator.StringToHash("Hit");
+    int Moving = Animator.StringToHash("MoveSpeed");
 
     public Transform GrapPosition;
     public Transform Riffle;
@@ -35,14 +35,17 @@ public class Enemy_ : MonoBehaviour, IBattle
                     break;
                 case Monster_Type.Size_S:
                     HP = 100;
+                    attackPower += 10;
                     enemyExp = 10.0f;
                     break;
                 case Monster_Type.Size_M:
                     HP = 200;
+                    attackPower += 20;
                     enemyExp = 30.0f;
                     break;
                 case Monster_Type.Size_L:
                     HP = 300;
+                    attackPower += 30;
                     enemyExp = 80.0f;
                     break;
                 case Monster_Type.Boss:
@@ -68,20 +71,19 @@ public class Enemy_ : MonoBehaviour, IBattle
             switch (weaponType)
             {
                 case WeaponType.None:
-                    //Anima.runtimeAnimatorController = EnemyAc_Basic;
-                    
+                    attackRange = 1;
                     break;
                 case WeaponType.Riffle:
                     Anima.runtimeAnimatorController = EnemyAc_Riffle;
-
+                    attackRange = 4;
+                    attackPower += 10;
                     break;
                 case WeaponType.Swrod:
                     Anima.runtimeAnimatorController = EnemyAc_Sword;
-
+                    attackRange = 1;
+                    attackPower += 15;
                     break;
                 default:
-                    //Anima.runtimeAnimatorController = EnemyAc_Basic;
-
                     break;
             }
         }
@@ -162,7 +164,7 @@ public class Enemy_ : MonoBehaviour, IBattle
         }
     }
     [SerializeField]
-    uint attackRange = 4;
+    uint attackRange = 1;
     public uint AttackRange=> attackRange;
 
     float enemyExp = 50.0f;
@@ -179,15 +181,27 @@ public class Enemy_ : MonoBehaviour, IBattle
     public void Attack_Enemy(IBattle target)
     {
         Attack();
-        if (target != null)
-        {
-            target.Defence(AttackPower);
-        }
+        target.Defence(AttackPower);
     }
 
     public void Defence(float damage, bool isCritical = false)
     {
         Anima.SetTrigger(OnHit);
         HP -= Mathf.Max(0, damage - defencePower);
+    }
+
+    public void Move()
+    {
+        Anima.SetFloat(Moving, 1.0f);
+    }
+
+    public void Stop()
+    {
+        Anima.SetFloat(Moving, 0.0f);
+    }
+
+    public void onHit()
+    {
+        Anima.SetTrigger(OnHit);
     }
 }
