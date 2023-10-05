@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class HingedDoor : MonoBehaviour
@@ -10,25 +11,46 @@ public class HingedDoor : MonoBehaviour
         Forward,
         Back
     }
+    DoorState state = DoorState.Close;
+    DoorState State
+    {
+        get => state;
+        set
+        {
+            if (state != value)
+            {
+                state = value;
+                switch (state)
+                {
+                    case DoorState.Close:
+                        animator.SetInteger(Hash_Door, 0);
+                        break;
+                    case DoorState.Forward:
+                        animator.SetInteger(Hash_Door, 1);
+                        break;
+                    case DoorState.Back:
+                        animator.SetInteger(Hash_Door, 2);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
 
     public float speed = 4.0f;
 
-    //float rotateDir = 0.0f;
-    //float localRotation = 0.0f;
-
     Transform door;
-    //MeshCollider doorCollider;
     Animator animator;
     Cho_PlayerMove player;
     InteractionUI interactionUI;
     AudioSource audioSource;
 
-    DoorState doorState = DoorState.Close;
+    readonly int Hash_Door = Animator.StringToHash("DoorState");
 
     private void Awake()
     {
         door = transform.parent.GetChild(0);
-        //doorCollider = door.GetComponent<MeshCollider>();
         animator = door.GetComponent<Animator>();
         player = FindObjectOfType<Cho_PlayerMove>();
         interactionUI = FindObjectOfType<InteractionUI>();
@@ -39,20 +61,6 @@ public class HingedDoor : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            //other.ClosestPoint(transform.position);
-
-            //if (other.transform.position.z - transform.position.z > 0)
-            //{
-            //    rotateDir = 1.0f;
-            //}
-            //else
-            //{
-            //    rotateDir = -1.0f;
-            //}
-
-            //StopAllCoroutines();
-            //StartCoroutine(Open());
-
             player.interaction += OnInteract;
             interactionUI.visibleUI?.Invoke();
         }
@@ -62,10 +70,6 @@ public class HingedDoor : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            //StopAllCoroutines();
-            //StartCoroutine(Close());
-            //animator.SetBool("Forward", false);
-
             player.interaction = null;
             interactionUI.invisibleUI?.Invoke();
         }
@@ -73,58 +77,28 @@ public class HingedDoor : MonoBehaviour
 
     private void OnInteract()
     {
-        if (doorState == DoorState.Close)
+        if (State == DoorState.Close)
         {
             Vector3 dir = player.transform.position - transform.position;
             float angle = Vector3.Angle(door.forward, dir);
 
             if (angle < 90.0f)
             {
-                animator.SetInteger("DoorState", 2);                // 뒤로 열기
-                doorState = DoorState.Back;
+                //animator.SetInteger(Hash_Door, 2);                // 뒤로 열기
+                State = DoorState.Back;
             }
             else
             {
-                animator.SetInteger("DoorState", 1);                // 앞으로 열기
-                doorState = DoorState.Forward;
+                //animator.SetInteger(Hash_Door, 1);                // 앞으로 열기
+                State = DoorState.Forward;
             }
 
             audioSource.Play();
         }
         else
         {
-            animator.SetInteger("DoorState", 0);
-            doorState = DoorState.Close;
+            //animator.SetInteger(Hash_Door, 0);
+            State = DoorState.Close;
         }
     }
-
-    //IEnumerator Open()
-    //{
-    //    doorCollider.enabled = false;
-    //    while (door.localEulerAngles.y < 120.0f)
-    //    {
-    //        door.rotation *= Quaternion.Euler(0.0f, Time.deltaTime * speed * rotateDir, 0.0f);
-    //        yield return null;
-    //    }
-    //    Debug.Log(door.localEulerAngles);
-    //    doorCollider.enabled = true;
-    //}
-    //
-    //IEnumerator Close()
-    //{
-    //    doorCollider.enabled = false;
-    //    float rotate = Time.deltaTime * speed;
-    //
-    //    while (door.localEulerAngles.y > rotate)
-    //    {
-    //        door.rotation *= Quaternion.Euler(0.0f, -rotate, 0.0f);
-    //        yield return null;
-    //    }
-    //    Debug.Log(door.localEulerAngles);
-    //    door.localRotation = Quaternion.Euler(door.localEulerAngles.x, 0.0f, door.localEulerAngles.z);
-    //    doorCollider.enabled = true;
-    //}
-
-
-
 }

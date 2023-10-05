@@ -1,12 +1,7 @@
 {
     "dataIndex": 0,
-    "startPos": {
-        "x": -7.108566761016846,
-        "y": 0.1369214653968811,
-        "z": 23.481430053710939
-    },
-    "saveTime": "2023-10-06 오전 12:57:50",
-    "sceanName": 5,
+    "saveTime": "2023-10-05 오후 8:59:08",
+    "sceanName": 4,
     "playerData": {
         "abilityPoint": 50,
         "playerName": "Player",
@@ -15,9 +10,9 @@
         "expMax": 60,
         "base_MaxHP": 100.0,
         "currentHP": 100.0,
-        "current_Stamina": 15.0,
+        "current_Stamina": 10.0,
         "base_MaxStamina": 15.0,
-        "BaseDarkForce": 5000000,
+        "BaseDarkForce": 4261115,
         "base_ATT": 10,
         "base_DP": 10,
         "base_STR": 5,
@@ -28,69 +23,29 @@
         "damage_Min": 0.5
     },
     "equipments_Data": {
-        "Total_STR": 0,
-        "Total_INT": 0,
-        "Total_LUK": 0,
-        "Total_DEX": 0,
-        "Total_CriticalRate": 0.0,
+        "Total_STR": 30,
+        "Total_INT": 30,
+        "Total_LUK": 30,
+        "Total_DEX": 30,
+        "Total_CriticalRate": 50.0,
         "Total_DodgeRate": 0.0,
-        "itemDatas": [
-            {
-                "instanceID": 0
-            },
-            {
-                "instanceID": 0
-            },
-            {
-                "instanceID": 0
-            },
-            {
-                "instanceID": 0
-            }
-        ]
+        "codes": [
+            47,
+            11,
+            50,
+            24
+        ],
+        "weapon_ItemLevel": 3,
+        "weapon_AttackPoint": 40,
+        "weapon_DefencePoint": 7,
+        "weapon_ItemName": "샷건★★"
     },
     "equipSlotLength": 0,
     "equipData": [
         {
             "values": 1,
-            "itemIndex": 11,
-            "slotIndex": 0,
-            "itemEnhanceValue": 1
-        },
-        {
-            "values": 1,
             "itemIndex": 9,
             "slotIndex": 1,
-            "itemEnhanceValue": 1
-        },
-        {
-            "values": 1,
-            "itemIndex": 10,
-            "slotIndex": 2,
-            "itemEnhanceValue": 1
-        },
-        {
-            "values": 1,
-            "itemIndex": 46,
-            "slotIndex": 3,
-            "itemEnhanceValue": 1
-        },
-        {
-            "values": 1,
-            "itemIndex": 47,
-            "slotIndex": 4,
-            "itemEnhanceValue": 1
-        },
-        {
-            "values": 1,
-            "itemIndex": 51,
-            "slotIndex": 5,
-            "itemEnhanceValue": 1
-        },
-        {
-            "values": 1,
-            "itemIndex": 50,
-            "slotIndex": 6,
             "itemEnhanceValue": 1
         }
     ],
@@ -123,12 +78,6 @@
             "values": 1,
             "itemIndex": 27,
             "slotIndex": 1,
-            "itemEnhanceValue": 0
-        },
-        {
-            "values": 1,
-            "itemIndex": 24,
-            "slotIndex": 2,
             "itemEnhanceValue": 0
         },
         {

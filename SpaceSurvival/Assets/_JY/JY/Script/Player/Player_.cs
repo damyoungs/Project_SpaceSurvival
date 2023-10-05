@@ -190,6 +190,12 @@ public class Player_ : MonoBehaviour, IBattle
         jewel_Parent_Transform = GetComponentInChildren<Jewel_Parent_Transform>().transform;
         hat_Parent_Transform = GetComponentInChildren<Hat_Parent_Transform>().transform;
         suit_Parent_Transform = GetComponentInChildren<BodySuit_Parent_Transform>().transform;
+
+        armors = new Transform[4];
+        armors[0] = transform.GetChild(6).transform;// 기본 Crue 케릭터
+        armors[1] = transform.GetChild(17).transform;// Space Armor
+        armors[2] = transform.GetChild(20).transform;// Big Armor
+        armors[3] = transform.GetChild(19).transform;// 머리
     }
 
     void Set_ShootPoint_Transform(Transform itemObj)
@@ -320,7 +326,7 @@ public class Player_ : MonoBehaviour, IBattle
         equipBox = GameManager.EquipBox;
         EquipBox_Description = equipBox.Description;
 
-        onEquipItem += equipBox.Set_ItemData_For_DoubleClick;
+        onEquipItem += equipBox.EquipItem;
         onUnEquipItem += GameManager.SlotManager.UnEquip_Item;
         onOpenInven += GameManager.Inventory.Open_Inventory;
         GameManager.QuickSlot_Manager.on_Activate_Skill += Skill_Action;
@@ -330,11 +336,6 @@ public class Player_ : MonoBehaviour, IBattle
         equipBox.on_Update_Status += Update_Status;
         equipBox.on_Pass_Item_Transform += Set_ShootPoint_Transform;
 
-        armors = new Transform[4];
-        armors[0] = transform.GetChild(6).transform;// 기본 Crue 케릭터
-        armors[1] = transform.GetChild(17).transform;// Space Armor
-        armors[2] = transform.GetChild(20).transform;// Big Armor
-        armors[3] = transform.GetChild(19).transform;// 머리
 
         //초기스펙 설정
         Weapon_Type = WeaponType.None;
@@ -372,7 +373,7 @@ public class Player_ : MonoBehaviour, IBattle
         }
         else if (EquipBox_Description.ItemData != null)
         {
-            onUnEquipItem?.Invoke(EquipBox_Description.ItemData);
+            onUnEquipItem?.Invoke(EquipBox_Description.ItemData);//장비 해제시 인벤토리에 먼저 아이템을 추가한 후 인벤토리에서 장비창으로 신호를 보내 해당 아이템을 지우도록 한다.
         }
         else if (skill_Description.SkillData != null)
         {

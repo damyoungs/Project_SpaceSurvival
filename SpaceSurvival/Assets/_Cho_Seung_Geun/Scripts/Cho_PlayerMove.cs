@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -42,11 +43,14 @@ public class Cho_PlayerMove : MonoBehaviour
     }
 
     InputKeyMouse inputActions;
-    //Rigidbody rigid;
     Animator animator;
     Transform cameraPos;
     CharacterController controller;
     public CharacterController Controller => controller;
+
+    CinemachineVirtualCamera cinemachine;
+    public CinemachineVirtualCamera Cinemachine => cinemachine;
+
     readonly int Hash_Speed = Animator.StringToHash("Speed");
     readonly int Hash_Jump = Animator.StringToHash("IsJump");
 
@@ -58,10 +62,10 @@ public class Cho_PlayerMove : MonoBehaviour
     private void Awake()
     {
         inputActions = new InputKeyMouse();
-        //rigid = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         cameraPos = transform.GetChild(21);
         controller = GetComponent<CharacterController>();
+        cinemachine = GetComponentInChildren<CinemachineVirtualCamera>();
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -96,19 +100,8 @@ public class Cho_PlayerMove : MonoBehaviour
         inputActions.Player.Disable();
     }
 
-    private void Update()
-    {
-        //Debug.Log($"time : {Time.time}");
-        //Debug.Log($"fixedtime : {Time.fixedTime}");
-    }
-
     private void FixedUpdate()
     {
-        //rigid.MovePosition(rigid.position + transform.TransformDirection(Time.fixedDeltaTime * speed * moveDir));
-        //rigid.MovePosition(rigid.position + Time.fixedDeltaTime * speed * moveDir);
-
-        //controller.SimpleMove(speed * transform.TransformDirection(moveDir));
-
         if (!IsGrounded())
         {
             moveDir.y -= gravity * Time.fixedDeltaTime;
@@ -141,7 +134,6 @@ public class Cho_PlayerMove : MonoBehaviour
         }
         else
         {
-            speed = walkSpeed;
             State = PlayerState.Idle;
             animator.SetFloat(Hash_Speed, 0);
         }
@@ -150,8 +142,6 @@ public class Cho_PlayerMove : MonoBehaviour
 
     private void OnJump(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        //rigid.velocity = Vector3.zero;
-        //rigid.AddForce(jumpHeight * transform.up, ForceMode.Impulse);
         if (!isJumping && jumpCount < 2)
         {
             moveDir.y = jumpHeight;
@@ -163,18 +153,22 @@ public class Cho_PlayerMove : MonoBehaviour
 
     private void OnDash(InputAction.CallbackContext context)
     {
-        if (State == PlayerState.Walk || State == PlayerState.Run)
+
+        if (context.canceled)
         {
-            if (context.canceled)
+            speed = walkSpeed;
+            if (State == PlayerState.Run)
             {
                 State = PlayerState.Walk;
-                speed = walkSpeed;
                 animator.SetFloat(Hash_Speed, animatorWalkSpeed);
             }
-            else
+        }
+        else
+        {
+            speed = runSpeed;
+            if (State == PlayerState.Walk)
             {
                 State = PlayerState.Run;
-                speed = runSpeed;
                 animator.SetFloat(Hash_Speed, animatorRunSpeed);
             }
         }
@@ -188,9 +182,7 @@ public class Cho_PlayerMove : MonoBehaviour
     private void OnMouseDelta(InputAction.CallbackContext context)
     {
         Vector2 temp = context.ReadValue<Vector2>();
-        //Debug.Log(temp);
         float rotateX = temp.x * rotateSensitiveX * Time.fixedDeltaTime;
-        //rigid.MoveRotation(rigid.rotation * Quaternion.AngleAxis(rotateX, Vector3.up));
         transform.Rotate(Vector3.up, rotateX);
 
         float rotateY = temp.y * rotateSensitiveY * Time.fixedDeltaTime;
