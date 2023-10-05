@@ -2340,7 +2340,7 @@ Animator:
   m_GameObject: {fileID: 3244632655341227133}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 44202c79934aa8c45b2495a49b6e99b1, type: 3}
-  m_Controller: {fileID: 22100000, guid: 30d35e1cb620a3c4c8443f03e5c5f7c8, type: 2}
+  m_Controller: {fileID: 9100000, guid: 45b131e48ac8eb34c871796382a795f4, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2363,13 +2363,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 784f4bbe2ccf1104f93b10a42aa12bce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyAc_Basic: {fileID: 9100000, guid: 6ee94cc007ced174b8a492781a7a96d3, type: 2}
-  EnemyAc_Riffle: {fileID: 22100000, guid: 2571043f126924f4985da87fd8972b16, type: 2}
-  EnemyAc_Sword: {fileID: 22100000, guid: 7628e4b33eb077d4ba3d403d3d88dd62, type: 2}
+  EnemyAc_Riffle: {fileID: 22100000, guid: 7e68be3673b634941b17cdc0d129bf29, type: 2}
+  EnemyAc_Sword: {fileID: 22100000, guid: af4bd107fdbd8b54592f789d8325c380, type: 2}
   GrapPosition: {fileID: 7799441959937098904}
   Riffle: {fileID: 1393068208235747337, guid: 3066df790cd6dd84589aab27e76874aa, type: 3}
   Sword: {fileID: 3538454111887550392, guid: dfe5cd2d934092340bd2798c887ae5c1, type: 3}
   type: 3
+  attackRange: 1
 --- !u!1 &5361794184986557620
 GameObject:
   m_ObjectHideFlags: 0
@@ -2417,6 +2417,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentTile: {fileID: 0}
+  moveSize: 4
+  moveSpeed: 3
 --- !u!1 &5654653557125361230
 GameObject:
   m_ObjectHideFlags: 0

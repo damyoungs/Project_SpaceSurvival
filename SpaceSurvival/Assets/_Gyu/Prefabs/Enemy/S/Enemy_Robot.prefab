@@ -5443,13 +5443,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 784f4bbe2ccf1104f93b10a42aa12bce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyAc_Basic: {fileID: 9100000, guid: 5a999af03f107b74082e782f2265f68d, type: 2}
   EnemyAc_Riffle: {fileID: 22100000, guid: 1bc791cd14fe5dd46bab51c792d57ade, type: 2}
   EnemyAc_Sword: {fileID: 22100000, guid: 792134d6a0db9b04c988b74a300740eb, type: 2}
   GrapPosition: {fileID: 2548073443878094335}
   Riffle: {fileID: 1393068208235747337, guid: 3066df790cd6dd84589aab27e76874aa, type: 3}
   Sword: {fileID: 3538454111887550392, guid: dfe5cd2d934092340bd2798c887ae5c1, type: 3}
   type: 1
+  attackRange: 1
 --- !u!1 &4771279585146020275
 GameObject:
   m_ObjectHideFlags: 0
@@ -5760,6 +5760,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentTile: {fileID: 0}
+  moveSize: 4
   moveSpeed: 3
 --- !u!1001 &4770833413191016090
 PrefabInstance:

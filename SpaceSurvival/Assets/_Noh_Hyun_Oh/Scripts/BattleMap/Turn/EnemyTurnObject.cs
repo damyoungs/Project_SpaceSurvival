@@ -22,6 +22,8 @@ public class EnemyTurnObject : TurnBaseObject
 
     BattleMap_Player_Controller bpc;
 
+    CameraOriginTarget cot;
+
     /// <summary>
     /// 몬스터 다죽으면 맵초기화시키기위해 찾아오기
     /// </summary>
@@ -35,6 +37,7 @@ public class EnemyTurnObject : TurnBaseObject
     /// </summary>
     public override void InitData()
     {
+        cot = FindObjectOfType<CameraOriginTarget>(true);
         BattleMapEnemyBase[] enemyList = initEnemy?.Invoke(); //외부에서 몬스터 배열이 들어왔는지 체크
         battleMapEndAction = FindObjectOfType<InitCharcterSetting>();
         bpc = FindObjectOfType<BattleMap_Player_Controller>();  
@@ -46,6 +49,7 @@ public class EnemyTurnObject : TurnBaseObject
             //테스트 데이터 생성
             for (int i = 0; i < testPlayerLength; i++)//캐릭터들 생성해서 셋팅 
             {
+                float num = randValue;
                 randValue = UnityEngine.Random.Range(enumStartValue, enumEndValue);
                 BattleMapEnemyBase go = (BattleMapEnemyBase)Multiple_Factory.Instance.GetObject(
                     (EnumList.MultipleFactoryObjectList)randValue);
@@ -53,9 +57,12 @@ public class EnemyTurnObject : TurnBaseObject
                 charcterList.Add(go);
                 
                 go.name = $"Enemy_{i}";
-                go.EnemyData.wType = go.EnemyData.wType;
+                if (num < 0.15f)
+                    go.EnemyData.wType = Enemy_.WeaponType.Riffle;
+                else
+                    go.EnemyData.wType = go.EnemyData.wType;
                 go.EnemyData.mType = go.EnemyData.mType;
-                
+
                 go.GetCurrentTile = () => (SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Monster)); //데이터 연결 
                 go.transform.position = go.CurrentTile.transform.position; //셋팅된 타일위치로 이동시킨다.
                 go.onDie += (unit) => { 
@@ -139,13 +146,23 @@ public class EnemyTurnObject : TurnBaseObject
     
     public override void TurnStartAction()
     {
+        StopAllCoroutines();
+        StartCoroutine(TurnE());
+    }
+
+    IEnumerator TurnE()
+    {
         PlayerTileIndex = SpaceSurvival_GameManager.Instance.PlayerTeam[0].currentTile;
         BattleMapEnemyBase Ene;
+
         int forSize = charcterList.Count;
         for (int i = 0; i < forSize; i++)
         {
             Ene = (BattleMapEnemyBase)charcterList[i];
-            Ene.EnemyAi(PlayerTileIndex);
+            cot.Target = Ene.transform;
+            Ene.EnemyTurnAction(PlayerTileIndex);
+            
+            yield return new WaitForSeconds(5.0f);
         }
 
         TurnActionValue -= UnityEngine.Random.Range(5.0f, 10.0f);// 행동력 소모후 테스트 용 
