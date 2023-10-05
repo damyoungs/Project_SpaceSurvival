@@ -190,6 +190,7 @@ public class SaveDataParsing : MonoBehaviour
                     for (int i = 1; i < equipData.ItemEnhanceValue; i++) // 인첸무기는 기본값이 1부터 시작임으로 초기값 1로셋팅
                     {
                         tempEnchan.LevelUpItemStatus(temp); //인첸한만큼 추가로 인첸데이터셋팅
+
                     }
                 }
 

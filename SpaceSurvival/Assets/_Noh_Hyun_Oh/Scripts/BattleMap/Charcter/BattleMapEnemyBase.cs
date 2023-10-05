@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase 
 {
+    
+    
+    
     /// <summary>
     /// 몬스터는 컨트롤할수없으니 형식만 맞춰두자
     /// </summary>
@@ -64,6 +67,11 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
         get => moveSize;
         set => moveSize = value;
     }
+
+    /// <summary>
+    /// 행동끝났으면 신호보낼 델리게이트
+    /// </summary>
+    public Action onActionEndCheck;
 
     protected override void Awake()
     {
@@ -138,7 +146,7 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
             BattleUI.ResetData();// 추적형 UI 초기화 
             BattleUI = null; // 비우기
         }
-        Debug.Log($"{currentTile.width},{currentTile.length} ,{currentTile.ExistType}  몬스터 초기화 ");
+        //Debug.Log($"{currentTile.width},{currentTile.length} ,{currentTile.ExistType}  몬스터 초기화 ");
         currentTile.ExistType = Tile.TileExistType.None; // 속성 돌리고 
         
         currentTile = null; //타일 참조해제
@@ -210,9 +218,9 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
         Vector3 targetPos = currentTile.transform.position; //길이없는경우 현재 타일위치 고정
         //unitAnimator.SetBool(isWalkingHash, true); //이동애니메이션 재생 시작
 
-        foreach (Tile tile in path) //몬스터 중복 방지 용으로 타일값 미리셋팅해서 체크하자
+        foreach (Tile tile in path) //몬스터 중복 방지 용으로 타일값 미리셋팅해서 체크하자 
         {
-            tile.ExistType = Tile.TileExistType.Monster;
+            tile.ExistType = Tile.TileExistType.Monster;//이것이 실행됬으면 밑에로직은 무조건 실행되야 정상동작된다.
         }
 
         foreach (Tile tile in path)  // 길이있는경우 
@@ -236,9 +244,11 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
         transform.GetChild(0).transform.localPosition = Vector3.zero;
         //unitAnimator.SetBool(isWalkingHash, false);
 
-        enemyData.Stamina -= this.currentTile.MoveCheckG; //최종이동한 거리만큼 스태미나를 깍는다.
 
-        IsAttackAction(); //공격 범위안에있는지 체크
+
+        IsAttackAction(); //공격 범위안에있는지 체크해서 공격하기
+
+        onActionEndCheck?.Invoke(); //행동끝났으면 신호보내기
     }
 
     public void EnemyAi(Tile PlayerTile)

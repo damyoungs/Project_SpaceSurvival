@@ -201,7 +201,7 @@ public class BattleMap_Player_Controller : MonoBehaviour
                    
                     
                     GameManager.Inst.ChangeCursor(false);
-                    Debug.Log($"공격 했다 최종데미지{skill?.FinalDamage} 맞춘 인원수 {attackArray?.Length} ");
+                    //Debug.Log($"공격 했다 최종데미지{skill?.FinalDamage} 맞춘 인원수 {attackArray?.Length} ");
                     //}
                    // Debug.Log($"이동가능 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
                     break;

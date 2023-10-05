@@ -9,6 +9,11 @@ using UnityEngine;
 public class EnemyTurnObject : TurnBaseObject
 {
     /// <summary>
+    /// 적군 유닛의 행동이 전부끝낫는지 체크하기위한 변수
+    /// </summary>
+    int turnEndCheckValue = 0;
+    public int TurnEndCheckValue => turnEndCheckValue;
+    /// <summary>
     /// 테스트용 변수 
     /// </summary>
     [SerializeField]
@@ -86,6 +91,8 @@ public class EnemyTurnObject : TurnBaseObject
                     }
 
                 };
+
+                go.onActionEndCheck = CheckTurnEnd; //유닛의 행동 종료됬는지 체크하는 함수연결
             }
             //보스 추가시 밑에 기능연결
             if (SpaceSurvival_GameManager.Instance.IsBoss)
@@ -115,6 +122,7 @@ public class EnemyTurnObject : TurnBaseObject
                     }
                     StartCoroutine(BattleMapEnd());
                 };
+                go.onActionEndCheck = CheckTurnEnd; //유닛의 행동 종료됬는지 체크하는 함수연결
             }    
         }
         else // 외부에서 데이터가 들어왔을경우  이경우가 정상적인경우다  내가 데이서 셋팅안할것이기때문에...
@@ -128,12 +136,32 @@ public class EnemyTurnObject : TurnBaseObject
         SpaceSurvival_GameManager.Instance.GetEnemeyTeam = () => charcterList.OfType<BattleMapEnemyBase>().ToArray();
     }
 
+    /// <summary>
+    /// 몬스터가 전부 죽었을때 마을로 이동시키는 코루틴
+    /// </summary>
+    /// <returns></returns>
     IEnumerator BattleMapEnd()
     {
         yield return null;
         battleMapEndAction.TestReset();
         LoadingScene.SceneLoading(EnumList.SceneName.SpaceShip);
     }
+
+    /// <summary>
+    /// 유닛 행동끝낫는지 체크해서 턴종료시키는 함수 
+    /// </summary>
+    private void CheckTurnEnd() 
+    {
+        turnEndCheckValue++;
+        if (turnEndCheckValue == charcterList.Count) //모든 행동이끝났으면 
+        {
+            Debug.Log($"적군턴끝 행동력 :{TurnActionValue}");
+            turnEndCheckValue = 0;  // 체크끝났으니 초기화 
+            TurnEndAction();    //턴종료
+        }
+
+    }
+
 
     Tile PlayerTileIndex;
     
@@ -145,12 +173,8 @@ public class EnemyTurnObject : TurnBaseObject
         for (int i = 0; i < forSize; i++)
         {
             Ene = (BattleMapEnemyBase)charcterList[i];
+            Ene.EnemyData.Stamina += TurnActionValue;
             Ene.EnemyAi(PlayerTileIndex);
         }
-
-        TurnActionValue -= UnityEngine.Random.Range(5.0f, 10.0f);// 행동력 소모후 테스트 용 
-        Debug.Log($"적군턴끝 행동력 :{TurnActionValue}");
-        TurnEndAction();
-
     }
 }

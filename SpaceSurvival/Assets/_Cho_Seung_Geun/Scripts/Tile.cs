@@ -151,7 +151,6 @@ public class Tile : MonoBehaviour, IComparable<Tile>
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
-        Debug.Log("타일생성");
     }
 
     /// <summary>

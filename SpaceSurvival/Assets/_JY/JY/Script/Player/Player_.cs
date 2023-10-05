@@ -191,6 +191,7 @@ public class Player_ : MonoBehaviour, IBattle
         hat_Parent_Transform = GetComponentInChildren<Hat_Parent_Transform>().transform;
         suit_Parent_Transform = GetComponentInChildren<BodySuit_Parent_Transform>().transform;
     }
+
     void Set_ShootPoint_Transform(Transform itemObj)
     {
         shootPointTransform = itemObj.GetChild(1);
@@ -201,6 +202,7 @@ public class Player_ : MonoBehaviour, IBattle
         player_Status.Base_Status.Current_Stamina--;
         on_Attack();
     }
+
     void Basic_Attack()
     {
         anim.SetTrigger(attack_Trigger_Hash);
@@ -296,6 +298,7 @@ public class Player_ : MonoBehaviour, IBattle
     public void DeBuff()//버프스킬 적용 해제
     {
         player_Status.Reset_Status();
+        duringBuffSkill = false;
     }
 
   
@@ -381,7 +384,7 @@ public class Player_ : MonoBehaviour, IBattle
     //private void OpenInven(InputAction.CallbackContext _)
     private void OpenInven()
     {
-        Debug.Log("1");
+        //Debug.Log("1");
         onOpenInven?.Invoke();
     }
 
@@ -424,8 +427,10 @@ public class Player_ : MonoBehaviour, IBattle
     {
         anim.SetTrigger(get_Hit_Hash);
         float final_Damage = damage - player_Status.DP;
+        final_Damage = final_Damage < 0 ? 0 : final_Damage;
+
         GameManager.PlayerStatus.Base_Status.CurrentHP -= final_Damage;
-        GameManager.EffectPool.GetObject(damage, transform, isCritical);
+        GameManager.EffectPool.GetObject(final_Damage, transform, isCritical);
     }
 
 

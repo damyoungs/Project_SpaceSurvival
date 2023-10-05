@@ -60,7 +60,7 @@ public class TeamBorderStateUI : MonoBehaviour
     IEnumerator stmGauge;
     IEnumerator expGauge;
 
-
+    WaitForFixedUpdate couroutineWait = new();
     private void Awake()
     {
         Transform child = transform.GetChild(0); //hp
@@ -134,7 +134,7 @@ public class TeamBorderStateUI : MonoBehaviour
                 hp_UI_Value += Time.deltaTime * hpGaugeSpeed; //何靛反霸~
                 hpText.text = $"{hp_UI_Value:f0}";
                 hpSlider.value = hp_UI_Value / maxValue;
-                yield return null;
+                yield return couroutineWait;
             }
             hpText.text = $"{change_HpValue:f0}";
             hpSlider.value = change_HpValue / maxValue;
@@ -150,7 +150,7 @@ public class TeamBorderStateUI : MonoBehaviour
                 hp_UI_Value -= Time.deltaTime * hpGaugeSpeed; //何靛反霸~
                 hpText.text = $"{hp_UI_Value:f0}";
                 hpSlider.value = hp_UI_Value / maxValue;
-                yield return null;
+                yield return couroutineWait;
             }
             hpText.text = $"{change_HpValue:f0}";
             hpSlider.value = change_HpValue / maxValue;
@@ -173,7 +173,7 @@ public class TeamBorderStateUI : MonoBehaviour
                 stm_UI_Value += Time.deltaTime * stmGaugeSpeed; //何靛反霸~
                 stmText.text = $"{stm_UI_Value:f0}";
                 stmSlider.value = stm_UI_Value / maxValue;
-                yield return null;
+                yield return couroutineWait;
             }
             stmText.text = $"{change_StmValue:f0}";
             stmSlider.value = change_StmValue / maxValue;
@@ -189,7 +189,7 @@ public class TeamBorderStateUI : MonoBehaviour
                 stm_UI_Value -= Time.deltaTime * stmGaugeSpeed; //何靛反霸~
                 stmText.text = $"{stm_UI_Value:f0}";
                 stmSlider.value = stm_UI_Value / maxValue;
-                yield return null;
+                yield return couroutineWait;
             }
             stmText.text = $"{change_StmValue:f0}";
             stmSlider.value = change_StmValue / maxValue;
@@ -211,7 +211,7 @@ public class TeamBorderStateUI : MonoBehaviour
                 exp_UI_Value += Time.deltaTime * expGaugeSpeed; //何靛反霸~
                 expText.text = $"{exp_UI_Value:f0}";
                 expSlider.value = exp_UI_Value / maxValue;
-                yield return null;
+                yield return couroutineWait;
             }
             expText.text = $"{change_ExpValue:f0}";
             expSlider.value = change_ExpValue / maxValue;
@@ -227,7 +227,7 @@ public class TeamBorderStateUI : MonoBehaviour
                 exp_UI_Value -= Time.deltaTime * expGaugeSpeed; //何靛反霸~
                 expText.text = $"{exp_UI_Value:f0}";
                 expSlider.value = exp_UI_Value / maxValue;
-                yield return null;
+                yield return couroutineWait;
             }
             expText.text = $"{change_ExpValue:f0}";
             expSlider.value = change_ExpValue / maxValue;
