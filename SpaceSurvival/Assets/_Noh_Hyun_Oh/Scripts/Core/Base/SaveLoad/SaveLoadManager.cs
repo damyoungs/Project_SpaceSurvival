@@ -318,7 +318,7 @@ public class SaveLoadManager : ChildComponentSingeton<SaveLoadManager> {
         //await Task.Run(() => { isFilesLoading =  SetSaveFileList(); }); //이함수가 끝날때까지 대기 
         if (saveDataList != null) { //데이터로딩이 제대로됬으면 
             isDoneDataLoaing?.Invoke(saveDataList);// 데이터로딩이 비동기로진행시 처리끝날때 처리해야될 함수실행  동기방식이면 필요없다.
-            Debug.LogWarning($"비동기 로딩테스트 끝~ {saveDataList.Length}개  파일 로딩완료"); // 함수끝날때까지 대기타는지 확인하기위해 작성
+            //Debug.LogWarning($"비동기 로딩테스트 끝~ {saveDataList.Length}개  파일 로딩완료"); // 함수끝날때까지 대기타는지 확인하기위해 작성
         }
     }
 

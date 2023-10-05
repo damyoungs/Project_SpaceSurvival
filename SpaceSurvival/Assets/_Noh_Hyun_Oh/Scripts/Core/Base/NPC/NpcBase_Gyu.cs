@@ -65,8 +65,7 @@ public class NpcBase_Gyu : MonoBehaviour
         Transform lookTarget = FindObjectOfType<Cho_PlayerMove>(true).transform;
 
         moveProccess.getTarget = () => {
-            Debug.Log(moveProccess.getTarget);
-            Debug.Log(lookTarget);
+          
             return lookTarget;
         };
     }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0036645655, g: 0.0051948903, b: 0.007260641, a: 1}
+  m_IndirectSpecularColor: {r: 0.0036790755, g: 0.0051774327, b: 0.0072589843, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6410,6 +6410,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: '@GameManager'
       objectReference: {fileID: 0}
+    - target: {fileID: 7473743051139603172, guid: 4c13b59fca2a2474ca6c2b1b0b027b33, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c13b59fca2a2474ca6c2b1b0b027b33, type: 3}
 --- !u!1 &920488534
@@ -9290,10 +9294,6 @@ PrefabInstance:
     - target: {fileID: 6053146826145523906, guid: c8ccdf42996984d448c6d6700449619c, type: 3}
       propertyPath: m_Name
       value: OpeningUI
-      objectReference: {fileID: 0}
-    - target: {fileID: 6053146826145523906, guid: c8ccdf42996984d448c6d6700449619c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6053146826145523918, guid: c8ccdf42996984d448c6d6700449619c, type: 3}
       propertyPath: m_Pivot.x
@@ -12252,7 +12252,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21371301e05dd7244b5bad7153a823d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questCount: 0
   originMainStoryQuestArray:
   - {fileID: 11400000, guid: d1e650a9ba7e8634ab79d7f62cb58d82, type: 2}
   originKillcountQuestArray:
@@ -16795,7 +16794,6 @@ MonoBehaviour:
   hpGaugeSpeed: 10
   stmGaugeSpeed: 2
   expGaugeSpeed: 2
-  buffMaxSize: 4
   buffType: 
   stateTimer: []
   imgIconArray: []
@@ -20416,7 +20414,7 @@ GameObject:
   - component: {fileID: 7285918082320744563}
   - component: {fileID: 5291445975438203453}
   m_Layer: 0
-  m_Name: TestPlayerPool
+  m_Name: PlayerPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27288,7 +27286,6 @@ MonoBehaviour:
   hpGaugeSpeed: 10
   stmGaugeSpeed: 2
   expGaugeSpeed: 2
-  buffMaxSize: 4
   buffType: 
   stateTimer: []
   imgIconArray: []
@@ -39770,7 +39767,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2667432894602912799}
   m_HandleRect: {fileID: 2667432894602912798}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -40439,7 +40436,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ccc338635172684dafe2ee76c70ec6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questListCapacity: 10
   player: {fileID: 0}
   looktarget: {fileID: 0}
   array_NPC: []
@@ -43597,7 +43593,6 @@ MonoBehaviour:
   hpGaugeSpeed: 10
   stmGaugeSpeed: 2
   expGaugeSpeed: 2
-  buffMaxSize: 4
   buffType: 
   stateTimer: []
   imgIconArray: []
@@ -43668,7 +43663,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   origianlPrefab: {fileID: 8176059075257612658, guid: 0e93fd5d85af88549804723e2e4b1dc5, type: 3}
-  poolSize: 2
+  poolSize: 16
 --- !u!1 &3390986313291483838
 GameObject:
   m_ObjectHideFlags: 0
@@ -50784,7 +50779,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   origianlPrefab: {fileID: 5710969024274006033, guid: 72719d3d81385144d8373253064fa952, type: 3}
-  poolSize: 8
+  poolSize: 16
 --- !u!114 &5291445975438203453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59893,7 +59888,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   origianlPrefab: {fileID: 4617298011829488502, guid: 35d0ae8043b95f943be05c1cbb64aab2, type: 3}
-  poolSize: 2
+  poolSize: 8
 --- !u!222 &6961915921934698754
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -63048,7 +63043,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   origianlPrefab: {fileID: 5147810025390403631, guid: 037aad30f3ed2004cb9be43bdc267583, type: 3}
-  poolSize: 8
+  poolSize: 16
 --- !u!114 &7593049910248983427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72537,7 +72532,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   origianlPrefab: {fileID: 2581381259458856414, guid: 0c8c44d11127159428717d326ce5dc86, type: 3}
-  poolSize: 4
+  poolSize: 1
 --- !u!224 &9005019745897031949
 RectTransform:
   m_ObjectHideFlags: 0
@@ -73425,7 +73420,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   origianlPrefab: {fileID: 3520079797870004621, guid: b9c37e6c471abf045a783553aec751e6, type: 3}
-  poolSize: 8
+  poolSize: 32
 --- !u!4 &9203145172533386968
 Transform:
   m_ObjectHideFlags: 0
