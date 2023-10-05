@@ -34,6 +34,8 @@ public class Cho_SceneLoading : MonoBehaviour
 
     private void Warp()
     {
+        // 배틀끝나면 돌아올 위치값셋팅
+        SpaceSurvival_GameManager.Instance.ShipStartPos = player.transform.position;
         LoadingScene.SceneLoading(EnumList.SceneName.TestBattleMap);
     }
 }

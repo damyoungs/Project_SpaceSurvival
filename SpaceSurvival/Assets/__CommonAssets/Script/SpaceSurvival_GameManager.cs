@@ -14,6 +14,28 @@ public class SpaceSurvival_GameManager : ChildComponentSingeton<SpaceSurvival_Ga
     /// 보스 전투인지 체크할변수 
     /// </summary>
     public bool IsBoss = false;
+
+    /// <summary>
+    /// 함선에서 저장시 위치잡기용 캐싱할 객체
+    /// </summary>
+    Transform playerPos ;
+    public Transform PlayerStartPos
+    {
+        get => playerPos;
+        set => playerPos = value;
+    }
+
+    /// <summary>
+    /// 배틀맵에서 이동시 함선에서의 위치 잡기용 
+    /// </summary>
+    Vector3 shipStartPos = Vector3.zero;
+    public Vector3 ShipStartPos 
+    {
+        get => shipStartPos;
+        set => shipStartPos = value;
+    }
+
+
     /// <summary>
     /// 플레이어 퀘스트 정보 담아두기
     /// </summary>
@@ -196,7 +218,7 @@ public class SpaceSurvival_GameManager : ChildComponentSingeton<SpaceSurvival_Ga
         MoveRange.MoveSizeView(player.CurrentTile, moveSize);//이동범위표시해주기 
     }
 
-    public void BattleMap_ResetData(bool isLoadedBattleMap = false)
+    public void ResetData(bool isLoadedBattleMap = false)
     {
         if (!isLoadedBattleMap)
         {
@@ -215,6 +237,8 @@ public class SpaceSurvival_GameManager : ChildComponentSingeton<SpaceSurvival_Ga
         enemyTeam = null;
         GetEnemeyTeam = null;
         IsBoss = false;
+        playerPos = null;
+        playerQuest = null;
     }
 
     /// <summary>

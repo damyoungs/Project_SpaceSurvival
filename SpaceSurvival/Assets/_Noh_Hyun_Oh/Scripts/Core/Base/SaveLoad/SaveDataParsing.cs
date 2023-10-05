@@ -44,6 +44,12 @@ public class SaveDataParsing : MonoBehaviour
         saveData.Equipments_Data = GameManager.EquipBox.Save_EquipmentsData();
         SaveInvenDataParsing();                                     //인벤토리 에서 데이터 가져오기 
         SaveDataSetting();                                          //퀘스트 캐릭터한테 퀘스트 데이터 가져오기
+
+        
+        if (SpaceSurvival_GameManager.Instance.PlayerStartPos) 
+        {
+            saveData.StartPos = SpaceSurvival_GameManager.Instance.PlayerStartPos.position;
+        }
         
         SaveLoadManager.Instance.GameSaveData = saveData;           //저장로직에사용될 객체에 담기
     }
@@ -54,7 +60,7 @@ public class SaveDataParsing : MonoBehaviour
     public void LoadParsing(JsonGameData data)
     {
         ResetData();
-
+        SpaceSurvival_GameManager.Instance.ShipStartPos = data.StartPos;
         LoadInvenDataParsing(data);
         LoadQuestDataParsing(data.QuestList);
         playerSkill.LoadSkillData_In_QuickSlot(data.SkillDatas);

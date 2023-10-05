@@ -81,7 +81,12 @@ public class PlayerTurnObject : TurnBaseObject
                 go.transform.position = go.CurrentTile.transform.position; //셋팅된 타일위치로 이동시킨다.
                 bpc.onAttackAction = (_,_) => { 
                     go.CharcterData.SkillPostProcess(); 
-                }; 
+                };
+                go.onMoveRangeClear = (currentTile, currentMoveSize) => {
+                    SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentTile);
+                    SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(currentTile, currentMoveSize);//이동범위표시해주기 
+                };
+
             }
             WindowList.Instance.TeamBorderManager.ViewTeamInfo(testPlayerLength); //팀 상시 유아이 보여주기 
 
@@ -141,8 +146,8 @@ public class PlayerTurnObject : TurnBaseObject
 
         if (currentUnit != null && currentUnit.IsControll) //현재 컨트롤인경우만 
         {
-
-            currentUnit.CharcterMove(seletedTile);//이동로직 실행
+            //이동로직 실행
+            StartCoroutine(currentUnit.CharcterMove(seletedTile));
 
         }
     }

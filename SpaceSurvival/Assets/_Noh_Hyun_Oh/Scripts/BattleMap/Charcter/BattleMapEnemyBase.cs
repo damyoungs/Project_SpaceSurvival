@@ -6,9 +6,6 @@ using UnityEngine;
 
 public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase 
 {
-    
-    
-    
     /// <summary>
     /// 몬스터는 컨트롤할수없으니 형식만 맞춰두자
     /// </summary>
@@ -70,9 +67,26 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
     }
 
     /// <summary>
+    /// 이동 속도
+    /// </summary>
+    [SerializeField]
+    [Range(0.0f, 10.0f)]
+    float moveSpeed = 3.0f;
+
+    /// <summary>
+    /// 이동후 대기시간
+    /// </summary>
+    [SerializeField]
+    WaitForSeconds waitTime = new WaitForSeconds(0.5f);
+    /// <summary>
     /// 행동끝났으면 신호보낼 델리게이트
     /// </summary>
     public Action onActionEndCheck;
+
+    /// <summary>
+    /// 락온할 카메라 셋팅하기
+    /// </summary>
+    public Action onCameraTarget;
 
     protected override void Awake()
     {
@@ -156,26 +170,7 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
         gameObject.SetActive(false); // 큐를 돌린다.
     }
 
-    /// <summary>
-    /// 공격상태를 체크하는 변수
-    /// </summary>
-    bool isAttackCheck = false;
-  
-    /// <summary>
-    /// 공격범위안에 있으면 공격하는 함수 
-    /// </summary>
-    private void IsAttackAction()
-    {
-        Tile attackTile = Cho_BattleMap_Enemy_AStar.SetEnemyAttackSize(currentTile, enemyData.AttackRange);
-        //Debug.Log(SpaceSurvival_GameManager.Instance.PlayerTeam[0]);
-
-        if (attackTile != null)
-        {
-            isAttackCheck = true;
-            transform.rotation = Quaternion.LookRotation(attackTile.transform.position - transform.position);
-            enemyData.Attack_Enemy(SpaceSurvival_GameManager.Instance.PlayerTeam[0].CharcterData);
-        }
-    }
+   
 
     public void Defence(float damage, bool isCritical = false)
     {
@@ -185,33 +180,32 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
         enemyData.HP -= finalDamage;
     }
 
-    public void CharcterMove(Tile PlayerTile)
+
+    /// <summary>
+    /// 캐릭터 이동용 반복자
+    /// </summary>
+    /// <param name="playerTile">플레이어 위치가있는 타일</param>
+    /// <returns></returns>
+    public IEnumerator CharcterMove(Tile playerTile)
     {
         List<Tile> path = Cho_BattleMap_Enemy_AStar.PathFind(
-                                                           SpaceSurvival_GameManager.Instance.BattleMap,
-                                                           SpaceSurvival_GameManager.Instance.MapSizeX,
-                                                           SpaceSurvival_GameManager.Instance.MapSizeY,
-                                                           this.currentTile,
-                                                           PlayerTile,
-                                                           moveSize
-                                                           );
-        StopAllCoroutines();
-        StartCoroutine(EnemyMove(path));
-    }
-    //[SerializeField]
-    //Animator unitAnimator;
-    //int isWalkingHash = Animator.StringToHash("IsWalking");
-    [SerializeField]
-    float moveSpeed = 3.0f;
-    IEnumerator EnemyMove(List<Tile> path)
-    {
-        Vector3 targetPos = currentTile.transform.position; //길이없는경우 현재 타일위치 고정
-        //unitAnimator.SetBool(isWalkingHash, true); //이동애니메이션 재생 시작
+                                                         SpaceSurvival_GameManager.Instance.BattleMap,
+                                                         SpaceSurvival_GameManager.Instance.MapSizeX,
+                                                         SpaceSurvival_GameManager.Instance.MapSizeY,
+                                                         this.currentTile,
+                                                         playerTile,
+                                                         moveSize
+                                                         );
 
-        foreach (Tile tile in path) //몬스터 중복 방지 용으로 타일값 미리셋팅해서 체크하자 
-        {
-            tile.ExistType = Tile.TileExistType.Monster;//이것이 실행됬으면 밑에로직은 무조건 실행되야 정상동작된다.
-        }
+        Vector3 targetPos = currentTile.transform.position; //길이없는경우 현재 타일위치 고정
+                                                            //unitAnimator.SetBool(isWalkingHash, true); //이동애니메이션 재생 시작
+        onCameraTarget?.Invoke();   //이동할때 카메라 가져오기
+        yield return waitTime;
+        
+        //foreach (Tile tile in path) //몬스터 중복 방지 용으로 타일값 미리셋팅해서 체크하자 
+        //{
+        //    tile.ExistType = Tile.TileExistType.Monster;//이것이 실행됬으면 밑에로직은 무조건 실행되야 정상동작된다.
+        //}
 
         foreach (Tile tile in path)  // 길이있는경우 
         {
@@ -223,38 +217,48 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
             //Debug.Log($"{this.currentTile.Index}타일 오브젝트 이동중에 타일 데이터일단 move로변경");
             this.currentTile = tile;
             //Debug.Log($"{this.currentTile.Index}타일 이 데이터가 변경되야된다 charcter 로 ");
+            tile.ExistType = Tile.TileExistType.Monster;//이것이 실행됬으면 밑에로직은 무조건 실행되야 정상동작된다.
 
             while ((targetPos - transform.position).sqrMagnitude > 0.2f)  //이동시작
             {
-                timeElaspad += Time.deltaTime / moveSpeed;
+                timeElaspad += Time.deltaTime * moveSpeed;
                 transform.position = Vector3.Lerp(transform.position, targetPos, timeElaspad);
                 yield return null;
             }
         }
+
         transform.position = targetPos;
         transform.GetChild(0).transform.localPosition = Vector3.zero;
         //unitAnimator.SetBool(isWalkingHash, false);
 
         enemyData.Stop();
-     
 
-
-        IsAttackAction(); //공격 범위안에있는지 체크해서 공격하기
+        if (IsAttackRange()) //공격할수있으면
+        {
+            yield return CharcterAttack(playerTile);// 공격 
+        }
 
         onActionEndCheck?.Invoke(); //행동끝났으면 신호보내기
     }
 
-    public void EnemyTurnAction(Tile PlayerTile)
+
+    /// <summary>
+    /// 공격 하는 반복자 
+    /// </summary>
+    public IEnumerator CharcterAttack(Tile attackTile)
     {
-        Debug.Log($"{transform.name} - [체력:{enemyData.HP}] / [공격력:{enemyData.AttackPower}] / [무기:{enemyData.wType}] / [타입:{enemyData.mType}]");
-        IsAttackAction();
-        if(isAttackCheck == false)
-        {
-            CharcterMove(PlayerTile);
-        }
-        else
-        {
-            isAttackCheck = false;
-        }
+        transform.rotation = Quaternion.LookRotation(attackTile.transform.position - transform.position);
+        enemyData.Attack_Enemy(SpaceSurvival_GameManager.Instance.PlayerTeam[0].CharcterData);
+        yield return waitTime; //공격 애니메이션 끝날때까지 기다려주는것도 좋을거같다.
     }
+    
+    /// <summary>
+    /// 공격범위 내에 있는지 체크하는 함수
+    /// </summary>
+    /// <returns>공격가능 true 불가능 false</returns>
+    public bool IsAttackRange()
+    {
+        return Cho_BattleMap_Enemy_AStar.SetEnemyAttackSize(currentTile, enemyData.AttackRange); //공격범위 체크 
+    }
+
 }

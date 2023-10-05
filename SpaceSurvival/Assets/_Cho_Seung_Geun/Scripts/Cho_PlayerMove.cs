@@ -46,7 +46,7 @@ public class Cho_PlayerMove : MonoBehaviour
     Animator animator;
     Transform cameraPos;
     CharacterController controller;
-
+    public CharacterController Controller => controller;
     readonly int Hash_Speed = Animator.StringToHash("Speed");
     readonly int Hash_Jump = Animator.StringToHash("IsJump");
 

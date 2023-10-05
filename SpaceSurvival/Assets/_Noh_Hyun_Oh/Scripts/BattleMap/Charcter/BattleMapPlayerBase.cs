@@ -79,23 +79,41 @@ public class BattleMapPlayerBase : Base_PoolObj, ICharcterBase
     }
 
     /// <summary>
+    /// 이동용 애니메이션 
+    /// </summary>
+    [SerializeField]
+    Animator unitAnimator;
+
+    /// <summary>
+    /// 애니메이션 이름값 미리 캐싱
+    /// </summary>
+    int isWalkingHash = Animator.StringToHash("IsWalking");
+
+    /// <summary>
+    /// 이동 속도 
+    /// </summary>
+    [Range(0.0f,10.0f)]
+    [SerializeField]
+    float moveSpeed = 3.0f;
+
+
+    /// <summary>
     /// 좌측상단에있는 캐릭터 상태창
     /// </summary>
     UICamera viewPlayerCamera;
 
+    public Action<Tile,float> onMoveRangeClear;
 
     protected override void Awake()
     {
         base.Awake();
         charcterData = GetComponentInChildren<Player_>();
         unitAnimator = transform.GetChild(0).GetComponent<Animator>();
-        charcterMove = CharcterMoveCoroutine(null);
     }
 
     private void Start()
     {
         battleUICanvas = WindowList.Instance.transform.GetChild(0).GetChild(0);  // TrackingUI 담을 캔버스위치
-        InitUI();//맨처음 
         TeamBorderStateUI uiComp = WindowList.Instance.TeamBorderManager.TeamStateUIs[0];
         Base_Status playerData = GameManager.PlayerStatus.Base_Status;
 
@@ -115,15 +133,17 @@ public class BattleMapPlayerBase : Base_PoolObj, ICharcterBase
             //Debug.Log(stmValue);
             uiComp.SetStmGaugeAndText(stmValue, playerData.Base_MaxStamina);
             float currentMoveSize = stmValue > moveSize ? moveSize : stmValue;
-            TurnManager.Instance.CurrentTurn.TurnActionValue = stmValue;
+            if (TurnManager.Instance.CurrentTurn != null) 
+            {
+                TurnManager.Instance.CurrentTurn.TurnActionValue = stmValue;
+            }
             //moveSize = stmValue;
             if (battleUI != null)
             {
                 BattleUI.stmGaugeSetting(stmValue, playerData.Base_MaxStamina); //소모된 행동력 표시
             }
-            SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentTile);
-            SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(currentTile, currentMoveSize);//이동범위표시해주기 
-            if (stmValue < 1.0f) //최소행동값? 보다 낮으면 
+            onMoveRangeClear?.Invoke(currentTile, currentMoveSize);
+             if (stmValue < 1.0f) //최소행동값? 보다 낮으면 
             {
                 TurnManager.Instance.CurrentTurn.TurnEndAction();//턴종료 
             }
@@ -142,8 +162,18 @@ public class BattleMapPlayerBase : Base_PoolObj, ICharcterBase
         {
             battleUI.AddOfStatus(buffValue);
         };
+        StartCoroutine(rateDisable());
+    }
 
-
+    /// <summary>
+    /// 초기화 후 큐로 돌린다
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator rateDisable() 
+    {
+        yield return null;
+        //start 로직이끝난뒤 업데이트 첫번째에 비활성화 시켜서 다시 큐에 넣어버린다.
+        ResetData();
     }
 
     protected override void OnEnable()
@@ -199,9 +229,12 @@ public class BattleMapPlayerBase : Base_PoolObj, ICharcterBase
             viewPlayerCamera.gameObject.SetActive(false); // 비활성화 시키고 내부적으로 큐로 돌린다.
             viewPlayerCamera = null; //참조 지우기
         }
-        SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentTile); //이동범위  리셋시키고 
-        currentTile.ExistType = Tile.TileExistType.None; // 속성 돌리고 
-        currentTile = null; //타일 참조해제
+        if (currentTile != null) 
+        {
+            SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentTile); //이동범위  리셋시키고 
+            currentTile.ExistType = Tile.TileExistType.None; // 속성 돌리고 
+            currentTile = null; //타일 참조해제
+        }
         //턴 오브젝트 초기화
         transform.SetParent(poolTransform); //풀로 돌린다
         gameObject.SetActive(false); // 큐를 돌린다.
@@ -212,40 +245,8 @@ public class BattleMapPlayerBase : Base_PoolObj, ICharcterBase
     {
         this.currentTile = currentTile;
     } 
-    /// <summary>
-    /// 승근씨 AStar 로직 조금수정한내용 가져와서 사용 하고 
-    /// 데이터있으면 이동시킨다.
-    /// </summary>
-    /// <param name="currentTile"></param>
-    public void CharcterMove(Tile currentTile)
-    {
-        if (!isMoveCheck) //이동중간에 끊길시 타일버그가 발생해 체크하는로직추가 
-        {
-            List<Tile> path = Cho_BattleMap_AStar.PathFind(
-                                                            SpaceSurvival_GameManager.Instance.BattleMap,
-                                                            SpaceSurvival_GameManager.Instance.MapSizeX,
-                                                            SpaceSurvival_GameManager.Instance.MapSizeY,
-                                                            this.currentTile,
-                                                            currentTile
-                                                            );
-            //StopAllCoroutines();
-            //StartCoroutine(CharcterMove(path));
-            StopCoroutine(charcterMove);
-            charcterMove = CharcterMoveCoroutine(path);
-            StartCoroutine(charcterMove);
-           
-        }
-        
-    }
+  
 
-    [SerializeField]
-    Animator unitAnimator;
-    int isWalkingHash = Animator.StringToHash("IsWalking");
-    [SerializeField]
-    float moveSpeed = 3.0f;
-    //[SerializeField]
-    //float rotateSpeed = 10.0f;
-    IEnumerator charcterMove;
     /// <summary>
     /// 승근씨가 짜둔 길찾기 가져오기
     /// 
@@ -256,9 +257,18 @@ public class BattleMapPlayerBase : Base_PoolObj, ICharcterBase
     /// </summary>
     /// <param name="path">A스타 최단거리 타일리스트</param>
     /// <returns></returns>
-    IEnumerator CharcterMoveCoroutine(List<Tile> path )
+    public IEnumerator CharcterMove(Tile moveTile)
     {
         isMoveCheck = true; //이동 중인지 체크하기 
+
+        List<Tile> path = Cho_BattleMap_AStar.PathFind(
+                                                            SpaceSurvival_GameManager.Instance.BattleMap,
+                                                            SpaceSurvival_GameManager.Instance.MapSizeX,
+                                                            SpaceSurvival_GameManager.Instance.MapSizeY,
+                                                            currentTile,
+                                                            moveTile
+                                                            );
+
         Vector3 targetPos = currentTile.transform.position; //길이없는경우 현재 타일위치 고정
         unitAnimator.SetBool(isWalkingHash, true); //이동애니메이션 재생 시작
         foreach (Tile tile in path)  // 길이있는경우 
@@ -266,9 +276,9 @@ public class BattleMapPlayerBase : Base_PoolObj, ICharcterBase
             float timeElaspad = 0.0f;
             targetPos = tile.transform.position; //새로운 위치잡고 
             transform.rotation = Quaternion.LookRotation(targetPos - transform.position); //해당방향 바라보고 
-            this.currentTile.ExistType = Tile.TileExistType.Move;// 기존위치 이동가능하게 바꾸고  
+            currentTile.ExistType = Tile.TileExistType.Move;// 기존위치 이동가능하게 바꾸고  
             //Debug.Log($"{this.currentTile.Index}타일 오브젝트 이동중에 타일 데이터일단 move로변경");
-            this.currentTile = tile;
+            currentTile = tile;
             //Debug.Log($"{this.currentTile.Index}타일 이 데이터가 변경되야된다 charcter 로 ");
             tile.ExistType = Tile.TileExistType.Charcter; //이동한위치 못가게 바꾼다.
             //Debug.Log($"{this.currentTile.Index}타일 이 데이터가 charcter 변경되었다.");
@@ -289,4 +299,23 @@ public class BattleMapPlayerBase : Base_PoolObj, ICharcterBase
         isMoveCheck = false; //이동끝낫는지 체크
     }
 
+    /// <summary>
+    /// 공격하는 코루틴에 사용할 반복자
+    /// </summary>
+    /// <param name="selectedTile">공격할 위치</param>
+    /// <returns></returns>
+    public IEnumerator CharcterAttack(Tile selectedTile)
+    {
+        yield return null;
+    }
+
+    /// <summary>
+    /// 공격범위내에 있는지 체크용 함수 
+    /// 
+    /// </summary>
+    /// <returns>공격가능한범위면 true  불가능하면 false</returns>
+    public bool IsAttackRange()
+    {
+        return false;
+    }
 }

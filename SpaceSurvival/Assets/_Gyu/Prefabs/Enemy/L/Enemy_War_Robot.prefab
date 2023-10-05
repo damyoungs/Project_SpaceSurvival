@@ -2418,7 +2418,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentTile: {fileID: 0}
   moveSize: 4
-  moveSpeed: 3
+  moveSpeed: 10
 --- !u!1 &5654653557125361230
 GameObject:
   m_ObjectHideFlags: 0

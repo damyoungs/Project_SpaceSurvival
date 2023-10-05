@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class EnemyTurnObject : TurnBaseObject
 {
+ 
     /// <summary>
     /// 적군 유닛의 행동이 전부끝낫는지 체크하기위한 변수
     /// </summary>
@@ -28,7 +29,6 @@ public class EnemyTurnObject : TurnBaseObject
     BattleMap_Player_Controller bpc;
 
     CameraOriginTarget cot;
-
     /// <summary>
     /// 몬스터 다죽으면 맵초기화시키기위해 찾아오기
     /// </summary>
@@ -99,6 +99,8 @@ public class EnemyTurnObject : TurnBaseObject
 
                 };
 
+                go.onCameraTarget = () => cot.Target = go.transform;
+
                 go.onActionEndCheck = CheckTurnEnd; //유닛의 행동 종료됬는지 체크하는 함수연결
             }
             //보스 추가시 밑에 기능연결
@@ -157,7 +159,7 @@ public class EnemyTurnObject : TurnBaseObject
     /// <summary>
     /// 유닛 행동끝낫는지 체크해서 턴종료시키는 함수 
     /// </summary>
-    private void CheckTurnEnd() 
+    private void CheckTurnEnd()
     {
         turnEndCheckValue++;
         if (turnEndCheckValue == charcterList.Count) //모든 행동이끝났으면 
@@ -170,27 +172,26 @@ public class EnemyTurnObject : TurnBaseObject
     }
 
 
-    Tile PlayerTileIndex;
+    Tile playerTileIndex;
     
     public override void TurnStartAction()
     {
-        StopAllCoroutines();
-        StartCoroutine(TurnE());
+        StartCoroutine(TestC());
     }
-
-    IEnumerator TurnE()
+    IEnumerator TestC() 
     {
-        PlayerTileIndex = SpaceSurvival_GameManager.Instance.PlayerTeam[0].currentTile;
-        BattleMapEnemyBase Ene;
+        playerTileIndex = SpaceSurvival_GameManager.Instance.PlayerTeam[0].currentTile;
 
         int forSize = charcterList.Count;
         for (int i = 0; i < forSize; i++)
         {
-            Ene = (BattleMapEnemyBase)charcterList[i];
-            cot.Target = Ene.transform;
-            Ene.EnemyTurnAction(PlayerTileIndex);
-            
-            yield return new WaitForSeconds(5.0f);
+            if (charcterList[i].IsAttackRange())
+            {
+                yield return charcterList[i].CharcterAttack(playerTileIndex);
+                CheckTurnEnd();
+                continue;
+            }
+            yield return charcterList[i].CharcterMove(playerTileIndex);
         }
     }
 }

@@ -76,8 +76,9 @@ public class Multiple_Factory : ChildComponentSingeton<Multiple_Factory>
     /// </summary>
     /// <param name="scene">씬정보 딱히필요없음</param>
     /// <param name="mode">모드정보 딱히필요없음</param>
-    protected override void Init(Scene scene, LoadSceneMode mode)
+    protected override void OnEnable()
     {
+        base.OnEnable();
         saveDataPool = GetComponentInChildren<Pool_SaveData>(true);
         savePageButtonPool = GetComponentInChildren<Pool_SavePageButton>(true);
         turnGaugeUnitPool = GetComponentInChildren<Pool_TurnGaugeUnit>(true);
@@ -91,8 +92,7 @@ public class Multiple_Factory : ChildComponentSingeton<Multiple_Factory>
         trackingBattleUIPool.Initialize();
         statePool.Initialize();
         playerUnitPool.Initialize();
-        merchantItemPool.Initialize();  
-
+        merchantItemPool.Initialize();
         tileMapPool = GetComponentInChildren<TileMapPool>(true);
         tileMapPool.Initialize();
 
@@ -122,7 +122,7 @@ public class Multiple_Factory : ChildComponentSingeton<Multiple_Factory>
         size_M_Human_Psionic_Enemy_Pool.Initialize();
         size_S_Robot_Enemy_Pool.Initialize();
         size_L_Robot_Enemy_Pool.Initialize();
-
+      
     }
 
     /// <summary>

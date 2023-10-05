@@ -137,9 +137,10 @@ public class TurnBaseObject : Base_PoolObj, ITurnBaseData
     protected override void Awake()
     {
         base.Awake();
-        turnGaugeCanvas = FindObjectOfType<WindowList>().transform.
+        Transform windowListTransform = FindObjectOfType<WindowList>().transform;
+        turnGaugeCanvas = windowListTransform.
                             GetChild(0).
-                            GetChild(WindowList.Instance.transform.GetChild(0).childCount - 1).
+                            GetChild(windowListTransform.GetChild(0).childCount - 1).
                             GetChild(0); // 턴 게이지 담을 캔버스위치
         charcterList = new(); //리스트 초기화 
     }

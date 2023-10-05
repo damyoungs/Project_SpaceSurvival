@@ -11,7 +11,7 @@ public class Pool_SavePageButton : Base_Pool_Multiple<SavePageButton_PoolObj>
     protected override void StartInitialize()
     {
         
-        setPosition = FindObjectOfType<WindowList>().MainWindow.transform.
+        setPosition = FindObjectOfType<SaveWindowManager>(true).transform.
                                                     GetChild(0). //ContentParent
                                                     GetChild(0). //Contents
                                                     GetChild(0). //SaveLoadWindow

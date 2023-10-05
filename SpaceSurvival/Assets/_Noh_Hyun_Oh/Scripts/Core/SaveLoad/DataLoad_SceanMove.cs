@@ -35,12 +35,21 @@ public class DataLoad_SceanMove : MonoBehaviour
                     SpaceSurvival_GameManager.Instance.BattleMapInitClass.TestReset(true);  //배틀맵 데이터 초기화 
                     SpaceSurvival_GameManager.Instance.BattleMapInitClass.TestInit();  //데이터 리셋
                 }
-                else 
+                else
                 {
                     SpaceSurvival_GameManager.Instance.BattleMapInitClass.TestReset();  //배틀맵 데이터 초기화 
                 }
             }
+            else 
+            {
 
+                SpaceSurvival_GameManager.Instance.ResetData(false);
+            }
+            if (data.SceanName == EnumList.SceneName.SpaceShip) //로드했을때 함선내부에서 같은맵로드시 맵이동이없음으로 
+            {
+                BattleShipInitData bsd = FindObjectOfType<BattleShipInitData>(true);
+                bsd.CharcterMove(SpaceSurvival_GameManager.Instance.ShipStartPos);  //캐릭터 위치변경을 강제로 시킨다.
+            }
         }
     }
  

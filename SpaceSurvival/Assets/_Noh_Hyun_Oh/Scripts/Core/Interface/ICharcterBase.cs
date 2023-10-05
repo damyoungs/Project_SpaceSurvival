@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 /// <summary>
 /// 배틀 맵에서 유닛들이 가지고 있어야할 인터페이스 필요하면 추가예정
@@ -49,7 +50,17 @@ public interface ICharcterBase
     /// <summary>
     /// 캐릭터의 이동함수
     /// </summary>
-    public void CharcterMove(Tile selectedTile);
+    public IEnumerator CharcterMove(Tile selectedTile);
 
- 
+    /// <summary>
+    /// 캐릭터의 공격함수
+    /// </summary>
+    public IEnumerator CharcterAttack(Tile selectedTile);
+
+    /// <summary>
+    /// 공격 범위 안에 있는지 체크하는 함수
+    /// </summary>
+    /// <returns></returns>
+    public bool IsAttackRange();
+
 }
