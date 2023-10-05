@@ -47,8 +47,6 @@ public enum Monster_Type
 /// </summary>
 public class Gyu_QuestManager : MonoBehaviour
 {
-    [SerializeField]
-    int questListCapacity = 10;
     /// <summary>
     /// 플레이어 데이터 
     /// </summary>

@@ -24,14 +24,6 @@ public class BattleMap_Player_Controller : MonoBehaviour
     [SerializeField]
     int tileLayerIndex;
 
- 
-    /// <summary>
-    /// 공격 여부 확인용 
-    /// </summary>
-    [SerializeField]
-    bool isAttack = false;
-
-
     /// <summary>
     /// 플레이어가 턴인지 확인하기위해 가져오는 오브젝트
     /// </summary>

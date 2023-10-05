@@ -10,7 +10,6 @@ public class MapChoiceController : MonoBehaviour
     [SerializeField]
     EnumList.SceneName sceneName = EnumList.SceneName.TestBattleMap;
 
-    bool clearCheck = false;
 
     [SerializeField]
     bool IsBoss = false;

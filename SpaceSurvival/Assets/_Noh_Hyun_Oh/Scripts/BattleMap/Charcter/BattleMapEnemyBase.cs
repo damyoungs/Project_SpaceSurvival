@@ -150,10 +150,7 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
 
   
 
-    /// <summary>
-    /// 이동버그가 존재해서 체크하는 변수
-    /// </summary>
-    bool isMoveCheck = false;
+
 
   
     /// <summary>
@@ -210,7 +207,6 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
     float moveSpeed = 3.0f;
     IEnumerator EnemyMove(List<Tile> path)
     {
-        isMoveCheck = true; //이동 중인지 체크하기 
         Vector3 targetPos = currentTile.transform.position; //길이없는경우 현재 타일위치 고정
         //unitAnimator.SetBool(isWalkingHash, true); //이동애니메이션 재생 시작
 
@@ -241,9 +237,6 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
         //unitAnimator.SetBool(isWalkingHash, false);
 
         enemyData.Stamina -= this.currentTile.MoveCheckG; //최종이동한 거리만큼 스태미나를 깍는다.
-
-        isMoveCheck = false; //이동끝낫는지 체크
-
 
         IsAttackAction(); //공격 범위안에있는지 체크
     }
