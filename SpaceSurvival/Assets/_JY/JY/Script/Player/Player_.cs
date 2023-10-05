@@ -317,7 +317,7 @@ public class Player_ : MonoBehaviour, IBattle
         equipBox = GameManager.EquipBox;
         EquipBox_Description = equipBox.Description;
 
-        onEquipItem += equipBox.Set_ItemData_For_DoubleClick;
+        onEquipItem += equipBox.EquipItem;
         onUnEquipItem += GameManager.SlotManager.UnEquip_Item;
         onOpenInven += GameManager.Inventory.Open_Inventory;
         GameManager.QuickSlot_Manager.on_Activate_Skill += Skill_Action;

@@ -23,11 +23,13 @@ public class Equipments_Data_Server//플레이어가 원하는 타이밍에 언제든 현재 장비
     public float Total_CriticalRate;
     public float Total_DodgeRate;
 
-    public ItemData[] itemDatas;
+    public ItemCode[] codes;
+    public int weaponItemLevel;
+
     public Equipments_Data_Server(EquipBox equipBox)
     {
         equipBox_ = equipBox;
-        itemDatas = new ItemData[4];
+        codes = new ItemCode[4];
     }
 
     public Equipments_Data_Server GetEquipments_Total_ATT_DP()
@@ -208,7 +210,7 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
             Destroy(itemPrefab);
         }
     }
-    public void Set_ItemData_For_DoubleClick(ItemData itemData)
+    public void EquipItem(ItemData itemData)
     {
         EquipBox_Slot slot = Find_Slot_By_Type(itemData);
         if (slot != null)
@@ -413,7 +415,13 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
         Equipments_Data_Server data_Server = player.Player_Status.Equipments_Data;
         for(int  i = 0; i < equipBox_Slots.Length; i++)
         {
-            data_Server.itemDatas[i] = equipBox_Slots[i].ItemData;
+            ItemData data = equipBox_Slots[i].ItemData;
+            data_Server.codes[i] = data.code;
+            ItemData_Enhancable weaponItem = data as ItemData_Enhancable;
+            if (weaponItem != null)
+            {
+                data_Server.weaponItemLevel = weaponItem.itemLevel;
+            }
         }
 
         string json = JsonUtility.ToJson(data_Server);
@@ -434,6 +442,7 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
         {
             if (equipBox_Slots[i].ItemData != null)
             {
+
                 UnEquip_Item(equipBox_Slots[i].ItemData);
             }
         }
@@ -445,12 +454,11 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
         {
             string json = System.IO.File.ReadAllText(path);
             Equipments_Data_Server loadedData = JsonUtility.FromJson<Equipments_Data_Server>(json);
-            foreach (ItemData data in loadedData.itemDatas)
+            foreach(ItemCode code in loadedData.codes)
             {
-                if (data != null)
-                {
-                    Set_ItemData_For_DoubleClick(data);
-                }
+                ItemData data = GameManager.Itemdata[code];
+                GameManager.EquipBox.EquipItem(data);
+
             }
         }
         else
