@@ -41,7 +41,7 @@ public class Item_Mixer_UI : MonoBehaviour, IPopupSortWindow, IPointerClickHandl
         get => darkForceCount;
         set
         {
-            darkForceCount = Math.Clamp(value, MinDarkForceCount, (uint)GameManager.Player__.DarkForce);
+            darkForceCount = Math.Clamp(value, MinDarkForceCount, (uint)GameManager.PlayerStatus.DarkForce);
             amountText.text = darkForceCount.ToString();    // 인풋 필드에 적용
             amountSlider.value = darkForceCount;
             onDarkForceValueChange?.Invoke(Result_Slot.ItemData);
@@ -138,6 +138,7 @@ public class Item_Mixer_UI : MonoBehaviour, IPopupSortWindow, IPointerClickHandl
     }
     public void Open()
     {
+        GameManager.SoundManager.PlayOneShot_OnOffToggle();
         canvasGroup.alpha = 1.0f;
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
@@ -147,6 +148,7 @@ public class Item_Mixer_UI : MonoBehaviour, IPopupSortWindow, IPointerClickHandl
     }
     public void Close()
     {
+        GameManager.SoundManager.PlayOneShot_OnOffToggle();
         canvasGroup.alpha = 0.0f;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
@@ -160,7 +162,7 @@ public class Item_Mixer_UI : MonoBehaviour, IPopupSortWindow, IPointerClickHandl
     {
         if (resultData != null)
         {
-            amountSlider.maxValue = GameManager.Player__.DarkForce;
+            amountSlider.maxValue = GameManager.PlayerStatus.DarkForce;
             UpdateSuccessRate(resultData);
         }
     }

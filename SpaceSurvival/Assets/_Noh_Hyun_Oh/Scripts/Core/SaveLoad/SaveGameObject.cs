@@ -6,7 +6,7 @@ using UnityEngine.UI;
 /// 저장화면에 보이는 파일 정보 
 /// 이오브젝트 클릭시 파일인덱스를 넘겨야한다.
 /// </summary>
-public class SaveGameObject : SaveData_PoolObj
+public class SaveGameObject : Base_PoolObj
 {
 
     /// <summary>
@@ -75,8 +75,8 @@ public class SaveGameObject : SaveData_PoolObj
     /// <summary>
     /// 저장화면에 보일 씬정보
     /// </summary>
-    private EnumList.SceanName sceanName;
-    public EnumList.SceanName SceanName {
+    private EnumList.SceneName sceanName;
+    public EnumList.SceneName SceanName {
         get => sceanName;
         set { 
             sceanName = value;
@@ -97,7 +97,7 @@ public class SaveGameObject : SaveData_PoolObj
 
     
 
-    SaveLoadPopupWindow proccessManager;
+    ModalPopupWindow proccessManager;
     Image backImg;
     protected override void Awake()
     {
@@ -136,7 +136,7 @@ public class SaveGameObject : SaveData_PoolObj
 
                 proccessManager.OldIndex = proccessManager.NewIndex; // 카피할 데이터 번호 셋팅
                 proccessManager.NewIndex = fileIndex; //카피될 데이터 번호 셋팅
-                proccessManager.OpenPopupAction(EnumList.SaveLoadButtonList.COPY); //카피실행
+                proccessManager.SaveProccessOpenPopupAction(EnumList.SaveLoadButtonList.COPY); //카피실행
 
             }
             else

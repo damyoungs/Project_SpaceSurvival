@@ -143,7 +143,7 @@ public class Tile : MonoBehaviour, IComparable<Tile>
 
     public Tile parent;
 
-
+    [SerializeField]
     LineRenderer lineRenderer;
 
     public Action on_Decrease_Player_Stamina;
@@ -151,6 +151,7 @@ public class Tile : MonoBehaviour, IComparable<Tile>
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
+        Debug.Log("타일생성");
     }
 
     /// <summary>
@@ -169,5 +170,5 @@ public class Tile : MonoBehaviour, IComparable<Tile>
             return 1;
         return F.CompareTo(other.F);
     }
-   
+
 }

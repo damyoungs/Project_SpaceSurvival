@@ -25,6 +25,11 @@ public class SlotUI_Base : MonoBehaviour
             {
                 itemData = value;
                 onItemDataChange?.Invoke(itemData);
+                IQuest_Item questItem = itemData as IQuest_Item;
+                if (questItem != null)
+                {
+                    questItem.on_QuestItem_CountChange?.Invoke((int)itemCount, itemData.code);
+                }
             }
         }
     }
@@ -42,6 +47,7 @@ public class SlotUI_Base : MonoBehaviour
                 {
                     onItemCountChange?.Invoke(BindingSlot, itemData);
                 }
+                ItemData.ItemCountBinding((int)itemCount);
             }
         }
     }

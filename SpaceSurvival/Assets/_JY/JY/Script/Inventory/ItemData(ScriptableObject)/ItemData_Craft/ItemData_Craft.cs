@@ -9,9 +9,23 @@ public class ItemData_Craft : ItemData, IEquippable
     public CraftType CraftType;
     public float successRate;
     public ItemData Critical_Success_Item;
+    public uint STR;
+    public uint INT;
+    public uint LUK;
+    public uint DEX;
     public uint attack_Point;
     public uint defence_Point;
+    public float Critical_Rate;
+    public float Dodge_Rate;
 
+    float IEquippable.Critical_Rate => Critical_Rate;
+
+    float IEquippable.Dodge_Rate => Dodge_Rate;
+
+    uint IEquippable.STR => STR;
+    uint IEquippable.INT => INT;
+    uint IEquippable.LUK => LUK;
+    uint IEquippable.DEX => DEX;
     uint IEquippable.ATT => attack_Point;
-    uint IEquippable.DP => attack_Point;
+    uint IEquippable.DP => defence_Point;
 }

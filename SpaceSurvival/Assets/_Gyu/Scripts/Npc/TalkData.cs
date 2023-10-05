@@ -14,8 +14,9 @@ public class TalkData : MonoBehaviour
 
     void GenerateData()
     {
-        talkData.Add(1000, new string[] { "안녕 나는 외계인이라고 해 \n만나서 반가워!!!" });
-        talkData.Add(2000, new string[] { "오늘따라 너무 더워. \n언제쯤 시원해질까" });
+        talkData.Add(1000, new string[] { "1000Npc 답변1" });
+        talkData.Add(2000, new string[] { "2000NPC 답변2" });
+        talkData.Add(3000, new string[] { "3000NpC 답변3" });
 
     }
 

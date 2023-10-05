@@ -77,8 +77,8 @@ public class CameraOriginTarget : MonoBehaviour
     }
     private void Start()
     {
-        InputSystemController.Instance.OnCamera_LeftRotate += OnLeftRotate;
-        InputSystemController.Instance.OnCamera_RightRotate += OnRightRotate;
+        InputSystemController.Instance.OnCamera_LeftRotate = OnLeftRotate;
+        InputSystemController.Instance.OnCamera_RightRotate = OnRightRotate;
     }
     private void LateUpdate()
     {

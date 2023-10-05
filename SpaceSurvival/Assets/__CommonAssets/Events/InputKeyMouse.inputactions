@@ -40,6 +40,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Dash",
+                    "type": "Button",
+                    "id": "28cc21d0-8c95-4dfe-8ffa-293de065a395",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Action",
+                    "type": "Button",
+                    "id": "93d1279a-ec01-427e-92f9-78c4fd1031b2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -130,6 +148,28 @@
                     "action": "MoveMode_Change",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c1d09559-5d32-4d93-ac05-bed70b8280b3",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "826b3ea1-09a2-404f-bf3e-069f43ec55f5",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyMouse",
+                    "action": "Action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -169,6 +209,15 @@
                     "type": "Value",
                     "id": "9da44067-4413-4f8e-97e2-6fabd82ff84c",
                     "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "MouseVector2",
+                    "type": "Value",
+                    "id": "17c065cf-d0fe-494b-8d47-eb65286792af",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -216,6 +265,17 @@
                     "processors": "",
                     "groups": "KeyMouse",
                     "action": "MouseWheel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "02abe5bd-c0ba-41e8-a65a-afef668c6706",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyMouse",
+                    "action": "MouseVector2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -786,6 +846,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Status_Open",
+                    "type": "Button",
+                    "id": "76f9b5d2-2a4e-4f02-b86c-3aa34252cff7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -850,7 +919,7 @@
                     "path": "<Keyboard>/i",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "KeyMouse",
                     "action": "InvenKey",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -909,6 +978,17 @@
                     "action": "SkillBox_Open",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "437f4ef8-29b1-49bc-ba45-2489fc5dccf5",
+                    "path": "<Keyboard>/u",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyMouse",
+                    "action": "Status_Open",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -952,6 +1032,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Quest",
+                    "type": "Button",
+                    "id": "93efd5a5-6301-43ac-b2ce-d6946cc9e048",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -963,6 +1052,17 @@
                     "processors": "",
                     "groups": "KeyMouse",
                     "action": "Options",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "917edf11-6df7-4c77-9e22-f0b640c16601",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyMouse",
+                    "action": "Quest",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

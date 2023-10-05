@@ -9,7 +9,12 @@ public class Skill_Penetrate : SkillData
     {
         base.Init();
         button = transform.parent.GetChild(10).GetComponent<Button>();
+        button.onClick.RemoveAllListeners();
         button.onClick.AddListener(Skill_LevelUp);
+  
+    }
+    protected override void InitSkillData()
+    {
         SkillName = "°üÅë";
         SkillLevel = 1;
         //AnimClip

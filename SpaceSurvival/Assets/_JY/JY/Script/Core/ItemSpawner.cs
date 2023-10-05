@@ -29,15 +29,27 @@ public class ItemSpawner : TestBase
     }
     private void Start()
     {
-        player = GameManager.Player__;
         StartCoroutine(TestInit());
     }
+
     IEnumerator TestInit() 
     {
         yield return null;
-
+        player = GameManager.Player_;
         GetItem_For_Test();
+        SetSkillData_For_Test();
     }
+
+    private void SetSkillData_For_Test()
+    {
+        SkillBox skillBox = FindObjectOfType<SkillBox>();
+        for (int  i = 0; i < 5; i++)
+        {
+            SkillData skillData = skillBox.transform.GetChild(i + 2).GetComponent<SkillData>();
+            GameManager.QuickSlot_Manager.QuickSlots[i].SkillData = skillData;
+        }
+    }
+
     void SetDropTable()
     {
         if (prefabs.Length != Enum.GetValues(typeof(ItemCode)).Length)
@@ -112,6 +124,10 @@ public class ItemSpawner : TestBase
         GameManager.SlotManager.AddItem(ItemCode.Space_Armor);
         GameManager.SlotManager.AddItem(ItemCode.Intermidiate_Green_Crystal);
         GameManager.SlotManager.AddItem(ItemCode.Advanced_Red_Crystal);
+        GameManager.SlotManager.AddItem(ItemCode.Purple_Crystal);
+        GameManager.SlotManager.AddItem(ItemCode.Pink_Crystal);
+        GameManager.SlotManager.AddItem(ItemCode.Red_Crystal);
+        GameManager.SlotManager.AddItem(ItemCode.Red_Crystal);
     }
     public void GetItemH()
     {
@@ -151,35 +167,28 @@ public class ItemSpawner : TestBase
     {
         ItemFactory.MakeItem(itemCode);
     }
+    public bool IsCritical;
     protected override void Test1(InputAction.CallbackContext _)
     {
-       
-        SpawnItemPrefab();
+        GameManager.Player_.Defence(UnityEngine.Random.Range(10, 100), IsCritical);
     }
     protected override void Test2(InputAction.CallbackContext context)
     {
-        GetItem();
-        // GetItemHpPotion();
+        GameManager.EquipBox.Save_EquipmentsData();
+    }
+    protected override void Test3(InputAction.CallbackContext context)
+    {
+        GameManager.SkillBox.TestLoadData();
     }
     protected  void OpenInven(InputAction.CallbackContext _)
     {
 
     }
-    protected override void Test3(InputAction.CallbackContext context)
-    {
-        int i = 0;
-        while(i < 200)
-        {
-            GetItem();
-            i++;
-        }
-       // GameManager.playerDummy.RecoveryHP_(300, 0.5f);
-    }
 
-    public EquipBox equipBox;
     protected override void Test4(InputAction.CallbackContext context)
     {
-        equipBox.Set_ItemData_For_Drag(GameManager.Itemdata[ItemCode.HpPotion]);
+        GameManager.SlotManager.AddItem(ItemCode.SecretPotion);
+        GameManager.SlotManager.AddItem(ItemCode.SpellBook);
     }
     Player_ player;
     protected override void Test5(InputAction.CallbackContext context)

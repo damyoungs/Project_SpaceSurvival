@@ -119,35 +119,29 @@ public class TestSaveData<T> : JsonGameData  // 상속받은 것도 같이 json으로 파싱
     /// </summary>
     public void TestFunc() {
 
-        base.CharcterInfo = new StructList.CharcterInfo[100];
-        for (int i = 0; i < base.CharcterInfo.Length; i++)
-        {
-            base.CharcterInfo[i].Level = 8 * i;
-            base.CharcterInfo[i].CharcterName = $"{i} 번째 홍길동";
-            base.CharcterInfo[i].EXP = i * 99;
-            base.CharcterInfo[i].SceanPositionZ = 99.9f *i;
-            base.CharcterInfo[i].SceanPositionY = 199.9f *i;
-            base.CharcterInfo[i].SceanPositionX = 199.9f * i;
-            base.CharcterInfo[i].Money = i * 5012;
-            base.CharcterInfo[i].FlagList = new int[100];
-            for (int ij = 0; ij < base.CharcterInfo[i].FlagList.Length; ij++)
-            {
-                base.CharcterInfo[i].FlagList[ij] = ij * 857;
-            }
-        }
+        //base.CharcterInfo = new StructList.CharcterInfo[100];
+        //for (int i = 0; i < base.CharcterInfo.Length; i++)
+        //{
+        //    base.CharcterInfo[i].Level = 8 * i;
+        //    base.CharcterInfo[i].CharcterName = $"{i} 번째 홍길동";
+        //    base.CharcterInfo[i].EXP = i * 99;
+        //    base.CharcterInfo[i].SceanPositionZ = 99.9f *i;
+        //    base.CharcterInfo[i].SceanPositionY = 199.9f *i;
+        //    base.CharcterInfo[i].SceanPositionX = 199.9f * i;
+        //    base.CharcterInfo[i].Money = i * 5012;
+        //    base.CharcterInfo[i].FlagList = new int[100];
+        //    for (int ij = 0; ij < base.CharcterInfo[i].FlagList.Length; ij++)
+        //    {
+        //        base.CharcterInfo[i].FlagList[ij] = ij * 857;
+        //    }
+        //}
         base.QuestList = new StructList.CharcterQuest[500];
         for (int i = 0; i < base.QuestList.Length; i++)
         {
-            base.QuestList[i].QuestIProgress = i * 5;
+            //base.QuestList[i].QuestIProgress = i * 5;
             base.QuestList[i].QuestIndex = i ;
         }
-        base.SkillList = new StructList.CharcterSkills[100];
-        for (int i = 0; i < base.SkillList.Length; i++)
-        {
-            base.SkillList[i].Values = i * 500;
-            base.SkillList[i].SkillIndex = i ;
-
-        }
+      
         /*
          * 해당코드 실행시 순한 참조가 발생하여 아래에러를 발생하여 직렬화가 안된다 
          * Serialization depth limit 10 exceeded at 'MyClass.otherInstance'. There may be an object composition cycle in one or more of your serialized classes.
@@ -167,7 +161,7 @@ public class TestSaveData<T> : JsonGameData  // 상속받은 것도 같이 json으로 파싱
 
     public void SaveDataParsing(JsonGameData OriginData) {
         int a =  OriginData.DataIndex;
-        EnumList.SceanName o = OriginData.SceanName;
+        EnumList.SceneName o = OriginData.SceanName;
         string time = OriginData.SaveTime;
        
 

@@ -35,6 +35,7 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
     /// </summary>
     ITurnBaseData currentTurn;
     public ITurnBaseData CurrentTurn => currentTurn;
+
     /// <summary>
     /// 턴게이지 보여줄지 여부
     /// </summary>
@@ -97,7 +98,7 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
 
         turnIndex++; //턴시작마다 카운트 시킨다.
 
-        currentTurn = turnObjectList.First.Value; //처음 턴유닛을 찾아와서 
+            currentTurn = turnObjectList.First.Value; //처음 턴유닛을 찾아와서 
 
 
         if (turnStartValue < currentTurn.TurnActionValue) //턴진행 할수있는 값이 됬으면 턴진행
@@ -123,19 +124,24 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
     /// <param name="turnEndObj">턴종료한 유닛</param>
     private void TurnEnd()
     {
+        GameManager.Inst.ChangeCursor(false);
         currentTurn.TurnEndAction = null;
         currentTurn.TurnRemove = null;
-        currentTurn.IsTurn = false; //턴종료를 설정한다 .
+        currentTurn.IsTurn = false; //턴종료를 설정한다 
+         
+        SortComponent<ITurnBaseData>.BubbleSortLinkedList(turnObjectList , isAscending); //값이변경이 됬음으로 전체 재정렬
+        //TurnSorting(currentTurn); // 값이 변경된 오브젝트의 정렬기능 실행 -- 턴종료마다 행동력증가폭이 같으면 해당함수가 실행되는의미가있다.
+        
         SetTurnValue();// 턴종료시마다 리스트의 유닛들의 행동력 값을 추가해주는 기능
         
-        // TurnSorting(turnEndObj); // 값이 변경된 오브젝트의 정렬기능 실행 -- 턴종료마다 행동력증가폭이 같으면 해당함수가 실행되는의미가있다.
 
         //추가되는 행동력 값이 전부다르다는 전제하에 전체정렬을 재시도 
-        SortComponent<ITurnBaseData>.BubbleSortLinkedList(turnObjectList , isAscending); //값이변경이 됬음으로 전체 재정렬
 
 
         TurnStart(); // 다음턴 실행
     }
+
+    
 
     /// <summary>
     /// 턴이끝난뒤 턴리스트의 오브젝트들의 행동력을 추가시킨다.
@@ -251,10 +257,10 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
         LinkedListNode<ITurnBaseData> nextNode = checkNode.Next;//비교할 다음노드를 미리가져온다.
         for (int i = 0; i < turnObjectList.Count; i++)//리스트 크기만큼 돌리고 
         {
-            Debug.Log(nextNode);
+            //Debug.Log(nextNode);
             if (nextNode == null)
             {
-                //Debug.Log($"{turnEndData.transform.name} 가 턴끝난뒤 정렬시  : 비교값 :{nextNode} :: 포문횟수 : {i} ::  링크드리스트 전체크기 :{turnObjectList.Count}");
+                Debug.Log($"{turnEndData.transform.name} 가 턴끝난뒤 정렬시  : 비교값 :{nextNode} :: 포문횟수 : {i} ::  링크드리스트 전체크기 :{turnObjectList.Count}");
                 return;
             }
             if (SortComponent<ITurnBaseData>.SortAscDesCheck(checkNode.Value, nextNode.Value, isAscending)) // 값비교 오름차순이냐 내림차순이냐에따라 달라진다.
@@ -262,7 +268,7 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
                 turnObjectList.Remove(checkNode);   //일단 노드지우고
                                                     //안지우면 에러남 InvalidOperationException: The LinkedList node already belongs to a LinkedList.
                                                     //노드안에 이미 같은게있다고 추가할수없다고함.
-                turnObjectList.AddBefore(nextNode, checkNode); //노드의 앞에 추가
+                turnObjectList.AddAfter(nextNode, checkNode); //노드의 뒤에 추가
                 break;//위치가 변동이 있으면 빠져나간다 .
             }
             //교체가 필요없는경우 

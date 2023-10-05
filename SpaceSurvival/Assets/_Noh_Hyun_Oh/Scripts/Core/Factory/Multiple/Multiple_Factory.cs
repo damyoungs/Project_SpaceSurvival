@@ -46,11 +46,31 @@ public class Multiple_Factory : ChildComponentSingeton<Multiple_Factory>
     Pool_BattleMapTurnUnit battleMapEnemyPool;
 
    
-
+    /// <summary>
+    /// 전투맵 플레이어 캐릭터 생성할풀 하나라서 딱히 필요없긴하다..
+    /// </summary>
     Pool_PlayerUnit playerUnitPool;
-    Pool_EnemyUnit enemyUnitPool;
 
+   
+    /// <summary>
+    /// 상점에서의 아이템슬롯 생성용으로 사용할 풀
+    /// </summary>
+    Pool_MerchantItem merchantItemPool;
+
+
+    /// <summary>
+    /// 타일맵 풀 테스트용으로 사용하려고 넣어놧다 신경쓰지않아오됨
+    /// </summary>
     TileMapPool tileMapPool;
+
+
+    Pool_EnemyUnit size_S_Human_Enemy_Pool;
+    Pool_EnemyUnit size_M_Human_Hunter_Enemy_Pool;
+    Pool_EnemyUnit size_M_Human_Psionic_Enemy_Pool;
+    Pool_EnemyUnit size_S_Robot_Enemy_Pool;
+    Pool_EnemyUnit size_L_Robot_Enemy_Pool;
+
+
     /// <summary>
     /// 팩토리 생성시 초기화 함수
     /// </summary>
@@ -64,14 +84,14 @@ public class Multiple_Factory : ChildComponentSingeton<Multiple_Factory>
         trackingBattleUIPool = GetComponentInChildren<Pool_TrackingBattleUI>(true);
         statePool = GetComponentInChildren<Pool_State>(true);
         playerUnitPool = GetComponentInChildren<Pool_PlayerUnit>(true);
-        enemyUnitPool = GetComponentInChildren<Pool_EnemyUnit>(true);
+        merchantItemPool = GetComponentInChildren<Pool_MerchantItem>(true);
         saveDataPool.Initialize();
         savePageButtonPool.Initialize();
         turnGaugeUnitPool.Initialize();  
         trackingBattleUIPool.Initialize();
         statePool.Initialize();
         playerUnitPool.Initialize();
-        enemyUnitPool.Initialize();
+        merchantItemPool.Initialize();  
 
         tileMapPool = GetComponentInChildren<TileMapPool>(true);
         tileMapPool.Initialize();
@@ -83,6 +103,25 @@ public class Multiple_Factory : ChildComponentSingeton<Multiple_Factory>
         
         battleMapEnemyPool = battleTurns[1];
         battleMapEnemyPool.Initialize();
+
+
+        Transform child = transform.GetChild(transform.childCount - 2);
+        size_S_Human_Enemy_Pool = child.GetChild(0).GetComponent<Pool_EnemyUnit>();
+        size_M_Human_Hunter_Enemy_Pool = child.GetChild(1).GetComponent<Pool_EnemyUnit>();
+        size_M_Human_Psionic_Enemy_Pool = child.GetChild(2).GetComponent<Pool_EnemyUnit>();
+
+
+        child = transform.GetChild(transform.childCount - 1);
+
+        size_S_Robot_Enemy_Pool = child.GetChild(0).GetComponent<Pool_EnemyUnit>();
+        size_L_Robot_Enemy_Pool = child.GetChild(1).GetComponent<Pool_EnemyUnit>();
+
+
+        size_S_Human_Enemy_Pool.Initialize();
+        size_M_Human_Hunter_Enemy_Pool.Initialize();
+        size_M_Human_Psionic_Enemy_Pool.Initialize();
+        size_S_Robot_Enemy_Pool.Initialize();
+        size_L_Robot_Enemy_Pool.Initialize();
 
     }
 
@@ -120,11 +159,26 @@ public class Multiple_Factory : ChildComponentSingeton<Multiple_Factory>
             case EnumList.MultipleFactoryObjectList.CHARCTER_PLAYER_POOL:
                 obj = playerUnitPool?.GetObject();
                 break;
-            case EnumList.MultipleFactoryObjectList.CHARCTER_ENEMY_POOL:
-                obj = enemyUnitPool?.GetObject();
-                break;
             case EnumList.MultipleFactoryObjectList.TILE_POOL:
                 obj = tileMapPool?.GetObject();
+                break;
+            case EnumList.MultipleFactoryObjectList.MERCHANT_iTEM_POLL:
+                obj = merchantItemPool?.GetObject();
+                break;
+            case EnumList.MultipleFactoryObjectList.SIZE_S_HUMAN_ENEMY_POOL:
+                obj = size_S_Human_Enemy_Pool?.GetObject();
+                break;
+            case EnumList.MultipleFactoryObjectList.SIZE_S_ROBOT_ENEMY_POOL:
+                obj = size_S_Robot_Enemy_Pool?.GetObject();
+                break;
+            case EnumList.MultipleFactoryObjectList.SIZE_M_HUMAN_PSIONIC_ENEMY_POOL:
+                obj = size_M_Human_Psionic_Enemy_Pool?.GetObject();
+                break;
+            case EnumList.MultipleFactoryObjectList.SIZE_M_HUMAN_HUNTER_ENEMY_POOL:
+                obj = size_M_Human_Hunter_Enemy_Pool?.GetObject();
+                break;
+            case EnumList.MultipleFactoryObjectList.SIZE_L_ROBOT_ENEMY_POOL:
+                obj = size_L_Robot_Enemy_Pool?.GetObject();
                 break;
             default:
 

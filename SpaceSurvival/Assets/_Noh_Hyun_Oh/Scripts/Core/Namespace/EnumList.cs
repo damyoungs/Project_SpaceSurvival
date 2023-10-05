@@ -8,7 +8,7 @@ namespace EnumList
     /// 씬리스트 
     /// 맴버변수명을 씬이름으로맞춰야한다. 그리고 빌드쪽에 순서도 맞춰야한다.
     /// </summary>
-    public enum SceanName
+    public enum SceneName
     {
         NONE = -1,//셋팅안됬을때의값 이값셋팅되면안된다 기본적으로.
         OPENING,
@@ -18,7 +18,8 @@ namespace EnumList
         //Item_Test,//인벤창쪽으로넘어가나확인
         //CreateCharcter, //아직안만듬
         TestBattleMap,  //맵은 종류가많음 가장밑에 추가
-        meage,  //맵은 종류가많음 가장밑에 추가
+        SpaceShip,  //맵은 종류가많음 가장밑에 추가
+        BattleShip  // 마을맵 맵핑
     }
     /// <summary>
     /// 로딩화면에 보여줄 이미지 종류리스트
@@ -83,8 +84,13 @@ namespace EnumList
         BATTLEMAP_PLAYER_POOL,
         BATTLEMAP_ENEMY_POOL,
         CHARCTER_PLAYER_POOL,
-        CHARCTER_ENEMY_POOL,
         TILE_POOL,
+        MERCHANT_iTEM_POLL,
+        SIZE_S_HUMAN_ENEMY_POOL,
+        SIZE_M_HUMAN_HUNTER_ENEMY_POOL,
+        SIZE_M_HUMAN_PSIONIC_ENEMY_POOL,
+        SIZE_S_ROBOT_ENEMY_POOL,
+        SIZE_L_ROBOT_ENEMY_POOL,
     }
 
 
@@ -101,15 +107,15 @@ namespace EnumList
     /// <summary>
     /// 화상 감전 동상 중독 공포 
     /// </summary>
-    public enum StateType
-    {
-        None = 0, //빈값
-        ElectricShock, //감전
-        Freeze, //동상
-        Poison, //중독
-        Fear, //공포
-        Burns //화상
-    }
+    //public enum StateType
+    //{
+    //    None = 0, //빈값
+    //    ElectricShock, //감전
+    //    Freeze, //동상
+    //    Poison, //중독
+    //    Fear, //공포
+    //    Burns //화상
+    //}
 
     /// <summary>
     /// 캐릭터 카메라 

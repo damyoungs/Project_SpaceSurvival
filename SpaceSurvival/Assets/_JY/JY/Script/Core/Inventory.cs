@@ -43,7 +43,6 @@ public class Inventory : MonoBehaviour, IPopupSortWindow,IPointerClickHandler
     Image craftButtonColor;
 
     CanvasGroup canvasGroup;
-    AudioSource audioSource;
     public delegate void Inventory_State_Changed(Current_Inventory_State state); //state가 바뀌면 setter가 호출할 delegate
     Inventory_State_Changed inventory_changed;
 
@@ -65,7 +64,6 @@ public class Inventory : MonoBehaviour, IPopupSortWindow,IPointerClickHandler
 
     private void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
         toolBar = transform.GetChild(4);
         close_Button = toolBar.GetChild(0).GetComponent<Button>();
         add_Button = toolBar.GetChild(1).GetComponent<Button>();
@@ -187,9 +185,9 @@ public class Inventory : MonoBehaviour, IPopupSortWindow,IPointerClickHandler
         // 인벤토리 열기
         // 장비창
         // 퀵슬롯 팝업
-        audioSource.Play();
         if (canvasGroup.alpha < 1.0f)
         {
+            GameManager.SoundManager.PlayOneShot_OnOffToggle();
             canvasGroup.alpha = 1.0f;
             canvasGroup.interactable = true;
             canvasGroup.blocksRaycasts = true;
@@ -197,6 +195,7 @@ public class Inventory : MonoBehaviour, IPopupSortWindow,IPointerClickHandler
         }
         else
         {
+            GameManager.SoundManager.PlayOneShot_OnOffToggle();
             canvasGroup.alpha = 0.0f;
             canvasGroup.interactable = false;
             canvasGroup.blocksRaycasts = false;

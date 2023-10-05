@@ -6,6 +6,24 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+
+public class Save_PotionData
+{
+    public ItemData_Potion PotionData;
+    public uint itemCount;
+    public Slot bindingSlot;
+    public SkillType skillType;
+    public Save_PotionData(QuickSlot slot)
+    {
+        if (slot.SkillData != null)
+        {
+            this.PotionData = slot.ItemData;
+            this.itemCount = slot.ItemCount;
+            //this.bindingSlot = slot.type;
+            this.skillType = slot.SkillData.SkillType;
+        }
+    }
+}
 public enum QuickSlotList
 {
     Shift = 0,
@@ -27,6 +45,7 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
 {
     Player_ player;
     SlotManager slotManager;
+    SkillBox skillBox;
 
     Button popupButton;
     TextMeshProUGUI buttonText;
@@ -37,7 +56,7 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
     public QuickSlot[] QuickSlots => quickSlots;
 
     Vector2 hidePos = Vector2.zero;
-    public float popUpSpeed = 7.0f;
+    public float popUpSpeed = 100.0f;
     bool isOpen = false;
 
     ItemData_Potion shiftSlot_Data;
@@ -95,19 +114,7 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
         }
 
     }
-    //private void OnEnable()
-    //{
-        //inputAction.QuickSlot.Enable();
-        //inputAction.QuickSlot.PopUp.performed += QuickSlot_PopUp;
-        //inputAction.QuickSlot.Shift.performed += Shift_performed;
-        //inputAction.QuickSlot.Eight.performed += Eight_performed;
-        //inputAction.QuickSlot.Nine.performed += Nine_performed;
-        //inputAction.QuickSlot.Zero.performed += Zero_performed;
-        //inputAction.QuickSlot.Ctrl.performed += Ctrl_performed;
-        //inputAction.QuickSlot.Alt.performed += Alt_performed;
-        //inputAction.QuickSlot.Space.performed += Space_performed;
-        //inputAction.QuickSlot.Insert.performed += Insert_performed;
-    //}
+   
     private void Start()
     {
         InputSystemController.Instance.OnQuickSlot_Popup += QuickSlot_PopUp;
@@ -117,8 +124,9 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
     IEnumerator Get_References()
     {
         yield return null;
-        player = GameManager.Player__;
+        player = GameManager.Player_;
         slotManager = GameManager.SlotManager;
+        skillBox = GameManager.SkillBox;
     }
 
     public void Set_ItemDataTo_QuickSlot(ItemData_Potion data)
@@ -231,25 +239,31 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
 
     IEnumerator PopUpCoroutine()
     {
+        Vector2 newPos = Vector2.zero;
         if (isOpen)
         {
             while (transform.position.y > hidePos.y)
             {
-                transform.position += popUpSpeed * -Vector3.up;
+                transform.position += popUpSpeed * Time.deltaTime * -Vector3.up;
                 yield return null;
             }
+            newPos = transform.position;
+            newPos.y = -280.0f;
+            transform.position = newPos;
             isOpen = false;
         }
         else
         {
             while (transform.position.y < 0.0f)
             {
-                transform.position += popUpSpeed * Vector3.up;
+                transform.position += popUpSpeed * Time.deltaTime * Vector3.up;
                 yield return null;
             }
+            newPos = transform.position;
+            newPos.y = 0;
+            transform.position = newPos;
             isOpen = true;
         }
-
     }
     void PopUp()
     {
@@ -368,7 +382,7 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
 
     void Init()
     {
-        TempSlot_For_QuickSlot tempSlot = transform.GetChild(9).GetComponent<TempSlot_For_QuickSlot>();
+        TempSlot_For_QuickSlot_ tempSlot = transform.GetChild(9).GetComponent<TempSlot_For_QuickSlot_>();
 
         // quickSlots = new QuickSlot[8];
         for (int i = 0; i < quickSlots.Length; i++)
@@ -385,18 +399,52 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
 
     public void OpenWindow()
     {
-        if (gameObject.activeSelf)
+     
+        if (isOpen)
         {
-            QuickSlot_PopUp();
+            StartCoroutine(PopUpOpenCoroutine());
             PopupSorting(this);
         }
     }
 
     public void CloseWindow()
     {
-        if (gameObject.activeSelf)
+        if (!isOpen)
         {
-            QuickSlot_PopUp();
+            StartCoroutine(PopUpCloseCoroutine());
+        }
+    }
+    IEnumerator PopUpCloseCoroutine()
+    {
+        isOpen = false;
+        while (transform.position.y > hidePos.y)
+        {
+            transform.Translate((Time.deltaTime * popUpSpeed) * -Vector2.up);
+           // transform.position += popUpSpeed * -Vector3.up;
+            yield return null;
+        }
+    }
+    IEnumerator PopUpOpenCoroutine()
+    {
+        isOpen = true;
+        while (transform.position.y < 0.0f)
+        {
+            transform.Translate((Time.deltaTime * popUpSpeed) * Vector2.up);
+            //transform.position += popUpSpeed * Vector3.up;
+            yield return null;
+        }
+    }
+
+  
+    public void QuickSlots_Clear()
+    {
+        foreach(var slot in quickSlots)
+        {
+            slot.SkillData = null;
+        }
+        foreach(var skillData in GameManager.SkillBox.SkillDatas)
+        {
+            skillData.TestInit();
         }
     }
 }

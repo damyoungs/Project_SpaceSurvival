@@ -7,24 +7,40 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class Equipments_Total_ATT_DP//플레이어가 원하는 타이밍에 언제든 현재 장비된 장비들로 인해 추가된 공격력과 방어력을 받아오기위한 클래스
+[Serializable]
+public class Equipments_Data_Server//플레이어가 원하는 타이밍에 언제든 현재 장비된 장비들로 인해 추가된 공격력과 방어력을 받아오기위한 클래스
 {
     EquipBox equipBox_;
     uint total_ATT;
     public uint Total_ATT => total_ATT;
     uint total_DP;
     public uint Total_DP => total_DP;
-    public Equipments_Total_ATT_DP(EquipBox equipBox)
+    public uint Total_STR;
+    public uint Total_INT;
+    public uint Total_LUK;
+    public uint Total_DEX;
+    public float Total_CriticalRate;
+    public float Total_DodgeRate;
+
+    public ItemData[] itemDatas;
+    public Equipments_Data_Server(EquipBox equipBox)
     {
         equipBox_ = equipBox;
+        itemDatas = new ItemData[4];
     }
-    public Equipments_Total_ATT_DP GetEquipments_Total_ATT_DP()
+
+    public Equipments_Data_Server GetEquipments_Total_ATT_DP()
     {
-        Equipments_Total_ATT_DP result = this;
+        Equipments_Data_Server result = this;
         IEquippable itemData;
         this.total_ATT = 0;
         this.total_DP = 0;
-
+        Total_STR = 0;
+        Total_INT = 0;
+        Total_LUK = 0;
+        Total_DEX = 0;
+        Total_CriticalRate = 0;
+        Total_DodgeRate = 0;
         foreach (var equipSlot in equipBox_.EquipBox_Slots)
         {
             itemData = equipSlot.ItemData as IEquippable;
@@ -32,6 +48,12 @@ public class Equipments_Total_ATT_DP//플레이어가 원하는 타이밍에 언제든 현재 장�
             {
                 total_ATT += itemData.ATT;
                 total_DP += itemData.DP;
+                Total_STR += itemData.STR;
+                Total_INT += itemData.INT;
+                Total_DEX += itemData.DEX;
+                Total_LUK += itemData.LUK;
+                Total_CriticalRate += itemData.Critical_Rate;
+                Total_DodgeRate += itemData.Dodge_Rate;
             }
         }
 
@@ -97,7 +119,7 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
     IEnumerator Get_Player_Reference()
     {
         yield return null;
-        player = GameManager.Player__;
+        player = GameManager.Player_;
         equip_Parent_Transform = new Transform[4];
         equip_Parent_Transform[0] = player.Hat_Parent_Transform;
         equip_Parent_Transform[1] = player.Weapon_Parent_Transform;
@@ -353,6 +375,7 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
     }
     public void Open()
     {
+        GameManager.SoundManager.PlayOneShot_OnOffToggle();
         canvasGroup.alpha = 1;
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
@@ -360,6 +383,7 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
     }
     public void Close()
     {
+        GameManager.SoundManager.PlayOneShot_OnOffToggle();
         canvasGroup.alpha = 0;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
@@ -378,5 +402,15 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         PopupSorting?.Invoke(this);
+    }
+
+    public Equipments_Data_Server Save_EquipmentsData()
+    {
+        Equipments_Data_Server data_Server = player.Player_Status.Equipments_Data;
+        for(int  i = 0; i < equipBox_Slots.Length; i++)
+        {
+            data_Server.itemDatas[i] = equipBox_Slots[i].ItemData;
+        }
+        return data_Server;
     }
 }

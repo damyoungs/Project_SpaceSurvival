@@ -79,8 +79,8 @@ public class JsonGameData
     /// 불러오기시 사용될 씬정보 
     /// </summary>
     [SerializeField]
-    EnumList.SceanName sceanName;
-    public EnumList.SceanName SceanName
+    EnumList.SceneName sceanName;
+    public EnumList.SceneName SceanName
     {
         get => sceanName;
         set
@@ -88,21 +88,13 @@ public class JsonGameData
             sceanName = value;
         }
     }
-
-    /// <summary>
-    /// 캐릭터 에대한 정보
-    /// </summary>
     [SerializeField]
-    StructList.CharcterInfo[] charcterInfo;
-    public StructList.CharcterInfo[] CharcterInfo
+    Base_Status playerData;
+    public Base_Status PlayerData 
     {
-        get => charcterInfo;
-        protected set
-        {
-            charcterInfo = value;
-        }
+        get => playerData;
+        set => playerData = value;
     }
-
     /// <summary>
     /// 장비 슬롯갯수 
     /// </summary>
@@ -184,20 +176,17 @@ public class JsonGameData
         get => craftData;
         set => craftData = value;
     }
+
     /// <summary>
-    /// 캐릭터습득 기술 정보리스트
+    /// 중용씨가 만든 클래스 연결 
     /// </summary>
     [SerializeField]
-    StructList.CharcterSkills[] skillList;
-    public StructList.CharcterSkills[] SkillList
+    Save_SkillData[] skillDatas;
+    public Save_SkillData[] SkillDatas 
     {
-        get => skillList;
-        protected set
-        {
-            skillList = value;
-        }
+        get => skillDatas;
+        set => skillDatas = value;
     }
-
     /// <summary>
     /// 캐릭터 퀘스트정보 리스트
     /// </summary>
@@ -206,7 +195,7 @@ public class JsonGameData
     public StructList.CharcterQuest[] QuestList
     {
         get => questList;
-        protected set
+        set
         {
             questList = value;
         }

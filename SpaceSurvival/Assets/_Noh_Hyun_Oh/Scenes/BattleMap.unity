@@ -230,8 +230,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf74fea0c30dece46931f076359da6a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isAttacRange: 0
+  isSkillAndAttack: 0
   tileLayerIndex: 0
   ray_Range: 30
+  attackRangeTiles: []
+  revertTileTypes: 
+  attackCurrentTile: {fileID: 0}
+  attackDir: 0
 --- !u!1001 &205899045
 PrefabInstance:
   m_ObjectHideFlags: 0

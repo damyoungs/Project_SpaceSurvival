@@ -1,37 +1,25 @@
-using EnumList;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class StateObject_PoolObj : Base_PoolObj, IStateData
 {
     /// <summary>
-    /// 씬이동 또는 상태이상이 끝났을경우 풀로 돌릴수있도록 위치값 저장
-    /// </summary>
-    public Transform PoolTransform => poolTransform;
-
-    /// <summary>
     /// 상태이상의 종류
     /// </summary>
-    StateType stateType;
-    public StateType Type 
-    {
-        get => stateType;
-        set 
-        {
-            stateType = value;
-        }
-    }
+    //StateType stateType;
+    //public StateType Type 
+    //{
+    //    get => stateType;
+    //    set 
+    //    {
+    //        stateType = value;
+    //    }
+    //}
 
-
-    /// <summary>
-    /// 상태이상의 아이콘 이미지
-    /// </summary>
-    private Sprite icon; 
-    public Sprite Icon => icon;
-
+    SkillData skillData;
+    public SkillData SkillData { get=> skillData; set => skillData = value; }
+   
     [SerializeField]
     [Range(0.0f,1.0f)]
     /// <summary>
@@ -62,23 +50,19 @@ public class StateObject_PoolObj : Base_PoolObj, IStateData
         {
             if (currentDuration != value) //값이 변경됫으면
             {
-                if (value > MaxDuration) //지속시간체크 다되면
-                {
-                    ResetData();//초기화 하고
-                    return; //돌아간다.
-                }
-
-                // 지속시간 남아있는경우엔 
-                if (value < 0.0f) // 0 이하로는 셋팅이 안되야함으로 체크
+                if (value < 0.0f) 
                 {
                     currentDuration = 0.0f; 
 
                 }
-                else //정상적인값이면 
+                else if (value > MaxDuration)
                 {
+                    currentDuration = maxDuration;
+                }
+                else 
+                { 
                     currentDuration = value; //값변경하고 
                 }
-
                 FillAmoutSetting(currentDuration); //게이지 갱신
             }
             
@@ -88,6 +72,15 @@ public class StateObject_PoolObj : Base_PoolObj, IStateData
     /// 게이지 보여줄 이미지
     /// </summary>
     Image gaugeImg;
+
+    /// <summary>
+    /// 아이콘 이미지
+    /// </summary>
+    Image iconImg;
+
+    TeamBorderStateUI stateBoard;
+    
+
     /// <summary>
     /// 나누기한번만하기위해 배율 미리계산할 변수
     /// </summary>
@@ -96,12 +89,29 @@ public class StateObject_PoolObj : Base_PoolObj, IStateData
     {
         base.Awake();
         gaugeImg = GetComponent<Image>();
-
+        iconImg =  transform.GetChild(0).GetComponent<Image>();
     }
-    protected override void OnEnable()
+
+    /// <summary>
+    /// 초기화 함수 
+    /// </summary>
+    /// <param name="skillData">스킬에대한 정보</param>
+    public void InitData(SkillData skillData) 
     {
-        gaugeImg.fillAmount = 0.0f;// 초기화 
-        computationalScale = (MaxDuration / 1); //배율 미리구해두기
+        if (skillData is Skill_Blessing blessing)
+        {
+            reducedDuration = 1.0f; //한턴당 1씩감소
+            maxDuration = blessing.TurnBuffCount;
+            iconImg.sprite = blessing.skill_sprite;
+            currentDuration = 0.0f;
+            gaugeImg.fillAmount = 0.0f;
+            computationalScale = (1 / MaxDuration); //배율 미리구해두기
+            this.skillData = skillData;
+            stateBoard = WindowList.Instance.TeamBorderManager.TeamStateUIs[0]; //귀찮아 하나만할거니 걍 0번연결
+            stateBoard.AddState(skillData);
+            return;
+        }
+        Debug.Log($" 스킬데이터 : {skillData} 는 상태정보가 아닙니다.");
     }
     /// <summary>
     /// UI 조절할 함수 
@@ -110,6 +120,7 @@ public class StateObject_PoolObj : Base_PoolObj, IStateData
     private void FillAmoutSetting(float value) 
     {
         gaugeImg.fillAmount = computationalScale * value; //미리구해둔 배율로 셋팅 
+        stateBoard.TrunActionValueSetting(gaugeImg.fillAmount);
     }
     /// <summary>
     /// 초기화 작업
@@ -117,12 +128,15 @@ public class StateObject_PoolObj : Base_PoolObj, IStateData
     public void ResetData() 
     {
         //상태값 초기화하고 
-        Type = StateType.None; //상태이상 종류 초기화
+        //Type = StateType.None; //상태이상 종류 초기화
+        skillData = null;
         reducedDuration = -1.0f; //한턴당 진행될 값초기화 
         maxDuration = -1.0f; // 최대치 초기화
         currentDuration = -1.0f; //현재 진행값 초기화
         computationalScale = -1.0f;//배율 초기화
         gaugeImg.fillAmount = 1.0f;// 게이지 초기화 
+        iconImg.sprite = null;     //이미지 초기화 
+        stateBoard.RemoveState();
         transform.SetParent(poolTransform); //풀로 돌린다.
         gameObject.SetActive(false); //큐에 다시 넣기위해 비활성화 
         /*

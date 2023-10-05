@@ -9,14 +9,9 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class ContinueButton : MonoBehaviour
 {
-    [SerializeField]
-    EnumList.SceanName sceanName;
-    private void Awake()
-    {
-        sceanName = EnumList.SceanName.TestBattleMap;
-    }
+   
     public void OnClickContinue()
     {
-        LoadingScean.SceanLoading(sceanName);
+        WindowList.Instance.MainWindow.gameObject.SetActive(!WindowList.Instance.MainWindow.gameObject.activeSelf);
     }
 }

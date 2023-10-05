@@ -26,7 +26,7 @@ public class TempSlot : Slot, IPointerClickHandler,IPointerDownHandler
     public override void InitializeSlot(Slot slot)
     {
         base.InitializeSlot(slot);
-        owner = GameManager.Player__;
+        owner = GameManager.Player_;
     }
     /// <summary>
     /// 임시 슬롯 초기화하는 함수

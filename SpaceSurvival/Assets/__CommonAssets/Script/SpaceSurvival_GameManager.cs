@@ -8,21 +8,37 @@ using UnityEngine;
 /// <summary>
 /// 게임에서 필요한 데이터 및 공통된 기능을 담을 메니저 클래스 
 /// </summary>
-public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
+public class SpaceSurvival_GameManager : ChildComponentSingeton<SpaceSurvival_GameManager>
 {
     /// <summary>
-    /// 유아이 사용시 마우스 이벤트 막기위한 변수 
+    /// 보스 전투인지 체크할변수 
     /// </summary>
-    public bool IsUICheck = false;
+    public bool IsBoss = false;
+    /// <summary>
+    /// 플레이어 퀘스트 정보 담아두기
+    /// </summary>
+    PlayerQuest_Gyu playerQuest;
+    public PlayerQuest_Gyu PlayerQuest 
+    {
+        get 
+        {
+            if (playerQuest == null) 
+            {
+                playerQuest = getPlayerQuest?.Invoke();
+            }
+            return playerQuest;
+        }
+    }
+    public Func<PlayerQuest_Gyu> getPlayerQuest;
 
     /// <summary>
     /// 배틀맵 시작시 셋팅할 맵의 타일 변수 
     /// </summary>
     [SerializeField]
     Tile[] battleMap;
-    public Tile[] BattleMap 
+    public Tile[] BattleMap
     {
-        get 
+        get
         {
             if (battleMap == null || battleMap.Length == 0) //배틀맵의 값이없으면 
             {
@@ -54,7 +70,7 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
         }
     }
     public Func<int> GetMapTileX;
-    
+
     /// <summary>
     /// 배틀맵 시작시 셋팅할 맵의 타일 세로갯수 
     /// </summary>
@@ -77,9 +93,9 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
     /// 플레이어의 팀원 목록을 저장해둔다.
     /// </summary>
     BattleMapPlayerBase[] playerTeam;
-    public BattleMapPlayerBase[] PlayerTeam 
+    public BattleMapPlayerBase[] PlayerTeam
     {
-        get 
+        get
         {
             //if (playerTeam == null) //팀목록이 없으면 
             //{
@@ -94,16 +110,16 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
     /// <summary>
     /// 적군 목록을 저장해둔다.
     /// </summary>
-    ICharcterBase[] enemyTeam;
-    public ICharcterBase[] EnemyTeam
+    BattleMapEnemyBase[] enemyTeam;
+    public BattleMapEnemyBase[] EnemyTeam
     {
         get
         {
-            enemyTeam ??= GetEnemeyTeam?.Invoke(); 
+            enemyTeam ??= GetEnemeyTeam?.Invoke();
             return enemyTeam;
         }
     }
-    public Func<ICharcterBase[]> GetEnemeyTeam;
+    public Func<BattleMapEnemyBase[]> GetEnemeyTeam;
 
     /// <summary>
     /// 이동범위 표시하는 컴포넌트 가져온다.
@@ -153,11 +169,11 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
     /// 전역으로 관리할 변수에 항시들어가지않는다 그래서 Get 할때 체크 필요 
     /// </summary>
     InitCharcterSetting battleMapInitClass;
-    public InitCharcterSetting BattleMapInitClass 
+    public InitCharcterSetting BattleMapInitClass
     {
-        get 
+        get
         {
-            if (battleMapInitClass == null) 
+            if (battleMapInitClass == null)
             {
                 battleMapInitClass = GetBattleMapInit?.Invoke();
             }
@@ -169,20 +185,20 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
     /// <summary>
     /// 공격범위를 취소하고 이동범위를 다시표시하는 함수 중복으로 쓰이는곳이있어서 따로뺏다.
     /// </summary>
-    public void To_AttackRange_From_MoveRange() 
+    public void To_AttackRange_From_MoveRange()
     {
         AttackRange.ClearLineRenderer(); //공격범위 초기화한다.
         AttackRange.isAttacRange = false;
         AttackRange.isSkillAndAttack = false;
         //다시 이동범위 표시한다.
         BattleMapPlayerBase player = (BattleMapPlayerBase)TurnManager.Instance.CurrentTurn.CurrentUnit;
-        float moveSize = player.CharcterData.Stamina > player.MoveSize ? player.MoveSize : player.CharcterData.Stamina; //이동거리구하고
+        float moveSize = player.CharcterData.Player_Status.Stamina > player.MoveSize ? player.MoveSize : player.CharcterData.Player_Status.Stamina; //이동거리구하고
         MoveRange.MoveSizeView(player.CurrentTile, moveSize);//이동범위표시해주기 
     }
 
     public void BattleMap_ResetData(bool isLoadedBattleMap = false)
     {
-        if (!isLoadedBattleMap) 
+        if (!isLoadedBattleMap)
         {
             battleMap = null;
             mapSizeX = -1;
@@ -196,5 +212,28 @@ public class SpaceSurvival_GameManager : Singleton<SpaceSurvival_GameManager>
         }
         playerTeam = null;
         GetPlayerTeam = null;
+        enemyTeam = null;
+        GetEnemeyTeam = null;
+        IsBoss = false;
     }
+
+    /// <summary>
+    /// 나중에 최적화 지금은 작동만 되게 
+    /// </summary>
+    /// <param name="currentTile">길찾기할 유닛의 현재위치</param>
+    /// <param name="TargetTile"> 길찾기할 유닛의 도착할 위치</param>
+    /// <param name="moveSize">찾은길의 이동가능거리</param>
+    /// <returns>이동가능거리만큼의 길찾기 타일배열</returns>
+    public Tile[] GetEnemyAstarTiles(Tile currentTile , Tile TargetTile , float moveSize)
+    {
+        List<Tile> tempList = Cho_BattleMap_Enemy_AStar.PathFind(battleMap, mapSizeX, mapSizeY, currentTile, TargetTile);
+        Tile[] resultPath  = new Tile[(int)moveSize];
+        for (int i = 0; i < resultPath.Length; i++)
+        {
+            resultPath[i] = tempList[i];
+        }
+        return resultPath;
+    }
+
+
 }

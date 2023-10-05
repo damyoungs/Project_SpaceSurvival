@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,6 +13,7 @@ public class EquipBox_Description : MonoBehaviour
     TextMeshProUGUI itemPrice;
     TextMeshProUGUI itemDetail;
     CanvasGroup canvasGroup;
+    StringBuilder sb;
 
     Vector2 fixedPos = Vector2.zero;//퀵슬롯 전용 y값 보정용
 
@@ -37,6 +39,7 @@ public class EquipBox_Description : MonoBehaviour
         itemPrice = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
         itemDetail = transform.GetChild(4).GetComponent<TextMeshProUGUI>();
         canvasGroup = GetComponent<CanvasGroup>();
+        sb = new StringBuilder(10);
     }
     //pause, open, close,
     public void Open(ItemData data)
@@ -47,7 +50,40 @@ public class EquipBox_Description : MonoBehaviour
             
             if (equip_Item != null)
             {
-                itemDetail.text = $"공격력 : {equip_Item.ATT} \n방어력 : {equip_Item.DP}\n{data.itemDescription}";
+                sb.Clear();
+                if (equip_Item.ATT > 0)
+                {
+                    sb.AppendLine($"공격력 {equip_Item.ATT} +");
+                }
+                if (equip_Item.DP > 0)
+                {
+                    sb.AppendLine($"방어력 {equip_Item.DP} +");
+                }
+                if (equip_Item.Critical_Rate > 0)
+                {
+                    sb.AppendLine($"크리티컬 {equip_Item.Critical_Rate}% +");
+                }
+                if (equip_Item.Dodge_Rate > 0)
+                {
+                    sb.AppendLine($"회피 {equip_Item.Dodge_Rate}% +");
+                }
+                if (equip_Item.STR > 0)
+                {
+                    sb.AppendLine($"STR {equip_Item.STR} +");
+                }
+                if (equip_Item.INT > 0)
+                {
+                    sb.AppendLine($"INT {equip_Item.INT} +");
+                }
+                if (equip_Item.LUK > 0)
+                {
+                    sb.AppendLine($"LUK {equip_Item.LUK} +");
+                }
+                if (equip_Item.DEX > 0)
+                {
+                    sb.AppendLine($"DEX {equip_Item.DEX} +");
+                }
+                itemDetail.text = sb.ToString();
             }
     
             itemIcon.sprite = data.itemIcon;

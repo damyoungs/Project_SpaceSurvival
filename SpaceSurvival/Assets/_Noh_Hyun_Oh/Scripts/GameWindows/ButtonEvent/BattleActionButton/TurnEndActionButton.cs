@@ -19,7 +19,7 @@ public class TurnEndActionButton : BattleActionButtonBase
             SpaceSurvival_GameManager.Instance.AttackRange.ClearLineRenderer(); //공격범위 초기화한다.
             SpaceSurvival_GameManager.Instance.AttackRange.isAttacRange = false;
             SpaceSurvival_GameManager.Instance.AttackRange.isSkillAndAttack = false;
-            
+
             SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(node.CurrentUnit.CurrentTile); //이동범위 리셋시킨다.
             node.CurrentUnit = null;
         }

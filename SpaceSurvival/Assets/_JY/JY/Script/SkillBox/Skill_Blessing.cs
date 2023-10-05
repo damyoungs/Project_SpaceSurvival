@@ -7,15 +7,20 @@ public class Skill_Blessing : SkillData
 {
     int turnBuffCount = 0;
     public int TurnBuffCount => turnBuffCount;
+    
     protected override void Init()
     {
         base.Init();
         button = transform.parent.GetChild(8).GetComponent<Button>();
+        button.onClick.RemoveAllListeners();
         button.onClick.AddListener(Skill_LevelUp);
-        SkillName = "ºí·¹½Ì";
-        SkillLevel = 1;
         //AnimClip
         //audioClip
+    }
+    protected override void InitSkillData()
+    {
+        SkillName = "ºí·¹½Ì";
+        SkillLevel = 1;
         Require_Force_For_skillLevelUp = 1;
         Require_Stamina_For_UsingSkill = 1;
         SkillPower = 1.2f;

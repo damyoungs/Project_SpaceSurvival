@@ -49,10 +49,11 @@ public class MoveActionButton : BattleActionButtonBase
                 }
                 if (!player.IsMoveCheck) //이동중이 아닌경우만  
                 {
-                    float moveSize = player.CharcterData.Stamina > player.MoveSize ? player.MoveSize : player.CharcterData.Stamina;
+                    float moveSize = player.CharcterData.Player_Status.Stamina > player.MoveSize ? player.MoveSize : player.CharcterData.Player_Status.Stamina;
                     SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(player.CurrentTile);
                     SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(player.CurrentTile, moveSize);//이동범위표시해주기 
                     isMoveButtonClick = true;
+                    GameManager.Inst.ChangeCursor(false);
                 }
             }
             else //공격 상태면 

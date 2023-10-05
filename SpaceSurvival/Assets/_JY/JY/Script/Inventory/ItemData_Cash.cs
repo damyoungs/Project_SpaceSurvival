@@ -10,7 +10,7 @@ public class ItemData_Cash : ItemData, IConsumable
         Player_ player = target.GetComponent<Player_>();
         if (player != null)
         {
-            player.Money += (int)price;
+            //player.Money += (int)price;
         }
     }
 

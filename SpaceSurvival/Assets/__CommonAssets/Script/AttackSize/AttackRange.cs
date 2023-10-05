@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.EnhancedTouch;
 
+/// <summary>
+/// 동규씨 
+/// 몬스터 범위체크  반환값 타일  없으면 null
+/// 
+/// </summary>
 public class AttackRange : MonoBehaviour
 {
     /// <summary>
@@ -91,8 +94,8 @@ public class AttackRange : MonoBehaviour
     /// <summary>
     /// 공격이나 스킬이 표시될 타일리스트
     /// </summary>
-    List<Tile> activeAttackTiles;
-    
+    public List<Tile> activeAttackTiles;
+
     /// <summary>
     /// 공격타입에따른 복원시킬 이전타일속성  
     /// activeAttackTiles 과 순서를 맞춰야한다.
@@ -105,7 +108,7 @@ public class AttackRange : MonoBehaviour
     /// </summary>
     [SerializeField]
     Tile attackCurrentTile;
-    Tile AttackCurrentTile
+    public Tile AttackCurrentTile
     {
         get => attackCurrentTile;
         set
@@ -114,12 +117,12 @@ public class AttackRange : MonoBehaviour
             {
                 attackCurrentTile = value;
                 //로직실행하자
+                getCurrentTilePos?.Invoke(value.transform.position);
                 SkillRange_Tile_View(value);
-
             }
         }
     }
-
+    public Action<Vector3> getCurrentTilePos;
     ///// <summary>
     ///// 현재 공격범위표시해줄 타입 
     ///// </summary>
@@ -143,16 +146,19 @@ public class AttackRange : MonoBehaviour
     /// </summary>
     [SerializeField]
     DirectionRangeType attackDir = DirectionRangeType.None;
-    DirectionRangeType AttackDir 
+    DirectionRangeType AttackDir
     {
         get => attackDir;
-        set 
+        set
         {
-            if (attackDir != value) 
+            if (attackDir != value)
             {
                 attackDir = value;
-                //휠이나 방향을 바꾸는 인풋이 들어올때 처리
-                SkillRange_Tile_View(attackCurrentTile);
+                if ( attackCurrentTile.ExistType == Tile.TileExistType.AttackRange ||
+                    attackCurrentTile.ExistType == Tile.TileExistType.Attack_OR_Skill)
+                {
+                    SkillRange_Tile_View(attackCurrentTile);
+                }
             }
         }
     }
@@ -161,10 +167,10 @@ public class AttackRange : MonoBehaviour
     /// 현재 공격을 행하는 유닛 
     /// </summary>
     BattleMapPlayerBase player_Unit;
-    BattleMapPlayerBase Player_Unit 
+    BattleMapPlayerBase Player_Unit
     {
         get => player_Unit;
-        set 
+        set
         {
             if (player_Unit != value) //다른캐릭으로 바꼈으면 
             {
@@ -174,7 +180,7 @@ public class AttackRange : MonoBehaviour
                 }
                 player_Unit = value; //새롭게 컨트롤할 캐릭터 셋팅하고 
                 player_Unit.CharcterData.on_ActiveSkill = ActiveSkill; //액션연결 다시한다.
-                
+
             }
         }
     }
@@ -185,15 +191,19 @@ public class AttackRange : MonoBehaviour
     /// 유닛이 사용하고있는 스킬 
     /// </summary>
     SkillData currentSkill;
-    SkillData CurrentSkill 
+    SkillData CurrentSkill
     {
-        get=> currentSkill;
-        set 
+        get => currentSkill;
+        set
         {
             if (currentSkill != value)  //사용중인 스킬이 바뀔때
             {
                 currentSkill = value;                   // 값셋팅하고 
-                SkillRange_Tile_View(attackCurrentTile);// 범위표시다시처리
+                if (attackCurrentTile.ExistType  == Tile.TileExistType.AttackRange ||
+                    attackCurrentTile.ExistType == Tile.TileExistType.Attack_OR_Skill)
+                {
+                    SkillRange_Tile_View(attackCurrentTile);// 범위표시다시처리
+                }
             }
         }
     }
@@ -223,34 +233,79 @@ public class AttackRange : MonoBehaviour
         tileLayerIndex = LayerMask.NameToLayer("Ground");
 
         SpaceSurvival_GameManager.Instance.GetAttackRangeComp = () => this; //데이터 연결하기 
+        getCurrentTilePos = GameManager.Player_.Rotate;
     }
+
 
     /// <summary>
     /// 턴 시작할때 초기화할 함수
     /// </summary>
     /// <param name="controllUnit">컨트롤할 유닛</param>
-    public void InitDataSet(BattleMapPlayerBase controllUnit) 
+    public void InitDataSet(BattleMapPlayerBase controllUnit)
     {
-        if (controllUnit != null) 
+        if (controllUnit != null)
         {
             Player_Unit = controllUnit;
-            InputSystemController.InputSystem.Mouse.MouseWheel.performed += OnMouseWheel;
+            attackCurrentTile = player_Unit.CurrentTile;
         }
     }
+
 
     private void OnMouseWheel(InputAction.CallbackContext context)
     {
         SetAttackDir(context.ReadValue<float>());
     }
+
+    /// <summary>
+    /// 마우스 이동 감지용 인풋시스템 연결 함수
+    /// </summary>
+    private void OnMouseMove(InputAction.CallbackContext context)
+    {
+        Vector2 mouseScreenPos = context.ReadValue<Vector2>();
+        AttackRangeView(mouseScreenPos);
+    }
+    /// <summary>
+    /// 마우스 위치에따른 타일 찾기
+    /// </summary>
+    /// <param name="mouseScreenPos">마우스의 스크린 좌표</param>
+    private void AttackRangeView(Vector2 mouseScreenPos)
+    {
+        if (!isClear) //타일갱신중에 중복실행되면 안되니 체크
+        {
+            Ray ray = Camera.main.ScreenPointToRay(mouseScreenPos);      // 화면에서 현재 마우스의 위치로 쏘는 빛
+            Debug.DrawRay(ray.origin, ray.direction * ray_Range, Color.black, 1.0f);              // 디버그용 레이저
+
+            RaycastHit[] hitObjets = Physics.RaycastAll(ray, ray_Range); //레이를 쏴서 충돌한 오브젝트 리스트를 받아온다.
+
+            foreach (RaycastHit hit in hitObjets) // 내용이 있는경우 내용을 실행한다.
+            {
+                if (hit.collider.gameObject.layer == tileLayerIndex) //타일인지 체크하고 
+                {
+                    Tile cusorTile = hit.transform.GetComponent<Tile>();
+                    if (cusorTile.ExistType == Tile.TileExistType.AttackRange ||
+                        cusorTile.ExistType == Tile.TileExistType.Attack_OR_Skill
+                        ) //공격범위안에서만 보여야한다. 
+                    {
+                        AttackCurrentTile = cusorTile; //찾은 타일을 계속 입력해준다!!!
+
+                    }
+                    //다른방법없나..? 구조를바꿔야..되나?
+                    //다른방법 Tile 클래스 내부에다가 OnMouseEnter 함수를 이용해서 데이터를 덮어씌우는방법도있긴한데.. 어떤걸쓸가..
+                    break; //한번찾으면 더이상 찾을필요없으니 나가자.
+                }
+            }
+        }
+    }
+
     /// <summary>
     /// 로직짜기귀찮아서 스위치로 처리..
     /// 방향표시가 없는구간도있으니 무조건 처리하는게아니라 방향처리없는 곳은 건너뛰는로직도 필요할듯싶다 .
     /// 그럴려면 범위표시하는곳에서 카운팅한 값을 8방향 만큼 전부저장하고 0일때는 건너뛰는로직이 필요.
     /// </summary>
     /// <param name="mouseWheelValue">휠방향</param>
-    private void SetAttackDir(float mouseWheelValue) 
+    private void SetAttackDir(float mouseWheelValue)
     {
-        if (mouseWheelValue > 0) 
+        if (mouseWheelValue > 0)
         {
             switch (AttackDir)
             {
@@ -313,6 +368,7 @@ public class AttackRange : MonoBehaviour
         //Debug.Log(mouseWheelValue);
     }
 
+    // --------------------------------------- 공격 범위 표시용 함수들-------------------
     /// <summary>
     /// 캐릭터 쪽에서 스킬을 누르거나 단축키로 스킬을 사용할때 발동하는 함수 
     /// 내쪽에서는 들어온 스킬로 범위를 구분해서 표시해주면된다.
@@ -335,6 +391,7 @@ public class AttackRange : MonoBehaviour
             {
                 case SkillType.Sniping:
                 case SkillType.Normal:
+                case SkillType.rampage:
                     AttackRangeTileView(player.CurrentTile, skillData.AttackRange); //공격범위표시
                     AttackDir = DirectionRangeType.None;
                     break;
@@ -344,56 +401,12 @@ public class AttackRange : MonoBehaviour
                     AttackDir = DirectionRangeType.North;
                     break;
 
-                case SkillType.rampage:
-                    break;
                 default:
                     break;
             }
             CurrentSkill = skillData;   // 범위셋팅했으면 스킬데이터도 갱신
         }
-       
-    }
 
-    /// <summary>
-    /// 마우스 이동 감지용 인풋시스템 연결 함수
-    /// </summary>
-    private void OnMouseMove(InputAction.CallbackContext context)
-    {
-        Vector2 mouseScreenPos = context.ReadValue<Vector2>();
-        AttackRangeView(mouseScreenPos);
-    }
-
-    /// <summary>
-    /// 마우스 위치에따른 타일 찾기
-    /// </summary>
-    /// <param name="mouseScreenPos">마우스의 스크린 좌표</param>
-    private void AttackRangeView(Vector2 mouseScreenPos)
-    {
-        if (!isClear) //타일갱신중에 중복실행되면 안되니 체크
-        {
-            Ray ray = Camera.main.ScreenPointToRay(mouseScreenPos);      // 화면에서 현재 마우스의 위치로 쏘는 빛
-            Debug.DrawRay(ray.origin, ray.direction * ray_Range, Color.black, 1.0f);              // 디버그용 레이저
-
-            RaycastHit[] hitObjets = Physics.RaycastAll(ray, ray_Range); //레이를 쏴서 충돌한 오브젝트 리스트를 받아온다.
-
-            foreach (RaycastHit hit in hitObjets) // 내용이 있는경우 내용을 실행한다.
-            {
-                if (hit.collider.gameObject.layer == tileLayerIndex) //타일인지 체크하고 
-                {
-                    Tile cusorTile = hit.transform.GetComponent<Tile>();
-                    if (cusorTile.ExistType == Tile.TileExistType.AttackRange ||
-                        cusorTile.ExistType == Tile.TileExistType.Attack_OR_Skill
-                        ) //공격범위안에서만 보여야한다. 
-                    {
-                        AttackCurrentTile = cusorTile; //찾은 타일을 계속 입력해준다!!!
-
-                    }
-                    //다른방법없나..? 구조를바꿔야..되나?
-                    //다른방법 Tile 클래스 내부에다가 OnMouseEnter 함수를 이용해서 데이터를 덮어씌우는방법도있긴한데.. 어떤걸쓸가..
-                    break; //한번찾으면 더이상 찾을필요없으니 나가자.
-                }
-            }
-        }
     }
 
 
@@ -406,7 +419,7 @@ public class AttackRange : MonoBehaviour
     {
         //공격범위가 활성화 된 상태에서 실행되게 설정
         //활성화 된 상태라고 하더라도 공격범위일경우 다시 타일을 그려야한다. 
-        if (isAttacRange || targetTile.ExistType == Tile.TileExistType.Attack_OR_Skill) 
+        if (isAttacRange )//|| targetTile.ExistType == Tile.TileExistType.Attack_OR_Skill)
         {
             //타일이이동되면 기존범위표시 삭제하고 
             if (revertAttackRangeTileType.Count > 0)
@@ -436,14 +449,19 @@ public class AttackRange : MonoBehaviour
                 // 내 캐릭터 기준으로 정면방향 ,
                 // 원점으로 부터 5칸 3칸 표시 
                 case SkillType.rampage:
+                    if (targetTile == player_Unit.CurrentTile) return; //내위치는 선택안되야됨
+                    if (targetTile.ExistType == Tile.TileExistType.AttackRange) //범위안에서만 표시되야한다. 
+                    {
+                        RampageAttackRange(currentSkill.AttackRange);
+                    }
                     break;
                 default:
                     break;
             }
-        }  
+        }
     }
 
-
+    //-----------------------------------------  셋팅된 범위값 표시 및 초기화용 함수들 ------------------------
     /// <summary>
     /// 공격 범위 표시하기 
     /// </summary>
@@ -481,7 +499,7 @@ public class AttackRange : MonoBehaviour
             }
 
             InputSystemController.InputSystem.Mouse.Get_Position.performed -= OnMouseMove; //레이를 쏘는 작업 끄기 원점타일가져오는작업
-
+            InputSystemController.InputSystem.Mouse.MouseWheel.performed -= OnMouseWheel; //휠 비활성화 
             if (revertTileTypes.Count > 0) //초기화 할 타일이있을때만  
             {
                 int listSize = revertTileTypes.Count; //갯수가져와서
@@ -501,17 +519,17 @@ public class AttackRange : MonoBehaviour
     /// 적리스트를 반환하는 함수
     /// </summary>
     /// <returns>적이있으면 배열로반환 없으면 null반환</returns>
-    public ICharcterBase[] GetEnemyArray(out float LastDamage)
+    public BattleMapEnemyBase[] GetEnemyArray(out SkillData skill)
     {
         if (activeAttackTiles.Count > 0)
         {
-            LastDamage = currentSkill.FinalDamage;  //몬스터한테 줄 데미지 셋팅
+            skill = currentSkill; 
 
-            ICharcterBase[] enemyArray = SpaceSurvival_GameManager.Instance.EnemyTeam; //배틀맵의 몹정보를 전부 들고 
+            BattleMapEnemyBase[] enemyArray = SpaceSurvival_GameManager.Instance.EnemyTeam; //배틀맵의 몹정보를 전부 들고 
 
             int enemySize = enemyArray.Length;      // 배틀맵에 나와있는 몬스터의 갯수 가져오고
 
-            List<ICharcterBase> resultEnemyList = new List<ICharcterBase>(enemySize); //최대크기는 몬스터 리스트보다 클수없음으로 그냥 최대로잡자
+            List<BattleMapEnemyBase> resultEnemyList = new List<BattleMapEnemyBase>(enemySize); //최대크기는 몬스터 리스트보다 클수없음으로 그냥 최대로잡자
 
             foreach (Tile attackTile in activeAttackTiles) //공격범위만큼 검색하고
             {
@@ -528,35 +546,30 @@ public class AttackRange : MonoBehaviour
             return resultEnemyList.ToArray();
         }
         //여긴 공격할적이없을때 오는곳
-        LastDamage = 0.0f;  //기냥 초기화값
+        skill  = currentSkill;  //기냥 초기화값
         return null;
     }
-
-
-
-
-    // ----------------------------- 공격 범위 표시하는 함수들
+    public Tile[] GetEnemyArray() 
+    {
+        return activeAttackTiles.ToArray();
+    }
 
     /// <summary>
-    /// 사거리안의 범위를 전부 표시해주는 함수
-    /// 단일 타겟 용으로 쓰인다. (저격,일반공격)
+    /// 타일의 좌표값으로 인덱스 구하는함수 
     /// </summary>
-    /// <param name="playerTile">캐릭터가 있는 타일 위치</param>
-    /// <param name="size">공격가능한 사거리 범위 (기본값은 1)</param>
-    private void AttackRangeTileView(Tile playerTile, float size = 1.0f)
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="maxX"></param>
+    /// <returns></returns>
+    private int GetTileIndex(int x, int y, int maxX)
     {
-        if (!isAttacRange)
-        {
-            isAttacRange = true;                                                 //공격범위표시 시작 체크
-            ClearLineRenderer();                                                // 기존의 리스트 초기화하고 
-            SetAttackSize(playerTile, size);                                       // 셋팅하고 
-            OpenLineRenderer();                                                 // 보여준다
-        }
+        return x + (y * maxX);
     }
 
 
 
 
+    // ------------------------------------------관통 관련함수 --------------------
     /// <summary>
     /// 관통관련 공격범위 표시용 함수
     /// </summary>
@@ -581,6 +594,8 @@ public class AttackRange : MonoBehaviour
     /// <param name="size">범위값</param>
     private void PenetrateSetAttackSize(Tile playerTile, float size = 1.0f)
     {
+        InputSystemController.InputSystem.Mouse.MouseWheel.performed += OnMouseWheel; //휠 활성화 
+
         Tile[] mapTiles = SpaceSurvival_GameManager.Instance.BattleMap;
         int tileSizeX = SpaceSurvival_GameManager.Instance.MapSizeX;
         int tileSizeY = SpaceSurvival_GameManager.Instance.MapSizeY;
@@ -589,6 +604,7 @@ public class AttackRange : MonoBehaviour
         int searchIndex = 0;
         int forSize = 0;
         Tile addTile = null;
+
         int rotateSize = eightWayRotateValues.Length;   //8방향 회전에대한 배열크기 가져오기
         for (int i = 0; i < rotateSize; i++)
         {
@@ -608,17 +624,15 @@ public class AttackRange : MonoBehaviour
             }
         }
     }
-    //인덱스값 : -24 forSize :3 , 공격범위4
-    //X :0 , Y:-1 , sX:-1 ,sY:-1, i:5,j:2 , tileSizeY:24
 
 
     /// <summary>
     /// 관통로직
     /// 일직선 표시 
     /// </summary>
-    /// <param name="currentTile">캐릭터가있는 타일위치</param>
+    /// <param name="playerTile">캐릭터가있는 타일위치</param>
     /// <param name="size">공격 타입에따른 범위 (기본값은 1)</param>
-    private void Set_Penetrate_Attack(Tile currentTile, float size = 1.0f)
+    private void Set_Penetrate_Attack(Tile playerTile, float size = 1.0f)
     {
         if (!isClear)
         {
@@ -667,14 +681,14 @@ public class AttackRange : MonoBehaviour
             Tile addTile = null;
             int tileSizeX = SpaceSurvival_GameManager.Instance.MapSizeX;
             int tileSizeY = SpaceSurvival_GameManager.Instance.MapSizeY;
-            int currentX = currentTile.width;
-            int currentY = currentTile.length;
+            int currentX = playerTile.width;
+            int currentY = playerTile.length;
             int searchIndex = 0;
             int forSize = SetRangeSizeCheck(currentX, currentY, wayValue.x, wayValue.y, tileSizeX, tileSizeY, size);
             forSize += 1;//포문시작을 1부터 시작하기때문에 추가
             for (int j = 1; j < forSize; j++)
             {
-                searchIndex = (currentX + (wayValue.x * j)) + ((currentY + (wayValue.y * j)) * tileSizeX); //인덱스구하기 
+                searchIndex = GetTileIndex(currentX + (wayValue.x * j), (currentY + (wayValue.y * j)), tileSizeX);//인덱스구하기 
                 //Debug.Log($"{currentX + (wayValue.x * j)} , {currentY + (wayValue.y * j)} , {tileSizeX} ,{j},{searchIndex}");
                 addTile = mapTiles[searchIndex];
                 if (addTile.ExistType == Tile.TileExistType.AttackRange) //공격범위안에있으면 
@@ -686,7 +700,7 @@ public class AttackRange : MonoBehaviour
             }
         }
     }
-
+   
 
     /// <summary>
     /// 관통로직에 사용됨
@@ -738,6 +752,233 @@ public class AttackRange : MonoBehaviour
 
 
 
+    // -------------------------------------------     난사 관련 함수 ------------------------------
+
+
+
+    /// <summary>
+    /// 선택된 타일에 난사범위만큼 표시해주는 함수
+    /// </summary>
+    /// <param name="attackRange">난사 스킬의 최대로 표시할 타일의 갯수</param>
+    private void RampageAttackRange(float attackRange) 
+    {
+        if (!isClear)
+        {
+            int tileSizeX = SpaceSurvival_GameManager.Instance.MapSizeX;
+            int tileSizeY = SpaceSurvival_GameManager.Instance.MapSizeY;
+            int currentX = attackCurrentTile.width;
+            int currentY = attackCurrentTile.length;
+
+            //선택된 타일이 캐릭터기준 동서남북 방향을 얻고 방향을 저장해둔다 .
+            SetRampageDirection(attackCurrentTile);
+
+            int outSideLength = (int)(attackRange * 0.375f);  // 비율이 5/8 : 3/8 이니 37.5%만큼의 값을 가져오고 
+            int inSideLength = (int)(attackRange * 0.625f);   // 나머지값(62.5%)을 안쪽값으로한다.
+
+            // 비율에 대한값은 스킬데이터에 저장해두는게 좋을듯싶다 . 여기서 일일이 계산하는것보다
+            // 미리 스킬데이터에 정확한값을 저장해두고 불러다가 쓰는게 효율적이다.
+
+            int tempInt = inSideLength / 2;
+            
+            int inSideStartIndex = -tempInt;    //  attackRange 가 8이면 -2 가 저장
+            int inSideEndIndex = tempInt;       //  attackRange 가 8이면 +2 가 저장  
+            
+            tempInt = outSideLength / 2;
+            
+            int outSideStartIndex = -tempInt;   //  attackRange 가 8이면 -1 이 저장
+            int outSideEndIndex = tempInt;      //  attackRange 가 8이면 +1 이 저장
+            //Debug.Log($"{attackRange} , {inSideLength} , {outSideLength} ");
+            Debug.Log($"{attackDir} =  {inSideStartIndex},{inSideEndIndex} : {outSideStartIndex},{outSideEndIndex}");
+            switch (attackDir)
+            {
+                case DirectionRangeType.None:
+                    //비표시
+                    return; //비표시때는 바로리턴
+                case DirectionRangeType.East:
+                    if (currentY > tileSizeY - 2)
+                    {
+                        inSideStartIndex = CheckRampageRangeX(inSideStartIndex, tileSizeX);
+                        inSideEndIndex = CheckRampageRangeX(inSideEndIndex, tileSizeX) + 1;
+                        SetRampageTilesX(inSideStartIndex, inSideEndIndex, 0);
+                    }
+                    else 
+                    {
+                        inSideStartIndex = CheckRampageRangeX(inSideStartIndex, tileSizeX);
+                        inSideEndIndex = CheckRampageRangeX(inSideEndIndex, tileSizeX) + 1;
+                        SetRampageTilesX(inSideStartIndex, inSideEndIndex, 0);
+
+                        outSideStartIndex = CheckRampageRangeX(outSideStartIndex, tileSizeX);
+                        outSideEndIndex = CheckRampageRangeX(outSideEndIndex, tileSizeX) + 1;
+                        SetRampageTilesX(outSideStartIndex, outSideEndIndex, 1);
+                    }
+                    break;
+                case DirectionRangeType.North:
+                    if (currentX > tileSizeX - 2)
+                    {
+                        inSideStartIndex = CheckRampageRangeY(inSideStartIndex, tileSizeY);
+                        inSideEndIndex = CheckRampageRangeY(inSideEndIndex, tileSizeY) + 1;
+                        SetRampageTilesY(inSideStartIndex, inSideEndIndex, 0);
+                    }
+                    else 
+                    {
+                        inSideStartIndex = CheckRampageRangeY(inSideStartIndex, tileSizeY);
+                        inSideEndIndex = CheckRampageRangeY(inSideEndIndex, tileSizeY) + 1;
+                        SetRampageTilesY(inSideStartIndex, inSideEndIndex, 0);
+
+                        outSideStartIndex = CheckRampageRangeY(outSideStartIndex, tileSizeY);
+                        outSideEndIndex = CheckRampageRangeY(outSideEndIndex, tileSizeY) + 1;
+                        SetRampageTilesY(outSideStartIndex, outSideEndIndex, 1);
+                    }
+                    break;
+                case DirectionRangeType.West:
+                    if (currentY < 1)
+                    {
+                        inSideStartIndex = CheckRampageRangeX(inSideStartIndex, tileSizeX);
+                        inSideEndIndex = CheckRampageRangeX(inSideEndIndex, tileSizeX) + 1;
+                        SetRampageTilesX(inSideStartIndex, inSideEndIndex, 0);
+                    }
+                    else //-1
+                    {
+                        inSideStartIndex = CheckRampageRangeX(inSideStartIndex, tileSizeX);
+                        inSideEndIndex = CheckRampageRangeX(inSideEndIndex, tileSizeX) + 1;
+                        SetRampageTilesX(inSideStartIndex, inSideEndIndex, 0);
+
+                        outSideStartIndex = CheckRampageRangeX(outSideStartIndex, tileSizeX);
+                        outSideEndIndex = CheckRampageRangeX(outSideEndIndex, tileSizeX) + 1;
+                        SetRampageTilesX(outSideStartIndex, outSideEndIndex, -1);
+                    }
+                    break;
+                case DirectionRangeType.South:
+                    if (currentX < 1)
+                    {
+                        inSideStartIndex = CheckRampageRangeY(inSideStartIndex, tileSizeY);
+                        inSideEndIndex = CheckRampageRangeY(inSideEndIndex, tileSizeY) + 1;
+                        SetRampageTilesY(inSideStartIndex, inSideEndIndex, 0);
+                    } 
+                    else //-1
+                    {
+                        inSideStartIndex = CheckRampageRangeY(inSideStartIndex, tileSizeY);
+                        inSideEndIndex = CheckRampageRangeY(inSideEndIndex, tileSizeY) + 1;
+                        SetRampageTilesY(inSideStartIndex, inSideEndIndex, 0);
+
+                        outSideStartIndex = CheckRampageRangeY(outSideStartIndex, tileSizeY);
+                        outSideEndIndex = CheckRampageRangeY(outSideEndIndex, tileSizeY) + 1;
+                        SetRampageTilesY(outSideStartIndex, outSideEndIndex, -1);
+                    }
+                    break;
+                default:
+                    break;
+            }
+            //Debug.Log($"마우스타일은 : {currentTile} , 캐릭터 타일은 : {player_Unit.CurrentTile}"); 
+            //Debug.Log($"방향이 :{attackDir},연산좌표는:{viewDir} , 포문사이즈는 {inSideStartIndex},{inSideEndIndex} , {outSideStartIndex},{outSideEndIndex}");
+        }
+    }
+    private void SetRampageTilesY(int startIndex, int endIndex , int gapValue)
+    {
+        Tile[] mapTiles = SpaceSurvival_GameManager.Instance.BattleMap;
+        int tileSizeX = SpaceSurvival_GameManager.Instance.MapSizeX;
+        gapValue += attackCurrentTile.width;
+        Tile addTile = null;
+        for (int i = startIndex; i < endIndex; i++)
+        {
+            addTile = mapTiles[GetTileIndex(gapValue, i + attackCurrentTile.length, tileSizeX)];
+            activeAttackTiles.Add(addTile);
+            revertAttackRangeTileType.Add(addTile.ExistType);
+            addTile.ExistType = Tile.TileExistType.Attack_OR_Skill;
+        }
+    }
+    private void SetRampageTilesX(int startIndex, int endIndex, int gapValue)
+    {
+        Tile[] mapTiles = SpaceSurvival_GameManager.Instance.BattleMap;
+        int tileSizeX = SpaceSurvival_GameManager.Instance.MapSizeX;
+        gapValue += attackCurrentTile.length;
+        Tile addTile = null;
+        for (int i = startIndex; i < endIndex; i++)
+        {
+            addTile = mapTiles[GetTileIndex(i + attackCurrentTile.width, gapValue, tileSizeX)];
+            activeAttackTiles.Add(addTile);
+            revertAttackRangeTileType.Add(addTile.ExistType);
+            addTile.ExistType = Tile.TileExistType.Attack_OR_Skill;
+        }
+    }
+    /// <summary>
+    /// 선택된 타일이 캐릭터 기준으로 어느방향인지 설정하는 함수 
+    /// 애매한 대각선일경우에 동서남북기준으로 잡아준다.
+    /// </summary>
+    private void SetRampageDirection(Tile currentTile) 
+    {
+        int horizontalGapValue = 0; 
+        DirectionRangeType tempDir = DirectionRangeType.None; //임시로 저장할 방향
+        if (player_Unit.CurrentTile.Width > currentTile.Width) // 가로비교
+        {
+            //남쪽
+            horizontalGapValue = player_Unit.CurrentTile.Width - currentTile.Width;
+            tempDir = DirectionRangeType.South; 
+        }
+        else 
+        {
+            //북쪽
+            horizontalGapValue = currentTile.Width - player_Unit.CurrentTile.width;
+            tempDir = DirectionRangeType.North; 
+        }
+        
+        int verticalGapValue = 0;
+        if (player_Unit.CurrentTile.length > currentTile.length) //세로비교 
+        {
+            //서쪽
+            verticalGapValue = player_Unit.CurrentTile.length - currentTile.length;
+            if (verticalGapValue > horizontalGapValue) 
+            {
+                tempDir = DirectionRangeType.West; 
+            }
+        }
+        else 
+        {
+            //동쪽
+            verticalGapValue = currentTile.length - player_Unit.CurrentTile.length;
+            if (verticalGapValue > horizontalGapValue) 
+            {
+                tempDir = DirectionRangeType.East; 
+            }
+        }
+        //프로퍼티안에서 if 로체크해도되지만 스킬은 여기서 끝이기때문에 그냥 이대로 간다.
+        attackDir = tempDir; //프로퍼티 안쓴이유는 프로퍼티에 연결된 함수에서 이함수를 사용하기때문이다. 무한재귀호출 가능성을 없앴다.
+    }
+    /// <summary>
+    /// 좌우 체크로직 
+    /// </summary>
+    /// <param name="x">체크할 좌표값</param>
+    /// <param name="maxX">가로 최대갯수</param>
+    /// <returns>체크할좌표가 최대값보다 크면 최대값을반환 0보다작으면 0을반환</returns>
+    private int CheckRampageRangeX(int x, int maxX)
+    {
+        x = attackCurrentTile.width + x > maxX - 1 ?    //현재 타일에서 추가될값의 합이 마지막타일값보다크면  
+            (maxX - 1) - attackCurrentTile.width :      //마지막 타일값에서 현재 타일값을 뺀값을 반환
+            
+            attackCurrentTile.width + x < 0 ?           //현재 타일에서 추가될값의 합이 0보다 작으면 
+            -attackCurrentTile.width :                  //현재 타일인덱스의 -값을 반환 
+            
+            x;                                          // 그이외에는 입력값 그대로 반환
+        return x;
+    }
+    // -2 1 0 
+    /// <summary>
+    /// 위아래  체크로직
+    /// </summary>
+    /// <param name="y">체크할 좌표값</param>
+    /// <param name="maxY">세로 최대갯수</param>
+    /// <returns>체크할좌표가 최대값보다 크면 최대값을반환 0보다작으면 0을반환</returns>
+    private int CheckRampageRangeY(int y, int maxY)
+    {
+        y = attackCurrentTile.length + y > maxY - 1 ?       //현재 타일에서 추가될값의 합이 마지막타일값보다크면  
+         (maxY - 1) - attackCurrentTile.length :            //마지막 타일값에서 현재 타일값을 뺀값을 반환
+
+         attackCurrentTile.length + y < 0 ?                 //현재 타일에서 추가될값의 합이 0보다 작으면 
+         -attackCurrentTile.length :                        //현재 타일인덱스의 -값을 반환 
+
+         y;                                                 // 그이외에는 입력값 그대로 반환
+        return y;
+    }
 
 
 
@@ -748,14 +989,25 @@ public class AttackRange : MonoBehaviour
 
 
 
+    //-----------------------------------------------  단타 (저격)  관련 함수 --------------------------
 
 
-
-
-
-
-
-
+    /// <summary>
+    /// 사거리안의 범위를 전부 표시해주는 함수
+    /// 단일 타겟 용으로 쓰인다. (저격,일반공격)
+    /// </summary>
+    /// <param name="playerTile">캐릭터가 있는 타일 위치</param>
+    /// <param name="size">공격가능한 사거리 범위 (기본값은 1)</param>
+    private void AttackRangeTileView(Tile playerTile, float size = 1.0f)
+    {
+        if (!isAttacRange)
+        {
+            isAttacRange = true;                                                 //공격범위표시 시작 체크
+            ClearLineRenderer();                                                // 기존의 리스트 초기화하고 
+            SetAttackSize(playerTile, size);                                       // 셋팅하고 
+            OpenLineRenderer();                                                 // 보여준다
+        }
+    }
 
     /// <summary>
     /// 현재 위치지점에서 사거리 기준 공격 가능한 범위 의 좌표리스트를 가져오기위한 함수
@@ -764,7 +1016,7 @@ public class AttackRange : MonoBehaviour
     /// <param name="currentNode">현재위치 타일 정보</param>
     /// <param name="attackCheck">공격가능한 거리 값</param>
     /// <returns>캐릭터가 공격가능한 노드리스트</returns>
-    private void SetAttackSize(Tile currentNode, float attackCheck)
+     void SetAttackSize(Tile currentNode, float attackCheck)
     {
         List<Tile> openList = new List<Tile>();   // 탐색이 필요한 노드 리스트 
         List<Tile> closeList = new List<Tile>();  // 이미 계산이 완료되서 더이상 탐색을 안할 리스트 

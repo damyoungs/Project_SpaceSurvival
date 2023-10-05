@@ -20,5 +20,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Noh_Hyun_Oh/Scenes/BattleMap.unity
     guid: 21cfc6614e568db4ea08db79da047199
-  m_configObjects:
-    com.unity.input.settings: {fileID: 11400000, guid: a4867802e73e5fb4fac3ebe258e9772e, type: 2}
+  - enabled: 1
+    path: Assets/_Cho_Seung_Geun/Scenes/Cho_Demo_Interior.unity
+    guid: f27c392c5d9fe4f4c96227ca7e625e59
+  - enabled: 1
+    path: Assets/__CommonAssets/Scenes/BattleShip.unity
+    guid: 089dabeeaaf3afa4aa4798218708966c
+  m_configObjects: {}

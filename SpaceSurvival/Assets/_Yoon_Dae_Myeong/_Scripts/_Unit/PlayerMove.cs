@@ -75,8 +75,8 @@ public class PlayerMove : MonoBehaviour
 
 
     float moveSpeed = 2.0f;
-	float rotateSpeed = 10.0f;
-	BoxCollider target = null;
+	//float rotateSpeed = 10.0f;
+	//BoxCollider target = null;
 	
 	InputKeyMouse inputAction;
 	Rigidbody rb;
@@ -140,7 +140,7 @@ public class PlayerMove : MonoBehaviour
     private void SetCameraRotaion(Quaternion quaternion)
     {
 		lookDir = quaternion;
-		Debug.Log($"카메라가 움직였네 값은: {quaternion}");
+		//Debug.Log($"카메라가 움직였네 값은: {quaternion}");
     }
 
     private void Start()
@@ -174,17 +174,17 @@ public class PlayerMove : MonoBehaviour
 
     }
 
-    private void FixedUpdate()
-	{
-		MoveByKeyBoard();
-    }
-	void MoveByKeyBoard()//update 호출
-	{
-        transform.Translate(Time.fixedDeltaTime * moveSpeed * moveDirection, Space.World);
-		transform.rotation = Quaternion.Slerp(transform.rotation, moveDir, Time.fixedDeltaTime * rotateSpeed);
-		//transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetObj.position - transform.position), Time.fixedDeltaTime * rotateSpeed);
+ //   private void FixedUpdate()
+	//{
+	//	//MoveByKeyBoard();
+ //   }
+	//void MoveByKeyBoard()//update 호출
+	//{
+ //       transform.Translate(Time.fixedDeltaTime * moveSpeed * moveDirection, Space.World);
+	//	transform.rotation = Quaternion.Slerp(transform.rotation, moveDir, Time.fixedDeltaTime * rotateSpeed);
+	//	//transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetObj.position - transform.position), Time.fixedDeltaTime * rotateSpeed);
 
 
-	}
+	//}
 
 }
