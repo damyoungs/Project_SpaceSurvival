@@ -172,15 +172,15 @@ public class ItemSpawner : TestBase
     protected override void Test1(InputAction.CallbackContext _)
     {
         // GameManager.Player_.Defence(UnityEngine.Random.Range(10, 100), IsCritical);
-        GameManager.EquipBox.Save_EquipmentsData();
+        GameManager.SlotManager.AddItem(GameManager.Itemdata.itemDatas[(int)ItemCode.Purple_Crystal].code);
     }
     protected override void Test2(InputAction.CallbackContext context)
     {
-       // GameManager.EquipBox.UnEquipAll_Items();
+        // GameManager.EquipBox.UnEquipAll_Items();
+        GameManager.EquipBox.ClearEquipBox();
     }
     protected override void Test3(InputAction.CallbackContext context)
     {
-        GameManager.EquipBox.Load_EquipmentsData();
     }
     protected  void OpenInven(InputAction.CallbackContext _)
     {

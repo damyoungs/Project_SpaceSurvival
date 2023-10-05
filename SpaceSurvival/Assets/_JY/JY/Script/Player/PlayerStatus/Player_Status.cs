@@ -465,7 +465,7 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
         set
         {
             stamina = value;
-            staminaText.text = $"{stamina}";
+            staminaText.text = $"{stamina:f0}";
         }
     }
     public uint ATT
@@ -610,7 +610,7 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
         Reset_Status();
 
         DarkForceText darkForceText = FindObjectOfType<DarkForceText>();
-        base_Status.on_DarkForceChange = darkForceText.Update_DarkForceText;
+        base_Status.on_DarkForceChange += darkForceText.Update_DarkForceText;
         base_Status.Init();
     }
  

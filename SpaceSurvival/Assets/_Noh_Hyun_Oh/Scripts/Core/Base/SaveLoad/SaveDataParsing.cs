@@ -59,7 +59,8 @@ public class SaveDataParsing : MonoBehaviour
         LoadQuestDataParsing(data.QuestList);
         playerSkill.LoadSkillData_In_QuickSlot(data.SkillDatas);
         player_Status.Base_Status.LoadData(data.PlayerData);
-        //GameManager.EquipBox.Load_EquipmentsData(data.Equipments_Data);
+        GameManager.EquipBox.Load_EquipmentsData(data.Equipments_Data);
+        GameManager.PlayerStatus.Reset_Status();
         RefreshData();
     }
 
