@@ -1,12 +1,12 @@
 {
-    "dataIndex": 1,
+    "dataIndex": 3,
     "startPos": {
-        "x": -2.15621280670166,
-        "y": -0.1255660057067871,
-        "z": 41.2301025390625
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
     },
-    "saveTime": "2023-10-06 오전 2:34:18",
-    "sceanName": 5,
+    "saveTime": "2023-10-06 오전 2:35:05",
+    "sceanName": 4,
     "playerData": {
         "abilityPoint": 65,
         "playerName": "Player",
@@ -15,7 +15,7 @@
         "expMax": 103,
         "base_MaxHP": 235.0,
         "currentHP": 92.0,
-        "current_Stamina": 7.644001007080078,
+        "current_Stamina": 15.288002014160157,
         "base_MaxStamina": 69.0,
         "BaseDarkForce": 5000000,
         "base_ATT": 10,

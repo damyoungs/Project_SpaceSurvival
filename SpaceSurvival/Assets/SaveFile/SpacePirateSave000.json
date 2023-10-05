@@ -1,18 +1,23 @@
 {
     "dataIndex": 0,
-    "saveTime": "2023-10-05 오후 8:59:08",
-    "sceanName": 4,
+    "startPos": {
+        "x": 7.3629961013793949,
+        "y": 0.14262759685516358,
+        "z": 20.933195114135743
+    },
+    "saveTime": "2023-10-06 오전 2:33:46",
+    "sceanName": 5,
     "playerData": {
-        "abilityPoint": 50,
+        "abilityPoint": 65,
         "playerName": "Player",
-        "level": 1,
-        "exp": 0,
-        "expMax": 60,
-        "base_MaxHP": 100.0,
-        "currentHP": 100.0,
-        "current_Stamina": 10.0,
-        "base_MaxStamina": 15.0,
-        "BaseDarkForce": 4261115,
+        "level": 4,
+        "exp": 82,
+        "expMax": 103,
+        "base_MaxHP": 235.0,
+        "currentHP": 92.0,
+        "current_Stamina": 7.644001007080078,
+        "base_MaxStamina": 69.0,
+        "BaseDarkForce": 5000000,
         "base_ATT": 10,
         "base_DP": 10,
         "base_STR": 5,
@@ -30,15 +35,15 @@
         "Total_CriticalRate": 50.0,
         "Total_DodgeRate": 0.0,
         "codes": [
-            47,
+            46,
             11,
             50,
             24
         ],
-        "weapon_ItemLevel": 3,
-        "weapon_AttackPoint": 40,
-        "weapon_DefencePoint": 7,
-        "weapon_ItemName": "샷건★★"
+        "weapon_ItemLevel": 1,
+        "weapon_AttackPoint": 20,
+        "weapon_DefencePoint": 1,
+        "weapon_ItemName": "샷건"
     },
     "equipSlotLength": 0,
     "equipData": [
@@ -46,6 +51,24 @@
             "values": 1,
             "itemIndex": 9,
             "slotIndex": 1,
+            "itemEnhanceValue": 1
+        },
+        {
+            "values": 1,
+            "itemIndex": 10,
+            "slotIndex": 2,
+            "itemEnhanceValue": 1
+        },
+        {
+            "values": 1,
+            "itemIndex": 47,
+            "slotIndex": 4,
+            "itemEnhanceValue": 1
+        },
+        {
+            "values": 1,
+            "itemIndex": 51,
+            "slotIndex": 5,
             "itemEnhanceValue": 1
         }
     ],

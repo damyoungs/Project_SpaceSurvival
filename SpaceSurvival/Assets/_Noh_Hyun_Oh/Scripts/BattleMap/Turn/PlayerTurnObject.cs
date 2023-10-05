@@ -144,7 +144,7 @@ public class PlayerTurnObject : TurnBaseObject
     private void OnUnitMove(Tile seletedTile)
     {
 
-        if (currentUnit != null && currentUnit.IsControll) //현재 컨트롤인경우만 
+        if (currentUnit != null && currentUnit.IsControll && !currentUnit.IsMoveCheck) //현재 컨트롤인경우만 
         {
             //이동로직 실행
             StartCoroutine(currentUnit.CharcterMove(seletedTile));
