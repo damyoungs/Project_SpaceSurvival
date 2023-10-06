@@ -84,7 +84,7 @@ public class SaveDataParsing : MonoBehaviour
 
         int defaultSlotLength = 10; //초기화시 기본슬롯수
         
-        List<Slot> temp = slotManager.slots[Current_Inventory_State.Equip]; //저장탭 슬롯내용 가져와서
+        List<Slot> temp = slotManager.slots[Inventory_Tab.Equip]; //저장탭 슬롯내용 가져와서
         
         List<CharcterItems> tempList = new(); // 저장데이터 만들고 
 
@@ -119,7 +119,7 @@ public class SaveDataParsing : MonoBehaviour
 
         tempList.Clear();                                           //리스트 내용 비우고 재사용 
 
-        temp = slotManager.slots[Current_Inventory_State.Consume];  //소비창 데이터
+        temp = slotManager.slots[Inventory_Tab.Consume];  //소비창 데이터
 
         SetTempData(temp,tempList);                                 //데이터 가져와서 담아두기
 
@@ -130,7 +130,7 @@ public class SaveDataParsing : MonoBehaviour
         tempList.Clear();                                           //리스트 내용 비우고 재사용 
 
 
-        temp = slotManager.slots[Current_Inventory_State.Etc];      //기타창 데이터
+        temp = slotManager.slots[Inventory_Tab.Etc];      //기타창 데이터
 
         SetTempData(temp,tempList);                                 //데이터 가져와서 담아두기
         
@@ -142,7 +142,7 @@ public class SaveDataParsing : MonoBehaviour
 
 
 
-        temp = slotManager.slots[Current_Inventory_State.Craft];    //조합 데이터
+        temp = slotManager.slots[Inventory_Tab.Craft];    //조합 데이터
         
         SetTempData(temp,tempList);                                 //데이터 가져와서 담아두기
         
@@ -184,11 +184,11 @@ public class SaveDataParsing : MonoBehaviour
         Slot temp = null; //슬롯내용물셋팅할 임시변수
         ItemData_Enhancable tempEnchan; //인첸장비인지 체크할 임시변수
 
-        List<Slot> slots = slotManager.slots[Current_Inventory_State.Equip]; //장비일경우
+        List<Slot> slots = slotManager.slots[Inventory_Tab.Equip]; //장비일경우
 
         for (int slotIndex = 0; slotIndex < data.EquipSlotLength; slotIndex++)
         {
-            slotManager.Make_Slot(Current_Inventory_State.Equip); //슬롯갯수 추가할것이있으면 추가해두고 
+            slotManager.Make_Slot(Inventory_Tab.Equip); //슬롯갯수 추가할것이있으면 추가해두고 
         }
 
         foreach (CharcterItems equipData in data.EquipData) //포문돌면서 데이터셋팅
@@ -212,11 +212,11 @@ public class SaveDataParsing : MonoBehaviour
         }
         //장비와비슷하게 셋팅한다 밑에는 반복작업
 
-        slots = slotManager.slots[Current_Inventory_State.Consume];
+        slots = slotManager.slots[Inventory_Tab.Consume];
 
         for (int slotIndex = 0; slotIndex < data.ConsumeSlotLength; slotIndex++)
         {
-            slotManager.Make_Slot(Current_Inventory_State.Consume);
+            slotManager.Make_Slot(Inventory_Tab.Consume);
         }
 
         foreach (CharcterItems consumeData in data.ConsumeData)
@@ -235,11 +235,11 @@ public class SaveDataParsing : MonoBehaviour
 
 
 
-        slots = slotManager.slots[Current_Inventory_State.Etc];
+        slots = slotManager.slots[Inventory_Tab.Etc];
 
         for (int slotIndex = 0; slotIndex < data.EtcSlotLength; slotIndex++)
         {
-            slotManager.Make_Slot(Current_Inventory_State.Etc);
+            slotManager.Make_Slot(Inventory_Tab.Etc);
         }
 
         foreach (CharcterItems etcData in data.EtcData)
@@ -249,11 +249,11 @@ public class SaveDataParsing : MonoBehaviour
             temp.ItemCount = etcData.Values;
         }
 
-        slots = slotManager.slots[Current_Inventory_State.Craft];
+        slots = slotManager.slots[Inventory_Tab.Craft];
 
         for (int slotIndex = 0; slotIndex < data.CraftSlotLength; slotIndex++)
         {
-            slotManager.Make_Slot(Current_Inventory_State.Craft);
+            slotManager.Make_Slot(Inventory_Tab.Craft);
         }
 
         foreach (CharcterItems craftData in data.CraftData)

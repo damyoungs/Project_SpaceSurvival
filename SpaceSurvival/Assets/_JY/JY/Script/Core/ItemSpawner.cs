@@ -119,8 +119,6 @@ public class ItemSpawner : TestBase
    
     public void ClearSlot()
     {
-        ItemData data = GameManager.Itemdata[itemCode];
-        GameManager.SlotManager.ClearSlot(data, index);
     }
     public void GetItem_For_Test()
     {
@@ -186,13 +184,12 @@ public class ItemSpawner : TestBase
     public bool IsCritical;
     protected override void Test1(InputAction.CallbackContext _)
     {
-        GameManager.Player_.Defence(UnityEngine.Random.Range(200, 300), IsCritical);
-       // GameManager.SlotManager.AddItem(GameManager.Itemdata.itemDatas[(int)ItemCode.Purple_Crystal].code);
+        //GameManager.Player_.Defence(UnityEngine.Random.Range(200, 300), IsCritical);
+        GameManager.SlotManager.AddItem(itemCode);
     }
     protected override void Test2(InputAction.CallbackContext context)
     {
-        // GameManager.EquipBox.UnEquipAll_Items();
-        GameManager.EquipBox.ClearEquipBox();
+        GameManager.SlotManager.Clear_Inventory();
     }
     protected override void Test3(InputAction.CallbackContext context)
     {

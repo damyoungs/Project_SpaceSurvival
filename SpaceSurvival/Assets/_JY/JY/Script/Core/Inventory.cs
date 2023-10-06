@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public enum Current_Inventory_State
+public enum Inventory_Tab
 {
     None,
     Equip,
@@ -43,11 +43,11 @@ public class Inventory : MonoBehaviour, IPopupSortWindow,IPointerClickHandler
     Image craftButtonColor;
 
     CanvasGroup canvasGroup;
-    public delegate void Inventory_State_Changed(Current_Inventory_State state); //state가 바뀌면 setter가 호출할 delegate
+    public delegate void Inventory_State_Changed(Inventory_Tab state); //state가 바뀌면 setter가 호출할 delegate
     Inventory_State_Changed inventory_changed;
 
-    private  Current_Inventory_State state;
-    public  Current_Inventory_State State
+    private  Inventory_Tab state;
+    public  Inventory_Tab State
     {
         get { return state; }
         set
@@ -133,7 +133,7 @@ public class Inventory : MonoBehaviour, IPopupSortWindow,IPointerClickHandler
         mixer.MixerState = ItemMixerState.Open;
     }
 
-    void Update_State(Current_Inventory_State state)
+    void Update_State(Inventory_Tab state)
     {
         equipButtonColor.color = Color.white;
         consumeButtonColor.color = Color.white;
@@ -143,28 +143,28 @@ public class Inventory : MonoBehaviour, IPopupSortWindow,IPointerClickHandler
         
         switch (state)
         {
-            case Current_Inventory_State.Equip:
+            case Inventory_Tab.Equip:
                 Equip_Inven.SetActive(true);
                 equipButtonColor.color = Color.grey;
                 Consume_Inven.SetActive(false);
                 Etc_Inven.SetActive(false);
                 Craft_Inven.SetActive(false);
                 break;
-            case Current_Inventory_State.Consume:
+            case Inventory_Tab.Consume:
                 Consume_Inven.SetActive(true);
                 consumeButtonColor.color = Color.grey;
                 Equip_Inven.SetActive(false);
                 Etc_Inven.SetActive(false);
                 Craft_Inven.SetActive(false);
                 break;
-            case Current_Inventory_State.Etc:
+            case Inventory_Tab.Etc:
                 Etc_Inven.SetActive(true);
                 etcButtonColor.color = Color.gray;
                 Equip_Inven.SetActive(false);
                 Consume_Inven.SetActive(false);
                 Craft_Inven.SetActive(false);
                 break;
-            case Current_Inventory_State.Craft:
+            case Inventory_Tab.Craft:
                 Craft_Inven.SetActive(true);
                 craftButtonColor.color = Color.grey;
                 Equip_Inven.SetActive(false);
@@ -175,10 +175,10 @@ public class Inventory : MonoBehaviour, IPopupSortWindow,IPointerClickHandler
                 break;
         }
     }
-    public void SwitchTab_To_Equip() { State = Current_Inventory_State.Equip; } //버튼 누르면 호출
-    public void SwitchTab_To_Consume() { State = Current_Inventory_State.Consume;}
-    public void SwitchTab_To_Etc() { State = Current_Inventory_State.Etc;}
-    public void SwitchTab_To_Craft() { State = Current_Inventory_State.Craft;}
+    public void SwitchTab_To_Equip() { State = Inventory_Tab.Equip; } //버튼 누르면 호출
+    public void SwitchTab_To_Consume() { State = Inventory_Tab.Consume;}
+    public void SwitchTab_To_Etc() { State = Inventory_Tab.Etc;}
+    public void SwitchTab_To_Craft() { State = Inventory_Tab.Craft;}
     public void Open_Inventory()
     {
         //전투중 입력 막을 함수 목록

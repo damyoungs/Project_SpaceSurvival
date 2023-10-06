@@ -14,6 +14,7 @@ public class Slot : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandle
     TextMeshProUGUI itemDescription_Text;
     Animator anim;
 
+
     int popUpHash = Animator.StringToHash("PopUp");
 
     public Action<ItemData, uint> onDragBegin;

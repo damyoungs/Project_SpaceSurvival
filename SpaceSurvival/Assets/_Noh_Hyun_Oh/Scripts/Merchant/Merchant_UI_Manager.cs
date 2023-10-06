@@ -131,25 +131,25 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
 
         equipButton = contentPanel.GetChild(0).GetChild(0).GetComponent<Button>();
         equipButton.onClick.AddListener(() => {
-            merchant_Manager.Merchant_State = Current_Inventory_State.Equip;
+            merchant_Manager.Merchant_State = Inventory_Tab.Equip;
             ReFresh_Merchant_Item();
         });
 
         consumeButton = contentPanel.GetChild(0).GetChild(1).GetComponent<Button>();
         consumeButton.onClick.AddListener(() => { 
-            merchant_Manager.Merchant_State = Current_Inventory_State.Consume;
+            merchant_Manager.Merchant_State = Inventory_Tab.Consume;
             ReFresh_Merchant_Item();
         });
 
         etcButton = contentPanel.GetChild(0).GetChild(2).GetComponent<Button>();
         etcButton.onClick.AddListener(() => { 
-            merchant_Manager.Merchant_State = Current_Inventory_State.Etc;
+            merchant_Manager.Merchant_State = Inventory_Tab.Etc;
             ReFresh_Merchant_Item();
         });
 
         craftButton = contentPanel.GetChild(0).GetChild(3).GetComponent<Button>();
         craftButton.onClick.AddListener(() => { 
-            merchant_Manager.Merchant_State = Current_Inventory_State.Craft;
+            merchant_Manager.Merchant_State = Inventory_Tab.Craft;
             ReFresh_Merchant_Item();
         });
 
@@ -197,18 +197,18 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
 
             switch (merchant_Manager.Merchant_State) //현재 상태에 따른 데이터 가져오고 
             {
-                case Current_Inventory_State.None:
+                case Inventory_Tab.None:
                     return;
-                case Current_Inventory_State.Equip:
+                case Inventory_Tab.Equip:
                     invenSlots = GameManager.SlotManager.slots[merchant_Manager.Merchant_State];
                     break;
-                case Current_Inventory_State.Consume:
+                case Inventory_Tab.Consume:
                     invenSlots = GameManager.SlotManager.slots[merchant_Manager.Merchant_State];
                     break;
-                case Current_Inventory_State.Etc:
+                case Inventory_Tab.Etc:
                     invenSlots = GameManager.SlotManager.slots[merchant_Manager.Merchant_State];
                     break;
-                case Current_Inventory_State.Craft:
+                case Inventory_Tab.Craft:
                     invenSlots = GameManager.SlotManager.slots[merchant_Manager.Merchant_State];
                     break;
                 default:
@@ -244,21 +244,21 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
             int[] merchantCountArray;
             switch (merchant_Manager.Merchant_State) //현재 상태에 따른 데이터 가져오고 
             {
-                case Current_Inventory_State.None:
+                case Inventory_Tab.None:
                     return;
-                case Current_Inventory_State.Equip:
+                case Inventory_Tab.Equip:
                     merchantList = merchant_Manager.EquipItems;
                     merchantCountArray = merchant_Manager.EquipItemsCount;
                     break;
-                case Current_Inventory_State.Consume:
+                case Inventory_Tab.Consume:
                     merchantList = merchant_Manager.ConsumeItems;
                     merchantCountArray = merchant_Manager.ConsumeItemsCount;
                     break;
-                case Current_Inventory_State.Etc:
+                case Inventory_Tab.Etc:
                     merchantList = merchant_Manager.EtcItems;
                     merchantCountArray = merchant_Manager.EtcItemsCount;
                     break;
-                case Current_Inventory_State.Craft:
+                case Inventory_Tab.Craft:
                     merchantList = merchant_Manager.CraftItems;
                     merchantCountArray = merchant_Manager.CraftItemsCount;
                     break;
