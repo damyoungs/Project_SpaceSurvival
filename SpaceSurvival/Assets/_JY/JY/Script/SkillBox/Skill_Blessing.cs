@@ -17,7 +17,7 @@ public class Skill_Blessing : SkillData
         //AnimClip
         //audioClip
     }
-    protected override void InitSkillData()
+    public override void InitSkillData()
     {
         SkillName = "ºí·¹½Ì";
         SkillLevel = 1;

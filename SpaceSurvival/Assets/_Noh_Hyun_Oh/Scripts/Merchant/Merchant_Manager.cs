@@ -159,13 +159,13 @@ public class Merchant_Manager : MonoBehaviour
     /// 대화 로직
     /// </summary>
     NpcTalkController talkController;
-
+    public NpcTalkController NpcTalkController => talkController;
 
     MerchantNPC[] merchantNPCs;
     
 
     Merchant_UI_Manager merchant_UI_Manager;
-
+    public Merchant_UI_Manager Merchant_UI_Manager => merchant_UI_Manager;
 
     InteractionUI actionUI;
     private void Awake()
@@ -238,6 +238,9 @@ public class Merchant_Manager : MonoBehaviour
                 actionUI.visibleUI?.Invoke();
             }
         };
+        Selected = Merchant_Selected.Buy;
+        Merchant_State = Current_Inventory_State.Equip;
+        merchant_UI_Manager.ReFresh_Merchant_Item();
     }
 
     /// <summary>

@@ -126,7 +126,15 @@ public class PlayerQuest_Gyu : MonoBehaviour
 
     public void ResetData() 
     {
+        foreach (var quest in currentQuests)
+        {
+            quest.ResetData();
+        }
         currentQuests.Clear();
+        foreach (var quest in clearQuestList)
+        {
+            quest.ResetData();
+        }
         clearQuestList.Clear();
     }
 

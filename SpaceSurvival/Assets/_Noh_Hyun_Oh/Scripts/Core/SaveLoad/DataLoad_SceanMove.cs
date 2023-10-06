@@ -27,7 +27,7 @@ public class DataLoad_SceanMove : MonoBehaviour
         {
 
             SaveLoadManager.Instance.ParsingProcess.LoadParsing(data);
-            Debug.Log($"{data} 파일이 정상로드됬습니다 , {data.SceanName} 파싱작업후 맵이동 작성을 해야하니 맵이 필요합니다.");
+            //Debug.Log($"{data} 파일이 정상로드됬습니다 , {data.SceanName} 파싱작업후 맵이동 작성을 해야하니 맵이 필요합니다.");
             LoadingScene.SceneLoading(data.SceanName);
             if (TurnManager.Instance.TurnIndex > 0) //배틀맵에서 로드한거면 
             {

@@ -80,6 +80,15 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Esc"",
+                    ""type"": ""Button"",
+                    ""id"": ""63fd17a1-a054-4efa-bace-6f46c11b098b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -190,6 +199,17 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""KeyMouse"",
                     ""action"": ""Action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""78861837-3195-48ce-8e8a-7c83191af496"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyMouse"",
+                    ""action"": ""Esc"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1118,6 +1138,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         m_Player_MoveMode_Change = m_Player.FindAction("MoveMode_Change", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_Action = m_Player.FindAction("Action", throwIfNotFound: true);
+        m_Player_Esc = m_Player.FindAction("Esc", throwIfNotFound: true);
         // Mouse
         m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
         m_Mouse_MouseClick = m_Mouse.FindAction("MouseClick", throwIfNotFound: true);
@@ -1242,6 +1263,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_MoveMode_Change;
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_Action;
+    private readonly InputAction m_Player_Esc;
     public struct PlayerActions
     {
         private @InputKeyMouse m_Wrapper;
@@ -1252,6 +1274,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         public InputAction @MoveMode_Change => m_Wrapper.m_Player_MoveMode_Change;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @Action => m_Wrapper.m_Player_Action;
+        public InputAction @Esc => m_Wrapper.m_Player_Esc;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1279,6 +1302,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @Action.started += instance.OnAction;
             @Action.performed += instance.OnAction;
             @Action.canceled += instance.OnAction;
+            @Esc.started += instance.OnEsc;
+            @Esc.performed += instance.OnEsc;
+            @Esc.canceled += instance.OnEsc;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1301,6 +1327,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @Action.started -= instance.OnAction;
             @Action.performed -= instance.OnAction;
             @Action.canceled -= instance.OnAction;
+            @Esc.started -= instance.OnEsc;
+            @Esc.performed -= instance.OnEsc;
+            @Esc.canceled -= instance.OnEsc;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1967,6 +1996,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         void OnMoveMode_Change(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnAction(InputAction.CallbackContext context);
+        void OnEsc(InputAction.CallbackContext context);
     }
     public interface IMouseActions
     {

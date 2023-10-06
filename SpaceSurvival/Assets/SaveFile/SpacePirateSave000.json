@@ -1,11 +1,11 @@
 {
     "dataIndex": 0,
     "startPos": {
-        "x": 7.3629961013793949,
-        "y": 0.14262759685516358,
-        "z": 20.933195114135743
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
     },
-    "saveTime": "2023-10-06 오전 2:33:46",
+    "saveTime": "2023-10-06 오후 12:33:32",
     "sceanName": 5,
     "playerData": {
         "abilityPoint": 65,
@@ -15,9 +15,9 @@
         "expMax": 103,
         "base_MaxHP": 235.0,
         "currentHP": 92.0,
-        "current_Stamina": 7.644001007080078,
+        "current_Stamina": 2.644001007080078,
         "base_MaxStamina": 69.0,
-        "BaseDarkForce": 5000000,
+        "BaseDarkForce": 4999985,
         "base_ATT": 10,
         "base_DP": 10,
         "base_STR": 5,
@@ -35,24 +35,18 @@
         "Total_CriticalRate": 50.0,
         "Total_DodgeRate": 0.0,
         "codes": [
-            46,
-            11,
+            47,
+            9,
             50,
             24
         ],
         "weapon_ItemLevel": 1,
-        "weapon_AttackPoint": 20,
+        "weapon_AttackPoint": 15,
         "weapon_DefencePoint": 1,
-        "weapon_ItemName": "샷건"
+        "weapon_ItemName": "Pistol"
     },
     "equipSlotLength": 0,
     "equipData": [
-        {
-            "values": 1,
-            "itemIndex": 9,
-            "slotIndex": 1,
-            "itemEnhanceValue": 1
-        },
         {
             "values": 1,
             "itemIndex": 10,
@@ -60,8 +54,14 @@
             "itemEnhanceValue": 1
         },
         {
+            "values": 0,
+            "itemIndex": 11,
+            "slotIndex": 3,
+            "itemEnhanceValue": 1
+        },
+        {
             "values": 1,
-            "itemIndex": 47,
+            "itemIndex": 46,
             "slotIndex": 4,
             "itemEnhanceValue": 1
         },
@@ -118,7 +118,7 @@
     ],
     "skillDatas": [
         {
-            "skillLevel": 1,
+            "skillLevel": 4,
             "bindingSlot": 1,
             "skillType": 0
         },
@@ -128,12 +128,12 @@
             "skillType": 1
         },
         {
-            "skillLevel": 1,
+            "skillLevel": 4,
             "bindingSlot": 3,
             "skillType": 2
         },
         {
-            "skillLevel": 1,
+            "skillLevel": 3,
             "bindingSlot": 4,
             "skillType": 3
         },

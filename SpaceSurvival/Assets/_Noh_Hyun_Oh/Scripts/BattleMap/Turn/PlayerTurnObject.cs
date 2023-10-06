@@ -83,8 +83,11 @@ public class PlayerTurnObject : TurnBaseObject
                     go.CharcterData.SkillPostProcess(); 
                 };
                 go.onMoveRangeClear = (currentTile, currentMoveSize) => {
-                    SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentTile);
-                    SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(currentTile, currentMoveSize);//이동범위표시해주기 
+                    if (SpaceSurvival_GameManager.Instance.MoveRange != null) 
+                    {
+                        SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentTile);
+                        SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(currentTile, currentMoveSize);//이동범위표시해주기 
+                    }
                 };
 
             }

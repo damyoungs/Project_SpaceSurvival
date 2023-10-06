@@ -275,6 +275,6 @@ public class Quest_UI_Colum : MonoBehaviour ,IPointerClickHandler
     {
         //클릭
         onClick?.Invoke(thisQuestData,this);
-        Debug.Log($"클릭했어 상태는 :{quest_State} , 퀘스트는  :{thisQuestData}");
+        //Debug.Log($"클릭했어 상태는 :{quest_State} , 퀘스트는  :{thisQuestData}");
     }
 }

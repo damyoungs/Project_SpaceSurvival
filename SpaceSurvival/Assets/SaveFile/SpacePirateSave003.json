@@ -5,8 +5,8 @@
         "y": 0.0,
         "z": 0.0
     },
-    "saveTime": "2023-10-06 오전 2:35:05",
-    "sceanName": 4,
+    "saveTime": "2023-10-06 오후 1:16:37",
+    "sceanName": 5,
     "playerData": {
         "abilityPoint": 65,
         "playerName": "Player",
@@ -15,7 +15,7 @@
         "expMax": 103,
         "base_MaxHP": 235.0,
         "currentHP": 92.0,
-        "current_Stamina": 15.288002014160157,
+        "current_Stamina": 4.644001007080078,
         "base_MaxStamina": 69.0,
         "BaseDarkForce": 5000000,
         "base_ATT": 10,
@@ -48,6 +48,12 @@
     "equipSlotLength": 0,
     "equipData": [
         {
+            "values": 0,
+            "itemIndex": 50,
+            "slotIndex": 0,
+            "itemEnhanceValue": 0
+        },
+        {
             "values": 1,
             "itemIndex": 9,
             "slotIndex": 1,
@@ -57,6 +63,12 @@
             "values": 1,
             "itemIndex": 10,
             "slotIndex": 2,
+            "itemEnhanceValue": 1
+        },
+        {
+            "values": 0,
+            "itemIndex": 11,
+            "slotIndex": 3,
             "itemEnhanceValue": 1
         },
         {

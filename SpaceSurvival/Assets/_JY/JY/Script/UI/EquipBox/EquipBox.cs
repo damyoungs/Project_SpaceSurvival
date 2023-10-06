@@ -420,7 +420,10 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
         for(int  i = 0; i < equipBox_Slots.Length; i++)
         {
             ItemData data = equipBox_Slots[i].ItemData;
-            data_Server.codes[i] = data.code;
+            if(data != null)
+            {
+                data_Server.codes[i] = data.code ;
+            }
             ItemData_Enhancable weaponItem = data as ItemData_Enhancable;
             if (weaponItem != null)//강화 가능한 아이템이면 레벨, 이름 , 공격력, 방어력 등 레벨업시 변경되는 데이터를 Json으로 추가 저장
             {

@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class BattleShipInitData : MonoBehaviour
 {
@@ -15,13 +17,37 @@ public class BattleShipInitData : MonoBehaviour
     }
     private void Start()
     {
+        Debug.Log(GetHashCode());
         CharcterMove(SpaceSurvival_GameManager.Instance.ShipStartPos);
         SpaceSurvival_GameManager.Instance.PlayerStartPos = player.transform;
         questManager = FindObjectOfType<Gyu_QuestManager>(true);
         merchantManager = FindObjectOfType<Merchant_Manager>(true);
         questManager.InitDataSetting();
         merchantManager.InitDataSetting();
+        InputSystemController.InputSystem.Player.Esc.performed += EscClick; 
+    }
 
+    private void EscClick(InputAction.CallbackContext context)
+    {
+        if (Cursor.lockState == CursorLockMode.Locked)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else if (Cursor.lockState == CursorLockMode.None)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+
+        questManager.QuestUIManager.initialize();
+        merchantManager.NpcTalkController.ResetData();
+    }
+
+    private void OnDisable()
+    {
+        Debug.Log(GetHashCode());
+        InputSystemController.InputSystem.Player.Esc.performed -= EscClick;
     }
     public void CharcterMove(Vector3 startPos) 
     {

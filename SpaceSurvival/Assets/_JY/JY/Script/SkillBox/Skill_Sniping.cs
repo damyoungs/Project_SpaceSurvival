@@ -13,7 +13,7 @@ public class Skill_Sniping : SkillData
         button.onClick.AddListener(Skill_LevelUp);
 
     }
-    protected override void InitSkillData()
+    public override void InitSkillData()
     {
         SkillName = "РњАн";
         SkillLevel = 1;

@@ -12,7 +12,7 @@ public class Skill_Normal_Attack : SkillData
         button.onClick.AddListener(Skill_LevelUp);
 
     }
-    protected override void InitSkillData()
+    public override void InitSkillData()
     {
         SkillName = "일반 공격";
         SkillLevel = 1;

@@ -65,7 +65,7 @@ public class Gyu_QuestManager : MonoBehaviour
     /// UI Action 연결용으로 가져오기 
     /// </summary>
     Gyu_UI_QuestManager questUIManager;
-
+    public Gyu_UI_QuestManager QuestUIManager => questUIManager; 
 
     /// <summary>
     /// 선택된 퀘스트 담아둘 변수

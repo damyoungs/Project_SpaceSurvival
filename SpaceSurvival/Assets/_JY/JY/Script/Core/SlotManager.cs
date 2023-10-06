@@ -59,6 +59,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
 
         //input = new InputKeyMouse(); //통합중
         tempSlot = FindObjectOfType<TempSlot>(true);
+        just_ChangeSlot = tempSlot;
         itemDescription = FindObjectOfType<ItemDescription>();
         spliter = FindObjectOfType<ItemSplitter>(true);
     }
@@ -186,6 +187,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         {
             if (slot != tempSlot) //템프슬롯빼고  
             {
+                
                 Destroy(slot.gameObject);//날려버리기 
             }
         }
@@ -233,6 +235,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             slotComp.onPointerMove += OnSlotPointerMove;
             slotComp.Index = (uint)slots[GameManager.Inventory.State].Count - 1;
             slotComp.onSet_Just_ChangeSlot += (slot) => just_ChangeSlot = slot;
+
         }
     }
 

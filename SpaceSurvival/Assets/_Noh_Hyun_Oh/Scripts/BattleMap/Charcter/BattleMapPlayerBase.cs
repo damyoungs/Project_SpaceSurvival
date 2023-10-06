@@ -133,17 +133,17 @@ public class BattleMapPlayerBase : Base_PoolObj, ICharcterBase
             //Debug.Log(stmValue);
             uiComp.SetStmGaugeAndText(stmValue, playerData.Base_MaxStamina);
             float currentMoveSize = stmValue > moveSize ? moveSize : stmValue;
+            //moveSize = stmValue;
             if (TurnManager.Instance.CurrentTurn != null) 
             {
                 TurnManager.Instance.CurrentTurn.TurnActionValue = stmValue;
             }
-            //moveSize = stmValue;
             if (battleUI != null)
             {
                 BattleUI.stmGaugeSetting(stmValue, playerData.Base_MaxStamina); //소모된 행동력 표시
             }
             onMoveRangeClear?.Invoke(currentTile, currentMoveSize);
-             if (stmValue < 1.0f) //최소행동값? 보다 낮으면 
+            if (stmValue < 1.0f) //최소행동값? 보다 낮으면 
             {
                 TurnManager.Instance.CurrentTurn.TurnEndAction();//턴종료 
             }

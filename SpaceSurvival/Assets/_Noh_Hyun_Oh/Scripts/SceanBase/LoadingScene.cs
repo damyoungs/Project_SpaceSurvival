@@ -200,11 +200,13 @@ public class LoadingScene : MonoBehaviour
         switch (nextSceanName)
         {
             case EnumList.SceneName.TestBattleMap:
+                Cursor.visible = true;
                 InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_BattleMap);
                 InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_InvenView);
                 InputSystemController.Instance.EnableHotKey(HotKey_Use.QuickSlot);
                 break;
             case EnumList.SceneName.SpaceShip:
+                Cursor.visible = false;
                 brainCamera.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut;
                 InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_TownMap);
                 InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_InvenView);
@@ -224,9 +226,25 @@ public class LoadingScene : MonoBehaviour
     /// </summary>
     private static void TitleSceneMove() 
     {
-        SpaceSurvival_GameManager.Instance.ResetData();
-        SpaceSurvival_GameManager.Instance.ShipStartPos = Vector3.zero;
-        TurnManager.Instance.ResetBattleData();
+        SpaceSurvival_GameManager.Instance.ResetData();     //공용으로 들고있는값 초기화
+        SpaceSurvival_GameManager.Instance.ShipStartPos = Vector3.zero; //저장,로드하거나 함선에서 배틀맵 넘어갈때 저장된값 초기화
+
+        SpaceSurvival_GameManager.Instance.PlayerQuest.ResetData(); //퀘스트 데이터 초기화 
+
+        GameManager.EquipBox.ClearEquipBox();                       // 장비 초기화 
+
+        SkillData[] skillDatas = GameManager.SkillBox.SkillDatas;
+        foreach (var skillData in skillDatas)
+        {
+            skillData.InitSkillData(); //기본값 돌리기 
+        }
+
+        GameManager.SlotManager.SaveFileLoadedResetSlots(); //인벤 비우고 초기화 
+
+
+        GameManager.PlayerStatus.Base_Status.Init();                // 캐릭터 능력치 초기화 
+        GameManager.PlayerStatus.Reset_Status();                    // 캐릭터 능력치 초기화 
+
         // 캐릭터 데이터 초기화및 아이템 ,장비 ,퀘스트 초기화 등등
         // 게임에 필요한 데이터 초기화 로직을 실행이 필요하다
 
