@@ -1,12 +1,12 @@
 {
     "dataIndex": 1,
     "startPos": {
-        "x": 7.49399995803833,
-        "y": 0.15400001406669618,
-        "z": -1.8459999561309815
+        "x": 0.05387455224990845,
+        "y": 0.9723445177078247,
+        "z": 23.420909881591798
     },
-    "saveTime": "2023-10-06 오후 3:02:21",
-    "sceanName": 5,
+    "saveTime": "2023-10-06 오후 8:52:25",
+    "sceanName": 4,
     "playerData": {
         "abilityPoint": 50,
         "playerName": "Player",
@@ -15,9 +15,9 @@
         "expMax": 50,
         "base_MaxHP": 100.0,
         "currentHP": 100.0,
-        "current_Stamina": 15.0,
+        "current_Stamina": 8.172000885009766,
         "base_MaxStamina": 15.0,
-        "BaseDarkForce": 5000000,
+        "BaseDarkForce": 4970000,
         "base_ATT": 10,
         "base_DP": 10,
         "base_STR": 5,
@@ -28,17 +28,17 @@
         "damage_Min": 0.5
     },
     "equipments_Data": {
-        "Total_STR": 0,
-        "Total_INT": 0,
-        "Total_LUK": 0,
-        "Total_DEX": 0,
+        "Total_STR": 50,
+        "Total_INT": 50,
+        "Total_LUK": 50,
+        "Total_DEX": 50,
         "Total_CriticalRate": 0.0,
         "Total_DodgeRate": 0.0,
         "codes": [
             0,
             0,
             0,
-            0
+            19
         ],
         "weapon_ItemLevel": 0,
         "weapon_AttackPoint": 0,
@@ -46,13 +46,40 @@
         "weapon_ItemName": ""
     },
     "equipSlotLength": 0,
-    "equipData": [],
+    "equipData": [
+        {
+            "values": 1,
+            "itemIndex": 9,
+            "slotIndex": 0,
+            "itemEnhanceValue": 1
+        }
+    ],
     "consumeSlotLength": 0,
-    "consumeData": [],
+    "consumeData": [
+        {
+            "values": 101,
+            "itemIndex": 1,
+            "slotIndex": 0,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 100,
+            "itemIndex": 2,
+            "slotIndex": 1,
+            "itemEnhanceValue": 0
+        }
+    ],
     "etcSlotLength": 0,
     "etcData": [],
     "craftSlotLength": 0,
-    "craftData": [],
+    "craftData": [
+        {
+            "values": 1,
+            "itemIndex": 19,
+            "slotIndex": 0,
+            "itemEnhanceValue": 0
+        }
+    ],
     "skillDatas": [
         {
             "skillLevel": 1,
