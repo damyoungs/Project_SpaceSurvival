@@ -191,8 +191,7 @@ public class ItemSpawner : TestBase
     }
     protected override void Test2(InputAction.CallbackContext context)
     {
-        // GameManager.EquipBox.UnEquipAll_Items();
-        GameManager.EquipBox.ClearEquipBox();
+        GameManager.SlotManager.Clear_Inventory();
     }
     protected override void Test3(InputAction.CallbackContext context)
     {

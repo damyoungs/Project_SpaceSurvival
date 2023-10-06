@@ -10,8 +10,20 @@ public class SlotUI_Base : MonoBehaviour
     Image itemIcon;
 
     TextMeshProUGUI itemCountText;
-
-    public QuickSlot BindingSlot { get; set; }
+    QuickSlot bindingSlot;
+    public QuickSlot BindingSlot 
+    {
+        get => bindingSlot;
+        set
+        {
+            if (value == null)//슬롯의 바인딩슬롯(QuickSlot)을 null로 셋팅 할 때  
+            {
+                bindingSlot.ItemCount = 0;
+                bindingSlot.ItemData = null;//바인딩된 슬롯의 ItemData역시 null 로 셋팅 한다.
+            }
+            bindingSlot = value;
+        }
+    }
     public Action<QuickSlot, ItemData> onItemCountChange;
     public Action<ItemData> onItemDataChange;
     public bool IsEmpty => ItemData == null;//SlotManager에서  빈 슬롯인지 확인할때 쓰일 프로퍼티// 초기 

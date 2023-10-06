@@ -238,14 +238,37 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
 
         }
     }
-    void Clear_Inventory()
+
+    /// <summary>
+    /// 인벤토리 4개의 탭을 순회하며 모든 슬롯의 델리게이트를 해제, ItemData를 null로 셋팅하고
+    /// slot의 갯수가 10개를 초과하는 탭을 초기 시작갯수인 10개로 되돌리는 함수
+    /// </summary>
+    public void Clear_Inventory()
     {
-        foreach(List<Slot> slotList in slots.Values)
+        int baseCount = 10;
+        foreach(List<Slot>slotList in slots.Values)
         {
+            for (int i = slotList.Count - 1; i >= baseCount; i--)//각 탭마다 슬롯의 갯수를 10개만 남기고 모두 삭제
+            {
+                Slot slot = slotList[i];
+                SetNull_Slot_Delegate_ItemData(slot);
+                Destroy(slotList[i].gameObject);
+                slotList.RemoveAt(i);
+            }
+            for (int i = 0; i < slotList.Count; i++)//남은 10개 슬롯에 대한 처리
+            {
+                slotList[i].ItemCount = 0;
+                slotList[i].ItemData = null;
+                if (slotList[i].BindingSlot != null)
+                {
+                    slotList[i].BindingSlot = null;
+                }
+            }
 
         }
     }
-    void DestroySlot(Inventory_Tab tab, Slot slot)
+
+    private void SetNull_Slot_Delegate_ItemData(Slot slot)
     {
         slot.onClick = null;
         slot.onDragBegin = null;
@@ -256,10 +279,13 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         slot.onItemCountChange = null;
         slot.onItemDataChange = null;
         slot.onSet_Just_ChangeSlot = null;
-        slot.BindingSlot = null;
         slot.ItemData = null;
-        
+        if (slot.BindingSlot != null)
+        {
+            slot.BindingSlot = null;
+        }
     }
+
     /// <summary>
     /// 불러올때 사용하기위해 추가 
     /// </summary>
@@ -509,7 +535,6 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                 slot.onItemCountChange = null;
                 slot.onItemCountChange += Throw_NewCount_To_QuickSlot;
             }
-            
         }
     }
 
