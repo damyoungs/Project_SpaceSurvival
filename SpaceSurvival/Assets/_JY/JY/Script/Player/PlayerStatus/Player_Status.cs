@@ -108,8 +108,13 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
             currentHP = Mathf.Clamp(value, 0, base_MaxHP);
             playerStatus.HP = currentHP;
             on_CurrentHP_Change?.Invoke(currentHP);//UI
+            if (currentHP <= 0)
+            {
+                on_Die?.Invoke();
+            }
         }
     }
+    public Action on_Die;
     public Action<float> on_CurrentHP_Change;
     [SerializeField]
     float current_Stamina;
