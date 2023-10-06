@@ -12,6 +12,7 @@ TagManager:
   - TitleButton
   - Npc
   - Ground
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -24,7 +25,7 @@ TagManager:
   - Ground
   - Enhancer_Before
   - MixerDescription
-  - 
+  - Player
   - 
   - 
   - 

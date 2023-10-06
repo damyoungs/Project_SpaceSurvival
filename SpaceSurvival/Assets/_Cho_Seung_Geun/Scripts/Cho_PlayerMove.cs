@@ -48,6 +48,8 @@ public class Cho_PlayerMove : MonoBehaviour
     CharacterController controller;
     CinemachineVirtualCamera cinemachine;
     public CinemachineVirtualCamera Cinemachine => cinemachine;
+    Transform cam;
+
 
     readonly int Hash_Speed = Animator.StringToHash("Speed");
     readonly int Hash_Jump = Animator.StringToHash("IsJump");
@@ -64,6 +66,7 @@ public class Cho_PlayerMove : MonoBehaviour
         cameraPos = transform.GetChild(21);
         controller = GetComponent<CharacterController>();
         cinemachine = GetComponentInChildren<CinemachineVirtualCamera>();
+        cam = GetComponentInChildren<Camera>().transform;
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -187,6 +190,7 @@ public class Cho_PlayerMove : MonoBehaviour
         curRotateY -= rotateY;
         curRotateY = Mathf.Clamp(curRotateY, -60.0f, 60.0f);
         cameraPos.rotation = Quaternion.Euler(curRotateY, cameraPos.eulerAngles.y, cameraPos.eulerAngles.z);
+        //cam.rotation = Quaternion.Euler(curRotateY, cam.eulerAngles.y, cam.eulerAngles.z);
     }
 
     private bool IsGrounded()
