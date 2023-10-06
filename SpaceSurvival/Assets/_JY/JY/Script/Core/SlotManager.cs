@@ -233,7 +233,6 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             slotComp.onPointerMove += OnSlotPointerMove;
             slotComp.Index = (uint)slots[GameManager.Inventory.State].Count - 1;
             slotComp.onSet_Just_ChangeSlot += (slot) => just_ChangeSlot = slot;
-
         }
     }
 

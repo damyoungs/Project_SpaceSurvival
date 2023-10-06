@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DataLoad_SceanMove : MonoBehaviour
 {
@@ -45,7 +46,8 @@ public class DataLoad_SceanMove : MonoBehaviour
 
                 SpaceSurvival_GameManager.Instance.ResetData(false);
             }
-            if (data.SceanName == EnumList.SceneName.SpaceShip) //로드했을때 함선내부에서 같은맵로드시 맵이동이없음으로 
+            if (SceneManager.GetActiveScene().buildIndex  == (int)EnumList.SceneName.SpaceShip //현재씬이 함선인지 체크하고  
+                &&  data.SceanName == EnumList.SceneName.SpaceShip) //로드했을때 함선내부에서 같은맵로드시 맵이동이없음으로 
             {
                 BattleShipInitData bsd = FindObjectOfType<BattleShipInitData>(true);
                 bsd.CharcterMove(SpaceSurvival_GameManager.Instance.ShipStartPos);  //캐릭터 위치변경을 강제로 시킨다.
