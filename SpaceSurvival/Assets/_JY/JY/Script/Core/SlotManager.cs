@@ -678,19 +678,19 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         }
     }
   
-    public void ClearSlot(ItemData data, uint slotIndex)
-    {
-        List<Slot> slots = GetItemTab(data);
-        if (IsValidIndex(slotIndex, data))
-        {
-            Slot invenSlot = slots[(int)slotIndex];
-            invenSlot.ClearSlotItem();
-        }
-        else
-        {
-            //Debug.Log($"아이템 삭제 실패 : {slotIndex}는 없는 인덱스입니다.");
-        }
-    }
+    //public void ClearSlot(ItemData data, uint slotIndex)
+    //{
+    //    List<Slot> slots = GetItemTab(data);
+    //    if (IsValidIndex(slotIndex, data))
+    //    {
+    //        Slot invenSlot = slots[(int)slotIndex];
+    //        invenSlot.ClearSlotItem();
+    //    }
+    //    else
+    //    {
+    //        //Debug.Log($"아이템 삭제 실패 : {slotIndex}는 없는 인덱스입니다.");
+    //    }
+    //}
 
     public void MoveItem(ItemData data, uint from, uint to)
     {

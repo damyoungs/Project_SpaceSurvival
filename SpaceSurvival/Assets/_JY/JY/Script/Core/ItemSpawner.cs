@@ -119,8 +119,6 @@ public class ItemSpawner : TestBase
    
     public void ClearSlot()
     {
-        ItemData data = GameManager.Itemdata[itemCode];
-        GameManager.SlotManager.ClearSlot(data, index);
     }
     public void GetItem_For_Test()
     {

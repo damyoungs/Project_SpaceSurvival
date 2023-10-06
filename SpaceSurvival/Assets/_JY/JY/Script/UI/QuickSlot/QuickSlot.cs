@@ -57,19 +57,16 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
         get => itemData;
         set
         {
-            if (itemData != value)
+            itemData = value;
+            Refresh_Icon();
+            if (itemData != null)
             {
-                itemData = value;
-                Refresh_Icon();
-                if (itemData != null)
-                {
-                    onSet_ItemData?.Invoke(itemData, this);//SlotManager, QuickSlotManager에서 받음
-                    SkillData = null;
-                }
-                else
-                {
-                    on_Clear_Quickslot_Data?.Invoke(this);
-                }
+                onSet_ItemData?.Invoke(itemData, this);//SlotManager, QuickSlotManager에서 받음
+                SkillData = null;
+            }
+            else
+            {
+                on_Clear_Quickslot_Data?.Invoke(this);
             }
         }
     }
