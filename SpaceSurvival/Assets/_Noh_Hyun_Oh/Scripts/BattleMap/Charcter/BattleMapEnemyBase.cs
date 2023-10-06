@@ -12,6 +12,8 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
     public bool IsControll { get; set; }
 
 
+    ItemSpawner Spawner;
+
     Enemy_ enemyData;
     public Enemy_ EnemyData => enemyData;
 
@@ -109,8 +111,8 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
             if (enemyData.HP < 0)
             {
                 GameManager.PlayerStatus.GetExp((uint)enemyData.EnemyExp);
+                Die();
                 ResetData();
-                onDie?.Invoke(this);
             }
         };
      
@@ -162,8 +164,15 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
             BattleUI = null; // 비우기
         }
         //Debug.Log($"{currentTile.width},{currentTile.length} ,{currentTile.ExistType}  몬스터 초기화 ");
-        currentTile.ExistType = Tile.TileExistType.None; // 속성 돌리고 
+        if(currentTile.ExistType != Tile.TileExistType.Item)
+            currentTile.ExistType = Tile.TileExistType.None; // 속성 돌리고 
         
+        if(enemyData.GrapPosition.transform.childCount > 0)
+        {
+            GameObject temp = enemyData.GrapPosition.GetChild(0).gameObject;
+            Destroy(temp);
+        }
+
         currentTile = null; //타일 참조해제
         //턴 오브젝트 초기화
         transform.SetParent(poolTransform); //풀로 돌린다
@@ -241,12 +250,18 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
         onActionEndCheck?.Invoke(); //행동끝났으면 신호보내기
     }
 
+    void Die()
+    {
+        GameManager.Item_Spawner.SpawnItem(this);
+        onDie?.Invoke(this);
+    }
 
     /// <summary>
     /// 공격 하는 반복자 
     /// </summary>
     public IEnumerator CharcterAttack(Tile attackTile)
     {
+        Debug.Log($"{enemyData.name} - {enemyData.wType} - {enemyData.mType} - {enemyData.AttackPower}");
         transform.rotation = Quaternion.LookRotation(attackTile.transform.position - transform.position);
         enemyData.Attack_Enemy(SpaceSurvival_GameManager.Instance.PlayerTeam[0].CharcterData);
         yield return waitTime; //공격 애니메이션 끝날때까지 기다려주는것도 좋을거같다.

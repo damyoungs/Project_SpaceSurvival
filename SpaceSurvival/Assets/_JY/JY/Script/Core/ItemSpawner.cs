@@ -73,26 +73,41 @@ public class ItemSpawner : TestBase
         // Initialize the enemy drop table
         enemyDropTable.Add(Monster_Type.Size_S, new List<(ItemCode, float)>
             {
-                (ItemCode.Enhancable_shotGun, 0.9f),
-                (ItemCode.Enhancable_Rifle, 0.99f),
+                (ItemCode.HpPotion, 1.0f),
+                //(ItemCode.Cash, 0.1f),
+                //(ItemCode.Enhancable_shotGun, 0.9f),
+                //(ItemCode.Enhancable_Rifle, 0.99f),
                 
             });
 
         enemyDropTable.Add(Monster_Type.Size_M, new List<(ItemCode, float)>
             {
+                (ItemCode.MpPotion, 1.0f),
+                //(ItemCode.Enhancable_Bow, 0.9f),
+                //(ItemCode.Purple_Crystal, 0.01f)
+            });
+        enemyDropTable.Add(Monster_Type.Size_L, new List<(ItemCode, float)>
+            {
+                (ItemCode.SecretPotion, 1.0f),
+                //(ItemCode.Enhancable_Bow, 0.9f),
+                //(ItemCode.Purple_Crystal, 0.01f)
+            });
+        enemyDropTable.Add(Monster_Type.Boss, new List<(ItemCode, float)>
+            {
                 (ItemCode.Enhancable_Bow, 0.9f),
                 (ItemCode.Purple_Crystal, 0.01f)
             });
     }
-    public void SpawnItem(Enemy_ enemy)//큰 범위에서 분류가 아니라 정확히 어떤 적인지 알아야한다
+    public void SpawnItem(BattleMapEnemyBase enemy)//큰 범위에서 분류가 아니라 정확히 어떤 적인지 알아야한다
     {
-        List<(ItemCode, float)> dropTable = enemyDropTable[enemy.mType];
+        List<(ItemCode, float)> dropTable = enemyDropTable[enemy.EnemyData.mType];
 
         foreach (var (itemtype, droprate)in dropTable)
         {
             if (UnityEngine.Random.value <= droprate)
             {
                 Instantiate(prefabDict[itemtype], enemy.transform.position, Quaternion.identity);
+                enemy.currentTile.ExistType = Tile.TileExistType.Item;
             }
         }
     }

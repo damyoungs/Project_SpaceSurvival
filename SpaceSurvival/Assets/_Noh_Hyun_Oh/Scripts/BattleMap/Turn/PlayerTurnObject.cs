@@ -46,6 +46,7 @@ public class PlayerTurnObject : TurnBaseObject
         cot = FindObjectOfType<CameraOriginTarget>(true);        // 컨트롤러는 배틀맵에서만 있는 컴포넌트라서 초기화 할때 찾아온다
         miniMapCam = FindObjectOfType<MiniMapCamera>(true);      // 컨트롤러는 배틀맵에서만 있는 컴포넌트라서 초기화 할때 찾아온다
         bpc.onClickPlayer = OnClickPlayer;                       // 타일을 클릭했을때 플레이어 가있는타일(타일속성이 몬스터) 이면 실행될 함수를 연결한다. 
+        bpc.onClickItem = OnClickItem;                           // 타일을 클릭했을때 아이템이 있는 타일이면 실행될 함수를 연결한다.
         bpc.onMoveActive = OnUnitMove;                           // 타일을 클릭했을때 플레이어가 움직이도록 로직연결
         bpc.GetPlayerTurnObject = () => this;                    // 초기값 데이터 연결 
 
@@ -150,6 +151,11 @@ public class PlayerTurnObject : TurnBaseObject
             StartCoroutine(currentUnit.CharcterMove(seletedTile));
 
         }
+    }
+
+    private void OnClickItem(Tile seletedTile)
+    {
+
     }
 
     /// <summary>
