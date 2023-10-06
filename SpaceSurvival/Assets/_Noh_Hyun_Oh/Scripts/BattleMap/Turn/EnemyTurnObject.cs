@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using Unity.XR.OpenVR;
 using UnityEngine;
@@ -54,6 +55,7 @@ public class EnemyTurnObject : TurnBaseObject
             //테스트 데이터 생성
             for (int i = 0; i < testPlayerLength; i++)//캐릭터들 생성해서 셋팅 
             {
+                float RandNumber = UnityEngine.Random.value;
                 float num = randValue;
                 randValue = UnityEngine.Random.Range(enumStartValue, enumEndValue);
                 BattleMapEnemyBase go = (BattleMapEnemyBase)Multiple_Factory.Instance.GetObject(
@@ -62,11 +64,14 @@ public class EnemyTurnObject : TurnBaseObject
                 charcterList.Add(go);
                 
                 go.name = $"Enemy_{i}";
-                if (num < 0.15f)
+                if (RandNumber < 0.25f)
+                    go.EnemyData.wType = Enemy_.WeaponType.Swrod;
+                else if (RandNumber < 0.5f)
                     go.EnemyData.wType = Enemy_.WeaponType.Riffle;
                 else
                     go.EnemyData.wType = go.EnemyData.wType;
                 go.EnemyData.mType = go.EnemyData.mType;
+
 
                 go.GetCurrentTile = () => (SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Monster)); //데이터 연결 
                 go.transform.position = go.CurrentTile.transform.position; //셋팅된 타일위치로 이동시킨다.
