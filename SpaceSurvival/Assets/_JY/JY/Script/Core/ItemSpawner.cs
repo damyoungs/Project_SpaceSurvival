@@ -186,8 +186,8 @@ public class ItemSpawner : TestBase
     public bool IsCritical;
     protected override void Test1(InputAction.CallbackContext _)
     {
-        GameManager.Player_.Defence(UnityEngine.Random.Range(200, 300), IsCritical);
-       // GameManager.SlotManager.AddItem(GameManager.Itemdata.itemDatas[(int)ItemCode.Purple_Crystal].code);
+        //GameManager.Player_.Defence(UnityEngine.Random.Range(200, 300), IsCritical);
+        GameManager.SlotManager.AddItem(itemCode);
     }
     protected override void Test2(InputAction.CallbackContext context)
     {
