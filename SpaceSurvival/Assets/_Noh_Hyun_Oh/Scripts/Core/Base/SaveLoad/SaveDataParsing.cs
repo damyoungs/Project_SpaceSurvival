@@ -45,12 +45,17 @@ public class SaveDataParsing : MonoBehaviour
         SaveInvenDataParsing();                                     //인벤토리 에서 데이터 가져오기 
         SaveDataSetting();                                          //퀘스트 캐릭터한테 퀘스트 데이터 가져오기
 
-        
-        if (SpaceSurvival_GameManager.Instance.PlayerStartPos) 
+
+        if (SpaceSurvival_GameManager.Instance.PlayerStartPos)
         {
             saveData.StartPos = SpaceSurvival_GameManager.Instance.PlayerStartPos.position;
         }
+        else 
+        {
+            saveData.StartPos = SpaceSurvival_GameManager.Instance.ShipStartPos;
+        } 
         
+
         SaveLoadManager.Instance.GameSaveData = saveData;           //저장로직에사용될 객체에 담기
     }
     /// <summary>

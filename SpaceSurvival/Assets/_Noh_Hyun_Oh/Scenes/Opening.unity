@@ -3873,7 +3873,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   origianlPrefab: {fileID: 8039914113959165569, guid: cb919ce629b6f9c42a140eb6db83859c, type: 3}
-  poolSize: 8
+  poolSize: 16
 --- !u!1 &683900482
 GameObject:
   m_ObjectHideFlags: 0
@@ -5791,15 +5791,31 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 917187561, guid: 4c13b59fca2a2474ca6c2b1b0b027b33, type: 3}
       propertyPath: PoolPrefabs.Array.data[0].poolSize
-      value: 8
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 917187561, guid: 4c13b59fca2a2474ca6c2b1b0b027b33, type: 3}
+      propertyPath: PoolPrefabs.Array.data[1].poolSize
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 917187561, guid: 4c13b59fca2a2474ca6c2b1b0b027b33, type: 3}
+      propertyPath: PoolPrefabs.Array.data[2].poolSize
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 917187561, guid: 4c13b59fca2a2474ca6c2b1b0b027b33, type: 3}
       propertyPath: PoolPrefabs.Array.data[3].poolSize
-      value: 8
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 917187561, guid: 4c13b59fca2a2474ca6c2b1b0b027b33, type: 3}
       propertyPath: PoolPrefabs.Array.data[4].poolSize
-      value: 8
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 917187561, guid: 4c13b59fca2a2474ca6c2b1b0b027b33, type: 3}
+      propertyPath: PoolPrefabs.Array.data[5].poolSize
+      value: 160
+      objectReference: {fileID: 0}
+    - target: {fileID: 917187561, guid: 4c13b59fca2a2474ca6c2b1b0b027b33, type: 3}
+      propertyPath: PoolPrefabs.Array.data[6].poolSize
+      value: 32
       objectReference: {fileID: 0}
     - target: {fileID: 7473743051139603170, guid: 4c13b59fca2a2474ca6c2b1b0b027b33, type: 3}
       propertyPath: m_RootOrder
@@ -36641,8 +36657,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2667432894602912799}
   m_HandleRect: {fileID: 2667432894602912798}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 1
+  m_Value: 0
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

@@ -17,7 +17,6 @@ public class BattleShipInitData : MonoBehaviour
     }
     private void Start()
     {
-        Debug.Log(GetHashCode());
         CharcterMove(SpaceSurvival_GameManager.Instance.ShipStartPos);
         SpaceSurvival_GameManager.Instance.PlayerStartPos = player.transform;
         questManager = FindObjectOfType<Gyu_QuestManager>(true);
@@ -46,7 +45,6 @@ public class BattleShipInitData : MonoBehaviour
 
     private void OnDisable()
     {
-        Debug.Log(GetHashCode());
         InputSystemController.InputSystem.Player.Esc.performed -= EscClick;
     }
     public void CharcterMove(Vector3 startPos) 
