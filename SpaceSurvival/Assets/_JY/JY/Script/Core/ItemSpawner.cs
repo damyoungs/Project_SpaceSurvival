@@ -67,7 +67,7 @@ public class ItemSpawner : TestBase
         // Initialize the prefab dictionary
         for (int i = 0; i < prefabs.Length; i++)
         {
-            prefabDict.Add((ItemCode)i + 1, prefabs[i]);
+            prefabDict.Add((ItemCode)i , prefabs[i]);
         }
 
         // Initialize the enemy drop table
