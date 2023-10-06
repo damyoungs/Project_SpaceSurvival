@@ -5,7 +5,7 @@
         "y": 0.15400001406669618,
         "z": -1.8459999561309815
     },
-    "saveTime": "2023-10-06 오후 3:02:21",
+    "saveTime": "2023-10-07 오전 2:03:33",
     "sceanName": 5,
     "playerData": {
         "abilityPoint": 50,
@@ -80,5 +80,15 @@
             "skillType": 4
         }
     ],
-    "questList": []
+    "questList": [
+        {
+            "questInfo": "대형로봇 토벌",
+            "questIndex": 1000,
+            "questType": 1,
+            "questState": 1,
+            "questIProgress": [
+                0
+            ]
+        }
+    ]
 }

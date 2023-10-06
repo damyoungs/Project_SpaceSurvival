@@ -1,12 +1,12 @@
 {
     "dataIndex": 0,
     "startPos": {
-        "x": 0.05387455224990845,
-        "y": 0.9723445177078247,
-        "z": 23.420909881591798
+        "x": -10.01669692993164,
+        "y": 0.13692164421081544,
+        "z": 33.31904220581055
     },
-    "saveTime": "2023-10-06 오후 3:07:27",
-    "sceanName": 4,
+    "saveTime": "2023-10-07 오전 2:03:02",
+    "sceanName": 5,
     "playerData": {
         "abilityPoint": 50,
         "playerName": "Player",
@@ -17,7 +17,7 @@
         "currentHP": 100.0,
         "current_Stamina": 15.0,
         "base_MaxStamina": 15.0,
-        "BaseDarkForce": 4970000,
+        "BaseDarkForce": 5000000,
         "base_ATT": 10,
         "base_DP": 10,
         "base_STR": 5,
@@ -48,20 +48,7 @@
     "equipSlotLength": 0,
     "equipData": [],
     "consumeSlotLength": 0,
-    "consumeData": [
-        {
-            "values": 100,
-            "itemIndex": 1,
-            "slotIndex": 0,
-            "itemEnhanceValue": 0
-        },
-        {
-            "values": 100,
-            "itemIndex": 2,
-            "slotIndex": 1,
-            "itemEnhanceValue": 0
-        }
-    ],
+    "consumeData": [],
     "etcSlotLength": 0,
     "etcData": [],
     "craftSlotLength": 0,
@@ -93,5 +80,24 @@
             "skillType": 4
         }
     ],
-    "questList": []
+    "questList": [
+        {
+            "questInfo": "보스 소환하기",
+            "questIndex": 0,
+            "questType": 0,
+            "questState": 1,
+            "questIProgress": [
+                0
+            ]
+        },
+        {
+            "questInfo": "중형 유닛 부시기",
+            "questIndex": 1001,
+            "questType": 1,
+            "questState": 1,
+            "questIProgress": [
+                0
+            ]
+        }
+    ]
 }

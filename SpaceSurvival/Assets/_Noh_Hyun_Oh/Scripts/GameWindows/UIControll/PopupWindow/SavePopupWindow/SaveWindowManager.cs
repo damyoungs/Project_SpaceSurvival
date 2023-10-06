@@ -369,6 +369,14 @@ public class SaveWindowManager : PopupWindowBase ,IPopupSortWindow ,IPointerDown
             sd.FileIndex = saveData.DataIndex;
             sd.CreateTime = saveData.SaveTime;
             sd.SceanName = saveData.SceanName;
+            sd.Money = saveData.PlayerData.Base_DarkForce;
+            sd.CharcterLevel = (int)saveData.PlayerData.Level;
+            string text = "";
+            if (saveData.QuestList.Length > 0)
+            {
+                text = saveData.QuestList[0].QuestInfo;
+            }
+            sd.EtcText = text;
         }
         else
         {
@@ -376,8 +384,6 @@ public class SaveWindowManager : PopupWindowBase ,IPopupSortWindow ,IPointerDown
             sd.FileIndex = fileIndex; //기본적인 파일 넘버링
             sd.name = "";
             sd.CreateTime = "";
-            sd.Money = 0;
-            sd.SceanName = EnumList.SceneName.NONE;
         }
     }
 

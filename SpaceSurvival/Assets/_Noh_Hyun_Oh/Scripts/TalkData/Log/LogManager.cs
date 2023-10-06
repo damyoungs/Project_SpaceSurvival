@@ -28,8 +28,13 @@ public class LogManager : MonoBehaviour, IPopupSortWindow
 
     public Action<IPopupSortWindow> PopupSorting { get; set ; }
 
+    CanvasGroup cg;
+
     private void Awake()
     {
+        cg = GetComponent<CanvasGroup>();
+        cg.alpha = 1.0f;
+
         logTextParent = transform.GetComponentInChildren<VerticalLayoutGroup>().GetComponent<RectTransform>();//content À§Ä¡
         textPrefabHeight = textPrefab.rectTransform.sizeDelta.y;
         //transform.gameObject.SetActive(false);

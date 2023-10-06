@@ -1,23 +1,23 @@
 {
     "dataIndex": 2,
     "startPos": {
-        "x": 7.49399995803833,
-        "y": 0.15400001406669618,
-        "z": -1.8459999561309815
+        "x": -0.1940421164035797,
+        "y": 1.0009210109710694,
+        "z": 22.9935359954834
     },
-    "saveTime": "2023-10-06 오후 3:02:23",
-    "sceanName": 5,
+    "saveTime": "2023-10-06 오후 3:34:30",
+    "sceanName": 4,
     "playerData": {
-        "abilityPoint": 50,
+        "abilityPoint": 55,
         "playerName": "Player",
-        "level": 1,
-        "exp": 0,
-        "expMax": 50,
-        "base_MaxHP": 100.0,
-        "currentHP": 100.0,
-        "current_Stamina": 15.0,
-        "base_MaxStamina": 15.0,
-        "BaseDarkForce": 5000000,
+        "level": 2,
+        "exp": 20,
+        "expMax": 60,
+        "base_MaxHP": 115.0,
+        "currentHP": 88.0,
+        "current_Stamina": 10.402002334594727,
+        "base_MaxStamina": 18.0,
+        "BaseDarkForce": 4959800,
         "base_ATT": 10,
         "base_DP": 10,
         "base_STR": 5,
@@ -36,19 +36,39 @@
         "Total_DodgeRate": 0.0,
         "codes": [
             0,
-            0,
-            0,
+            10,
+            51,
             0
         ],
-        "weapon_ItemLevel": 0,
-        "weapon_AttackPoint": 0,
-        "weapon_DefencePoint": 0,
-        "weapon_ItemName": ""
+        "weapon_ItemLevel": 1,
+        "weapon_AttackPoint": 20,
+        "weapon_DefencePoint": 1,
+        "weapon_ItemName": "Rifle"
     },
     "equipSlotLength": 0,
-    "equipData": [],
+    "equipData": [
+        {
+            "values": 1,
+            "itemIndex": 9,
+            "slotIndex": 2,
+            "itemEnhanceValue": 1
+        }
+    ],
     "consumeSlotLength": 0,
-    "consumeData": [],
+    "consumeData": [
+        {
+            "values": 98,
+            "itemIndex": 1,
+            "slotIndex": 0,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 99,
+            "itemIndex": 2,
+            "slotIndex": 1,
+            "itemEnhanceValue": 0
+        }
+    ],
     "etcSlotLength": 0,
     "etcData": [],
     "craftSlotLength": 0,

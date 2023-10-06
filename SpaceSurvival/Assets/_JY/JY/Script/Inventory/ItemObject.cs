@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ItemObject : MonoBehaviour
 {
+    Tile currentTile; 
+
     ItemData itemData = null;
     public ItemData ItemData
     {
@@ -16,4 +18,5 @@ public class ItemObject : MonoBehaviour
             }
         }
     }
+  
 }

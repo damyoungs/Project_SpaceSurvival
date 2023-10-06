@@ -165,8 +165,17 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
     /// </summary>
     NpcTalkController npcTalkController;
 
+    /// <summary>
+    /// 
+    /// </summary>
+    CanvasGroup cg;
+
     private void Awake()
     {
+        cg = GetComponent<CanvasGroup>();
+        cg.alpha = 1;
+
+
         npcTalkController = FindObjectOfType<NpcTalkController>();
         
         npcTalkController.openTalkWindow += () => { };

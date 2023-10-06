@@ -95,8 +95,12 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
 
     NpcTalkController talkController;
 
+    CanvasGroup cg;
     protected override void Awake()
     {
+        cg = GetComponent<CanvasGroup>();
+        cg.alpha = 1.0f;
+
         base.Awake();
         
         merchant_Manager = GetComponent<Merchant_Manager>();

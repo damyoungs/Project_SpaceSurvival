@@ -1,11 +1,11 @@
 {
     "dataIndex": 3,
     "startPos": {
-        "x": 7.49399995803833,
-        "y": 0.15400001406669618,
-        "z": -1.8459999561309815
+        "x": -10.01669692993164,
+        "y": 0.13692164421081544,
+        "z": 33.31904220581055
     },
-    "saveTime": "2023-10-06 오후 3:02:25",
+    "saveTime": "2023-10-07 오전 2:03:09",
     "sceanName": 5,
     "playerData": {
         "abilityPoint": 50,
@@ -80,5 +80,24 @@
             "skillType": 4
         }
     ],
-    "questList": []
+    "questList": [
+        {
+            "questInfo": "보스 소환하기",
+            "questIndex": 0,
+            "questType": 0,
+            "questState": 1,
+            "questIProgress": [
+                0
+            ]
+        },
+        {
+            "questInfo": "중형 유닛 부시기",
+            "questIndex": 1001,
+            "questType": 1,
+            "questState": 1,
+            "questIProgress": [
+                0
+            ]
+        }
+    ]
 }

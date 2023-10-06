@@ -281,8 +281,8 @@ public class SaveDataParsing : MonoBehaviour
             saveDataSetting[arrayIndex].QuestIndex = questData.QuestId;
             saveDataSetting[arrayIndex].QuestIProgress = questData.CurrentCount;
             saveDataSetting[arrayIndex].QuestType = questData.QuestType;
-            saveDataSetting[arrayIndex].QuestState= questData.Quest_State;
-
+            saveDataSetting[arrayIndex].QuestState = questData.Quest_State;
+            saveDataSetting[arrayIndex].QuestInfo = questData.Title;
             arrayIndex++;
         }
         foreach (Gyu_QuestBaseData questData in playerQuest.ClearQuestList)
@@ -291,6 +291,7 @@ public class SaveDataParsing : MonoBehaviour
             saveDataSetting[arrayIndex].QuestIProgress = questData.CurrentCount;
             saveDataSetting[arrayIndex].QuestType = questData.QuestType;
             saveDataSetting[arrayIndex].QuestState= questData.Quest_State;
+            saveDataSetting[arrayIndex].QuestInfo = questData.Title;
             arrayIndex++;
         }
         saveData.QuestList = saveDataSetting;
@@ -359,6 +360,7 @@ public class SaveDataParsing : MonoBehaviour
     private void ResetData()
     {
         slotManager.SaveFileLoadedResetSlots(); //기존데이터 싹다날리고 초기값으로 셋팅
+        GameManager.EquipBox.ClearEquipBox();                       // 장비 초기화 
         playerQuest.ResetData();                //퀘스트 데이터 날리기
     }
     /// <summary>

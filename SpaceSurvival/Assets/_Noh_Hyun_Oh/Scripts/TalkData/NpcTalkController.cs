@@ -90,9 +90,13 @@ public class NpcTalkController : MonoBehaviour
     LogManager logManager;
     public LogManager LogManager => logManager;
 
+    CanvasGroup cg;
 
     private void Awake()
     {
+        cg = GetComponent<CanvasGroup>();   
+        cg.alpha = 1.0f;
+
         logManager = FindObjectOfType<LogManager>(true);
         talkData = FindObjectOfType<TalkData_Gyu>();
 

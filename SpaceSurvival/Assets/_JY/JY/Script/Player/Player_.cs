@@ -384,7 +384,6 @@ public class Player_ : MonoBehaviour, IBattle
     //private void OpenInven(InputAction.CallbackContext _)
     private void OpenInven()
     {
-        Debug.Log("1");
         onOpenInven?.Invoke();
     }
 
