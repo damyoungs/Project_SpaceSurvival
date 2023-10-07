@@ -1,11 +1,12 @@
 {
     "dataIndex": 0,
+    "stageClear": 0,
     "startPos": {
-        "x": -10.01669692993164,
-        "y": 0.13692164421081544,
-        "z": 33.31904220581055
+        "x": 0.003573457710444927,
+        "y": 0.9256758689880371,
+        "z": 22.79483413696289
     },
-    "saveTime": "2023-10-07 오전 2:03:02",
+    "saveTime": "2023-10-07 오후 8:18:37",
     "sceanName": 5,
     "playerData": {
         "abilityPoint": 50,
@@ -14,10 +15,10 @@
         "exp": 0,
         "expMax": 50,
         "base_MaxHP": 100.0,
-        "currentHP": 100.0,
-        "current_Stamina": 15.0,
+        "currentHP": 0.0,
+        "current_Stamina": 11.0,
         "base_MaxStamina": 15.0,
-        "BaseDarkForce": 5000000,
+        "BaseDarkForce": 4945800,
         "base_ATT": 10,
         "base_DP": 10,
         "base_STR": 5,
@@ -31,24 +32,44 @@
         "Total_STR": 0,
         "Total_INT": 0,
         "Total_LUK": 0,
-        "Total_DEX": 0,
+        "Total_DEX": 10,
         "Total_CriticalRate": 0.0,
         "Total_DodgeRate": 0.0,
         "codes": [
-            0,
-            0,
-            0,
-            0
+            46,
+            9,
+            50,
+            20
         ],
-        "weapon_ItemLevel": 0,
-        "weapon_AttackPoint": 0,
-        "weapon_DefencePoint": 0,
-        "weapon_ItemName": ""
+        "weapon_ItemLevel": 1,
+        "weapon_AttackPoint": 15,
+        "weapon_DefencePoint": 1,
+        "weapon_ItemName": "Pistol"
     },
     "equipSlotLength": 0,
-    "equipData": [],
+    "equipData": [
+        {
+            "values": 1,
+            "itemIndex": 10,
+            "slotIndex": 1,
+            "itemEnhanceValue": 1
+        }
+    ],
     "consumeSlotLength": 0,
-    "consumeData": [],
+    "consumeData": [
+        {
+            "values": 200,
+            "itemIndex": 1,
+            "slotIndex": 0,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 100,
+            "itemIndex": 2,
+            "slotIndex": 1,
+            "itemEnhanceValue": 0
+        }
+    ],
     "etcSlotLength": 0,
     "etcData": [],
     "craftSlotLength": 0,
@@ -85,15 +106,6 @@
             "questInfo": "보스 소환하기",
             "questIndex": 0,
             "questType": 0,
-            "questState": 1,
-            "questIProgress": [
-                0
-            ]
-        },
-        {
-            "questInfo": "중형 유닛 부시기",
-            "questIndex": 1001,
-            "questType": 1,
             "questState": 1,
             "questIProgress": [
                 0

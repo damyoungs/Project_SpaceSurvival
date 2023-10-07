@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   iconImage: {fileID: 21300006, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
-  title: "\uBCF4\uC2A4 \uC18C\uD658\uD558\uAE30"
-  description: "\uB2E4\uD06C\uD06C\uB9AC\uC2A4\uD0C8 3\uAC1C\uB97C \uBAA8\uC544\uC11C
-    \uBCF4\uC2A4\uB97C \uC18C\uD658\uD558\uC790"
-  clearObjectives: "\uB2E4\uD06C \uD06C\uB9AC\uC2A4\uD0C8\uC744 3\uAC1C\uBAA8\uC544\uC640\uB77C"
+  title: "\uD074\uB9AC\uC5B4 \uC870\uAC74"
+  description: "\uD551\uD06C \uD06C\uB9AC\uC2A4\uD0C8 \uB808\uB4DC \uD06C\uB9AC\uC2A4\uD0C8
+    \uC610\uB85C \uD06C\uB9AC\uC2A4\uD0C8 \uBAA8\uC73C\uAE30"
+  clearObjectives: "\uD06C\uB9AC\uC2A4\uD0C8\uC744 3\uAC1C\uBAA8\uC544\uC640\uB77C"
   rewardCoin: 0
-  rewardItem: 12000000
+  rewardItem: 11000000
   itemCount: 01000000
-  requestItem: 11000000
+  requestItem: 17000000190000001f000000
   questMosters: 
-  requiredCount: 03000000
+  requiredCount: 010000000100000001000000

@@ -119,7 +119,7 @@ public class PlayerQuest_Gyu : MonoBehaviour
             forSize = clearData.RequestItem.Length;
             for (int i = 0; i < forSize; i++)
             {
-                GameManager.SlotManager.RemoveItem(clearData.RequestItem[i], clearData.RequestCount[i]);
+                GameManager.SlotManager.RemoveItem(clearData.RequestItem[i], clearData.RequiredCount[i]);
             }
         }
     }

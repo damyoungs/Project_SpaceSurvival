@@ -53,9 +53,10 @@ public class SaveDataParsing : MonoBehaviour
         else 
         {
             saveData.StartPos = SpaceSurvival_GameManager.Instance.ShipStartPos;
-        } 
-        
+        }
 
+        saveData.StageClear = SpaceSurvival_GameManager.Instance.StageClear; //스테이지 클리어 정보 저장
+        saveData.CurrentStage = SpaceSurvival_GameManager.Instance.CurrentStage; //현재 전투중인 스테이지 정보 저장
         SaveLoadManager.Instance.GameSaveData = saveData;           //저장로직에사용될 객체에 담기
     }
     /// <summary>
@@ -72,6 +73,9 @@ public class SaveDataParsing : MonoBehaviour
         player_Status.Base_Status.LoadData(data.PlayerData);
         GameManager.EquipBox.Load_EquipmentsData(data.Equipments_Data);
         GameManager.PlayerStatus.Reset_Status();
+        SpaceSurvival_GameManager.Instance.StageClear = data.StageClear;
+        SpaceSurvival_GameManager.Instance.CurrentStage = data.CurrentStage;
+        SpaceSurvival_GameManager.Instance.IsBattleMapClear = false;
         RefreshData();
     }
 

@@ -176,7 +176,6 @@ public class Gyu_QuestManager : MonoBehaviour
             array_NPC[i].InitData(i); //npc 를 초기화 시킨다.
             array_NPC[i].onTalkDisableButton += () => 
             {
-                Cursor.lockState = CursorLockMode.Locked;
                 isTalking = false;
                 talkController.ResetData();
                 talkController.openTalkWindow = null;
@@ -188,7 +187,6 @@ public class Gyu_QuestManager : MonoBehaviour
             }; 
             array_NPC[i].onTalkEnableButton += (npcId) =>
             {
-                Cursor.lockState = CursorLockMode.None;
                 talkController.ResetData();
                 talkController.openTalkWindow = () => questUIManager.OnQuestNpc();
                 talkController.closeTalkWindow = () => questUIManager.initialize();

@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class ItemObject : MonoBehaviour
 {
-    Tile currentTile; 
+    SphereCollider sp;
 
-    ItemData itemData = null;
+    private void Awake()
+    {
+        sp = GetComponent<SphereCollider>();
+    }
+    public ItemData itemData = null;
     public ItemData ItemData
     {
         get => itemData;
@@ -18,5 +22,15 @@ public class ItemObject : MonoBehaviour
             }
         }
     }
-  
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            GameManager.SlotManager.AddItem(itemData.code);
+            Destroy(this.gameObject);
+        }
+    }
+
+
 }

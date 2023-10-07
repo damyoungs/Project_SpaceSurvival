@@ -301,11 +301,9 @@ public class Merchant_Manager : MonoBehaviour
                 talkController.getTalkDataArray = null;
                 talkController.LogManager.getLogTalkDataArray = null;
                 actionUI.invisibleUI?.Invoke();
-                Cursor.lockState = CursorLockMode.Locked;
             };
             array_NPC[i].onTalkEnableButton += (npcId) =>
             {
-                Cursor.lockState = CursorLockMode.None;
                 talkController.ResetData();
                 talkController.openTalkWindow = merchant_UI_Manager.OpenWindow;
                 talkController.closeTalkWindow = merchant_UI_Manager.CloseWindow;
