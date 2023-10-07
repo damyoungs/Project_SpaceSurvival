@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +11,8 @@ public class BattleShipInitData : MonoBehaviour
     Merchant_Manager merchantManager;
 
     Cho_PlayerMove player;
+
+    BattleMapPlayerBase PlayerDumy;
 
     private void Awake()
     {
@@ -24,16 +27,30 @@ public class BattleShipInitData : MonoBehaviour
         questManager.InitDataSetting();
         merchantManager.InitDataSetting();
         InputSystemController.InputSystem.Player.Esc.performed += EscClick; 
+        InputSystemController.InputSystem.UI_Inven.InvenKey.performed += OnCursorOn;
+        InputSystemController.InputSystem.UI_Inven.StateKey.performed += OnCursorOn;
+        InputSystemController.InputSystem.UI_Inven.SkillBox_Open.performed += OnCursorOn;
+        InputSystemController.InputSystem.UI_Inven.EquipBox_Open.performed += OnCursorOn;
+        InputSystemController.InputSystem.Options.Options.performed += OnCursorOn;
+        InputSystemController.InputSystem.Player.Action.performed += OnCursorOn;
+
+
+        PlayerDumy =  (BattleMapPlayerBase)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.CHARCTER_PLAYER_POOL);
+        PlayerDumy.BattleUI.SetInVisibleUI();
     }
 
-    private void EscClick(InputAction.CallbackContext context)
+    private void OnCursorOn(InputAction.CallbackContext context) 
     {
         if (Cursor.lockState == CursorLockMode.Locked)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-        else if (Cursor.lockState == CursorLockMode.None)
+    }
+
+    private void EscClick(InputAction.CallbackContext context)
+    {
+        if (Cursor.lockState == CursorLockMode.None)
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -45,7 +62,15 @@ public class BattleShipInitData : MonoBehaviour
 
     private void OnDisable()
     {
+        InputSystemController.InputSystem.Player.Action.performed -= OnCursorOn;
+        InputSystemController.InputSystem.UI_Inven.EquipBox_Open.performed -= OnCursorOn;
+        InputSystemController.InputSystem.UI_Inven.StateKey.performed -= OnCursorOn;
+        InputSystemController.InputSystem.UI_Inven.SkillBox_Open.performed -= OnCursorOn;
+        InputSystemController.InputSystem.Options.Options.performed -= OnCursorOn;
+        InputSystemController.InputSystem.UI_Inven.InvenKey.performed -= OnCursorOn;
         InputSystemController.InputSystem.Player.Esc.performed -= EscClick;
+        PlayerDumy.BattleUI.SetVisibleUI();
+        PlayerDumy.gameObject.SetActive(false);
     }
     public void CharcterMove(Vector3 startPos) 
     {

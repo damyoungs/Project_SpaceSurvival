@@ -1,11 +1,11 @@
 {
     "dataIndex": 0,
     "startPos": {
-        "x": -10.01669692993164,
-        "y": 0.13692164421081544,
-        "z": 33.31904220581055
+        "x": 7.262522220611572,
+        "y": 0.1369214951992035,
+        "z": 18.67501449584961
     },
-    "saveTime": "2023-10-07 오전 2:03:02",
+    "saveTime": "2023-10-07 오후 5:09:03",
     "sceanName": 5,
     "playerData": {
         "abilityPoint": 50,
@@ -15,9 +15,9 @@
         "expMax": 50,
         "base_MaxHP": 100.0,
         "currentHP": 100.0,
-        "current_Stamina": 15.0,
+        "current_Stamina": 12.0,
         "base_MaxStamina": 15.0,
-        "BaseDarkForce": 5000000,
+        "BaseDarkForce": 4883900,
         "base_ATT": 10,
         "base_DP": 10,
         "base_STR": 5,
@@ -31,28 +31,145 @@
         "Total_STR": 0,
         "Total_INT": 0,
         "Total_LUK": 0,
-        "Total_DEX": 0,
+        "Total_DEX": 50,
         "Total_CriticalRate": 0.0,
         "Total_DodgeRate": 0.0,
         "codes": [
-            0,
-            0,
-            0,
-            0
+            46,
+            9,
+            51,
+            22
         ],
-        "weapon_ItemLevel": 0,
-        "weapon_AttackPoint": 0,
-        "weapon_DefencePoint": 0,
-        "weapon_ItemName": ""
+        "weapon_ItemLevel": 1,
+        "weapon_AttackPoint": 15,
+        "weapon_DefencePoint": 1,
+        "weapon_ItemName": "Pistol"
     },
     "equipSlotLength": 0,
-    "equipData": [],
+    "equipData": [
+        {
+            "values": 1,
+            "itemIndex": 9,
+            "slotIndex": 2,
+            "itemEnhanceValue": 1
+        },
+        {
+            "values": 1,
+            "itemIndex": 9,
+            "slotIndex": 4,
+            "itemEnhanceValue": 1
+        },
+        {
+            "values": 1,
+            "itemIndex": 10,
+            "slotIndex": 5,
+            "itemEnhanceValue": 1
+        },
+        {
+            "values": 1,
+            "itemIndex": 9,
+            "slotIndex": 6,
+            "itemEnhanceValue": 1
+        },
+        {
+            "values": 1,
+            "itemIndex": 9,
+            "slotIndex": 7,
+            "itemEnhanceValue": 1
+        },
+        {
+            "values": 1,
+            "itemIndex": 9,
+            "slotIndex": 8,
+            "itemEnhanceValue": 1
+        },
+        {
+            "values": 1,
+            "itemIndex": 9,
+            "slotIndex": 9,
+            "itemEnhanceValue": 1
+        }
+    ],
     "consumeSlotLength": 0,
-    "consumeData": [],
+    "consumeData": [
+        {
+            "values": 98,
+            "itemIndex": 1,
+            "slotIndex": 0,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 98,
+            "itemIndex": 2,
+            "slotIndex": 1,
+            "itemEnhanceValue": 0
+        }
+    ],
     "etcSlotLength": 0,
     "etcData": [],
     "craftSlotLength": 0,
-    "craftData": [],
+    "craftData": [
+        {
+            "values": 1,
+            "itemIndex": 16,
+            "slotIndex": 0,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 19,
+            "slotIndex": 1,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 2,
+            "itemIndex": 18,
+            "slotIndex": 2,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 27,
+            "slotIndex": 3,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 30,
+            "slotIndex": 4,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 2,
+            "itemIndex": 13,
+            "slotIndex": 5,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 14,
+            "slotIndex": 6,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 3,
+            "itemIndex": 17,
+            "slotIndex": 7,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 20,
+            "slotIndex": 8,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 15,
+            "slotIndex": 9,
+            "itemEnhanceValue": 0
+        }
+    ],
     "skillDatas": [
         {
             "skillLevel": 1,
@@ -87,16 +204,7 @@
             "questType": 0,
             "questState": 1,
             "questIProgress": [
-                0
-            ]
-        },
-        {
-            "questInfo": "중형 유닛 부시기",
-            "questIndex": 1001,
-            "questType": 1,
-            "questState": 1,
-            "questIProgress": [
-                0
+                3
             ]
         }
     ]

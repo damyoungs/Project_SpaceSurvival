@@ -187,12 +187,16 @@ public class TrackingBattleUI : Base_PoolObj
     [SerializeField]
     private float gaugeSpeed = 1.0f;
 
+
+    CanvasGroup cg;
+
     /// <summary>
     /// 초기값들을 셋팅해둔다 나중에 거리에따른 사이즈조절에 사용할값
     /// </summary>
     protected override  void Awake()
     {
         base.Awake();
+        cg = GetComponent<CanvasGroup>();
         stateGroup = transform.GetChild(0);
         glg = stateGroup.GetComponent<GridLayoutGroup>();
         rtTop = stateGroup.GetComponent<RectTransform>();
@@ -512,15 +516,16 @@ public class TrackingBattleUI : Base_PoolObj
         
     }
 
-    private void UI_Hp_Setting()
+    public void SetVisibleUI() 
     {
-
-    }
-    private void UI_Stm_Setting()
-    {
-
+        cg.alpha = 1.0f;
     }
 
+    public void SetInVisibleUI() 
+    {
+        cg.alpha = 0.0f;
+
+    }
 
 
 }
