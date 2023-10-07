@@ -158,7 +158,8 @@ public class EnemyTurnObject : TurnBaseObject
     {
         yield return null;
         battleMapEndAction.TestReset();
-        LoadingScene.SceneLoading(EnumList.SceneName.SpaceShip);
+        WindowList.Instance.BattleMapClearUI.gameObject.SetActive(true);
+        WindowList.Instance.BattleMapClearUI.SetRewordText("다크 크리스탈");
     }
 
     /// <summary>
