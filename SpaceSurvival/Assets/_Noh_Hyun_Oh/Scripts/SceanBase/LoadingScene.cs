@@ -245,7 +245,9 @@ public class LoadingScene : MonoBehaviour
         GameManager.PlayerStatus.Base_Status.Init();                // 캐릭터 능력치 초기화 
         GameManager.PlayerStatus.Reset_Status();                    // 캐릭터 능력치 초기화 
 
-
+        ///타이틀로 돌아갈시 배틀맵 현재정보 초기화 
+        SpaceSurvival_GameManager.Instance.IsBattleMapClear = false;
+        SpaceSurvival_GameManager.Instance.CurrentStage = StageList.None;
         SpaceSurvival_GameManager.Instance.StageClear = StageList.None; //스테이지 클리어정보 초기화
     }
 }

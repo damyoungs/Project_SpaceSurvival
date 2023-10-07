@@ -1,23 +1,24 @@
 {
     "dataIndex": 2,
+    "stageClear": 3,
     "startPos": {
-        "x": -0.1940421164035797,
-        "y": 1.0009210109710694,
-        "z": 22.9935359954834
+        "x": -16.745075225830079,
+        "y": 5.054255485534668,
+        "z": -30.80358123779297
     },
-    "saveTime": "2023-10-06 오후 3:34:30",
-    "sceanName": 4,
+    "saveTime": "2023-10-07 오후 8:40:48",
+    "sceanName": 5,
     "playerData": {
-        "abilityPoint": 55,
+        "abilityPoint": 80,
         "playerName": "Player",
-        "level": 2,
-        "exp": 20,
-        "expMax": 60,
-        "base_MaxHP": 115.0,
-        "currentHP": 88.0,
-        "current_Stamina": 10.402002334594727,
-        "base_MaxStamina": 18.0,
-        "BaseDarkForce": 4959800,
+        "level": 7,
+        "exp": 136,
+        "expMax": 147,
+        "base_MaxHP": 190.0,
+        "currentHP": 190.0,
+        "current_Stamina": 9.788002014160157,
+        "base_MaxStamina": 33.0,
+        "BaseDarkForce": 4945800,
         "base_ATT": 10,
         "base_DP": 10,
         "base_STR": 5,
@@ -31,14 +32,14 @@
         "Total_STR": 0,
         "Total_INT": 0,
         "Total_LUK": 0,
-        "Total_DEX": 0,
+        "Total_DEX": 10,
         "Total_CriticalRate": 0.0,
         "Total_DodgeRate": 0.0,
         "codes": [
-            0,
+            46,
             10,
-            51,
-            0
+            50,
+            20
         ],
         "weapon_ItemLevel": 1,
         "weapon_AttackPoint": 20,
@@ -50,20 +51,20 @@
         {
             "values": 1,
             "itemIndex": 9,
-            "slotIndex": 2,
+            "slotIndex": 1,
             "itemEnhanceValue": 1
         }
     ],
     "consumeSlotLength": 0,
     "consumeData": [
         {
-            "values": 98,
+            "values": 196,
             "itemIndex": 1,
             "slotIndex": 0,
             "itemEnhanceValue": 0
         },
         {
-            "values": 99,
+            "values": 96,
             "itemIndex": 2,
             "slotIndex": 1,
             "itemEnhanceValue": 0
@@ -72,7 +73,14 @@
     "etcSlotLength": 0,
     "etcData": [],
     "craftSlotLength": 0,
-    "craftData": [],
+    "craftData": [
+        {
+            "values": 2,
+            "itemIndex": 17,
+            "slotIndex": 0,
+            "itemEnhanceValue": 0
+        }
+    ],
     "skillDatas": [
         {
             "skillLevel": 1,
@@ -100,5 +108,15 @@
             "skillType": 4
         }
     ],
-    "questList": []
+    "questList": [
+        {
+            "questInfo": "보스 소환하기",
+            "questIndex": 0,
+            "questType": 0,
+            "questState": 1,
+            "questIProgress": [
+                2
+            ]
+        }
+    ]
 }

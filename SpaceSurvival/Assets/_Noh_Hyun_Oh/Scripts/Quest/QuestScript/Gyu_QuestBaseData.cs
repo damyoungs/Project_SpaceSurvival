@@ -112,7 +112,7 @@ public class Gyu_QuestBaseData : ScriptableObject
     /// </summary>
     [SerializeField]
     int[] requiredCount;
-    public int[] RequestCount => requiredCount;
+    public int[] RequiredCount => requiredCount;
 
     /// <summary>
     /// 현재 카운트(갯수)
@@ -136,7 +136,7 @@ public class Gyu_QuestBaseData : ScriptableObject
 
     private void Awake()
     {
-       currentCount = new int[requiredCount.Length];
+       currentCount = new int[RequiredCount.Length];
     }
 
     /// <summary>

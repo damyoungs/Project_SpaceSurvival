@@ -462,7 +462,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
             int forSize = questData.CurrentCount.Length;
             for (int i = 0; i < forSize; i++)
             {
-                myQuestBox.text += $"진행상황 : {questData.CurrentCount[i]} / {questData.RequestCount[i]}";
+                myQuestBox.text += $"진행상황 : {questData.CurrentCount[i]} / {questData.RequiredCount[i]}";
             }
         }
         else //없는경우 
@@ -519,7 +519,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
         questConfirm.gameObject.SetActive(false);
         questListPanel.gameObject.SetActive(false);
       
-        questManager.isTalking = true;
+        questManager.isTalking =false;
         //quests = null;
         //array_NPC = null;
     }

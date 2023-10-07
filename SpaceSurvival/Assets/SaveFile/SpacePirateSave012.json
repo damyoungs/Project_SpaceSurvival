@@ -1,0 +1,122 @@
+{
+    "dataIndex": 12,
+    "stageClear": 2,
+    "startPos": {
+        "x": 0.003573457710444927,
+        "y": 0.9256758689880371,
+        "z": 22.79483413696289
+    },
+    "saveTime": "2023-10-07 오후 9:11:44",
+    "sceanName": 5,
+    "playerData": {
+        "abilityPoint": 70,
+        "playerName": "Player",
+        "level": 5,
+        "exp": 32,
+        "expMax": 103,
+        "base_MaxHP": 160.0,
+        "currentHP": 95.0,
+        "current_Stamina": 6.0880022048950199,
+        "base_MaxStamina": 27.0,
+        "BaseDarkForce": 4945800,
+        "base_ATT": 10,
+        "base_DP": 10,
+        "base_STR": 5,
+        "base_INT": 5,
+        "base_LUK": 5,
+        "base_DEX": 5,
+        "baseCriticalPower": 1.7999999523162842,
+        "damage_Min": 0.5
+    },
+    "equipments_Data": {
+        "Total_STR": 0,
+        "Total_INT": 0,
+        "Total_LUK": 0,
+        "Total_DEX": 10,
+        "Total_CriticalRate": 0.0,
+        "Total_DodgeRate": 0.0,
+        "codes": [
+            46,
+            9,
+            50,
+            20
+        ],
+        "weapon_ItemLevel": 1,
+        "weapon_AttackPoint": 15,
+        "weapon_DefencePoint": 1,
+        "weapon_ItemName": "Pistol"
+    },
+    "equipSlotLength": 0,
+    "equipData": [
+        {
+            "values": 1,
+            "itemIndex": 10,
+            "slotIndex": 1,
+            "itemEnhanceValue": 1
+        }
+    ],
+    "consumeSlotLength": 0,
+    "consumeData": [
+        {
+            "values": 199,
+            "itemIndex": 1,
+            "slotIndex": 0,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 99,
+            "itemIndex": 2,
+            "slotIndex": 1,
+            "itemEnhanceValue": 0
+        }
+    ],
+    "etcSlotLength": 0,
+    "etcData": [],
+    "craftSlotLength": 0,
+    "craftData": [
+        {
+            "values": 1,
+            "itemIndex": 23,
+            "slotIndex": 0,
+            "itemEnhanceValue": 0
+        }
+    ],
+    "skillDatas": [
+        {
+            "skillLevel": 1,
+            "bindingSlot": 1,
+            "skillType": 0
+        },
+        {
+            "skillLevel": 1,
+            "bindingSlot": 2,
+            "skillType": 1
+        },
+        {
+            "skillLevel": 1,
+            "bindingSlot": 3,
+            "skillType": 2
+        },
+        {
+            "skillLevel": 1,
+            "bindingSlot": 4,
+            "skillType": 3
+        },
+        {
+            "skillLevel": 1,
+            "bindingSlot": 5,
+            "skillType": 4
+        }
+    ],
+    "questList": [
+        {
+            "questInfo": "클리어 조건",
+            "questIndex": 0,
+            "questType": 0,
+            "questState": 1,
+            "questIProgress": [
+                0
+            ]
+        }
+    ]
+}

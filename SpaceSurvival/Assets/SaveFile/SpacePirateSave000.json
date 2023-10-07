@@ -1,26 +1,27 @@
 {
     "dataIndex": 0,
+    "stageClear": 0,
     "startPos": {
-        "x": -17.4908504486084,
-        "y": 1.0109996795654297,
-        "z": 4.870188236236572
+        "x": 0.003573457710444927,
+        "y": 0.9256758689880371,
+        "z": 22.79483413696289
     },
-    "saveTime": "2023-10-07 오후 6:41:32",
-    "sceanName": 4,
+    "saveTime": "2023-10-07 오후 8:18:37",
+    "sceanName": 5,
     "playerData": {
-        "abilityPoint": 15,
+        "abilityPoint": 50,
         "playerName": "Player",
-        "level": 4,
-        "exp": 58,
-        "expMax": 86,
-        "base_MaxHP": 295.0,
-        "currentHP": 97.0,
-        "current_Stamina": 9.632003784179688,
-        "base_MaxStamina": 54.0,
-        "BaseDarkForce": 4945400,
+        "level": 1,
+        "exp": 0,
+        "expMax": 50,
+        "base_MaxHP": 100.0,
+        "currentHP": 0.0,
+        "current_Stamina": 11.0,
+        "base_MaxStamina": 15.0,
+        "BaseDarkForce": 4945800,
         "base_ATT": 10,
         "base_DP": 10,
-        "base_STR": 55,
+        "base_STR": 5,
         "base_INT": 5,
         "base_LUK": 5,
         "base_DEX": 5,
@@ -29,86 +30,50 @@
     },
     "equipments_Data": {
         "Total_STR": 0,
-        "Total_INT": 20,
+        "Total_INT": 0,
         "Total_LUK": 0,
-        "Total_DEX": 0,
+        "Total_DEX": 10,
         "Total_CriticalRate": 0.0,
         "Total_DodgeRate": 0.0,
         "codes": [
-            47,
-            10,
+            46,
+            9,
             50,
-            15
+            20
         ],
         "weapon_ItemLevel": 1,
-        "weapon_AttackPoint": 20,
+        "weapon_AttackPoint": 15,
         "weapon_DefencePoint": 1,
-        "weapon_ItemName": "Rifle"
+        "weapon_ItemName": "Pistol"
     },
     "equipSlotLength": 0,
     "equipData": [
         {
             "values": 1,
-            "itemIndex": 9,
-            "slotIndex": 0,
-            "itemEnhanceValue": 1
-        },
-        {
-            "values": 1,
-            "itemIndex": 9,
-            "slotIndex": 2,
-            "itemEnhanceValue": 1
-        },
-        {
-            "values": 1,
-            "itemIndex": 51,
-            "slotIndex": 3,
-            "itemEnhanceValue": 1
-        },
-        {
-            "values": 1,
-            "itemIndex": 9,
-            "slotIndex": 4,
-            "itemEnhanceValue": 1
-        },
-        {
-            "values": 1,
-            "itemIndex": 9,
-            "slotIndex": 6,
-            "itemEnhanceValue": 1
-        },
-        {
-            "values": 1,
-            "itemIndex": 46,
-            "slotIndex": 7,
-            "itemEnhanceValue": 1
-        },
-        {
-            "values": 1,
-            "itemIndex": 9,
-            "slotIndex": 9,
+            "itemIndex": 10,
+            "slotIndex": 1,
             "itemEnhanceValue": 1
         }
     ],
     "consumeSlotLength": 0,
-    "consumeData": [],
-    "etcSlotLength": 0,
-    "etcData": [],
-    "craftSlotLength": 0,
-    "craftData": [
+    "consumeData": [
         {
-            "values": 3,
-            "itemIndex": 17,
+            "values": 200,
+            "itemIndex": 1,
             "slotIndex": 0,
             "itemEnhanceValue": 0
         },
         {
-            "values": 3,
-            "itemIndex": 18,
+            "values": 100,
+            "itemIndex": 2,
             "slotIndex": 1,
             "itemEnhanceValue": 0
         }
     ],
+    "etcSlotLength": 0,
+    "etcData": [],
+    "craftSlotLength": 0,
+    "craftData": [],
     "skillDatas": [
         {
             "skillLevel": 1,
@@ -143,7 +108,7 @@
             "questType": 0,
             "questState": 1,
             "questIProgress": [
-                3
+                0
             ]
         }
     ]

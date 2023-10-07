@@ -63,6 +63,17 @@ public class JsonGameData
         
         }
     }
+
+    /// <summary>
+    /// 현재 전투중인 배틀맵 
+    /// </summary>
+    StageList currentStage = StageList.None;
+    public StageList CurrentStage 
+    {
+        get => currentStage;
+        set => currentStage = value;
+    }
+
     /// <summary>
     /// 스테이지 클리어 여부 저장
     /// </summary>
