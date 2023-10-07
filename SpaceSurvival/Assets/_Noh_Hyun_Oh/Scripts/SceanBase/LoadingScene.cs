@@ -245,9 +245,7 @@ public class LoadingScene : MonoBehaviour
         GameManager.PlayerStatus.Base_Status.Init();                // 캐릭터 능력치 초기화 
         GameManager.PlayerStatus.Reset_Status();                    // 캐릭터 능력치 초기화 
 
-        // 캐릭터 데이터 초기화및 아이템 ,장비 ,퀘스트 초기화 등등
-        // 게임에 필요한 데이터 초기화 로직을 실행이 필요하다
 
-        // 그리고 New Game 시에 초기값으로 데이터 셋팅 하는 기능이 필요할거같다 
+        SpaceSurvival_GameManager.Instance.StageClear = StageList.None; //스테이지 클리어정보 초기화
     }
 }

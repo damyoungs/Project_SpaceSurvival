@@ -63,7 +63,16 @@ public class JsonGameData
         
         }
     }
-
+    /// <summary>
+    /// 스테이지 클리어 여부 저장
+    /// </summary>
+    [SerializeField]
+    StageList stageClear;
+    public StageList StageClear 
+    {
+        get => stageClear;
+        set => stageClear = value;
+    }
     /// <summary>
     /// 마을에서의 시작위치값 저장
     /// </summary>

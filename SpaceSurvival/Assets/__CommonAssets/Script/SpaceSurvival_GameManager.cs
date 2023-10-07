@@ -4,7 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-
+/// <summary>
+/// 포탈 체크용 이넘
+/// </summary>
+[Flags]
+public enum StageList :byte
+{
+    None = 0,
+    stage1 = 1, 
+    stage2 = 2, 
+    stage3 = 4,
+}
 /// <summary>
 /// 게임에서 필요한 데이터 및 공통된 기능을 담을 메니저 클래스 
 /// </summary>
@@ -203,6 +213,22 @@ public class SpaceSurvival_GameManager : ChildComponentSingeton<SpaceSurvival_Ga
         }
     }
     public Func<InitCharcterSetting> GetBattleMapInit;
+
+    /// <summary>
+    /// 스테이지 클리어 여부 
+    /// </summary>
+    StageList stageClear = StageList.None;
+    public StageList StageClear 
+    {
+        get => stageClear;
+        set 
+        {
+            if (stageClear != value) 
+            {
+                stageClear |= value;
+            }
+        }
+    } 
 
     /// <summary>
     /// 공격범위를 취소하고 이동범위를 다시표시하는 함수 중복으로 쓰이는곳이있어서 따로뺏다.
