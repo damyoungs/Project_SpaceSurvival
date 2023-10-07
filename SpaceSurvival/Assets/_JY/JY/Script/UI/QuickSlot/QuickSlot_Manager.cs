@@ -180,42 +180,45 @@ public class QuickSlot_Manager : MonoBehaviour, IPopupSortWindow
     }
     void DisConnect_Delegate(QuickSlot slot)
     {
-        switch (slot.type)
+        if (slot.ItemData == null && slot.SkillData == null)
         {
-            case QuickSlot_Type.Shift:
-                //inputAction.QuickSlot.Shift.performed -= Shift_performed;
-                InputSystemController.Instance.OnQuickSlot_Shift -= Shift_performed;
-                break;
-            case QuickSlot_Type._8:
-                //inputAction.QuickSlot.Eight.performed -= Eight_performed;
-                InputSystemController.Instance.OnQuickSlot_Eight -= Eight_performed;
-                break;
-            case QuickSlot_Type._9:
-                //inputAction.QuickSlot.Nine.performed -= Nine_performed;
-                InputSystemController.Instance.OnQuickSlot_Nine -= Nine_performed;
-                break;
-            case QuickSlot_Type._0:
-                //inputAction.QuickSlot.Zero.performed -= Zero_performed;
-                InputSystemController.Instance.OnQuickSlot_Zero -= Zero_performed;
-                break;
-            case QuickSlot_Type.Ctrl:
-                //inputAction.QuickSlot.Ctrl.performed -= Ctrl_performed;
-                InputSystemController.Instance.OnQuickSlot_Ctrl -= Ctrl_performed;
-                break;
-            case QuickSlot_Type.Alt:
-                //inputAction.QuickSlot.Alt.performed -= Alt_performed;
-                InputSystemController.Instance.OnQuickSlot_Alt -= Alt_performed;
-                break;
-            case QuickSlot_Type.Space:
-                //inputAction.QuickSlot.Space.performed -= Space_performed;
-                InputSystemController.Instance.OnQuickSlot_Space -= Space_performed;
-                break;
-            case QuickSlot_Type.Insert:
-                //inputAction.QuickSlot.Insert.performed -= Insert_performed;
-                InputSystemController.Instance.OnQuickSlot_Insert -= Insert_performed;
-                break;
-            default:
-                break;
+            switch (slot.type)
+            {
+                case QuickSlot_Type.Shift:
+                    //inputAction.QuickSlot.Shift.performed -= Shift_performed;
+                    InputSystemController.Instance.OnQuickSlot_Shift -= Shift_performed;
+                    break;
+                case QuickSlot_Type._8:
+                    //inputAction.QuickSlot.Eight.performed -= Eight_performed;
+                    InputSystemController.Instance.OnQuickSlot_Eight -= Eight_performed;
+                    break;
+                case QuickSlot_Type._9:
+                    //inputAction.QuickSlot.Nine.performed -= Nine_performed;
+                    InputSystemController.Instance.OnQuickSlot_Nine -= Nine_performed;
+                    break;
+                case QuickSlot_Type._0:
+                    //inputAction.QuickSlot.Zero.performed -= Zero_performed;
+                    InputSystemController.Instance.OnQuickSlot_Zero -= Zero_performed;
+                    break;
+                case QuickSlot_Type.Ctrl:
+                    //inputAction.QuickSlot.Ctrl.performed -= Ctrl_performed;
+                    InputSystemController.Instance.OnQuickSlot_Ctrl -= Ctrl_performed;
+                    break;
+                case QuickSlot_Type.Alt:
+                    //inputAction.QuickSlot.Alt.performed -= Alt_performed;
+                    InputSystemController.Instance.OnQuickSlot_Alt -= Alt_performed;
+                    break;
+                case QuickSlot_Type.Space:
+                    //inputAction.QuickSlot.Space.performed -= Space_performed;
+                    InputSystemController.Instance.OnQuickSlot_Space -= Space_performed;
+                    break;
+                case QuickSlot_Type.Insert:
+                    //inputAction.QuickSlot.Insert.performed -= Insert_performed;
+                    InputSystemController.Instance.OnQuickSlot_Insert -= Insert_performed;
+                    break;
+                default:
+                    break;
+            }
         }
     }
     public bool Find_Slot_By_Position(out QuickSlot findSlot)
