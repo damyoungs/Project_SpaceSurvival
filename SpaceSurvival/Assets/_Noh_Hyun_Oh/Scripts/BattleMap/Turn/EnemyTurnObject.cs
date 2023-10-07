@@ -125,36 +125,36 @@ public class EnemyTurnObject : TurnBaseObject
                 go.onActionEndCheck = CheckTurnEnd; //유닛의 행동 종료됬는지 체크하는 함수연결
             }
             //보스 추가시 밑에 기능연결
-            if (SpaceSurvival_GameManager.Instance.IsBoss)
-            {
-                BattleMapEnemyBase go = Instantiate(bossPrefab).GetComponent<BattleMapEnemyBase>(); 
-                charcterList.Add(go);
-                go.GetCurrentTile = () => (SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Monster)); //데이터 연결 
-                go.transform.position = go.CurrentTile.transform.position; //셋팅된 타일위치로 이동시킨다.
-                go.onDie += (unit) =>
-                {
-                    charcterList.Remove(unit);
-                    PlayerQuest_Gyu playerQuest = SpaceSurvival_GameManager.Instance.PlayerQuest;
-                    foreach (var quest in playerQuest.CurrentQuests)
-                    {
-                        if (quest.QuestType == QuestType.Story)
-                        {
-                            int forSize = quest.QuestMosters.Length;
-                            for (int i = 0; i < forSize; i++)
-                            {
-                                if (unit.EnemyData.mType == quest.QuestMosters[i])
-                                {
-                                    quest.CurrentCount[i]++;
-                                }
+            //if (SpaceSurvival_GameManager.Instance.IsBoss)
+            //{
+            //    BattleMapEnemyBase go = Instantiate(bossPrefab).GetComponent<BattleMapEnemyBase>(); 
+            //    charcterList.Add(go);
+            //    go.GetCurrentTile = () => (SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Monster)); //데이터 연결 
+            //    go.transform.position = go.CurrentTile.transform.position; //셋팅된 타일위치로 이동시킨다.
+            //    go.onDie += (unit) =>
+            //    {
+            //        charcterList.Remove(unit);
+            //        PlayerQuest_Gyu playerQuest = SpaceSurvival_GameManager.Instance.PlayerQuest;
+            //        foreach (var quest in playerQuest.CurrentQuests)
+            //        {
+            //            if (quest.QuestType == QuestType.Story)
+            //            {
+            //                int forSize = quest.QuestMosters.Length;
+            //                for (int i = 0; i < forSize; i++)
+            //                {
+            //                    if (unit.EnemyData.mType == quest.QuestMosters[i])
+            //                    {
+            //                        quest.CurrentCount[i]++;
+            //                    }
 
-                            }
-                        }
-                    }
-                    StopAllCoroutines();
-                    StartCoroutine(BattleMapEnd());
-                };
-                go.onActionEndCheck = CheckTurnEnd; //유닛의 행동 종료됬는지 체크하는 함수연결
-            }    
+            //                }
+            //            }
+            //        }
+            //        StopAllCoroutines();
+            //        StartCoroutine(BattleMapEnd());
+            //    };
+            //    go.onActionEndCheck = CheckTurnEnd; //유닛의 행동 종료됬는지 체크하는 함수연결
+            //}    
         }
         else // 외부에서 데이터가 들어왔을경우  이경우가 정상적인경우다  내가 데이서 셋팅안할것이기때문에...
         {
