@@ -1,11 +1,11 @@
 {
     "dataIndex": 1,
     "startPos": {
-        "x": 7.49399995803833,
+        "x": -7.1745805740356449,
         "y": 0.15400001406669618,
-        "z": -1.8459999561309815
+        "z": 21.30574607849121
     },
-    "saveTime": "2023-10-07 오전 2:03:33",
+    "saveTime": "2023-10-07 오후 6:41:48",
     "sceanName": 5,
     "playerData": {
         "abilityPoint": 50,
@@ -35,15 +35,15 @@
         "Total_CriticalRate": 0.0,
         "Total_DodgeRate": 0.0,
         "codes": [
-            0,
-            0,
-            0,
-            0
+            47,
+            10,
+            50,
+            15
         ],
-        "weapon_ItemLevel": 0,
-        "weapon_AttackPoint": 0,
-        "weapon_DefencePoint": 0,
-        "weapon_ItemName": ""
+        "weapon_ItemLevel": 1,
+        "weapon_AttackPoint": 20,
+        "weapon_DefencePoint": 1,
+        "weapon_ItemName": "Rifle"
     },
     "equipSlotLength": 0,
     "equipData": [],

@@ -35,7 +35,8 @@ public class BattleShipInitData : MonoBehaviour
         InputSystemController.InputSystem.Player.Action.performed += OnCursorOn;
 
 
-        PlayerDumy =  (BattleMapPlayerBase)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.CHARCTER_PLAYER_POOL);
+        PlayerDumy = (BattleMapPlayerBase)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.CHARCTER_PLAYER_POOL);
+        PlayerDumy.transform.position = new Vector3(0.0f,100.0f,0.0f); //안보이게 멀리보낸다
         PlayerDumy.BattleUI.SetInVisibleUI();
     }
 
@@ -55,7 +56,7 @@ public class BattleShipInitData : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
-
+        
         questManager.QuestUIManager.initialize();
         merchantManager.NpcTalkController.ResetData();
     }
