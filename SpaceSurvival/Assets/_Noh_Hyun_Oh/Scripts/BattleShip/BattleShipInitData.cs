@@ -38,6 +38,20 @@ public class BattleShipInitData : MonoBehaviour
         PlayerDumy = (BattleMapPlayerBase)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.CHARCTER_PLAYER_POOL);
         PlayerDumy.transform.position = new Vector3(0.0f,100.0f,0.0f); //안보이게 멀리보낸다
         PlayerDumy.BattleUI.SetInVisibleUI();
+
+        if (SpaceSurvival_GameManager.Instance.IsBattleMapClear) 
+        {
+            SpaceSurvival_GameManager.Instance.StageClear |= SpaceSurvival_GameManager.Instance.CurrentStage;
+            SpaceSurvival_GameManager.Instance.CurrentStage &= StageList.None;
+            SpaceSurvival_GameManager.Instance.IsBattleMapClear = false;
+            if (SpaceSurvival_GameManager.Instance.StageClear == StageList.All)
+            {
+
+                //배틀맵에서 돌아왔을때 
+                //전부클리어 됬으면 처리할 내용 
+            }
+        }
+
     }
 
     private void OnCursorOn(InputAction.CallbackContext context) 

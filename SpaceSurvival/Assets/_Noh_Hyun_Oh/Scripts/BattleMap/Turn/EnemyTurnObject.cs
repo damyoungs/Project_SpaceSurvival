@@ -1,3 +1,4 @@
+using EnumList;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -51,6 +52,21 @@ public class EnemyTurnObject : TurnBaseObject
         {
             int enumStartValue = (int)EnumList.MultipleFactoryObjectList.SIZE_S_HUMAN_ENEMY_POOL;
             int enumEndValue = (int)EnumList.MultipleFactoryObjectList.SIZE_L_ROBOT_ENEMY_POOL+1;
+            switch (SpaceSurvival_GameManager.Instance.CurrentStage)
+            {
+                case StageList.stage1:
+                    enumStartValue = (int)EnumList.MultipleFactoryObjectList.SIZE_S_HUMAN_ENEMY_POOL;
+                    enumEndValue = (int)EnumList.MultipleFactoryObjectList.SIZE_S_ROBOT_ENEMY_POOL+1;
+                    break;
+                case StageList.stage2:
+                    enumStartValue = (int)EnumList.MultipleFactoryObjectList.SIZE_M_HUMAN_HUNTER_ENEMY_POOL;
+                    enumEndValue = (int)EnumList.MultipleFactoryObjectList.SIZE_M_HUMAN_PSIONIC_ENEMY_POOL+1;
+                    break;
+                case StageList.stage3:
+                    enumStartValue = (int)EnumList.MultipleFactoryObjectList.SIZE_M_HUMAN_HUNTER_ENEMY_POOL;
+                    enumEndValue = (int)EnumList.MultipleFactoryObjectList.SIZE_L_ROBOT_ENEMY_POOL+1;
+                    break;
+            }
             int randValue = 0;
             //테스트 데이터 생성
             for (int i = 0; i < testPlayerLength; i++)//캐릭터들 생성해서 셋팅 
@@ -98,7 +114,7 @@ public class EnemyTurnObject : TurnBaseObject
                     {
                         Debug.Log("유닛전멸 마을로이동하든 뭘하든 처리");
                         //기존 작업중인것들 코루틴들이 전부 실행다된후에 초기화 로직이 실행되야한다.
-
+                        StopAllCoroutines();
                         StartCoroutine(BattleMapEnd()) ;
                     }
 
@@ -134,6 +150,7 @@ public class EnemyTurnObject : TurnBaseObject
                             }
                         }
                     }
+                    StopAllCoroutines();
                     StartCoroutine(BattleMapEnd());
                 };
                 go.onActionEndCheck = CheckTurnEnd; //유닛의 행동 종료됬는지 체크하는 함수연결
@@ -157,9 +174,9 @@ public class EnemyTurnObject : TurnBaseObject
     IEnumerator BattleMapEnd()
     {
         yield return null;
-        battleMapEndAction.TestReset();
         WindowList.Instance.BattleMapClearUI.gameObject.SetActive(true);
-        WindowList.Instance.BattleMapClearUI.SetRewordText("다크 크리스탈");
+        WindowList.Instance.BattleMapClearUI.SetRewordText();
+        battleMapEndAction.TestReset();
     }
 
     /// <summary>
