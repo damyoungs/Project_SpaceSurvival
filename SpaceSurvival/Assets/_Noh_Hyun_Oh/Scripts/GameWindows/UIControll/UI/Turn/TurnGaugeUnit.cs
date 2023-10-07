@@ -147,7 +147,7 @@ public class TurnGaugeUnit : Base_PoolObj
         }
         else //안되있으면
         {
-            Debug.Log($"실행 : {onDisable}");
+            //Debug.Log($"실행 : {onDisable}");
             onDisable?.Invoke(); //큐로 돌리기위해 강제로 함수실행 
         }
     }

@@ -52,8 +52,8 @@ public class Merchant_Manager : MonoBehaviour
         }
     }
 
-    Current_Inventory_State merchant_State;
-    public Current_Inventory_State Merchant_State 
+    Inventory_Tab merchant_State;
+    public Inventory_Tab Merchant_State 
     {
         get => merchant_State;
         set 
@@ -63,15 +63,15 @@ public class Merchant_Manager : MonoBehaviour
                 merchant_State = value;
                 switch (merchant_State)
                 {
-                    case Current_Inventory_State.None:
+                    case Inventory_Tab.None:
                         break;
-                    case Current_Inventory_State.Equip:
+                    case Inventory_Tab.Equip:
                         break;
-                    case Current_Inventory_State.Consume:
+                    case Inventory_Tab.Consume:
                         break;
-                    case Current_Inventory_State.Etc:
+                    case Inventory_Tab.Etc:
                         break;
-                    case Current_Inventory_State.Craft:
+                    case Inventory_Tab.Craft:
                         break;
                     default:
                         break;
@@ -159,13 +159,13 @@ public class Merchant_Manager : MonoBehaviour
     /// 대화 로직
     /// </summary>
     NpcTalkController talkController;
-
+    public NpcTalkController NpcTalkController => talkController;
 
     MerchantNPC[] merchantNPCs;
     
 
     Merchant_UI_Manager merchant_UI_Manager;
-
+    public Merchant_UI_Manager Merchant_UI_Manager => merchant_UI_Manager;
 
     InteractionUI actionUI;
     private void Awake()
@@ -238,6 +238,9 @@ public class Merchant_Manager : MonoBehaviour
                 actionUI.visibleUI?.Invoke();
             }
         };
+        Selected = Merchant_Selected.Buy;
+        Merchant_State = Inventory_Tab.Equip;
+        merchant_UI_Manager.ReFresh_Merchant_Item();
     }
 
     /// <summary>
@@ -298,11 +301,9 @@ public class Merchant_Manager : MonoBehaviour
                 talkController.getTalkDataArray = null;
                 talkController.LogManager.getLogTalkDataArray = null;
                 actionUI.invisibleUI?.Invoke();
-                Cursor.lockState = CursorLockMode.Locked;
             };
             array_NPC[i].onTalkEnableButton += (npcId) =>
             {
-                Cursor.lockState = CursorLockMode.None;
                 talkController.ResetData();
                 talkController.openTalkWindow = merchant_UI_Manager.OpenWindow;
                 talkController.closeTalkWindow = merchant_UI_Manager.CloseWindow;

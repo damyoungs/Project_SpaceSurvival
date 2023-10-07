@@ -13,7 +13,7 @@ public class Skill_Penetrate : SkillData
         button.onClick.AddListener(Skill_LevelUp);
   
     }
-    protected override void InitSkillData()
+    public override void InitSkillData()
     {
         SkillName = "°üÅë";
         SkillLevel = 1;

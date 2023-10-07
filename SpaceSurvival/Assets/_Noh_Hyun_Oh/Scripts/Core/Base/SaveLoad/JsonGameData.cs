@@ -63,6 +63,38 @@ public class JsonGameData
         
         }
     }
+
+    /// <summary>
+    /// 현재 전투중인 배틀맵 
+    /// </summary>
+    StageList currentStage = StageList.None;
+    public StageList CurrentStage 
+    {
+        get => currentStage;
+        set => currentStage = value;
+    }
+
+    /// <summary>
+    /// 스테이지 클리어 여부 저장
+    /// </summary>
+    [SerializeField]
+    StageList stageClear;
+    public StageList StageClear 
+    {
+        get => stageClear;
+        set => stageClear = value;
+    }
+    /// <summary>
+    /// 마을에서의 시작위치값 저장
+    /// </summary>
+    [SerializeField]
+    Vector3 startPos;
+    public Vector3 StartPos 
+    {
+        get => startPos;
+        set => startPos = value;
+    }
+
     /// <summary>
     /// 저장시간 넣어두기 
     /// </summary>

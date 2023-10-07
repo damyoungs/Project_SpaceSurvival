@@ -46,6 +46,8 @@ public class Cho_PlayerMove : MonoBehaviour
     Animator animator;
     Transform cameraPos;
     CharacterController controller;
+    public CharacterController Controller => controller;
+
     CinemachineVirtualCamera cinemachine;
     public CinemachineVirtualCamera Cinemachine => cinemachine;
     Transform cam;

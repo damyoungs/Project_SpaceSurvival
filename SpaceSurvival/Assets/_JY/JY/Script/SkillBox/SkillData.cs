@@ -107,7 +107,7 @@ public class SkillData : MonoBehaviour, IPointerClickHandler,IPointerEnterHandle
         InitSkillData();
         on_ResetData = InitSkillData;
     }
-    protected virtual void InitSkillData()
+    public virtual void InitSkillData()
     {
 
     }

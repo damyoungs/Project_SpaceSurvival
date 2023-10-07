@@ -11,6 +11,12 @@ public class Cho_SceneLoading : MonoBehaviour
     ParticleSystem shortRay;
     ParticleSystem longRay;
 
+    /// <summary>
+    /// 현재 포탈의 스테이지 종류
+    /// </summary>
+    [SerializeField]
+    StageList currentStage;
+
     private void Awake()
     {
         interaction = FindObjectOfType<InteractionUI>();
@@ -41,7 +47,9 @@ public class Cho_SceneLoading : MonoBehaviour
 
     private void Warp()
     {
-        //player.transform.position = shortRay.transform.position;
+        // 배틀끝나면 돌아올 위치값셋팅
+        SpaceSurvival_GameManager.Instance.ShipStartPos = player.transform.position;
+       //player.transform.position = shortRay.transform.position;
         StartCoroutine(WarpCoroutine());
     }
 
@@ -55,6 +63,26 @@ public class Cho_SceneLoading : MonoBehaviour
         player.Cinemachine.Priority = -10;
         shortRay.Play();
         longRay.Stop();
+
+        //스테이지 관련 셋팅 
+        SpaceSurvival_GameManager.Instance.CurrentStage = currentStage; //이동할 스테이지 셋팅
         LoadingScene.SceneLoading(EnumList.SceneName.TestBattleMap);
+    }
+
+    /// <summary>
+    /// 해당 함수 실행시켜서 해당 스테이지가 클리어 됬는지 체크한다 .
+    /// </summary>
+    /// <returns></returns>
+    private bool IsStageClear()
+    {
+        return (SpaceSurvival_GameManager.Instance.StageClear & currentStage) > 0;
+    }
+    /// <summary>
+    /// 해당 함수 실행시켜서 전체 스테이지가 클리어 됬는지 체크한다 .
+    /// </summary>
+    /// <returns></returns>
+    private bool IsAllStageClear()
+    {
+        return SpaceSurvival_GameManager.Instance.StageClear == StageList.All;
     }
 }

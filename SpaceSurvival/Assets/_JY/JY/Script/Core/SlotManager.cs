@@ -46,8 +46,8 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     public Action<ItemData> on_UnEquip_Item;// 장비 해제, 장비창 슬롯을 더블클릭 했을 때 호출
     public Action<ItemData_Potion, uint> onDetectQuickSlot;
 
-    public Dictionary<Current_Inventory_State, List<Slot>> slots;
-    private Dictionary<Current_Inventory_State, int> slotCount; //슬롯 생성후 번호를 부여하기위한 Dic
+    public Dictionary<Inventory_Tab, List<Slot>> slots;
+    private Dictionary<Inventory_Tab, int> slotCount; //슬롯 생성후 번호를 부여하기위한 Dic
     private Dictionary<ItemData_Potion, bool> quickSlot_Binding_Table;
     List<Slot> tempList_For_QuickSlot = new();
  
@@ -59,6 +59,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
 
         //input = new InputKeyMouse(); //통합중
         tempSlot = FindObjectOfType<TempSlot>(true);
+        just_ChangeSlot = tempSlot;
         itemDescription = FindObjectOfType<ItemDescription>();
         spliter = FindObjectOfType<ItemSplitter>(true);
     }
@@ -129,19 +130,19 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
 
         mixer_UI.onEndSession_Success += Add_Reward_Item;
 
-        slots = new Dictionary<Current_Inventory_State, List<Slot>>
+        slots = new Dictionary<Inventory_Tab, List<Slot>>
         {
-            { Current_Inventory_State.Equip, new List<Slot>() },
-            { Current_Inventory_State.Consume, new List<Slot>() },
-            { Current_Inventory_State.Etc, new List<Slot>() },
-            { Current_Inventory_State.Craft, new List<Slot>() }
+            { Inventory_Tab.Equip, new List<Slot>() },
+            { Inventory_Tab.Consume, new List<Slot>() },
+            { Inventory_Tab.Etc, new List<Slot>() },
+            { Inventory_Tab.Craft, new List<Slot>() }
         };
-        slotCount = new Dictionary<Current_Inventory_State, int> // 슬롯 오브젝트에 번호를 부여하기 위한 Dic
+        slotCount = new Dictionary<Inventory_Tab, int> // 슬롯 오브젝트에 번호를 부여하기 위한 Dic
         {
-            { Current_Inventory_State.Equip, 0 },
-            { Current_Inventory_State.Consume, 0},
-            { Current_Inventory_State.Etc, 0},
-            { Current_Inventory_State.Craft, 0}
+            { Inventory_Tab.Equip, 0 },
+            { Inventory_Tab.Consume, 0},
+            { Inventory_Tab.Etc, 0},
+            { Inventory_Tab.Craft, 0}
         };
 
         SlotInit();
@@ -153,7 +154,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     public void SlotInit() 
     {
         //슬롯갯수  초기화 시킨다
-        GameManager.Inventory.State = Current_Inventory_State.Equip;
+        GameManager.Inventory.State = Inventory_Tab.Equip;
         for (int i = 0; i < 4; i++)
         {
             for (int j = 0; j < 10; j++)
@@ -162,14 +163,14 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             }
             switch (GameManager.Inventory.State)
             {
-                case Current_Inventory_State.Equip:
-                    GameManager.Inventory.State = Current_Inventory_State.Consume;
+                case Inventory_Tab.Equip:
+                    GameManager.Inventory.State = Inventory_Tab.Consume;
                     break;
-                case Current_Inventory_State.Consume:
-                    GameManager.Inventory.State = Current_Inventory_State.Etc;
+                case Inventory_Tab.Consume:
+                    GameManager.Inventory.State = Inventory_Tab.Etc;
                     break;
-                case Current_Inventory_State.Etc:
-                    GameManager.Inventory.State = Current_Inventory_State.Craft;
+                case Inventory_Tab.Etc:
+                    GameManager.Inventory.State = Inventory_Tab.Craft;
                     break;
                 default:
                     break;
@@ -186,24 +187,25 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         {
             if (slot != tempSlot) //템프슬롯빼고  
             {
+                
                 Destroy(slot.gameObject);//날려버리기 
             }
         }
         //해시테이블(딕셔너리)초기화시키고
-        slots = new Dictionary<Current_Inventory_State, List<Slot>>
+        slots = new Dictionary<Inventory_Tab, List<Slot>>
         {
-            { Current_Inventory_State.Equip, new List<Slot>() },
-            { Current_Inventory_State.Consume, new List<Slot>() },
-            { Current_Inventory_State.Etc, new List<Slot>() },
-            { Current_Inventory_State.Craft, new List<Slot>() }
+            { Inventory_Tab.Equip, new List<Slot>() },
+            { Inventory_Tab.Consume, new List<Slot>() },
+            { Inventory_Tab.Etc, new List<Slot>() },
+            { Inventory_Tab.Craft, new List<Slot>() }
         };
         //카운트도 초기화
-        slotCount = new Dictionary<Current_Inventory_State, int> // 슬롯 오브젝트에 번호를 부여하기 위한 Dic
+        slotCount = new Dictionary<Inventory_Tab, int> // 슬롯 오브젝트에 번호를 부여하기 위한 Dic
         {
-            { Current_Inventory_State.Equip, 0 },
-            { Current_Inventory_State.Consume, 0},
-            { Current_Inventory_State.Etc, 0},
-            { Current_Inventory_State.Craft, 0}
+            { Inventory_Tab.Equip, 0 },
+            { Inventory_Tab.Consume, 0},
+            { Inventory_Tab.Etc, 0},
+            { Inventory_Tab.Craft, 0}
         };
         SlotInit(); //기본 슬롯갯수 셋팅
     }
@@ -221,7 +223,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
 
             
             slotComp.InitializeSlot(slotComp);
-            if (GameManager.Inventory.State == Current_Inventory_State.Consume)
+            if (GameManager.Inventory.State == Inventory_Tab.Consume)
             {
                 slotComp.onItemDataChange += BindingCheck;
             }
@@ -238,10 +240,57 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     }
 
     /// <summary>
+    /// 인벤토리 4개의 탭을 순회하며 모든 슬롯의 델리게이트를 해제, ItemData를 null로 셋팅하고
+    /// slot의 갯수가 10개를 초과하는 탭을 초기 시작갯수인 10개로 되돌리는 함수
+    /// </summary>
+    public void Clear_Inventory()
+    {
+        int baseCount = 10;
+        foreach(List<Slot>slotList in slots.Values)
+        {
+            for (int i = slotList.Count - 1; i >= baseCount; i--)//각 탭마다 슬롯의 갯수를 10개만 남기고 모두 삭제
+            {
+                Slot slot = slotList[i];
+                SetNull_Slot_Delegate_ItemData(slot);
+                Destroy(slotList[i].gameObject);
+                slotList.RemoveAt(i);
+            }
+            for (int i = 0; i < slotList.Count; i++)//남은 10개 슬롯에 대한 처리
+            {
+                slotList[i].ItemCount = 0;
+                slotList[i].ItemData = null;
+                if (slotList[i].BindingSlot != null)
+                {
+                    slotList[i].BindingSlot = null;
+                }
+            }
+
+        }
+    }
+
+    private void SetNull_Slot_Delegate_ItemData(Slot slot)
+    {
+        slot.onClick = null;
+        slot.onDragBegin = null;
+        slot.onDragEnd = null;
+        slot.onPointerEnter = null;
+        slot.onPointerExit = null;
+        slot.onPointerMove = null;
+        slot.onItemCountChange = null;
+        slot.onItemDataChange = null;
+        slot.onSet_Just_ChangeSlot = null;
+        slot.ItemData = null;
+        if (slot.BindingSlot != null)
+        {
+            slot.BindingSlot = null;
+        }
+    }
+
+    /// <summary>
     /// 불러올때 사용하기위해 추가 
     /// </summary>
     /// <param name="invenTab"></param>
-    public void Make_Slot(Current_Inventory_State invenTab)
+    public void Make_Slot(Inventory_Tab invenTab)
     {
         GameObject newSlot = Instantiate(slot);
         Slot slotComp = newSlot.GetComponent<Slot>();
@@ -255,7 +304,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
 
 
             slotComp.InitializeSlot(slotComp);
-            if (invenTab == Current_Inventory_State.Consume)
+            if (invenTab == Inventory_Tab.Consume)
             {
                 slotComp.onItemDataChange += BindingCheck;
             }
@@ -397,7 +446,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             {
                 //스킬이나 포션만 등록
                 ItemData_Potion potion = TempSlot.ItemData as ItemData_Potion;
-                slots[Current_Inventory_State.Consume][Index_JustChange_Slot].ItemData = potion;//생략시 slot의 ItemData가 null 이라 델리게이트 추가가 안됨
+                slots[Inventory_Tab.Consume][Index_JustChange_Slot].ItemData = potion;//생략시 slot의 ItemData가 null 이라 델리게이트 추가가 안됨
                 if (potion != null)
                 {
                     if (quickSlot_Manager.Find_Slot_By_Position(out QuickSlot targetSlot))
@@ -478,7 +527,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     void Binding_Slots(ItemData_Potion itemData, QuickSlot targetSlot)//퀵슬롯에 ItemData가 셋팅 됐을떄 호출
     {
         //이 시점에선 linkedSlots이 이미 Clear된 상태라서 Inventory의 아이템을 비교해서 찾아야한다.
-        foreach (Slot slot in slots[Current_Inventory_State.Consume])//소비창 순회
+        foreach (Slot slot in slots[Inventory_Tab.Consume])//소비창 순회
         {
             if (slot.ItemData == itemData)//퀵슬롯에서 받은itemData와 같으면 델리게이트 초기화, 재 연결
             {
@@ -486,7 +535,6 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
                 slot.onItemCountChange = null;
                 slot.onItemCountChange += Throw_NewCount_To_QuickSlot;
             }
-            
         }
     }
 
@@ -498,7 +546,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     private uint GetTotalAmount(ItemData itemData)//같은 아이템을가진 슬롯들의 카운트를 모두 더해 리턴하는 함수
     {
         uint newCount = 0;
-        List<Slot> consumeTab = slots[Current_Inventory_State.Consume];
+        List<Slot> consumeTab = slots[Inventory_Tab.Consume];
         foreach (Slot slot in consumeTab)
         {
             if (slot.ItemData == itemData)
@@ -514,16 +562,16 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         Transform parentTransform;
         switch (GameManager.Inventory.State)
         {
-            case Current_Inventory_State.Equip:
+            case Inventory_Tab.Equip:
                 parentTransform = equip_Below;
                 break;
-            case Current_Inventory_State.Consume:
+            case Inventory_Tab.Consume:
                 parentTransform = consume_Below;
                 break;
-            case Current_Inventory_State.Etc:
+            case Inventory_Tab.Etc:
                 parentTransform = etc_Below;
                 break;
-            case Current_Inventory_State.Craft:
+            case Inventory_Tab.Craft:
                 parentTransform = craft_Below;
                 break;
             default:
@@ -537,21 +585,21 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
     /// </summary>
     /// <param name="invenTab"></param>
     /// <returns></returns>
-    private Transform GetParentTransform(Current_Inventory_State invenTab)
+    private Transform GetParentTransform(Inventory_Tab invenTab)
     {
         Transform parentTransform;
         switch (invenTab)
         {
-            case Current_Inventory_State.Equip:
+            case Inventory_Tab.Equip:
                 parentTransform = equip_Below;
                 break;
-            case Current_Inventory_State.Consume:
+            case Inventory_Tab.Consume:
                 parentTransform = consume_Below;
                 break;
-            case Current_Inventory_State.Etc:
+            case Inventory_Tab.Etc:
                 parentTransform = etc_Below;
                 break;
-            case Current_Inventory_State.Craft:
+            case Inventory_Tab.Craft:
                 parentTransform = craft_Below;
                 break;
             default:
@@ -630,19 +678,19 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         }
     }
   
-    public void ClearSlot(ItemData data, uint slotIndex)
-    {
-        List<Slot> slots = GetItemTab(data);
-        if (IsValidIndex(slotIndex, data))
-        {
-            Slot invenSlot = slots[(int)slotIndex];
-            invenSlot.ClearSlotItem();
-        }
-        else
-        {
-            //Debug.Log($"아이템 삭제 실패 : {slotIndex}는 없는 인덱스입니다.");
-        }
-    }
+    //public void ClearSlot(ItemData data, uint slotIndex)
+    //{
+    //    List<Slot> slots = GetItemTab(data);
+    //    if (IsValidIndex(slotIndex, data))
+    //    {
+    //        Slot invenSlot = slots[(int)slotIndex];
+    //        invenSlot.ClearSlotItem();
+    //    }
+    //    else
+    //    {
+    //        //Debug.Log($"아이템 삭제 실패 : {slotIndex}는 없는 인덱스입니다.");
+    //    }
+    //}
 
     public void MoveItem(ItemData data, uint from, uint to)
     {
@@ -856,13 +904,13 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             switch (item.ItemType) // null 이 아니면 Inventory 클래스에서 현재 어떤 탭이 선택되었든 관계없이 item의 itemType에 따라 리스트를 결정 한다.
             {
                 case ItemType.Equip:
-                    return slotList = slots[Current_Inventory_State.Equip];
+                    return slotList = slots[Inventory_Tab.Equip];
                 case ItemType.Consume:
-                    return slotList = slots[Current_Inventory_State.Consume];
+                    return slotList = slots[Inventory_Tab.Consume];
                 case ItemType.Etc:
-                    return slotList = slots[Current_Inventory_State.Etc];
+                    return slotList = slots[Inventory_Tab.Etc];
                 case ItemType.Craft:
-                    return slotList = slots[Current_Inventory_State.Craft];
+                    return slotList = slots[Inventory_Tab.Craft];
                 default:
                     break;
             }
@@ -871,14 +919,14 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         {
             switch (GameManager.Inventory.State)
             {
-                case Current_Inventory_State.Equip:
-                    return slotList = slots[Current_Inventory_State.Equip];
-                case Current_Inventory_State.Consume:
-                    return slotList = slots[Current_Inventory_State.Consume];
-                case Current_Inventory_State.Etc:
-                    return slotList = slots[Current_Inventory_State.Etc];
-                case Current_Inventory_State.Craft:
-                    return slotList = slots[Current_Inventory_State.Craft];
+                case Inventory_Tab.Equip:
+                    return slotList = slots[Inventory_Tab.Equip];
+                case Inventory_Tab.Consume:
+                    return slotList = slots[Inventory_Tab.Consume];
+                case Inventory_Tab.Etc:
+                    return slotList = slots[Inventory_Tab.Etc];
+                case Inventory_Tab.Craft:
+                    return slotList = slots[Inventory_Tab.Craft];
                 default:
                     break;
             }
@@ -899,13 +947,13 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
         switch (GameManager.Itemdata[code].ItemType) // null 이 아니면 Inventory 클래스에서 현재 어떤 탭이 선택되었든 관계없이 item의 itemType에 따라 리스트를 결정 한다.
         {
             case ItemType.Equip:
-                return slotList = slots[Current_Inventory_State.Equip];
+                return slotList = slots[Inventory_Tab.Equip];
             case ItemType.Consume:
-                return slotList = slots[Current_Inventory_State.Consume];
+                return slotList = slots[Inventory_Tab.Consume];
             case ItemType.Etc:
-                return slotList = slots[Current_Inventory_State.Etc];
+                return slotList = slots[Inventory_Tab.Etc];
             case ItemType.Craft:
-                return slotList = slots[Current_Inventory_State.Craft];
+                return slotList = slots[Inventory_Tab.Craft];
             default:
                 break;
         }

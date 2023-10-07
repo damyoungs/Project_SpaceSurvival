@@ -9,11 +9,17 @@ using UnityEngine.UIElements;
 /// </summary>
 public class TeamBorderManager : MonoBehaviour
 {
+    CanvasGroup cg;
     TeamBorderStateUI[] teamState;
     public TeamBorderStateUI[] TeamStateUIs => teamState;
     private void Awake()
     {
         teamState = transform.GetComponentsInChildren<TeamBorderStateUI>(true);
+        cg = GetComponent<CanvasGroup>();
+    }
+    private void Start()
+    {
+        UnView();
     }
     /// <summary>
     /// 팀원수만큼 상태창을 보여준다 
@@ -21,20 +27,18 @@ public class TeamBorderManager : MonoBehaviour
     /// <param name="length">팀원수</param>
     public void ViewTeamInfo(int length = 0) 
     {
-        for (int i = 0; i < length; i++)
-        {
-            transform.GetChild(i).gameObject.SetActive(true);
-        }
+        cg.alpha = 1.0f;
+        cg.blocksRaycasts = true;
+        cg.interactable = true;
     }
     /// <summary>
     /// 창을 닫는다 
     /// </summary>
     public void UnView() 
     {
-        int childLength = transform.childCount;
-        for (int i = 0; i < childLength; i++)
-        {
-            transform.GetChild(i).gameObject.SetActive(false);
-        }
+        cg.alpha = 0.0f;
+        cg.blocksRaycasts = false;
+        cg.interactable = false;
+       
     }
 }

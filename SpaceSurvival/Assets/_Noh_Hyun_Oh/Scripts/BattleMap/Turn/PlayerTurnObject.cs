@@ -46,6 +46,7 @@ public class PlayerTurnObject : TurnBaseObject
         cot = FindObjectOfType<CameraOriginTarget>(true);        // 컨트롤러는 배틀맵에서만 있는 컴포넌트라서 초기화 할때 찾아온다
         miniMapCam = FindObjectOfType<MiniMapCamera>(true);      // 컨트롤러는 배틀맵에서만 있는 컴포넌트라서 초기화 할때 찾아온다
         bpc.onClickPlayer = OnClickPlayer;                       // 타일을 클릭했을때 플레이어 가있는타일(타일속성이 몬스터) 이면 실행될 함수를 연결한다. 
+        //bpc.onClickItem = OnClickItem;                           // 타일을 클릭했을때 아이템이 있는 타일이면 실행될 함수를 연결한다.
         bpc.onMoveActive = OnUnitMove;                           // 타일을 클릭했을때 플레이어가 움직이도록 로직연결
         bpc.GetPlayerTurnObject = () => this;                    // 초기값 데이터 연결 
 
@@ -81,7 +82,15 @@ public class PlayerTurnObject : TurnBaseObject
                 go.transform.position = go.CurrentTile.transform.position; //셋팅된 타일위치로 이동시킨다.
                 bpc.onAttackAction = (_,_) => { 
                     go.CharcterData.SkillPostProcess(); 
-                }; 
+                };
+                go.onMoveRangeClear = (currentTile, currentMoveSize) => {
+                    if (SpaceSurvival_GameManager.Instance.MoveRange != null) 
+                    {
+                        SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentTile);
+                        SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(currentTile, currentMoveSize);//이동범위표시해주기 
+                    }
+                };
+
             }
             WindowList.Instance.TeamBorderManager.ViewTeamInfo(testPlayerLength); //팀 상시 유아이 보여주기 
 
@@ -139,10 +148,10 @@ public class PlayerTurnObject : TurnBaseObject
     private void OnUnitMove(Tile seletedTile)
     {
 
-        if (currentUnit != null && currentUnit.IsControll) //현재 컨트롤인경우만 
+        if (currentUnit != null && currentUnit.IsControll && !currentUnit.IsMoveCheck) //현재 컨트롤인경우만 
         {
-
-            currentUnit.CharcterMove(seletedTile);//이동로직 실행
+            //이동로직 실행
+            StartCoroutine(currentUnit.CharcterMove(seletedTile));
 
         }
     }

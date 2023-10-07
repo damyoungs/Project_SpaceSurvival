@@ -37,6 +37,12 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
     public ITurnBaseData CurrentTurn => currentTurn;
 
     /// <summary>
+    /// 다음턴유닛을 담아두기위한 변수 추가
+    /// 한턴씩 진행하기위한 객체값
+    /// </summary>
+    ITurnBaseData nextTurn;
+
+    /// <summary>
     /// 턴게이지 보여줄지 여부
     /// </summary>
     [SerializeField]
@@ -62,12 +68,12 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
     private int turnIndex = 0;
     public int TurnIndex => turnIndex;
 
-    /// <summary>
-    /// 턴시작의 최소값
-    /// </summary>
-    [SerializeField]
-    [Range(1.0f,10.0f)]
-    private float turnStartValue = 10.0f;
+    ///// <summary>
+    ///// 턴시작의 최소값
+    ///// </summary>
+    //[SerializeField]
+    //[Range(1.0f,10.0f)]
+    //private float turnStartValue = 10.0f;
 
  
     /// <summary>
@@ -84,8 +90,14 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
         
 
         turnObjectList = new LinkedList<ITurnBaseData>(teamList);//링크드 리스트 초기화
-         
-      
+
+        foreach (ITurnBaseData team in turnObjectList) 
+        {
+            team.TurnEndAction = TurnEnd;
+            team.TurnRemove = TurnListDeleteObj; //턴진행중 삭제될 유닛이 있으면 삭제함수를 연결시킨다.
+        }
+        nextTurn = turnObjectList.First.Value; //처음 턴유닛을 찾아와서 담아두고 
+
         TurnStart();//턴시작
     }
 
@@ -98,26 +110,37 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
 
         turnIndex++; //턴시작마다 카운트 시킨다.
 
-            currentTurn = turnObjectList.First.Value; //처음 턴유닛을 찾아와서 
+        currentTurn = nextTurn;     //다음 턴유닛을 현재턴 으로 변경시킨다.
+        nextTurn = GetNextTurnObject(); //다음 턴유닛을 담아둔다 
+        currentTurn.TurnStartAction();  //턴시작을 알린다
 
-
-        if (turnStartValue < currentTurn.TurnActionValue) //턴진행 할수있는 값이 됬으면 턴진행
-        {
-            currentTurn.TurnEndAction = TurnEnd;
-            currentTurn.TurnRemove = TurnListDeleteObj; //턴진행중 삭제될 유닛이 있으면 삭제함수를 연결시킨다.
-
-            currentTurn.TurnStartAction();  //턴시작을 알린다
-
-        }
-        else  //아니면 턴을 종료해서 행동력값을 증가시킨다.
-        {
-            
-            TurnEnd();
-        }
+        //밑에는 한턴씩 주고받는게아니라 턴액션밸류별로 구분할때 사용 
+        //if (turnStartValue < currentTurn.TurnActionValue) //턴진행 할수있는 값이 됬으면 턴진행
+        //{
+        //}
+        //else  //아니면 턴을 종료해서 행동력값을 증가시킨다.
+        //{
+        //    TurnEnd();
+        //}
         
     }
 
-  
+    /// <summary>
+    /// 싱글 링크드 리스트라 노드가 2개면 다음노드를 못찾는다 그러니 체크추가
+    /// 더블 링크드 리스트로 변경이 필요해보이는데 이건 만들어야되니 시간나면 하자.
+    /// 링크드리스트가 두개인경우만 처리한다
+    /// </summary>
+    /// <returns>이전값 혹은 이후값 </returns>
+    private ITurnBaseData GetNextTurnObject() 
+    {
+        LinkedListNode<ITurnBaseData> tempNode = turnObjectList.Find(currentTurn);
+        if (tempNode.Next != null) 
+        {
+            return tempNode.Next.Value;
+        }
+        return tempNode.Previous.Value;
+    }
+
     /// <summary>
     /// 턴종료시 실행할 내용
     /// </summary>
@@ -125,14 +148,13 @@ public class TurnManager : ChildComponentSingeton<TurnManager>
     private void TurnEnd()
     {
         GameManager.Inst.ChangeCursor(false);
-        currentTurn.TurnEndAction = null;
-        currentTurn.TurnRemove = null;
         currentTurn.IsTurn = false; //턴종료를 설정한다 
-         
+
+        SetTurnValue();// 턴종료시마다 리스트의 유닛들의 행동력 값을 추가해주는 기능
+
         SortComponent<ITurnBaseData>.BubbleSortLinkedList(turnObjectList , isAscending); //값이변경이 됬음으로 전체 재정렬
         //TurnSorting(currentTurn); // 값이 변경된 오브젝트의 정렬기능 실행 -- 턴종료마다 행동력증가폭이 같으면 해당함수가 실행되는의미가있다.
         
-        SetTurnValue();// 턴종료시마다 리스트의 유닛들의 행동력 값을 추가해주는 기능
         
 
         //추가되는 행동력 값이 전부다르다는 전제하에 전체정렬을 재시도 

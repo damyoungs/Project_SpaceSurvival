@@ -788,7 +788,7 @@ public class AttackRange : MonoBehaviour
             int outSideStartIndex = -tempInt;   //  attackRange 가 8이면 -1 이 저장
             int outSideEndIndex = tempInt;      //  attackRange 가 8이면 +1 이 저장
             //Debug.Log($"{attackRange} , {inSideLength} , {outSideLength} ");
-            Debug.Log($"{attackDir} =  {inSideStartIndex},{inSideEndIndex} : {outSideStartIndex},{outSideEndIndex}");
+            //Debug.Log($"{attackDir} =  {inSideStartIndex},{inSideEndIndex} : {outSideStartIndex},{outSideEndIndex}");
             switch (attackDir)
             {
                 case DirectionRangeType.None:

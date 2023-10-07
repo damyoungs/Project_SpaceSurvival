@@ -262,7 +262,7 @@ GameObject:
   - component: {fileID: 1375649003936590021}
   - component: {fileID: 1414541412514583279}
   m_Layer: 0
-  m_Name: Rifle
+  m_Name: Riffle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

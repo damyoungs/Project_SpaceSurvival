@@ -140,7 +140,7 @@ public class InitCharcterSetting : MonoBehaviour
         {
             WindowList.Instance.TurnGaugeUI.gameObject.SetActive(false); //비활성화 처리
         }
-        SpaceSurvival_GameManager.Instance.BattleMap_ResetData(isBattleLoaded);
+        SpaceSurvival_GameManager.Instance.ResetData(isBattleLoaded);
     }
 
 }

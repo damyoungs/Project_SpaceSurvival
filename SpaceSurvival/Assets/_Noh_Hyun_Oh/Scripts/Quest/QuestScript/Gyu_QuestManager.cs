@@ -65,7 +65,7 @@ public class Gyu_QuestManager : MonoBehaviour
     /// UI Action 연결용으로 가져오기 
     /// </summary>
     Gyu_UI_QuestManager questUIManager;
-
+    public Gyu_UI_QuestManager QuestUIManager => questUIManager; 
 
     /// <summary>
     /// 선택된 퀘스트 담아둘 변수
@@ -176,7 +176,6 @@ public class Gyu_QuestManager : MonoBehaviour
             array_NPC[i].InitData(i); //npc 를 초기화 시킨다.
             array_NPC[i].onTalkDisableButton += () => 
             {
-                Cursor.lockState = CursorLockMode.Locked;
                 isTalking = false;
                 talkController.ResetData();
                 talkController.openTalkWindow = null;
@@ -188,7 +187,6 @@ public class Gyu_QuestManager : MonoBehaviour
             }; 
             array_NPC[i].onTalkEnableButton += (npcId) =>
             {
-                Cursor.lockState = CursorLockMode.None;
                 talkController.ResetData();
                 talkController.openTalkWindow = () => questUIManager.OnQuestNpc();
                 talkController.closeTalkWindow = () => questUIManager.initialize();

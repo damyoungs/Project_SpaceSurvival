@@ -15,7 +15,7 @@ public class Pool_SaveData : Base_Pool_Multiple<SaveGameObject>
     /// </summary>
     protected override void StartInitialize()
     {
-        setPosition = FindObjectOfType<WindowList>().MainWindow.transform.
+        setPosition = FindObjectOfType<SaveWindowManager>(true).transform.
                                                     GetChild(0). //ContentParent
                                                     GetChild(0). //Contents
                                                     GetChild(0). //SaveLoadWindow

@@ -57,8 +57,8 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
         get => itemData;
         set
         {
-            if (itemData != value)
-            {
+            //if (itemData != value) 
+            //{
                 itemData = value;
                 Refresh_Icon();
                 if (itemData != null)
@@ -70,7 +70,7 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
                 {
                     on_Clear_Quickslot_Data?.Invoke(this);
                 }
-            }
+            //}
         }
     }
 

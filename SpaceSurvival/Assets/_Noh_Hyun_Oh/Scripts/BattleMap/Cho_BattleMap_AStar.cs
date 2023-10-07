@@ -54,7 +54,7 @@ public static class Cho_BattleMap_AStar
 
                         if (adjoinTile == current)                                          // 인접한 타일이 (0, 0)인 경우
                             continue;
-                        if (adjoinTile.ExistType != Tile.TileExistType.Move)                // 인접한 타일이 None이 아닐 때
+                        if (adjoinTile.ExistType != Tile.TileExistType.Move && adjoinTile.ExistType != Tile.TileExistType.Item)                // 인접한 타일이 None이 아닐 때
                             continue;
                         if (close.Exists((inClose) => inClose == adjoinTile))             // close리스트에 있을 때
                             continue;

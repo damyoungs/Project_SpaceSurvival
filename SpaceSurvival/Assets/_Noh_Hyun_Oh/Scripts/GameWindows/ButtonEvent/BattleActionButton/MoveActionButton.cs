@@ -53,16 +53,16 @@ public class MoveActionButton : BattleActionButtonBase
                     SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(player.CurrentTile);
                     SpaceSurvival_GameManager.Instance.MoveRange.MoveSizeView(player.CurrentTile, moveSize);//이동범위표시해주기 
                     isMoveButtonClick = true;
-                    GameManager.Inst.ChangeCursor(false);
                 }
             }
             else //공격 상태면 
             {
-               SpaceSurvival_GameManager.Instance.To_AttackRange_From_MoveRange();
-               isMoveButtonClick = true;
+                SpaceSurvival_GameManager.Instance.To_AttackRange_From_MoveRange();
+                isMoveButtonClick = true;
             }
 
         }
+        GameManager.Inst.ChangeCursor(false);
     }
 
     protected override void OnMouseEnter()

@@ -448,7 +448,7 @@ public class SaveLoadManager : ChildComponentSingeton<SaveLoadManager> {
             }
             catch (Exception e)
             {
-                Debug.LogWarning(e); // 예상치 못한 오류 발생시 아직발견못함. 클래스 구조만 잘맞추면 대체로 잘된다.
+                Debug.LogError(e); // 예상치 못한 오류 발생시 아직발견못함. 클래스 구조만 잘맞추면 대체로 잘된다.
                 isProcessing = false;
                 return false;
             }

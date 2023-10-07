@@ -3,8 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
-
-
+using Cinemachine;
 
 /// <summary>
 /// 로딩씬 관리할 클래스
@@ -53,6 +52,12 @@ public class LoadingScene : MonoBehaviour
     public float fakeTimer = 3.0f;
 
     /// <summary>
+    /// 메인카메라에 붙어있는 시네머신 값 수정을위해 찾아두기
+    /// </summary>
+    static CinemachineBrain brainCamera;
+
+
+    /// <summary>
     /// 씬로딩의 진행도를 보여주는씬으로 넘어가는 함수 비동기로진행
     /// 로딩씬으로 잠시 넘어갔다가 이동한다.
     /// </summary>
@@ -67,18 +72,23 @@ public class LoadingScene : MonoBehaviour
                 nextSceanindex = (int)sceanName; //다음씬 인덱스 셋팅하고 
                 InputSystemController.Instance.DisableHotKey(HotKey_Use.None); //열려있는 액션 전부 닫고 기본만열자 
                 WindowList.Instance.PopupSortManager.CloseAllWindow(); //화면 전환시 열려있는창 전부닫자.  
+                if (sceanName == EnumList.SceneName.TITLE)
+                {
+                    TitleSceneMove();       //타이틀로 갈때 데이터 초기화용 함수
+                }
                 if (SceneManager.GetActiveScene().buildIndex != nextSceanindex) //현재씬이아닌 다른씬갈때는 로딩창을 가도록 수정 
                 {
+                   
                     progressType = type; //프로그래스 타입설정.
                     SceneManager.LoadSceneAsync((int)EnumList.SceneName.LOADING);
+
                 }
                 else 
                 {
-
-
                     isLoading = false; //로딩 화면전환이없음으로 바로 끄기
                     SetInputSetting();
-                } 
+
+                }
 
             }
         }
@@ -97,6 +107,7 @@ public class LoadingScene : MonoBehaviour
         SetDisavleObjects(); //열려있는창 닫아버리기
         StopAllCoroutines();//로딩이 연속으로 이러나는경우에 기존코루틴을 멈추고 새로시작한다.
         StartCoroutine(LoadSceneProcess());
+        brainCamera = Camera.main.GetComponent<CinemachineBrain>();
     }
 
 
@@ -183,15 +194,20 @@ public class LoadingScene : MonoBehaviour
     /// </summary>
     private static void SetInputSetting()
     {
+        brainCamera.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.EaseInOut;
+
         EnumList.SceneName nextSceanName = (EnumList.SceneName)nextSceanindex;
         switch (nextSceanName)
         {
             case EnumList.SceneName.TestBattleMap:
+                Cursor.visible = true;
                 InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_BattleMap);
                 InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_InvenView);
                 InputSystemController.Instance.EnableHotKey(HotKey_Use.QuickSlot);
                 break;
             case EnumList.SceneName.SpaceShip:
+                Cursor.visible = false;
+                brainCamera.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut;
                 InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_TownMap);
                 InputSystemController.Instance.EnableHotKey(HotKey_Use.Use_InvenView);
                 break;
@@ -205,5 +221,33 @@ public class LoadingScene : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.None;
     }
+    /// <summary>
+    /// 타이틀로 갈때 데이터를 초기화 하기위한 함수 
+    /// </summary>
+    private static void TitleSceneMove() 
+    {
+        SpaceSurvival_GameManager.Instance.ResetData();     //공용으로 들고있는값 초기화
+        SpaceSurvival_GameManager.Instance.ShipStartPos = Vector3.zero; //저장,로드하거나 함선에서 배틀맵 넘어갈때 저장된값 초기화
 
+        SpaceSurvival_GameManager.Instance.PlayerQuest.ResetData(); //퀘스트 데이터 초기화 
+
+        GameManager.EquipBox.ClearEquipBox();                       // 장비 초기화 
+
+        SkillData[] skillDatas = GameManager.SkillBox.SkillDatas;
+        foreach (var skillData in skillDatas)
+        {
+            skillData.InitSkillData(); //기본값 돌리기 
+        }
+
+        GameManager.SlotManager.SaveFileLoadedResetSlots(); //인벤 비우고 초기화 
+
+
+        GameManager.PlayerStatus.Base_Status.Init();                // 캐릭터 능력치 초기화 
+        GameManager.PlayerStatus.Reset_Status();                    // 캐릭터 능력치 초기화 
+
+        ///타이틀로 돌아갈시 배틀맵 현재정보 초기화 
+        SpaceSurvival_GameManager.Instance.IsBattleMapClear = false;
+        SpaceSurvival_GameManager.Instance.CurrentStage = StageList.None;
+        SpaceSurvival_GameManager.Instance.StageClear = StageList.None; //스테이지 클리어정보 초기화
+    }
 }

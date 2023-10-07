@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DataLoad_SceanMove : MonoBehaviour
 {
@@ -24,9 +25,9 @@ public class DataLoad_SceanMove : MonoBehaviour
         //여기에 파싱작업이필요하다 실제로사용되는 작업
         if (data != null)
         {
-
+           
             SaveLoadManager.Instance.ParsingProcess.LoadParsing(data);
-            Debug.Log($"{data} 파일이 정상로드됬습니다 , {data.SceanName} 파싱작업후 맵이동 작성을 해야하니 맵이 필요합니다.");
+            //Debug.Log($"{data} 파일이 정상로드됬습니다 , {data.SceanName} 파싱작업후 맵이동 작성을 해야하니 맵이 필요합니다.");
             LoadingScene.SceneLoading(data.SceanName);
             if (TurnManager.Instance.TurnIndex > 0) //배틀맵에서 로드한거면 
             {
@@ -35,10 +36,21 @@ public class DataLoad_SceanMove : MonoBehaviour
                     SpaceSurvival_GameManager.Instance.BattleMapInitClass.TestReset(true);  //배틀맵 데이터 초기화 
                     SpaceSurvival_GameManager.Instance.BattleMapInitClass.TestInit();  //데이터 리셋
                 }
-                else 
+                else
                 {
                     SpaceSurvival_GameManager.Instance.BattleMapInitClass.TestReset();  //배틀맵 데이터 초기화 
                 }
+            }
+            else 
+            {
+
+                SpaceSurvival_GameManager.Instance.ResetData(false);
+            }
+            if (SceneManager.GetActiveScene().buildIndex  == (int)EnumList.SceneName.SpaceShip //현재씬이 함선인지 체크하고  
+                &&  data.SceanName == EnumList.SceneName.SpaceShip) //로드했을때 함선내부에서 같은맵로드시 맵이동이없음으로 
+            {
+                BattleShipInitData bsd = FindObjectOfType<BattleShipInitData>(true);
+                bsd.CharcterMove(SpaceSurvival_GameManager.Instance.ShipStartPos);  //캐릭터 위치변경을 강제로 시킨다.
             }
 
         }

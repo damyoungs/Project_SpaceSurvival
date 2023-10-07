@@ -14,6 +14,7 @@ public class Slot : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandle
     TextMeshProUGUI itemDescription_Text;
     Animator anim;
 
+
     int popUpHash = Animator.StringToHash("PopUp");
 
     public Action<ItemData, uint> onDragBegin;
@@ -114,7 +115,7 @@ public class Slot : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandle
     }
     public void OnPointerClick(PointerEventData eventData)// itemdata가 null 이 되는 문제
     {
-        Debug.Log("슬롯클릭");
+        //Debug.Log("슬롯클릭");
         onClick?.Invoke(ItemData, Index);
     }
     public void OnPointerExit(PointerEventData eventData)

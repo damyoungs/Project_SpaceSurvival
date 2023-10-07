@@ -16,9 +16,10 @@ public class Enemy_ : MonoBehaviour, IBattle
     int Moving = Animator.StringToHash("MoveSpeed");
 
     public Transform GrapPosition;
-    public Transform Riffle;
-    public Transform Sword;
+    public GameObject Riffle;
+    public GameObject Sword;
 
+    ItemSpawner Spawner;
 
     public Monster_Type type = Monster_Type.Base;
     public Monster_Type mType
@@ -75,12 +76,13 @@ public class Enemy_ : MonoBehaviour, IBattle
                     break;
                 case WeaponType.Riffle:
                     Anima.runtimeAnimatorController = EnemyAc_Riffle;
+                    Instantiate(Riffle.gameObject, GrapPosition.transform);
                     attackRange = 4;
                     attackPower += 10;
                     break;
                 case WeaponType.Swrod:
                     Anima.runtimeAnimatorController = EnemyAc_Sword;
-                    attackRange = 1;
+                    Instantiate(Sword.gameObject, GrapPosition.transform);
                     attackPower += 15;
                     break;
                 default:
@@ -114,7 +116,7 @@ public class Enemy_ : MonoBehaviour, IBattle
         get => hp;
         set
         {
-            if (hp != value)
+            if(hp != value)
             {
                 hp = value > maxHP ? maxHP : value;
                 on_Enemy_HP_Change(hp);
@@ -150,6 +152,7 @@ public class Enemy_ : MonoBehaviour, IBattle
             }
         }
     }
+
 
     uint defencePower;
     public uint DefencePower

@@ -230,6 +230,16 @@ namespace StructList {
     public struct CharcterQuest
     {
         /// <summary>
+        /// 퀘스트 저장화면에보일 정보
+        /// </summary>
+        [SerializeField]
+        string questInfo;
+        public string QuestInfo 
+        {
+            get => questInfo;
+            set => questInfo = value;
+        }
+        /// <summary>
         /// 이벤트 고유번호 
         /// </summary>
         [SerializeField]

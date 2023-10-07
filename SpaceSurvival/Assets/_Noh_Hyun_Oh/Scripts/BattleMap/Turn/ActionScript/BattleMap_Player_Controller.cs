@@ -175,7 +175,7 @@ public class BattleMap_Player_Controller : MonoBehaviour
                     break;
                 case Tile.TileExistType.Item:
                     onMoveActive?.Invoke(targetTile);//이동로직 실행
-                    onClickItem?.Invoke(targetTile); //아이템있는곳을 클릭했을때 로직실행
+                    //onClickItem?.Invoke(targetTile); //아이템있는곳을 클릭했을때 로직실행
                     // 아이템이 타일에있는경우 아이템 에대한 정보를 띄우던 뭔가을 액션 
                     break;
                 case Tile.TileExistType.Prop:
@@ -201,7 +201,7 @@ public class BattleMap_Player_Controller : MonoBehaviour
                    
                     
                     GameManager.Inst.ChangeCursor(false);
-                    Debug.Log($"공격 했다 최종데미지{skill?.FinalDamage} 맞춘 인원수 {attackArray?.Length} ");
+                    //Debug.Log($"공격 했다 최종데미지{skill?.FinalDamage} 맞춘 인원수 {attackArray?.Length} ");
                     //}
                    // Debug.Log($"이동가능 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
                     break;

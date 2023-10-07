@@ -8,6 +8,14 @@ public class ModalScript : MonoBehaviour
     bool quickSlotCheck = false;
     bool optionsCheck = false;
     bool battleCheck = false;
+
+    CanvasGroup cg;
+
+    private void Awake()
+    {
+        cg = GetComponent<CanvasGroup>();
+        cg.alpha = 1.0f;
+    }
     private void Start()
     {
         InputSystemController.InputSystem.Common.Esc.performed += (_) => { Close(); };

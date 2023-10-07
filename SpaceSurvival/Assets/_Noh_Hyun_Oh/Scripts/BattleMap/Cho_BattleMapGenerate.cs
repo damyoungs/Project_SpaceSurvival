@@ -58,7 +58,6 @@ public class Cho_BattleMapGenerate : MonoBehaviour
         mainTileSize = centerTile.GetComponent<BoxCollider>().size; // 타일 콜라이더 사이즈 가져오고
 
         MapInstantiate(); //맵 생성하고 
-        Debug.Log("맵생성완료");
         SpaceSurvival_GameManager.Instance.GetBattleMapTilesData = () => mapTiles; // 게임메니저에 데이터 저장하기위해 연결 
         SpaceSurvival_GameManager.Instance.GetMapTileX = () => sizeX; // 게임메니저에 데이터 저장하기위해 연결 
         SpaceSurvival_GameManager.Instance.GetMapTileY = () => sizeY; // 게임메니저에 데이터 저장하기위해 연결 

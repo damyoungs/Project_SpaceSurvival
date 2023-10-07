@@ -69,7 +69,7 @@ public class SaveGameObject : Base_PoolObj
         get => money;
         set { 
             money = value;
-            charcterMoneyObj.text = $"$ {money}";
+            charcterMoneyObj.text = $"{money} DarkForce";
         }
     }
     /// <summary>
@@ -84,7 +84,18 @@ public class SaveGameObject : Base_PoolObj
         }
     }
 
-   
+    private string etcText;
+    public string EtcText 
+    {
+        get => etcText; 
+        set 
+        {
+            etcText = value;
+            etcObj.text = $"퀘스트 :{etcText}";
+        }
+    }
+
+
     /// <summary>
     /// 오브젝트밑에 텍스트 오브젝트들 
     /// </summary>
@@ -93,7 +104,7 @@ public class SaveGameObject : Base_PoolObj
     TextMeshProUGUI createTimeObj;   // 저장시간 보여주기
     TextMeshProUGUI charcterLevelObj; // 파일이름? 
     TextMeshProUGUI charcterMoneyObj; // 캐릭터이름 , 저장위치 , 돈 , 레벨 정도?
-    TextMeshProUGUI etcObj;   // 저장시간 보여주기
+    TextMeshProUGUI etcObj;   // 기타정보인데 뭘보여줄가.. 퀘스트정보?
 
     
 
@@ -146,7 +157,7 @@ public class SaveGameObject : Base_PoolObj
         }
         else 
         {
-            backImg.color = Color.white; //새로 포커싱
+            //backImg.color = Color.white; //새로 포커싱
         }
         
     }

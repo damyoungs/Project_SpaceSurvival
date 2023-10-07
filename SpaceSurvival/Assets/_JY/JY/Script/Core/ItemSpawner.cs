@@ -67,32 +67,48 @@ public class ItemSpawner : TestBase
         // Initialize the prefab dictionary
         for (int i = 0; i < prefabs.Length; i++)
         {
-            prefabDict.Add((ItemCode)i + 1, prefabs[i]);
+            prefabDict.Add((ItemCode)i , prefabs[i]);
         }
 
         // Initialize the enemy drop table
         enemyDropTable.Add(Monster_Type.Size_S, new List<(ItemCode, float)>
             {
-                (ItemCode.Enhancable_shotGun, 0.9f),
-                (ItemCode.Enhancable_Rifle, 0.99f),
+                (ItemCode.HpPotion, 1.0f),
+                //(ItemCode.Cash, 0.1f),
+                //(ItemCode.Enhancable_shotGun, 0.9f),
+                //(ItemCode.Enhancable_Rifle, 0.99f),
                 
             });
 
         enemyDropTable.Add(Monster_Type.Size_M, new List<(ItemCode, float)>
             {
+                (ItemCode.MpPotion, 1.0f),
+                //(ItemCode.Enhancable_Bow, 0.9f),
+                //(ItemCode.Purple_Crystal, 0.01f)
+            });
+        enemyDropTable.Add(Monster_Type.Size_L, new List<(ItemCode, float)>
+            {
+                (ItemCode.SecretPotion, 1.0f),
+                //(ItemCode.Enhancable_Bow, 0.9f),
+                //(ItemCode.Purple_Crystal, 0.01f)
+            });
+        enemyDropTable.Add(Monster_Type.Boss, new List<(ItemCode, float)>
+            {
                 (ItemCode.Enhancable_Bow, 0.9f),
                 (ItemCode.Purple_Crystal, 0.01f)
             });
     }
-    public void SpawnItem(Enemy_ enemy)//큰 범위에서 분류가 아니라 정확히 어떤 적인지 알아야한다
+    public void SpawnItem(BattleMapEnemyBase enemy)//큰 범위에서 분류가 아니라 정확히 어떤 적인지 알아야한다
     {
-        List<(ItemCode, float)> dropTable = enemyDropTable[enemy.mType];
+        List<(ItemCode, float)> dropTable = enemyDropTable[enemy.EnemyData.mType];
 
         foreach (var (itemtype, droprate)in dropTable)
         {
             if (UnityEngine.Random.value <= droprate)
             {
-                Instantiate(prefabDict[itemtype], enemy.transform.position, Quaternion.identity);
+                ItemObject ItemObj = Instantiate(prefabDict[itemtype], enemy.transform.position, Quaternion.identity).GetComponent<ItemObject>();
+                ItemObj.itemData = GameManager.Itemdata.itemDatas[(int)itemtype];
+                enemy.currentTile.ExistType = Tile.TileExistType.Item;
             }
         }
     }
@@ -104,8 +120,6 @@ public class ItemSpawner : TestBase
    
     public void ClearSlot()
     {
-        ItemData data = GameManager.Itemdata[itemCode];
-        GameManager.SlotManager.ClearSlot(data, index);
     }
     public void GetItem_For_Test()
     {
@@ -171,13 +185,12 @@ public class ItemSpawner : TestBase
     public bool IsCritical;
     protected override void Test1(InputAction.CallbackContext _)
     {
-        // GameManager.Player_.Defence(UnityEngine.Random.Range(10, 100), IsCritical);
-        GameManager.SlotManager.AddItem(GameManager.Itemdata.itemDatas[(int)ItemCode.Purple_Crystal].code);
+        GameManager.Player_.Defence(UnityEngine.Random.Range(100, 200), IsCritical);
+       // GameManager.SlotManager.AddItem(itemCode);
     }
     protected override void Test2(InputAction.CallbackContext context)
     {
-        // GameManager.EquipBox.UnEquipAll_Items();
-        GameManager.EquipBox.ClearEquipBox();
+        GameManager.SlotManager.Clear_Inventory();
     }
     protected override void Test3(InputAction.CallbackContext context)
     {

@@ -1,10 +1,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
 
-
+/// <summary>
+/// 포탈 체크용 이넘
+/// </summary>
+[Flags]
+public enum StageList :byte
+{
+    None = 0,
+    stage1 = 1, 
+    stage2 = 2, 
+    stage3 = 4,
+    All = stage1 | stage2 | stage3  
+}
 /// <summary>
 /// 게임에서 필요한 데이터 및 공통된 기능을 담을 메니저 클래스 
 /// </summary>
@@ -14,6 +26,28 @@ public class SpaceSurvival_GameManager : ChildComponentSingeton<SpaceSurvival_Ga
     /// 보스 전투인지 체크할변수 
     /// </summary>
     public bool IsBoss = false;
+
+    /// <summary>
+    /// 함선에서 저장시 위치잡기용 캐싱할 객체
+    /// </summary>
+    Transform playerPos ;
+    public Transform PlayerStartPos
+    {
+        get => playerPos;
+        set => playerPos = value;
+    }
+
+    /// <summary>
+    /// 배틀맵에서 이동시 함선에서의 위치 잡기용 
+    /// </summary>
+    Vector3 shipStartPos = Vector3.zero;
+    public Vector3 ShipStartPos 
+    {
+        get => shipStartPos;
+        set => shipStartPos = value;
+    }
+
+
     /// <summary>
     /// 플레이어 퀘스트 정보 담아두기
     /// </summary>
@@ -183,6 +217,40 @@ public class SpaceSurvival_GameManager : ChildComponentSingeton<SpaceSurvival_Ga
     public Func<InitCharcterSetting> GetBattleMapInit;
 
     /// <summary>
+    /// 스테이지 클리어 여부 
+    /// </summary>
+    StageList stageClear = StageList.None;
+    public StageList StageClear
+    {
+        get => stageClear;
+        set
+        {
+            stageClear = value;
+        }
+    }
+
+    /// <summary>
+    /// 현재 진행중인 스테이지 저장용 
+    /// </summary>
+    StageList currentClear = StageList.None;
+    public StageList CurrentStage
+    {
+        get => currentClear;
+        set
+        {
+            currentClear = value;
+        }
+    }
+    /// <summary>
+    /// 배틀맵의 클리어 여부
+    /// </summary>
+    bool isBattleMapClear = false;
+    public bool IsBattleMapClear 
+    {
+        get => isBattleMapClear;
+        set => isBattleMapClear = value;
+    }
+    /// <summary>
     /// 공격범위를 취소하고 이동범위를 다시표시하는 함수 중복으로 쓰이는곳이있어서 따로뺏다.
     /// </summary>
     public void To_AttackRange_From_MoveRange()
@@ -196,7 +264,7 @@ public class SpaceSurvival_GameManager : ChildComponentSingeton<SpaceSurvival_Ga
         MoveRange.MoveSizeView(player.CurrentTile, moveSize);//이동범위표시해주기 
     }
 
-    public void BattleMap_ResetData(bool isLoadedBattleMap = false)
+    public void ResetData(bool isLoadedBattleMap = false)
     {
         if (!isLoadedBattleMap)
         {
@@ -215,6 +283,8 @@ public class SpaceSurvival_GameManager : ChildComponentSingeton<SpaceSurvival_Ga
         enemyTeam = null;
         GetEnemeyTeam = null;
         IsBoss = false;
+        playerPos = null;
+        playerQuest = null;
     }
 
     /// <summary>

@@ -1,18 +1,24 @@
 {
     "dataIndex": 3,
-    "saveTime": "2023-10-04 오후 12:50:52",
+    "stageClear": 3,
+    "startPos": {
+        "x": -17.2853946685791,
+        "y": 6.015192985534668,
+        "z": -27.996810913085939
+    },
+    "saveTime": "2023-10-07 오후 8:41:01",
     "sceanName": 4,
     "playerData": {
-        "abilityPoint": 50,
+        "abilityPoint": 80,
         "playerName": "Player",
-        "level": 1,
-        "exp": 0,
-        "expMax": 60,
-        "base_MaxHP": 100.0,
-        "currentHP": 100.0,
-        "current_Stamina": 25.100000381469728,
-        "base_MaxStamina": 15.0,
-        "BaseDarkForce": 5000000,
+        "level": 7,
+        "exp": 136,
+        "expMax": 147,
+        "base_MaxHP": 190.0,
+        "currentHP": 190.0,
+        "current_Stamina": 19.576004028320314,
+        "base_MaxStamina": 33.0,
+        "BaseDarkForce": 4945800,
         "base_ATT": 10,
         "base_DP": 10,
         "base_STR": 5,
@@ -22,61 +28,43 @@
         "baseCriticalPower": 1.7999999523162842,
         "damage_Min": 0.5
     },
+    "equipments_Data": {
+        "Total_STR": 0,
+        "Total_INT": 0,
+        "Total_LUK": 0,
+        "Total_DEX": 10,
+        "Total_CriticalRate": 0.0,
+        "Total_DodgeRate": 0.0,
+        "codes": [
+            46,
+            10,
+            50,
+            20
+        ],
+        "weapon_ItemLevel": 1,
+        "weapon_AttackPoint": 20,
+        "weapon_DefencePoint": 1,
+        "weapon_ItemName": "Rifle"
+    },
     "equipSlotLength": 0,
     "equipData": [
         {
             "values": 1,
-            "itemIndex": 11,
-            "slotIndex": 0,
-            "itemEnhanceValue": 1
-        },
-        {
-            "values": 1,
             "itemIndex": 9,
             "slotIndex": 1,
-            "itemEnhanceValue": 1
-        },
-        {
-            "values": 1,
-            "itemIndex": 10,
-            "slotIndex": 2,
-            "itemEnhanceValue": 1
-        },
-        {
-            "values": 1,
-            "itemIndex": 46,
-            "slotIndex": 3,
-            "itemEnhanceValue": 1
-        },
-        {
-            "values": 1,
-            "itemIndex": 47,
-            "slotIndex": 4,
-            "itemEnhanceValue": 1
-        },
-        {
-            "values": 1,
-            "itemIndex": 51,
-            "slotIndex": 5,
-            "itemEnhanceValue": 1
-        },
-        {
-            "values": 1,
-            "itemIndex": 50,
-            "slotIndex": 6,
             "itemEnhanceValue": 1
         }
     ],
     "consumeSlotLength": 0,
     "consumeData": [
         {
-            "values": 50,
+            "values": 196,
             "itemIndex": 1,
             "slotIndex": 0,
             "itemEnhanceValue": 0
         },
         {
-            "values": 50,
+            "values": 96,
             "itemIndex": 2,
             "slotIndex": 1,
             "itemEnhanceValue": 0
@@ -87,33 +75,9 @@
     "craftSlotLength": 0,
     "craftData": [
         {
-            "values": 1,
-            "itemIndex": 21,
-            "slotIndex": 0,
-            "itemEnhanceValue": 0
-        },
-        {
-            "values": 1,
-            "itemIndex": 27,
-            "slotIndex": 1,
-            "itemEnhanceValue": 0
-        },
-        {
-            "values": 1,
-            "itemIndex": 24,
-            "slotIndex": 2,
-            "itemEnhanceValue": 0
-        },
-        {
-            "values": 1,
-            "itemIndex": 23,
-            "slotIndex": 3,
-            "itemEnhanceValue": 0
-        },
-        {
             "values": 2,
-            "itemIndex": 25,
-            "slotIndex": 4,
+            "itemIndex": 17,
+            "slotIndex": 0,
             "itemEnhanceValue": 0
         }
     ],
@@ -144,5 +108,15 @@
             "skillType": 4
         }
     ],
-    "questList": []
+    "questList": [
+        {
+            "questInfo": "보스 소환하기",
+            "questIndex": 0,
+            "questType": 0,
+            "questState": 1,
+            "questIProgress": [
+                2
+            ]
+        }
+    ]
 }

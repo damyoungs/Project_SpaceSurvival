@@ -44,7 +44,19 @@ public class SaveDataParsing : MonoBehaviour
         saveData.Equipments_Data = GameManager.EquipBox.Save_EquipmentsData();
         SaveInvenDataParsing();                                     //인벤토리 에서 데이터 가져오기 
         SaveDataSetting();                                          //퀘스트 캐릭터한테 퀘스트 데이터 가져오기
-        
+
+
+        if (SpaceSurvival_GameManager.Instance.PlayerStartPos)
+        {
+            saveData.StartPos = SpaceSurvival_GameManager.Instance.PlayerStartPos.position;
+        }
+        else 
+        {
+            saveData.StartPos = SpaceSurvival_GameManager.Instance.ShipStartPos;
+        }
+
+        saveData.StageClear = SpaceSurvival_GameManager.Instance.StageClear; //스테이지 클리어 정보 저장
+        saveData.CurrentStage = SpaceSurvival_GameManager.Instance.CurrentStage; //현재 전투중인 스테이지 정보 저장
         SaveLoadManager.Instance.GameSaveData = saveData;           //저장로직에사용될 객체에 담기
     }
     /// <summary>
@@ -54,13 +66,16 @@ public class SaveDataParsing : MonoBehaviour
     public void LoadParsing(JsonGameData data)
     {
         ResetData();
-
+        SpaceSurvival_GameManager.Instance.ShipStartPos = data.StartPos;
         LoadInvenDataParsing(data);
         LoadQuestDataParsing(data.QuestList);
         playerSkill.LoadSkillData_In_QuickSlot(data.SkillDatas);
         player_Status.Base_Status.LoadData(data.PlayerData);
         GameManager.EquipBox.Load_EquipmentsData(data.Equipments_Data);
         GameManager.PlayerStatus.Reset_Status();
+        SpaceSurvival_GameManager.Instance.StageClear = data.StageClear;
+        SpaceSurvival_GameManager.Instance.CurrentStage = data.CurrentStage;
+        SpaceSurvival_GameManager.Instance.IsBattleMapClear = false;
         RefreshData();
     }
 
@@ -73,7 +88,7 @@ public class SaveDataParsing : MonoBehaviour
 
         int defaultSlotLength = 10; //초기화시 기본슬롯수
         
-        List<Slot> temp = slotManager.slots[Current_Inventory_State.Equip]; //저장탭 슬롯내용 가져와서
+        List<Slot> temp = slotManager.slots[Inventory_Tab.Equip]; //저장탭 슬롯내용 가져와서
         
         List<CharcterItems> tempList = new(); // 저장데이터 만들고 
 
@@ -108,7 +123,7 @@ public class SaveDataParsing : MonoBehaviour
 
         tempList.Clear();                                           //리스트 내용 비우고 재사용 
 
-        temp = slotManager.slots[Current_Inventory_State.Consume];  //소비창 데이터
+        temp = slotManager.slots[Inventory_Tab.Consume];  //소비창 데이터
 
         SetTempData(temp,tempList);                                 //데이터 가져와서 담아두기
 
@@ -119,7 +134,7 @@ public class SaveDataParsing : MonoBehaviour
         tempList.Clear();                                           //리스트 내용 비우고 재사용 
 
 
-        temp = slotManager.slots[Current_Inventory_State.Etc];      //기타창 데이터
+        temp = slotManager.slots[Inventory_Tab.Etc];      //기타창 데이터
 
         SetTempData(temp,tempList);                                 //데이터 가져와서 담아두기
         
@@ -131,7 +146,7 @@ public class SaveDataParsing : MonoBehaviour
 
 
 
-        temp = slotManager.slots[Current_Inventory_State.Craft];    //조합 데이터
+        temp = slotManager.slots[Inventory_Tab.Craft];    //조합 데이터
         
         SetTempData(temp,tempList);                                 //데이터 가져와서 담아두기
         
@@ -173,11 +188,11 @@ public class SaveDataParsing : MonoBehaviour
         Slot temp = null; //슬롯내용물셋팅할 임시변수
         ItemData_Enhancable tempEnchan; //인첸장비인지 체크할 임시변수
 
-        List<Slot> slots = slotManager.slots[Current_Inventory_State.Equip]; //장비일경우
+        List<Slot> slots = slotManager.slots[Inventory_Tab.Equip]; //장비일경우
 
         for (int slotIndex = 0; slotIndex < data.EquipSlotLength; slotIndex++)
         {
-            slotManager.Make_Slot(Current_Inventory_State.Equip); //슬롯갯수 추가할것이있으면 추가해두고 
+            slotManager.Make_Slot(Inventory_Tab.Equip); //슬롯갯수 추가할것이있으면 추가해두고 
         }
 
         foreach (CharcterItems equipData in data.EquipData) //포문돌면서 데이터셋팅
@@ -193,6 +208,7 @@ public class SaveDataParsing : MonoBehaviour
                     for (int i = 1; i < equipData.ItemEnhanceValue; i++) // 인첸무기는 기본값이 1부터 시작임으로 초기값 1로셋팅
                     {
                         tempEnchan.LevelUpItemStatus(temp); //인첸한만큼 추가로 인첸데이터셋팅
+
                     }
                 }
 
@@ -200,11 +216,11 @@ public class SaveDataParsing : MonoBehaviour
         }
         //장비와비슷하게 셋팅한다 밑에는 반복작업
 
-        slots = slotManager.slots[Current_Inventory_State.Consume];
+        slots = slotManager.slots[Inventory_Tab.Consume];
 
         for (int slotIndex = 0; slotIndex < data.ConsumeSlotLength; slotIndex++)
         {
-            slotManager.Make_Slot(Current_Inventory_State.Consume);
+            slotManager.Make_Slot(Inventory_Tab.Consume);
         }
 
         foreach (CharcterItems consumeData in data.ConsumeData)
@@ -223,11 +239,11 @@ public class SaveDataParsing : MonoBehaviour
 
 
 
-        slots = slotManager.slots[Current_Inventory_State.Etc];
+        slots = slotManager.slots[Inventory_Tab.Etc];
 
         for (int slotIndex = 0; slotIndex < data.EtcSlotLength; slotIndex++)
         {
-            slotManager.Make_Slot(Current_Inventory_State.Etc);
+            slotManager.Make_Slot(Inventory_Tab.Etc);
         }
 
         foreach (CharcterItems etcData in data.EtcData)
@@ -237,11 +253,11 @@ public class SaveDataParsing : MonoBehaviour
             temp.ItemCount = etcData.Values;
         }
 
-        slots = slotManager.slots[Current_Inventory_State.Craft];
+        slots = slotManager.slots[Inventory_Tab.Craft];
 
         for (int slotIndex = 0; slotIndex < data.CraftSlotLength; slotIndex++)
         {
-            slotManager.Make_Slot(Current_Inventory_State.Craft);
+            slotManager.Make_Slot(Inventory_Tab.Craft);
         }
 
         foreach (CharcterItems craftData in data.CraftData)
@@ -269,8 +285,8 @@ public class SaveDataParsing : MonoBehaviour
             saveDataSetting[arrayIndex].QuestIndex = questData.QuestId;
             saveDataSetting[arrayIndex].QuestIProgress = questData.CurrentCount;
             saveDataSetting[arrayIndex].QuestType = questData.QuestType;
-            saveDataSetting[arrayIndex].QuestState= questData.Quest_State;
-
+            saveDataSetting[arrayIndex].QuestState = questData.Quest_State;
+            saveDataSetting[arrayIndex].QuestInfo = questData.Title;
             arrayIndex++;
         }
         foreach (Gyu_QuestBaseData questData in playerQuest.ClearQuestList)
@@ -279,6 +295,7 @@ public class SaveDataParsing : MonoBehaviour
             saveDataSetting[arrayIndex].QuestIProgress = questData.CurrentCount;
             saveDataSetting[arrayIndex].QuestType = questData.QuestType;
             saveDataSetting[arrayIndex].QuestState= questData.Quest_State;
+            saveDataSetting[arrayIndex].QuestInfo = questData.Title;
             arrayIndex++;
         }
         saveData.QuestList = saveDataSetting;
@@ -347,6 +364,7 @@ public class SaveDataParsing : MonoBehaviour
     private void ResetData()
     {
         slotManager.SaveFileLoadedResetSlots(); //기존데이터 싹다날리고 초기값으로 셋팅
+        GameManager.EquipBox.ClearEquipBox();                       // 장비 초기화 
         playerQuest.ResetData();                //퀘스트 데이터 날리기
     }
     /// <summary>

@@ -7,6 +7,10 @@ public class TurnEndActionButton : BattleActionButtonBase
     protected override void OnClick()
     {
         ITurnBaseData node = TurnManager.Instance.CurrentTurn; //현재 턴인 유닛을 가져와서 
+        if (node is EnemyTurnObject ) //적군턴은 내가 종료할수없다.
+        {
+            return;
+        }
         if (node == null) // 없으면 실행안하고 
         {
             Debug.Log("왜못찾냐?");
