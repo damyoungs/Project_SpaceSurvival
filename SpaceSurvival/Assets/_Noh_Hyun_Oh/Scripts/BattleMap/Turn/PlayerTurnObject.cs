@@ -156,13 +156,6 @@ public class PlayerTurnObject : TurnBaseObject
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        ItemObject obj = other.GetComponent<ItemObject>();
-        ItemData itemData = obj.ItemData;
-        GameManager.SlotManager.AddItem(itemData.code);
-    }
-
     /// <summary>
     /// 아군을 클릭했을때 처리할 로직 
     /// </summary>

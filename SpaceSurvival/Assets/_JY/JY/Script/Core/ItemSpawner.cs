@@ -106,7 +106,8 @@ public class ItemSpawner : TestBase
         {
             if (UnityEngine.Random.value <= droprate)
             {
-                Instantiate(prefabDict[itemtype], enemy.transform.position, Quaternion.identity);
+                ItemObject ItemObj = Instantiate(prefabDict[itemtype], enemy.transform.position, Quaternion.identity).GetComponent<ItemObject>();
+                ItemObj.itemData = GameManager.Itemdata.itemDatas[(int)itemtype];
                 enemy.currentTile.ExistType = Tile.TileExistType.Item;
             }
         }
