@@ -61,6 +61,7 @@ public class Player_deathPanel : MonoBehaviour
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
         on_InitDeadCam?.Invoke();
+        SpaceSurvival_GameManager.Instance.BattleMapInitClass.TestReset();
     }
 
 }
