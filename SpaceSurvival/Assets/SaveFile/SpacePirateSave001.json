@@ -6,7 +6,7 @@
         "y": 0.9242147207260132,
         "z": 5.028072357177734
     },
-    "saveTime": "2023-10-07 오후 8:39:26",
+    "saveTime": "2023-10-08 오후 7:52:22",
     "sceanName": 4,
     "playerData": {
         "abilityPoint": 80,
@@ -15,8 +15,8 @@
         "exp": 86,
         "expMax": 147,
         "base_MaxHP": 190.0,
-        "currentHP": 190.0,
-        "current_Stamina": 33.0,
+        "currentHP": 115.0,
+        "current_Stamina": 27.0,
         "base_MaxStamina": 33.0,
         "BaseDarkForce": 4945800,
         "base_ATT": 10,
@@ -29,17 +29,17 @@
         "damage_Min": 0.5
     },
     "equipments_Data": {
-        "Total_STR": 0,
-        "Total_INT": 0,
-        "Total_LUK": 0,
-        "Total_DEX": 10,
+        "Total_STR": 50,
+        "Total_INT": 50,
+        "Total_LUK": 50,
+        "Total_DEX": 50,
         "Total_CriticalRate": 0.0,
         "Total_DodgeRate": 0.0,
         "codes": [
             46,
             10,
             50,
-            20
+            19
         ],
         "weapon_ItemLevel": 1,
         "weapon_AttackPoint": 20,
@@ -79,6 +79,12 @@
             "itemIndex": 17,
             "slotIndex": 0,
             "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 20,
+            "slotIndex": 1,
+            "itemEnhanceValue": 0
         }
     ],
     "skillDatas": [
@@ -110,7 +116,7 @@
     ],
     "questList": [
         {
-            "questInfo": "보스 소환하기",
+            "questInfo": "클리어 조건",
             "questIndex": 0,
             "questType": 0,
             "questState": 1,

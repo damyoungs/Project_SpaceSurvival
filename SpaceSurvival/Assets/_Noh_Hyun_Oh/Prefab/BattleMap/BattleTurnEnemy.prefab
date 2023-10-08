@@ -48,6 +48,5 @@ MonoBehaviour:
   turnAddValue: 10
   maxTurnValue: 10.1
   turnWaitingValue: 10
-  waitTime: 1
-  testPlayerLength: 10
+  testPlayerLength: 1
   bossPrefab: {fileID: 5361794184986557620, guid: c97888953ce13bf4f9b19e89753bd4e1, type: 3}
