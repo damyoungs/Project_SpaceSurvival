@@ -742,6 +742,17 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
         this.CriticalDamage = this.ATT * CriticalPower;
     }
 
+    public bool IsDodge()
+    {
+        bool result = false;
+        float randomValue = UnityEngine.Random.Range(0, 100);
+        if (this.DodgeRate > randomValue)
+        {
+            result = true;
+        }
+
+        return  result;
+    }
     public bool IsCritical(SkillData skillData)
     {
         bool result = false;

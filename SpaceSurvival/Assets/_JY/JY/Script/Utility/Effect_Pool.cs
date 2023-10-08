@@ -120,6 +120,15 @@ public class Effect_Pool : MonoBehaviour
 
         return null;
     }
+    public void PopupMiss(Transform target)
+    {
+        GameObject result = pools[5].Dequeue();
+        DamageText damageText = result.GetComponent<DamageText>();
+        result.transform.SetParent(target);
+        result.transform.localPosition = Text_Position;
+        damageText.SetTextMiss();
+        result.SetActive(true);
+    }
     void ReturnPool(Pooled_Obj obj)
     {
         Queue<GameObject> queue = pools[obj.poolIndex];
