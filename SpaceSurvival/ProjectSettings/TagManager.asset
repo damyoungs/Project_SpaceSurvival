@@ -12,6 +12,9 @@ TagManager:
   - TitleButton
   - Npc
   - Ground
+  - Enemy
+  - FxTemporaire
+  - OpeningCam
   layers:
   - Default
   - TransparentFX

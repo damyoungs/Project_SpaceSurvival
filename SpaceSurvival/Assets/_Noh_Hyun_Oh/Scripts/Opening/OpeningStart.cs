@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -64,7 +65,7 @@ public class OpeningStart : MonoBehaviour
     float cameraMoveSpeed = 3.0f;
     float elaspadSpeed = 0.0f;
 
-    Camera mainCamera;
+    CinemachineVirtualCamera virtualCamera;
 
     int lineCount = -1;
 
@@ -97,14 +98,14 @@ public class OpeningStart : MonoBehaviour
         };
 
         elaspadSpeed = cameraMoveSpeed; //이동속도 기본속도로 셋팅
+        virtualCamera = GameObject.FindGameObjectWithTag("OpeningCam").GetComponent<CinemachineVirtualCamera>();
+        virtualCamera.transform.position = cameraPosition;
+        virtualCamera.transform.rotation = Quaternion.Euler(cameraRotate);
     }
 
     private void Start()
     {
         //카메라 불러와서 위치잡고
-        mainCamera = Camera.main;
-        mainCamera.transform.position = cameraPosition;
-        mainCamera.transform.rotation = Quaternion.Euler(cameraRotate);
         //카메라 이동시작
         StartCoroutine(OpeningCameraMove(lineCount));
      
@@ -119,12 +120,12 @@ public class OpeningStart : MonoBehaviour
     {
         //음악 재생 추가 필요 
 
-        float checkValue = mainCamera.transform.position.z;
+        float checkValue = virtualCamera.transform.position.z;
         float checkEnd = endValue * textPadding - 100.0f;
         while (checkValue > checkEnd) 
         {
             checkValue -= Time.deltaTime * elaspadSpeed;
-            mainCamera.transform.position = new Vector3(
+            virtualCamera.transform.position = new Vector3(
                                                 0,
                                                 20,
                                                 checkValue);
