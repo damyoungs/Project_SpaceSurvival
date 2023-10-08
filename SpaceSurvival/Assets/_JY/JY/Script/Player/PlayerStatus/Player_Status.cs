@@ -704,8 +704,8 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
         base_Status.AbilityPoint += 5;
         on_increase_MaxHP?.Invoke(increaseMaxHP()); 
         on_increase_MaxStamina?.Invoke(increaseMaxStamina());
-        HP = MaxHP;
-        Stamina = MaxStamina;
+        base_Status.CurrentHP = MaxHP;
+        base_Status.Current_Stamina = MaxStamina;
         base_Status.Exp = 0;
         on_increase_ExpMax?.Invoke((uint)(ExpMax * 1.2f));
         on_LevelUp?.Invoke();

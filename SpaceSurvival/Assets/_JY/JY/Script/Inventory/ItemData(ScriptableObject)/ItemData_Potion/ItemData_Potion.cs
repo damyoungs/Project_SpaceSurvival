@@ -22,6 +22,10 @@ public class ItemData_Potion : ItemData
             case ItemCode.MpPotion:
                 player.Player_Status.Recovery_Stamina(recoveryValue, duration);
                 break;
+            case ItemCode.SecretPotion:
+                player.Player_Status.Recovery_HP(recoveryValue, duration);
+                player.Player_Status.Recovery_Stamina(recoveryValue, duration);
+                break;
         }
     }
 
