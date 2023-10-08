@@ -61,18 +61,18 @@ public class LoadingScene : MonoBehaviour
     /// 씬로딩의 진행도를 보여주는씬으로 넘어가는 함수 비동기로진행
     /// 로딩씬으로 잠시 넘어갔다가 이동한다.
     /// </summary>
-    /// <param name="sceanName">이동할 씬 이름</param>
+    /// <param name="sceneName">이동할 씬 이름</param>
     /// <param name="type">진행 상황 표기할 progressType  EnumList의 값을확인</param>
-    public static void SceneLoading(EnumList.SceneName sceanName = EnumList.SceneName.TITLE, 
+    public static void SceneLoading(EnumList.SceneName sceneName = EnumList.SceneName.TITLE, 
                 EnumList.ProgressType type = EnumList.ProgressType.BAR)
     {
-        if (sceanName != EnumList.SceneName.NONE) { //씬 셋팅이 되어있고
+        if (sceneName != EnumList.SceneName.NONE) { //씬 셋팅이 되어있고
             if (!isLoading) { //로딩이 안됬을경우 
                 isLoading = true;//로딩 시작플래그
-                nextSceanindex = (int)sceanName; //다음씬 인덱스 셋팅하고 
+                nextSceanindex = (int)sceneName; //다음씬 인덱스 셋팅하고 
                 InputSystemController.Instance.DisableHotKey(HotKey_Use.None); //열려있는 액션 전부 닫고 기본만열자 
                 WindowList.Instance.PopupSortManager.CloseAllWindow(); //화면 전환시 열려있는창 전부닫자.  
-                if (sceanName == EnumList.SceneName.TITLE)
+                if (sceneName == EnumList.SceneName.TITLE)
                 {
                     TitleSceneMove();       //타이틀로 갈때 데이터 초기화용 함수
                 }

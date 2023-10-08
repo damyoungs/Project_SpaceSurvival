@@ -14,6 +14,8 @@ public class Player_deathPanel : MonoBehaviour
         canvasGroup = GetComponent<CanvasGroup>();
         title_Button = transform.GetChild(0).GetComponent<Button>();
         lobby_Button = transform.GetChild(1).GetComponent<Button>();
+        title_Button.onClick.AddListener(MoveToTitle);
+        lobby_Button.onClick.AddListener(MoveToLobby);
     }
 
     public void Activate_DeathPanel()
@@ -40,10 +42,22 @@ public class Player_deathPanel : MonoBehaviour
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
     }
-
+    void MoveToTitle()
+    {
+        DeActivate_DeathPanel();
+        LoadingScene.SceneLoading(EnumList.SceneName.TITLE);
+    }
+    void MoveToLobby()
+    {
+        DeActivate_DeathPanel();
+        LoadingScene.SceneLoading(EnumList.SceneName.SpaceShip);
+    }
     void DeActivate_DeathPanel()
     {
-
+        StopAllCoroutines();
+        canvasGroup.alpha = 0;
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
     }
 
 }
