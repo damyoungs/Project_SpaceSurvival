@@ -291,6 +291,8 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
             GameObject itemPrefab = parentTransform.GetChild(0).gameObject;
             Destroy(itemPrefab);
             GameObject newItemPrefab = Instantiate(data.modelPrefab, parentTransform);
+            ItemObject itemObject = newItemPrefab.GetComponent<ItemObject>();  
+            itemObject.isAttached = true;
             if (Set_Edditional_State(data, true))// 무기류 일 때만
             {
                 on_Pass_Item_Transform?.Invoke(newItemPrefab.transform);// 플레이어에 트랜스폼 전달 ShootPoint 설정용
@@ -303,6 +305,8 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
         else
         {
             GameObject itemPrefab = Instantiate(data.modelPrefab, parentTransform);
+            ItemObject itemObject = itemPrefab.GetComponent<ItemObject>();
+            itemObject.isAttached = true;
             if (Set_Edditional_State(data, true))// 무기류 일 때만
             {
                 on_Pass_Item_Transform?.Invoke(itemPrefab.transform);// 플레이어에 트랜스폼 전달 ShootPoint 설정용
