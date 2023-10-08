@@ -178,7 +178,7 @@ public class EnemyTurnObject : TurnBaseObject
         yield return null;
         WindowList.Instance.BattleMapClearUI.gameObject.SetActive(true);
         WindowList.Instance.BattleMapClearUI.SetRewordText();
-        battleMapEndAction.TestReset();
+       
     }
 
     /// <summary>

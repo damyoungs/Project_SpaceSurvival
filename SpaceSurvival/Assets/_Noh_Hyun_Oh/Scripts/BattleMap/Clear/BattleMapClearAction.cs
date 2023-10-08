@@ -18,6 +18,7 @@ public class BattleMapClearAction : PopupWindowBase
         confimBtn = child.GetChild(3).GetComponent<Button>();
         confimBtn.onClick.AddListener(() => {
             SpaceSurvival_GameManager.Instance.IsBattleMapClear = true;
+            SpaceSurvival_GameManager.Instance.BattleMapInitClass.TestReset();
             LoadingScene.SceneLoading(EnumList.SceneName.SpaceShip);
             gameObject.SetActive(false);
         });
