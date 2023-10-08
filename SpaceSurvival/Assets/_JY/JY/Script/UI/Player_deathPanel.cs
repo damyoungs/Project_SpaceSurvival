@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class Player_deathPanel : MonoBehaviour
     Button title_Button;
     Button lobby_Button;
 
+    public Action on_InitDeadCam;
     private void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
@@ -58,6 +60,7 @@ public class Player_deathPanel : MonoBehaviour
         canvasGroup.alpha = 0;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
+        on_InitDeadCam?.Invoke();
     }
 
 }

@@ -12,10 +12,7 @@ using UnityEditor;
 
 public class Player_ : MonoBehaviour, IBattle
 {
-    public AnimatorOverrideController pistol_AC;
-    public AnimatorOverrideController shotGun_AC;
-    public AnimatorOverrideController rifle_AC;
-    public AnimatorOverrideController no_Weapon_AC;
+  
 
 
     public enum WeaponType
@@ -111,8 +108,14 @@ public class Player_ : MonoBehaviour, IBattle
     }
     Transform[] armors;
 
+
     [SerializeField]
     private Transform bulletProjectilePrefab;
+
+    public AnimatorOverrideController pistol_AC;
+    public AnimatorOverrideController shotGun_AC;
+    public AnimatorOverrideController rifle_AC;
+    public AnimatorOverrideController no_Weapon_AC;
 
     Transform weapon_Parent_Transform;
     Transform jewel_Parent_Transform;
@@ -140,7 +143,7 @@ public class Player_ : MonoBehaviour, IBattle
     public AudioClip punch_Sound;
     public AudioClip potion_Sound;
 
-
+    CinemachineVirtualCamera deadCam;
     Animator anim;
     SkillBox_Description skill_Description;
     ItemDescription itemDescription;
@@ -178,7 +181,7 @@ public class Player_ : MonoBehaviour, IBattle
     {
         anim = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
-
+        deadCam = GetComponentInChildren<CinemachineVirtualCamera>();
 
         pistol_Pos = new Vector3(0.012f, 0.085f, 0.141f);
         pistol_Rotation = Quaternion.Euler(7.309f, 74.719f, 267.319f);
@@ -336,9 +339,14 @@ public class Player_ : MonoBehaviour, IBattle
 
         Player_deathPanel deathPanel = FindAnyObjectByType<Player_deathPanel>();
         player_Status.Base_Status.on_Die += deathPanel.Activate_DeathPanel;
-
+        deathPanel.on_InitDeadCam += InitDeadCam;
         //초기스펙 설정
         Weapon_Type = WeaponType.None;
+    }
+    void InitDeadCam()
+    {
+        deadCam.Priority = 0;
+        deadCam.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = 0;
     }
     void Die()
     {
