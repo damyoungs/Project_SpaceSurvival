@@ -340,10 +340,12 @@ public class Player_ : MonoBehaviour, IBattle
     }
     void Die()
     {
-        InputSystemController.InputSystem.UI_Inven.Disable();
+        InputSystemController.InputSystem.UI_Inven.Disable();//클릭시 이동하는 이벤트 막아야함
         anim.SetTrigger(isDead_Hash);
-        // dolly Track
+        //HP 바 비활성화
+        // dolly Track// 애니메이션에 추가
         //LoadingScene, Title 선택
+        // 선택창 팝업 후 선택시 Vcam priority = 0;, pathPosition = 0;
     }
     void Update_Status()
     {

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class ItemObject : MonoBehaviour
 {
-    SphereCollider sp;
-
+    Collider sp;
+    public bool isAttached { get; set; } = false;
     private void Awake()
     {
-        sp = GetComponent<SphereCollider>();
+        sp = GetComponent<Collider>();
     }
     public ItemData itemData = null;
     public ItemData ItemData
@@ -25,6 +25,11 @@ public class ItemObject : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (isAttached)
+        {
+            sp.enabled = false;
+            return;
+        }
         if (other.CompareTag("Player"))
         {
             GameManager.SlotManager.AddItem(itemData.code);

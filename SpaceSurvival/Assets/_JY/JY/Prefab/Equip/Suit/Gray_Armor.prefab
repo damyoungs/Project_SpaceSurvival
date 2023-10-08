@@ -432,6 +432,7 @@ GameObject:
   m_Component:
   - component: {fileID: 570484610598823378}
   - component: {fileID: 482422206252462784}
+  - component: {fileID: 7989333430654833374}
   m_Layer: 0
   m_Name: Gray_Armor
   m_TagString: Untagged
@@ -486,6 +487,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7989333430654833374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 567646534157002328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a28a419ec8afe6249818d94357bca294, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemData: {fileID: 0}
 --- !u!1 &567648392888663526
 GameObject:
   m_ObjectHideFlags: 0
