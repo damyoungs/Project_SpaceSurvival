@@ -109,6 +109,10 @@ public class ItemSpawner : TestBase
                 ItemObject ItemObj = Instantiate(prefabDict[itemtype], enemy.transform.position, Quaternion.identity).GetComponent<ItemObject>();
                 ItemObj.itemData = GameManager.Itemdata.itemDatas[(int)itemtype];
                 enemy.currentTile.ExistType = Tile.TileExistType.Item;
+
+                ///배틀맵에 아이템 표시용으로 필요한 데이터 셋팅
+                ItemObj.CurrentTile = enemy.currentTile;
+                SpaceSurvival_GameManager.Instance.ItemTileList.Add(enemy.currentTile);
             }
         }
     }

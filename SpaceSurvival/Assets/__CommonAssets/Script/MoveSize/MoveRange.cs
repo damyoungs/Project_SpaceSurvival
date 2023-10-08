@@ -53,7 +53,15 @@ public class MoveRange : MonoBehaviour
                 Tile.TileExistType currentTileType = currentTile.ExistType; //포문에서 매번 체크하지않기위해 따로담고 
                 foreach (Tile tile in activeMoveTiles)
                 {
-                    tile.ExistType = Tile.TileExistType.None;
+
+                    if (SpaceSurvival_GameManager.Instance.ItemTileList.Contains(tile))    //이동범위 초기화할때 아이템 정보에대한값이 존재할때 
+                    {
+                        tile.ExistType = Tile.TileExistType.Item; //아이템으로 초기화 
+                    }
+                    else 
+                    {
+                        tile.ExistType = Tile.TileExistType.None;
+                    }
                 }
                 currentTile.ExistType = currentTileType; //수정끝났으면 저장해뒀던 값을 담는다.
                 activeMoveTiles.Clear();//초기화끝낫으면 내용 비우기
@@ -137,7 +145,7 @@ public class MoveRange : MonoBehaviour
 
                 if (adjoinTile == currentNode)                                          // 인접한 타일이 (0, 0)인 경우
                     continue;
-                if (adjoinTile.ExistType != Tile.TileExistType.None)                // 인접한 타일이 None이 아닐 때
+                if (adjoinTile.ExistType != Tile.TileExistType.None && adjoinTile.ExistType != Tile.TileExistType.Item) // 인접한 타일이 이동가능한곳일때 이 아닐 때
                     continue;
 
                 bool isDiagonal = (x * y != 0);                                     // 대각선 유무 확인

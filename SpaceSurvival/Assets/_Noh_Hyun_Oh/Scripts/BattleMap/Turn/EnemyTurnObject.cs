@@ -123,6 +123,8 @@ public class EnemyTurnObject : TurnBaseObject
                 go.onCameraTarget = () => cot.Target = go.transform;
 
                 go.onActionEndCheck = CheckTurnEnd; //유닛의 행동 종료됬는지 체크하는 함수연결
+
+                go.EnemyData.OnInit();
             }
             //보스 추가시 밑에 기능연결
             //if (SpaceSurvival_GameManager.Instance.IsBoss)

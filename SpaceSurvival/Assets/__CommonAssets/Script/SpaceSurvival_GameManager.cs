@@ -250,6 +250,13 @@ public class SpaceSurvival_GameManager : ChildComponentSingeton<SpaceSurvival_Ga
         get => isBattleMapClear;
         set => isBattleMapClear = value;
     }
+
+    /// <summary>
+    /// 아이템이 존재하는지 체크할 타일 리스트
+    /// </summary>
+    List<Tile> itemTileList = new List<Tile>(); 
+    public List<Tile> ItemTileList => itemTileList;
+
     /// <summary>
     /// 공격범위를 취소하고 이동범위를 다시표시하는 함수 중복으로 쓰이는곳이있어서 따로뺏다.
     /// </summary>
@@ -285,6 +292,7 @@ public class SpaceSurvival_GameManager : ChildComponentSingeton<SpaceSurvival_Ga
         IsBoss = false;
         playerPos = null;
         playerQuest = null;
+        itemTileList.Clear();
     }
 
     /// <summary>

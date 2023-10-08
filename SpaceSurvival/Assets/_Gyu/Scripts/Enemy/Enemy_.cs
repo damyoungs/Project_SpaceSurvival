@@ -207,4 +207,8 @@ public class Enemy_ : MonoBehaviour, IBattle
     {
         Anima.SetTrigger(OnHit);
     }
+    public void OnInit() 
+    {
+        HP = maxHP;
+    }
 }

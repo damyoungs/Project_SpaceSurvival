@@ -135,14 +135,17 @@ MonoBehaviour:
   - {fileID: 2100000, guid: e2ed928efadb9684a9fdaf5d7e28172b, type: 2}
   - {fileID: 2100000, guid: 0b3deb454bd70994bb315d6ed5adf4c3, type: 2}
   - {fileID: 2100000, guid: ad98d733bf2c95d49b0fc0ece98bedb9, type: 2}
+  - {fileID: 2100000, guid: 1c3d21abb7fb616499452c877768a24c, type: 2}
   existType: 0
   width: 0
   length: 0
   Index: 0
   G: 0
   MoveCheckG: 0
+  AttackCheckG: 1000
   H: 0
   parent: {fileID: 0}
+  lineRenderer: {fileID: 0}
 --- !u!65 &2189682967215962669
 BoxCollider:
   m_ObjectHideFlags: 0

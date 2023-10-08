@@ -892,4 +892,12 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , 장비장착, 버프�
         }
     }
 
+    /// <summary>
+    /// 죽었는지 체크 float 은 0 으로 비교하는건 바람직하지않지만.. Mathf.Clamp(value, 0, base_MaxHP); 를 사용해서 0으로 잡고있으니  비교는된다.
+    /// </summary>
+    /// <returns>죽었으면 true  안죽었으면 false</returns>
+    public bool IsPlayerDie()
+    {
+        return Base_Status.CurrentHP == 0.0f;
+    }
 }

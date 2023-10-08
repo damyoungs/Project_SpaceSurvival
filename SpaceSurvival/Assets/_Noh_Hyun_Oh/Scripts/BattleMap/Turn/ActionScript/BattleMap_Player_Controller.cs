@@ -77,7 +77,6 @@ public class BattleMap_Player_Controller : MonoBehaviour
     /// </summary>
     public Action<BattleMapEnemyBase[], float> onAttackAction;
 
-   
     private void Awake()
     {
         tileLayerIndex = LayerMask.NameToLayer("Ground");
@@ -133,6 +132,11 @@ public class BattleMap_Player_Controller : MonoBehaviour
             return;
         }
 
+        if (GameManager.PlayerStatus.IsPlayerDie()) 
+        {
+            return;
+        }
+
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());      // 화면에서 현재 마우스의 위치로 쏘는 빛
         Debug.DrawRay(ray.origin, ray.direction * ray_Range, Color.red, 1.0f);              // 디버그용 레이저
 
@@ -172,17 +176,22 @@ public class BattleMap_Player_Controller : MonoBehaviour
                     onClickMonster?.Invoke(targetTile);
                     //몬스터 클릭시 몬스터에대한 정보가 나오던 뭔가 액션이필요
                    // Debug.Log($"이동불가 몬스터: 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
-                    break;
-                case Tile.TileExistType.Item:
-                    onMoveActive?.Invoke(targetTile);//이동로직 실행
                     //onClickItem?.Invoke(targetTile); //아이템있는곳을 클릭했을때 로직실행
                     // 아이템이 타일에있는경우 아이템 에대한 정보를 띄우던 뭔가을 액션 
                     break;
                 case Tile.TileExistType.Prop:
                    // Debug.Log($"이동불가 장애물 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
                     break;
+                case Tile.TileExistType.Item:
+                    float playerCurrentStamina = ((BattleMapPlayerBase)playerTurnObject.CharcterList[0]).CharcterData.Player_Status.Base_Status.Current_Stamina;
+                    float currentMoveSize = playerTurnObject.CharcterList[0].MoveSize > playerCurrentStamina ? playerCurrentStamina : playerTurnObject.CharcterList[0].MoveSize;
+                    if (targetTile.MoveCheckG > currentMoveSize )
+                    {
+                        break; //이동범위밖에 아이템이존재하면 이동안되게 체크해서 막기
+                    }
+                    onMoveActive?.Invoke(targetTile);//이동로직 실행
+                    break;
                 case Tile.TileExistType.Move:
-                    //Debug.Log(targetTile);
                     onMoveActive?.Invoke(targetTile);//이동로직 실행
                     //Debug.Log($"이동가능 : 레이타겟{hitInfo.transform.name} , 위치 : {hitInfo.transform.position}");
                     break;
