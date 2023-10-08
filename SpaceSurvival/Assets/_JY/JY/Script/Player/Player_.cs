@@ -334,6 +334,8 @@ public class Player_ : MonoBehaviour, IBattle
         equipBox.on_Update_Status += Update_Status;
         equipBox.on_Pass_Item_Transform += Set_ShootPoint_Transform;
 
+        Player_deathPanel deathPanel = FindAnyObjectByType<Player_deathPanel>();
+        player_Status.Base_Status.on_Die += deathPanel.Activate_DeathPanel;
 
         //초기스펙 설정
         Weapon_Type = WeaponType.None;
