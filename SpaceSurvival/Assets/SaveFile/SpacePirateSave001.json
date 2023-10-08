@@ -2,23 +2,23 @@
     "dataIndex": 1,
     "stageClear": 2,
     "startPos": {
-        "x": -17.134244918823243,
-        "y": 0.9242147207260132,
-        "z": 5.028072357177734
+        "x": -17.180341720581056,
+        "y": 0.9421072602272034,
+        "z": 4.385751247406006
     },
-    "saveTime": "2023-10-07 오후 8:39:26",
-    "sceanName": 4,
+    "saveTime": "2023-10-08 오후 7:13:44",
+    "sceanName": 5,
     "playerData": {
-        "abilityPoint": 80,
+        "abilityPoint": 70,
         "playerName": "Player",
-        "level": 7,
-        "exp": 86,
-        "expMax": 147,
-        "base_MaxHP": 190.0,
-        "currentHP": 190.0,
-        "current_Stamina": 33.0,
-        "base_MaxStamina": 33.0,
-        "BaseDarkForce": 4945800,
+        "level": 5,
+        "exp": 32,
+        "expMax": 103,
+        "base_MaxHP": 160.0,
+        "currentHP": 106.0,
+        "current_Stamina": 4.544000625610352,
+        "base_MaxStamina": 27.0,
+        "BaseDarkForce": 4969900,
         "base_ATT": 10,
         "base_DP": 10,
         "base_STR": 5,
@@ -32,14 +32,14 @@
         "Total_STR": 0,
         "Total_INT": 0,
         "Total_LUK": 0,
-        "Total_DEX": 10,
+        "Total_DEX": 0,
         "Total_CriticalRate": 0.0,
         "Total_DodgeRate": 0.0,
         "codes": [
-            46,
+            0,
             10,
-            50,
-            20
+            0,
+            0
         ],
         "weapon_ItemLevel": 1,
         "weapon_AttackPoint": 20,
@@ -47,24 +47,17 @@
         "weapon_ItemName": "Rifle"
     },
     "equipSlotLength": 0,
-    "equipData": [
-        {
-            "values": 1,
-            "itemIndex": 9,
-            "slotIndex": 1,
-            "itemEnhanceValue": 1
-        }
-    ],
+    "equipData": [],
     "consumeSlotLength": 0,
     "consumeData": [
         {
-            "values": 196,
+            "values": 98,
             "itemIndex": 1,
             "slotIndex": 0,
             "itemEnhanceValue": 0
         },
         {
-            "values": 96,
+            "values": 100,
             "itemIndex": 2,
             "slotIndex": 1,
             "itemEnhanceValue": 0
@@ -76,7 +69,7 @@
     "craftData": [
         {
             "values": 1,
-            "itemIndex": 17,
+            "itemIndex": 23,
             "slotIndex": 0,
             "itemEnhanceValue": 0
         }
@@ -110,12 +103,23 @@
     ],
     "questList": [
         {
-            "questInfo": "보스 소환하기",
+            "questInfo": "클리어 조건",
             "questIndex": 0,
             "questType": 0,
             "questState": 1,
             "questIProgress": [
-                1
+                1,
+                2,
+                0
+            ]
+        },
+        {
+            "questInfo": "소형 부시기",
+            "questIndex": 1002,
+            "questType": 1,
+            "questState": 1,
+            "questIProgress": [
+                0
             ]
         }
     ]

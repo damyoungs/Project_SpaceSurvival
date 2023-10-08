@@ -91,7 +91,7 @@ public class EnemyTurnObject : TurnBaseObject
 
                 go.GetCurrentTile = () => (SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Monster)); //데이터 연결 
                 go.transform.position = go.CurrentTile.transform.position; //셋팅된 타일위치로 이동시킨다.
-                go.onDie += (unit) => { 
+                go.onDie = (unit) => { 
                     charcterList.Remove(unit);
                     PlayerQuest_Gyu playerQuest = SpaceSurvival_GameManager.Instance.PlayerQuest;
                     foreach (var quest in playerQuest.CurrentQuests) 

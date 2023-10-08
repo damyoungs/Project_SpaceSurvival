@@ -208,7 +208,7 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
 
         Vector3 targetPos = currentTile.transform.position; //길이없는경우 현재 타일위치 고정
                                                             //unitAnimator.SetBool(isWalkingHash, true); //이동애니메이션 재생 시작
-        onCameraTarget?.Invoke();   //이동할때 카메라 가져오기
+        //onCameraTarget?.Invoke();   //이동할때 카메라 가져오기
         yield return waitTime;
         
         //foreach (Tile tile in path) //몬스터 중복 방지 용으로 타일값 미리셋팅해서 체크하자 
