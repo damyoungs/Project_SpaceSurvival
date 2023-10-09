@@ -45,6 +45,10 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
             {
                 level = value;
                 playerStatus.Level = level;
+                if (!isLoading)
+                {
+                    playerStatus.LevelUp();
+                }
             }
         }
     }
@@ -266,9 +270,10 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
         playerStatus.on_Rise_CriticalPower += () => BaseCriticalPower += 0.1f;
 
     }
-
+    bool isLoading;
     public void LoadData(Base_Status saveData)
     {
+        isLoading = true;
         this.ExpMax = saveData.ExpMax;
         this.Level = saveData.Level;
         this.Exp = saveData.Exp;
@@ -288,6 +293,7 @@ public class Base_Status//아무것도 장비하지 않은 상태의 플레이어의 기본 공격력, 
         this.BaseCriticalPower = saveData.BaseCriticalPower;
         this.Damage_Min = saveData.Damage_Min;
         this.ExpMax = saveData.ExpMax;//expMAx는 LevelUp 할 때 변경되기 때문에 한번 더 업데이트 필요
+        isLoading = false;
     }
     public void Init()
     {
@@ -431,7 +437,7 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , 장비장착, 버프�
         {
             level = value;
             levelText.text = $"{level}";
-            LevelUp();
+           // LevelUp();
         }
     }
 
