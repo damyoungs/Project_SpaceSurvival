@@ -436,6 +436,11 @@ public class Player_ : MonoBehaviour, IBattle
 
     public void Defence(float damage, bool isCritical)
     {
+        if (player_Status.IsDodge())
+        {
+            GameManager.EffectPool.PopupMiss(transform);
+            return;
+        }
         anim.SetTrigger(get_Hit_Hash);
         float final_Damage = Mathf.Clamp(damage - player_Status.DP, 1, float.MaxValue) ;
         GameManager.PlayerStatus.Base_Status.CurrentHP -= final_Damage;

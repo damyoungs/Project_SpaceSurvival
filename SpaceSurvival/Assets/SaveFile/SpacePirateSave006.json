@@ -1,45 +1,45 @@
 {
     "dataIndex": 6,
-    "stageClear": 0,
+    "stageClear": 7,
     "startPos": {
-        "x": -0.030762776732444764,
-        "y": 0.9833592176437378,
-        "z": 23.105804443359376
+        "x": -19.106876373291017,
+        "y": 5.068654537200928,
+        "z": -32.722930908203128
     },
-    "saveTime": "2023-10-09 오후 3:11:00",
-    "sceanName": 4,
+    "saveTime": "2023-10-09 오전 10:43:28",
+    "sceanName": 5,
     "playerData": {
-        "abilityPoint": 65,
+        "abilityPoint": 10,
         "playerName": "Player",
-        "level": 4,
-        "exp": 28,
-        "expMax": 86,
-        "base_MaxHP": 145.0,
-        "currentHP": 145.0,
-        "current_Stamina": 5.516000270843506,
-        "base_MaxStamina": 24.0,
-        "BaseDarkForce": 4969900,
+        "level": 3,
+        "exp": 30,
+        "expMax": 72,
+        "base_MaxHP": 230.0,
+        "currentHP": 230.0,
+        "current_Stamina": 43.687992095947269,
+        "base_MaxStamina": 71.0,
+        "BaseDarkForce": 5000000,
         "base_ATT": 10,
         "base_DP": 10,
         "base_STR": 5,
         "base_INT": 5,
         "base_LUK": 5,
-        "base_DEX": 5,
+        "base_DEX": 55,
         "baseCriticalPower": 1.7999999523162842,
         "damage_Min": 0.5
     },
     "equipments_Data": {
-        "Total_STR": 0,
-        "Total_INT": 0,
-        "Total_LUK": 0,
-        "Total_DEX": 0,
+        "Total_STR": 50,
+        "Total_INT": 50,
+        "Total_LUK": 50,
+        "Total_DEX": 50,
         "Total_CriticalRate": 0.0,
         "Total_DodgeRate": 0.0,
         "codes": [
             0,
             10,
             0,
-            0
+            19
         ],
         "weapon_ItemLevel": 1,
         "weapon_AttackPoint": 20,
@@ -51,22 +51,35 @@
     "consumeSlotLength": 0,
     "consumeData": [
         {
-            "values": 99,
-            "itemIndex": 1,
+            "values": 1,
+            "itemIndex": 0,
             "slotIndex": 0,
-            "itemEnhanceValue": 0
-        },
-        {
-            "values": 100,
-            "itemIndex": 2,
-            "slotIndex": 1,
             "itemEnhanceValue": 0
         }
     ],
     "etcSlotLength": 0,
     "etcData": [],
     "craftSlotLength": 0,
-    "craftData": [],
+    "craftData": [
+        {
+            "values": 3,
+            "itemIndex": 23,
+            "slotIndex": 0,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 25,
+            "slotIndex": 1,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 31,
+            "slotIndex": 2,
+            "itemEnhanceValue": 0
+        }
+    ],
     "skillDatas": [
         {
             "skillLevel": 1,
@@ -94,26 +107,5 @@
             "skillType": 4
         }
     ],
-    "questList": [
-        {
-            "questInfo": "클리어 조건",
-            "questIndex": 0,
-            "questType": 0,
-            "questState": 1,
-            "questIProgress": [
-                1,
-                2,
-                0
-            ]
-        },
-        {
-            "questInfo": "소형 부시기",
-            "questIndex": 1002,
-            "questType": 1,
-            "questState": 1,
-            "questIProgress": [
-                0
-            ]
-        }
-    ]
+    "questList": []
 }
