@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -235,6 +236,8 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
             //리스트를 띄워준다.
             if (!questListPanel.gameObject.activeSelf)
             {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
                 ToPlayerCurrentQuestListPanelOpen();
                 OpenWindow();
             }
@@ -457,12 +460,21 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
         myQuestBoxPanel.gameObject.SetActive(true);
         if (questData != null)  //진행중인 퀘스트가 있는경우 
         {
-            myQuestBox.text = questData.Description;
+            myQuestBox.text = questData.Title;
             myQuestBox.text += "\r\n";
             int forSize = questData.CurrentCount.Length;
+            Array enumArray;
+            if (questData.QuestMosters != null && questData.QuestMosters.Length > 0)
+            {
+                enumArray = questData.QuestMosters;
+            }
+            else 
+            {
+                enumArray = questData.RequestItem;
+            }
             for (int i = 0; i < forSize; i++)
             {
-                myQuestBox.text += $"진행상황 : {questData.CurrentCount[i]} / {questData.RequiredCount[i]}";
+                    myQuestBox.text += $"\r\n {enumArray.GetValue(i)} : {questData.CurrentCount[i]} / {questData.RequiredCount[i]}";
             }
         }
         else //없는경우 
