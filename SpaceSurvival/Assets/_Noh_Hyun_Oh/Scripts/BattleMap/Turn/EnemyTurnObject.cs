@@ -201,6 +201,16 @@ public class EnemyTurnObject : TurnBaseObject
     
     public override void TurnStartAction()
     {
+        // 첫로딩시 생성타이밍안맞음 
+        if (currentUnit.BattleUI != null)
+        {
+            BattleMapEnemyBase enemyData = (BattleMapEnemyBase)currentUnit;
+            enemyData.BattleUI.TrunActionStateChange(); //턴시작시 상태이상 들을 게이지 진행시킨다
+            enemyData.BattleUI.stmGaugeSetting(enemyData.EnemyData.Stamina, enemyData.EnemyData.MaxStamina);
+            enemyData.BattleUI.hpGaugeSetting(enemyData.EnemyData.HP, enemyData.EnemyData.MaxHp);
+        }
+
+
         StartCoroutine(TestC());
     }
     IEnumerator TestC() 
