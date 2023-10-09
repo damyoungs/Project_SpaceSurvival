@@ -91,7 +91,7 @@ public class EnemyTurnObject : TurnBaseObject
 
                 go.GetCurrentTile = () => (SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Monster)); //데이터 연결 
                 go.transform.position = go.CurrentTile.transform.position; //셋팅된 타일위치로 이동시킨다.
-                go.onDie += (unit) => { 
+                go.onDie = (unit) => { 
                     charcterList.Remove(unit);
                     PlayerQuest_Gyu playerQuest = SpaceSurvival_GameManager.Instance.PlayerQuest;
                     foreach (var quest in playerQuest.CurrentQuests) 
@@ -199,6 +199,16 @@ public class EnemyTurnObject : TurnBaseObject
     
     public override void TurnStartAction()
     {
+        // 첫로딩시 생성타이밍안맞음 
+        if (currentUnit.BattleUI != null)
+        {
+            BattleMapEnemyBase enemyData = (BattleMapEnemyBase)currentUnit;
+            enemyData.BattleUI.TrunActionStateChange(); //턴시작시 상태이상 들을 게이지 진행시킨다
+            enemyData.BattleUI.stmGaugeSetting(enemyData.EnemyData.Stamina, enemyData.EnemyData.MaxStamina);
+            enemyData.BattleUI.hpGaugeSetting(enemyData.EnemyData.HP, enemyData.EnemyData.MaxHp);
+        }
+
+
         StartCoroutine(TestC());
     }
     IEnumerator TestC() 
