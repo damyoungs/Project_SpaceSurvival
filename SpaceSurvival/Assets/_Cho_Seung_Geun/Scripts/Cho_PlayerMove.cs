@@ -121,6 +121,9 @@ public class Cho_PlayerMove : MonoBehaviour
         moveDir.x = dir.x;
         moveDir.z = dir.y;
 
+        animator.SetFloat("InputX", dir.x);
+        animator.SetFloat("InputY", dir.y);
+
         if (context.performed)
         {
             if (speed > runSpeed - 0.01f)
