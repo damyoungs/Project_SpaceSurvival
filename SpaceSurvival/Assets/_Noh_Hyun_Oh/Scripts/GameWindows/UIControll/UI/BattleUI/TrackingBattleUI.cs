@@ -229,6 +229,7 @@ public class TrackingBattleUI : Base_PoolObj
             change_HpValue = now/max;
             if (!isHp_Change) 
             {
+                StopCoroutine(hpChangeCoroutine);
                 hpChangeCoroutine = HP_GaugeSetting();
                 StartCoroutine(hpChangeCoroutine);
             }
@@ -238,6 +239,7 @@ public class TrackingBattleUI : Base_PoolObj
             change_StmValue = now/max;
             if (!isStm_Change)
             {
+                StopCoroutine(stmChangeCoroutine);
                 stmChangeCoroutine = Stm_GaugeSetting();
                 StartCoroutine(stmChangeCoroutine);
             }
