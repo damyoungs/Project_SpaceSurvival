@@ -2,22 +2,22 @@
     "dataIndex": 4,
     "stageClear": 0,
     "startPos": {
-        "x": -0.005747135728597641,
-        "y": 0.13692215085029603,
-        "z": 24.78689956665039
+        "x": -0.030762776732444764,
+        "y": 0.9833592176437378,
+        "z": 23.105804443359376
     },
-    "saveTime": "2023-10-08 오후 7:11:33",
-    "sceanName": 5,
+    "saveTime": "2023-10-09 오후 3:10:55",
+    "sceanName": 4,
     "playerData": {
-        "abilityPoint": 50,
+        "abilityPoint": 65,
         "playerName": "Player",
-        "level": 1,
-        "exp": 0,
-        "expMax": 50,
-        "base_MaxHP": 100.0,
-        "currentHP": 100.0,
-        "current_Stamina": 15.0,
-        "base_MaxStamina": 15.0,
+        "level": 4,
+        "exp": 28,
+        "expMax": 86,
+        "base_MaxHP": 145.0,
+        "currentHP": 145.0,
+        "current_Stamina": 5.516000270843506,
+        "base_MaxStamina": 24.0,
         "BaseDarkForce": 4969900,
         "base_ATT": 10,
         "base_DP": 10,
@@ -57,7 +57,7 @@
             "itemEnhanceValue": 0
         },
         {
-            "values": 99,
+            "values": 100,
             "itemIndex": 2,
             "slotIndex": 1,
             "itemEnhanceValue": 0
@@ -94,5 +94,26 @@
             "skillType": 4
         }
     ],
-    "questList": []
+    "questList": [
+        {
+            "questInfo": "클리어 조건",
+            "questIndex": 0,
+            "questType": 0,
+            "questState": 1,
+            "questIProgress": [
+                1,
+                2,
+                0
+            ]
+        },
+        {
+            "questInfo": "소형 부시기",
+            "questIndex": 1002,
+            "questType": 1,
+            "questState": 1,
+            "questIProgress": [
+                0
+            ]
+        }
+    ]
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking.Types;
 using static QuestReward;
 
 /// <summary>
@@ -45,10 +46,7 @@ public class Merchant_Manager : MonoBehaviour
         get => selected;
         set
         {
-            if (selected != value)
-            {
-                selected = value;
-            }
+            selected = value;
         }
     }
 
@@ -58,25 +56,7 @@ public class Merchant_Manager : MonoBehaviour
         get => merchant_State;
         set 
         {
-            if (merchant_State != value)
-            {
-                merchant_State = value;
-                switch (merchant_State)
-                {
-                    case Inventory_Tab.None:
-                        break;
-                    case Inventory_Tab.Equip:
-                        break;
-                    case Inventory_Tab.Consume:
-                        break;
-                    case Inventory_Tab.Etc:
-                        break;
-                    case Inventory_Tab.Craft:
-                        break;
-                    default:
-                        break;
-                }
-            }
+            merchant_State = value;
         }
     }
 
@@ -234,8 +214,8 @@ public class Merchant_Manager : MonoBehaviour
             if (isTalking)
             {
                 isTalking = false;
-                talkController.Talk(0);
-                actionUI.visibleUI?.Invoke();
+                talkController.Talk(0);     //대화창열기
+                actionUI.invisibleUI?.Invoke();   //F키 닫기
             }
         };
         Selected = Merchant_Selected.Buy;
@@ -280,6 +260,9 @@ public class Merchant_Manager : MonoBehaviour
 
 
 
+    /// <summary>
+    /// 함선시작시 시작할 초기화함수
+    /// </summary>
     public void InitDataSetting()
     {
 
@@ -291,25 +274,11 @@ public class Merchant_Manager : MonoBehaviour
         {
             //위치와 모양을 변경시키면 될거같기도한데.. 일단 고민좀해보자..
             array_NPC[i].InitData(i); //npc 를 초기화 시킨다.
-            array_NPC[i].onTalkDisableButton += () =>
-            {
-                isTalking = false;
-                talkController.ResetData();
-                talkController.openTalkWindow = null;
-                talkController.closeTalkWindow = null;
-                talkController.onTalkClick = null;
-                talkController.getTalkDataArray = null;
-                talkController.LogManager.getLogTalkDataArray = null;
-                actionUI.invisibleUI?.Invoke();
-            };
+            array_NPC[i].onTalkDisableButton += NpcTalkDisable;
             array_NPC[i].onTalkEnableButton += (npcId) =>
             {
-                talkController.ResetData();
-                talkController.openTalkWindow = merchant_UI_Manager.OpenWindow;
-                talkController.closeTalkWindow = merchant_UI_Manager.CloseWindow;
-                currentNpcIndex = npcId;
+                NpcTalkActive(npcId);
                 talkController.onTalkClick = () => array_NPC[currentNpcIndex];
-
                 talkController.getTalkDataArray = (talkIndex) =>
                 {
                     return talkController.TalkData.GetTalk(array_NPC[currentNpcIndex].TalkType, talkIndex);
@@ -317,13 +286,40 @@ public class Merchant_Manager : MonoBehaviour
                 talkController.LogManager.getLogTalkDataArray = (talkIndex) => {
                     return talkController.TalkData.GetLog(array_NPC[currentNpcIndex].TalkType, talkIndex);
                 };
-                isTalking = true;
-                actionUI.visibleUI?.Invoke();
             };
 
         }
 
 
+    }
+
+    /// <summary>
+    /// NPC 근처에 갔을때 대화 할수있는상태로 만들기위한 사전작업
+    /// </summary>
+    private void NpcTalkDisable()
+    {
+        isTalking = false;
+        talkController.ResetData();
+        talkController.openTalkWindow = null;
+        talkController.closeTalkWindow = null;
+        talkController.onTalkClick = null;
+        talkController.getTalkDataArray = null;
+        talkController.LogManager.getLogTalkDataArray = null;
+        actionUI.invisibleUI?.Invoke();
+    }
+
+    /// <summary>
+    /// NPC 근처에서 벗어났을때 대화할수 없는상태로 만들기위한 작업
+    /// </summary>
+    /// <param name="npcId"></param>
+    private void NpcTalkActive(int npcId)
+    {
+        talkController.ResetData();
+        talkController.openTalkWindow = merchant_UI_Manager.OpenWindow;
+        talkController.closeTalkWindow = merchant_UI_Manager.CloseWindow;
+        currentNpcIndex = npcId;
+        isTalking = true;
+        actionUI.visibleUI?.Invoke();
     }
 
 }

@@ -1,23 +1,23 @@
 {
-    "dataIndex": 5,
-    "stageClear": 0,
+    "dataIndex": 24,
+    "stageClear": 3,
     "startPos": {
-        "x": -0.030762776732444764,
-        "y": 0.9833592176437378,
-        "z": 23.105804443359376
+        "x": -16.81076431274414,
+        "y": 1.0013864040374756,
+        "z": 4.3200788497924809
     },
-    "saveTime": "2023-10-09 오후 3:10:57",
-    "sceanName": 4,
+    "saveTime": "2023-10-09 오후 3:31:10",
+    "sceanName": 5,
     "playerData": {
-        "abilityPoint": 65,
+        "abilityPoint": 85,
         "playerName": "Player",
-        "level": 4,
-        "exp": 28,
-        "expMax": 86,
-        "base_MaxHP": 145.0,
-        "currentHP": 145.0,
-        "current_Stamina": 5.516000270843506,
-        "base_MaxStamina": 24.0,
+        "level": 8,
+        "exp": 59,
+        "expMax": 176,
+        "base_MaxHP": 205.0,
+        "currentHP": 141.0,
+        "current_Stamina": 5.030002593994141,
+        "base_MaxStamina": 36.0,
         "BaseDarkForce": 4969900,
         "base_ATT": 10,
         "base_DP": 10,
@@ -51,13 +51,13 @@
     "consumeSlotLength": 0,
     "consumeData": [
         {
-            "values": 99,
+            "values": 98,
             "itemIndex": 1,
             "slotIndex": 0,
             "itemEnhanceValue": 0
         },
         {
-            "values": 100,
+            "values": 99,
             "itemIndex": 2,
             "slotIndex": 1,
             "itemEnhanceValue": 0
@@ -66,7 +66,20 @@
     "etcSlotLength": 0,
     "etcData": [],
     "craftSlotLength": 0,
-    "craftData": [],
+    "craftData": [
+        {
+            "values": 1,
+            "itemIndex": 23,
+            "slotIndex": 0,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 4,
+            "itemIndex": 25,
+            "slotIndex": 1,
+            "itemEnhanceValue": 0
+        }
+    ],
     "skillDatas": [
         {
             "skillLevel": 1,
@@ -102,7 +115,7 @@
             "questState": 1,
             "questIProgress": [
                 1,
-                2,
+                4,
                 0
             ]
         },
@@ -112,7 +125,7 @@
             "questType": 1,
             "questState": 1,
             "questIProgress": [
-                0
+                40
             ]
         }
     ]

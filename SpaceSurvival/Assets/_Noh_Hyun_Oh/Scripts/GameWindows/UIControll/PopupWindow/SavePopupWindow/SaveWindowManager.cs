@@ -384,6 +384,10 @@ public class SaveWindowManager : PopupWindowBase ,IPopupSortWindow ,IPointerDown
             sd.FileIndex = fileIndex; //기본적인 파일 넘버링
             sd.name = "";
             sd.CreateTime = "";
+            sd.SceanName = EnumList.SceneName.NONE;
+            sd.Money = 0;
+            sd.CharcterLevel = 0;
+            sd.EtcText = "";
         }
     }
 

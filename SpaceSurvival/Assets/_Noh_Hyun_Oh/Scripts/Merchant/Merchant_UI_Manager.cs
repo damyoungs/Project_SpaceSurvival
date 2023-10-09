@@ -188,7 +188,6 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
     /// </summary>
     public void ReFresh_Merchant_Item() 
     {
-       
         Merchant_UI_Item[] merchant_UI_Items = null;
         if (merchant_Manager.Selected == Merchant_Selected.Sell)
         {
@@ -282,7 +281,6 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
         {
             return;
         }
-
         //부모 컨텐츠 사이즈 조절 
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, defaultItemSizeY * merchant_UI_Items.Length);
         
@@ -352,6 +350,7 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
     {
         transform.GetChild(0).gameObject.SetActive(true);
         transform.GetChild(1).gameObject.SetActive(true);
+        ReFresh_Merchant_Item();
     }
 
     public void CloseWindow()
