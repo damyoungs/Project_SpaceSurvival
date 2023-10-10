@@ -10,6 +10,7 @@ public class Cho_SceneLoading : MonoBehaviour
 
     ParticleSystem shortRay;
     ParticleSystem longRay;
+    AudioSource audioSource;
 
     /// <summary>
     /// 현재 포탈의 스테이지 종류
@@ -25,6 +26,7 @@ public class Cho_SceneLoading : MonoBehaviour
         shortRay = parent.GetChild(0).GetComponent<ParticleSystem>();
         longRay = parent.GetChild(5).GetComponent<ParticleSystem>();
         longRay.Stop();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -57,6 +59,7 @@ public class Cho_SceneLoading : MonoBehaviour
     IEnumerator WarpCoroutine()
     {
         player.Cinemachine.Priority = 20;
+        audioSource.Play();
         shortRay.Stop();
         longRay.Play();
         yield return new WaitForSeconds(3.0f);

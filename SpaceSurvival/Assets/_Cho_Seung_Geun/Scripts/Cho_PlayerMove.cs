@@ -56,6 +56,7 @@ public class Cho_PlayerMove : MonoBehaviour
     CinemachineVirtualCamera cinemachine;
     public CinemachineVirtualCamera Cinemachine => cinemachine;
     Transform cam;
+    AudioSource audioSource;
 
     readonly int Hash_Speed = Animator.StringToHash("Speed");
     readonly int Hash_IsJump = Animator.StringToHash("IsJump");
@@ -77,6 +78,7 @@ public class Cho_PlayerMove : MonoBehaviour
         controller = GetComponent<CharacterController>();
         cinemachine = GetComponentInChildren<CinemachineVirtualCamera>();
         cam = GetComponentInChildren<Camera>().transform;
+        audioSource = GetComponent<AudioSource>();
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -141,11 +143,10 @@ public class Cho_PlayerMove : MonoBehaviour
         moveDir.x = dir.x;
         moveDir.z = dir.y;
 
-        if (!isJumping)
+        if (jumpCount == 0)
         {
-
-        animator.SetFloat(Hash_InputX, dir.x);
-        animator.SetFloat(Hash_InputY, dir.y);
+            animator.SetFloat(Hash_InputX, dir.x);
+            animator.SetFloat(Hash_InputY, dir.y);
         }
 
         if (context.performed)
@@ -160,22 +161,23 @@ public class Cho_PlayerMove : MonoBehaviour
                 State = PlayerState.Walk;
                 animator.SetFloat(Hash_Speed, animatorWalkSpeed);
             }
-            
+            audioSource.Play();
         }
         else
         {
             State = PlayerState.Idle;
             animator.SetFloat(Hash_Speed, 0);
+            audioSource.Stop();
         }
 
     }
 
     private void OnJump(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        if (!isJumping && jumpCount < 2)
+        if (jumpCount < 2)
         {
             moveDir.y = jumpHeight;
-            isJumping = true;
+            //isJumping = true;
             animator.SetTrigger(Hash_IsJump);
             animator.SetBool(Hash_IsJumping, true);
             jumpCount++;
@@ -191,6 +193,7 @@ public class Cho_PlayerMove : MonoBehaviour
             if (State == PlayerState.Run)
             {
                 State = PlayerState.Walk;
+                audioSource.pitch = 1.26f;
                 animator.SetFloat(Hash_Speed, animatorWalkSpeed);
                 animator.SetBool(Hash_IsRun, false);
             }
@@ -201,6 +204,7 @@ public class Cho_PlayerMove : MonoBehaviour
             if (State == PlayerState.Walk)
             {
                 State = PlayerState.Run;
+                audioSource.pitch = 1.5f;
                 animator.SetFloat(Hash_Speed, animatorRunSpeed);
                 animator.SetBool(Hash_IsRun, true);
             }
@@ -234,11 +238,11 @@ public class Cho_PlayerMove : MonoBehaviour
             {
                 moveDir.y = -0.01f;
             }
-            if (isJumping)
+            if (jumpCount > 0)
             {
                 animator.SetBool(Hash_IsJumping, false);
             }
-            isJumping = false;
+            //isJumping = false;
             jumpCount = 0;
             return true;
         }
@@ -250,7 +254,7 @@ public class Cho_PlayerMove : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y + 0.25f * 0.5f, transform.position.z), 0.25f);
+        Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y + 0.25f, transform.position.z), 0.25f);
     }
 
 #endif

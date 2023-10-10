@@ -10,10 +10,13 @@ public class HangarDoor : MonoBehaviour
     float openHeight = 0.0f;
     float closeHeight = 0.0f;
 
+    AudioSource audioSource;
+
     private void Awake()
     {
         openHeight = door.position.y + 3.0f;
         closeHeight = door.position.y;
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -37,6 +40,8 @@ public class HangarDoor : MonoBehaviour
 
     IEnumerator Open()
     {
+        audioSource.Stop();
+        audioSource.Play();
         while (door.position.y < openHeight)
         {
             door.position += new Vector3(0.0f, Time.deltaTime * speed, 0.0f);
@@ -46,6 +51,8 @@ public class HangarDoor : MonoBehaviour
 
     IEnumerator Close()
     {
+        audioSource.Stop();
+        audioSource.Play();
         while (door.position.y > closeHeight)
         {
             door.position -= new Vector3(0.0f, Time.deltaTime * speed, 0.0f);

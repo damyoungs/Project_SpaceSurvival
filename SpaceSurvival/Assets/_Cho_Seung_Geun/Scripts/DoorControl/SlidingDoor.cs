@@ -8,10 +8,12 @@ public class SlidingDoor : MonoBehaviour
     public Transform Icon;
     public Transform Icon2;
 
+    AudioSource audioSource;
     Transform door;
 
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         door = transform.parent.GetChild(0);
         if (Icon != null)
         {
@@ -45,6 +47,7 @@ public class SlidingDoor : MonoBehaviour
 
     IEnumerator Open()
     {
+        audioSource.Play();
         while (door.position.y < 3)
         {
             door.position += new Vector3(0.0f, Time.deltaTime * speed, 0.0f);
@@ -54,6 +57,7 @@ public class SlidingDoor : MonoBehaviour
 
     IEnumerator Close()
     {
+        audioSource?.Play();
         while (door.position.y > 0)
         {
             door.position -= new Vector3(0.0f, Time.deltaTime * speed, 0.0f);

@@ -44,7 +44,7 @@ public class HingedDoor : MonoBehaviour
     Animator animator;
     Cho_PlayerMove player;
     InteractionUI interactionUI;
-    AudioSource audioSource;
+    AudioSource[] audioSources;
 
     readonly int Hash_Door = Animator.StringToHash("DoorState");
 
@@ -54,7 +54,7 @@ public class HingedDoor : MonoBehaviour
         animator = door.GetComponent<Animator>();
         player = FindObjectOfType<Cho_PlayerMove>();
         interactionUI = FindObjectOfType<InteractionUI>();
-        audioSource = GetComponent<AudioSource>();
+        audioSources = GetComponents<AudioSource>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -93,12 +93,13 @@ public class HingedDoor : MonoBehaviour
                 State = DoorState.Forward;
             }
 
-            audioSource.Play();
+            audioSources[0].Play();
         }
         else
         {
             //animator.SetInteger(Hash_Door, 0);
             State = DoorState.Close;
+            audioSources[1].Play();
         }
     }
 }
