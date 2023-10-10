@@ -72,6 +72,10 @@ public class LoadingScene : MonoBehaviour
                 nextSceanindex = (int)sceneName; //다음씬 인덱스 셋팅하고 
                 InputSystemController.Instance.DisableHotKey(HotKey_Use.None); //열려있는 액션 전부 닫고 기본만열자 
                 WindowList.Instance.PopupSortManager.CloseAllWindow(); //화면 전환시 열려있는창 전부닫자.  
+                if (sceneName == EnumList.SceneName.SpaceShip)
+                {
+                    GameManager.PlayerStatus.Base_Status.CurrentHP = GameManager.PlayerStatus.Base_Status.Base_MaxHP;
+                }
                 if (sceneName == EnumList.SceneName.TITLE)
                 {
                     TitleSceneMove();       //타이틀로 갈때 데이터 초기화용 함수
