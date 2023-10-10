@@ -1046,6 +1046,15 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AnyKey"",
+                    ""type"": ""Button"",
+                    ""id"": ""b811016a-f16b-4f1a-9ce2-37015dde01b1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -1057,6 +1066,17 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""KeyMouse"",
                     ""action"": ""Esc"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""84a81ef2-7d40-4b81-944e-a9dcc9ec00c9"",
+                    ""path"": ""<Keyboard>/anyKey"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyMouse"",
+                    ""action"": ""AnyKey"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1192,6 +1212,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
         // Common
         m_Common = asset.FindActionMap("Common", throwIfNotFound: true);
         m_Common_Esc = m_Common.FindAction("Esc", throwIfNotFound: true);
+        m_Common_AnyKey = m_Common.FindAction("AnyKey", throwIfNotFound: true);
         // Options
         m_Options = asset.FindActionMap("Options", throwIfNotFound: true);
         m_Options_Options = m_Options.FindAction("Options", throwIfNotFound: true);
@@ -1884,11 +1905,13 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Common;
     private List<ICommonActions> m_CommonActionsCallbackInterfaces = new List<ICommonActions>();
     private readonly InputAction m_Common_Esc;
+    private readonly InputAction m_Common_AnyKey;
     public struct CommonActions
     {
         private @InputKeyMouse m_Wrapper;
         public CommonActions(@InputKeyMouse wrapper) { m_Wrapper = wrapper; }
         public InputAction @Esc => m_Wrapper.m_Common_Esc;
+        public InputAction @AnyKey => m_Wrapper.m_Common_AnyKey;
         public InputActionMap Get() { return m_Wrapper.m_Common; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1901,6 +1924,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @Esc.started += instance.OnEsc;
             @Esc.performed += instance.OnEsc;
             @Esc.canceled += instance.OnEsc;
+            @AnyKey.started += instance.OnAnyKey;
+            @AnyKey.performed += instance.OnAnyKey;
+            @AnyKey.canceled += instance.OnAnyKey;
         }
 
         private void UnregisterCallbacks(ICommonActions instance)
@@ -1908,6 +1934,9 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
             @Esc.started -= instance.OnEsc;
             @Esc.performed -= instance.OnEsc;
             @Esc.canceled -= instance.OnEsc;
+            @AnyKey.started -= instance.OnAnyKey;
+            @AnyKey.performed -= instance.OnAnyKey;
+            @AnyKey.canceled -= instance.OnAnyKey;
         }
 
         public void RemoveCallbacks(ICommonActions instance)
@@ -2057,6 +2086,7 @@ public partial class @InputKeyMouse: IInputActionCollection2, IDisposable
     public interface ICommonActions
     {
         void OnEsc(InputAction.CallbackContext context);
+        void OnAnyKey(InputAction.CallbackContext context);
     }
     public interface IOptionsActions
     {

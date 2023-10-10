@@ -1,16 +1,16 @@
 using UnityEngine;
 public class EndScene : MonoBehaviour
 {
-    private void Update()
+    private void Awake()
     {
-        if (Input.anyKeyDown) 
+        InputSystemController.InputSystem.Common.AnyKey.performed += (_) =>
         {
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #else
-        Application.Quit( 0 );
+            Application.Quit( 0 );
 
 #endif
-        }
+        };
     }
 }
