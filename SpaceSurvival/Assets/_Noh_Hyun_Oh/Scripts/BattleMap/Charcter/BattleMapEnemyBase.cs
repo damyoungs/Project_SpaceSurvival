@@ -11,9 +11,9 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
     /// </summary>
     public bool IsControll { get; set; }
 
-
-    ItemSpawner Spawner;
-
+    /// <summary>
+    /// 몬스터 정보 받아오기
+    /// </summary>
     Enemy_ enemyData;
     public Enemy_ EnemyData => enemyData;
 
@@ -54,7 +54,6 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
 
 
     public Func<Tile> GetCurrentTile { get; set ; }
-
     public Action<BattleMapEnemyBase> onDie;
 
     /// <summary>
@@ -110,7 +109,6 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
             }
             if (enemyData.HP < 0)
             {
-                GameManager.PlayerStatus.GetExp((uint)enemyData.EnemyExp);
                 Die();
                 ResetData();
             }
@@ -252,6 +250,7 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
 
     void Die()
     {
+        GameManager.PlayerStatus.GetExp((uint)enemyData.EnemyExp);
         GameManager.Item_Spawner.SpawnItem(this);
         onDie?.Invoke(this);
     }
