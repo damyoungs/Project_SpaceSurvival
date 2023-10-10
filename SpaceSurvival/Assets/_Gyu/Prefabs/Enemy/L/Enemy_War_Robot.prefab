@@ -2365,9 +2365,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyAc_Riffle: {fileID: 22100000, guid: af4bd107fdbd8b54592f789d8325c380, type: 2}
   EnemyAc_Sword: {fileID: 22100000, guid: af4bd107fdbd8b54592f789d8325c380, type: 2}
+  NoneAudio: {fileID: 0}
+  RiffleAudio: {fileID: 0}
+  SwordAudio: {fileID: 0}
   GrapPosition: {fileID: 7799441959937098904}
-  Riffle: {fileID: 1387595760026213463, guid: 3066df790cd6dd84589aab27e76874aa, type: 3}
-  Sword: {fileID: 3534807905636233986, guid: dfe5cd2d934092340bd2798c887ae5c1, type: 3}
+  Riffle: {fileID: 7730282033942701758, guid: 97d17b9cb1082384bab775f1d6449232, type: 3}
+  Sword: {fileID: 7730282033942701758, guid: 97d17b9cb1082384bab775f1d6449232, type: 3}
   type: 3
   attackRange: 1
 --- !u!1 &5361794184986557620

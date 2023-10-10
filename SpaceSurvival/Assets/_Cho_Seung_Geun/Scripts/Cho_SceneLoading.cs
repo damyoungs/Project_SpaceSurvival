@@ -53,7 +53,7 @@ public class Cho_SceneLoading : MonoBehaviour
         StartCoroutine(WarpCoroutine());
     }
 
-    // 수정 해야됨
+    // 수정 해야됨 + 인풋키 락 걸어야함
     IEnumerator WarpCoroutine()
     {
         player.Cinemachine.Priority = 20;
