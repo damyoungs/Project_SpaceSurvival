@@ -15,6 +15,12 @@ public class Enemy_ : MonoBehaviour, IBattle
     int OnHit = Animator.StringToHash("Hit");
     int Moving = Animator.StringToHash("MoveSpeed");
 
+    AudioSource Audio;
+    public AudioClip NoneAudio;
+    public AudioClip RiffleAudio;
+    public AudioClip SwordAudio;
+    AudioClip SelectedAudio;
+
     public Transform GrapPosition;
     public GameObject Riffle;
     public GameObject Sword;
@@ -73,15 +79,18 @@ public class Enemy_ : MonoBehaviour, IBattle
             {
                 case WeaponType.None:
                     attackRange = 1;
+                    SelectedAudio = NoneAudio;
                     break;
                 case WeaponType.Riffle:
                     Anima.runtimeAnimatorController = EnemyAc_Riffle;
+                    SelectedAudio = RiffleAudio;
                     Instantiate(Riffle.gameObject, GrapPosition.transform);
                     attackRange = 4;
                     attackPower += 10;
                     break;
                 case WeaponType.Swrod:
                     Anima.runtimeAnimatorController = EnemyAc_Sword;
+                    SelectedAudio = SwordAudio;
                     Instantiate(Sword.gameObject, GrapPosition.transform);
                     attackPower += 15;
                     break;
@@ -98,7 +107,7 @@ public class Enemy_ : MonoBehaviour, IBattle
     private void Awake()
     {
         Anima = GetComponent<Animator>();
-        
+        Audio = GetComponent<AudioSource>();
     }
 
     float hp = 200;
@@ -177,8 +186,8 @@ public class Enemy_ : MonoBehaviour, IBattle
     private void Attack()
     {
         stamina--;
+        Audio.PlayOneShot(SelectedAudio);
         Anima.SetTrigger(Go_Attack);
-
     }
 
     public void Attack_Enemy(IBattle target)
@@ -206,5 +215,9 @@ public class Enemy_ : MonoBehaviour, IBattle
     public void onHit()
     {
         Anima.SetTrigger(OnHit);
+    }
+    public void OnInit() 
+    {
+        HP = maxHP;
     }
 }

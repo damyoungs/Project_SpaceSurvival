@@ -36,7 +36,7 @@ public class ItemSpawner : TestBase
     {
         yield return null;
         player = GameManager.Player_;
-        GetItem_For_Test();
+        //GetItem_For_Test();
         SetSkillData_For_Test();
     }
 
@@ -109,6 +109,10 @@ public class ItemSpawner : TestBase
                 ItemObject ItemObj = Instantiate(prefabDict[itemtype], enemy.transform.position, Quaternion.identity).GetComponent<ItemObject>();
                 ItemObj.itemData = GameManager.Itemdata.itemDatas[(int)itemtype];
                 enemy.currentTile.ExistType = Tile.TileExistType.Item;
+
+                ///배틀맵에 아이템 표시용으로 필요한 데이터 셋팅
+                ItemObj.CurrentTile = enemy.currentTile;
+                SpaceSurvival_GameManager.Instance.ItemTileList.Add(enemy.currentTile);
             }
         }
     }
@@ -185,8 +189,8 @@ public class ItemSpawner : TestBase
     public bool IsCritical;
     protected override void Test1(InputAction.CallbackContext _)
     {
-        GameManager.Player_.Defence(UnityEngine.Random.Range(100, 200), IsCritical);
-       // GameManager.SlotManager.AddItem(itemCode);
+       // GameManager.Player_.Defence(UnityEngine.Random.Range(100, 200), IsCritical);
+        GameManager.SlotManager.AddItem(itemCode);
     }
     protected override void Test2(InputAction.CallbackContext context)
     {

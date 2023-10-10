@@ -1,24 +1,24 @@
 {
     "dataIndex": 12,
-    "stageClear": 2,
+    "stageClear": 3,
     "startPos": {
-        "x": 0.003573457710444927,
-        "y": 0.9256758689880371,
-        "z": 22.79483413696289
+        "x": -16.81076431274414,
+        "y": 1.0013864040374756,
+        "z": 4.3200788497924809
     },
-    "saveTime": "2023-10-07 오후 9:11:44",
+    "saveTime": "2023-10-09 오후 3:13:27",
     "sceanName": 5,
     "playerData": {
-        "abilityPoint": 70,
+        "abilityPoint": 75,
         "playerName": "Player",
-        "level": 5,
-        "exp": 32,
-        "expMax": 103,
-        "base_MaxHP": 160.0,
-        "currentHP": 95.0,
-        "current_Stamina": 6.0880022048950199,
-        "base_MaxStamina": 27.0,
-        "BaseDarkForce": 4945800,
+        "level": 6,
+        "exp": 29,
+        "expMax": 123,
+        "base_MaxHP": 175.0,
+        "currentHP": 175.0,
+        "current_Stamina": 12.172000885009766,
+        "base_MaxStamina": 30.0,
+        "BaseDarkForce": 4969900,
         "base_ATT": 10,
         "base_DP": 10,
         "base_STR": 5,
@@ -32,39 +32,32 @@
         "Total_STR": 0,
         "Total_INT": 0,
         "Total_LUK": 0,
-        "Total_DEX": 10,
+        "Total_DEX": 0,
         "Total_CriticalRate": 0.0,
         "Total_DodgeRate": 0.0,
         "codes": [
-            46,
-            9,
-            50,
-            20
+            0,
+            10,
+            0,
+            0
         ],
         "weapon_ItemLevel": 1,
-        "weapon_AttackPoint": 15,
+        "weapon_AttackPoint": 20,
         "weapon_DefencePoint": 1,
-        "weapon_ItemName": "Pistol"
+        "weapon_ItemName": "Rifle"
     },
     "equipSlotLength": 0,
-    "equipData": [
-        {
-            "values": 1,
-            "itemIndex": 10,
-            "slotIndex": 1,
-            "itemEnhanceValue": 1
-        }
-    ],
+    "equipData": [],
     "consumeSlotLength": 0,
     "consumeData": [
         {
-            "values": 199,
+            "values": 99,
             "itemIndex": 1,
             "slotIndex": 0,
             "itemEnhanceValue": 0
         },
         {
-            "values": 99,
+            "values": 101,
             "itemIndex": 2,
             "slotIndex": 1,
             "itemEnhanceValue": 0
@@ -78,6 +71,12 @@
             "values": 1,
             "itemIndex": 23,
             "slotIndex": 0,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 25,
+            "slotIndex": 1,
             "itemEnhanceValue": 0
         }
     ],
@@ -115,7 +114,18 @@
             "questType": 0,
             "questState": 1,
             "questIProgress": [
+                1,
+                1,
                 0
+            ]
+        },
+        {
+            "questInfo": "소형 부시기",
+            "questIndex": 1002,
+            "questType": 1,
+            "questState": 1,
+            "questIProgress": [
+                10
             ]
         }
     ]

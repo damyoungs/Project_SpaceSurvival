@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5795648128543265424}
   - component: {fileID: 5766965086249032992}
   - component: {fileID: 5776820088965722256}
+  - component: {fileID: -5670748444899732669}
   m_Layer: 0
   m_Name: SM_Chr_Attach_SpaceHelmet_01
   m_TagString: Untagged
@@ -84,6 +85,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-5670748444899732669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5798576363139874498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a28a419ec8afe6249818d94357bca294, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemData: {fileID: 0}
 --- !u!1 &5799156250910248180
 GameObject:
   m_ObjectHideFlags: 0

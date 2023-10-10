@@ -13,6 +13,8 @@ TagManager:
   - Npc
   - Ground
   - Enemy
+  - FxTemporaire
+  - OpeningCam
   layers:
   - Default
   - TransparentFX
@@ -25,7 +27,7 @@ TagManager:
   - Ground
   - Enhancer_Before
   - MixerDescription
-  - Player
+  - 
   - 
   - 
   - 

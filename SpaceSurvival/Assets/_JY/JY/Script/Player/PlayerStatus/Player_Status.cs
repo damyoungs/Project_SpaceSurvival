@@ -45,6 +45,10 @@ public class Base_Status//¾Æ¹«°Íµµ ÀåºñÇÏÁö ¾ÊÀº »óÅÂÀÇ ÇÃ·¹ÀÌ¾îÀÇ ±âº» °ø°Ý·Â, 
             {
                 level = value;
                 playerStatus.Level = level;
+                if (!isLoading)
+                {
+                    playerStatus.LevelUp();
+                }
             }
         }
     }
@@ -266,9 +270,10 @@ public class Base_Status//¾Æ¹«°Íµµ ÀåºñÇÏÁö ¾ÊÀº »óÅÂÀÇ ÇÃ·¹ÀÌ¾îÀÇ ±âº» °ø°Ý·Â, 
         playerStatus.on_Rise_CriticalPower += () => BaseCriticalPower += 0.1f;
 
     }
-
+    bool isLoading;
     public void LoadData(Base_Status saveData)
     {
+        isLoading = true;
         this.ExpMax = saveData.ExpMax;
         this.Level = saveData.Level;
         this.Exp = saveData.Exp;
@@ -288,6 +293,7 @@ public class Base_Status//¾Æ¹«°Íµµ ÀåºñÇÏÁö ¾ÊÀº »óÅÂÀÇ ÇÃ·¹ÀÌ¾îÀÇ ±âº» °ø°Ý·Â, 
         this.BaseCriticalPower = saveData.BaseCriticalPower;
         this.Damage_Min = saveData.Damage_Min;
         this.ExpMax = saveData.ExpMax;//expMAx´Â LevelUp ÇÒ ¶§ º¯°æµÇ±â ¶§¹®¿¡ ÇÑ¹ø ´õ ¾÷µ¥ÀÌÆ® ÇÊ¿ä
+        isLoading = false;
     }
     public void Init()
     {
@@ -431,7 +437,7 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
         {
             level = value;
             levelText.text = $"{level}";
-            LevelUp();
+           // LevelUp();
         }
     }
 
@@ -704,8 +710,8 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
         base_Status.AbilityPoint += 5;
         on_increase_MaxHP?.Invoke(increaseMaxHP()); 
         on_increase_MaxStamina?.Invoke(increaseMaxStamina());
-        HP = MaxHP;
-        Stamina = MaxStamina;
+        base_Status.CurrentHP = MaxHP;
+        base_Status.Current_Stamina = MaxStamina;
         base_Status.Exp = 0;
         on_increase_ExpMax?.Invoke((uint)(ExpMax * 1.2f));
         on_LevelUp?.Invoke();
@@ -742,6 +748,17 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
         this.CriticalDamage = this.ATT * CriticalPower;
     }
 
+    public bool IsDodge()
+    {
+        bool result = false;
+        float randomValue = UnityEngine.Random.Range(0, 100);
+        if (this.DodgeRate > randomValue)
+        {
+            result = true;
+        }
+
+        return  result;
+    }
     public bool IsCritical(SkillData skillData)
     {
         bool result = false;
@@ -892,4 +909,12 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
         }
     }
 
+    /// <summary>
+    /// Á×¾ú´ÂÁö Ã¼Å© float Àº 0 À¸·Î ºñ±³ÇÏ´Â°Ç ¹Ù¶÷Á÷ÇÏÁö¾ÊÁö¸¸.. Mathf.Clamp(value, 0, base_MaxHP); ¸¦ »ç¿ëÇØ¼­ 0À¸·Î Àâ°íÀÖÀ¸´Ï  ºñ±³´ÂµÈ´Ù.
+    /// </summary>
+    /// <returns>Á×¾úÀ¸¸é true  ¾ÈÁ×¾úÀ¸¸é false</returns>
+    public bool IsPlayerDie()
+    {
+        return Base_Status.CurrentHP == 0.0f;
+    }
 }

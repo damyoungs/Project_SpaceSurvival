@@ -153,6 +153,7 @@ public class Gyu_QuestManager : MonoBehaviour
 
         questScriptableGenerate = DataFactory.Instance.QuestScriptableGenerate;
 
+        //F 키눌렀을때의 액션 연결
         InputSystemController.InputSystem.Player.Action.performed += (_) => {
             if (isTalking)
             {

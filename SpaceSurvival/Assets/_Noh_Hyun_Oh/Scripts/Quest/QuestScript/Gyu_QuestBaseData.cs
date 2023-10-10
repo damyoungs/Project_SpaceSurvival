@@ -117,6 +117,7 @@ public class Gyu_QuestBaseData : ScriptableObject
     /// <summary>
     /// 현재 카운트(갯수)
     /// </summary>
+    [SerializeField]
     int[] currentCount;
     public int[] CurrentCount => currentCount;
 
@@ -163,6 +164,7 @@ public class Gyu_QuestBaseData : ScriptableObject
         {
             if (requestItem[i] == requestItemCode) 
             {
+                
                 currentCount[i] = addCount;
                 break;
             }

@@ -1,23 +1,24 @@
 {
     "dataIndex": 5,
+    "stageClear": 0,
     "startPos": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
+        "x": -0.030762776732444764,
+        "y": 0.9833592176437378,
+        "z": 23.105804443359376
     },
-    "saveTime": "2023-10-06 오후 1:19:12",
-    "sceanName": 1,
+    "saveTime": "2023-10-09 오후 3:10:57",
+    "sceanName": 4,
     "playerData": {
-        "abilityPoint": 50,
+        "abilityPoint": 65,
         "playerName": "Player",
-        "level": 1,
-        "exp": 0,
-        "expMax": 50,
-        "base_MaxHP": 100.0,
-        "currentHP": 100.0,
-        "current_Stamina": 15.0,
-        "base_MaxStamina": 15.0,
-        "BaseDarkForce": 5000000,
+        "level": 4,
+        "exp": 28,
+        "expMax": 86,
+        "base_MaxHP": 145.0,
+        "currentHP": 145.0,
+        "current_Stamina": 5.516000270843506,
+        "base_MaxStamina": 24.0,
+        "BaseDarkForce": 4969900,
         "base_ATT": 10,
         "base_DP": 10,
         "base_STR": 5,
@@ -36,19 +37,32 @@
         "Total_DodgeRate": 0.0,
         "codes": [
             0,
-            0,
+            10,
             0,
             0
         ],
-        "weapon_ItemLevel": 0,
-        "weapon_AttackPoint": 0,
-        "weapon_DefencePoint": 0,
-        "weapon_ItemName": ""
+        "weapon_ItemLevel": 1,
+        "weapon_AttackPoint": 20,
+        "weapon_DefencePoint": 1,
+        "weapon_ItemName": "Rifle"
     },
     "equipSlotLength": 0,
     "equipData": [],
     "consumeSlotLength": 0,
-    "consumeData": [],
+    "consumeData": [
+        {
+            "values": 99,
+            "itemIndex": 1,
+            "slotIndex": 0,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 100,
+            "itemIndex": 2,
+            "slotIndex": 1,
+            "itemEnhanceValue": 0
+        }
+    ],
     "etcSlotLength": 0,
     "etcData": [],
     "craftSlotLength": 0,
@@ -80,5 +94,26 @@
             "skillType": 4
         }
     ],
-    "questList": []
+    "questList": [
+        {
+            "questInfo": "클리어 조건",
+            "questIndex": 0,
+            "questType": 0,
+            "questState": 1,
+            "questIProgress": [
+                1,
+                2,
+                0
+            ]
+        },
+        {
+            "questInfo": "소형 부시기",
+            "questIndex": 1002,
+            "questType": 1,
+            "questState": 1,
+            "questIProgress": [
+                0
+            ]
+        }
+    ]
 }

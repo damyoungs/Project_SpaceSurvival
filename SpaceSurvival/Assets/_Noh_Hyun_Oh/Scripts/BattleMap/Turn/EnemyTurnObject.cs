@@ -91,7 +91,7 @@ public class EnemyTurnObject : TurnBaseObject
 
                 go.GetCurrentTile = () => (SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Monster)); //데이터 연결 
                 go.transform.position = go.CurrentTile.transform.position; //셋팅된 타일위치로 이동시킨다.
-                go.onDie += (unit) => { 
+                go.onDie = (unit) => { 
                     charcterList.Remove(unit);
                     PlayerQuest_Gyu playerQuest = SpaceSurvival_GameManager.Instance.PlayerQuest;
                     foreach (var quest in playerQuest.CurrentQuests) 
@@ -123,6 +123,8 @@ public class EnemyTurnObject : TurnBaseObject
                 go.onCameraTarget = () => cot.Target = go.transform;
 
                 go.onActionEndCheck = CheckTurnEnd; //유닛의 행동 종료됬는지 체크하는 함수연결
+
+                go.EnemyData.OnInit();
             }
             //보스 추가시 밑에 기능연결
             //if (SpaceSurvival_GameManager.Instance.IsBoss)
@@ -176,7 +178,7 @@ public class EnemyTurnObject : TurnBaseObject
         yield return null;
         WindowList.Instance.BattleMapClearUI.gameObject.SetActive(true);
         WindowList.Instance.BattleMapClearUI.SetRewordText();
-        battleMapEndAction.TestReset();
+       
     }
 
     /// <summary>
@@ -199,6 +201,17 @@ public class EnemyTurnObject : TurnBaseObject
     
     public override void TurnStartAction()
     {
+        // 첫로딩시 생성타이밍안맞음 
+        BattleMapEnemyBase enemyData;
+        foreach (var item in charcterList)
+        {
+            enemyData = (BattleMapEnemyBase)item;
+            enemyData.BattleUI.TrunActionStateChange(); //턴시작시 상태이상 들을 게이지 진행시킨다
+            enemyData.BattleUI.stmGaugeSetting(enemyData.EnemyData.Stamina, enemyData.EnemyData.MaxStamina);
+            enemyData.BattleUI.hpGaugeSetting(enemyData.EnemyData.HP, enemyData.EnemyData.MaxHp);
+        }
+
+
         StartCoroutine(TestC());
     }
     IEnumerator TestC() 

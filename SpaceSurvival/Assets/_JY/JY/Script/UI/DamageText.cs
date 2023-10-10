@@ -8,6 +8,7 @@ public class DamageText : MonoBehaviour
     public Color NormalColor;
     public Color Critical_Color;
     public Color LevelUp_Color;
+    public Color MissColor;
     TextMeshPro damageText;
     float timeElapse = 0;
     float moveSpeed = 2.0f;
@@ -36,6 +37,13 @@ public class DamageText : MonoBehaviour
             damageText.color = NormalColor;
         }
         damageText.text = $"{damage}";
+    }
+    public void SetTextMiss()
+    {
+        damageText.fontStyle = FontStyles.Normal;
+        damageText.fontSize = 7;
+        damageText.color = MissColor;
+        damageText.text = "Miss";
     }
     public void SetText_LevelUp()
     {

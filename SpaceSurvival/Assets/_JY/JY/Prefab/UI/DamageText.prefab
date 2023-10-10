@@ -188,3 +188,4 @@ MonoBehaviour:
   NormalColor: {r: 1, g: 1, b: 1, a: 1}
   Critical_Color: {r: 1, g: 0, b: 0, a: 1}
   LevelUp_Color: {r: 0.68412244, g: 1, b: 0, a: 1}
+  MissColor: {r: 1, g: 0.7311728, b: 0, a: 1}

@@ -11,9 +11,9 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
     /// </summary>
     public bool IsControll { get; set; }
 
-
-    ItemSpawner Spawner;
-
+    /// <summary>
+    /// 몬스터 정보 받아오기
+    /// </summary>
     Enemy_ enemyData;
     public Enemy_ EnemyData => enemyData;
 
@@ -54,7 +54,6 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
 
 
     public Func<Tile> GetCurrentTile { get; set ; }
-
     public Action<BattleMapEnemyBase> onDie;
 
     /// <summary>
@@ -110,7 +109,6 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
             }
             if (enemyData.HP < 0)
             {
-                GameManager.PlayerStatus.GetExp((uint)enemyData.EnemyExp);
                 Die();
                 ResetData();
             }
@@ -208,7 +206,7 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
 
         Vector3 targetPos = currentTile.transform.position; //길이없는경우 현재 타일위치 고정
                                                             //unitAnimator.SetBool(isWalkingHash, true); //이동애니메이션 재생 시작
-        onCameraTarget?.Invoke();   //이동할때 카메라 가져오기
+        //onCameraTarget?.Invoke();   //이동할때 카메라 가져오기
         yield return waitTime;
         
         //foreach (Tile tile in path) //몬스터 중복 방지 용으로 타일값 미리셋팅해서 체크하자 
@@ -252,6 +250,7 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
 
     void Die()
     {
+        GameManager.PlayerStatus.GetExp((uint)enemyData.EnemyExp);
         GameManager.Item_Spawner.SpawnItem(this);
         onDie?.Invoke(this);
     }

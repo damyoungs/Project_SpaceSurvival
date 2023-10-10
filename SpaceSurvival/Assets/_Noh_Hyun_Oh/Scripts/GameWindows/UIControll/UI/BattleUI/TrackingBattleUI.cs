@@ -162,9 +162,6 @@ public class TrackingBattleUI : Base_PoolObj
     /// </summary>
     private RectTransform stmRect;
 
-    private bool isHp_Change = false;
-    private bool isStm_Change = false;
-
     private float hp_UI_Value = 1.0f;   // 체력 게이지조절용 변수         현재 상태값
     private float stm_UI_Value = 1.0f;  // 스테미나 게이조절용 변수       현재 상태값
 
@@ -189,6 +186,11 @@ public class TrackingBattleUI : Base_PoolObj
 
 
     CanvasGroup cg;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    WaitForFixedUpdate uiGaugeSpeed = new();
 
     /// <summary>
     /// 초기값들을 셋팅해둔다 나중에 거리에따른 사이즈조절에 사용할값
@@ -227,20 +229,16 @@ public class TrackingBattleUI : Base_PoolObj
             //턴제라 실시간 처리는 배제하고 제작함. 공격한번에 1번만 수정되도록 호출이 필요
             //연타 도 1번의 데미지로 처리하도록 회복도 마찬가지
             change_HpValue = now/max;
-            if (!isHp_Change) 
-            {
-                hpChangeCoroutine = HP_GaugeSetting();
-                StartCoroutine(hpChangeCoroutine);
-            }
+            StopCoroutine(hpChangeCoroutine);
+            hpChangeCoroutine = HP_GaugeSetting();
+            StartCoroutine(hpChangeCoroutine);
 
         };
         stmGaugeSetting = (now, max) => {
             change_StmValue = now/max;
-            if (!isStm_Change)
-            {
-                stmChangeCoroutine = Stm_GaugeSetting();
-                StartCoroutine(stmChangeCoroutine);
-            }
+            StopCoroutine(stmChangeCoroutine);
+            stmChangeCoroutine = Stm_GaugeSetting();
+            StartCoroutine(stmChangeCoroutine);
         };
     }
 
@@ -275,44 +273,27 @@ public class TrackingBattleUI : Base_PoolObj
     }
     IEnumerator HP_GaugeSetting()
     {
-        isHp_Change = true; //코루틴 여러번 실행되는것을 방지하기위해 체크
         Vector2 tempVector = Vector2.zero; //rect transform 값변환시 사용할 변수
         if (change_HpValue > hp_UI_Value) //회복 
         {
             while (hp_UI_Value < change_HpValue) //들어온값보다 작으면 수치계속변경
             {
                 hp_UI_Value += Time.deltaTime * gaugeSpeed; //부드럽게~
-                tempVector = hpRect.anchorMax;              //rect transform Anchors 값의 max 쪽 
-                tempVector.x = hp_UI_Value;                 // 그중에 x 값을 줄이면 됨
-                hpRect.anchorMax = tempVector;              // right 수정용으로 받아오고 
-                hpRect.offsetMax = Vector2.zero;            // right 값 0으로 수정해서 이미지 이동시키기
-                yield return null;
+                RectUISetting(hpRect,hp_UI_Value);
+                yield return uiGaugeSpeed;
             }
-            hp_UI_Value = change_HpValue;                            // 프레임단위라 정확하지않으니 최종적으로 정확한값입력
-            tempVector = hpRect.anchorMax;
-            tempVector.x = hp_UI_Value;
-            hpRect.anchorMax = tempVector;
-            hpRect.offsetMax = Vector2.zero;
-
+            RectUISetting(hpRect,change_HpValue);
         }
         else if (change_HpValue < hp_UI_Value) //데미지  
         {
             while (hp_UI_Value > change_HpValue)
             {
                 hp_UI_Value -= Time.deltaTime * gaugeSpeed; //위와 동일한 기능 방향만 반대임
-                tempVector = hpRect.anchorMax;
-                tempVector.x = hp_UI_Value;
-                hpRect.anchorMax = tempVector;
-                hpRect.offsetMax = Vector2.zero;
-                yield return null;
+                RectUISetting(hpRect,hp_UI_Value);
+                yield return uiGaugeSpeed;
             }
-            hp_UI_Value = change_HpValue;                            // 프레임단위라 정확하지않으니 최종적으로 정확한값입력
-            tempVector = hpRect.anchorMax;
-            tempVector.x = hp_UI_Value;
-            hpRect.anchorMax = tempVector;
-            hpRect.offsetMax = Vector2.zero;
+            RectUISetting(hpRect,change_HpValue);
         }
-        isHp_Change = false;
     }
     /// <summary>
     /// 스테미나 UI 조절용 코루틴
@@ -320,45 +301,39 @@ public class TrackingBattleUI : Base_PoolObj
     /// <returns></returns>
     IEnumerator Stm_GaugeSetting()
     {
-        isStm_Change = true;
-        Vector2 tempVector = Vector2.zero; //rect transform 값변환시 사용할 변수
         if (change_StmValue > stm_UI_Value) //회복 
         {
             while (stm_UI_Value < change_StmValue) //들어온값보다 작으면 수치계속변경
             {
                 stm_UI_Value += Time.deltaTime * gaugeSpeed; //부드럽게~
-                tempVector = stmRect.anchorMax;              //rect transform Anchors 값의 max 쪽 
-                tempVector.x = stm_UI_Value;                 // 그중에 x 값을 줄이면 됨
-                stmRect.anchorMax = tempVector;              // right 수정용으로 받아오고 
-                stmRect.offsetMax = Vector2.zero;            // right 값 0으로 수정해서 이미지 이동시키기
-                yield return null;
+                RectUISetting(stmRect, stm_UI_Value);
+               yield return uiGaugeSpeed;
             }
-            stm_UI_Value = change_StmValue;                            // 프레임단위라 정확하지않으니 최종적으로 정확한값입력
-            tempVector = stmRect.anchorMax;
-            tempVector.x = stm_UI_Value;
-            stmRect.anchorMax = tempVector;
-            stmRect.offsetMax = Vector2.zero;
-
+            RectUISetting(stmRect, change_StmValue);
         }
         else if (change_StmValue < stm_UI_Value) //데미지  
         {
             while (stm_UI_Value > change_StmValue) 
             {
                 stm_UI_Value -= Time.deltaTime * gaugeSpeed; 
-                tempVector = stmRect.anchorMax;              
-                tempVector.x = stm_UI_Value;                 
-                stmRect.anchorMax = tempVector;              
-                stmRect.offsetMax = Vector2.zero;            
-                yield return null;
+                RectUISetting(stmRect, stm_UI_Value);
+                yield return uiGaugeSpeed;
             }
-            stm_UI_Value = change_StmValue;                            
-            tempVector = stmRect.anchorMax;
-            tempVector.x = stm_UI_Value;
-            stmRect.anchorMax = tempVector;
-            stmRect.offsetMax = Vector2.zero;
-
+            RectUISetting(stmRect, change_StmValue);
         }
-        isStm_Change = false;
+    }
+    /// <summary>
+    /// Gauge UI 를 조절하기위한 함수
+    /// </summary>
+    /// <param name="uiRect">조절될 RectTransform</param>
+    /// <param name="value">조절될 값</param>
+    private void RectUISetting(RectTransform uiRect,float value) 
+    {
+        Vector2 tempVector = Vector2.zero;          //rect transform 값변환시 사용할 변수
+        tempVector = uiRect.anchorMax;              //rect transform Anchors 값의 max 쪽 
+        tempVector.x = value;                       // 그중에 x 값을 줄이면 됨
+        uiRect.anchorMax = tempVector;              // right 수정용으로 받아오고 
+        uiRect.offsetMax = Vector2.zero;            // right 값 0으로 수정해서 이미지 이동시키기
     }
     /// <summary>
     /// 카메라와 플레이어간의 거리를 재서 추적형 UI 크기를 조절시키는 함수

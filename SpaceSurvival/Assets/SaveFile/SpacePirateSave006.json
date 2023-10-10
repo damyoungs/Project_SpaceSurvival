@@ -1,0 +1,111 @@
+{
+    "dataIndex": 6,
+    "stageClear": 7,
+    "startPos": {
+        "x": -19.106876373291017,
+        "y": 5.068654537200928,
+        "z": -32.722930908203128
+    },
+    "saveTime": "2023-10-09 오전 10:43:28",
+    "sceanName": 5,
+    "playerData": {
+        "abilityPoint": 10,
+        "playerName": "Player",
+        "level": 3,
+        "exp": 30,
+        "expMax": 72,
+        "base_MaxHP": 230.0,
+        "currentHP": 230.0,
+        "current_Stamina": 43.687992095947269,
+        "base_MaxStamina": 71.0,
+        "BaseDarkForce": 5000000,
+        "base_ATT": 10,
+        "base_DP": 10,
+        "base_STR": 5,
+        "base_INT": 5,
+        "base_LUK": 5,
+        "base_DEX": 55,
+        "baseCriticalPower": 1.7999999523162842,
+        "damage_Min": 0.5
+    },
+    "equipments_Data": {
+        "Total_STR": 50,
+        "Total_INT": 50,
+        "Total_LUK": 50,
+        "Total_DEX": 50,
+        "Total_CriticalRate": 0.0,
+        "Total_DodgeRate": 0.0,
+        "codes": [
+            0,
+            10,
+            0,
+            19
+        ],
+        "weapon_ItemLevel": 1,
+        "weapon_AttackPoint": 20,
+        "weapon_DefencePoint": 1,
+        "weapon_ItemName": "Rifle"
+    },
+    "equipSlotLength": 0,
+    "equipData": [],
+    "consumeSlotLength": 0,
+    "consumeData": [
+        {
+            "values": 1,
+            "itemIndex": 0,
+            "slotIndex": 0,
+            "itemEnhanceValue": 0
+        }
+    ],
+    "etcSlotLength": 0,
+    "etcData": [],
+    "craftSlotLength": 0,
+    "craftData": [
+        {
+            "values": 3,
+            "itemIndex": 23,
+            "slotIndex": 0,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 25,
+            "slotIndex": 1,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 31,
+            "slotIndex": 2,
+            "itemEnhanceValue": 0
+        }
+    ],
+    "skillDatas": [
+        {
+            "skillLevel": 1,
+            "bindingSlot": 1,
+            "skillType": 0
+        },
+        {
+            "skillLevel": 1,
+            "bindingSlot": 2,
+            "skillType": 1
+        },
+        {
+            "skillLevel": 1,
+            "bindingSlot": 3,
+            "skillType": 2
+        },
+        {
+            "skillLevel": 1,
+            "bindingSlot": 4,
+            "skillType": 3
+        },
+        {
+            "skillLevel": 1,
+            "bindingSlot": 5,
+            "skillType": 4
+        }
+    ],
+    "questList": []
+}
