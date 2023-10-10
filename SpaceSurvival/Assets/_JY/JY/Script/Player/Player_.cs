@@ -176,6 +176,7 @@ public class Player_ : MonoBehaviour, IBattle
     int isDead_Hash = Animator.StringToHash("IsDead");
 
     bool duringBuffSkill = false;
+    public bool isAlive => player_Status.Base_Status.CurrentHP > 0;
 
     private void Awake()
     {
@@ -436,15 +437,18 @@ public class Player_ : MonoBehaviour, IBattle
 
     public void Defence(float damage, bool isCritical)
     {
-        if (player_Status.IsDodge())
+        if (isAlive)
         {
-            GameManager.EffectPool.PopupMiss(transform);
-            return;
+            if (player_Status.IsDodge())
+            {
+                GameManager.EffectPool.PopupMiss(transform);
+                return;
+            }
+            anim.SetTrigger(get_Hit_Hash);
+            float final_Damage = Mathf.Clamp(damage - player_Status.DP, 1, float.MaxValue);
+            GameManager.PlayerStatus.Base_Status.CurrentHP -= final_Damage;
+            GameManager.EffectPool.GetObject(final_Damage, transform, isCritical);
         }
-        anim.SetTrigger(get_Hit_Hash);
-        float final_Damage = Mathf.Clamp(damage - player_Status.DP, 1, float.MaxValue) ;
-        GameManager.PlayerStatus.Base_Status.CurrentHP -= final_Damage;
-        GameManager.EffectPool.GetObject(final_Damage, transform, isCritical);
     }
 
 
