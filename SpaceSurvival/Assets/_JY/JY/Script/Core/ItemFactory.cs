@@ -73,7 +73,7 @@ static public class ItemFactory
     /// <param name="position">생성할 위치</param>
     /// <param name="randomNoise">노이즈 적용 여부</param>
     /// <returns></returns>
-    public static GameObject[] MakeItems(ItemCode code, uint count, Vector3 position, bool randomNoise = false)
+    public static GameObject[] MakeItems(ItemCode code, Vector3 position, uint count = 1 ,bool randomNoise = false)
     {
         GameObject[] itemObjs = new GameObject[count];
         for (int i = 0; i < count; i++)

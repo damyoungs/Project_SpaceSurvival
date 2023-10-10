@@ -2,11 +2,11 @@
     "dataIndex": 0,
     "stageClear": 0,
     "startPos": {
-        "x": -0.030762776732444764,
-        "y": 0.9833592176437378,
-        "z": 23.105804443359376
+        "x": 7.14971399307251,
+        "y": 0.15400001406669618,
+        "z": 29.172685623168947
     },
-    "saveTime": "2023-10-08 오후 7:11:59",
+    "saveTime": "2023-10-10 오전 11:10:57",
     "sceanName": 5,
     "playerData": {
         "abilityPoint": 50,
@@ -18,7 +18,7 @@
         "currentHP": 100.0,
         "current_Stamina": 15.0,
         "base_MaxStamina": 15.0,
-        "BaseDarkForce": 4969900,
+        "BaseDarkForce": 4956900,
         "base_ATT": 10,
         "base_DP": 10,
         "base_STR": 5,
@@ -37,27 +37,58 @@
         "Total_DodgeRate": 0.0,
         "codes": [
             0,
-            10,
+            0,
             0,
             0
         ],
-        "weapon_ItemLevel": 1,
-        "weapon_AttackPoint": 20,
-        "weapon_DefencePoint": 1,
-        "weapon_ItemName": "Rifle"
+        "weapon_ItemLevel": 0,
+        "weapon_AttackPoint": 0,
+        "weapon_DefencePoint": 0,
+        "weapon_ItemName": ""
     },
     "equipSlotLength": 0,
-    "equipData": [],
+    "equipData": [
+        {
+            "values": 1,
+            "itemIndex": 51,
+            "slotIndex": 0,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 46,
+            "slotIndex": 1,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 49,
+            "slotIndex": 2,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 10,
+            "slotIndex": 3,
+            "itemEnhanceValue": 1
+        },
+        {
+            "values": 1,
+            "itemIndex": 11,
+            "slotIndex": 4,
+            "itemEnhanceValue": 1
+        }
+    ],
     "consumeSlotLength": 0,
     "consumeData": [
         {
-            "values": 99,
+            "values": 100,
             "itemIndex": 1,
             "slotIndex": 0,
             "itemEnhanceValue": 0
         },
         {
-            "values": 99,
+            "values": 100,
             "itemIndex": 2,
             "slotIndex": 1,
             "itemEnhanceValue": 0
@@ -94,26 +125,5 @@
             "skillType": 4
         }
     ],
-    "questList": [
-        {
-            "questInfo": "클리어 조건",
-            "questIndex": 0,
-            "questType": 0,
-            "questState": 1,
-            "questIProgress": [
-                1,
-                2,
-                0
-            ]
-        },
-        {
-            "questInfo": "소형 부시기",
-            "questIndex": 1002,
-            "questType": 1,
-            "questState": 1,
-            "questIProgress": [
-                0
-            ]
-        }
-    ]
+    "questList": []
 }

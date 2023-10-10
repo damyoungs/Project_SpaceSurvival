@@ -78,7 +78,7 @@ public class TempSlot : Slot, IPointerClickHandler,IPointerDownHandler
                     dropPos = owner.transform.position + dropDir.normalized * owner.pickupRange;
                 }
 
-                ItemFactory.MakeItems(ItemData.code, ItemCount, dropPos, true);
+                ItemFactory.MakeItems(ItemData.code, dropPos, ItemCount, true);
                 ClearSlotItem();//ÀÓ½Ã½½·Ô ºñ¿ì±â
                 Close();//´Ý±â
             }
