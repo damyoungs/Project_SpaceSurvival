@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.InputSystem;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class Cho_PlayerMove : MonoBehaviour
 {
@@ -23,6 +26,8 @@ public class Cho_PlayerMove : MonoBehaviour
     public float rotateSensitiveX = 30.0f;
     public float rotateSensitiveY = 30.0f;
     public float gravity = 15.0f;
+    public float cameraCulling = 1.0f;
+    public CinemachineVirtualCamera virtualCamera;
 
     Vector3 moveDir = Vector3.zero;
     float curRotateY = 0.0f;
@@ -52,9 +57,12 @@ public class Cho_PlayerMove : MonoBehaviour
     public CinemachineVirtualCamera Cinemachine => cinemachine;
     Transform cam;
 
-
     readonly int Hash_Speed = Animator.StringToHash("Speed");
-    readonly int Hash_Jump = Animator.StringToHash("IsJump");
+    readonly int Hash_IsJump = Animator.StringToHash("IsJump");
+    readonly int Hash_InputX = Animator.StringToHash("InputX");
+    readonly int Hash_InputY = Animator.StringToHash("InputY");
+    readonly int Hash_IsRun = Animator.StringToHash("IsRun");
+    readonly int Hash_IsJumping = Animator.StringToHash("IsJumping");
 
     const float animatorWalkSpeed = 0.5f;
     const float animatorRunSpeed = 1.0f;
@@ -114,6 +122,18 @@ public class Cho_PlayerMove : MonoBehaviour
         controller.Move(Time.fixedDeltaTime * new Vector3(0.0f, moveDir.y, 0.0f));
     }
 
+    private void LateUpdate()
+    {
+        if ((cameraPos.position - virtualCamera.transform.position).sqrMagnitude < cameraCulling)
+        {
+            Camera.main.cullingMask = ~(1 << LayerMask.NameToLayer("Player"));
+        }
+        else
+        {
+            Camera.main.cullingMask = -1;
+        }
+    }
+
     private void OnMove(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
         Vector2 dir = context.ReadValue<Vector2>();
@@ -121,8 +141,12 @@ public class Cho_PlayerMove : MonoBehaviour
         moveDir.x = dir.x;
         moveDir.z = dir.y;
 
-        animator.SetFloat("InputX", dir.x);
-        animator.SetFloat("InputY", dir.y);
+        if (!isJumping)
+        {
+
+        animator.SetFloat(Hash_InputX, dir.x);
+        animator.SetFloat(Hash_InputY, dir.y);
+        }
 
         if (context.performed)
         {
@@ -152,7 +176,8 @@ public class Cho_PlayerMove : MonoBehaviour
         {
             moveDir.y = jumpHeight;
             isJumping = true;
-            animator.SetTrigger(Hash_Jump);
+            animator.SetTrigger(Hash_IsJump);
+            animator.SetBool(Hash_IsJumping, true);
             jumpCount++;
         }
     }
@@ -167,6 +192,7 @@ public class Cho_PlayerMove : MonoBehaviour
             {
                 State = PlayerState.Walk;
                 animator.SetFloat(Hash_Speed, animatorWalkSpeed);
+                animator.SetBool(Hash_IsRun, false);
             }
         }
         else
@@ -176,6 +202,7 @@ public class Cho_PlayerMove : MonoBehaviour
             {
                 State = PlayerState.Run;
                 animator.SetFloat(Hash_Speed, animatorRunSpeed);
+                animator.SetBool(Hash_IsRun, true);
             }
         }
     }
@@ -207,6 +234,10 @@ public class Cho_PlayerMove : MonoBehaviour
             {
                 moveDir.y = -0.01f;
             }
+            if (isJumping)
+            {
+                animator.SetBool(Hash_IsJumping, false);
+            }
             isJumping = false;
             jumpCount = 0;
             return true;
@@ -214,4 +245,13 @@ public class Cho_PlayerMove : MonoBehaviour
 
         return false;
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y + 0.25f * 0.5f, transform.position.z), 0.25f);
+    }
+
+#endif
 }
