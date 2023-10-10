@@ -21,7 +21,7 @@ public class Merchant_Manager : MonoBehaviour
     /// </summary>
     public bool isTalking = false;
 
-
+    int defaultBuyCount = 1;
 
     /// <summary>
     /// 마지막에 창을 열고있던 NPC 인덱스
@@ -182,27 +182,28 @@ public class Merchant_Manager : MonoBehaviour
         int forSize = equipItemsCount.Length;
         for (int i = 0; i < forSize; i++)
         {
-            equipItemsCount[i] = 100;
+            equipItemsCount[i] = defaultBuyCount;
         }
         consumeItemsCount = new int[consumeItems.Count];
         forSize = consumeItemsCount.Length;
+        int consumeSize = defaultBuyCount * 100;
         for (int i = 0; i < forSize; i++)
         {
-            consumeItemsCount[i] = 100;
+            consumeItemsCount[i] = consumeSize;
         }
 
         etcItemsCount= new int[etcItems.Count];
         forSize = etcItemsCount.Length;
         for (int i = 0; i < forSize; i++)
         {
-            etcItemsCount[i] = 100;
+            etcItemsCount[i] = defaultBuyCount;
         }
 
         craftItemsCount = new int[craftItems.Count];
         forSize = craftItemsCount.Length;
         for (int i = 0; i < forSize; i++)
         {
-            craftItemsCount[i] = 100;
+            craftItemsCount[i] = defaultBuyCount;
         }
 
     }
