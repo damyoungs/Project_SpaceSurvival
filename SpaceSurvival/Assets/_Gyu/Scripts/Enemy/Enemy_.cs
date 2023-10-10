@@ -16,7 +16,6 @@ public class Enemy_ : MonoBehaviour, IBattle
     int Moving = Animator.StringToHash("MoveSpeed");
 
     AudioSource Audio;
-    public AudioClip NoneAudio;
     public AudioClip RiffleAudio;
     public AudioClip SwordAudio;
     AudioClip SelectedAudio;
@@ -24,8 +23,6 @@ public class Enemy_ : MonoBehaviour, IBattle
     public Transform GrapPosition;
     public GameObject Riffle;
     public GameObject Sword;
-
-    ItemSpawner Spawner;
 
     public Monster_Type type = Monster_Type.Base;
     public Monster_Type mType
@@ -79,7 +76,7 @@ public class Enemy_ : MonoBehaviour, IBattle
             {
                 case WeaponType.None:
                     attackRange = 1;
-                    SelectedAudio = NoneAudio;
+                    SelectedAudio = Audio.clip;
                     break;
                 case WeaponType.Riffle:
                     Anima.runtimeAnimatorController = EnemyAc_Riffle;
