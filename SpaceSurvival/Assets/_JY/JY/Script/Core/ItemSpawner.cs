@@ -36,7 +36,7 @@ public class ItemSpawner : TestBase
     {
         yield return null;
         player = GameManager.Player_;
-        GetItem_For_Test();
+        //GetItem_For_Test();
         SetSkillData_For_Test();
     }
 
