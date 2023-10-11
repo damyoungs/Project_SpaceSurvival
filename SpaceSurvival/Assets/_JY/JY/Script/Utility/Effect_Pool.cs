@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -150,7 +151,6 @@ public class Effect_Pool : MonoBehaviour
     IEnumerator SetParent(Pooled_Obj obj)
     {
         yield return null;
-
         if(obj == null)
         {
             int i = 0;

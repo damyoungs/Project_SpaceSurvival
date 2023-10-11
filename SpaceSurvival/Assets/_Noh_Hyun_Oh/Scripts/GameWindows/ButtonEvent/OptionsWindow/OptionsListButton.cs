@@ -49,7 +49,7 @@ public class OptionsListButton : MonoBehaviour
 
     public void TitleAction()
     {
-        Debug.Log("옵션창에서 타이틀로 이동");
+        //Debug.Log("옵션창에서 타이틀로 이동");
         if (TurnManager.Instance.TurnIndex > 0) //배틀맵이면
         {
             SpaceSurvival_GameManager.Instance.BattleMapInitClass.TestReset();  //초기화 하기

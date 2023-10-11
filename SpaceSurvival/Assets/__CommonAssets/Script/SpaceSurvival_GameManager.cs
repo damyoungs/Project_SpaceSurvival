@@ -313,5 +313,24 @@ public class SpaceSurvival_GameManager : ChildComponentSingeton<SpaceSurvival_Ga
         return resultPath;
     }
 
+    /// <summary>
+    /// 인벤토리 및 옵션창 컨트롤 활성화
+    /// </summary>
+    public void OnUIControll()
+    {
+        InputSystemController.InputSystem.UI_Inven.Enable();
+        InputSystemController.InputSystem.Options.Enable();
 
+    }
+
+    /// <summary>
+    /// 인벤토리 및 옵션창 컨트롤 비활성화 
+    /// 기존 열려있는 창 모두닫기 
+    /// </summary>
+    public void OffUIControll()
+    {
+        InputSystemController.InputSystem.UI_Inven.Disable();
+        InputSystemController.InputSystem.Options.Disable();
+        WindowList.Instance.PopupSortManager.CloseAllWindow(); //열려있는 UI 창 모두닫기   
+    }
 }

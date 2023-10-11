@@ -664,6 +664,7 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
         canvasGroup.alpha = 1.0f;
         canvasGroup.blocksRaycasts = true;
         canvasGroup.interactable = true;
+        WindowList.Instance.PopupSortManager.PopupSortDataAppend(this);
     }
     void Close()
     {

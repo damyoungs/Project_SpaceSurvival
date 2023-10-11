@@ -374,6 +374,8 @@ public class AttackRange : MonoBehaviour
         //Debug.Log(mouseWheelValue);
     }
 
+   
+
     // --------------------------------------- 공격 범위 표시용 함수들-------------------
     /// <summary>
     /// 캐릭터 쪽에서 스킬을 누르거나 단축키로 스킬을 사용할때 발동하는 함수 
@@ -527,9 +529,9 @@ public class AttackRange : MonoBehaviour
     /// <returns>적이있으면 배열로반환 없으면 null반환</returns>
     public BattleMapEnemyBase[] GetEnemyArray(out SkillData skill)
     {
+        skill = currentSkill; 
         if (activeAttackTiles.Count > 0)
         {
-            skill = currentSkill; 
 
             BattleMapEnemyBase[] enemyArray = SpaceSurvival_GameManager.Instance.EnemyTeam; //배틀맵의 몹정보를 전부 들고 
 
@@ -551,8 +553,6 @@ public class AttackRange : MonoBehaviour
             }
             return resultEnemyList.ToArray();
         }
-        //여긴 공격할적이없을때 오는곳
-        skill  = currentSkill;  //기냥 초기화값
         return null;
     }
     public Tile[] GetEnemyArray() 
