@@ -379,9 +379,16 @@ public class Player_ : MonoBehaviour, IBattle
     {
         if (itemDescription.ItemData != null)
         {
-            audioSource.PlayOneShot(equip_Sound);
-            player_Status.Base_Status.Current_Stamina--;//다른 아이템 장착시  stamina 차감
-            onEquipItem?.Invoke(itemDescription.ItemData);
+            if (itemDescription.ItemData is ItemData_Equip)
+            {
+                audioSource.PlayOneShot(equip_Sound);
+                player_Status.Base_Status.Current_Stamina--;//다른 아이템 장착시  stamina 차감
+                onEquipItem?.Invoke(itemDescription.ItemData);
+            }
+            else
+            {
+                return;
+            }
         }
         else if (EquipBox_Description.ItemData != null)
         {

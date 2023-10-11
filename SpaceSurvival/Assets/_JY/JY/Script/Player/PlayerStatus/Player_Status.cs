@@ -803,7 +803,7 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , 장비장착, 버프�
     }
      public void Recovery_HP(int recoveryValue, float duration)
     {
-        base_Status.Current_Stamina--;// stamina 차감
+       // base_Status.Current_Stamina--;// stamina 차감
         StartCoroutine(Recovery_HP_(recoveryValue, duration));
     }
     
