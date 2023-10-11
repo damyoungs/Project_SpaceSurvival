@@ -92,4 +92,19 @@ public class Cho_SceneLoading : MonoBehaviour
     {
         return SpaceSurvival_GameManager.Instance.StageClear == StageList.All;
     }
+
+
+    // z버튼은 무엇인가
+    // e, u, k종료버튼 안됨
+    // 마을로 돌아가는 법
+    // 대화 종료시 자동으로 커서 안보이게 만들기
+    // 포탈이동시 ui없애기
+    // 포탈 돌아올 때 카메라 순위 지정
+    // 시작시 클릭 소리 끄기
+    // 마을에서 아무 상호작용 없을 때 f누르면 커서 나오는 것
+    // 점프에 소리 넣기
+
+
+    // 전투 끝났을 때 ui 손보기
+    // 대화시 npc 애니메이션 변경
 }

@@ -56,7 +56,6 @@ public class Cho_PlayerMove : MonoBehaviour
 
     CinemachineVirtualCamera cinemachine;
     public CinemachineVirtualCamera Cinemachine => cinemachine;
-    Transform cam;
     AudioSource audioSource;
 
     readonly int Hash_Speed = Animator.StringToHash("Speed");
@@ -78,7 +77,6 @@ public class Cho_PlayerMove : MonoBehaviour
         cameraPos = transform.GetChild(21);
         controller = GetComponent<CharacterController>();
         cinemachine = GetComponentInChildren<CinemachineVirtualCamera>();
-        cam = GetComponentInChildren<Camera>().transform;
         audioSource = GetComponent<AudioSource>();
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -205,7 +203,7 @@ public class Cho_PlayerMove : MonoBehaviour
             if (State == PlayerState.Walk)
             {
                 State = PlayerState.Run;
-                audioSource.pitch = 1.5f;
+                audioSource.pitch = 2.0f;
                 animator.SetFloat(Hash_Speed, animatorRunSpeed);
                 animator.SetBool(Hash_IsRun, true);
             }
@@ -227,7 +225,6 @@ public class Cho_PlayerMove : MonoBehaviour
         curRotateY -= rotateY;
         curRotateY = Mathf.Clamp(curRotateY, -60.0f, 60.0f);
         cameraPos.rotation = Quaternion.Euler(curRotateY, cameraPos.eulerAngles.y, cameraPos.eulerAngles.z);
-        //cam.rotation = Quaternion.Euler(curRotateY, cam.eulerAngles.y, cam.eulerAngles.z);
     }
 
     private bool IsGrounded()
