@@ -143,7 +143,7 @@ public class BattleMapPlayerBase : Base_PoolObj, ICharcterBase
                 BattleUI.stmGaugeSetting(stmValue, playerData.Base_MaxStamina); //소모된 행동력 표시
             }
             onMoveRangeClear?.Invoke(currentTile, currentMoveSize);
-            if (stmValue < 1.0f) //최소행동값? 보다 낮으면 
+            if (TurnManager.Instance.TurnIndex > 0 &&  stmValue < 1.0f) //최소행동값? 보다 낮으면 
             {
                 TurnManager.Instance.CurrentTurn.TurnEndAction();//턴종료 
             }

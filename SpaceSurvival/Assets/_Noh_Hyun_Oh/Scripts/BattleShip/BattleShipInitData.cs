@@ -31,6 +31,7 @@ public class BattleShipInitData : MonoBehaviour
         InputSystemController.InputSystem.UI_Inven.StateKey.performed += OnCursorOn;
         InputSystemController.InputSystem.UI_Inven.SkillBox_Open.performed += OnCursorOn;
         InputSystemController.InputSystem.UI_Inven.EquipBox_Open.performed += OnCursorOn;
+        InputSystemController.InputSystem.UI_Inven.Status_Open.performed += OnCursorOn;
         InputSystemController.InputSystem.Options.Options.performed += OnCursorOn;
         InputSystemController.InputSystem.Player.Action.performed += OnCursorOn;
 
@@ -59,8 +60,8 @@ public class BattleShipInitData : MonoBehaviour
         if (Cursor.lockState == CursorLockMode.Locked)
         {
             Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
         }
+        Cursor.visible = true;
     }
 
     private void EscClick(InputAction.CallbackContext context)
@@ -68,8 +69,8 @@ public class BattleShipInitData : MonoBehaviour
         if (Cursor.lockState == CursorLockMode.None)
         {
             Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
         }
+        Cursor.visible = false;
         
         questManager.QuestUIManager.initialize();
         merchantManager.NpcTalkController.ResetData();
@@ -78,6 +79,7 @@ public class BattleShipInitData : MonoBehaviour
     private void OnDisable()
     {
         InputSystemController.InputSystem.Player.Action.performed -= OnCursorOn;
+        InputSystemController.InputSystem.UI_Inven.Status_Open.performed -= OnCursorOn;
         InputSystemController.InputSystem.UI_Inven.EquipBox_Open.performed -= OnCursorOn;
         InputSystemController.InputSystem.UI_Inven.StateKey.performed -= OnCursorOn;
         InputSystemController.InputSystem.UI_Inven.SkillBox_Open.performed -= OnCursorOn;
