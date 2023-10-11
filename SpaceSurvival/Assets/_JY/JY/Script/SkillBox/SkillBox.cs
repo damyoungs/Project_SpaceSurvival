@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 [Serializable]
 public class Save_SkillData
@@ -21,6 +22,7 @@ public class Save_SkillData
 public class SkillBox : MonoBehaviour, IPopupSortWindow
 {
     CanvasGroup canvasGroup;
+    Button closeButton;
     TextMeshProUGUI darkForce_Text;
 
     SkillData[] skillDatas;
@@ -31,6 +33,8 @@ public class SkillBox : MonoBehaviour, IPopupSortWindow
     private void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
+        closeButton = transform.GetChild(0).GetChild(0).GetComponent<Button>();
+        closeButton.onClick.AddListener(Close);
         darkForce_Text = transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
         skillDatas = new SkillData[5];
         int i = 0; 

@@ -310,17 +310,17 @@ public class Player_ : MonoBehaviour, IBattle
     }
 
   
-    private void On_MouseClickRight()
-    {
-        Attack();
-    }
+    //private void On_MouseClickRight()
+    //{
+    //    Attack();
+    //}
 
     private void Start()
     {
         InputSystemController.Instance.OnUI_Inven_ItemPickUp += ItemPickUp;
         InputSystemController.Instance.OnUI_Inven_DoubleClick += On_DoubleClick;
         InputSystemController.Instance.OnUI_Inven_Inven_Open += OpenInven;
-        InputSystemController.Instance.OnUI_Inven_MouseClickRight += On_MouseClickRight;
+       // InputSystemController.Instance.OnUI_Inven_MouseClickRight += On_MouseClickRight;
 
         skill_Description = FindObjectOfType<SkillBox_Description>();
         player_Status = GameManager.PlayerStatus;
@@ -427,12 +427,12 @@ public class Player_ : MonoBehaviour, IBattle
     public void Attack_Enemy(IBattle target)
     {
 
-        Attack();
-        float damage = player_Status.ATT;
-        if (target != null)
-        {
-            target.Defence(damage);
-        }
+        //Attack();
+        //float damage = player_Status.ATT;
+        //if (target != null)
+        //{
+        //    target.Defence(damage);
+        //}
     }
 
     public void Defence(float damage, bool isCritical)

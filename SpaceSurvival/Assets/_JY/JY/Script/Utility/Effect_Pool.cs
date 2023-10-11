@@ -151,15 +151,15 @@ public class Effect_Pool : MonoBehaviour
     IEnumerator SetParent(Pooled_Obj obj)
     {
         yield return null;
-        if (obj == null) 
+        if(obj == null)
         {
-            Debug.Log(obj);
+            int i = 0;
         }
-        if (parents[obj.poolIndex] == null) 
+        if(parents[obj.poolIndex] == null)
         {
-            Debug.Log(parents);
+            int i = 0;
         }
-            obj.transform.SetParent(parents[obj.poolIndex].transform);
+        obj.transform.SetParent(parents[obj.poolIndex].transform);
     }
     void GenerateObject()
     {
