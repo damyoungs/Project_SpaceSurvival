@@ -49,23 +49,27 @@ public class Cho_SceneLoading : MonoBehaviour
 
     private void Warp()
     {
+        player.Controller.enabled = false;
+        player.transform.position = shortRay.transform.position;
+        player.Controller.enabled = true;
         // 배틀끝나면 돌아올 위치값셋팅
         SpaceSurvival_GameManager.Instance.ShipStartPos = player.transform.position;
-       //player.transform.position = shortRay.transform.position;
         StartCoroutine(WarpCoroutine());
     }
 
     // 수정 해야됨 + 인풋키 락 걸어야함
     IEnumerator WarpCoroutine()
     {
+        player.InputActions.Disable();
         player.Cinemachine.Priority = 20;
         audioSource.Play();
         shortRay.Stop();
         longRay.Play();
         yield return new WaitForSeconds(3.0f);
+        player.InputActions.Enable();
         player.Cinemachine.Priority = -10;
-        shortRay.Play();
-        longRay.Stop();
+        //shortRay.Play();
+        //longRay.Stop();
 
         //스테이지 관련 셋팅 
         SpaceSurvival_GameManager.Instance.CurrentStage = currentStage; //이동할 스테이지 셋팅
@@ -73,7 +77,7 @@ public class Cho_SceneLoading : MonoBehaviour
     }
 
     /// <summary>
-    /// 해당 함수 실행시켜서 해당 스테이지가 클리어 됬는지 체크한다 .
+    /// 해당 함수 실행시켜서 해당 스테이지가 클리어 됬는지 체크한다.
     /// </summary>
     /// <returns></returns>
     private bool IsStageClear()

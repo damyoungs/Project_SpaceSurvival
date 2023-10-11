@@ -48,6 +48,7 @@ public class Cho_PlayerMove : MonoBehaviour
     }
 
     InputKeyMouse inputActions;
+    public InputKeyMouse InputActions => inputActions;
     Animator animator;
     Transform cameraPos;
     CharacterController controller;

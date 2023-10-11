@@ -1529,6 +1529,8 @@ MonoBehaviour:
   rotateSensitiveX: 15
   rotateSensitiveY: 15
   gravity: 9.81
+  cameraCulling: 1
+  virtualCamera: {fileID: 0}
 --- !u!1 &390207569
 GameObject:
   m_ObjectHideFlags: 0
@@ -4625,7 +4627,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!136 &1222375672
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4677,6 +4679,8 @@ MonoBehaviour:
   rotateSensitiveX: 15
   rotateSensitiveY: 15
   gravity: 15
+  cameraCulling: 1
+  virtualCamera: {fileID: 0}
 --- !u!95 &1222375675
 Animator:
   serializedVersion: 5
