@@ -57,7 +57,7 @@ public class QuickSlot : MonoBehaviour, IPointerEnterHandler, IPointerMoveHandle
         get => itemData;
         set
         {
-            //if (itemData != value) 
+            //if (itemData != value)// 조건 삭제시 인벤토리 -> 퀵슬롯 설정할때 델리게이트 중복 등록
             //{
                 itemData = value;
                 Refresh_Icon();
