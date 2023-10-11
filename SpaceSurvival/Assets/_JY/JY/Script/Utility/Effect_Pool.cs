@@ -150,6 +150,7 @@ public class Effect_Pool : MonoBehaviour
     IEnumerator SetParent(Pooled_Obj obj)
     {
         yield return null;
+        new WaitForSeconds(1.0f);
         obj.transform.SetParent(parents[obj.poolIndex].transform);
     }
     void GenerateObject()

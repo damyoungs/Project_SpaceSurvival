@@ -219,7 +219,7 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
             float timeElaspad = 0.0f;
             enemyData.Move();
             targetPos = tile.transform.position; //새로운 위치잡고 
-            transform.rotation = Quaternion.LookRotation(targetPos - transform.position); //해당방향 바라보고 
+            transform.GetChild(0).transform.rotation = Quaternion.LookRotation(targetPos - transform.position); //해당방향 바라보고 
             this.currentTile.ExistType = Tile.TileExistType.None;
             //Debug.Log($"{this.currentTile.Index}타일 오브젝트 이동중에 타일 데이터일단 move로변경");
             this.currentTile = tile;
