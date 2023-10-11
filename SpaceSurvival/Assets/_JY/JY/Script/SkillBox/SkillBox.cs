@@ -66,6 +66,7 @@ public class SkillBox : MonoBehaviour, IPopupSortWindow
         canvasGroup.alpha = 1.0f;
         canvasGroup.blocksRaycasts = true;
         canvasGroup.interactable = true;
+        WindowList.Instance.PopupSortManager.PopupSortDataAppend(this);
     }
     public void Close()
     {

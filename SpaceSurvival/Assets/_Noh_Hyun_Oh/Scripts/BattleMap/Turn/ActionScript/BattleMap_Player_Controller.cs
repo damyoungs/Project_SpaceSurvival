@@ -102,7 +102,7 @@ public class BattleMap_Player_Controller : MonoBehaviour
         }
         else if (!playerTurnObject.IsTurn)  
         {
-            Debug.Log($"턴아니라고 그만클릭해 {playerTurnObject.IsTurn}");
+            //Debug.Log($"턴아니라고 그만클릭해 {playerTurnObject.IsTurn}");
             return;
         }
         //else if (EventSystem.current.IsPointerOverGameObject())//포인터가 UI 위에 Mouse Over된 경우 return;
@@ -162,6 +162,7 @@ public class BattleMap_Player_Controller : MonoBehaviour
     private void OnTileClick(RaycastHit hitInfo) 
     {
         Tile targetTile = hitInfo.transform.GetComponent<Tile>();
+
         if (targetTile != null) //타일이 클릭 됬을경우 
         {
             switch (targetTile.ExistType) //타일 상태확인하고 
