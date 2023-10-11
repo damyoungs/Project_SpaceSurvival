@@ -17,10 +17,12 @@ MonoBehaviour:
   title: "\uD074\uB9AC\uC5B4 \uC870\uAC74"
   description: "\uD551\uD06C \uD06C\uB9AC\uC2A4\uD0C8 \uB808\uB4DC \uD06C\uB9AC\uC2A4\uD0C8
     \uC610\uB85C \uD06C\uB9AC\uC2A4\uD0C8 \uBAA8\uC73C\uAE30"
-  clearObjectives: "\uD06C\uB9AC\uC2A4\uD0C8\uC744 3\uAC1C\uBAA8\uC544\uC640\uB77C"
+  clearObjectives: "\uAC01\uAC01 \uC758 \uD06C\uB9AC\uC2A4\uD0C8\uC744 1\uAC1C\uC529
+    \uBAA8\uC544\uC640\uB77C"
   rewardCoin: 0
   rewardItem: 11000000
   itemCount: 01000000
   requestItem: 17000000190000001f000000
   questMosters: 
   requiredCount: 010000000100000001000000
+  currentCount: 000000000000000000000000
