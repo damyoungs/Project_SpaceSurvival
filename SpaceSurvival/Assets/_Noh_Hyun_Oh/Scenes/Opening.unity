@@ -12374,11 +12374,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7f4c68f2791de8a4886855be55e20684, type: 2}
   - {fileID: 11400000, guid: 0327676148ba171488b35451fc6e386c, type: 2}
   - {fileID: 11400000, guid: ef4668a916cfa7f48b5b1c45a5f5f918, type: 2}
-  - {fileID: 11400000, guid: 0327676148ba171488b35451fc6e386c, type: 2}
-  - {fileID: 11400000, guid: ef4668a916cfa7f48b5b1c45a5f5f918, type: 2}
   originGatheringQuestArray:
   - {fileID: 11400000, guid: 4f24620786208bb40ab7824b14d59361, type: 2}
-  - {fileID: 11400000, guid: 91d516b5831ad90448277800252de3de, type: 2}
   - {fileID: 11400000, guid: 91d516b5831ad90448277800252de3de, type: 2}
 --- !u!1 &1564391557
 GameObject:

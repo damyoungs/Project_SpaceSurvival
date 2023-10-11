@@ -88,6 +88,7 @@ public class EnemyTurnObject : TurnBaseObject
                     go.EnemyData.wType = go.EnemyData.wType;
                 go.EnemyData.mType = go.EnemyData.mType;
 
+                go.EnemyData.HP = go.EnemyData.MaxHp;
 
                 go.GetCurrentTile = () => (SpaceSurvival_GameManager.Instance.MoveRange.GetRandomTile(Tile.TileExistType.Monster)); //데이터 연결 
                 go.transform.position = go.CurrentTile.transform.position; //셋팅된 타일위치로 이동시킨다.
@@ -112,7 +113,7 @@ public class EnemyTurnObject : TurnBaseObject
                     
                     if (charcterList.Count < 1)
                     {
-                        Debug.Log("유닛전멸 마을로이동하든 뭘하든 처리");
+                        //Debug.Log("유닛전멸 마을로이동하든 뭘하든 처리");
                         //기존 작업중인것들 코루틴들이 전부 실행다된후에 초기화 로직이 실행되야한다.
                         StopAllCoroutines();
                         StartCoroutine(BattleMapEnd()) ;
@@ -189,7 +190,7 @@ public class EnemyTurnObject : TurnBaseObject
         turnEndCheckValue++;
         if (turnEndCheckValue == charcterList.Count) //모든 행동이끝났으면 
         {
-            Debug.Log($"적군턴끝 행동력 :{TurnActionValue}");
+            //Debug.Log($"적군턴끝 행동력 :{TurnActionValue}");
             turnEndCheckValue = 0;  // 체크끝났으니 초기화 
             TurnEndAction();    //턴종료
         }

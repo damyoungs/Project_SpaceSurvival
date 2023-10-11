@@ -55,7 +55,7 @@ public class Cho_PlayerMove : MonoBehaviour
 
     CinemachineVirtualCamera cinemachine;
     public CinemachineVirtualCamera Cinemachine => cinemachine;
-    Transform cam;
+    //Transform cam;
 
     readonly int Hash_Speed = Animator.StringToHash("Speed");
     readonly int Hash_IsJump = Animator.StringToHash("IsJump");
@@ -76,7 +76,7 @@ public class Cho_PlayerMove : MonoBehaviour
         cameraPos = transform.GetChild(21);
         controller = GetComponent<CharacterController>();
         cinemachine = GetComponentInChildren<CinemachineVirtualCamera>();
-        cam = GetComponentInChildren<Camera>().transform;
+        //cam = GetComponentInChildren<Camera>().transform;
         Cursor.lockState = CursorLockMode.Locked;
     }
 

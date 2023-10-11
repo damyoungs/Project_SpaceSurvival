@@ -260,7 +260,7 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
     /// </summary>
     public IEnumerator CharcterAttack(Tile attackTile)
     {
-        Debug.Log($"{enemyData.name} - {enemyData.wType} - {enemyData.mType} - {enemyData.AttackPower}");
+        //Debug.Log($"{enemyData.name} - {enemyData.wType} - {enemyData.mType} - {enemyData.AttackPower}");
         transform.rotation = Quaternion.LookRotation(attackTile.transform.position - transform.position);
         enemyData.Attack_Enemy(SpaceSurvival_GameManager.Instance.PlayerTeam[0].CharcterData);
         yield return waitTime; //공격 애니메이션 끝날때까지 기다려주는것도 좋을거같다.

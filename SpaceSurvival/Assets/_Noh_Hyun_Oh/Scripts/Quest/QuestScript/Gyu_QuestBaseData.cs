@@ -157,15 +157,14 @@ public class Gyu_QuestBaseData : ScriptableObject
     /// 퀘스트 만들때 중복된 아이템을 가져오라고 하면 버그가발생할것이다
     /// </summary>
     /// <param name="requestItemCode">아이템코드</param>
-    /// <param name="addCount">증가될 카운트 갯수</param>
-    public void SetCounting( int addCount, ItemCode requestItemCode) 
+    /// <param name="requestItemCount">현재 수집한 아이템 갯수</param>
+    public void SetCounting( int requestItemCount, ItemCode requestItemCode) 
     {
         for (int i = 0; i < requestItem.Length; i++)
         {
             if (requestItem[i] == requestItemCode) 
             {
-                
-                currentCount[i] = addCount;
+                currentCount[i] = requestItemCount;
                 break;
             }
         }

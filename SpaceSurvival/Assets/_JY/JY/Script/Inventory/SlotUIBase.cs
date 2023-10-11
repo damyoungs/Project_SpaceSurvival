@@ -59,8 +59,8 @@ public class SlotUI_Base : MonoBehaviour
                 {
                     onItemCountChange?.Invoke(BindingSlot, itemData);
                 }
-                ItemData.ItemCountBinding((int)itemCount);
             }
+            ItemData.ItemCountBinding((int)itemCount);
         }
     }
     protected virtual void Awake()

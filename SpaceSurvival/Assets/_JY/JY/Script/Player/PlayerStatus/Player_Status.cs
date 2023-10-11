@@ -768,13 +768,13 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , 장비장착, 버프�
             result = true;
             float finalDamage = GetFinalDamage((this.ATT * skillData.SkillPower) * CriticalPower);
             skillData.FinalDamage = finalDamage;
-            Debug.Log($"크리티컬O : {finalDamage}");
+            //Debug.Log($"크리티컬O : {finalDamage}");
         }
         else
         {
             float finalDamage = GetFinalDamage(this.ATT * skillData.SkillPower);
             skillData.FinalDamage = finalDamage;
-            Debug.Log($"크리티컬X : {finalDamage}");
+            //Debug.Log($"크리티컬X : {finalDamage}");
 
         }
         return result;
