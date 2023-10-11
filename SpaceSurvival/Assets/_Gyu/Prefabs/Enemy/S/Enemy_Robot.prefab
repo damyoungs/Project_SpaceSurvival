@@ -5446,7 +5446,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyAc_Riffle: {fileID: 22100000, guid: 1bc791cd14fe5dd46bab51c792d57ade, type: 2}
   EnemyAc_Sword: {fileID: 22100000, guid: 792134d6a0db9b04c988b74a300740eb, type: 2}
-  NoneAudio: {fileID: 8300000, guid: 7031add1622676c45940b624bacd0504, type: 3}
   RiffleAudio: {fileID: 8300000, guid: 0d99fb3df0b34e245a023f17ad24d075, type: 3}
   SwordAudio: {fileID: 8300000, guid: bc7f96c1b32f2cd458cd614e609f3d80, type: 3}
   GrapPosition: {fileID: 2548073443878094335}
@@ -5465,7 +5464,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 7031add1622676c45940b624bacd0504, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

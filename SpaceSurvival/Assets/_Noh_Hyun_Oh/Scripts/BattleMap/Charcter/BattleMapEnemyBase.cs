@@ -262,6 +262,8 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
     {
         //Debug.Log($"{enemyData.name} - {enemyData.wType} - {enemyData.mType} - {enemyData.AttackPower}");
         transform.rotation = Quaternion.LookRotation(attackTile.transform.position - transform.position);
+        if(enemyData.wType == Enemy_.WeaponType.Riffle && enemyData.mType != Monster_Type.Size_L)
+            GameManager.EffectPool.GetObject(SkillType.Penetrate, attackTile.transform.position);
         enemyData.Attack_Enemy(SpaceSurvival_GameManager.Instance.PlayerTeam[0].CharcterData);
         yield return waitTime; //공격 애니메이션 끝날때까지 기다려주는것도 좋을거같다.
     }
