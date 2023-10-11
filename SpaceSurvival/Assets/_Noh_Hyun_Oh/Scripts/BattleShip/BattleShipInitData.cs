@@ -66,12 +66,14 @@ public class BattleShipInitData : MonoBehaviour
 
     private void EscClick(InputAction.CallbackContext context)
     {
-        if (Cursor.lockState == CursorLockMode.None)
+        if (WindowList.Instance.PopupSortManager.PopupLList.Count < 1) 
         {
-            Cursor.lockState = CursorLockMode.Locked;
+            if (Cursor.lockState == CursorLockMode.None)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+            Cursor.visible = false;
         }
-        Cursor.visible = false;
-        
         questManager.QuestUIManager.initialize();
         merchantManager.NpcTalkController.ResetData();
     }

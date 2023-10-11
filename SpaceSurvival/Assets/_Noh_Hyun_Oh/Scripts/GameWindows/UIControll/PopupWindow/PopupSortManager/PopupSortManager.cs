@@ -12,8 +12,11 @@ using UnityEngine;
 /// <typeparam name="T">팝업창 공통 된내용</typeparam>
 public class PopupSortManager : MonoBehaviour  
 {
-    LinkedList<IPopupSortWindow> popupLList;
 
+    LinkedList<IPopupSortWindow> popupLList;
+    public LinkedList<IPopupSortWindow> PopupLList => popupLList;
+
+    
     IPopupSortWindow[]  popupArray; //창의 갯수는 정해져있음으로 배열로 선언
 
     public void Awake() 
@@ -85,6 +88,8 @@ public class PopupSortManager : MonoBehaviour
     {
         popupLList.Remove(target);
     }
+
+
 
 
     /// <summary>
