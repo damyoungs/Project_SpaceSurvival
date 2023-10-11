@@ -261,7 +261,7 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
     public IEnumerator CharcterAttack(Tile attackTile)
     {
         //Debug.Log($"{enemyData.name} - {enemyData.wType} - {enemyData.mType} - {enemyData.AttackPower}");
-        transform.rotation = Quaternion.LookRotation(attackTile.transform.position - transform.position);
+        transform.GetChild(0).transform.rotation = Quaternion.LookRotation(attackTile.transform.position - transform.position);
         if(enemyData.wType == Enemy_.WeaponType.Riffle && enemyData.mType != Monster_Type.Size_L)
             GameManager.EffectPool.GetObject(SkillType.Penetrate, attackTile.transform.position);
         enemyData.Attack_Enemy(SpaceSurvival_GameManager.Instance.PlayerTeam[0].CharcterData);
