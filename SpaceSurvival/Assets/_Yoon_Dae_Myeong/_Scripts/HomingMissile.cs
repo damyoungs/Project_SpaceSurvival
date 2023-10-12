@@ -25,11 +25,11 @@ public class HomingMissile : MonoBehaviour
        
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other . CompareTag ( "Ship" ))
-        {
-            Destroy ( this,0.1f );
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    //if (other . CompareTag ( "Ship" ))
+    //    //{
+    //        Destroy ( this,0.1f );
+    //    //}
+    //}
 }

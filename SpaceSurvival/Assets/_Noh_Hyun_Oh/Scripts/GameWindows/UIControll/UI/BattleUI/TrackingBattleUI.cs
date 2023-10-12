@@ -20,13 +20,13 @@ public class TrackingBattleUI : Base_PoolObj
     /// 추적할 유닛
     /// </summary>
     [SerializeField]
-    private Transform player = null;
-    public Transform Player
+    private Transform followTarget = null;
+    public Transform FollowTarget
     {
-        get => player;
+        get => followTarget;
         set
         {
-            player = value;
+            followTarget = value;
         }
 
     }
@@ -47,6 +47,12 @@ public class TrackingBattleUI : Base_PoolObj
     /// 카메라와의 거리 최대값 이거리 이상이 되면 안보여줘야된다
     /// </summary>
     float maxDirection = 20.0f;
+
+    /// <summary>
+    /// 카메라 타겟위치에서 Y 값으로 얼마나 떨어질지에대한 값 screen좌표 이다 x , y 
+    /// </summary>
+    [SerializeField]
+    float uiDir = 30.0f;
 
     /// <summary>
     /// 카메라와 캐릭터간의 기본거리값 카메라가 타겟팅으로 잡고있는 캐릭터간의 거리 
@@ -348,10 +354,10 @@ public class TrackingBattleUI : Base_PoolObj
     /// </summary>
     private void SetTrackingUI()
     {
-        if (Player != null ) //플레이어가 있을경우만 실행
+        if (FollowTarget != null ) //플레이어가 있을경우만 실행
         {
-            Vector3 playerPosition = mainCamera.WorldToScreenPoint(Player.position); //플레이어 스크린좌표를 읽어온다.
-            playerPosition.y += 100.0f; //캐릭터위치정중앙에서 살짝위로 
+            Vector3 playerPosition = mainCamera.WorldToScreenPoint(FollowTarget.position); //플레이어 스크린좌표를 읽어온다.
+            playerPosition.y += uiDir; //캐릭터위치정중앙에서 살짝위로 
             transform.position = playerPosition; //주적할 오브젝트의 위치를 쫒아간다.
             
 #if UNITY_EDITOR
@@ -482,7 +488,7 @@ public class TrackingBattleUI : Base_PoolObj
         releaseStatus = null;
         //거리재기위한 카메라와 기준점이될 플레이어 참조를 해제 
         //mainCamera = null;
-        Player = null;
+        FollowTarget = null;
         for (int i = 0; i < StateSize; i++) //상태이상 내용을 전부
         {
             if (states[i] != null) //값이 들어 있는것들 찾아서

@@ -20,6 +20,10 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
     public virtual bool IsMoveCheck { get; }
 
     /// <summary>
+    /// UI 가 따라다닐 위치
+    /// </summary>
+    Transform cameraTarget;
+    /// <summary>
     /// 추적형 UI 
     /// </summary>
     private TrackingBattleUI battleUI = null;
@@ -92,7 +96,7 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
     protected override void Awake()
     {
         base.Awake();
-
+        cameraTarget = transform.GetChild(transform.childCount - 1);
         enemyData = GetComponentInChildren<Enemy_>();
         enemyData.on_Enemy_Stamina_Change += (stmValue) =>
         {
@@ -146,7 +150,7 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
             battleUI.gameObject.name = $"{name} _ Tracking"; //이름확인용
             battleUI.transform.SetParent(battleUICanvas);//풀은 캔버스 밑에없기때문에 배틀맵UI만 관리할 캔버스 위치 밑으로 이동시킨다.
             battleUI.gameObject.SetActive(true); //활성화 시킨다.
-            battleUI.Player = transform.GetChild(0);     //UI 는 유닛과 1:1 매치가 되있어야 됨으로 담아둔다.
+            battleUI.FollowTarget = cameraTarget;     //UI 는 유닛과 1:1 매치가 되있어야 됨으로 담아둔다.
         }
     }
 

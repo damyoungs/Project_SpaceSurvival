@@ -171,6 +171,11 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
     /// </summary>
     CanvasGroup cg;
 
+    /// <summary>
+    /// 메인 퀘스트 완료시 게임클리어 됬다고 알려주는 델리게이트 
+    /// </summary>
+    public Action OnGameClear;
+
     private void Awake()
     {
         cg = GetComponent<CanvasGroup>();
@@ -227,8 +232,11 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
 
         initialize();
     }
+
     private void Start()
     {
+        OnGameClear = WindowList.Instance.EndingCutImageFunc.EndingCutScene;
+
         InputSystemController.InputSystem.Options.Quest.performed += (_) => {
             //현재진행중인 퀘스트를 어디에 저장할지 정한뒤에 가져오는 로직 추가해야됨 
             //Gyu_QuestBaseData questData  =  questManager.Player.CurrentQuests[0];
@@ -449,7 +457,7 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
             selectedColum.Quest_State = Quest_State.Quest_Complete;
             if (selectedColum.ThisQuestData.QuestType == QuestType.Story) 
             {
-                EndingScene();
+                OnGameClear?.Invoke();
             }
         }
     }
@@ -537,10 +545,6 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
     }
 
 
-    private void EndingScene() 
-    {
-        LoadingScene.SceneLoading(EnumList.SceneName.ENDING);
-    }
 
     public void OpenWindow()
     {

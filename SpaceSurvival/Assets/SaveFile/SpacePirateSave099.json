@@ -1,13 +1,13 @@
 {
-    "dataIndex": 0,
+    "dataIndex": 99,
     "stageClear": 7,
     "startPos": {
-        "x": 6.862997531890869,
-        "y": 0.10843735933303833,
-        "z": 22.683164596557618
+        "x": -17.347999572753908,
+        "y": 0.9049999713897705,
+        "z": 4.6020002365112309
     },
-    "saveTime": "2023-10-11 오전 11:33:51",
-    "sceanName": 5,
+    "saveTime": "2023-10-12 오후 1:17:31",
+    "sceanName": 4,
     "playerData": {
         "abilityPoint": 90,
         "playerName": "Player",
@@ -16,7 +16,7 @@
         "expMax": 211,
         "base_MaxHP": 460.0,
         "currentHP": 460.0,
-        "current_Stamina": 78.64996337890625,
+        "current_Stamina": 25.0,
         "base_MaxStamina": 159.0,
         "BaseDarkForce": 4953800,
         "base_ATT": 10,
@@ -172,7 +172,7 @@
             ]
         },
         {
-            "questInfo": "수집테스트",
+            "questInfo": "MP포션 수집",
             "questIndex": 2000,
             "questType": 2,
             "questState": 1,
@@ -181,7 +181,7 @@
             ]
         },
         {
-            "questInfo": "수집퀘스트 이름",
+            "questInfo": "HP 포션 수집",
             "questIndex": 2001,
             "questType": 2,
             "questState": 1,

@@ -106,6 +106,10 @@ public class WindowList : Singleton<WindowList> {
     /// </summary>
     BattleMapClearAction battleMapClearUI;
     public BattleMapClearAction BattleMapClearUI => battleMapClearUI;
+
+
+    EndingSceneLoad endingCutImageFunc;
+    public EndingSceneLoad EndingCutImageFunc => endingCutImageFunc;
     /// <summary>
     /// 윈도우리스트는 항상가지고다니는것이기때문에 여기에서 이벤트처리를 진행.
     /// </summary>
@@ -124,6 +128,8 @@ public class WindowList : Singleton<WindowList> {
         gyu_QuestManager = transform.GetComponentInChildren<Gyu_QuestManager>(true);
         battleActionButtons = transform.GetChild(0).GetChild(1); //나중에 수정필요 
         battleMapClearUI = transform.GetComponentInChildren<BattleMapClearAction>(true);
+
+        endingCutImageFunc = transform.GetComponentInChildren<EndingSceneLoad>(true);
 
         uiLayerIndex = LayerMask.NameToLayer("UI"); // UI 에해당하는 레이어 이넘순번값 가져오고
         uiCheckingComp = GetComponent<GraphicRaycaster>();  

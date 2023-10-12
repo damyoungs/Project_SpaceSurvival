@@ -7,15 +7,19 @@ public class ChangeAlphaAfterDelay : MonoBehaviour
     public float transitionDuration = 2.0f; // 2초 동안 변화
     private Image panelImage;
 
+    EndScene endProccess;
+
     void Start ( )
     {
+        endProccess = FindObjectOfType<EndScene>(true);
         panelImage = GetComponent<Image> ( );
         Invoke ( "StartColorChange" , 4.0f ); // 게임 시작 후 5초 뒤에 실행
     }
 
     void StartColorChange ( )
     {
-        StartCoroutine ( FadeToBlack ( ) );
+        endProccess.AppendInputAnykey();
+        //StartCoroutine ( FadeToBlack ( ) );
     }
 
     IEnumerator FadeToBlack ( )
