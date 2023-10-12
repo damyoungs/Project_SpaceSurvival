@@ -149,8 +149,7 @@ public class SpaceSurvival_GameManager : ChildComponentSingeton<SpaceSurvival_Ga
     {
         get
         {
-            enemyTeam ??= GetEnemeyTeam?.Invoke();
-            return enemyTeam;
+            return GetEnemeyTeam?.Invoke(); 
         }
     }
     public Func<BattleMapEnemyBase[]> GetEnemeyTeam;

@@ -63,7 +63,8 @@ public class Tile : MonoBehaviour, IComparable<Tile>
                         lineRenderer.enabled = false;
                         break;
                     case TileExistType.Monster:
-                        lineRenderer.enabled = false;
+                        lineRenderer.material = lineRendererMaterials[4];
+                        lineRenderer.enabled = true;
                         break;
                     case TileExistType.Item:
                         lineRenderer.material = lineRendererMaterials[3];

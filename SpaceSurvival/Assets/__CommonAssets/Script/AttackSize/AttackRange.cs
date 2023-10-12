@@ -100,6 +100,7 @@ public class AttackRange : MonoBehaviour
     /// 공격타입에따른 복원시킬 이전타일속성  
     /// activeAttackTiles 과 순서를 맞춰야한다.
     /// </summary>
+    [SerializeField]
     List<Tile.TileExistType> revertAttackRangeTileType;
 
 
@@ -417,7 +418,6 @@ public class AttackRange : MonoBehaviour
 
     }
 
-
     /// <summary>
     /// 스킬의 공격범위를 표시할 함수 일반공격 포함 
     /// 실행타이밍 : 타일이 바뀌거나 스킬이 바뀔때 호출됨
@@ -543,8 +543,8 @@ public class AttackRange : MonoBehaviour
             {
                 for (int i = 0; i < enemySize; i++) //적들을 검색을 진행 
                 {
-                    if (enemyArray[i].CurrentTile.width == attackTile.width &&
-                        enemyArray[i].CurrentTile.length == attackTile.length) //타일이 같으면 
+                    if (enemyArray[i].currentTile.width == attackTile.width &&
+                        enemyArray[i].currentTile.length == attackTile.length) //타일이 같으면 
                     {
                         resultEnemyList.Add(enemyArray[i]); //리스트에 추가
                         break;//다음타일검색을위해 빠져나감
