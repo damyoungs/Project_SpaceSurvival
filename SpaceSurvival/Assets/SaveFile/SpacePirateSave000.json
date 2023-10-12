@@ -1,24 +1,24 @@
 {
     "dataIndex": 0,
-    "stageClear": 7,
+    "stageClear": 0,
     "startPos": {
-        "x": 6.862997531890869,
-        "y": 0.10843735933303833,
-        "z": 22.683164596557618
+        "x": -1.4616326093673707,
+        "y": 0.13692143559455872,
+        "z": 23.463851928710939
     },
-    "saveTime": "2023-10-11 오전 11:33:51",
+    "saveTime": "2023-10-13 오전 2:28:57",
     "sceanName": 5,
     "playerData": {
-        "abilityPoint": 90,
+        "abilityPoint": 50,
         "playerName": "Player",
-        "level": 9,
-        "exp": 83,
-        "expMax": 211,
-        "base_MaxHP": 460.0,
-        "currentHP": 460.0,
-        "current_Stamina": 78.64996337890625,
-        "base_MaxStamina": 159.0,
-        "BaseDarkForce": 4953800,
+        "level": 1,
+        "exp": 0,
+        "expMax": 50,
+        "base_MaxHP": 100.0,
+        "currentHP": 100.0,
+        "current_Stamina": 10.0,
+        "base_MaxStamina": 15.0,
+        "BaseDarkForce": 4937900,
         "base_ATT": 10,
         "base_DP": 10,
         "base_STR": 5,
@@ -29,56 +29,37 @@
         "damage_Min": 0.5
     },
     "equipments_Data": {
-        "Total_STR": 30,
-        "Total_INT": 30,
-        "Total_LUK": 30,
-        "Total_DEX": 30,
-        "Total_CriticalRate": 50.0,
+        "Total_STR": 0,
+        "Total_INT": 0,
+        "Total_LUK": 0,
+        "Total_DEX": 50,
+        "Total_CriticalRate": 0.0,
         "Total_DodgeRate": 0.0,
         "codes": [
-            46,
-            11,
+            49,
+            10,
             51,
-            24
+            22
         ],
         "weapon_ItemLevel": 1,
         "weapon_AttackPoint": 20,
         "weapon_DefencePoint": 1,
-        "weapon_ItemName": "샷건"
+        "weapon_ItemName": "Rifle"
     },
     "equipSlotLength": 0,
-    "equipData": [
-        {
-            "values": 1,
-            "itemIndex": 10,
-            "slotIndex": 1,
-            "itemEnhanceValue": 1
-        },
-        {
-            "values": 1,
-            "itemIndex": 9,
-            "slotIndex": 2,
-            "itemEnhanceValue": 1
-        }
-    ],
+    "equipData": [],
     "consumeSlotLength": 0,
     "consumeData": [
         {
-            "values": 102,
+            "values": 95,
             "itemIndex": 1,
             "slotIndex": 0,
             "itemEnhanceValue": 0
         },
         {
-            "values": 101,
+            "values": 97,
             "itemIndex": 2,
             "slotIndex": 1,
-            "itemEnhanceValue": 0
-        },
-        {
-            "values": 1,
-            "itemIndex": 3,
-            "slotIndex": 2,
             "itemEnhanceValue": 0
         }
     ],
@@ -88,20 +69,32 @@
     "craftData": [
         {
             "values": 1,
-            "itemIndex": 23,
+            "itemIndex": 16,
             "slotIndex": 0,
             "itemEnhanceValue": 0
         },
         {
             "values": 1,
-            "itemIndex": 25,
+            "itemIndex": 17,
             "slotIndex": 1,
             "itemEnhanceValue": 0
         },
         {
             "values": 1,
-            "itemIndex": 31,
+            "itemIndex": 19,
             "slotIndex": 2,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 27,
+            "slotIndex": 3,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 14,
+            "slotIndex": 4,
             "itemEnhanceValue": 0
         }
     ],
@@ -134,23 +127,12 @@
     ],
     "questList": [
         {
-            "questInfo": "클리어 조건",
-            "questIndex": 0,
-            "questType": 0,
-            "questState": 1,
-            "questIProgress": [
-                1,
-                1,
-                1
-            ]
-        },
-        {
             "questInfo": "대형로봇 토벌",
             "questIndex": 1000,
             "questType": 1,
             "questState": 1,
             "questIProgress": [
-                4
+                0
             ]
         },
         {
@@ -159,7 +141,7 @@
             "questType": 1,
             "questState": 1,
             "questIProgress": [
-                16
+                0
             ]
         },
         {
@@ -168,25 +150,25 @@
             "questType": 1,
             "questState": 1,
             "questIProgress": [
-                10
+                0
             ]
         },
         {
-            "questInfo": "수집테스트",
+            "questInfo": "MP포션 수집",
             "questIndex": 2000,
             "questType": 2,
-            "questState": 1,
+            "questState": 2,
             "questIProgress": [
-                101
+                97
             ]
         },
         {
-            "questInfo": "수집퀘스트 이름",
+            "questInfo": "HP 포션 수집",
             "questIndex": 2001,
             "questType": 2,
-            "questState": 1,
+            "questState": 2,
             "questIProgress": [
-                102
+                95
             ]
         }
     ]

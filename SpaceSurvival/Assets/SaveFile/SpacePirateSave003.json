@@ -1,24 +1,24 @@
 {
-    "dataIndex": 1,
-    "currentStage": 2,
-    "stageClear": 0,
+    "dataIndex": 3,
+    "currentStage": 1,
+    "stageClear": 2,
     "startPos": {
-        "x": 0.01100015640258789,
-        "y": 0.9100000262260437,
-        "z": 23.01000213623047
+        "x": -17.347999572753908,
+        "y": 0.9049999713897705,
+        "z": 4.6020002365112309
     },
-    "saveTime": "2023-10-13 오전 2:35:37",
+    "saveTime": "2023-10-13 오전 2:37:29",
     "sceanName": 4,
     "playerData": {
-        "abilityPoint": 55,
+        "abilityPoint": 75,
         "playerName": "Player",
-        "level": 2,
-        "exp": 10,
-        "expMax": 60,
-        "base_MaxHP": 115.0,
-        "currentHP": 115.0,
-        "current_Stamina": 17.0,
-        "base_MaxStamina": 18.0,
+        "level": 6,
+        "exp": 89,
+        "expMax": 123,
+        "base_MaxHP": 175.0,
+        "currentHP": 175.0,
+        "current_Stamina": 1.0200014114379883,
+        "base_MaxStamina": 30.0,
         "BaseDarkForce": 4937900,
         "base_ATT": 10,
         "base_DP": 10,
@@ -52,13 +52,13 @@
     "consumeSlotLength": 0,
     "consumeData": [
         {
-            "values": 95,
+            "values": 96,
             "itemIndex": 1,
             "slotIndex": 0,
             "itemEnhanceValue": 0
         },
         {
-            "values": 97,
+            "values": 98,
             "itemIndex": 2,
             "slotIndex": 1,
             "itemEnhanceValue": 0
@@ -96,6 +96,18 @@
             "values": 1,
             "itemIndex": 14,
             "slotIndex": 4,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 23,
+            "slotIndex": 5,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 25,
+            "slotIndex": 6,
             "itemEnhanceValue": 0
         }
     ],
@@ -142,7 +154,7 @@
             "questType": 1,
             "questState": 1,
             "questIProgress": [
-                2
+                12
             ]
         },
         {
@@ -151,7 +163,7 @@
             "questType": 1,
             "questState": 1,
             "questIProgress": [
-                0
+                10
             ]
         },
         {
@@ -160,7 +172,7 @@
             "questType": 2,
             "questState": 2,
             "questIProgress": [
-                97
+                98
             ]
         },
         {
@@ -169,7 +181,7 @@
             "questType": 2,
             "questState": 2,
             "questIProgress": [
-                95
+                96
             ]
         }
     ]

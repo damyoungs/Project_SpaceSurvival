@@ -234,7 +234,7 @@ public class AttackRange : MonoBehaviour
 
         SpaceSurvival_GameManager.Instance.GetAttackRangeComp = () => this; //데이터 연결하기 
         getCurrentTilePos = (pos) => {
-            Transform player = SpaceSurvival_GameManager.Instance.PlayerTeam[0].transform;
+            Transform player = SpaceSurvival_GameManager.Instance.PlayerTeam[0].transform.GetChild(0);
             if (pos != player.position) 
             {
                 player.rotation = Quaternion.LookRotation(pos - player.position);

@@ -1,24 +1,25 @@
 {
     "dataIndex": 2,
-    "stageClear": 7,
+    "currentStage": 1,
+    "stageClear": 2,
     "startPos": {
-        "x": -3.049445390701294,
-        "y": 0.1369214653968811,
-        "z": 33.46713638305664
+        "x": -17.347999572753908,
+        "y": 0.9049999713897705,
+        "z": 4.6020002365112309
     },
-    "saveTime": "2023-10-11 오후 2:40:25",
-    "sceanName": 5,
+    "saveTime": "2023-10-13 오전 2:36:42",
+    "sceanName": 4,
     "playerData": {
-        "abilityPoint": 90,
+        "abilityPoint": 70,
         "playerName": "Player",
-        "level": 9,
-        "exp": 133,
-        "expMax": 211,
-        "base_MaxHP": 460.0,
-        "currentHP": 460.0,
-        "current_Stamina": 95.031982421875,
-        "base_MaxStamina": 159.0,
-        "BaseDarkForce": 4953800,
+        "level": 5,
+        "exp": 92,
+        "expMax": 103,
+        "base_MaxHP": 160.0,
+        "currentHP": 160.0,
+        "current_Stamina": 9.29200267791748,
+        "base_MaxStamina": 27.0,
+        "BaseDarkForce": 4937900,
         "base_ATT": 10,
         "base_DP": 10,
         "base_STR": 5,
@@ -29,56 +30,37 @@
         "damage_Min": 0.5
     },
     "equipments_Data": {
-        "Total_STR": 30,
-        "Total_INT": 30,
-        "Total_LUK": 30,
-        "Total_DEX": 30,
-        "Total_CriticalRate": 50.0,
+        "Total_STR": 0,
+        "Total_INT": 0,
+        "Total_LUK": 0,
+        "Total_DEX": 50,
+        "Total_CriticalRate": 0.0,
         "Total_DodgeRate": 0.0,
         "codes": [
-            46,
-            9,
+            49,
+            10,
             51,
-            24
+            22
         ],
         "weapon_ItemLevel": 1,
-        "weapon_AttackPoint": 15,
+        "weapon_AttackPoint": 20,
         "weapon_DefencePoint": 1,
-        "weapon_ItemName": "Pistol"
+        "weapon_ItemName": "Rifle"
     },
     "equipSlotLength": 0,
-    "equipData": [
-        {
-            "values": 1,
-            "itemIndex": 11,
-            "slotIndex": 1,
-            "itemEnhanceValue": 1
-        },
-        {
-            "values": 1,
-            "itemIndex": 10,
-            "slotIndex": 2,
-            "itemEnhanceValue": 1
-        }
-    ],
+    "equipData": [],
     "consumeSlotLength": 0,
     "consumeData": [
         {
-            "values": 102,
+            "values": 95,
             "itemIndex": 1,
             "slotIndex": 0,
             "itemEnhanceValue": 0
         },
         {
-            "values": 102,
+            "values": 98,
             "itemIndex": 2,
             "slotIndex": 1,
-            "itemEnhanceValue": 0
-        },
-        {
-            "values": 1,
-            "itemIndex": 3,
-            "slotIndex": 2,
             "itemEnhanceValue": 0
         }
     ],
@@ -88,20 +70,38 @@
     "craftData": [
         {
             "values": 1,
-            "itemIndex": 31,
+            "itemIndex": 16,
             "slotIndex": 0,
             "itemEnhanceValue": 0
         },
         {
             "values": 1,
-            "itemIndex": 25,
+            "itemIndex": 17,
             "slotIndex": 1,
             "itemEnhanceValue": 0
         },
         {
             "values": 1,
-            "itemIndex": 23,
+            "itemIndex": 19,
             "slotIndex": 2,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 27,
+            "slotIndex": 3,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 14,
+            "slotIndex": 4,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 23,
+            "slotIndex": 5,
             "itemEnhanceValue": 0
         }
     ],
@@ -134,23 +134,12 @@
     ],
     "questList": [
         {
-            "questInfo": "클리어 조건",
-            "questIndex": 0,
-            "questType": 0,
-            "questState": 1,
-            "questIProgress": [
-                1,
-                1,
-                1
-            ]
-        },
-        {
             "questInfo": "대형로봇 토벌",
             "questIndex": 1000,
             "questType": 1,
             "questState": 1,
             "questIProgress": [
-                5
+                0
             ]
         },
         {
@@ -159,7 +148,7 @@
             "questType": 1,
             "questState": 1,
             "questIProgress": [
-                15
+                12
             ]
         },
         {
@@ -168,25 +157,25 @@
             "questType": 1,
             "questState": 1,
             "questIProgress": [
-                10
+                0
             ]
         },
         {
             "questInfo": "MP포션 수집",
             "questIndex": 2000,
             "questType": 2,
-            "questState": 1,
+            "questState": 2,
             "questIProgress": [
-                102
+                98
             ]
         },
         {
             "questInfo": "HP 포션 수집",
             "questIndex": 2001,
             "questType": 2,
-            "questState": 1,
+            "questState": 2,
             "questIProgress": [
-                102
+                95
             ]
         }
     ]

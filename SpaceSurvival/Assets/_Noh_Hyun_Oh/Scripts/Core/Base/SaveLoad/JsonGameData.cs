@@ -67,6 +67,7 @@ public class JsonGameData
     /// <summary>
     /// 현재 전투중인 배틀맵 
     /// </summary>
+    [SerializeField]
     StageList currentStage = StageList.None;
     public StageList CurrentStage 
     {
