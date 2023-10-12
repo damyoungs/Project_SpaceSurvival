@@ -47,6 +47,7 @@ public class HangarDoor : MonoBehaviour
             door.position += new Vector3(0.0f, Time.deltaTime * speed, 0.0f);
             yield return null;
         }
+        door.position = new Vector3(door.position.x, openHeight, door.position.z);
     }
 
     IEnumerator Close()
@@ -58,5 +59,6 @@ public class HangarDoor : MonoBehaviour
             door.position -= new Vector3(0.0f, Time.deltaTime * speed, 0.0f);
             yield return null;
         }
+        door.position = new Vector3(door.position.x, closeHeight, door.position.z);
     }
 }
