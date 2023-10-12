@@ -196,7 +196,7 @@ MeshCollider:
   m_GameObject: {fileID: 1543695114780030}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -210,7 +210,7 @@ BoxCollider:
   m_GameObject: {fileID: 1543695114780030}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 5.000003, y: 0.9765091, z: 0.87106013}
   m_Center: {x: -2.5000014, y: 3.5117455, z: 0}
@@ -223,7 +223,7 @@ BoxCollider:
   m_GameObject: {fileID: 1543695114780030}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1.3516984, y: 5, z: 1.3184938}
   m_Center: {x: -0.6758492, y: 1.5, z: 0.00000011920929}
@@ -236,7 +236,7 @@ BoxCollider:
   m_GameObject: {fileID: 1543695114780030}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1.3172798, y: 5, z: 1.3184935}
   m_Center: {x: -4.341363, y: 1.5, z: 0}
@@ -302,6 +302,7 @@ MonoBehaviour:
   speed: 4
   Icon: {fileID: 0}
   Icon2: {fileID: 0}
+  lockedDoor: 0
 --- !u!82 &80298250648477241
 AudioSource:
   m_ObjectHideFlags: 0

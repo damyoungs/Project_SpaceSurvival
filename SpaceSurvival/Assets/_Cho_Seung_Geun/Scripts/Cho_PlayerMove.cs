@@ -19,6 +19,13 @@ public class Cho_PlayerMove : MonoBehaviour
         Jump
     }
 
+    enum AudioIndex
+    {
+        Walk = 0,
+        Jump,
+        JumpLanding
+    }
+
     public float speed = 0.0f;
     public float walkSpeed = 5.0f;
     public float runSpeed = 8.0f;
@@ -50,13 +57,13 @@ public class Cho_PlayerMove : MonoBehaviour
     InputKeyMouse inputActions;
     public InputKeyMouse InputActions => inputActions;
     Animator animator;
-    Transform cameraPos;
+    Transform cameraRoot;
     CharacterController controller;
     public CharacterController Controller => controller;
 
     CinemachineVirtualCamera cinemachine;
     public CinemachineVirtualCamera Cinemachine => cinemachine;
-    AudioSource audioSource;
+    public AudioSource[] audios;
 
     readonly int Hash_Speed = Animator.StringToHash("Speed");
     readonly int Hash_IsJump = Animator.StringToHash("IsJump");
@@ -74,10 +81,9 @@ public class Cho_PlayerMove : MonoBehaviour
     {
         inputActions = new InputKeyMouse();
         animator = GetComponent<Animator>();
-        cameraPos = transform.GetChild(21);
+        cameraRoot = transform.GetChild(21);
         controller = GetComponent<CharacterController>();
         cinemachine = GetComponentInChildren<CinemachineVirtualCamera>();
-        audioSource = GetComponent<AudioSource>();
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -112,20 +118,20 @@ public class Cho_PlayerMove : MonoBehaviour
         inputActions.Player.Disable();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (!IsGrounded())
         {
-            moveDir.y -= gravity * Time.fixedDeltaTime;
+            moveDir.y -= gravity * Time.deltaTime;
         }
 
-        controller.Move(Time.fixedDeltaTime * speed * transform.TransformDirection(new Vector3(moveDir.x, 0.0f, moveDir.z)));
-        controller.Move(Time.fixedDeltaTime * new Vector3(0.0f, moveDir.y, 0.0f));
+        controller.Move(Time.deltaTime * speed * transform.TransformDirection(new Vector3(moveDir.x, 0.0f, moveDir.z)));
+        controller.Move(Time.deltaTime * new Vector3(0.0f, moveDir.y, 0.0f));
     }
 
     private void LateUpdate()
     {
-        if ((cameraPos.position - virtualCamera.transform.position).sqrMagnitude < cameraCulling)
+        if ((cameraRoot.position - virtualCamera.transform.position).sqrMagnitude < cameraCulling)
         {
             Camera.main.cullingMask = ~(1 << LayerMask.NameToLayer("Player"));
         }
@@ -160,13 +166,13 @@ public class Cho_PlayerMove : MonoBehaviour
                 State = PlayerState.Walk;
                 animator.SetFloat(Hash_Speed, animatorWalkSpeed);
             }
-            audioSource.Play();
+            audios[(int)AudioIndex.Walk].Play();
         }
         else
         {
             State = PlayerState.Idle;
             animator.SetFloat(Hash_Speed, 0);
-            audioSource.Stop();
+            audios[(int)AudioIndex.Walk].Stop();
         }
 
     }
@@ -175,6 +181,7 @@ public class Cho_PlayerMove : MonoBehaviour
     {
         if (jumpCount < 2)
         {
+            //audios[(int)AudioIndex.Jump].Play();
             moveDir.y = jumpHeight;
             //isJumping = true;
             animator.SetTrigger(Hash_IsJump);
@@ -192,7 +199,7 @@ public class Cho_PlayerMove : MonoBehaviour
             if (State == PlayerState.Run)
             {
                 State = PlayerState.Walk;
-                audioSource.pitch = 1.26f;
+                audios[(int)AudioIndex.Walk].pitch = 1.26f;
                 animator.SetFloat(Hash_Speed, animatorWalkSpeed);
                 animator.SetBool(Hash_IsRun, false);
             }
@@ -203,7 +210,7 @@ public class Cho_PlayerMove : MonoBehaviour
             if (State == PlayerState.Walk)
             {
                 State = PlayerState.Run;
-                audioSource.pitch = 2.0f;
+                audios[(int)AudioIndex.Walk].pitch = 2.0f;
                 animator.SetFloat(Hash_Speed, animatorRunSpeed);
                 animator.SetBool(Hash_IsRun, true);
             }
@@ -224,7 +231,7 @@ public class Cho_PlayerMove : MonoBehaviour
         float rotateY = temp.y * rotateSensitiveY * Time.fixedDeltaTime;
         curRotateY -= rotateY;
         curRotateY = Mathf.Clamp(curRotateY, -60.0f, 60.0f);
-        cameraPos.rotation = Quaternion.Euler(curRotateY, cameraPos.eulerAngles.y, cameraPos.eulerAngles.z);
+        cameraRoot.rotation = Quaternion.Euler(curRotateY, cameraRoot.eulerAngles.y, cameraRoot.eulerAngles.z);
     }
 
     private bool IsGrounded()
@@ -239,6 +246,7 @@ public class Cho_PlayerMove : MonoBehaviour
             if (jumpCount > 0)
             {
                 animator.SetBool(Hash_IsJumping, false);
+                audios[(int)AudioIndex.JumpLanding].Play();
             }
             //isJumping = false;
             jumpCount = 0;
