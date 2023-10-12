@@ -5,12 +5,16 @@ using UnityEngine.InputSystem;
 
 public class Cho_SceneLoading : MonoBehaviour
 {
+
+    public Color clearLight;
+
     InteractionUI interaction;
     Cho_PlayerMove player;
 
     ParticleSystem shortRay;
     ParticleSystem longRay;
     AudioSource audioSource;
+    SphereCollider sphereCollider;
 
     /// <summary>
     /// 현재 포탈의 스테이지 종류
@@ -27,6 +31,7 @@ public class Cho_SceneLoading : MonoBehaviour
         longRay = parent.GetChild(5).GetComponent<ParticleSystem>();
         longRay.Stop();
         audioSource = GetComponent<AudioSource>();
+        sphereCollider = GetComponent<SphereCollider>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -57,10 +62,23 @@ public class Cho_SceneLoading : MonoBehaviour
         StartCoroutine(WarpCoroutine());
     }
 
+    public void ClearReturn()
+    {
+
+    }
+
+    public void DeathReturn()
+    {
+
+    }
+
     // 수정 해야됨 + 인풋키 락 걸어야함
     IEnumerator WarpCoroutine()
     {
         player.InputActions.Disable();
+        sphereCollider.enabled = false;
+        interaction.invisibleUI?.Invoke();
+        player.interaction = null;
         player.Cinemachine.Priority = 20;
         audioSource.Play();
         shortRay.Stop();
@@ -70,6 +88,7 @@ public class Cho_SceneLoading : MonoBehaviour
         player.Cinemachine.Priority = -10;
         //shortRay.Play();
         //longRay.Stop();
+        sphereCollider.enabled = true;
 
         //스테이지 관련 셋팅 
         SpaceSurvival_GameManager.Instance.CurrentStage = currentStage; //이동할 스테이지 셋팅
