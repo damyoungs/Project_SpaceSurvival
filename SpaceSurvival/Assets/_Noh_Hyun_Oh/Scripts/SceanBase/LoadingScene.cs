@@ -58,19 +58,6 @@ public class LoadingScene : MonoBehaviour
     static CinemachineBrain brainCamera;
 
     /// <summary>
-    /// 배경 이미지
-    /// </summary>
-    [SerializeField]
-    Image backGroundImg;
-
-    [SerializeField]
-    Sprite backGroundSprite;
-
-    [SerializeField]
-    [Range(0.0f,3.0f)]
-    static float padeOutTime = 3.0f;
-
-    /// <summary>
     /// 씬로딩의 진행도를 보여주는씬으로 넘어가는 함수 비동기로진행
     /// 로딩씬으로 잠시 넘어갔다가 이동한다.
     /// </summary>

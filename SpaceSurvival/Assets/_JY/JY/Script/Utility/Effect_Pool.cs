@@ -151,15 +151,21 @@ public class Effect_Pool : MonoBehaviour
     IEnumerator SetParent(Pooled_Obj obj)
     {
         yield return null;
-        if(obj == null)
+        if (obj == null)
         {
-            int i = 0;
+            Debug.Log($"이펙트 풀 버그 1: {obj} 가 없어졌습니다.");
         }
-        if(parents[obj.poolIndex] == null)
+        else 
         {
-            int i = 0;
+            if (parents[obj.poolIndex] != null)
+            {
+                obj.transform.SetParent(parents[obj.poolIndex].transform);
+            }
+            else 
+            {
+                Debug.Log($"이펙트 풀 버그 2: {parents[obj.poolIndex]} 가 없어졌습니다.");
+            }
         }
-        obj.transform.SetParent(parents[obj.poolIndex].transform);
     }
     void GenerateObject()
     {
