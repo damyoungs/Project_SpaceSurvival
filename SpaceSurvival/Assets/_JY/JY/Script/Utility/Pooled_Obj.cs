@@ -16,7 +16,11 @@ public class Pooled_Obj : MonoBehaviour
     }
     private void OnParticleSystemStopped()
     {
-        GameManager.EffectPool.ReturnPool(this);
+        if (ps != null)
+        {
+            GameManager.EffectPool.ReturnPool(this);
+            
+        }
     }
 
 
