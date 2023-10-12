@@ -16858,9 +16858,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f42a1ecd147e8848aea9f889b383798, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hpGaugeSpeed: 10
-  stmGaugeSpeed: 2
-  expGaugeSpeed: 2
+  hpGaugeSpeed: 0.3
+  stmGaugeSpeed: 0.3
+  expGaugeSpeed: 0.3
   buffType: 
   stateTimer: []
   imgIconArray: []

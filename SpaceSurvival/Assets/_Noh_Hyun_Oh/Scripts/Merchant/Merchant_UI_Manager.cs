@@ -165,6 +165,9 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
     {
         CloseWindow();
         GameManager.PlayerStatus.Base_Status.on_DarkForceChange += (value) => { ResourceSetting(0, value); };
+        InputSystemController.InputSystem.Common.Esc.performed += (_) => {
+            CloseWindow();
+        };
     }
 
 
@@ -335,8 +338,11 @@ public class Merchant_UI_Manager : PopupWindowBase, IPopupSortWindow
         {
             item.ResetData();
         }
-        merchant_Manager.isTalking = false;
-
+        merchant_Manager.NpcTalkController.IsTalking = false;
+        if (merchant_Manager.ActionUI != null && merchant_Manager.IsActionActive)
+        {
+            merchant_Manager.ActionUI.visibleUI();
+        }
     }
 
 

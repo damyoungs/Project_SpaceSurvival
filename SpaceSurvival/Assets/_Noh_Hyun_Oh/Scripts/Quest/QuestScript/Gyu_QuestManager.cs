@@ -98,10 +98,6 @@ public class Gyu_QuestManager : MonoBehaviour
     int currentNpcIndex = -1;
     public int CurrentNpcIndex => currentNpcIndex;
 
-    /// <summary>
-    /// 대화 가능한지 체크하기
-    /// </summary>
-    public bool isTalking = false;
 
     public Action<Gyu_QuestBaseData> onChangeQuest;
 
@@ -109,11 +105,17 @@ public class Gyu_QuestManager : MonoBehaviour
     /// 퀘스트 원본이있는곳 싱글톤으로 나중에빼야한다 지금은 테스트라 이대로 테스트
     /// </summary>
     QuestScriptableGenerate questScriptableGenerate;
-
+    [SerializeField]
     NpcTalkController talkController;
-
+    public NpcTalkController TalkController => talkController;
     InteractionUI actionUI;
+    public InteractionUI ActionUI => actionUI;
 
+    /// <summary>
+    /// 기능 활성화여부 
+    /// </summary>
+    bool isActionActive = false;
+    public bool IsActionActive => isActionActive;
     private void Awake()
     {
         player = FindObjectOfType<PlayerQuest_Gyu>();
@@ -155,11 +157,11 @@ public class Gyu_QuestManager : MonoBehaviour
 
         //F 키눌렀을때의 액션 연결
         InputSystemController.InputSystem.Player.Action.performed += (_) => {
-            if (isTalking)
+            if (isActionActive)
             {
-                isTalking = false;
+                talkController.ResetData();
                 talkController.Talk(0);
-                actionUI.visibleUI?.Invoke();
+                actionUI.invisibleUI?.Invoke();
             }
         };
 
@@ -177,7 +179,6 @@ public class Gyu_QuestManager : MonoBehaviour
             array_NPC[i].InitData(i); //npc 를 초기화 시킨다.
             array_NPC[i].onTalkDisableButton += () => 
             {
-                isTalking = false;
                 talkController.ResetData();
                 talkController.openTalkWindow = null;
                 talkController.closeTalkWindow = null;
@@ -185,6 +186,8 @@ public class Gyu_QuestManager : MonoBehaviour
                 talkController.getTalkDataArray = null;
                 talkController.LogManager.getLogTalkDataArray = null;
                 actionUI.invisibleUI?.Invoke();
+                talkController.IsTalking = true;
+                isActionActive = false;
             }; 
             array_NPC[i].onTalkEnableButton += (npcId) =>
             {
@@ -202,8 +205,9 @@ public class Gyu_QuestManager : MonoBehaviour
                 talkController.LogManager.getLogTalkDataArray = (talkIndex) => {
                     return talkController.TalkData.GetLog(array_NPC[currentNpcIndex].TalkType, talkIndex);
                 };
-                isTalking = true;
                 actionUI.visibleUI?.Invoke();
+                talkController.IsTalking = false;
+                isActionActive = true;
             };
 
             array_NPC[i].InitQuestData(questScriptableGenerate.MainStoryQuestArray,

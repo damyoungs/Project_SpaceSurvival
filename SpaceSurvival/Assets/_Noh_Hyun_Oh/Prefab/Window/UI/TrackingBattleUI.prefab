@@ -98,7 +98,7 @@ MonoBehaviour:
   minDirection: 3
   maxDirection: 20
   uiDir: 30
-  gaugeSpeed: 10
+  gaugeSpeed: 0.5
 --- !u!225 &6956723509519186442
 CanvasGroup:
   m_ObjectHideFlags: 0

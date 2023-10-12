@@ -228,9 +228,9 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
         questListContentPanel = questListPanel.GetComponentInChildren<VerticalLayoutGroup>(true).transform;
         quest_UI_Array = questListContentPanel.GetComponentsInChildren<Quest_UI_Colum>(true);
 
-       
 
-        initialize();
+
+        npcTalkController.ResetData();
     }
 
     private void Start()
@@ -538,8 +538,11 @@ public class Gyu_UI_QuestManager : MonoBehaviour, IPopupSortWindow
         questBoxPanel.gameObject.SetActive(false);
         questConfirm.gameObject.SetActive(false);
         questListPanel.gameObject.SetActive(false);
-      
-        questManager.isTalking =false;
+
+        if (questManager.ActionUI != null && questManager.IsActionActive) 
+        {
+            questManager.ActionUI.visibleUI();
+        }
         //quests = null;
         //array_NPC = null;
     }

@@ -131,7 +131,7 @@ public class PlayerTurnObject : TurnBaseObject
         {
 
             currentUnit.BattleUI.TrunActionStateChange(); //턴시작시 상태이상 들을 게이지 진행시킨다
-            currentUnit.BattleUI.stmGaugeSetting(TurnActionValue, playerData.Base_MaxStamina);
+            currentUnit.BattleUI.stmGaugeSetting(playerData.Current_Stamina, playerData.Base_MaxStamina);
             currentUnit.BattleUI.hpGaugeSetting(playerData.CurrentHP, playerData.Base_MaxHP);
         }
         SpaceSurvival_GameManager.Instance.MoveRange.ClearLineRenderer(currentUnit.CurrentTile);

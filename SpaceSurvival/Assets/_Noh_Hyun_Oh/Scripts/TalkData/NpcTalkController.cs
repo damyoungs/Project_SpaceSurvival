@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,7 +21,11 @@ public class NpcTalkController : MonoBehaviour
     /// 대화 코루틴 중복체크용 
     /// </summary>
     bool isTalking = false;
-
+    public bool IsTalking 
+    {
+        get => isTalking;
+        set => isTalking = value;
+    } 
     /// <summary>
     /// 현재 대화순번 
     /// </summary>
@@ -140,7 +145,9 @@ public class NpcTalkController : MonoBehaviour
     {
         if (!isTalking)
         {
-            gameObject.SetActive(true);
+            cg.alpha = 1.0f;
+            cg.blocksRaycasts = true;
+            cg.interactable = true;
             openTalkWindow?.Invoke();
             //Debug.Log($"값이 없으면 안되는데 ? : {openTalkWindow}");
             NpcBase_Gyu npc = onTalkClick?.Invoke();
@@ -190,7 +197,9 @@ public class NpcTalkController : MonoBehaviour
         nameBox.text = "";
         talkBox.text = "";
         logManager.ResetData();
-        gameObject.SetActive(false);
+        cg.alpha = 0.0f;
+        cg.blocksRaycasts = false;
+        cg.interactable = false;
         isTalking = false;
     }
 }

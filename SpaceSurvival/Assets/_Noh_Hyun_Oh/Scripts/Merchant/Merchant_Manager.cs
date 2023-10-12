@@ -16,11 +16,7 @@ public enum Merchant_Selected
 }
 public class Merchant_Manager : MonoBehaviour
 {
-    /// <summary>
-    /// 대화 가능한지 체크하기
-    /// </summary>
-    public bool isTalking = false;
-
+  
     int defaultBuyCount = 1;
 
     /// <summary>
@@ -138,6 +134,7 @@ public class Merchant_Manager : MonoBehaviour
     /// <summary>
     /// 대화 로직
     /// </summary>
+    [SerializeField]
     NpcTalkController talkController;
     public NpcTalkController NpcTalkController => talkController;
 
@@ -148,6 +145,12 @@ public class Merchant_Manager : MonoBehaviour
     public Merchant_UI_Manager Merchant_UI_Manager => merchant_UI_Manager;
 
     InteractionUI actionUI;
+    public InteractionUI ActionUI => actionUI;
+    /// <summary>
+    /// 기능활성화 여부
+    /// </summary>
+    bool isActionActive = false;
+    public bool IsActionActive => isActionActive;
     private void Awake()
     {
         int capacity = (int)(merchantItemArray.Length * 0.25f);
@@ -212,9 +215,8 @@ public class Merchant_Manager : MonoBehaviour
     {
         merchantNPCs = FindObjectsOfType<MerchantNPC>(true);
         InputSystemController.InputSystem.Player.Action.performed += (_) => {
-            if (isTalking)
+            if (isActionActive)
             {
-                isTalking = false;
                 talkController.Talk(0);     //대화창열기
                 actionUI.invisibleUI?.Invoke();   //F키 닫기
             }
@@ -299,7 +301,6 @@ public class Merchant_Manager : MonoBehaviour
     /// </summary>
     private void NpcTalkDisable()
     {
-        isTalking = false;
         talkController.ResetData();
         talkController.openTalkWindow = null;
         talkController.closeTalkWindow = null;
@@ -307,6 +308,8 @@ public class Merchant_Manager : MonoBehaviour
         talkController.getTalkDataArray = null;
         talkController.LogManager.getLogTalkDataArray = null;
         actionUI.invisibleUI?.Invoke();
+        talkController.IsTalking = true;
+        isActionActive = false;
     }
 
     /// <summary>
@@ -319,8 +322,9 @@ public class Merchant_Manager : MonoBehaviour
         talkController.openTalkWindow = merchant_UI_Manager.OpenWindow;
         talkController.closeTalkWindow = merchant_UI_Manager.CloseWindow;
         currentNpcIndex = npcId;
-        isTalking = true;
         actionUI.visibleUI?.Invoke();
+        talkController.IsTalking = false;
+        isActionActive = true;
     }
 
 }

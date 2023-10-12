@@ -60,6 +60,8 @@ public class TeamBorderStateUI : MonoBehaviour
     IEnumerator stmGauge;
     IEnumerator expGauge;
 
+    //IEnumerator uiGauge;
+
     WaitForFixedUpdate couroutineWait = new();
     private void Awake()
     {
@@ -93,6 +95,8 @@ public class TeamBorderStateUI : MonoBehaviour
         stmGauge = Stm_GaugeSetting(0.0f, 0.0f);
         expGauge = Exp_GaugeSetting(0.0f, 0.0f);
 
+        //uiGauge = UI_GaugeSetting(null,null,null,0,0,0);
+
         child = transform.GetChild(3);  //exp
         expText = child.GetChild(1).GetComponent<TextMeshProUGUI>(); // 현재경험치
         expMaxText = child.GetChild(3).GetComponent<TextMeshProUGUI>(); // 최대경험치
@@ -103,8 +107,13 @@ public class TeamBorderStateUI : MonoBehaviour
     public void SetStmGaugeAndText(float changeValue , float maxValue) 
     {
         StopCoroutine(stmGauge);
-        stmGauge = Stm_GaugeSetting(changeValue,maxValue);
+        stmGauge = Stm_GaugeSetting(changeValue, maxValue);
         StartCoroutine(stmGauge);
+
+        //StopCoroutine(uiGauge);
+        //uiGauge = UI_GaugeSetting(stmSlider,stmText,stmMaxText,stm_UI_Value, changeValue, maxValue);
+        //StartCoroutine(uiGauge);
+        //stm_UI_Value = changeValue;
     }
 
     public void SetHpGaugeAndText(float changeValue, float maxValue)
@@ -113,6 +122,10 @@ public class TeamBorderStateUI : MonoBehaviour
         hpGauge = HP_GaugeSetting(changeValue, maxValue);
         StartCoroutine(hpGauge);
 
+        //StopCoroutine(uiGauge);
+        //uiGauge = UI_GaugeSetting(hpSlider, hpText,hpMaxText, hp_UI_Value, changeValue, maxValue);
+        //StartCoroutine(uiGauge);
+        //hp_UI_Value = changeValue;
     }
 
     public void SetExpGaugeAndText(float changeValue, float maxValue)
@@ -121,80 +134,81 @@ public class TeamBorderStateUI : MonoBehaviour
         expGauge = Exp_GaugeSetting(changeValue, maxValue);
         StartCoroutine(expGauge);
 
+        //StopCoroutine(uiGauge);
+        //uiGauge = UI_GaugeSetting(expSlider, expText,expMaxText, exp_UI_Value, changeValue, maxValue);
+        //StartCoroutine(uiGauge);
+        //exp_UI_Value = changeValue;
     }
 
     IEnumerator HP_GaugeSetting(float change_HpValue,float maxValue)
     {
-        if (change_HpValue > hp_UI_Value) //회복 
+        float tempValue = change_HpValue - hp_UI_Value;
+        hpMaxText.text = $"{maxValue}";
+        float timeElaspad = hp_UI_Value / maxValue;
+        float checkValue = change_HpValue / maxValue; //수정될 값 0~ 1값
+        if (tempValue > 0) //회복 
         {
-            hpMaxText.text = $"{maxValue}";
-
-            while (hp_UI_Value < change_HpValue) //들어온값보다 작으면 수치계속변경
+            while (timeElaspad < checkValue) //들어온값보다 작으면 수치계속변경
             {
-                hp_UI_Value += Time.deltaTime * hpGaugeSpeed; //부드럽게~
+                timeElaspad += Time.deltaTime * hpGaugeSpeed;
+                hpSlider.value = timeElaspad;
+                hp_UI_Value =  timeElaspad * maxValue;
                 hpText.text = $"{hp_UI_Value:f0}";
-                hpSlider.value = hp_UI_Value / maxValue;
                 yield return couroutineWait;
             }
-            hpText.text = $"{change_HpValue:f0}";
-            hpSlider.value = change_HpValue / maxValue;
-            hp_UI_Value = change_HpValue;  
-
         }
-        else if (change_HpValue < hp_UI_Value) //데미지  
+        else if (tempValue < 0) //데미지  
         {
-            hpMaxText.text = $"{maxValue}";
-
-            while (hp_UI_Value > change_HpValue) //들어온값보다 작으면 수치계속변경
+            while (timeElaspad > checkValue) //들어온값보다 작으면 수치계속변경
             {
-                hp_UI_Value -= Time.deltaTime * hpGaugeSpeed; //부드럽게~
+                timeElaspad -= Time.deltaTime * hpGaugeSpeed;
+                hpSlider.value = timeElaspad;
+                hp_UI_Value = timeElaspad * maxValue; //부드럽게~
                 hpText.text = $"{hp_UI_Value:f0}";
-                hpSlider.value = hp_UI_Value / maxValue;
                 yield return couroutineWait;
             }
-            hpText.text = $"{change_HpValue:f0}";
-            hpSlider.value = change_HpValue / maxValue;
-            hp_UI_Value = change_HpValue;
         }
+        hpText.text = $"{change_HpValue:f0}";
+        hpSlider.value = checkValue;
+        hp_UI_Value = change_HpValue;
     }
 
     /// <summary>
-    /// 스테미나 UI 조절용 코루틴
+    /// 스테미나 UI 조절용 
     /// </summary>
     /// <returns></returns>
     IEnumerator Stm_GaugeSetting(float change_StmValue, float maxValue)
     {
-        if (change_StmValue > stm_UI_Value) //회복 
+        float tempValue = change_StmValue - stm_UI_Value;
+        stmMaxText.text = $"{maxValue}";
+        float timeElaspad = stm_UI_Value / maxValue;
+        float checkValue = change_StmValue / maxValue;
+        if (tempValue > 0) //회복 
         {
-            stmMaxText.text = $"{maxValue}";
-
-            while (stm_UI_Value < change_StmValue) //들어온값보다 작으면 수치계속변경
+            while (timeElaspad < checkValue) 
             {
-                stm_UI_Value += Time.deltaTime * stmGaugeSpeed; //부드럽게~
+                timeElaspad += Time.deltaTime * stmGaugeSpeed;
+                stmSlider.value = timeElaspad ;
+                stm_UI_Value = timeElaspad * maxValue;
                 stmText.text = $"{stm_UI_Value:f0}";
-                stmSlider.value = stm_UI_Value / maxValue;
                 yield return couroutineWait;
             }
-            stmText.text = $"{change_StmValue:f0}";
-            stmSlider.value = change_StmValue / maxValue;
-            stm_UI_Value = change_StmValue;
-
         }
-        else if (change_StmValue < stm_UI_Value) //데미지  
+        else if (tempValue < 0) //데미지  
         {
-            stmMaxText.text = $"{maxValue}";
-
-            while (stm_UI_Value > change_StmValue) //들어온값보다 작으면 수치계속변경
+            while (timeElaspad > checkValue) //들어온값보다 작으면 수치계속변경
             {
-                stm_UI_Value -= Time.deltaTime * stmGaugeSpeed; //부드럽게~
+                timeElaspad -= Time.deltaTime * stmGaugeSpeed;  
+                stmSlider.value = timeElaspad ;
+                stm_UI_Value = timeElaspad * maxValue; //부드럽게~
                 stmText.text = $"{stm_UI_Value:f0}";
-                stmSlider.value = stm_UI_Value / maxValue;
+
                 yield return couroutineWait;
             }
-            stmText.text = $"{change_StmValue:f0}";
-            stmSlider.value = change_StmValue / maxValue;
-            stm_UI_Value = change_StmValue;
         }
+        stmText.text = $"{change_StmValue:f0}";
+        stmSlider.value = checkValue;
+        stm_UI_Value = change_StmValue;
     }
     /// <summary>
     /// 경험치 UI 조절용 코루틴
@@ -202,39 +216,80 @@ public class TeamBorderStateUI : MonoBehaviour
     /// <returns></returns>
     IEnumerator Exp_GaugeSetting(float change_ExpValue, float maxValue)
     {
-        if (change_ExpValue > exp_UI_Value) //회복 
+        float tempValue = change_ExpValue - exp_UI_Value;
+        expMaxText.text = $"{maxValue}";
+        float timeElaspad = exp_UI_Value / maxValue;
+        float checkValue = change_ExpValue / maxValue;
+        if (tempValue > 0) //회복 
         {
-            expMaxText.text = $"{maxValue}";
-
-            while (exp_UI_Value < change_ExpValue) //들어온값보다 작으면 수치계속변경
+            while (timeElaspad < checkValue) //들어온값보다 작으면 수치계속변경
             {
-                exp_UI_Value += Time.deltaTime * expGaugeSpeed; //부드럽게~
+                timeElaspad += Time.deltaTime * expGaugeSpeed; //부드럽게~
+                exp_UI_Value = timeElaspad *  maxValue;
+                expSlider.value = timeElaspad;
                 expText.text = $"{exp_UI_Value:f0}";
-                expSlider.value = exp_UI_Value / maxValue;
                 yield return couroutineWait;
             }
-            expText.text = $"{change_ExpValue:f0}";
-            expSlider.value = change_ExpValue / maxValue;
-            exp_UI_Value = change_ExpValue;
-
         }
-        else if (change_ExpValue < exp_UI_Value) //데미지  
+        else if (tempValue < 0) //데미지  
         {
-            expMaxText.text = $"{maxValue}";
-
-            while (exp_UI_Value > change_ExpValue) //들어온값보다 작으면 수치계속변경
+            while (timeElaspad > checkValue) //들어온값보다 작으면 수치계속변경
             {
-                exp_UI_Value -= Time.deltaTime * expGaugeSpeed; //부드럽게~
+                timeElaspad -= Time.deltaTime * expGaugeSpeed; //부드럽게~
+                exp_UI_Value = timeElaspad * maxValue;
+                expSlider.value = timeElaspad;
                 expText.text = $"{exp_UI_Value:f0}";
-                expSlider.value = exp_UI_Value / maxValue;
                 yield return couroutineWait;
             }
-            expText.text = $"{change_ExpValue:f0}";
-            expSlider.value = change_ExpValue / maxValue;
-            exp_UI_Value = change_ExpValue;
         }
+        expText.text = $"{change_ExpValue:f0}";
+        expSlider.value = checkValue;
+        exp_UI_Value = change_ExpValue;
     }
 
+    /// <summary>
+    /// UI 공용으로쓸라고햇지만 버그 (연속으로 실행시 문제됨 ) 가 있어서 사용안함
+    /// CurrentValue 를 실시간으로 갱신해줘야하는데 방법이없어서 안됨
+    /// </summary>
+    /// <param name="slider"></param>
+    /// <param name="text"></param>
+    /// <param name="maxText"></param>
+    /// <param name="currentValue"></param>
+    /// <param name="changeValue"></param>
+    /// <param name="maxValue"></param>
+    /// <returns></returns>
+    IEnumerator UI_GaugeSetting(Slider slider,TextMeshProUGUI text,TextMeshProUGUI maxText, float currentValue, float changeValue, float maxValue)
+    {
+        float tempValue = changeValue - currentValue;
+        maxText.text = $"{maxValue}";
+        float timeElaspad = currentValue / maxValue;
+        float checkValue = changeValue / maxValue;
+        if (tempValue > 0) //회복 
+        {
+            while (timeElaspad < checkValue) //들어온값보다 작으면 수치계속변경
+            {
+                timeElaspad += Time.deltaTime * expGaugeSpeed; //부드럽게~
+                currentValue = timeElaspad * maxValue;
+                slider.value = timeElaspad;
+                text.text = $"{currentValue:f0}";
+                yield return couroutineWait;
+            }
+        }
+        else if (tempValue < 0) //데미지  
+        {
+            while (timeElaspad > checkValue) //들어온값보다 작으면 수치계속변경
+            {
+                timeElaspad -= Time.deltaTime * expGaugeSpeed; //부드럽게~
+                currentValue = timeElaspad * maxValue;
+                slider.value = timeElaspad;
+                text.text = $"{currentValue:f0}";
+                yield return couroutineWait;
+            }
+        }
+        text.text = $"{changeValue:f0}";
+        slider.value = checkValue;
+      
+    }
 
     // 상태이상은 진짜 .. 기존에짜둔거 수정하기 너무 양이많아서 하드코딩이많다.. 어짜피 한개뿐이라..
     /// <summary>

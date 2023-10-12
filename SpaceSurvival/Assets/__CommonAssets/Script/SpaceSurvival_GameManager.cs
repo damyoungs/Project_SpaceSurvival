@@ -219,6 +219,7 @@ public class SpaceSurvival_GameManager : ChildComponentSingeton<SpaceSurvival_Ga
     /// <summary>
     /// 스테이지 클리어 여부 
     /// </summary>
+    [SerializeField]
     StageList stageClear = StageList.None;
     public StageList StageClear
     {
@@ -232,6 +233,7 @@ public class SpaceSurvival_GameManager : ChildComponentSingeton<SpaceSurvival_Ga
     /// <summary>
     /// 현재 진행중인 스테이지 저장용 
     /// </summary>
+    [SerializeField]
     StageList currentClear = StageList.None;
     public StageList CurrentStage
     {

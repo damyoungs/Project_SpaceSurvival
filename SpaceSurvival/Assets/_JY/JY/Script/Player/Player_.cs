@@ -278,7 +278,7 @@ public class Player_ : MonoBehaviour, IBattle
     public void SkillPostProcess()//skillAction 실행 후 grid 에서 호출할 함수 
     {
        // StopCoroutine(RotateCoroutine);
-        player_Status.Base_Status.Current_Stamina--;
+        player_Status.Base_Status.Current_Stamina -= this.currentSkillData.Require_Stamina_For_UsingSkill;
         anim.SetTrigger(attack_Trigger_Hash);
         on_CursorChange?.Invoke(false);
         if (this.currentSkillData is Skill_Sniping)

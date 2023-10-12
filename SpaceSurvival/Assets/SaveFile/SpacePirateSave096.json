@@ -1,23 +1,23 @@
 {
-    "dataIndex": 99,
-    "stageClear": 0,
+    "dataIndex": 96,
+    "stageClear": 2,
     "startPos": {
-        "x": -2.0819482803344728,
-        "y": 0.054255396127700809,
-        "z": 36.6616096496582
+        "x": 2.8251729011535646,
+        "y": 0.09712451696395874,
+        "z": 24.968942642211915
     },
-    "saveTime": "2023-10-13 오전 1:18:23",
+    "saveTime": "2023-10-13 오전 1:19:30",
     "sceanName": 5,
     "playerData": {
-        "abilityPoint": 0,
+        "abilityPoint": 15,
         "playerName": "Player",
-        "level": 1,
-        "exp": 0,
-        "expMax": 60,
-        "base_MaxHP": 100.0,
-        "currentHP": 100.0,
-        "current_Stamina": 15.0,
-        "base_MaxStamina": 15.0,
+        "level": 4,
+        "exp": 82,
+        "expMax": 103,
+        "base_MaxHP": 217.0,
+        "currentHP": 217.0,
+        "current_Stamina": 35.757999420166019,
+        "base_MaxStamina": 48.0,
         "BaseDarkForce": 4948900,
         "base_ATT": 10,
         "base_DP": 10,
@@ -57,7 +57,7 @@
             "itemEnhanceValue": 0
         },
         {
-            "values": 96,
+            "values": 97,
             "itemIndex": 2,
             "slotIndex": 1,
             "itemEnhanceValue": 0
@@ -83,6 +83,12 @@
             "values": 1,
             "itemIndex": 14,
             "slotIndex": 2,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 23,
+            "slotIndex": 3,
             "itemEnhanceValue": 0
         }
     ],
@@ -120,7 +126,7 @@
             "questType": 0,
             "questState": 1,
             "questIProgress": [
-                0,
+                1,
                 0,
                 0
             ]
@@ -140,7 +146,7 @@
             "questType": 1,
             "questState": 1,
             "questIProgress": [
-                0
+                10
             ]
         },
         {
@@ -158,7 +164,7 @@
             "questType": 2,
             "questState": 2,
             "questIProgress": [
-                96
+                97
             ]
         },
         {

@@ -805,7 +805,8 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
      public void Recovery_HP(int recoveryValue, float duration)
     {
        // base_Status.Current_Stamina--;// stamina Â÷°¨
-        StartCoroutine(Recovery_HP_(recoveryValue, duration));
+        base_Status.CurrentHP += recoveryValue;
+        //StartCoroutine(Recovery_HP_(recoveryValue, duration));
     }
     
     IEnumerator Recovery_HP_(int recoveryValue, float duration)
@@ -821,7 +822,8 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
     }
     public void Recovery_Stamina(int recoveryValue, float duration)
     {
-        StartCoroutine(Recovery_Stamina_(recoveryValue, duration));
+        base_Status.Current_Stamina += recoveryValue;
+        //StartCoroutine(Recovery_Stamina_(recoveryValue, duration));
     }
     IEnumerator Recovery_Stamina_(int recoveryValue, float duration)
     {

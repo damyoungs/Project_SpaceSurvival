@@ -187,7 +187,8 @@ public class TrackingBattleUI : Base_PoolObj
     
     //게이지 조절속도 변수 
     [SerializeField]
-    private float gaugeSpeed = 1.0f;
+    [Range(0.1f,2.0f)]
+    float gaugeSpeed = 1.0f;
 
 
     CanvasGroup cg;
@@ -237,18 +238,16 @@ public class TrackingBattleUI : Base_PoolObj
             //턴제라 실시간 처리는 배제하고 제작함. 공격한번에 1번만 수정되도록 호출이 필요
             //연타 도 1번의 데미지로 처리하도록 회복도 마찬가지
             change_HpValue = now/max;
-            RectUISetting(hpRect, change_HpValue);
-            //StopCoroutine(hpChangeCoroutine);
-            //hpChangeCoroutine = HP_GaugeSetting();
-            //StartCoroutine(hpChangeCoroutine);
-            
+            StopCoroutine(hpChangeCoroutine);
+            hpChangeCoroutine = HP_GaugeSetting();
+            StartCoroutine(hpChangeCoroutine);
+
         };
         stmGaugeSetting = (now, max) => {
             change_StmValue = now/max;
-            RectUISetting(stmRect, change_StmValue);
-            //StopCoroutine(stmChangeCoroutine);
-            //stmChangeCoroutine = Stm_GaugeSetting();
-            //StartCoroutine(stmChangeCoroutine);
+            StopCoroutine(stmChangeCoroutine);
+            stmChangeCoroutine = Stm_GaugeSetting();
+            StartCoroutine(stmChangeCoroutine);
         };
 
 
@@ -285,6 +284,11 @@ public class TrackingBattleUI : Base_PoolObj
 
         }
     }
+    /// <summary>
+    /// 값이 0~ 1 
+    /// 
+    /// </summary>
+    /// <returns></returns>
     IEnumerator HP_GaugeSetting()
     {
         Vector2 tempVector = Vector2.zero; //rect transform 값변환시 사용할 변수
@@ -356,7 +360,6 @@ public class TrackingBattleUI : Base_PoolObj
         tempVector.x = value;                       // 그중에 x 값을 줄이면 됨
         uiRect.anchorMax = tempVector;              // right 수정용으로 받아오고 
         uiRect.offsetMax = Vector2.zero;            // right 값 0으로 수정해서 이미지 이동시키기
-        //Debug.Log(value);
     }
     /// <summary>
     /// 카메라와 플레이어간의 거리를 재서 추적형 UI 크기를 조절시키는 함수

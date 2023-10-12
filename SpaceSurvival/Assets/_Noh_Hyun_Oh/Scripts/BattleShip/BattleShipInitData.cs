@@ -14,9 +14,12 @@ public class BattleShipInitData : MonoBehaviour
 
     BattleMapPlayerBase PlayerDumy;
 
+    NpcTalkController npcTalkController;
+
     private void Awake()
     {
         player = FindObjectOfType<Cho_PlayerMove>();
+        npcTalkController = FindObjectOfType<NpcTalkController>();
     }
     private void Start()
     {
@@ -74,8 +77,7 @@ public class BattleShipInitData : MonoBehaviour
             }
             Cursor.visible = false;
         }
-        questManager.QuestUIManager.initialize();
-        merchantManager.NpcTalkController.ResetData();
+        npcTalkController.ResetData(); 
     }
 
     private void OnDisable()
