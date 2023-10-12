@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 /// <summary>
 /// 추적형 UI 기능 클래스 
@@ -198,6 +197,9 @@ public class TrackingBattleUI : Base_PoolObj
     /// </summary>
     WaitForFixedUpdate uiGaugeSpeed = new();
 
+    Slider hpSlider;
+    Slider stmSlider;
+
     /// <summary>
     /// 초기값들을 셋팅해둔다 나중에 거리에따른 사이즈조절에 사용할값
     /// </summary>
@@ -246,6 +248,10 @@ public class TrackingBattleUI : Base_PoolObj
             stmChangeCoroutine = Stm_GaugeSetting();
             StartCoroutine(stmChangeCoroutine);
         };
+
+
+
+
     }
 
     /// <summary>
