@@ -165,9 +165,7 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
             BattleUI.ResetData();// 추적형 UI 초기화 
             BattleUI = null; // 비우기
         }
-        //Debug.Log($"{currentTile.width},{currentTile.length} ,{currentTile.ExistType}  몬스터 초기화 ");
-        if(currentTile.ExistType != Tile.TileExistType.Item)
-            currentTile.ExistType = Tile.TileExistType.None; // 속성 돌리고 
+        currentTile.ExistType = Tile.TileExistType.None; // 속성 돌리고 
         
         if(enemyData.GrapPosition.transform.childCount > 0)
         {
