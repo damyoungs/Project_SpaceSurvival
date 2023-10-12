@@ -130,7 +130,7 @@ public class Effect_Pool : MonoBehaviour
         damageText.SetTextMiss();
         result.SetActive(true);
     }
-    void ReturnPool(Pooled_Obj obj)
+    public void ReturnPool(Pooled_Obj obj)
     {
         Queue<GameObject> queue = pools[obj.poolIndex];
         queue.Enqueue(obj.gameObject);
@@ -160,6 +160,7 @@ public class Effect_Pool : MonoBehaviour
             int i = 0;
         }
         obj.transform.SetParent(parents[obj.poolIndex].transform);
+        obj.gameObject.SetActive(false);
     }
     void GenerateObject()
     {
