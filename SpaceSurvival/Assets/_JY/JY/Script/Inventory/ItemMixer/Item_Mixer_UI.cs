@@ -139,6 +139,9 @@ public class Item_Mixer_UI : MonoBehaviour, IPopupSortWindow, IPointerClickHandl
     public void Open()
     {
         GameManager.SoundManager.PlayOneShot_OnOffToggle();
+        mixer.LeftSlotData = null;
+        mixer.MiddleSlotData = null;
+        result_Slot.ItemData = null;
         canvasGroup.alpha = 1.0f;
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
@@ -153,9 +156,7 @@ public class Item_Mixer_UI : MonoBehaviour, IPopupSortWindow, IPointerClickHandl
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
       //  mixer.ItemData = null;
-        mixer.LeftSlotData= null;
-        mixer.MiddleSlotData = null;
-        result_Slot.ItemData = null;
+   
         successRateText.text = "0";
     }
     void RefreshMixerUI(ItemData resultData)

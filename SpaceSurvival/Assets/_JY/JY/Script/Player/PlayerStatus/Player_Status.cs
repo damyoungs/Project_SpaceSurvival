@@ -342,6 +342,7 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
     TextMeshProUGUI expText;
     TextMeshProUGUI expMax_Text;
 
+    Button closeButton;
     Button strButton;
     Button intButton;
     Button lukButton;
@@ -594,6 +595,8 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
     private void Awake()
     {
         GetComponents();
+        closeButton = transform.GetChild(0).GetChild(0).GetComponent<Button>();
+        closeButton.onClick.AddListener(Close);
 
         detailOpen_Button.onClick.AddListener(ToggleDetail_OpenClose);
         strButton.onClick.AddListener(RiseStrength);
@@ -661,6 +664,7 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
         canvasGroup.alpha = 1.0f;
         canvasGroup.blocksRaycasts = true;
         canvasGroup.interactable = true;
+        WindowList.Instance.PopupSortManager.PopupSortDataAppend(this);
     }
     void Close()
     {
@@ -768,13 +772,13 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
             result = true;
             float finalDamage = GetFinalDamage((this.ATT * skillData.SkillPower) * CriticalPower);
             skillData.FinalDamage = finalDamage;
-            Debug.Log($"Å©¸®Æ¼ÄÃO : {finalDamage}");
+            //Debug.Log($"Å©¸®Æ¼ÄÃO : {finalDamage}");
         }
         else
         {
             float finalDamage = GetFinalDamage(this.ATT * skillData.SkillPower);
             skillData.FinalDamage = finalDamage;
-            Debug.Log($"Å©¸®Æ¼ÄÃX : {finalDamage}");
+            //Debug.Log($"Å©¸®Æ¼ÄÃX : {finalDamage}");
 
         }
         return result;
@@ -800,7 +804,7 @@ public class Player_Status : MonoBehaviour, IPopupSortWindow// , ÀåºñÀåÂø, ¹öÇÁ»
     }
      public void Recovery_HP(int recoveryValue, float duration)
     {
-        Stamina--;// stamina Â÷°¨
+       // base_Status.Current_Stamina--;// stamina Â÷°¨
         StartCoroutine(Recovery_HP_(recoveryValue, duration));
     }
     

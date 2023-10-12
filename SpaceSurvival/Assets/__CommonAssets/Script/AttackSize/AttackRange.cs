@@ -233,7 +233,13 @@ public class AttackRange : MonoBehaviour
         tileLayerIndex = LayerMask.NameToLayer("Ground");
 
         SpaceSurvival_GameManager.Instance.GetAttackRangeComp = () => this; //데이터 연결하기 
-        getCurrentTilePos = GameManager.Player_.Rotate;
+        getCurrentTilePos = (pos) => {
+            Transform player = SpaceSurvival_GameManager.Instance.PlayerTeam[0].transform;
+            if (pos != player.position) 
+            {
+                player.rotation = Quaternion.LookRotation(pos - player.position);
+            }
+            };//GameManager.Player_.Rotate;
     }
 
 
@@ -367,6 +373,8 @@ public class AttackRange : MonoBehaviour
         }
         //Debug.Log(mouseWheelValue);
     }
+
+   
 
     // --------------------------------------- 공격 범위 표시용 함수들-------------------
     /// <summary>
@@ -521,9 +529,9 @@ public class AttackRange : MonoBehaviour
     /// <returns>적이있으면 배열로반환 없으면 null반환</returns>
     public BattleMapEnemyBase[] GetEnemyArray(out SkillData skill)
     {
+        skill = currentSkill; 
         if (activeAttackTiles.Count > 0)
         {
-            skill = currentSkill; 
 
             BattleMapEnemyBase[] enemyArray = SpaceSurvival_GameManager.Instance.EnemyTeam; //배틀맵의 몹정보를 전부 들고 
 
@@ -545,8 +553,6 @@ public class AttackRange : MonoBehaviour
             }
             return resultEnemyList.ToArray();
         }
-        //여긴 공격할적이없을때 오는곳
-        skill  = currentSkill;  //기냥 초기화값
         return null;
     }
     public Tile[] GetEnemyArray() 

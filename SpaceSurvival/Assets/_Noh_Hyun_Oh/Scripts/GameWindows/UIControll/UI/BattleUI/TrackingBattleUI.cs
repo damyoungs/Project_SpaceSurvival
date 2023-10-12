@@ -279,20 +279,24 @@ public class TrackingBattleUI : Base_PoolObj
             while (hp_UI_Value < change_HpValue) //들어온값보다 작으면 수치계속변경
             {
                 hp_UI_Value += Time.deltaTime * gaugeSpeed; //부드럽게~
-                RectUISetting(hpRect,hp_UI_Value);
+                RectUISetting(hpRect, hp_UI_Value);
                 yield return uiGaugeSpeed;
             }
-            RectUISetting(hpRect,change_HpValue);
+            RectUISetting(hpRect, change_HpValue);
         }
         else if (change_HpValue < hp_UI_Value) //데미지  
         {
             while (hp_UI_Value > change_HpValue)
             {
                 hp_UI_Value -= Time.deltaTime * gaugeSpeed; //위와 동일한 기능 방향만 반대임
-                RectUISetting(hpRect,hp_UI_Value);
+                RectUISetting(hpRect, hp_UI_Value);
                 yield return uiGaugeSpeed;
             }
-            RectUISetting(hpRect,change_HpValue);
+            RectUISetting(hpRect, change_HpValue);
+        }
+        else 
+        {
+            RectUISetting(hpRect, change_HpValue);
         }
     }
     /// <summary>
@@ -307,18 +311,22 @@ public class TrackingBattleUI : Base_PoolObj
             {
                 stm_UI_Value += Time.deltaTime * gaugeSpeed; //부드럽게~
                 RectUISetting(stmRect, stm_UI_Value);
-               yield return uiGaugeSpeed;
+                yield return uiGaugeSpeed;
             }
             RectUISetting(stmRect, change_StmValue);
         }
         else if (change_StmValue < stm_UI_Value) //데미지  
         {
-            while (stm_UI_Value > change_StmValue) 
+            while (stm_UI_Value > change_StmValue)
             {
-                stm_UI_Value -= Time.deltaTime * gaugeSpeed; 
+                stm_UI_Value -= Time.deltaTime * gaugeSpeed;
                 RectUISetting(stmRect, stm_UI_Value);
                 yield return uiGaugeSpeed;
             }
+            RectUISetting(stmRect, change_StmValue);
+        }
+        else 
+        {
             RectUISetting(stmRect, change_StmValue);
         }
     }

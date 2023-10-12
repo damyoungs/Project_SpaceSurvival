@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 2
   iconImage: {fileID: 21300000, guid: 09e4c6a7d75923945afe43953ef58ad2, type: 3}
-  title: "\uC218\uC9D1\uD018\uC2A4\uD2B8 \uC774\uB984"
-  description: "\uC218\uC9D1\uD018\uC2A4\uD2B8 \uC5D0\uB300\uD55C \uB0B4\uC6A9"
-  clearObjectives: "\uBB34\uC5C7\uC744 \uBA87\uAC1C \uC218\uC9D1\uD574\uC624\uB77C\uB294
-    \uB0B4\uC6A9 "
+  title: "HP \uD3EC\uC158 \uC218\uC9D1"
+  description: "HP \uD3EC\uC158 \uC218\uC9D1 \uD558\uB77C"
+  clearObjectives: "HP \uD3EC\uC158 5\uAC1C \uC218\uC9D1"
   rewardCoin: 0
-  rewardItem: 09000000
+  rewardItem: 0e000000
   itemCount: 01000000
   requestItem: 01000000
   questMosters: 
-  requiredCount: 0a000000
+  requiredCount: 05000000
+  currentCount: 00000000

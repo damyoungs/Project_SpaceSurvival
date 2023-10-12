@@ -2,11 +2,11 @@
     "dataIndex": 0,
     "stageClear": 0,
     "startPos": {
-        "x": 7.14971399307251,
-        "y": 0.15400001406669618,
-        "z": 29.172685623168947
+        "x": 0.019197190180420877,
+        "y": 0.9244664311408997,
+        "z": 22.97138023376465
     },
-    "saveTime": "2023-10-10 오전 11:10:57",
+    "saveTime": "2023-10-11 오전 11:13:09",
     "sceanName": 5,
     "playerData": {
         "abilityPoint": 50,
@@ -16,9 +16,9 @@
         "expMax": 50,
         "base_MaxHP": 100.0,
         "currentHP": 100.0,
-        "current_Stamina": 15.0,
+        "current_Stamina": 9.0,
         "base_MaxStamina": 15.0,
-        "BaseDarkForce": 4956900,
+        "BaseDarkForce": 4953800,
         "base_ATT": 10,
         "base_DP": 10,
         "base_STR": 5,
@@ -29,53 +29,35 @@
         "damage_Min": 0.5
     },
     "equipments_Data": {
-        "Total_STR": 0,
-        "Total_INT": 0,
-        "Total_LUK": 0,
-        "Total_DEX": 0,
-        "Total_CriticalRate": 0.0,
+        "Total_STR": 30,
+        "Total_INT": 30,
+        "Total_LUK": 30,
+        "Total_DEX": 30,
+        "Total_CriticalRate": 50.0,
         "Total_DodgeRate": 0.0,
         "codes": [
-            0,
-            0,
-            0,
-            0
+            46,
+            11,
+            51,
+            24
         ],
-        "weapon_ItemLevel": 0,
-        "weapon_AttackPoint": 0,
-        "weapon_DefencePoint": 0,
-        "weapon_ItemName": ""
+        "weapon_ItemLevel": 1,
+        "weapon_AttackPoint": 20,
+        "weapon_DefencePoint": 1,
+        "weapon_ItemName": "샷건"
     },
     "equipSlotLength": 0,
     "equipData": [
         {
             "values": 1,
-            "itemIndex": 51,
-            "slotIndex": 0,
-            "itemEnhanceValue": 0
-        },
-        {
-            "values": 1,
-            "itemIndex": 46,
-            "slotIndex": 1,
-            "itemEnhanceValue": 0
-        },
-        {
-            "values": 1,
-            "itemIndex": 49,
-            "slotIndex": 2,
-            "itemEnhanceValue": 0
-        },
-        {
-            "values": 1,
             "itemIndex": 10,
-            "slotIndex": 3,
+            "slotIndex": 1,
             "itemEnhanceValue": 1
         },
         {
             "values": 1,
-            "itemIndex": 11,
-            "slotIndex": 4,
+            "itemIndex": 9,
+            "slotIndex": 2,
             "itemEnhanceValue": 1
         }
     ],
@@ -125,5 +107,62 @@
             "skillType": 4
         }
     ],
-    "questList": []
+    "questList": [
+        {
+            "questInfo": "클리어 조건",
+            "questIndex": 0,
+            "questType": 0,
+            "questState": 1,
+            "questIProgress": [
+                0,
+                0,
+                0
+            ]
+        },
+        {
+            "questInfo": "대형로봇 토벌",
+            "questIndex": 1000,
+            "questType": 1,
+            "questState": 1,
+            "questIProgress": [
+                0
+            ]
+        },
+        {
+            "questInfo": "중형 유닛 부시기",
+            "questIndex": 1001,
+            "questType": 1,
+            "questState": 1,
+            "questIProgress": [
+                0
+            ]
+        },
+        {
+            "questInfo": "소형 부시기",
+            "questIndex": 1002,
+            "questType": 1,
+            "questState": 1,
+            "questIProgress": [
+                0
+            ]
+        },
+        {
+            "questInfo": "수집테스트",
+            "questIndex": 2000,
+            "questType": 2,
+            "questState": 1,
+            "questIProgress": [
+                100
+            ]
+        },
+        {
+            "questInfo": "수집퀘스트 이름",
+            "questIndex": 2001,
+            "questType": 2,
+            "questState": 1,
+            "questIProgress": [
+                100
+            ]
+        }
+    ]
 }

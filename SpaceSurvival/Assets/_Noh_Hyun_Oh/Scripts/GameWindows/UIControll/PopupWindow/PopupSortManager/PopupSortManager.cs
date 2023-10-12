@@ -12,8 +12,11 @@ using UnityEngine;
 /// <typeparam name="T">팝업창 공통 된내용</typeparam>
 public class PopupSortManager : MonoBehaviour  
 {
-    LinkedList<IPopupSortWindow> popupLList;
 
+    LinkedList<IPopupSortWindow> popupLList;
+    public LinkedList<IPopupSortWindow> PopupLList => popupLList;
+
+    
     IPopupSortWindow[]  popupArray; //창의 갯수는 정해져있음으로 배열로 선언
 
     public void Awake() 
@@ -45,11 +48,11 @@ public class PopupSortManager : MonoBehaviour
     /// 팝업 창호출 시 호출할 함수 
     /// </summary>
     /// <param name="target">창이 오픈될때의 팝업창종류</param>
-    public void PopupOpen(IPopupSortWindow target) 
+    public void PopupOpen(IPopupSortWindow target)
     {
         //팝업창을 빼서 맨뒤로 넣고 오브젝트정렬시킨다 그러면 맨앞에보인다.
         target.OpenWindow();
-        popupLList.Remove(target); 
+        popupLList.Remove(target);
         popupLList.AddFirst(target);
         PopupObjectChange();
     }
@@ -58,11 +61,36 @@ public class PopupSortManager : MonoBehaviour
     /// 정한 팝업창을 닫는다
     /// </summary>
     /// <param name="target">닫힐 팝업창</param>
-    public void PopupClose(IPopupSortWindow target) 
+    public void PopupClose(IPopupSortWindow target)
     {
         popupLList.Remove(target);
         target.CloseWindow();
     }
+
+
+    /// <summary>
+    /// 팝업 관련 데이터 추가및 리플래쉬
+    /// </summary>
+    /// <param name="target">창이 오픈될때의 팝업창종류</param>
+    public void PopupSortDataAppend(IPopupSortWindow target)
+    {
+        //팝업창을 빼서 맨뒤로 넣고 오브젝트정렬시킨다 그러면 맨앞에보인다.
+        popupLList.Remove(target);
+        popupLList.AddFirst(target);
+        PopupObjectChange();
+    }
+
+    /// <summary>
+    /// 팝업 관련 데이터 삭제 
+    /// </summary>
+    /// <param name="target">닫힐 팝업창</param>
+    public void PopupSortDataRemove(IPopupSortWindow target)
+    {
+        popupLList.Remove(target);
+    }
+
+
+
 
     /// <summary>
     /// 맨앞의 팝업창을 닫는다 

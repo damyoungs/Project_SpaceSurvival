@@ -105,7 +105,7 @@ public class PlayerTurnObject : TurnBaseObject
     public override void TurnStartAction()
     {
         isTurn = true; // 자신의 턴인지 체크한다. 해제는 델리게이트에 연결해두었고 델리는 턴종료버튼 에서 실행된다.
-        Debug.Log($"{name} 오브젝트는 턴이 시작되었다 행동력 : {TurnActionValue}");
+        //Debug.Log($"{name} 오브젝트는 턴이 시작되었다 행동력 : {TurnActionValue}");
         currentUnit = charcterList[0]; //플레이어 설정을하고 
         currentUnit.IsControll = true; //컨트롤 할수있게 설정한다.
         cot.Target = currentUnit.transform; //카메라 포커스 맞추기 

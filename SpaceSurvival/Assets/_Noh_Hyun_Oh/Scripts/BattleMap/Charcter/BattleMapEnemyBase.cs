@@ -219,7 +219,7 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
             float timeElaspad = 0.0f;
             enemyData.Move();
             targetPos = tile.transform.position; //새로운 위치잡고 
-            transform.rotation = Quaternion.LookRotation(targetPos - transform.position); //해당방향 바라보고 
+            transform.GetChild(0).transform.rotation = Quaternion.LookRotation(targetPos - transform.position); //해당방향 바라보고 
             this.currentTile.ExistType = Tile.TileExistType.None;
             //Debug.Log($"{this.currentTile.Index}타일 오브젝트 이동중에 타일 데이터일단 move로변경");
             this.currentTile = tile;
@@ -260,8 +260,10 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
     /// </summary>
     public IEnumerator CharcterAttack(Tile attackTile)
     {
-        Debug.Log($"{enemyData.name} - {enemyData.wType} - {enemyData.mType} - {enemyData.AttackPower}");
-        transform.rotation = Quaternion.LookRotation(attackTile.transform.position - transform.position);
+        //Debug.Log($"{enemyData.name} - {enemyData.wType} - {enemyData.mType} - {enemyData.AttackPower}");
+        transform.GetChild(0).transform.rotation = Quaternion.LookRotation(attackTile.transform.position - transform.position);
+        if(enemyData.wType == Enemy_.WeaponType.Riffle && enemyData.mType != Monster_Type.Size_L)
+            GameManager.EffectPool.GetObject(SkillType.Penetrate, attackTile.transform.position);
         enemyData.Attack_Enemy(SpaceSurvival_GameManager.Instance.PlayerTeam[0].CharcterData);
         yield return waitTime; //공격 애니메이션 끝날때까지 기다려주는것도 좋을거같다.
     }

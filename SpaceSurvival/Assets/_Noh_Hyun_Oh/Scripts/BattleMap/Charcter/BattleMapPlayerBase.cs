@@ -143,7 +143,7 @@ public class BattleMapPlayerBase : Base_PoolObj, ICharcterBase
                 BattleUI.stmGaugeSetting(stmValue, playerData.Base_MaxStamina); //소모된 행동력 표시
             }
             onMoveRangeClear?.Invoke(currentTile, currentMoveSize);
-            if (stmValue < 1.0f) //최소행동값? 보다 낮으면 
+            if (TurnManager.Instance.TurnIndex > 0 &&  stmValue < 1.0f) //최소행동값? 보다 낮으면 
             {
                 TurnManager.Instance.CurrentTurn.TurnEndAction();//턴종료 
             }
@@ -275,7 +275,7 @@ public class BattleMapPlayerBase : Base_PoolObj, ICharcterBase
         {
             float timeElaspad = 0.0f;
             targetPos = tile.transform.position; //새로운 위치잡고 
-            transform.rotation = Quaternion.LookRotation(targetPos - transform.position); //해당방향 바라보고 
+            transform.GetChild(0).transform.rotation = Quaternion.LookRotation(targetPos - transform.position); //해당방향 바라보고 
             currentTile.ExistType = Tile.TileExistType.Move;// 기존위치 이동가능하게 바꾸고  
             //Debug.Log($"{this.currentTile.Index}타일 오브젝트 이동중에 타일 데이터일단 move로변경");
             currentTile = tile;
