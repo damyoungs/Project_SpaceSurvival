@@ -45,7 +45,7 @@ public class Effect_Pool : MonoBehaviour
                 obj.SetActive(false);
                 Pooled_Obj poolObj = obj.GetComponent<Pooled_Obj>();
                 poolObj.on_ReturnPool += ReturnPool;
-                poolObj.poolIndex = i;// ºñÈ°¼ºÈ­½Ã ´Ù½Ã Ç®·Î µÇµ¹¸±¶§ »ç¿ë
+                poolObj.poolIndex = i;// ë¹„í™œì„±í™”ì‹œ ë‹¤ì‹œ í’€ë¡œ ë˜ëŒë¦´ë•Œ ì‚¬ìš©
               
                 pools[i].Enqueue(obj);
             }
@@ -53,7 +53,7 @@ public class Effect_Pool : MonoBehaviour
 
     }
     /// <summary>
-    /// ½ºÅ³ÀÌÆåÆ®¿ë
+    /// ìŠ¤í‚¬ì´í™íŠ¸ìš©
     /// </summary>
     /// <param name="type"></param>
     /// <param name="position"></param>
@@ -71,9 +71,9 @@ public class Effect_Pool : MonoBehaviour
         return null;
     }
     /// <summary>
-    /// ·¹º§¾÷ ÀÌÆåÆ®
+    /// ë ˆë²¨ì—… ì´í™íŠ¸
     /// </summary>
-    /// <param name="position">ÇÃ·¹ÀÌ¾îÀÇ Æ÷Áö¼Ç</param>
+    /// <param name="position">í”Œë ˆì´ì–´ì˜ í¬ì§€ì…˜</param>
     /// <returns></returns>
     public GameObject GetLevelUp_Effect(Transform target)
     {
@@ -104,7 +104,7 @@ public class Effect_Pool : MonoBehaviour
         }
     }
     /// <summary>
-    /// µ¥¹ÌÁö ÆË¾÷¿ë
+    /// ë°ë¯¸ì§€ íŒì—…ìš©
     /// </summary>
     /// <param name="damage"></param>
     /// <param name="target"></param>
@@ -135,11 +135,11 @@ public class Effect_Pool : MonoBehaviour
         Queue<GameObject> queue = pools[obj.poolIndex];
         queue.Enqueue(obj.gameObject);
 
-        if (obj.poolIndex == 3 )//¹öÇÁ½ºÅ³ÀÏ °æ¿ì
+        if (obj.poolIndex == 3 )//ë²„í”„ìŠ¤í‚¬ì¼ ê²½ìš°
         {
             StartCoroutine(SetParent(obj));
         }
-        else if (obj.poolIndex == 5) //µ¥¹ÌÁö ÅØ½ºÆ®ÀÏ °æ¿ì
+        else if (obj.poolIndex == 5) //ë°ë¯¸ì§€ í…ìŠ¤íŠ¸ì¼ ê²½ìš°
         {
             StartCoroutine(SetParent(obj));
         }
@@ -147,6 +147,8 @@ public class Effect_Pool : MonoBehaviour
         {
             StartCoroutine(SetParent(obj));
         }
+        obj.gameObject.SetActive(false);
+        
     }
     IEnumerator SetParent(Pooled_Obj obj)
     {
@@ -160,7 +162,6 @@ public class Effect_Pool : MonoBehaviour
             int i = 0;
         }
         obj.transform.SetParent(parents[obj.poolIndex].transform);
-        obj.gameObject.SetActive(false);
     }
     void GenerateObject()
     {
