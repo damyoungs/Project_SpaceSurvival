@@ -496,6 +496,7 @@ public class TrackingBattleUI : Base_PoolObj
     /// </summary>
     public  void ResetData() 
     {
+      
         //델리게이트 초기화 
         releaseStatus = null;
         //거리재기위한 카메라와 기준점이될 플레이어 참조를 해제 
@@ -509,7 +510,8 @@ public class TrackingBattleUI : Base_PoolObj
                 states[i] = null; // 빈값으로 셋팅
             }
         }
-       
+        RectUISetting(hpRect, 1.0f);
+        RectUISetting(stmRect, 1.0f);
         transform.SetParent(poolTransform);//풀로 돌린다
         gameObject.SetActive(false); //큐로 돌리고 
         //초기화 마지막에 풀로 돌린다.
