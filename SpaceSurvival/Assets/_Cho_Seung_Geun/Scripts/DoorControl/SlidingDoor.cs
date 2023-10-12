@@ -33,6 +33,8 @@ public class SlidingDoor : MonoBehaviour
 
         openHeight = door.position.y + 3.0f;
         closeHeight = door.position.y;
+
+        SpaceSurvival_GameManager.Instance.StageClear = StageList.All;
     }
 
     private void Start()
