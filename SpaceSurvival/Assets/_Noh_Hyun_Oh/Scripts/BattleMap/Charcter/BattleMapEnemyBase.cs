@@ -113,7 +113,6 @@ public class BattleMapEnemyBase : Base_PoolObj ,ICharcterBase
             }
             if (enemyData.HP < 0)
             {
-                currentTile.ExistType = Tile.TileExistType.None;
                 Die();
                 ResetData();
             }
