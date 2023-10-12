@@ -379,7 +379,8 @@ public class Player_ : MonoBehaviour, IBattle
     {
         if (itemDescription.ItemData != null)
         {
-            if (itemDescription.ItemData is ItemData_Equip)
+            IEquippable equippable = itemDescription.ItemData as IEquippable;
+            if (equippable != null)
             {
                 audioSource.PlayOneShot(equip_Sound);
                 player_Status.Base_Status.Current_Stamina--;//다른 아이템 장착시  stamina 차감

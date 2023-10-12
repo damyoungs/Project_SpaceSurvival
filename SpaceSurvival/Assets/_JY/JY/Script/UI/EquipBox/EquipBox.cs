@@ -12,6 +12,8 @@ using UnityEngine.Windows;
 public class Equipments_Data_Server//플레이어가 원하는 타이밍에 언제든 현재 장비된 장비들로 인해 추가된 공격력과 방어력을 받아오기위한 클래스
 {
     EquipBox equipBox_;
+
+
     uint total_ATT;
     public uint Total_ATT => total_ATT;
     uint total_DP;
@@ -84,6 +86,8 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
 
     CanvasGroup canvasGroup;
     public bool IsOpen => canvasGroup.alpha > 0.9f;
+    Button button;
+
 
     public Action<IPopupSortWindow> PopupSorting { get ; set ; }
     //InputKeyMouse player_Input_Action;
@@ -91,6 +95,8 @@ public class EquipBox : MonoBehaviour, IPopupSortWindow, IPointerClickHandler
     private void Awake()
     {
         //player_Input_Action = new InputKeyMouse();
+        button = transform.GetChild(0).GetChild(0).GetComponent<Button>();
+        button.onClick.AddListener(Close);
         description = GetComponentInChildren<EquipBox_Description>();
         canvasGroup = GetComponent<CanvasGroup>();
         equipBox_Slots = new EquipBox_Slot[4];
