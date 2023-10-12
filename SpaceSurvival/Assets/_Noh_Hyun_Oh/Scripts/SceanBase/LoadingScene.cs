@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
 using Cinemachine;
+using EnumList;
 
 /// <summary>
 /// 로딩씬 관리할 클래스
@@ -56,6 +57,18 @@ public class LoadingScene : MonoBehaviour
     /// </summary>
     static CinemachineBrain brainCamera;
 
+    /// <summary>
+    /// 배경 이미지
+    /// </summary>
+    [SerializeField]
+    Image backGroundImg;
+
+    [SerializeField]
+    Sprite backGroundSprite;
+
+    [SerializeField]
+    [Range(0.0f,3.0f)]
+    static float padeOutTime = 3.0f;
 
     /// <summary>
     /// 씬로딩의 진행도를 보여주는씬으로 넘어가는 함수 비동기로진행
@@ -72,14 +85,6 @@ public class LoadingScene : MonoBehaviour
                 nextSceanindex = (int)sceneName; //다음씬 인덱스 셋팅하고 
                 InputSystemController.Instance.DisableHotKey(HotKey_Use.None); //열려있는 액션 전부 닫고 기본만열자 
                 WindowList.Instance.PopupSortManager.CloseAllWindow(); //화면 전환시 열려있는창 전부닫자.  
-                if (sceneName == EnumList.SceneName.SpaceShip)
-                {
-                    GameManager.PlayerStatus.Base_Status.CurrentHP = GameManager.PlayerStatus.Base_Status.Base_MaxHP;
-                }
-                if (sceneName == EnumList.SceneName.TITLE)
-                {
-                    TitleSceneMove();       //타이틀로 갈때 데이터 초기화용 함수
-                }
                 if (SceneManager.GetActiveScene().buildIndex != nextSceanindex) //현재씬이아닌 다른씬갈때는 로딩창을 가도록 수정 
                 {
                    
@@ -133,6 +138,22 @@ public class LoadingScene : MonoBehaviour
     /// <returns></returns>
     IEnumerator LoadSceneProcess()
     {
+        switch ((EnumList.SceneName)nextSceanindex)
+        {
+            case EnumList.SceneName.TITLE:
+                Time.timeScale = 1.0f;
+                TitleSceneMove();       //타이틀로 갈때 데이터 초기화용 함수
+                break;
+            case EnumList.SceneName.ENDING:
+                break;
+            case EnumList.SceneName.TestBattleMap:
+                break;
+            case EnumList.SceneName.SpaceShip:
+                GameManager.PlayerStatus.Base_Status.CurrentHP = GameManager.PlayerStatus.Base_Status.Base_MaxHP;
+                break;
+            default:
+                break;
+        }
         //비동기 씬로딩정보를 받기위해 가져오는 변수
         AsyncOperation op = SceneManager.LoadSceneAsync(nextSceanindex, LoadSceneMode.Single); //기본 single => 마지막 로딩완료된것만 열린다
                                                                                                   // additive는 여러씬이 같이열린다..

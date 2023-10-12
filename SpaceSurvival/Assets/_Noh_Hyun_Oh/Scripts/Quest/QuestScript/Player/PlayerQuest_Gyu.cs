@@ -89,6 +89,7 @@ public class PlayerQuest_Gyu : MonoBehaviour
             clearQuestList.Add(clearQuest);
             currentQuests.Remove(clearQuest);
             RewardDataSetting(clearQuest);
+
             return;
         }
         Debug.LogWarning($"클리어한 퀘스트는 : {clearQuest} , 캐릭터가 가지고있는퀘스트가 아닙니다.");

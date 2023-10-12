@@ -15,8 +15,8 @@ EditorBuildSettings:
     path: Assets/_Noh_Hyun_Oh/Scenes/Loading.unity
     guid: 8311e4ba36c1e084bbe82bcdb03750ee
   - enabled: 1
-    path: Assets/_Noh_Hyun_Oh/Scenes/Ending.unity
-    guid: 8f820110527124d4a9fee3546a7e1041
+    path: Assets/_Yoon_Dae_Myeong/Scenes/EndScene.unity
+    guid: 3ecfb167f9d114c98a29d353105e06be
   - enabled: 1
     path: Assets/_Noh_Hyun_Oh/Scenes/BattleMap.unity
     guid: 21cfc6614e568db4ea08db79da047199

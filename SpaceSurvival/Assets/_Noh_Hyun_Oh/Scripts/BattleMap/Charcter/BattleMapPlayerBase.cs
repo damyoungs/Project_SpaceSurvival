@@ -22,8 +22,12 @@ public class BattleMapPlayerBase : Base_PoolObj, ICharcterBase
     /// </summary>
     Player_ charcterData;
     public Player_ CharcterData => charcterData;
-   
 
+    /// <summary>
+    /// 캐릭터 모델링의 목덜미 를 가리키고 있는 오브젝트의 위치 
+    /// 카메라 의 타겟및 UI 위치 설정할때 사용한다.
+    /// </summary>
+    Transform cameraTarget;
 
     /// <summary>
     /// 이동버그가 존재해서 체크하는 변수
@@ -109,6 +113,7 @@ public class BattleMapPlayerBase : Base_PoolObj, ICharcterBase
         base.Awake();
         charcterData = GetComponentInChildren<Player_>();
         unitAnimator = transform.GetChild(0).GetComponent<Animator>();
+        cameraTarget = transform.GetChild(transform.childCount-1); //마지막 위치에 있어야함
     }
 
     private void Start()
@@ -200,14 +205,13 @@ public class BattleMapPlayerBase : Base_PoolObj, ICharcterBase
             battleUI.gameObject.name = $"{name} _ Tracking"; //이름확인용
             battleUI.transform.SetParent(battleUICanvas);//풀은 캔버스 밑에없기때문에 배틀맵UI만 관리할 캔버스 위치 밑으로 이동시킨다.
             battleUI.gameObject.SetActive(true); //활성화 시킨다.
-            battleUI.Player = transform.GetChild(0);     //UI 는 유닛과 1:1 매치가 되있어야 됨으로 담아둔다.
+            battleUI.FollowTarget = cameraTarget;     //UI 는 유닛과 1:1 매치가 되있어야 됨으로 담아둔다.
             battleUI.releaseStatus += (_) => { Debug.Log("버프해제"); charcterData.DeBuff(); }; //버프해제 등록
         }
         if (viewPlayerCamera == null)  //카메라 셋팅안되있으면 
         {
             viewPlayerCamera = EtcObjects.Instance.TeamCharcterView;// EtcObject 에 미리 만들어둔 게임오브젝트 가져오기 큐로 관리중이다 
-            Transform cameraTarget = transform.GetChild(0); //캐릭터위치
-            viewPlayerCamera.TargetObject = cameraTarget.GetChild(cameraTarget.childCount-2); //캐릭터안에 맨밑에서두번째 오브젝트를 카메라 타겟을 만들어둬야쫒아다닌다.
+            viewPlayerCamera.TargetObject = cameraTarget; //캐릭터안에 맨밑에서두번째 오브젝트를 카메라 타겟을 만들어둬야쫒아다닌다.
             viewPlayerCamera.gameObject.SetActive(true); //셋팅끝낫으면 활성화시키기
         }
     }

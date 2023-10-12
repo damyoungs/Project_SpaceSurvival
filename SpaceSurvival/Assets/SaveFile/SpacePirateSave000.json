@@ -1,23 +1,23 @@
 {
     "dataIndex": 0,
-    "stageClear": 0,
+    "stageClear": 7,
     "startPos": {
-        "x": 0.019197190180420877,
-        "y": 0.9244664311408997,
-        "z": 22.97138023376465
+        "x": 6.862997531890869,
+        "y": 0.10843735933303833,
+        "z": 22.683164596557618
     },
-    "saveTime": "2023-10-11 오전 11:13:09",
+    "saveTime": "2023-10-11 오전 11:33:51",
     "sceanName": 5,
     "playerData": {
-        "abilityPoint": 50,
+        "abilityPoint": 90,
         "playerName": "Player",
-        "level": 1,
-        "exp": 0,
-        "expMax": 50,
-        "base_MaxHP": 100.0,
-        "currentHP": 100.0,
-        "current_Stamina": 9.0,
-        "base_MaxStamina": 15.0,
+        "level": 9,
+        "exp": 83,
+        "expMax": 211,
+        "base_MaxHP": 460.0,
+        "currentHP": 460.0,
+        "current_Stamina": 78.64996337890625,
+        "base_MaxStamina": 159.0,
         "BaseDarkForce": 4953800,
         "base_ATT": 10,
         "base_DP": 10,
@@ -64,22 +64,47 @@
     "consumeSlotLength": 0,
     "consumeData": [
         {
-            "values": 100,
+            "values": 102,
             "itemIndex": 1,
             "slotIndex": 0,
             "itemEnhanceValue": 0
         },
         {
-            "values": 100,
+            "values": 101,
             "itemIndex": 2,
             "slotIndex": 1,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 3,
+            "slotIndex": 2,
             "itemEnhanceValue": 0
         }
     ],
     "etcSlotLength": 0,
     "etcData": [],
     "craftSlotLength": 0,
-    "craftData": [],
+    "craftData": [
+        {
+            "values": 1,
+            "itemIndex": 23,
+            "slotIndex": 0,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 25,
+            "slotIndex": 1,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 1,
+            "itemIndex": 31,
+            "slotIndex": 2,
+            "itemEnhanceValue": 0
+        }
+    ],
     "skillDatas": [
         {
             "skillLevel": 1,
@@ -114,9 +139,9 @@
             "questType": 0,
             "questState": 1,
             "questIProgress": [
-                0,
-                0,
-                0
+                1,
+                1,
+                1
             ]
         },
         {
@@ -125,7 +150,7 @@
             "questType": 1,
             "questState": 1,
             "questIProgress": [
-                0
+                4
             ]
         },
         {
@@ -134,7 +159,7 @@
             "questType": 1,
             "questState": 1,
             "questIProgress": [
-                0
+                16
             ]
         },
         {
@@ -143,7 +168,7 @@
             "questType": 1,
             "questState": 1,
             "questIProgress": [
-                0
+                10
             ]
         },
         {
@@ -152,7 +177,7 @@
             "questType": 2,
             "questState": 1,
             "questIProgress": [
-                100
+                101
             ]
         },
         {
@@ -161,7 +186,7 @@
             "questType": 2,
             "questState": 1,
             "questIProgress": [
-                100
+                102
             ]
         }
     ]
