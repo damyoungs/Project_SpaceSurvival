@@ -261,5 +261,6 @@ public class LoadingScene : MonoBehaviour
         SpaceSurvival_GameManager.Instance.IsBattleMapClear = false;
         SpaceSurvival_GameManager.Instance.CurrentStage = StageList.None;
         SpaceSurvival_GameManager.Instance.StageClear = StageList.None; //스테이지 클리어정보 초기화
+        Cursor.visible = true;
     }
 }

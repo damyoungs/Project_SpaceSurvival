@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -533,20 +534,18 @@ public class AttackRange : MonoBehaviour
         if (activeAttackTiles.Count > 0)
         {
 
-            BattleMapEnemyBase[] enemyArray = SpaceSurvival_GameManager.Instance.EnemyTeam; //배틀맵의 몹정보를 전부 들고 
+            IEnumerable<BattleMapEnemyBase> enemyList = SpaceSurvival_GameManager.Instance.GetEnemeyTeam(); //배틀맵의 몹정보를 전부 들고 
 
-            int enemySize = enemyArray.Length;      // 배틀맵에 나와있는 몬스터의 갯수 가져오고
-
-            List<BattleMapEnemyBase> resultEnemyList = new List<BattleMapEnemyBase>(enemySize); //최대크기는 몬스터 리스트보다 클수없음으로 그냥 최대로잡자
+            List<BattleMapEnemyBase> resultEnemyList = new List<BattleMapEnemyBase>(enemyList.Count()); //최대크기는 몬스터 리스트보다 클수없음으로 그냥 최대로잡자
 
             foreach (Tile attackTile in activeAttackTiles) //공격범위만큼 검색하고
             {
-                for (int i = 0; i < enemySize; i++) //적들을 검색을 진행 
+                foreach (BattleMapEnemyBase enemy in enemyList)
                 {
-                    if (enemyArray[i].currentTile.width == attackTile.width &&
-                        enemyArray[i].currentTile.length == attackTile.length) //타일이 같으면 
+                    if (enemy.currentTile.width == attackTile.width &&
+                        enemy.currentTile.length == attackTile.length) //타일이 같으면 
                     {
-                        resultEnemyList.Add(enemyArray[i]); //리스트에 추가
+                        resultEnemyList.Add(enemy); //리스트에 추가
                         break;//다음타일검색을위해 빠져나감
                     }
                 }

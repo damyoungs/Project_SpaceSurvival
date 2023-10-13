@@ -167,7 +167,7 @@ public class EnemyTurnObject : TurnBaseObject
             }
         }
 
-        SpaceSurvival_GameManager.Instance.GetEnemeyTeam = () => charcterList.OfType<BattleMapEnemyBase>().ToArray();
+        SpaceSurvival_GameManager.Instance.GetEnemeyTeam = () => charcterList.OfType<BattleMapEnemyBase>();
     }
 
     /// <summary>

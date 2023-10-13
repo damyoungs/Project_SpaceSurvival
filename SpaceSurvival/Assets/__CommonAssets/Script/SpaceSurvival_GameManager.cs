@@ -142,17 +142,9 @@ public class SpaceSurvival_GameManager : ChildComponentSingeton<SpaceSurvival_Ga
     public Func<BattleMapPlayerBase[]> GetPlayerTeam;
 
     /// <summary>
-    /// 적군 목록을 저장해둔다.
+    /// 적군 실시간 목록 가져온다.
     /// </summary>
-    BattleMapEnemyBase[] enemyTeam;
-    public BattleMapEnemyBase[] EnemyTeam
-    {
-        get
-        {
-            return GetEnemeyTeam?.Invoke(); 
-        }
-    }
-    public Func<BattleMapEnemyBase[]> GetEnemeyTeam;
+    public Func<IEnumerable<BattleMapEnemyBase>> GetEnemeyTeam;
 
     /// <summary>
     /// 이동범위 표시하는 컴포넌트 가져온다.
@@ -288,7 +280,6 @@ public class SpaceSurvival_GameManager : ChildComponentSingeton<SpaceSurvival_Ga
         }
         playerTeam = null;
         GetPlayerTeam = null;
-        enemyTeam = null;
         GetEnemeyTeam = null;
         IsBoss = false;
         playerPos = null;
