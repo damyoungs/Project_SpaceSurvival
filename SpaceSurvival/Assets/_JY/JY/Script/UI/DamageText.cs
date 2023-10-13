@@ -12,9 +12,16 @@ public class DamageText : MonoBehaviour
     TextMeshPro damageText;
     float timeElapse = 0;
     float moveSpeed = 2.0f;
+
+    Pooled_Obj pooled;
     private void Awake()
     {
         damageText = GetComponent<TextMeshPro>();
+    }
+
+    private void Start()
+    {
+        pooled = GetComponent<Pooled_Obj>();
     }
     private void OnEnable()
     {
@@ -58,6 +65,7 @@ public class DamageText : MonoBehaviour
         damageText.alpha -= (Time.deltaTime * 1.25f);
         if (timeElapse > 0.8f)
         {
+            pooled.on_ReturnPool(pooled);
             gameObject.SetActive(false);
         }
         transform.Translate(0, moveSpeed * Time.deltaTime, 0, Space.Self);

@@ -6690,31 +6690,31 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 917187561, guid: 4c13b59fca2a2474ca6c2b1b0b027b33, type: 3}
       propertyPath: PoolPrefabs.Array.data[0].poolSize
-      value: 64
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 917187561, guid: 4c13b59fca2a2474ca6c2b1b0b027b33, type: 3}
       propertyPath: PoolPrefabs.Array.data[1].poolSize
-      value: 64
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 917187561, guid: 4c13b59fca2a2474ca6c2b1b0b027b33, type: 3}
       propertyPath: PoolPrefabs.Array.data[2].poolSize
-      value: 64
+      value: 32
       objectReference: {fileID: 0}
     - target: {fileID: 917187561, guid: 4c13b59fca2a2474ca6c2b1b0b027b33, type: 3}
       propertyPath: PoolPrefabs.Array.data[3].poolSize
-      value: 64
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 917187561, guid: 4c13b59fca2a2474ca6c2b1b0b027b33, type: 3}
       propertyPath: PoolPrefabs.Array.data[4].poolSize
-      value: 64
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 917187561, guid: 4c13b59fca2a2474ca6c2b1b0b027b33, type: 3}
       propertyPath: PoolPrefabs.Array.data[5].poolSize
-      value: 160
+      value: 32
       objectReference: {fileID: 0}
     - target: {fileID: 917187561, guid: 4c13b59fca2a2474ca6c2b1b0b027b33, type: 3}
       propertyPath: PoolPrefabs.Array.data[6].poolSize
-      value: 32
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2541241478822534671, guid: 4c13b59fca2a2474ca6c2b1b0b027b33, type: 3}
       propertyPath: IsCritical
@@ -38970,7 +38970,7 @@ MonoBehaviour:
   player: {fileID: 0}
   looktarget: {fileID: 0}
   array_NPC: []
-  isTalking: 0
+  talkController: {fileID: 0}
 --- !u!224 &2702964480674263713
 RectTransform:
   m_ObjectHideFlags: 0
@@ -44981,7 +44981,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05f074b9902cdd94a96080eae99d10d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isTalking: 0
   merchantItemArray:
   - {fileID: 11400000, guid: 8abd7590da3eed04d9601b2ac4db4684, type: 2}
   - {fileID: 11400000, guid: 4eefd06c5964c604f9b676630115ad57, type: 2}
@@ -45021,6 +45020,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4a3a3264cd661a54799d861ae39dd0ed, type: 2}
   - {fileID: 11400000, guid: dd76edb93b9aba14189b6641b2a7bf96, type: 2}
   - {fileID: 11400000, guid: 26d9d6cea2f264645a3e304a6bcecd89, type: 2}
+  talkController: {fileID: 0}
 --- !u!114 &4160438611020541155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55406,6 +55406,8 @@ MonoBehaviour:
   battleMap: []
   mapSizeX: -1
   mapSizeY: -1
+  stageClear: 0
+  currentClear: 0
 --- !u!222 &6630459619934212944
 CanvasRenderer:
   m_ObjectHideFlags: 0

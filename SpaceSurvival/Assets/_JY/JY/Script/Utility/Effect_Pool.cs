@@ -19,7 +19,7 @@ public class Effect_Pool : MonoBehaviour
     GameObject[] parents;
 
     Vector3 Text_Position;
-    private void Start()
+    private void Awake()
     {
         Init();
         Text_Position = new Vector3(0, 2, 0);
@@ -45,7 +45,7 @@ public class Effect_Pool : MonoBehaviour
                 obj.SetActive(false);
                 Pooled_Obj poolObj = obj.GetComponent<Pooled_Obj>();
                 poolObj.on_ReturnPool += ReturnPool;
-                poolObj.poolIndex = i;// 비활성화시 다시 풀로 되돌릴때 사용
+                poolObj.poolIndex = i;// 비활?�화???�시 ?��??�돌릴때 ?�용
               
                 pools[i].Enqueue(obj);
             }
@@ -53,7 +53,7 @@ public class Effect_Pool : MonoBehaviour
 
     }
     /// <summary>
-    /// 스킬이펙트용
+    /// ?�킬?�펙?�용
     /// </summary>
     /// <param name="type"></param>
     /// <param name="position"></param>
@@ -71,9 +71,9 @@ public class Effect_Pool : MonoBehaviour
         return null;
     }
     /// <summary>
-    /// 레벨업 이펙트
+    /// ?�벨???�펙??
     /// </summary>
-    /// <param name="position">플레이어의 포지션</param>
+    /// <param name="position">?�레?�어???��???/param>
     /// <returns></returns>
     public GameObject GetLevelUp_Effect(Transform target)
     {
@@ -104,7 +104,7 @@ public class Effect_Pool : MonoBehaviour
         }
     }
     /// <summary>
-    /// 데미지 팝업용
+    /// ?��?지 ?�업??
     /// </summary>
     /// <param name="damage"></param>
     /// <param name="target"></param>
@@ -114,8 +114,8 @@ public class Effect_Pool : MonoBehaviour
     {
         GameObject result = pools[5].Dequeue();
         DamageText damageText = result.GetComponent<DamageText>();
-        result.transform.SetParent(target);
-        result.transform.localPosition = Text_Position;
+        //result.transform.SetParent(target);
+        result.transform.position  = target.position + Text_Position;
         damageText.SetText(damage, isCritical);
         result.SetActive(true);
 
@@ -134,18 +134,20 @@ public class Effect_Pool : MonoBehaviour
     {
         Queue<GameObject> queue = pools[obj.poolIndex];
         queue.Enqueue(obj.gameObject);
-
-        if (obj.poolIndex == 3 )//버프스킬일 경우
+        if (obj.poolIndex == 3 )//버프?�킬??경우
         {
-            StartCoroutine(SetParent(obj));
+                obj.transform.SetParent(parents[obj.poolIndex].transform);
+            //StartCoroutine(SetParent(obj));
         }
-        else if (obj.poolIndex == 5) //데미지 텍스트일 경우
+        else if (obj.poolIndex == 5) //?��?지 ?�스?�일 경우
         {
-            StartCoroutine(SetParent(obj));
+                obj.transform.SetParent(parents[obj.poolIndex].transform);
+            //StartCoroutine(SetParent(obj));
         }
         else if (obj.poolIndex == 6)
         {
-            StartCoroutine(SetParent(obj));
+                obj.transform.SetParent(parents[obj.poolIndex].transform);
+            //StartCoroutine(SetParent(obj));
         }
     }
     IEnumerator SetParent(Pooled_Obj obj)

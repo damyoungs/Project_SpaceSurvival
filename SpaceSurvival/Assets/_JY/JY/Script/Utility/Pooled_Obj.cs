@@ -16,7 +16,8 @@ public class Pooled_Obj : MonoBehaviour
     }
     private void OnDisable()
     {
-        // on_ReturnPool?.Invoke(this);
-        GameManager.EffectPool.ReturnPool(this);
+        //Debug.Log($"{name}");
+        //on_ReturnPool?.Invoke(this);
+        //GameManager.EffectPool.ReturnPool(this);
     }
 }
