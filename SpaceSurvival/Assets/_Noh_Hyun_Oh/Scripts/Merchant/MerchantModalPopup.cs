@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -110,11 +110,11 @@ public class MerchantModalPopup : MonoBehaviour
         valueSlider.maxValue = itemCount;
         if (manager.Selected == Merchant_Selected.Buy) 
         {
-            warningText.text = "±¸¸Å ÇÏ½Ã°Ú½À´Ï±î?";
+            warningText.text = "êµ¬ë§¤ í•˜ì‹œê² ìŠµë‹ˆê¹Œ?";
         }
         else 
         {
-            warningText.text = "ÆÇ¸Å ÇÏ½Ã°Ú½À´Ï±î?";
+            warningText.text = "íŒë§¤ í•˜ì‹œê² ìŠµë‹ˆê¹Œ?";
         }
         valueInput.text = $"{selectedValue:0}";
 

@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class Quest_UI_Colum : MonoBehaviour ,IPointerClickHandler
 {
     /// <summary>
-    /// Äù½ºÆ®¿¡´ëÇÑ »óÅÂ Á¤º¸
+    /// í€˜ìŠ¤íŠ¸ì—ëŒ€í•œ ìƒíƒœ ì •ë³´
     /// </summary>
     [SerializeField]
     Quest_State quest_State = Quest_State.None;
@@ -47,31 +47,31 @@ public class Quest_UI_Colum : MonoBehaviour ,IPointerClickHandler
 
 
     /// <summary>
-    /// Äù½ºÆ® ¾ÆÀÌÄÜ UI ¹é±×¶ó¿îµå ÀÌ¹ÌÁö
+    /// í€˜ìŠ¤íŠ¸ ì•„ì´ì½˜ UI ë°±ê·¸ë¼ìš´ë“œ ì´ë¯¸ì§€
     /// </summary>
     [SerializeField]
     Image iconBackGroundImg;
 
     /// <summary>
-    /// Äù½ºÆ® UI ¹é±×¶ó¿îµå ÀÌ¹ÌÁö
+    /// í€˜ìŠ¤íŠ¸ UI ë°±ê·¸ë¼ìš´ë“œ ì´ë¯¸ì§€
     /// </summary>
     [SerializeField]
     Image backGroundImg;
     
     /// <summary>
-    /// ½ºÅä¸® »óÅÂÀÏ¶§ »ö»ó 
+    /// ìŠ¤í† ë¦¬ ìƒíƒœì¼ë•Œ ìƒ‰ìƒ 
     /// </summary>
     [SerializeField]
     Color stroyType;
     
     /// <summary>
-    /// Åä¹ú Äù½ºÆ® ÀÏ¶§ÀÇ »ö»ó
+    /// í† ë²Œ í€˜ìŠ¤íŠ¸ ì¼ë•Œì˜ ìƒ‰ìƒ
     /// </summary>
     [SerializeField]
     Color killCountType;
     
     /// <summary>
-    /// ¼öÁı Äù½ºÆ® ÀÏ¶§ÀÇ »ö»ó
+    /// ìˆ˜ì§‘ í€˜ìŠ¤íŠ¸ ì¼ë•Œì˜ ìƒ‰ìƒ
     /// </summary>
     [SerializeField]
     Color gatheringType;
@@ -79,37 +79,37 @@ public class Quest_UI_Colum : MonoBehaviour ,IPointerClickHandler
 
 
     /// <summary>
-    /// Äù½ºÆ® ±âº» »óÅÂÀÏ¶§ÀÇ »ö»ó°ª
+    /// í€˜ìŠ¤íŠ¸ ê¸°ë³¸ ìƒíƒœì¼ë•Œì˜ ìƒ‰ìƒê°’
     /// </summary>
     [SerializeField]
     Color quest_None_Color;
 
     /// <summary>
-    /// Äù½ºÆ® ½ºÅ¸Æ® »óÅÂÀÏ¶§ÀÇ »ö»ó°ª
+    /// í€˜ìŠ¤íŠ¸ ìŠ¤íƒ€íŠ¸ ìƒíƒœì¼ë•Œì˜ ìƒ‰ìƒê°’
     /// </summary>
     [SerializeField]
     Color quest_Start_Color;
 
     /// <summary>
-    /// Äù½ºÆ® ÁøÇàÁßÀÏ ¶§ÀÇ »ö»ó°ª 
+    /// í€˜ìŠ¤íŠ¸ ì§„í–‰ì¤‘ì¼ ë•Œì˜ ìƒ‰ìƒê°’ 
     /// </summary>
     [SerializeField]
     Color quest_Cancel_Color;
 
     /// <summary>
-    /// Äù½ºÆ® Å¬¸®¾î »óÅÂÀÇ »ö»ó°ª
+    /// í€˜ìŠ¤íŠ¸ í´ë¦¬ì–´ ìƒíƒœì˜ ìƒ‰ìƒê°’
     /// </summary>
     [SerializeField]
     Color quest_Complete_Color;
 
     /// <summary>
-    /// ¾ÆÀÌÅÛ ¼±ÅÃÇßÀ»¶§ »ö»ó
+    /// ì•„ì´í…œ ì„ íƒí–ˆì„ë•Œ ìƒ‰ìƒ
     /// </summary>
     [SerializeField]
     Color selected_Colum_Color;
 
     /// <summary>
-    /// ÇØ´çUI °¡ °¡Áö°íÀÖ´Â Äù½ºÆ® Á¤º¸  ÀÏ´Ü ³ªÁß¿¡ »ç¿ëÇÒ¼öµµÀÖ¾î¼­ ¿¬°áÇØ³ù´Ù.
+    /// í•´ë‹¹UI ê°€ ê°€ì§€ê³ ìˆëŠ” í€˜ìŠ¤íŠ¸ ì •ë³´  ì¼ë‹¨ ë‚˜ì¤‘ì— ì‚¬ìš©í• ìˆ˜ë„ìˆì–´ì„œ ì—°ê²°í•´ë†¨ë‹¤.
     /// </summary>
     Gyu_QuestBaseData thisQuestData;
     public Gyu_QuestBaseData ThisQuestData 
@@ -127,26 +127,26 @@ public class Quest_UI_Colum : MonoBehaviour ,IPointerClickHandler
     }
 
     /// <summary>
-    /// Äù½ºÆ® ¾ÆÀÌÄÜ 
+    /// í€˜ìŠ¤íŠ¸ ì•„ì´ì½˜ 
     /// </summary>
     [SerializeField]
     Image iconImg;
 
     /// <summary>
-    /// Äù½ºÆ® ÀÌ¸§
+    /// í€˜ìŠ¤íŠ¸ ì´ë¦„
     /// </summary>
     [SerializeField]
     TextMeshProUGUI questTitle;
 
     /// <summary>
-    /// º¸»ó ¾ÆÀÌÅÛ °¹¼ö
+    /// ë³´ìƒ ì•„ì´í…œ ê°¯ìˆ˜
     /// </summary>
     [SerializeField]
     TextMeshProUGUI rewardItemCount;
     [SerializeField]
     Image rewardItemIcon;
     /// <summary>
-    /// º¸»ó ÀçÈ­ °¹¼ö
+    /// ë³´ìƒ ì¬í™” ê°¯ìˆ˜
     /// </summary>
     [SerializeField]
     TextMeshProUGUI rewardCoinCount;
@@ -154,7 +154,7 @@ public class Quest_UI_Colum : MonoBehaviour ,IPointerClickHandler
     Image rewardCoinIcon;
 
     /// <summary>
-    /// Äù½ºÆ® Å¬¸¯½Ã ÀÌº¥Æ® Àü¼Û¿ë µ¨¸®°ÔÀÌÆ®
+    /// í€˜ìŠ¤íŠ¸ í´ë¦­ì‹œ ì´ë²¤íŠ¸ ì „ì†¡ìš© ë¸ë¦¬ê²Œì´íŠ¸
     /// </summary>
     public Action<Gyu_QuestBaseData,Quest_UI_Colum> onClick;
 
@@ -183,36 +183,36 @@ public class Quest_UI_Colum : MonoBehaviour ,IPointerClickHandler
     }
 
     /// <summary>
-    /// µ¥ÀÌÅÍ ¼ÂÆÃ¿ë ÇÔ¼ö 
+    /// ë°ì´í„° ì…‹íŒ…ìš© í•¨ìˆ˜ 
     /// </summary>
-    /// <param name="questData">Äù½ºÆ® µ¥ÀÌÅÍ </param>
+    /// <param name="questData">í€˜ìŠ¤íŠ¸ ë°ì´í„° </param>
     public void SetData(Gyu_QuestBaseData questData) 
     {
         ThisQuestData = questData;
         iconImg.sprite = questData.IconImage;
         questTitle.text = $"{questData.Title}";
-        if (questData.RewardItem.Length > 1) //º¸»ó¾ÆÀÌÅÛÀÌ ÇÑ°³ÀÌ»óÀÌ¸é  
+        if (questData.RewardItem.Length > 1) //ë³´ìƒì•„ì´í…œì´ í•œê°œì´ìƒì´ë©´  
         {
-            rewardItemCount.text = $"¿Ü {questData.RewardItem.Length}°³";
+            rewardItemCount.text = $"ì™¸ {questData.RewardItem.Length}ê°œ";
         }
         else 
         {
-            rewardItemCount.text = $"{questData.ItemCount[0]} °³";
+            rewardItemCount.text = $"{questData.ItemCount[0]} ê°œ";
         }
-        //rewardItemIcon.sprite = GameManager.Itemdata.itemDatas[(int)questData.RewardItem[0]].itemIcon; //¾ÆÀÌÅÛ¼ø¹øÀÌ ÀÌ³Ñ¼ø¹ø°ú°°À¸´Ï ±×³É ÀÎÆ®·Î º¯°æÇØ¼­ »ç¿ë 
-        rewardItemIcon.sprite = testDataManager.itemDatas[(int)questData.RewardItem[0]].itemIcon; //¾ÆÀÌÅÛ¼ø¹øÀÌ ÀÌ³Ñ¼ø¹ø°ú°°À¸´Ï ±×³É ÀÎÆ®·Î º¯°æÇØ¼­ »ç¿ë 
+        //rewardItemIcon.sprite = GameManager.Itemdata.itemDatas[(int)questData.RewardItem[0]].itemIcon; //ì•„ì´í…œìˆœë²ˆì´ ì´ë„˜ìˆœë²ˆê³¼ê°™ìœ¼ë‹ˆ ê·¸ëƒ¥ ì¸íŠ¸ë¡œ ë³€ê²½í•´ì„œ ì‚¬ìš© 
+        rewardItemIcon.sprite = testDataManager.itemDatas[(int)questData.RewardItem[0]].itemIcon; //ì•„ì´í…œìˆœë²ˆì´ ì´ë„˜ìˆœë²ˆê³¼ê°™ìœ¼ë‹ˆ ê·¸ëƒ¥ ì¸íŠ¸ë¡œ ë³€ê²½í•´ì„œ ì‚¬ìš© 
 
-        //rewardCoinIcon.sprite = GameManager.Itemdata.itemDatas[0].itemIcon; //0¹øÀÌ ÄÚÀÎÀÌ´Ï ÄÚÀÎ¾ÆÀÌÄÜ °¡Á®¿Â´Ù 
-        rewardCoinIcon.sprite = testDataManager.itemDatas[0].itemIcon; //0¹øÀÌ ÄÚÀÎÀÌ´Ï ÄÚÀÎ¾ÆÀÌÄÜ °¡Á®¿Â´Ù 
+        //rewardCoinIcon.sprite = GameManager.Itemdata.itemDatas[0].itemIcon; //0ë²ˆì´ ì½”ì¸ì´ë‹ˆ ì½”ì¸ì•„ì´ì½˜ ê°€ì ¸ì˜¨ë‹¤ 
+        rewardCoinIcon.sprite = testDataManager.itemDatas[0].itemIcon; //0ë²ˆì´ ì½”ì¸ì´ë‹ˆ ì½”ì¸ì•„ì´ì½˜ ê°€ì ¸ì˜¨ë‹¤ 
         rewardCoinCount.text = $"{questData.RewardCoin} G";
 
-        gameObject.SetActive(true); //¼ÂÆÃ ³¡³´À¸¸é È°¼ºÈ­½ÃÄÑ¼­ º¸¿©ÁØ´Ù 
+        gameObject.SetActive(true); //ì…‹íŒ… ëë‚«ìœ¼ë©´ í™œì„±í™”ì‹œì¼œì„œ ë³´ì—¬ì¤€ë‹¤ 
     }
 
     /// <summary>
-    /// Äù½ºÆ® »óÅÂ¿¡µû¸¥ È­¸é¿¡ º¸¿©ÁÙ ÀÌ¹ÌÁö»öº¯°æ·ÎÁ÷
+    /// í€˜ìŠ¤íŠ¸ ìƒíƒœì—ë”°ë¥¸ í™”ë©´ì— ë³´ì—¬ì¤„ ì´ë¯¸ì§€ìƒ‰ë³€ê²½ë¡œì§
     /// </summary>
-    /// <param name="state">Äù½ºÆ® »óÅÂ</param>
+    /// <param name="state">í€˜ìŠ¤íŠ¸ ìƒíƒœ</param>
     private void Set_State_UI(Quest_State state) 
     {
         switch (state)
@@ -251,7 +251,7 @@ public class Quest_UI_Colum : MonoBehaviour ,IPointerClickHandler
     }
 
     /// <summary>
-    /// UI µ¥ÀÌÅÍ ¸®¼Â¿ë ÇÔ¼ö
+    /// UI ë°ì´í„° ë¦¬ì…‹ìš© í•¨ìˆ˜
     /// </summary>
     public void ResetData() 
     {
@@ -268,13 +268,13 @@ public class Quest_UI_Colum : MonoBehaviour ,IPointerClickHandler
 
 
     /// <summary>
-    /// Å¬¸¯ÀÌº¥Æ® ¿¬°á 
+    /// í´ë¦­ì´ë²¤íŠ¸ ì—°ê²° 
     /// </summary>
     /// <param name="_"></param>
     public void OnPointerClick(PointerEventData _)
     {
-        //Å¬¸¯
+        //í´ë¦­
         onClick?.Invoke(thisQuestData,this);
-        //Debug.Log($"Å¬¸¯Çß¾î »óÅÂ´Â :{quest_State} , Äù½ºÆ®´Â  :{thisQuestData}");
+        //Debug.Log($"í´ë¦­í–ˆì–´ ìƒíƒœëŠ” :{quest_State} , í€˜ìŠ¤íŠ¸ëŠ”  :{thisQuestData}");
     }
 }
