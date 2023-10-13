@@ -273,7 +273,8 @@ public class Cho_PlayerMove : MonoBehaviour
             jumpChecking = false;
         }
         Vector3 groundCheckPosition = new Vector3(transform.position.x, transform.position.y + controller.radius * 0.5f, transform.position.z);
-         {
+        if (Physics.CheckSphere(groundCheckPosition, controller.radius, LayerMask.GetMask("Ground")))
+        {
             if (!jumpChecking)
             {
                 if (moveDir.y < jumpHeight)
