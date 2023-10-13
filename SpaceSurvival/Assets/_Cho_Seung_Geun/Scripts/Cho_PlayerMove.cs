@@ -59,6 +59,20 @@ public class Cho_PlayerMove : MonoBehaviour
                 {
                     audios[(int)AudioIndex.Walk].Stop();
                 }
+
+                if (State == PlayerState.Idle)
+                {
+                    speed = walkSpeed;
+                    //if (State == PlayerState.Run)
+                    //{
+                    audios[(int)AudioIndex.Walk].pitch = 1.26f;
+                    ////State = PlayerState.Walk;
+                    animator.SetFloat(Hash_Speed, animatorWalkSpeed);
+                    animator.SetBool(Hash_IsRun, false);
+                    //}
+                    animator.SetFloat(Hash_InputX, 0.0f);
+                    animator.SetFloat(Hash_InputY, 0.0f);
+                }
             }
         }
     }
@@ -161,6 +175,7 @@ public class Cho_PlayerMove : MonoBehaviour
         {
             animator.SetFloat(Hash_InputX, dir.x);
             animator.SetFloat(Hash_InputY, dir.y);
+        }
 
         if (context.performed)
         {
@@ -184,14 +199,13 @@ public class Cho_PlayerMove : MonoBehaviour
             animator.SetFloat(Hash_Speed, 0);
             //audios[(int)AudioIndex.Walk].Stop();
         }
-        }
 
     }
 
     private void OnDash(InputAction.CallbackContext context)
     {
-        if (jumpCount == 0)
-        {
+        //if (jumpCount == 0)         // 점프 상태에서 속도 조절하는 것 방지
+        //{
             if (context.canceled)
             {
                 speed = walkSpeed;
@@ -214,7 +228,7 @@ public class Cho_PlayerMove : MonoBehaviour
                     animator.SetBool(Hash_IsRun, true);
                 }
             }
-        }
+        //}
     }
 
     private void OnJump(UnityEngine.InputSystem.InputAction.CallbackContext context)
@@ -223,8 +237,11 @@ public class Cho_PlayerMove : MonoBehaviour
         {
             //audios[(int)AudioIndex.Jump].Play();
             moveDir.y = jumpHeight;
-            State = PlayerState.Jump;
-            jumpCheckHeight = transform.position.y + controller.radius * 2;
+            //State = PlayerState.Jump;                 // 확인해봐야함
+            if (jumpCount == 0)
+            {
+                jumpCheckHeight = transform.position.y + controller.radius * 2;
+            }
             jumpChecking = true;
             animator.SetTrigger(Hash_IsJump);
             animator.SetBool(Hash_IsJumping, true);
