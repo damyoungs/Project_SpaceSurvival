@@ -147,8 +147,6 @@ public class Effect_Pool : MonoBehaviour
         {
             StartCoroutine(SetParent(obj));
         }
-        obj.gameObject.SetActive(false);
-        
     }
     IEnumerator SetParent(Pooled_Obj obj)
     {
