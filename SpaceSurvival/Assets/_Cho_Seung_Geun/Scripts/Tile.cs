@@ -55,7 +55,6 @@ public class Tile : MonoBehaviour, IComparable<Tile>
         {
             if (existType != value) 
             {
-                
                 existType = value;
                 switch (value)
                 {
@@ -64,10 +63,12 @@ public class Tile : MonoBehaviour, IComparable<Tile>
                         break;
                     case TileExistType.Monster:
                         lineRenderer.material = lineRendererMaterials[4];
+                        SetLineRenderPos(0.2f);
                         lineRenderer.enabled = true;
                         break;
                     case TileExistType.Item:
                         lineRenderer.material = lineRendererMaterials[3];
+                        SetLineRenderPos(0.2f);
                         lineRenderer.enabled = true;
                         break;
                     case TileExistType.Prop:
@@ -75,33 +76,23 @@ public class Tile : MonoBehaviour, IComparable<Tile>
                         break;
                     case TileExistType.Move:
                         lineRenderer.material = lineRendererMaterials[0];
-                  
+                        SetLineRenderPos(0.1f);
                         lineRenderer.enabled = true;
                         break;
                     case TileExistType.Charcter:
-                        lineRenderer.enabled = false;
+                        lineRenderer.material = lineRendererMaterials[5];
+                        SetLineRenderPos(0.2f);
+                        lineRenderer.enabled = true;
                         break;
                     case TileExistType.AttackRange:
                         lineRenderer.material = lineRendererMaterials[1];
+                        SetLineRenderPos(0.1f);
                         lineRenderer.enabled = true;
-                        Vector3 linePos_AttackRange = Vector3.zero;
-                        for (int i = 0; i < lineRenderer.positionCount; i++)
-                        {
-                            linePos_AttackRange = lineRenderer.GetPosition(i);
-                            linePos_AttackRange.y = 0.1f;
-                            lineRenderer.SetPosition(i, linePos_AttackRange);
-                        }
                         break;
                     case TileExistType.Attack_OR_Skill:
                         lineRenderer.material = lineRendererMaterials[2];
+                        SetLineRenderPos(0.2f);
                         lineRenderer.enabled = true;
-                        Vector3 linePos_SkillRange = Vector3.zero;
-                        for (int i = 0; i < lineRenderer.positionCount; i++)
-                        {
-                            linePos_SkillRange = lineRenderer.GetPosition(i);
-                            linePos_SkillRange.y = 0.2f;
-                            lineRenderer.SetPosition(i, linePos_SkillRange);
-                        }
                         break;
                     default:
                         break;
@@ -172,5 +163,14 @@ public class Tile : MonoBehaviour, IComparable<Tile>
             return 1;
         return F.CompareTo(other.F);
     }
-
+    private void SetLineRenderPos(float yPos) 
+    {
+        Vector3 linePos_Range = Vector3.zero;
+        for (int i = 0; i < lineRenderer.positionCount; i++)
+        {
+            linePos_Range = lineRenderer.GetPosition(i);
+            linePos_Range.y = yPos;
+            lineRenderer.SetPosition(i, linePos_Range);
+        }
+    }
 }

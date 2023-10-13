@@ -12,10 +12,11 @@ public class Pooled_Obj : MonoBehaviour
     private void Awake()
     {
         ps = GetComponent<ParticleSystem>();
+        
     }
-
     private void OnDisable()
     {
-        on_ReturnPool?.Invoke(this);
+        // on_ReturnPool?.Invoke(this);
+        GameManager.EffectPool.ReturnPool(this);
     }
 }

@@ -41,6 +41,7 @@ public class EndScene : MonoBehaviour
     }
     private void OnTitleMove(InputAction.CallbackContext context)
     {
+
         LoadingScene.SceneLoading(EnumList.SceneName.TITLE);
     }
 

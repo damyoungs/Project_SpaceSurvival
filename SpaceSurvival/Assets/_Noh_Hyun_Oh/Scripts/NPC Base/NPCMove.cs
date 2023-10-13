@@ -32,14 +32,14 @@ public class NPCMove : MonoBehaviour
                     case NpcMoveState.moving:
                         lookTarget = null;
                         moveDir = wayPoints[moveIndex].position - moveObject.position; //방향구해서 
-                        moveObject.rotation = Quaternion.LookRotation(moveDir,moveObject.up) ;
                         moveDir.y = 0.0f;
+                        moveObject.rotation = Quaternion.LookRotation(moveDir,moveObject.up) ;
                         StartCoroutine(NpcMoving()); //이동시키고 
                         break;
                     case NpcMoveState.talk:
                         moveDir = LookTarget.position - moveObject.position;
-                        moveObject.rotation = Quaternion.LookRotation(moveDir,moveObject.up) ;
                         moveDir.y = 0.0f;
+                        moveObject.rotation = Quaternion.LookRotation(moveDir,moveObject.up) ;
                         break;
                     default:
                         break;
