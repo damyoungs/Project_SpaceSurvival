@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SlidingDoor : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class SlidingDoor : MonoBehaviour
 
     public bool lockedDoor = false;
     bool unlock = false;
+
 
     private void Awake()
     {
@@ -42,6 +44,7 @@ public class SlidingDoor : MonoBehaviour
         if (IsAllStageClear())
         {
             unlock = true;
+           
         }
     }
 

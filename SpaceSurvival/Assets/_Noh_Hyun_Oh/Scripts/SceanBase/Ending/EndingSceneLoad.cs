@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,17 @@ public class EndingSceneLoad : MonoBehaviour
     [SerializeField]
     float cutImgTime = 1.0f;
 
+    [SerializeField]
+    AsyncOperation ao;
+
+    public AsyncOperation AsyncSceneLoader 
+    {
+        get 
+        {
+            return ao ??= getAsyncSceneLoader?.Invoke();
+        }
+    }
+    public Func<AsyncOperation> getAsyncSceneLoader;
     private void Start()
     {
         backGroundImg =  WindowList.Instance.transform.GetChild(WindowList.Instance.transform.childCount-1).GetComponent<Image>();
@@ -31,7 +43,8 @@ public class EndingSceneLoad : MonoBehaviour
             yield return null;
         }
         backGroundImg.color = Color.black;
-        LoadingScene.SceneLoading(EnumList.SceneName.ENDING);
+        AsyncSceneLoader.allowSceneActivation = true;
+        //LoadingScene.SceneLoading(EnumList.SceneName.ENDING);
     }
     public void ReSetImage() 
     {

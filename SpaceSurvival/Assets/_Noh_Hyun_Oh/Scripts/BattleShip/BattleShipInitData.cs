@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class BattleShipInitData : MonoBehaviour
 {
@@ -16,10 +17,13 @@ public class BattleShipInitData : MonoBehaviour
 
     NpcTalkController npcTalkController;
 
+    AsyncOperation ao;
+
     private void Awake()
     {
         player = FindObjectOfType<Cho_PlayerMove>();
         npcTalkController = FindObjectOfType<NpcTalkController>();
+
     }
     private void Start()
     {
@@ -39,6 +43,7 @@ public class BattleShipInitData : MonoBehaviour
         InputSystemController.InputSystem.Player.Action.performed += OnCursorOn;
 
 
+
         PlayerDumy = (BattleMapPlayerBase)Multiple_Factory.Instance.GetObject(EnumList.MultipleFactoryObjectList.CHARCTER_PLAYER_POOL);
         PlayerDumy.transform.position = new Vector3(0.0f,100.0f,0.0f); //안보이게 멀리보낸다
         PlayerDumy.BattleUI.SetInVisibleUI();
@@ -48,14 +53,14 @@ public class BattleShipInitData : MonoBehaviour
             SpaceSurvival_GameManager.Instance.StageClear |= SpaceSurvival_GameManager.Instance.CurrentStage;
             SpaceSurvival_GameManager.Instance.CurrentStage &= StageList.None;
             SpaceSurvival_GameManager.Instance.IsBattleMapClear = false;
-            if (SpaceSurvival_GameManager.Instance.StageClear == StageList.All)
-            {
-
-                //배틀맵에서 돌아왔을때 
-                //전부클리어 됬으면 처리할 내용 
-            }
         }
+        if (SpaceSurvival_GameManager.Instance.StageClear == StageList.All)
+        {
+            ao = SceneManager.LoadSceneAsync((int)EnumList.SceneName.ENDING, LoadSceneMode.Single);
+            ao.allowSceneActivation = false; //비동기 완료되도 씬 넘어가지않게 막는 내부 프로퍼티
 
+            WindowList.Instance.EndingCutImageFunc.getAsyncSceneLoader = () => ao;
+        }
     }
 
     private void OnCursorOn(InputAction.CallbackContext context) 

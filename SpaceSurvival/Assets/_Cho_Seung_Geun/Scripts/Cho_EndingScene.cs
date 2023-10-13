@@ -10,6 +10,12 @@ public class Cho_EndingScene : MonoBehaviour
     ParticleSystem particle;
     AudioSource audioSource;
 
+    /// <summary>
+    /// 이펙트 기다리는 시간
+    /// </summary>
+    [SerializeField]
+    float waitEffect = 2.0f;
+
     private void Awake()
     {
         particle = endingEffect.GetComponent<ParticleSystem>();
@@ -24,23 +30,23 @@ public class Cho_EndingScene : MonoBehaviour
             particle.Play();
             audioSource.Play();
             StartCoroutine(Effect());
-            StartCoroutine(EndSceneLoading());
         }
     }
 
     IEnumerator Effect()
     {
         Vector3 value = 0.5f * Time.deltaTime * new Vector3(1, 1, 1);
-        while (endingEffect.localScale.x < 20.0f)
+        while (endingEffect.localScale.x < waitEffect)
         {
             endingEffect.localScale += value;
             yield return null;
         }
+        yield return EndSceneLoading();
     }
 
     IEnumerator EndSceneLoading()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return null;
         WindowList.Instance.EndingCutImageFunc.EndingCutScene();
     }
 }
