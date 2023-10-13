@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -46,7 +46,7 @@ public class Merchant_UI_Item : Base_PoolObj,IPointerClickHandler
         itemDescript.text = itemData.itemDescription;
         itemDarkForce.text = $"{itemData.price * 0.1f:0} Force";
         itemCoin.text = $"{itemData.price:0} G";
-        this.itemCount.text = $"{itemCount} °³";
+        this.itemCount.text = $"{itemCount} ê°œ";
         itemSlot = slot;
     }
 
