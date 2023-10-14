@@ -1,25 +1,25 @@
 {
-    "dataIndex": 4,
-    "currentStage": 0,
-    "stageClear": 7,
+    "dataIndex": 24,
+    "currentStage": 4,
+    "stageClear": 3,
     "startPos": {
-        "x": -28.967041015625,
-        "y": 0.05425548553466797,
-        "z": -8.020319938659668
+        "x": -17.488000869750978,
+        "y": 5.991000175476074,
+        "z": -27.645000457763673
     },
-    "saveTime": "2023-10-13 오후 1:10:45",
-    "sceanName": 5,
+    "saveTime": "2023-10-13 오후 9:47:43",
+    "sceanName": 4,
     "playerData": {
-        "abilityPoint": 85,
+        "abilityPoint": 70,
         "playerName": "Player",
-        "level": 8,
-        "exp": 159,
-        "expMax": 176,
-        "base_MaxHP": 205.0,
-        "currentHP": 205.0,
-        "current_Stamina": 27.474002838134767,
-        "base_MaxStamina": 36.0,
-        "BaseDarkForce": 4928800,
+        "level": 5,
+        "exp": 79,
+        "expMax": 123,
+        "base_MaxHP": 160.0,
+        "currentHP": 160.0,
+        "current_Stamina": 14.404001235961914,
+        "base_MaxStamina": 27.0,
+        "BaseDarkForce": 4980000,
         "base_ATT": 10,
         "base_DP": 10,
         "base_STR": 5,
@@ -48,32 +48,19 @@
         "weapon_ItemName": "Rifle"
     },
     "equipSlotLength": 0,
-    "equipData": [
-        {
-            "values": 1,
-            "itemIndex": 9,
-            "slotIndex": 2,
-            "itemEnhanceValue": 1
-        }
-    ],
+    "equipData": [],
     "consumeSlotLength": 0,
     "consumeData": [
         {
-            "values": 99,
-            "itemIndex": 3,
+            "values": 12,
+            "itemIndex": 1,
             "slotIndex": 0,
             "itemEnhanceValue": 0
         },
         {
-            "values": 2,
-            "itemIndex": 1,
-            "slotIndex": 1,
-            "itemEnhanceValue": 0
-        },
-        {
-            "values": 1,
+            "values": 8,
             "itemIndex": 2,
-            "slotIndex": 2,
+            "slotIndex": 1,
             "itemEnhanceValue": 0
         }
     ],
@@ -83,25 +70,25 @@
     "craftData": [
         {
             "values": 1,
-            "itemIndex": 16,
+            "itemIndex": 23,
             "slotIndex": 0,
             "itemEnhanceValue": 0
         },
         {
             "values": 1,
-            "itemIndex": 23,
+            "itemIndex": 17,
             "slotIndex": 1,
             "itemEnhanceValue": 0
         },
         {
             "values": 1,
-            "itemIndex": 25,
+            "itemIndex": 14,
             "slotIndex": 2,
             "itemEnhanceValue": 0
         },
         {
             "values": 1,
-            "itemIndex": 31,
+            "itemIndex": 25,
             "slotIndex": 3,
             "itemEnhanceValue": 0
         }
@@ -142,7 +129,7 @@
             "questIProgress": [
                 1,
                 1,
-                1
+                0
             ]
         },
         {
@@ -151,7 +138,7 @@
             "questType": 1,
             "questState": 1,
             "questIProgress": [
-                2
+                0
             ]
         },
         {
@@ -160,7 +147,7 @@
             "questType": 1,
             "questState": 1,
             "questIProgress": [
-                18
+                10
             ]
         },
         {
@@ -176,18 +163,18 @@
             "questInfo": "MP포션 수집",
             "questIndex": 2000,
             "questType": 2,
-            "questState": 1,
+            "questState": 2,
             "questIProgress": [
-                1
+                8
             ]
         },
         {
             "questInfo": "HP 포션 수집",
             "questIndex": 2001,
             "questType": 2,
-            "questState": 1,
+            "questState": 2,
             "questIProgress": [
-                2
+                12
             ]
         }
     ]

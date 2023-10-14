@@ -1,25 +1,25 @@
 {
-    "dataIndex": 1,
-    "currentStage": 0,
-    "stageClear": 2,
+    "dataIndex": 96,
+    "currentStage": 1,
+    "stageClear": 0,
     "startPos": {
-        "x": -7.813986778259277,
-        "y": 0.1369214653968811,
-        "z": 25.382442474365236
+        "x": -17.347999572753908,
+        "y": 0.9049999713897705,
+        "z": 4.6020002365112309
     },
-    "saveTime": "2023-10-14 오후 3:34:50",
-    "sceanName": 5,
+    "saveTime": "2023-10-13 오후 3:02:51",
+    "sceanName": 4,
     "playerData": {
-        "abilityPoint": 70,
+        "abilityPoint": 55,
         "playerName": "Player",
-        "level": 5,
-        "exp": 92,
-        "expMax": 103,
-        "base_MaxHP": 360.0,
-        "currentHP": 360.0,
-        "current_Stamina": 104.18997192382813,
-        "base_MaxStamina": 127.0,
-        "BaseDarkForce": 4949000,
+        "level": 2,
+        "exp": 30,
+        "expMax": 60,
+        "base_MaxHP": 115.0,
+        "currentHP": 110.0,
+        "current_Stamina": 10.958002090454102,
+        "base_MaxStamina": 18.0,
+        "BaseDarkForce": 4903900,
         "base_ATT": 10,
         "base_DP": 10,
         "base_STR": 5,
@@ -30,70 +30,50 @@
         "damage_Min": 0.5
     },
     "equipments_Data": {
-        "Total_STR": 50,
-        "Total_INT": 50,
-        "Total_LUK": 50,
-        "Total_DEX": 50,
+        "Total_STR": 0,
+        "Total_INT": 0,
+        "Total_LUK": 0,
+        "Total_DEX": 20,
         "Total_CriticalRate": 0.0,
         "Total_DodgeRate": 0.0,
         "codes": [
             46,
-            9,
-            0,
-            19
+            10,
+            51,
+            21
         ],
         "weapon_ItemLevel": 1,
-        "weapon_AttackPoint": 15,
+        "weapon_AttackPoint": 20,
         "weapon_DefencePoint": 1,
-        "weapon_ItemName": "Pistol"
+        "weapon_ItemName": "Rifle"
     },
     "equipSlotLength": 0,
-    "equipData": [
-        {
-            "values": 1,
-            "itemIndex": 9,
-            "slotIndex": 1,
-            "itemEnhanceValue": 1
-        }
-    ],
-    "consumeSlotLength": 0,
+    "equipData": [],
+    "consumeSlotLength": 3,
     "consumeData": [
         {
-            "values": 20,
-            "itemIndex": 3,
+            "values": 97,
+            "itemIndex": 1,
             "slotIndex": 0,
             "itemEnhanceValue": 0
         },
         {
-            "values": 100,
-            "itemIndex": 1,
+            "values": 97,
+            "itemIndex": 2,
             "slotIndex": 1,
             "itemEnhanceValue": 0
         },
         {
-            "values": 101,
-            "itemIndex": 2,
+            "values": 99,
+            "itemIndex": 3,
             "slotIndex": 2,
             "itemEnhanceValue": 0
         }
     ],
     "etcSlotLength": 0,
     "etcData": [],
-    "craftSlotLength": 0,
-    "craftData": [
-        {
-            "values": 1,
-            "itemIndex": 23,
-            "slotIndex": 0,
-            "itemEnhanceValue": 0
-        },
-        {
-            "values": 1,
-            "itemIndex": 13,
-            "slotIndex": 1,
-            "itemEnhanceValue": 0
-        }
-    ],
+    "craftSlotLength": 2,
+    "craftData": [],
     "skillDatas": [
         {
             "skillLevel": 1,
@@ -128,27 +108,9 @@
             "questType": 0,
             "questState": 1,
             "questIProgress": [
-                1,
+                0,
                 0,
                 0
-            ]
-        },
-        {
-            "questInfo": "MP포션 수집",
-            "questIndex": 2000,
-            "questType": 2,
-            "questState": 1,
-            "questIProgress": [
-                101
-            ]
-        },
-        {
-            "questInfo": "HP 포션 수집",
-            "questIndex": 2001,
-            "questType": 2,
-            "questState": 1,
-            "questIProgress": [
-                100
             ]
         },
         {
@@ -166,7 +128,16 @@
             "questType": 1,
             "questState": 1,
             "questIProgress": [
-                12
+                0
+            ]
+        },
+        {
+            "questInfo": "MP포션 수집",
+            "questIndex": 2000,
+            "questType": 2,
+            "questState": 1,
+            "questIProgress": [
+                0
             ]
         },
         {
@@ -175,7 +146,16 @@
             "questType": 1,
             "questState": 1,
             "questIProgress": [
-                0
+                8
+            ]
+        },
+        {
+            "questInfo": "HP 포션 수집",
+            "questIndex": 2001,
+            "questType": 2,
+            "questState": 1,
+            "questIProgress": [
+                97
             ]
         }
     ]

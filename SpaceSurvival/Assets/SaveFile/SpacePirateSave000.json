@@ -1,14 +1,14 @@
 {
     "dataIndex": 0,
-    "currentStage": 0,
+    "currentStage": 2,
     "stageClear": 0,
     "startPos": {
-        "x": 0.3687366247177124,
-        "y": 0.13692134618759156,
-        "z": 24.969614028930665
+        "x": 0.01100015640258789,
+        "y": 0.9100000262260437,
+        "z": 23.01000213623047
     },
-    "saveTime": "2023-10-13 오후 12:58:57",
-    "sceanName": 5,
+    "saveTime": "2023-10-14 오후 2:57:15",
+    "sceanName": 4,
     "playerData": {
         "abilityPoint": 50,
         "playerName": "Player",
@@ -17,9 +17,9 @@
         "expMax": 50,
         "base_MaxHP": 100.0,
         "currentHP": 100.0,
-        "current_Stamina": 12.0,
+        "current_Stamina": 15.0,
         "base_MaxStamina": 15.0,
-        "BaseDarkForce": 4928800,
+        "BaseDarkForce": 4974800,
         "base_ATT": 10,
         "base_DP": 10,
         "base_STR": 5,
@@ -33,34 +33,52 @@
         "Total_STR": 0,
         "Total_INT": 0,
         "Total_LUK": 0,
-        "Total_DEX": 50,
+        "Total_DEX": 0,
         "Total_CriticalRate": 0.0,
         "Total_DodgeRate": 0.0,
         "codes": [
-            46,
-            10,
-            51,
-            22
+            0,
+            0,
+            0,
+            0
         ],
-        "weapon_ItemLevel": 1,
-        "weapon_AttackPoint": 20,
-        "weapon_DefencePoint": 1,
-        "weapon_ItemName": "Rifle"
+        "weapon_ItemLevel": 0,
+        "weapon_AttackPoint": 0,
+        "weapon_DefencePoint": 0,
+        "weapon_ItemName": ""
     },
     "equipSlotLength": 0,
     "equipData": [
         {
             "values": 1,
             "itemIndex": 9,
+            "slotIndex": 0,
+            "itemEnhanceValue": 1
+        },
+        {
+            "values": 1,
+            "itemIndex": 10,
+            "slotIndex": 1,
+            "itemEnhanceValue": 1
+        },
+        {
+            "values": 1,
+            "itemIndex": 49,
             "slotIndex": 2,
+            "itemEnhanceValue": 1
+        },
+        {
+            "values": 1,
+            "itemIndex": 50,
+            "slotIndex": 3,
             "itemEnhanceValue": 1
         }
     ],
     "consumeSlotLength": 0,
     "consumeData": [
         {
-            "values": 99,
-            "itemIndex": 3,
+            "values": 100,
+            "itemIndex": 1,
             "slotIndex": 0,
             "itemEnhanceValue": 0
         }
@@ -71,7 +89,7 @@
     "craftData": [
         {
             "values": 1,
-            "itemIndex": 16,
+            "itemIndex": 22,
             "slotIndex": 0,
             "itemEnhanceValue": 0
         }
@@ -103,62 +121,5 @@
             "skillType": 4
         }
     ],
-    "questList": [
-        {
-            "questInfo": "클리어 조건",
-            "questIndex": 0,
-            "questType": 0,
-            "questState": 1,
-            "questIProgress": [
-                0,
-                0,
-                0
-            ]
-        },
-        {
-            "questInfo": "대형로봇 토벌",
-            "questIndex": 1000,
-            "questType": 1,
-            "questState": 1,
-            "questIProgress": [
-                0
-            ]
-        },
-        {
-            "questInfo": "중형 유닛 부시기",
-            "questIndex": 1001,
-            "questType": 1,
-            "questState": 1,
-            "questIProgress": [
-                0
-            ]
-        },
-        {
-            "questInfo": "소형 부시기",
-            "questIndex": 1002,
-            "questType": 1,
-            "questState": 1,
-            "questIProgress": [
-                0
-            ]
-        },
-        {
-            "questInfo": "MP포션 수집",
-            "questIndex": 2000,
-            "questType": 2,
-            "questState": 1,
-            "questIProgress": [
-                0
-            ]
-        },
-        {
-            "questInfo": "HP 포션 수집",
-            "questIndex": 2001,
-            "questType": 2,
-            "questState": 1,
-            "questIProgress": [
-                0
-            ]
-        }
-    ]
+    "questList": []
 }

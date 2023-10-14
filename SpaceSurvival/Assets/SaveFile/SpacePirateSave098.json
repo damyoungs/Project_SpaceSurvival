@@ -1,25 +1,25 @@
 {
-    "dataIndex": 2,
-    "currentStage": 0,
-    "stageClear": 3,
+    "dataIndex": 98,
+    "currentStage": 1,
+    "stageClear": 0,
     "startPos": {
-        "x": -17.71502685546875,
-        "y": 6.014366626739502,
-        "z": -28.171585083007814
+        "x": -17.347999572753908,
+        "y": 0.9049999713897705,
+        "z": 4.6020002365112309
     },
-    "saveTime": "2023-10-13 오후 1:05:20",
-    "sceanName": 5,
+    "saveTime": "2023-10-13 오후 3:02:51",
+    "sceanName": 4,
     "playerData": {
-        "abilityPoint": 75,
+        "abilityPoint": 55,
         "playerName": "Player",
-        "level": 6,
-        "exp": 29,
-        "expMax": 123,
-        "base_MaxHP": 175.0,
-        "currentHP": 175.0,
-        "current_Stamina": 28.0,
-        "base_MaxStamina": 30.0,
-        "BaseDarkForce": 4928800,
+        "level": 2,
+        "exp": 30,
+        "expMax": 60,
+        "base_MaxHP": 115.0,
+        "currentHP": 110.0,
+        "current_Stamina": 10.958002090454102,
+        "base_MaxStamina": 18.0,
+        "BaseDarkForce": 4903900,
         "base_ATT": 10,
         "base_DP": 10,
         "base_STR": 5,
@@ -33,14 +33,14 @@
         "Total_STR": 0,
         "Total_INT": 0,
         "Total_LUK": 0,
-        "Total_DEX": 50,
+        "Total_DEX": 20,
         "Total_CriticalRate": 0.0,
         "Total_DodgeRate": 0.0,
         "codes": [
             46,
             10,
             51,
-            22
+            21
         ],
         "weapon_ItemLevel": 1,
         "weapon_AttackPoint": 20,
@@ -48,52 +48,32 @@
         "weapon_ItemName": "Rifle"
     },
     "equipSlotLength": 0,
-    "equipData": [
-        {
-            "values": 1,
-            "itemIndex": 9,
-            "slotIndex": 2,
-            "itemEnhanceValue": 1
-        }
-    ],
-    "consumeSlotLength": 0,
+    "equipData": [],
+    "consumeSlotLength": 3,
     "consumeData": [
         {
-            "values": 99,
-            "itemIndex": 3,
+            "values": 97,
+            "itemIndex": 1,
             "slotIndex": 0,
             "itemEnhanceValue": 0
         },
         {
-            "values": 2,
-            "itemIndex": 1,
+            "values": 97,
+            "itemIndex": 2,
             "slotIndex": 1,
+            "itemEnhanceValue": 0
+        },
+        {
+            "values": 99,
+            "itemIndex": 3,
+            "slotIndex": 2,
             "itemEnhanceValue": 0
         }
     ],
     "etcSlotLength": 0,
     "etcData": [],
-    "craftSlotLength": 0,
-    "craftData": [
-        {
-            "values": 1,
-            "itemIndex": 16,
-            "slotIndex": 0,
-            "itemEnhanceValue": 0
-        },
-        {
-            "values": 1,
-            "itemIndex": 23,
-            "slotIndex": 1,
-            "itemEnhanceValue": 0
-        },
-        {
-            "values": 1,
-            "itemIndex": 25,
-            "slotIndex": 2,
-            "itemEnhanceValue": 0
-        }
-    ],
+    "craftSlotLength": 2,
+    "craftData": [],
     "skillDatas": [
         {
             "skillLevel": 1,
@@ -128,8 +108,8 @@
             "questType": 0,
             "questState": 1,
             "questIProgress": [
-                1,
-                1,
+                0,
+                0,
                 0
             ]
         },
@@ -148,16 +128,7 @@
             "questType": 1,
             "questState": 1,
             "questIProgress": [
-                10
-            ]
-        },
-        {
-            "questInfo": "소형 부시기",
-            "questIndex": 1002,
-            "questType": 1,
-            "questState": 1,
-            "questIProgress": [
-                10
+                0
             ]
         },
         {
@@ -170,12 +141,21 @@
             ]
         },
         {
+            "questInfo": "소형 부시기",
+            "questIndex": 1002,
+            "questType": 1,
+            "questState": 1,
+            "questIProgress": [
+                8
+            ]
+        },
+        {
             "questInfo": "HP 포션 수집",
             "questIndex": 2001,
             "questType": 2,
             "questState": 1,
             "questIProgress": [
-                2
+                97
             ]
         }
     ]

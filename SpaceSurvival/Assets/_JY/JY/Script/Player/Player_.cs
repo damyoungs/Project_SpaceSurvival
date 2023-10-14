@@ -361,7 +361,8 @@ public class Player_ : MonoBehaviour, IBattle
     void Update_Status()
     {
   
-       if (duringBuffSkill)//버프중이면
+       if (duringBuffSkill &&  
+            skill_Blessing != null)//버프중이면
        {
            player_Status.Reset_Status();//장비아이템의 능력치가 합산된 플레이어의 공격력, 방어력 적용하기
            float finalAttackPoint = player_Status.ATT * skill_Blessing.SkillPower;
