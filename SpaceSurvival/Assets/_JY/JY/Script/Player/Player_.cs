@@ -268,6 +268,7 @@ public class Player_ : MonoBehaviour, IBattle
             GameManager.SoundManager.PlayOneShot_Buff();
             return;
         }
+   
     }
 
     public void Rotate(Vector3 position)
@@ -314,9 +315,27 @@ public class Player_ : MonoBehaviour, IBattle
     //{
     //    Attack();
     //}
+    class Node<T> 
+    {
+        T data;
 
+        public Node<T> prev;
+        public Node<T> next;
+        LinkedList<int> ppp = new LinkedList<int>();
+        List<int> aaa = new List<int>();
+        public Node(T _data)
+        {
+            data = _data;
+            
+        }
+
+    
+        
+    }
     private void Start()
     {
+        Node<int> node = new Node<int>(10);
+
         InputSystemController.Instance.OnUI_Inven_ItemPickUp += ItemPickUp;
         InputSystemController.Instance.OnUI_Inven_DoubleClick += On_DoubleClick;
         InputSystemController.Instance.OnUI_Inven_Inven_Open += OpenInven;

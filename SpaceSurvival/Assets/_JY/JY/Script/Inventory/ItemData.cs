@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public enum EquipType
@@ -18,7 +19,7 @@ public class ItemData : ScriptableObject
     public ItemType ItemType;
     public ItemCode code;                      
     public string itemName;         
-    public GameObject modelPrefab;            
+    public GameObject modelPrefab;
     public Sprite itemIcon;                   
     public uint price = 0;                    
     public uint maxStackCount = 1;            

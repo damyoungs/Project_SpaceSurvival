@@ -533,7 +533,7 @@ public class SlotManager : MonoBehaviour // invenSlot,invenSlotUI, SlotUIBase = 
             {
                 slot.BindingSlot = targetSlot;
                 slot.onItemCountChange = null;
-                slot.onItemCountChange += Throw_NewCount_To_QuickSlot;
+                slot.onItemCountChange += Throw_NewCount_To_QuickSlot;//인벤토리 슬롯의 카운트가 변경될 때 퀵슬롯의 카운트를 변경하는 델리게이트
             }
         }
     }

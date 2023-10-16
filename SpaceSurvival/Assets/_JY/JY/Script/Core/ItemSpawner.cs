@@ -73,7 +73,7 @@ public class ItemSpawner : TestBase
         // Initialize the enemy drop table
         enemyDropTable.Add(Monster_Type.Size_S, new List<(ItemCode, float)>
             {
-                (ItemCode.HpPotion, 1.0f),
+                (ItemCode.SecretPotion, 1.0f),
                 //(ItemCode.Cash, 0.1f),
                 //(ItemCode.Enhancable_shotGun, 0.9f),
                 //(ItemCode.Enhancable_Rifle, 0.99f),
@@ -82,13 +82,13 @@ public class ItemSpawner : TestBase
 
         enemyDropTable.Add(Monster_Type.Size_M, new List<(ItemCode, float)>
             {
-                (ItemCode.MpPotion, 1.0f),
+                (ItemCode.Enhancable_shotGun, 1.0f),
                 //(ItemCode.Enhancable_Bow, 0.9f),
                 //(ItemCode.Purple_Crystal, 0.01f)
             });
         enemyDropTable.Add(Monster_Type.Size_L, new List<(ItemCode, float)>
             {
-                (ItemCode.SecretPotion, 1.0f),
+                (ItemCode.Enhancable_Rifle, 1.0f),
                 //(ItemCode.Enhancable_Bow, 0.9f),
                 //(ItemCode.Purple_Crystal, 0.01f)
             });
@@ -194,7 +194,7 @@ public class ItemSpawner : TestBase
     }
     protected override void Test2(InputAction.CallbackContext context)
     {
-        GameManager.SlotManager.Clear_Inventory();
+       // GameManager.SlotManager.Clear_Inventory();
     }
     protected override void Test3(InputAction.CallbackContext context)
     {
@@ -206,13 +206,13 @@ public class ItemSpawner : TestBase
 
     protected override void Test4(InputAction.CallbackContext context)
     {
-        GameManager.SlotManager.AddItem(ItemCode.SecretPotion);
-        GameManager.SlotManager.AddItem(ItemCode.SpellBook);
+       // GameManager.SlotManager.AddItem(ItemCode.SecretPotion);
+       // GameManager.SlotManager.AddItem(ItemCode.SpellBook);
     }
     Player_ player;
     protected override void Test5(InputAction.CallbackContext context)
     {
-        GameManager.SlotManager.Inven_Clear();
+       // GameManager.SlotManager.Inven_Clear();
 
     }
     protected override void Test6(InputAction.CallbackContext context)

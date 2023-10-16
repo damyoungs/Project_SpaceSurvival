@@ -77,10 +77,11 @@ public class Item_Mixing_Table : MonoBehaviour
     }
     public bool LevelUp(ItemData item, uint darkForceCount, out bool critical)
     {
+        GameManager.PlayerStatus.Base_Status.Base_DarkForce -= darkForceCount;
         bool result = false;
 
         float successRate = CalculateSuccessRate(item, darkForceCount);
-        float criticalRate = successRate * 1.0f;
+        float criticalRate = successRate * 0.1f;
 
         ItemData_Craft craftable = item as ItemData_Craft;
         if (craftable.Critical_Success_Item != null)

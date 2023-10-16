@@ -7,7 +7,7 @@
         "y": 0.9049999713897705,
         "z": 4.6020002365112309
     },
-    "saveTime": "2023-10-13 오후 8:54:21",
+    "saveTime": "2023-10-14 오전 4:29:55",
     "sceanName": 4,
     "playerData": {
         "abilityPoint": 50,
@@ -16,10 +16,10 @@
         "exp": 0,
         "expMax": 50,
         "base_MaxHP": 100.0,
-        "currentHP": 100.0,
-        "current_Stamina": 8.172000885009766,
+        "currentHP": 96.0,
+        "current_Stamina": 12.586000442504883,
         "base_MaxStamina": 15.0,
-        "BaseDarkForce": 5000000,
+        "BaseDarkForce": 4300,
         "base_ATT": 10,
         "base_DP": 10,
         "base_STR": 5,
@@ -51,9 +51,9 @@
     "equipData": [
         {
             "values": 1,
-            "itemIndex": 10,
+            "itemIndex": 11,
             "slotIndex": 0,
-            "itemEnhanceValue": 1
+            "itemEnhanceValue": 6
         },
         {
             "values": 1,
@@ -69,34 +69,40 @@
         },
         {
             "values": 1,
-            "itemIndex": 49,
+            "itemIndex": 50,
             "slotIndex": 3,
             "itemEnhanceValue": 1
         },
         {
             "values": 1,
-            "itemIndex": 51,
+            "itemIndex": 48,
             "slotIndex": 4,
+            "itemEnhanceValue": 1
+        },
+        {
+            "values": 1,
+            "itemIndex": 48,
+            "slotIndex": 5,
             "itemEnhanceValue": 1
         }
     ],
     "consumeSlotLength": 0,
     "consumeData": [
         {
-            "values": 20,
+            "values": 100,
             "itemIndex": 3,
             "slotIndex": 0,
             "itemEnhanceValue": 0
         },
         {
-            "values": 20,
-            "itemIndex": 2,
+            "values": 30,
+            "itemIndex": 1,
             "slotIndex": 1,
             "itemEnhanceValue": 0
         },
         {
-            "values": 20,
-            "itemIndex": 1,
+            "values": 30,
+            "itemIndex": 2,
             "slotIndex": 2,
             "itemEnhanceValue": 0
         }
@@ -106,26 +112,26 @@
     "craftSlotLength": 0,
     "craftData": [
         {
-            "values": 10,
-            "itemIndex": 17,
+            "values": 1,
+            "itemIndex": 24,
             "slotIndex": 0,
             "itemEnhanceValue": 0
         },
         {
-            "values": 6,
-            "itemIndex": 20,
+            "values": 0,
+            "itemIndex": 19,
             "slotIndex": 1,
             "itemEnhanceValue": 0
         },
         {
             "values": 1,
-            "itemIndex": 24,
+            "itemIndex": 23,
             "slotIndex": 2,
             "itemEnhanceValue": 0
         },
         {
             "values": 1,
-            "itemIndex": 23,
+            "itemIndex": 13,
             "slotIndex": 3,
             "itemEnhanceValue": 0
         }

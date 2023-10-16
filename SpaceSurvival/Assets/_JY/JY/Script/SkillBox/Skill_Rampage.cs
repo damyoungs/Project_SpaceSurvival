@@ -36,7 +36,7 @@ public class Skill_Rampage : SkillData
     }
     protected override void SetCurrentLevel_Description_Info(out string info)
     {
-        info = $"여덟명의 적에게 방사피해를 주는 난사를 가한다 가한다.\n데미지 : {SkillPower * 100:f0}%\n스테미너 {Require_Stamina_For_UsingSkill:f0} 소모";
+        info = $"여덟명의 적에게 방사피해를 주는 난사를 가한다.\n데미지 : {SkillPower * 100:f0}%\n스테미너 {Require_Stamina_For_UsingSkill:f0} 소모";
     }
     protected override void SetNextLevel_Description_Info(out string info)
     {
