@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.InputSystem;
+using Unity.VisualScripting;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -60,19 +61,19 @@ public class Cho_PlayerMove : MonoBehaviour
                     audios[(int)AudioIndex.Walk].Stop();
                 }
 
-                if (State == PlayerState.Idle)
-                {
-                    speed = walkSpeed;
-                    //if (State == PlayerState.Run)
-                    //{
-                    audios[(int)AudioIndex.Walk].pitch = 1.26f;
-                    ////State = PlayerState.Walk;
-                    animator.SetFloat(Hash_Speed, animatorWalkSpeed);
-                    animator.SetBool(Hash_IsRun, false);
-                    //}
-                    animator.SetFloat(Hash_InputX, 0.0f);
-                    animator.SetFloat(Hash_InputY, 0.0f);
-                }
+                //if (State == PlayerState.Idle)
+                //{
+                //    speed = walkSpeed;
+                //    //if (State == PlayerState.Run)
+                //    //{
+                //    audios[(int)AudioIndex.Walk].pitch = 1.26f;
+                //    ////State = PlayerState.Walk;
+                //    animator.SetFloat(Hash_Speed, animatorWalkSpeed);
+                //    animator.SetBool(Hash_IsRun, false);
+                //    //}
+                //    animator.SetFloat(Hash_InputX, 0.0f);
+                //    animator.SetFloat(Hash_InputY, 0.0f);
+                //}
             }
         }
     }
@@ -164,6 +165,9 @@ public class Cho_PlayerMove : MonoBehaviour
         }
     }
 
+    bool onPressMove = false;
+    bool onPressDash = false;
+
     private void OnMove(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
         Vector2 dir = context.ReadValue<Vector2>();
@@ -171,23 +175,28 @@ public class Cho_PlayerMove : MonoBehaviour
         moveDir.x = dir.x;
         moveDir.z = dir.y;
 
-        if (jumpCount == 0)
-        {
-            animator.SetFloat(Hash_InputX, dir.x);
-            animator.SetFloat(Hash_InputY, dir.y);
-        }
+
+        animator.SetFloat(Hash_InputX, dir.x);
+        animator.SetFloat(Hash_InputY, dir.y);
 
         if (context.performed)
         {
+            onPressMove = true;
             if (speed > runSpeed - 0.01f)
             {
-                State = PlayerState.Run;
+                if (State != PlayerState.Jump)
+                {
+                    State = PlayerState.Run;
+                }
                 animator.SetFloat(Hash_Speed, animatorRunSpeed);
                 animator.SetBool(Hash_IsRun, true);
             }
             else if (speed > walkSpeed - 0.01f)
             {
-                State = PlayerState.Walk;
+                if (State != PlayerState.Jump)
+                {
+                    State = PlayerState.Walk;
+                }
                 animator.SetFloat(Hash_Speed, animatorWalkSpeed);
                 animator.SetBool(Hash_IsRun, false);
             }
@@ -195,6 +204,7 @@ public class Cho_PlayerMove : MonoBehaviour
         }
         else
         {
+            onPressMove = false;
             State = PlayerState.Idle;
             animator.SetFloat(Hash_Speed, 0);
             //audios[(int)AudioIndex.Walk].Stop();
@@ -204,31 +214,43 @@ public class Cho_PlayerMove : MonoBehaviour
 
     private void OnDash(InputAction.CallbackContext context)
     {
-        //if (jumpCount == 0)         // 점프 상태에서 속도 조절하는 것 방지
-        //{
-            if (context.canceled)
+        if (context.canceled)
+        {
+            onPressDash = false;
+            animator.SetBool(Hash_IsRun, false);
+            if (State != PlayerState.Jump)
             {
                 speed = walkSpeed;
+            }
+            if (jumpCount == 0)
+            {
                 if (State == PlayerState.Run)
                 {
                     audios[(int)AudioIndex.Walk].pitch = 1.26f;
                     State = PlayerState.Walk;
                     animator.SetFloat(Hash_Speed, animatorWalkSpeed);
-                    animator.SetBool(Hash_IsRun, false);
                 }
             }
-            else
+        }
+        else
+        {
+            onPressDash = true;
+            animator.SetBool(Hash_IsRun, true);
+            if (State != PlayerState.Jump)
             {
                 speed = runSpeed;
+            }
+            if (jumpCount == 0)
+            {
+
                 if (State == PlayerState.Walk)
                 {
                     audios[(int)AudioIndex.Walk].pitch = 2.0f;
                     State = PlayerState.Run;
                     animator.SetFloat(Hash_Speed, animatorRunSpeed);
-                    animator.SetBool(Hash_IsRun, true);
                 }
             }
-        //}
+        }
     }
 
     private void OnJump(UnityEngine.InputSystem.InputAction.CallbackContext context)
@@ -237,7 +259,7 @@ public class Cho_PlayerMove : MonoBehaviour
         {
             //audios[(int)AudioIndex.Jump].Play();
             moveDir.y = jumpHeight;
-            //State = PlayerState.Jump;                 // 확인해봐야함
+            State = PlayerState.Jump;                 // 확인해봐야함
             if (jumpCount == 0)
             {
                 jumpCheckHeight = transform.position.y + controller.radius * 2;

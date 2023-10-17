@@ -57,7 +57,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Traversal_Movement_Jump_InPlace_Loop
+  m_Name: InAir
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -84,7 +84,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Traversal_Movement_Jump_InPlace_PreLanding
+  m_Name: PreLanding
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -162,7 +162,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Jump
+  m_Name: Jump0
   m_Speed: 0.8
   m_CycleOffset: 0
   m_Transitions:
@@ -783,7 +783,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Traversal_Movement_Jump_InPlace_PreJump
+  m_Name: PreJump
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1116,7 +1116,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Traversal_Movement_Jump_InPlace_Landing
+  m_Name: Landing
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1167,7 +1167,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Traversal_Movement_Jump_InPlace_Jump
+  m_Name: Jump
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
