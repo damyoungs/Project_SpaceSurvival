@@ -212,6 +212,8 @@ public class Cho_PlayerMove : MonoBehaviour
 
     }
 
+    float jumpSwitch = 0.0f;
+
     private void OnDash(InputAction.CallbackContext context)
     {
         if (context.canceled)
@@ -222,6 +224,11 @@ public class Cho_PlayerMove : MonoBehaviour
             {
                 speed = walkSpeed;
             }
+            else
+            {
+                jumpSwitch = walkSpeed;
+            }
+
             if (jumpCount == 0)
             {
                 if (State == PlayerState.Run)
@@ -240,6 +247,11 @@ public class Cho_PlayerMove : MonoBehaviour
             {
                 speed = runSpeed;
             }
+            else
+            {
+                jumpSwitch = runSpeed;
+            }
+
             if (jumpCount == 0)
             {
 
@@ -259,7 +271,6 @@ public class Cho_PlayerMove : MonoBehaviour
         {
             //audios[(int)AudioIndex.Jump].Play();
             moveDir.y = jumpHeight;
-            State = PlayerState.Jump;                 // 확인해봐야함
             if (jumpCount == 0)
             {
                 jumpCheckHeight = transform.position.y + controller.radius * 2;
@@ -268,6 +279,7 @@ public class Cho_PlayerMove : MonoBehaviour
             animator.SetTrigger(Hash_IsJump);
             animator.SetBool(Hash_IsJumping, true);
             jumpCount++;
+            StartCoroutine(JumpCollisionTime());
         }
     }
     
@@ -290,10 +302,10 @@ public class Cho_PlayerMove : MonoBehaviour
 
     private bool IsGrounded()
     {
-        if (jumpChecking && transform.position.y > jumpCheckHeight)
-        {
-            jumpChecking = false;
-        }
+        //if (jumpChecking && transform.position.y > jumpCheckHeight)
+        //{
+        //    jumpChecking = false;
+        //}
         Vector3 groundCheckPosition = new Vector3(transform.position.x, transform.position.y + controller.radius * 0.5f, transform.position.z);
         if (Physics.CheckSphere(groundCheckPosition, controller.radius, LayerMask.GetMask("Ground")))
         {
@@ -307,14 +319,43 @@ public class Cho_PlayerMove : MonoBehaviour
                 {
                     animator.SetBool(Hash_IsJumping, false);
                     audios[(int)AudioIndex.JumpLanding].Play();
+                    if (!onPressMove)
+                    {
+                        State = PlayerState.Idle;
+                    }
+                    else
+                    {
+                        if (!onPressDash)
+                        {
+                            State = PlayerState.Walk;
+                        }
+                        else
+                        {
+                            State = PlayerState.Run;
+                        }
+                    }
+
+                    if (jumpSwitch > 0.0f)
+                    {
+                        speed = jumpSwitch;
+                        jumpSwitch = 0.0f;
+                    }
                 }
+
                 jumpChecking = false;
                 jumpCount = 0;
                 return true;
             }
         }
+        State = PlayerState.Jump;
 
         return false;
+    }
+
+    IEnumerator JumpCollisionTime()
+    {
+        yield return new WaitForSeconds(0.3f);
+        jumpChecking = false;
     }
 
 #if UNITY_EDITOR
