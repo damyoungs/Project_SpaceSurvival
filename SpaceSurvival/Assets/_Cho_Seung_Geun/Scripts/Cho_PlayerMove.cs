@@ -12,7 +12,7 @@ using UnityEditor;
 
 public class Cho_PlayerMove : MonoBehaviour
 {
-    enum PlayerState
+    public enum PlayerState
     {
         Idle = 0,
         Walk,
@@ -41,13 +41,13 @@ public class Cho_PlayerMove : MonoBehaviour
     float onJumpSpeedSwitch = 0.0f;   // 공중에서 대쉬를 눌렀을 때 담아놓을 현재 스피드 상태(만약 대쉬를 누르고 떨어지면 바로 뛰는 상태로 변환)
 
     //float jumpCheckHeight = 0.0f;
-    bool isJumping = false;                             // 점프 중인지 체크
+    bool jumpCollisionCheck = false;                    // 땅에 붙어있는지 체크하는 컬리전 범위는 벗어나기 위해(점프 시 바로 체크되는 것 방지)
     int jumpCount = 0;                                  // 점프 횟수(0이면 지상에 있는 것)
 
     bool onPressMove = false;                           // 무브 키를 누른 상태인지
     bool onPressDash = false;                           // 대쉬 키를 누른 상태인지
 
-    PlayerState state = PlayerState.Idle;
+    public PlayerState state = PlayerState.Idle;
     PlayerState State
     {
         get => state;
@@ -140,6 +140,7 @@ public class Cho_PlayerMove : MonoBehaviour
             moveDir.y -= gravity * Time.deltaTime;
         }
 
+        movedir_y = moveDir.y;
         controller.Move(Time.deltaTime * speed * transform.TransformDirection(new Vector3(moveDir.x, 0.0f, moveDir.z)));    // x, z축 이동
         controller.Move(Time.deltaTime * new Vector3(0.0f, moveDir.y, 0.0f));                                               // y축 이동
     }
@@ -259,7 +260,7 @@ public class Cho_PlayerMove : MonoBehaviour
             //{
             //    jumpCheckHeight = transform.position.y + controller.radius * 2;
             //}
-            isJumping = true;
+            jumpCollisionCheck = true;
             animator.SetTrigger(Hash_IsJump);
             animator.SetBool(Hash_IsJumping, true);
             jumpCount++;
@@ -284,6 +285,8 @@ public class Cho_PlayerMove : MonoBehaviour
         cameraRoot.rotation = Quaternion.Euler(mouseCurrentRotateY, cameraRoot.eulerAngles.y, cameraRoot.eulerAngles.z);
     }
 
+    public float movedir_y;
+
     private bool IsGrounded()
     {
         //if (jumpChecking && transform.position.y > jumpCheckHeight)
@@ -293,11 +296,11 @@ public class Cho_PlayerMove : MonoBehaviour
         Vector3 groundCheckPosition = new Vector3(transform.position.x, transform.position.y + controller.radius * 0.5f, transform.position.z);
         if (Physics.CheckSphere(groundCheckPosition, controller.radius, LayerMask.GetMask("Ground")))
         {
-            if (!isJumping)
+            if (!jumpCollisionCheck)
             {
-                if (moveDir.y < jumpHeight)
+                if (moveDir.y < jumpHeight)                 // 공중에서 내려올때 점프상태되는것 수정
                 {
-                    moveDir.y = -0.01f;
+                    moveDir.y = -2.0f;
                 }
                 if (jumpCount > 0)
                 {
@@ -326,7 +329,7 @@ public class Cho_PlayerMove : MonoBehaviour
                     }
                 }
 
-                isJumping = false;
+                jumpCollisionCheck = false;
                 jumpCount = 0;
                 return true;
             }
@@ -339,7 +342,7 @@ public class Cho_PlayerMove : MonoBehaviour
     IEnumerator JumpCollisionTime()
     {
         yield return new WaitForSeconds(0.3f);
-        isJumping = false;
+        jumpCollisionCheck = false;
     }
 
 #if UNITY_EDITOR
