@@ -21,11 +21,11 @@ public class InteractionUI : MonoBehaviour
 
     void OnVisible()
     {
-        animator.SetBool(Hash_Visible, true);
+        animator.SetBool(Hash_Visible, true);   // f키 보임
     }
 
     void OnInvisible()
     {
-        animator.SetBool(Hash_Visible, false);
+        animator.SetBool(Hash_Visible, false);  // f키 안 보임
     }
 }

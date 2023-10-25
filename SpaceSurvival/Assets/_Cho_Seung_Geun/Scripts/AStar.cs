@@ -58,7 +58,7 @@ public static class AStar
                             continue;
 
                         float distance;
-                        if (isDiagonal)
+                        if (isDiagonal)                             // 거리가 대각선 길이인지 바로 옆 길이인지 넣어주기
                         {
                             distance = diagonalDistance;
                         }
@@ -67,7 +67,7 @@ public static class AStar
                             distance = sideDistance;
                         }
 
-                        if (adjoinTile.G > current.G + distance)
+                        if (adjoinTile.G > current.G + distance)        // 인전합 타일의 지나온 거리가 현재의 거리 + 떨어진 거리보다 크다면
                         {
                             if (adjoinTile.parent == null)
                             {

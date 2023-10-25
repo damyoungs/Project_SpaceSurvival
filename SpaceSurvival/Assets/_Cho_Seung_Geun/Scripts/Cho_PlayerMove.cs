@@ -40,7 +40,6 @@ public class Cho_PlayerMove : MonoBehaviour
     float mouseCurrentRotateY = 0.0f;                   // 마우스가 위아래로 움직이는 현재 각도
     float onJumpSpeedSwitch = 0.0f;   // 공중에서 대쉬를 눌렀을 때 담아놓을 현재 스피드 상태(만약 대쉬를 누르고 떨어지면 바로 뛰는 상태로 변환)
 
-    //float jumpCheckHeight = 0.0f;
     bool jumpCollisionCheck = false;                    // 땅에 붙어있는지 체크하는 컬리전 범위는 벗어나기 위해(점프 시 바로 체크되는 것 방지)
     int jumpCount = 0;                                  // 점프 횟수(0이면 지상에 있는 것)
 
@@ -80,15 +79,10 @@ public class Cho_PlayerMove : MonoBehaviour
     public AudioSource[] audios;
 
     // 해시 미리 캐싱해놓기
-    //readonly int Hash_Speed = Animator.StringToHash("Speed");
-    readonly int Hash_IsJump = Animator.StringToHash("IsJump");
     readonly int Hash_InputX = Animator.StringToHash("InputX");
     readonly int Hash_InputY = Animator.StringToHash("InputY");
     readonly int Hash_IsRun = Animator.StringToHash("IsRun");
     readonly int Hash_IsJumping = Animator.StringToHash("IsJumping");
-
-    //const float animatorWalkSpeed = 0.5f;
-    //const float animatorRunSpeed = 1.0f;
 
     public Action interaction;                                          // 상호작용에 쓰일 델리게이트
 
@@ -140,7 +134,6 @@ public class Cho_PlayerMove : MonoBehaviour
             moveDir.y -= gravity * Time.deltaTime;
         }
 
-        movedir_y = moveDir.y;
         controller.Move(Time.deltaTime * speed * transform.TransformDirection(new Vector3(moveDir.x, 0.0f, moveDir.z)));    // x, z축 이동
         controller.Move(Time.deltaTime * new Vector3(0.0f, moveDir.y, 0.0f));                                               // y축 이동
     }
@@ -171,14 +164,13 @@ public class Cho_PlayerMove : MonoBehaviour
 
         if (context.performed)                              // 이동키가 눌려있으면
         {
-            onPressMove = true;                                 // 무브 키가 눌려있고
+            onPressMove = true;                                 // 무브가 눌려 있다고 표시하고
             if (speed > runSpeed - 0.01f)                   // 현재 속도가 달리는 속도 이상이면
             {
                 if (State != PlayerState.Jump)                  
                 {
                     State = PlayerState.Run;                    // 점프 상태가 아닐 시 달리는 상태로 변경(점프 상태일 때 달리는 동작으로 변하는 것을 막기 위해)
                 }
-                //animator.SetFloat(Hash_Speed, animatorRunSpeed);
                 animator.SetBool(Hash_IsRun, true);             // 걷는 블렌드 트리에서 뛰는 블렌드 트리로 변경
             }
             else if (speed > walkSpeed - 0.01f)             // 현재 속도가 걷는 속도면
@@ -187,15 +179,13 @@ public class Cho_PlayerMove : MonoBehaviour
                 {
                     State = PlayerState.Walk;                   // 점프 상태가 아닐 시 걷는 상태로 변경(점프 상태일 때 걷는 동작으로 변하는 것을 막기 위해)
                 }
-                //animator.SetFloat(Hash_Speed, animatorWalkSpeed);
                 animator.SetBool(Hash_IsRun, false);            // 달리는 블렌드 트리에서 걷는 블렌드 트리로 변경
             }
         }
         else                                                // 이동키가 안 눌려 있으면
         {
-            onPressMove = false;                                // 무크 키가 안 눌려있고
+            onPressMove = false;                                // 무크가 안 눌려 있다고 false로 바뀌고
             State = PlayerState.Idle;                           // 현재 상태 Idle로 변경
-            //animator.SetFloat(Hash_Speed, 0);
         }
 
     }
@@ -210,10 +200,11 @@ public class Cho_PlayerMove : MonoBehaviour
             {
                 speed = walkSpeed;                  // 점프 상태가 아니면 현재 스피드는 걷는 스피드로 된다.
             }
-            else
-            {
+            //else
+            //{
+            //    onJumpSpeedSwitch = walkSpeed;      // 점프 상태면 다른 변수에 걷는 스피드를 저장해둔다.
+            //}
                 onJumpSpeedSwitch = walkSpeed;      // 점프 상태면 다른 변수에 걷는 스피드를 저장해둔다.
-            }
 
             if (jumpCount == 0)                     // 지상에 붙어있을 경우
             {
@@ -233,10 +224,11 @@ public class Cho_PlayerMove : MonoBehaviour
             {
                 speed = runSpeed;                   // 점프 상태가 아니면 현재 스피드는 뛰는 스피드로 된다.
             }
-            else
-            {
+            //else
+            //{
+            //    onJumpSpeedSwitch = runSpeed;       // 점프 상태면 다른 변수에 뛰는 스피드를 저장해둔다.
+            //}
                 onJumpSpeedSwitch = runSpeed;       // 점프 상태면 다른 변수에 뛰는 스피드를 저장해둔다.
-            }
 
             if (jumpCount == 0)                     // 지상에 붙어있을 경우
             {
@@ -252,89 +244,77 @@ public class Cho_PlayerMove : MonoBehaviour
 
     private void OnJump(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        if (jumpCount < 2)
+        if (jumpCount < 2)                      // 점프 횟수가 최대치(이 프로젝트에선 2)를 넘지 않을 경우
         {
-            //audios[(int)AudioIndex.Jump].Play();
-            moveDir.y = jumpHeight;
+            moveDir.y = jumpHeight;             // 플레이어 수직 이동방향
             //if (jumpCount == 0)
             //{
             //    jumpCheckHeight = transform.position.y + controller.radius * 2;
             //}
-            jumpCollisionCheck = true;
-            animator.SetTrigger(Hash_IsJump);
-            animator.SetBool(Hash_IsJumping, true);
-            jumpCount++;
-            StartCoroutine(JumpCollisionTime());
+            animator.SetBool(Hash_IsJumping, true);     // 애니메이션 변경
+            jumpCount++;                                // 점프 횟수 +1
+            jumpCollisionCheck = true;              // 점프컬리전(땅에 충돌해있는지 체크하는 구)이 활성화되어 점프시 바로 원래 상태로 되돌리는 것 방지
+            StartCoroutine(JumpCollisionTime());        // 점프 컬리전 체크하는 코루틴 실행
         }
     }
     
     private void OnInteract(InputAction.CallbackContext context)
     {
-        interaction?.Invoke();
+        interaction?.Invoke();                          // 상호작용 델리게이트 실행
     }
 
     private void OnMouseDelta(InputAction.CallbackContext context)
     {
-        Vector2 temp = context.ReadValue<Vector2>();
-        float rotateX = temp.x * rotateSensitiveX * Time.fixedDeltaTime;
-        transform.Rotate(Vector3.up, rotateX);
+        Vector2 temp = context.ReadValue<Vector2>();                        // 마우스의 전 프레임 대비 이동한 값 가져오기
+        float rotateX = temp.x * rotateSensitiveX * Time.fixedDeltaTime;    // 회전할 x축 값 구하기
+        transform.Rotate(Vector3.up, rotateX);                              // 캐릭터 회전시켜주기
 
-        float rotateY = temp.y * rotateSensitiveY * Time.fixedDeltaTime;
-        mouseCurrentRotateY -= rotateY;
-        mouseCurrentRotateY = Mathf.Clamp(mouseCurrentRotateY, -60.0f, 60.0f);
-        cameraRoot.rotation = Quaternion.Euler(mouseCurrentRotateY, cameraRoot.eulerAngles.y, cameraRoot.eulerAngles.z);
+        float rotateY = temp.y * rotateSensitiveY * Time.fixedDeltaTime;    // 회전할 y축 값 구하기
+        mouseCurrentRotateY -= rotateY;                                     // y축 값을 한 변수에 계속해 빼준다.
+        mouseCurrentRotateY = Mathf.Clamp(mouseCurrentRotateY, -60.0f, 60.0f);      // 회전할 값의 최소, 최대 범위 지정
+        cameraRoot.rotation = Quaternion.Euler(mouseCurrentRotateY, cameraRoot.eulerAngles.y, cameraRoot.eulerAngles.z);    // 카메라가 가리키는 대상을 회전시킴
     }
-
-    public float movedir_y;
 
     private bool IsGrounded()
     {
-        //if (jumpChecking && transform.position.y > jumpCheckHeight)
-        //{
-        //    jumpChecking = false;
-        //}
-        Vector3 groundCheckPosition = new Vector3(transform.position.x, transform.position.y + controller.radius * 0.5f, transform.position.z);
-        if (Physics.CheckSphere(groundCheckPosition, controller.radius, LayerMask.GetMask("Ground")))
+        Vector3 groundCheckPosition = new Vector3(transform.position.x, transform.position.y + controller.radius * 0.5f, transform.position.z); // 땅 체크하는 콜라이더 위치
+        if (Physics.CheckSphere(groundCheckPosition, controller.radius, LayerMask.GetMask("Ground")))   // 특정 범위에 Gound 레이어가 있으면 = 땅에 붙어있으면
         {
-            if (!jumpCollisionCheck)
+            if (!jumpCollisionCheck)            // 점프 컬리전이 꺼져있으면(또는 점프 후에 지났으면)
             {
-                if (moveDir.y < jumpHeight)                 // 공중에서 내려올때 점프상태되는것 수정
+                //if (moveDir.y < jumpHeight)
+                //{
+                //    moveDir.y = -2.0f;
+                //}
+                if (State == PlayerState.Jump)      // 점프 상태일 시(공중에서 내려온 경우)
                 {
-                    moveDir.y = -2.0f;
-                }
-                if (jumpCount > 0)
-                {
-                    animator.SetBool(Hash_IsJumping, false);
-                    audios[(int)AudioIndex.JumpLanding].Play();
-                    if (!onPressMove)
+                    animator.SetBool(Hash_IsJumping, false);            // 애니메이션 변경
+                    audios[(int)AudioIndex.JumpLanding].Play();         // 착지 소리 켜기
+                    if (!onPressMove)             
                     {
-                        State = PlayerState.Idle;
+                        State = PlayerState.Idle;       // 무브가 안 눌러있는 상태면 대기 상태로 만들고
                     }
-                    else
+                    else                                // 무브가 눌려 있으면
                     {
-                        if (!onPressDash)
+                        if (!onPressDash)               // 대쉬가 안 눌린 경우
                         {
-                            State = PlayerState.Walk;
+                            State = PlayerState.Walk;       // 걷는 상태로 바꾼다
                         }
-                        else
+                        else                            // 대쉬가 눌려 있으면
                         {
-                            State = PlayerState.Run;
+                            State = PlayerState.Run;        // 뛰는 상태로 바꾼다.
                         }
                     }
-
-                    if (onJumpSpeedSwitch > 0.0f)
-                    {
-                        speed = onJumpSpeedSwitch;
-                        onJumpSpeedSwitch = 0.0f;
-                    }
+                    speed = onJumpSpeedSwitch;      // 현재 속도는 변수에 담아뒀던 속도로 변경시킨다.
                 }
 
-                jumpCollisionCheck = false;
-                jumpCount = 0;
+                jumpCollisionCheck = false;         // 점프 컬리전 체크 끄기
+                jumpCount = 0;                      // 점프 횟수 0으로 초기화
                 return true;
             }
         }
-        State = PlayerState.Jump;
+
+        State = PlayerState.Jump;                   // 땅에 붙어있는 게 아니면 점프 상태이다.
 
         return false;
     }
@@ -342,11 +322,11 @@ public class Cho_PlayerMove : MonoBehaviour
     IEnumerator JumpCollisionTime()
     {
         yield return new WaitForSeconds(0.3f);
-        jumpCollisionCheck = false;
+        jumpCollisionCheck = false;             // 0.3초 후 점프 컬리전 체크를 끈다.
     }
 
 #if UNITY_EDITOR
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmosSelected()         // 에디터에서만 그리는 기즈모(땅 체크 컬리전)
     {
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y + 0.125f, transform.position.z), 0.25f);

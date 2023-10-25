@@ -42,7 +42,7 @@ public class Cho_SceneLoading : MonoBehaviour
     {
         if (IsStageClear())
         {
-            shortRay.Stop();
+            shortRay.Stop();                        // 스테이지가 클리어 돼있으면 이펙트의 짧은 빛 멈추기
         }
     }
 
@@ -50,10 +50,10 @@ public class Cho_SceneLoading : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (!IsStageClear())
+            if (!IsStageClear())                    // 스테이지가 클리어 돼있지 않으면
             {
-                player.interaction = Warp;
-                interaction.visibleUI?.Invoke();
+                player.interaction = Warp;          // 플레이어의 상호작용은 warp로 변경
+                interaction.visibleUI?.Invoke();    // ui 보여주게 만들기(F)
             }
         }
     }
@@ -62,11 +62,11 @@ public class Cho_SceneLoading : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            player.interaction = null;
-            interaction.invisibleUI?.Invoke();
+            player.interaction = null;              // 상호작용 null로 변경
+            interaction.invisibleUI?.Invoke();      // ui 가리기(F)
             if (IsStageClear())
             {
-                shortRay.Stop();
+                shortRay.Stop();                        // 만약 스테이지를 클리어했다면 짧은 빛 끄고 아래의 코루틴 실행(다른 이펙트가 나옴)
                 StartCoroutine(ClearLightVisible());
             }
         }
@@ -74,12 +74,12 @@ public class Cho_SceneLoading : MonoBehaviour
 
     private void Warp()
     {
-        player.Controller.enabled = false;
+        player.Controller.enabled = false;                              // 플레이어 컨트롤러 임시로 끄기(플레이어 위치 이동을 위해)
         player.transform.position = shortRay.transform.position;
-        player.Controller.enabled = true;
-        // 배틀끝나면 돌아올 위치값셋팅
-        SpaceSurvival_GameManager.Instance.ShipStartPos = player.transform.position;
-        StartCoroutine(WarpCoroutine());
+        player.Controller.enabled = true;                               // 플레이어 컨트롤러 다시 켜기
+        
+        SpaceSurvival_GameManager.Instance.ShipStartPos = player.transform.position;    // 배틀끝나면 돌아올 위치값 셋팅
+        StartCoroutine(WarpCoroutine());        // 워프 코루틴 실행
     }
 
     IEnumerator WarpCoroutine()
@@ -88,15 +88,15 @@ public class Cho_SceneLoading : MonoBehaviour
         sphereCollider.enabled = false;
         interaction.invisibleUI?.Invoke();
         player.interaction = null;
-        player.Cinemachine.Priority = 20;
+        player.Cinemachine.Priority = 20;                   // 시네머신 카메라 우선순위 변경
         audioSource.Play();
         shortRay.Stop();
         longRay.Play();
         yield return new WaitForSeconds(3.0f);
 
         //스테이지 관련 셋팅 
-        SpaceSurvival_GameManager.Instance.CurrentStage = currentStage; //이동할 스테이지 셋팅
-        LoadingScene.SceneLoading(EnumList.SceneName.TestBattleMap);
+        SpaceSurvival_GameManager.Instance.CurrentStage = currentStage;             // 이동할 스테이지 셋팅
+        LoadingScene.SceneLoading(EnumList.SceneName.TestBattleMap);                // 씬 로딩
     }
 
     /// <summary>
@@ -120,25 +120,4 @@ public class Cho_SceneLoading : MonoBehaviour
         }
         prop.SetActive(true);
     }
-
-
-    // e종료버튼 안됨
-    // 대화 종료시 자동으로 커서 안보이게 만들기
-    // 시작시 클릭 소리 끄기
-    // 마을에서 아무 상호작용 없을 때 f누르면 커서 나오는 것
-    // 점프에 소리 넣기
-    // 이동시 소리 중첩 안되게 하기
-    // 전투 시 아이템 장비해제하면 사라짐
-    // 방어 장비 착용 안됨
-    // 상인 템 사는 ui 변경안됨
-    // 상인 대화 종료 후 f 사라짐
-    // 공격이 안됨
-    // 엔딩 부분 완료하기
-
-
-    // 우클릭의 용도는 무엇인가?
-
-    // 전투 승리 시 나오는 ui 손보기
-    // 대화 시 npc 애니메이션 변경
-    // 배틀맵에서 행동 ui 수정
 }

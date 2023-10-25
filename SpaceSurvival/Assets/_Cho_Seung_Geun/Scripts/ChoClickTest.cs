@@ -40,8 +40,6 @@ public class ChoClickTest : MonoBehaviour
                 }
                 else
                 {
-                    // 승근씨거 충돌나니깐 승근씨 스크립트 연결해서 사용하지마시고 
-                    // 복사해서 이름바꿔서 사용하도록하세요 픽스버전이아니라 머지할때마다 에러날수가있어요 
                     transform.position = value.transform.position;
                 }
                 currentPos = value;
@@ -105,12 +103,6 @@ public class ChoClickTest : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // 타겟이 널포인트가 아니고 타겟이 도착하지 않았을 시 이동
-        //if (target != null && (target.gameObject.transform.position - transform.position).sqrMagnitude > 0.01f)
-        //{
-        //    transform.Translate(Time.fixedDeltaTime * speed * (target.gameObject.transform.position - transform.position).normalized);
-        //}
-
         if (path.Count > 0 )
         {
             Tile destPath = path[0];

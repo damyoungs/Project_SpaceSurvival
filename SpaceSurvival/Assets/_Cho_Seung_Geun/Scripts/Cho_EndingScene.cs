@@ -5,9 +5,8 @@ using UnityEngine;
 
 public class Cho_EndingScene : MonoBehaviour
 {
-    public Transform endingEffect;
-
-    ParticleSystem particle;
+    public Transform endingEffect;          // 씬 넘어가기 전에 나오는 이펙트
+    ParticleSystem particle;                // 위의 파티클
     AudioSource audioSource;
 
     /// <summary>
@@ -24,12 +23,12 @@ public class Cho_EndingScene : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player"))                 // 영역 안에 플레이어가 들어오면
         {
-            endingEffect.gameObject.SetActive(true);
-            particle.Play();
-            audioSource.Play();
-            StartCoroutine(Effect());
+            endingEffect.gameObject.SetActive(true);    // 이펙트룰 켜고
+            particle.Play();                            // 파티클 재생
+            audioSource.Play();                         // 소리 재생
+            StartCoroutine(Effect());                   // 이펙트 코루틴 실행
         }
     }
 
@@ -38,7 +37,7 @@ public class Cho_EndingScene : MonoBehaviour
         Vector3 value = 0.5f * Time.deltaTime * new Vector3(1, 1, 1);
         while (endingEffect.localScale.x < waitEffect)
         {
-            endingEffect.localScale += value;
+            endingEffect.localScale += value;           // 이펙트 크기 키우기
             yield return null;
         }
         yield return EndSceneLoading();
